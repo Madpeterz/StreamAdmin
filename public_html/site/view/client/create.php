@@ -13,8 +13,13 @@ $form->target("client/create");
 $form->required(true);
 $form->col(6);
     $form->group("Basics");
-    $form->text_input("avataruid","Avatar UID <a href=\"[[url_base]]avatar\" target=\"_blank\">Find</a>",30,"","Avatar uid");
+    $form->text_input("avataruid","Avatar UID (Or UUID/Full name)",30,"","Avatar uid | Madpeter Zond | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+    $form->direct_add("<a href=\"[[url_base]]avatar\" target=\"_blank\">Find/Add avatar</a><br/>");
     $form->number_input("daysremaining","Days remaining",0,3,"Max 999");
-    $form->text_input("streamuid","Stream UID <a href=\"[[url_base]]stream\" target=\"_blank\">Find</a>",30,"","Stream uid [Found in streams]");
+    $form->text_input("streamuid","Stream UID (Or port)",30,"","Stream uid | Port number");
+    $form->direct_add("<a href=\"[[url_base]]stream\" target=\"_blank\">Find stream</a>");
+$form->col(6);
+$form->col(6);
+    $form->direct_add("<br/>If there are multiple streams with the same port number you must use the UID!");
 echo $form->render("Create","primary");
 ?>

@@ -8,12 +8,34 @@ $daysremaining = $input->postFilter("daysremaining","integer");
 $status = false;
 $redirect = "client";
 $failed_on = "";
-if(strlen($avataruid) != 8) $failed_on .= $lang["client.cr.error.1"];
-else if(strlen($streamuid) != 8) $failed_on .= $lang["client.cr.error.2"];
+
+$avatar_where_config = array(
+    "fields"=>array("avatar_uid","avatarname","avataruuid"),
+    "matches"=>array("=","=","="),
+    "values"=>array($avataruid,$avataruid,$avataruid),
+    "types"=>array("s","s","s"),
+    "join_with"=>array("(OR)","(OR)")
+);
+$avatar_set = new avatar_set();
+$avatar_set->load_with_config($avatar_where_config);
+
+$stream_where_config = array(
+    "fields"=>array("port","stream_uid"),
+    "matches"=>array("=","="),
+    "values"=>array($streamuid,$streamuid),
+    "types"=>array("i","s"),
+    "join_with"=>array("(OR)")
+);
+$stream_set = new stream_set();
+$stream_set->load_with_config($stream_where_config);
+if($stream_set->get_count() == 1)
+{
+    $stream = $stream_set->get_first();
+}
+if($avatar_set->get_count() != 1) $failed_on .= $lang["client.cr.error.5"];
+else if($stream_set->get_count() != 1) $failed_on .= $lang["client.cr.error.6"];
 else if($daysremaining > 999) $failed_on .= $lang["client.cr.error.3"];
 else if($daysremaining < 1) $failed_on .= $lang["client.cr.error.4"];
-else if($avatar->load_by_field("avatar_uid",$avataruid) == false) $failed_on .= $lang["client.cr.error.5"];
-else if($stream->load_by_field("stream_uid",$streamuid) == false) $failed_on .= $lang["client.cr.error.6"];
 else if($stream->get_rentallink() > 0) $failed_on .= $lang["client.cr.error.7"];
 $notice_set = new notice_set();
 $notice_set->loadAll();
@@ -31,6 +53,7 @@ foreach($sorted_linked as $hours => $index)
 }
 if($failed_on == "")
 {
+    $avatar = $avatar_set->get_first();
     $unixtime = time() + ($daysremaining * $unixtime_day);
     $rental = new rental();
     $uid = $rental->create_uid("rental_uid",8,10);
@@ -48,6 +71,7 @@ if($failed_on == "")
         if($create_status["status"] == true)
         {
             $stream->set_field("rentallink",$rental->get_id());
+            $stream->set_field("needwork",0);
             $update_status = $stream->save_changes();
             if($update_status["status"] == true)
             {
