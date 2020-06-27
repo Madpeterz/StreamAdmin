@@ -14,10 +14,17 @@ abstract class mysqli_functions extends mysqli_core
     {
         $this->hadErrors = true;
     }
-    public function sqlStart_test($dbusername,$dbpass,$dbname,$auto_stop=false) :bool
+    public function sqlStart_test(string $dbusername,string $dbpass,string $dbname,bool $auto_stop=false,string $remote_host_target="") :bool
 	{
 		$this->sqlStop();
-		$this->sqlConnection = mysqli_connect($this->dbHost, $dbusername, $dbpass, $dbname);
+        if($remote_host_target != "")
+        {
+            $this->sqlConnection = mysqli_connect($remote_host_target, $dbusername, $dbpass, $dbname);
+        }
+        else
+        {
+            $this->sqlConnection = mysqli_connect($this->dbHost, $dbusername, $dbpass, $dbname);
+        }
 		$error_code = mysqli_connect_errno($this->sqlConnection);
 		if($error_code)
 		{
@@ -31,7 +38,7 @@ abstract class mysqli_functions extends mysqli_core
 		}
 
 	}
-    public function sqlSave($stop_after=true) :bool
+    public function sqlSave(bool $stop_after=true) :bool
     {
         $commit_status = false;
         if((!$this->hadErrors) && ($this->needToSave)) $commit_status = $this->sqlConnection->commit();
