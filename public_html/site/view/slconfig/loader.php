@@ -37,6 +37,10 @@ $form->col(6);
     $form->direct_add("<br/>");
     $form->group("Feature packs");
     $form->select("event_storage","Event storage",$slconfig->get_eventstorage(),array(false=>"Disabled",true=>"Enabled"));
+$form->col(6);
+    $form->direct_add("<br/>");
+    $form->group("UI settings");
+    $form->select("ui_tweaks_clients_fulllist","Clients [Full list]",$slconfig->get_clients_list_mode(),array(false=>"Disabled",true=>"Enabled"));
 echo $form->render("Update","primary");
 echo "<hr/>
 Feature packs<br/>

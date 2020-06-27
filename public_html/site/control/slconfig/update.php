@@ -7,6 +7,8 @@ $new_resellers_rate = $input->postFilter("new_resellers_rate","integer");
 $new_resellers = $input->postFilter("new_resellers","bool");
 $event_storage = $input->postFilter("event_storage","bool");
 $owneravuid = $input->postFilter("owneravuid");
+$ui_tweaks_clients_fulllist = $input->postFilter("ui_tweaks_clients_fulllist","bool");
+
 
 
 $failed_on = "";
@@ -31,6 +33,8 @@ if($failed_on == "")
     $slconfig->set_field("new_resellers",$new_resellers);
     $slconfig->set_field("new_resellers_rate",$new_resellers_rate);
     $slconfig->set_field("eventstorage",$event_storage);
+    $slconfig->set_field("clients_list_mode",$ui_tweaks_clients_fulllist);
+
     if($session->get_ownerlevel() == 1)
     {
         $smtp_from = $input->postFilter("smtp_from");
