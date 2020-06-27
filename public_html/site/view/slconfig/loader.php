@@ -32,7 +32,7 @@ $form->col(6);
     $form->group("Resellers");
     $form->direct_add("<br/>");
     $form->select("new_resellers","Auto accept resellers",$slconfig->get_new_resellers(),array(false=>"No",true=>"Yes"));
-    $form->text_input("new_resellers_rate","Auto accepted resellers rate",36,$slconfig->get_new_resellers_rate(),"1 to 100");
+    $form->text_input("new_resellers_rate","Auto accepted resellers rate (As a %)",36,$slconfig->get_new_resellers_rate(),"1 to 100");
 $form->col(6);
     $form->direct_add("<br/>");
     $form->group("Feature packs");
