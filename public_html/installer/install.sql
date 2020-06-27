@@ -167,13 +167,6 @@ CREATE TABLE `package` (
   `texture_uuid_instock_selected` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `package`
---
-
-INSERT INTO `package` (`id`, `package_uid`, `name`, `autodj`, `autodj_size`, `listeners`, `bitrate`, `templatelink`, `cost`, `days`, `texture_uuid_soldout`, `texture_uuid_instock_small`, `texture_uuid_instock_selected`) VALUES
-(1, 'b8197222', 'asdasd', 0, NULL, 123, 123, 1, 123, 123, '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5');
-
 -- --------------------------------------------------------
 
 --
@@ -233,9 +226,6 @@ CREATE TABLE `server` (
 --
 -- Dumping data for table `server`
 --
-
-INSERT INTO `server` (`id`, `domain`, `controlpanel_url`) VALUES
-(1, 'asdasd', 'asdasd');
 
 -- --------------------------------------------------------
 
@@ -315,10 +305,6 @@ CREATE TABLE `stream` (
 --
 -- Dumping data for table `stream`
 --
-
-INSERT INTO `stream` (`id`, `serverlink`, `rentallink`, `packagelink`, `port`, `needwork`, `adminusername`, `adminpassword`, `djpassword`, `stream_uid`, `mountpoint`) VALUES
-(1, 1, NULL, 1, 33, 0, 'asdaASD', 'asdasdasd', 'asdasd', 'e1e751fa', '/live');
-
 -- --------------------------------------------------------
 
 --
