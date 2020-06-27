@@ -51,6 +51,46 @@ $( document ).ready(function() {
     });
 });
 
+$('#NotecardModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var rentaluid = button.data('rentaluid') // Extract info from data-* attributes
+  var modal = $(this)
+  modal.find('#ModalTitle').text('Loading');
+  modal.find('#ModalText').val("Fetching notecard for rental "+rentaluid);
+  $.ajax({
+         type: "get",
+         url: url_base+"ajax.php/client/getnotecard/"+rentaluid,
+         success: function(data)
+         {
+             try
+             {
+                 jsondata = JSON.parse(data);
+                 var redirectdelay = 1500;
+                 if(jsondata.hasOwnProperty('status'))
+                 {
+                     if(jsondata.hasOwnProperty('message'))
+                     {
+                         modal.find('#ModalTitle').text('Notecard');
+                         modal.find('#ModalText').val(jsondata.message);
+                     }
+                 }
+                 else
+                 {
+                     alert_error("Reply from server is not vaild please reload the page and try again.");
+                 }
+             }
+             catch(e)
+             {
+                 alert_warning("Unable to process reply, please reload the page and try again!");
+             }
+         },
+         error: function (data)
+         {
+             alert_error(data);
+         }
+  });
+})
+
 function alert_success(smsg)
 {
     alert(smsg,"success");
