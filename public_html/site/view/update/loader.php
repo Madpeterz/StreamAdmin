@@ -35,12 +35,29 @@ if($session->get_ownerlevel() == 1)
         $status = $sql->RawSQL("versions/sql/".$slconfig->get_db_version().".sql",true);
         if($status["status"] == true)
         {
-            echo "All done";
+            $slconfig = new slconfig();
+            $slconfig->load(1);
+            $modal_folder = "site/model";
+            $update_modal_folder = "versions/modal/".$slconfig->get_db_version()."";
+            if(file_exists($update_modal_folder."/required.txt") == true)
+            {
+                $scanned_directory = array_diff(scandir($update_modal_folder), array('..', '.','required.txt'));
+                foreach($scanned_directory as $entry)
+                {
+                    unlink($modal_folder."/".$entry);
+                    copy($update_modal_folder."/".$entry,$modal_folder."/".$entry);
+                }
+                echo "Ok";
+            }
+            else
+            {
+                echo "Ok";
+            }
         }
         else
         {
             $sql->sqlRollBack();
-            echo "Update failed in some way";
+            echo "Issue detected: <hr/>".$status["message"]."<br/>Unable to update";
         }
     }
     else
