@@ -163,7 +163,7 @@ class form
         $this->start_field();
         $this->mygrid->add_content('<textarea class="form-control" name="'.$name.'"');
         $this->mygrid->add_content(' placeholder="'.$placeholder.'" '.$this->required_addon().'');
-        $this->mygrid->add_content(' rows="21">'.$value.'</textarea>@NL@');
+        $this->mygrid->add_content(' rows="5">'.$value.'</textarea>@NL@');
         $this->end_field();
     }
     public function text_input(string $name,string $label,int $max_length,?string $value,string $placeholder,string $mask="")
