@@ -22,7 +22,7 @@ $form->col(6);
     $form->group("Config");
     $form->text_input("adminusername","Admin Usr",5,null,"Admin username");
     $form->text_input("adminpassword","Admin PW",3,null,"Admin password");
-    $form->text_input("djpassword","DJ PW",3,null,"DJ password");
+    $form->text_input("djpassword","Encoder/Stream password",3,null,"Encoder/Stream password");
     $form->select("needswork","Needs work",false,array(false=>"No",true=>"Yes"));
 echo $form->render("Create","primary");
 ?>
