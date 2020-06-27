@@ -3,6 +3,7 @@ $avatar = new avatar();
 $input = new inputFilter();
 $sllinkcode = $input->postFilter("sllinkcode");
 $httpcode = $input->postFilter("httpcode");
+$publiclinkcode = $input->postFilter("publiclinkcode");
 $new_resellers_rate = $input->postFilter("new_resellers_rate","integer");
 $new_resellers = $input->postFilter("new_resellers","bool");
 $event_storage = $input->postFilter("event_storage","bool");
@@ -29,6 +30,7 @@ if($failed_on == "")
         $slconfig->set_field("owner_av",$avatar->get_id());
     }
     $slconfig->set_field("sllinkcode",$sllinkcode);
+    $slconfig->set_field("publiclinkcode",$publiclinkcode);
     $slconfig->set_field("http_inbound_secret",$httpcode);
     $slconfig->set_field("new_resellers",$new_resellers);
     $slconfig->set_field("new_resellers_rate",$new_resellers_rate);
