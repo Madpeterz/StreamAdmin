@@ -1,4 +1,7 @@
 <?php
+$template_parts["html_title"] .= " ~ List";
+$template_parts["page_title"] .= ": List";
+
 $staff_set = new staff_set();
 $staff_set->loadAll();
 $table_head = array("id","Username","Owner");
