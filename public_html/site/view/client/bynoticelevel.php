@@ -23,7 +23,9 @@ foreach($rental_set->get_all_ids() as $rental_id)
     $entry = array();
     $entry[] = $rental->get_id();
     $entry[] = '<a href="[[url_base]]client/manage/'.$rental->get_rental_uid().'">'.$rental->get_rental_uid().'</a>';
-    $entry[] = explode(" ",$avatar->get_avatarname())[0];
+    $av_detail = explode(" ",$avatar->get_avatarname());
+    if($av_detail[1] != "Resident") $entry[] = $avatar->get_avatarname();
+    else $entry[] = $av_detail[0];
     $entry[] = $package->get_name();
     $entry[] = $stream->get_port();
     if($rental->get_expireunixtime() > time())
