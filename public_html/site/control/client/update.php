@@ -45,16 +45,46 @@ if($rental->load_by_field("rental_uid",$page) == true)
         if($total_adjust_hours > 0)
         {
             $adjustment_unixtime = $unixtime_hour * $total_adjust_hours;
+            $adjustment_text = $lang["client.up.info.ad.text"];
             if($adjustment_dir == false)
             {
+                $adjustment_text = $lang["client.up.info.rm.text"];
                 $new_unixtime = $rental->get_expireunixtime() - $adjustment_unixtime;
-                $message .= sprintf($lang["client.up.info.3"],date($lang["client.up.datetime.format"],time()),$total_adjust_hours);
             }
             else
             {
                 $new_unixtime = $rental->get_expireunixtime() + $adjustment_unixtime;
-                $message .= sprintf($lang["client.up.info.4"],date($lang["client.up.datetime.format"],time()),$total_adjust_hours);
             }
+            $add_days = 0;
+            while($total_adjust_hours >= 24)
+            {
+                $add_days+=1;
+                $total_adjust_hours-=24;
+            }
+
+            $adjustment_amount = $total_adjust_hours;
+            $adjustment_type = $lang["client.up.info.adj.hour"];
+            $adjustment_multi = "";
+            if($add_days > 0)
+            {
+                $adjustment_amount = $add_days;
+                $adjustment_type = $lang["client.up.info.adj.day"];
+            }
+            if($adjustment_amount > 1)
+            {
+                $adjustment_multi = $lang["client.up.info.adj.multiple"];
+            }
+
+            $adjustment_message = sprintf($lang["client.up.info.adjustment"],
+                date($lang["client.up.datetime.format"],time()),
+                $adjustment_text,
+                $adjustment_amount,
+                $adjustment_type,
+                $adjustment_multi
+            );
+            $message = "".$adjustment_message."".$message."";
+
+
             $update_notice_status = true;
 
             $notice_set = new notice_set();

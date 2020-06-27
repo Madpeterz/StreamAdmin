@@ -36,8 +36,18 @@ $lang = array(
     "client.up.error.5" => "[Transfer] Unable to load avatar from",
     "client.up.info.1" => "\n %1\$s - Transfer to: %2\$s [%3\$s] from %4 [%5]",
     "client.up.info.2" => "Ownership transfered",
+
     "client.up.info.3" => "\n %1\$s - Removed %2\$s hours from account",
     "client.up.info.4" => "\n %1\$s - Added %2\$s hours from account",
+
+    "client.up.info.rm.text" => "Removed",
+    "client.up.info.ad.text" => "Added",
+    "client.up.info.adj.day" => "day",
+    "client.up.info.adj.hour" => "hour",
+    "client.up.info.adj.multiple" => "s",
+    "client.up.info.adjustment" => "%1\$s - %2\$s %3\$s %4\$s%5\$s \n",
+
+
     "client.up.info.5" => "\n Message Updated",
     "client.up.info.6" => "Updated ok",
 );
