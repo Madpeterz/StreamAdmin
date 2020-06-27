@@ -21,7 +21,7 @@
 		protected $use_table = "users";
 		protected $dataset = array(
 			"id" => array("type"=>"int","value"=>null),
-			"itemid" => array("type"=>"float","value"=>null),
+			"itemid" => array("type"=>"int","value"=>null),
 			"slkey" => array("type"=>"str","value"=>null),
 			"slname" => array("type"=>"str","value"=>null),
 			"buyfromboxkey" => array("type"=>"str","value"=>null),
@@ -36,7 +36,7 @@
 		{
 			return $this->get_field("id");
 		}
-		public function get_itemid() : ?double
+		public function get_itemid() : ?int
 		{
 			return $this->get_field("itemid");
 		}
