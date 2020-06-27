@@ -26,7 +26,7 @@ if($stream->load_by_field("stream_uid",$page) == true)
         $form->group("Config");
         $form->text_input("adminusername","Admin Usr",5,$stream->get_adminusername(),"Admin username");
         $form->text_input("adminpassword","Admin PW",3,$stream->get_adminpassword(),"Admin password");
-        $form->text_input("djpassword","DJ PW",3,$stream->get_djpassword(),"DJ password");
+        $form->text_input("djpassword","Encoder/Stream password",3,$stream->get_djpassword(),"Encoder/Stream password");
     echo $form->render("Update","primary");
 }
 else
