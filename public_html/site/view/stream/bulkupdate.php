@@ -13,7 +13,7 @@ $stream_set->load_with_config($whereconfig);
 $server_set = new server_set();
 $server_set->loadAll();
 
-$table_head = array("id","Action","Server","Port","Admin Password","DJ password");
+$table_head = array("id","Action","Server","Port","Encoder/Stream password","Admin Password");
 $table_body = array();
 
 foreach($stream_set->get_all_ids() as $streamid)

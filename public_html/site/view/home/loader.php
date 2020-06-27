@@ -55,9 +55,9 @@ if($group_count["status"] == true)
     foreach($group_count["dataset"] as $key => $count)
     {
         $notice = $notice_set->get_object_by_id($key);
-        if($notice->get_hoursremaining() == 0) $client_expired++;
-        else if($notice->get_hoursremaining() > 24) $client_ok++;
-        else $client_expires_soon++;
+        if($notice->get_hoursremaining() <= 0) $client_expired+=$count;
+        else if($notice->get_hoursremaining() > 24) $client_ok+=$count;
+        else $client_expires_soon+=$count;
     }
 }
 
@@ -148,5 +148,16 @@ $main_grid->close_row();
 $main_grid->add_content($sub_grid_servers->get_output(),6);
 $main_grid->add_content($sub_grid_objects->get_output(),6);
 $main_grid->close_row();
+if($session->get_ownerlevel() == 1)
+{
+    if($server_set->get_count() == 0)
+    {
+        $main_grid->add_content("<hr/>",12);
+        $main_grid->add_content("<a href=\"[[url_base]]import\"><button class=\"btn btn-info btn-block\" type=\"button\">Import from R4</button></a>",12);
+    }
+
+}
 echo $main_grid->get_output();
+
+
 ?>
