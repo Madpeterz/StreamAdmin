@@ -45,6 +45,7 @@ function on_add(string $provider)
         $template_parts["html_js_onready"] .= "
         $('.datatable-default').DataTable({
           'order': [[ 0, 'desc' ]],
+          responsive: true,
           language: {
             searchPlaceholder: 'Search...',
             sSearch: '',

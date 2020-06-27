@@ -43,7 +43,7 @@ class grid
         }
         $this->col_value += $size;
         $this->col_open = true;
-        $this->output .= '<div class="col-'.$size.'">@NL@';
+        $this->output .= '<div class="col-sm-'.$size.' col-md-'.$size.' col-lg-'.$size.'">@NL@';
     }
     public function close_row()
     {

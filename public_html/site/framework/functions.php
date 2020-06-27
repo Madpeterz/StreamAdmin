@@ -26,7 +26,7 @@ function render_table(array $table_head, array $table_body,string $classaddon=""
 function render_datatable(array $table_head, array $table_body)
 {
     add_vendor("datatable");
-    return render_table($table_head, $table_body,"datatable-default");
+    return render_table($table_head, $table_body,"datatable-default display responsive");
 }
 function expired_ago($unixtime=0)
 {

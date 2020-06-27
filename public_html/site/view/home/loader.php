@@ -63,15 +63,15 @@ if($group_count["status"] == true)
 
 $sub_grid_streams = new grid();
 $sub_grid_streams->add_content('<strong>Streams</strong>',12);
-$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/ready"><span class="badge badge-success">Ready <span class="badge badge-light">'.$stream_total_ready.'</span></span></a></h5>',3);
-$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/needwork"><span class="badge badge-warning">Needwork <span class="badge badge-light">'.$stream_total_needwork.'</span></span></a></h5>',3);
-$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/sold"><span class="badge badge-info">Sold <span class="badge badge-light">'.$stream_total_sold.'</span></span></a></h5><br/>',3);
+$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/ready"><span class="badge badge-success">Ready <span class="badge badge-light">'.$stream_total_ready.'</span></span></a></h5>',4);
+$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/needwork"><span class="badge badge-warning">Needwork <span class="badge badge-light">'.$stream_total_needwork.'</span></span></a></h5>',4);
+$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/sold"><span class="badge badge-info">Sold <span class="badge badge-light">'.$stream_total_sold.'</span></span></a></h5><br/>',4);
 
 $sub_grid_clients = new grid();
 $sub_grid_clients->add_content('<strong>Clients</strong>',12);
-$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/expired"><span class="badge badge-danger">Expired <span class="badge badge-light">'.$client_expired.'</span></span></a></h5>',3);
-$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/soon"><span class="badge badge-warning">Expires in 24 hours <span class="badge badge-light">'.$client_expires_soon.'</span></span></a></h5>',3);
-$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/ok"><span class="badge badge-success">Ok <span class="badge badge-light">'.$client_ok.'</span></span></a></h5><br/>',3);
+$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/expired"><span class="badge badge-danger">Expired <span class="badge badge-light">'.$client_expired.'</span></span></a></h5>',4);
+$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/soon"><span class="badge badge-warning">Expires in 24 hours <span class="badge badge-light">'.$client_expires_soon.'</span></span></a></h5>',4);
+$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/ok"><span class="badge badge-success">Ok <span class="badge badge-light">'.$client_ok.'</span></span></a></h5><br/>',4);
 
 $table_head = array("Server",
 '<h5><span class="badge badge-success">Ready</span></h5>',
