@@ -59,6 +59,7 @@ if($package->load_by_field("package_uid",$packageuid) == true)
                         $rental->set_field("startunixtime",time());
                         $rental->set_field("expireunixtime",$unixtime);
                         $rental->set_field("noticelink",$use_notice_index);
+                        $rental->set_field("totalamount",$amountpaid);
                         $create_status = $rental->create_entry();
                         if($create_status["status"] == true)
                         {

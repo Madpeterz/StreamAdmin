@@ -26,7 +26,8 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                     $unixtime_to_add = (($package->get_days() * $unixtime_day)*$multipler);
                     $new_expires_time = $rental->get_expireunixtime() + $unixtime_to_add;
                     $rental->set_field("expireunixtime",$new_expires_time);
-                    $rental->set_field("renewals",($rental->get_renewals()+1));
+                    $rental->set_field("renewals",($rental->get_renewals()+$multipler));
+                    $rental->set_field("totalamount",($rental->get_totalamount()+$amountpaid));
                     $unixtime_remain = $new_expires_time - time();
                     if($unixtime_remain > 0)
                     {
