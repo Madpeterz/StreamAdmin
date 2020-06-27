@@ -12,7 +12,7 @@ $swaps = array(
     "STREAM_ADMINPASSWORD" => "AdminPaSSwordHere",
     "STREAM_DJPASSWORD" => "DJpasswordYo",
     "STREAM_MOUNTPOINT" => "/live",
-    "SERVER_DOMAIN" => "http://livestreamservice.demo",
+    "SERVER_DOMAIN" => "livestreamservice.demo (or) ip address",
     "SERVER_CONTROLPANEL" => "https://livestreamservice.demo:5000",
     "PACKAGE_NAME" => "CheapWeeklyPackage",
     "PACKAGE_LISTENERS" => 10,
@@ -24,17 +24,27 @@ $swaps = array(
     "NL" => "~ Creates a new line ~"
 
 );
-$table_head = array("id","Swaptag","Example");
+
+$table_head = array("Tag","Example","Tag","Example");
 $table_body = array();
 $loop = 0;
+$current = array();
 foreach($swaps as $key => $value)
 {
-    $entry = array();
-    $entry[] = $loop;
-    $entry[] = "[[".$key."]]";
-    $entry[] = $value;
-    $table_body[] = $entry;
+    $current[] = "[[".$key."]]";
+    $current[] = $value;
+    if(count($current) == 4)
+    {
+        $table_body[] = $current;
+        $current = array();
+    }
     $loop++;
 }
-echo render_datatable($table_head,$table_body);
+if(count($current) != 0)
+{
+    $current[] = " ";
+    $current[] = " ";
+    $table_body[] = $current;
+}
+echo render_table($table_head,$table_body);
 ?>
