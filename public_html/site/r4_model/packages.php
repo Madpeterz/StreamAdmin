@@ -24,8 +24,8 @@
 			"name" => array("type"=>"str","value"=>null),
 			"streamtype" => array("type"=>"str","value"=>null),
 			"streamrate" => array("type"=>"str","value"=>null),
-			"users" => array("type"=>"float","value"=>null),
-			"Lcost" => array("type"=>"float","value"=>null),
+			"users" => array("type"=>"int","value"=>null),
+			"Lcost" => array("type"=>"int","value"=>null),
 			"sublength" => array("type"=>"int","value"=>31),
 			"maintexture" => array("type"=>"str","value"=>null),
 			"infotexture" => array("type"=>"str","value"=>null),
@@ -64,11 +64,11 @@
 		{
 			return $this->get_field("streamrate");
 		}
-		public function get_users() : ?double
+		public function get_users() : ?int
 		{
 			return $this->get_field("users");
 		}
-		public function get_Lcost() : ?double
+		public function get_Lcost() : ?int
 		{
 			return $this->get_field("Lcost");
 		}
