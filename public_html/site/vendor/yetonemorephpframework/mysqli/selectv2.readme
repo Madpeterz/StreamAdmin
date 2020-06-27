@@ -1,0 +1,174 @@
+<?php
+exit("this is a read me not a php file how is this even running....");
+
+//selectV2 its like select just better.
+
+//Example calls
+    selectV2(array("table"=>"test"));
+        // returns everything in the table test with no limit, no ordering
+
+    selectV2(array("table"=>"test"),array("ordering_enabled"=>true));
+        // returns everything in the table test with no limit with ordered by id desc
+
+    selectV2(
+        array("table"=>"test"),
+        null,
+        array("fields"=>array("id"),"matches"=>array("="),"values"=>array(4),"types"=>array("i"))
+        );
+        // returns everything in the table test with no limit, no ordering where: id = [4] ((treating  [4] as a int))
+
+    selectV2(
+            array("table"=>"test"),
+            null,
+            array("fields"=>array("id"),"matches"=>array("IN"),"values"=>array(array(1,2,3,4,5,6)),"types"=>array("i"))
+        );
+        // returns everything in the table test with no limit, no ordering where: id IN (1,2,3,4,5,6) ((treating each entry in the list as a int))
+
+   selectV2(
+       array("table"=>"test"),
+       array("ordering_enabled"=>true,"order_field"=>"public_unixtime","order_dir"=>"ASC"),
+       array(
+            "fields"=>array("draft","public_unixtime","public_anyway"),
+            "matches"=>array("IS NOT",">=","="),
+            "values"=>array(null,44,true),
+            "type"=>array("i","i","b"),
+            "join_with"=>array("AND","(OR)")
+        ),
+        /*
+            selects all fields from "test"
+            where
+                (draft is not null AND public_unix >= 44)
+                OR
+                (public_anyway = true)
+            ordered by public_unixtime ASC
+        */
+    );
+    seectV2(
+        array("table"=>"test"),
+        array("ordering_enabled"=>true,"order_field"=>"public_unixtime","order_dir"=>"ASC"),
+        array(
+             "fields"=>array("draft","public_unixtime","public_anyway"),
+             "matches"=>array("IS NOT",">=","="),
+             "values"=>array(null,44,true),
+             "type"=>array("i","i","b"),
+             "join_with"=>array("AND","(OR)")
+         ),
+         array(
+             "page_number" => 0,
+             "max_entrys" => 8
+        )
+    );
+    /*
+        selects all fields from "test"
+        where
+            (draft is not null AND public_unix >= 44)
+            OR
+            (public_anyway = true)
+        ordered by public_unixtime ASC
+        getting only the first 8 entrys
+    */
+    seectV2(
+        array("table"=>"test"),
+        array("ordering_enabled"=>true,"order_field"=>"public_unixtime","order_dir"=>"ASC"),
+        array(
+             "fields"=>array("draft","public_unixtime","public_anyway"),
+             "matches"=>array("IS NOT",">=","="),
+             "values"=>array(null,44,true),
+             "type"=>array("i","i","b"),
+             "join_with"=>array("AND","(OR)")
+         ),
+         array(
+             "page_number" => 0,
+             "max_entrys" => 8
+        )
+    );
+    /*
+        selects
+            DISTINCT(mtb.id)
+            ev.name
+        from "test" [mtb]
+        with data from eviltable [ev]
+        where
+            ev.hidden = false AND
+            mtb.draft IS null AND
+            mtb.public_unixtime > 44
+        ordered by mtb.public_unixtime ASC
+        getting only the first 8 entrys
+    */
+    seectV2(
+        array(
+            "table"=>"test",
+            "fields"=array("id","ev.name"),
+            "field_function"=array("DISTINCT")
+        ),
+        array(
+            "ordering_enabled"=>true,
+            "order_field"=>"public_unixtime",
+            "order_dir"=>"ASC"
+        ),
+        array(
+             "fields"=>array("ev.hidden","draft","public_unixtime"),
+             "matches"=>array("=","IS",">="),
+             "values"=>array(false,null,44),
+             "type"=>array("b","i","i")
+         ),
+         array(
+             "page_number" => 0,
+             "max_entrys" => 8
+        ),
+        array(
+            "main_table_id" => "mtb",
+            "types" => array("LEFT JOIN"),
+            "tables" => array("eviltable ev"),
+            "onfield_left" => array("ev.linkid"),
+            "onfield_match" => array("="),
+            "onfield_right" => array("mtb.id")
+        )
+    );
+
+
+//args
+
+$basic_config = array(
+        "table" => X,           // any vaild table
+        ["fields"] => array(),    // the fields you would like back in your reply, note: repeated fields removed.
+                                 // if no fields are given a wildcard is used, note: if you dont define the fields on a join_table only the main table fields will be returned! (Optional)
+        ["field_function"] = array(), // wraps a function around a field todo stuff. applys only to the matching postion not to all. (Optional)
+                                      // requires that fields are filled in or this is skipped!
+);
+$order_config = array(
+        "ordering_enabled" => false,
+        "order_field" => "id",    // any vaild field if as_string is set to true this is ignored.
+        "order_dir" => "DESC", // DESC or ASC as a string if as_string is set to true this is ignored.
+        ["as_string" => false], //  (Optional)
+        ["order_string" => ""], // if as_string is true you can set this to the order by value good if you want to order on multiple fields  (Optional)
+);
+
+$where_config = array(
+        ["join_with" => "AND"], // AND|OR  or array of values: "AND","OR","(AND)","(OR)", "AND(", "OR(", defaults to AND if not sent  (Optional)
+        "fields" => array(),  // any vaild fields
+        "values" => array(),  // value or array
+        "types" => array(),   // s,i,d,b, note: if the values entry is an array what ever type you pick is used for all entrys.
+        "match" = array()    // =, !=, IS, IS NOT, IN, NOT IN, >, <, <=, >=
+);
+$options = array(
+       "page_number" => null,
+       "max_entrys" => null
+);
+$join_tables = array(
+    "types" => array(), // "LEFT JOIN", "JOIN", "RIGHT JOIN" ect
+    "tables" => array(), // "tablename x"   example  people pl
+    "onfield_left" => array(), // "pl.id"
+    "onfield_match" => array(), // "=" "!=" ">" ect
+    "onfield_right" => array(), // "mtb.id"
+    ["main_table_id" => "mtb"], //"mtb" adds id to the main FROM table in this case mtb
+    ["cleanids" => true],
+    // removes the . and left hand table id from the results indexs
+    // having to clean the ids is slower than just getting the results and should be avoided if you can. (Optional)
+
+    ["autoids" => true]
+    // adds the . and the left hand main table id to the fields in basic_config,
+    // also adds them to the where_fields and order_by_fields if no . is found
+    // set to to false if you are sending custom fields with the correct ids.  (Optional)
+);
+?>
