@@ -9,7 +9,10 @@ if($session->get_logged_in() == true)
 {
     if(file_exists("site/control/".$module."/".$area.".php") == true)
     {
-        include("site/lang/control/".$module."/".$site_lang.".php");
+        if(file_exists("site/lang/control/".$module."/".$site_lang.".php") == true)
+        {
+            include("site/lang/control/".$module."/".$site_lang.".php");
+        }
         include("site/control/".$module."/".$area.".php");
     }
     else
