@@ -19,12 +19,16 @@ if($all_ok == true)
         "System config" => "slconfig",
         "Textures" => "textureconfig",
         "Transactions" => "transactions",
-        "Staff" => "staff",
-        "Bot" => "bot",
         "Notices" => "notice",
         "Objects" => "objects",
-        "Servers" => "server"
+        "Servers" => "server",
     );
+    if($session->get_ownerlevel() == 1)
+    {
+        $config_areas["R4 import"] = "import";
+        $config_areas["Bot"] = "bot";
+        $config_areas["Staff"] = "staff";
+    }
     $template_parts["page_actions"] = "";
     $template_parts["html_title"] = "Config";
     $template_parts["page_title"] = "[[page_breadcrumb_icon]] [[page_breadcrumb_text]]";
