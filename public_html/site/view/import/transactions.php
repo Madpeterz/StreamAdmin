@@ -51,6 +51,7 @@ foreach($r4_sales_tracking_set->get_all_ids() as $r4_sales_tracking_id)
         $transaction->set_field("amount",$r4_sales_tracking->get_amount());
         $transaction->set_field("unixtime",$unixtime);
         $transaction->set_field("transaction_uid",$uid_transaction["uid"]);
+        $transaction->set_field("renew",$r4_sales_tracking->get_salemode());
         $create_status = $transaction->create_entry();
         if($create_status["status"] == true)
         {

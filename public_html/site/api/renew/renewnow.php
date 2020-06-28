@@ -76,6 +76,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                             $transaction->set_field("amount",$amountpaid);
                             $transaction->set_field("unixtime",time());
                             $transaction->set_field("transaction_uid",$uid_transaction["uid"]);
+                            $transaction->set_field("renew",1);
                             $create_status = $transaction->create_entry();
                             if($create_status["status"] == true)
                             {

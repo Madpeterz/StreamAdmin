@@ -11,7 +11,7 @@ $form->target("package/create");
 $form->required(true);
 $form->col(6);
     $form->group("Basics");
-    $form->text_input("name","Name",30,"","Package name [30 chars]");
+    $form->text_input("name","Name",30,"","Package name [60 chars]");
     $form->select("templatelink","Template",0,$template_set->get_linked_array("id","name"));
 $form->col(6);
     $form->group("Terms");

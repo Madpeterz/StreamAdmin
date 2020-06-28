@@ -14,7 +14,7 @@ if($package->load_by_field("package_uid",$page) == true)
     $form->required(true);
     $form->col(6);
         $form->group("Basics");
-        $form->text_input("name","Name",30,$package->get_name(),"Package name [30 chars]");
+        $form->text_input("name","Name",30,$package->get_name(),"Package name [60 chars]");
         $form->select("templatelink","Template",$package->get_templatelink(),$template_set->get_linked_array("id","name"));
     $form->col(6);
         $form->group("Terms");

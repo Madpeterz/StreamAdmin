@@ -33,7 +33,7 @@ $lang = array(
     "package.rm.info.1" => "Package removed",
 
     "package.up.error.1" => "Name length must be 5 or longer",
-    "package.up.error.2" => "Name must be 30 or less",
+    "package.up.error.2" => "Name must be 60 or less",
     "package.up.error.3" => "Cost must be 1 or more",
     "package.up.error.4" => "Cost must be 99999 or less",
     "package.up.error.5" => "Days must be 1 or more",
