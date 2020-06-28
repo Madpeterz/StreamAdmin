@@ -29,7 +29,6 @@
 			"amount" => array("type"=>"int","value"=>null),
 			"unixtime" => array("type"=>"int","value"=>null),
 			"transaction_uid" => array("type"=>"str","value"=>null),
-			"renew" => array("type"=>"bool","value"=>0),
 		);
 		public function get_id() : ?int
 		{
@@ -66,10 +65,6 @@
 		public function get_transaction_uid() : ?string
 		{
 			return $this->get_field("transaction_uid");
-		}
-		public function get_renew() : ?bool
-		{
-			return $this->get_field("renew");
 		}
 	}
 ?>
