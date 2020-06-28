@@ -46,6 +46,7 @@ if($session->get_ownerlevel() == 1)
                 {
                     unlink($modal_folder."/".$entry);
                     copy($update_modal_folder."/".$entry,$modal_folder."/".$entry);
+                    echo "Updated file: ".$entry."<br/>";
                 }
                 echo "Ok";
             }
