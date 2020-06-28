@@ -2,3 +2,23 @@
 {
     width: 100%;
 }
+
+.needwork
+{
+    color: #d0db32;
+}
+
+.ready
+{
+    color: #39c227;
+}
+
+.sold
+{
+    color: #277cc2;
+}
+
+.sold:hover
+{
+    color: #45a7f7;
+}

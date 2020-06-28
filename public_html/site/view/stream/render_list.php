@@ -27,13 +27,13 @@ foreach($stream_set->get_all_ids() as $streamid)
                 $av_detail = explode(" ",$avatar->get_avatarname());
                 $av_name = $avatar->get_avatarname();
                 if($av_detail[1] == "Resident") $av_name = $av_detail[0];
-                $entry[] = '<a href="[[url_base]]client/manage/'.$rental->get_rental_uid().'">Sold -> '.$av_name.'</a>';
+                $entry[] = '<a class="sold" href="[[url_base]]client/manage/'.$rental->get_rental_uid().'">Sold -> '.$av_name.'</a>';
             }
             else $entry[] = "Rented but cant find rental.";
         }
-        else $entry[] = "Ready";
+        else $entry[] = "<span class=\"ready\">Ready</span>";
     }
-    else $entry[] = "Need work";
+    else $entry[] = "<span class=\"needwork\">Need work</span>";
     $table_body[] = $entry;
 }
 echo render_datatable($table_head,$table_body);
