@@ -7,7 +7,7 @@ define("framework_location","site/vendor/yetonemorephpframework/"); // db_object
 define("gen_database_host","localhost");
 define("gen_database_username","root");
 define("gen_database_password","");
-define("save_models_to_folder","versions/modal/1.0.0.1/");
+define("save_models_to_folder","versions/modal/1.0.0.4/");
 //define("add_db_to_table",true); // add the database name before the table name
 //define("source_databases",array("streamadmin","secondbothost"));
 
