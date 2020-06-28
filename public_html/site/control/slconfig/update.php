@@ -9,7 +9,7 @@ $new_resellers = $input->postFilter("new_resellers","bool");
 $event_storage = $input->postFilter("event_storage","bool");
 $owneravuid = $input->postFilter("owneravuid");
 $ui_tweaks_clients_fulllist = $input->postFilter("ui_tweaks_clients_fulllist","bool");
-
+$ui_tweaks_datatable_itemsperpage = $input->postFilter("ui_tweaks_datatable_itemsperpage","integer");
 
 
 $failed_on = "";
@@ -19,6 +19,8 @@ if(strlen($httpcode) < 5) $failed_on .= $lang["slconfig.up.error.3"];
 else if(strlen($httpcode) > 30) $failed_on .= $lang["slconfig.up.error.4"];
 else if($new_resellers_rate < 0) $failed_on .= $lang["slconfig.up.error.5"];
 else if($new_resellers_rate > 100) $failed_on .= $lang["slconfig.up.error.6"];
+else if($ui_tweaks_datatable_itemsperpage < 10) $failed_on .= $lang["slconfig.up.error.10"];
+else if($ui_tweaks_datatable_itemsperpage > 200) $failed_on .= $lang["slconfig.up.error.11"];
 else if(strlen($owneravuid) != 8) $failed_on .= $lang["slconfig.up.error.7"];
 else if($avatar->load_by_field("avatar_uid",$owneravuid) == false) $failed_on .= $lang["slconfig.up.error.8"];
 $redirect = "slconfig";
@@ -36,7 +38,7 @@ if($failed_on == "")
     $slconfig->set_field("new_resellers_rate",$new_resellers_rate);
     $slconfig->set_field("eventstorage",$event_storage);
     $slconfig->set_field("clients_list_mode",$ui_tweaks_clients_fulllist);
-
+    $slconfig->set_field("datatable_itemsperpage",$ui_tweaks_datatable_itemsperpage);
     if($session->get_ownerlevel() == 1)
     {
         $smtp_from = $input->postFilter("smtp_from");

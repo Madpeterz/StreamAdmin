@@ -39,13 +39,22 @@ function proccess_add_request(string $provider_name="",$provider=array(),array $
 }
 function on_add(string $provider)
 {
-    global $template_parts;
+    global $template_parts, $slconfig;
     if($provider == "datatable")
     {
         $template_parts["html_js_onready"] .= "
         $('.datatable-default').DataTable({
           'order': [[ 0, 'desc' ]],
           responsive: true,
+        ";
+        if(version_compare($slconfig->get_db_version(),"1.0.0.4",">") == true)
+        {
+            $template_parts["html_js_onready"] .= "
+                pageLength: ".$slconfig->get_datatable_itemsperpage().",
+                lengthMenu: [[".$slconfig->get_datatable_itemsperpage().", 10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
+                ";
+        }
+        $template_parts["html_js_onready"] .= "
           language: {
             searchPlaceholder: 'Search...',
             sSearch: '',

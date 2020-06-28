@@ -9,7 +9,8 @@ $lang = array(
     "slconfig.up.error.7" => "Owner AV uid length must be 8",
     "slconfig.up.error.8" => "Unable to load avatar from uid",
     "slconfig.up.error.9" => "Unable to update system config: %1\$s",
-    "slconfig.up.info.1" => "system config updated"
-
+    "slconfig.up.info.1" => "system config updated",
+    "slconfig.up.error.10" => "Datatable entrys per page length must be 10 or more",
+    "slconfig.up.error.11" => "Datatable entrys per page must be 200 or less",
 );
 ?>
