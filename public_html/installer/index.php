@@ -47,6 +47,10 @@ if(defined("correct") == true)
     {
         include("installer/setup.php");
     }
+    else if($module == "updates")
+    {
+        include("installer/updates.php");
+    }
     else if($module == "final")
     {
         include("installer/final.php");

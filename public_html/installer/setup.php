@@ -46,7 +46,7 @@ if(defined("correct") == false) {die("Error");}
                                 {
                                     $sql->sqlSave(true);
                                     ?>
-                                    <a href="final"><button class="btn btn-primary btn-block" type="button">Goto final screen</button></a>
+                                    <a href="updates"><button class="btn btn-primary btn-block" type="button">Apply updates</button></a>
                                     <?php
                                 }
                                 else
