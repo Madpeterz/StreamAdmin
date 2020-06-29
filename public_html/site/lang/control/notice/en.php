@@ -15,6 +15,8 @@ $lang = array(
     "notice.rm.error.3" => "Unable to find notice",
     "notice.rm.error.4" => "Unable to remove notice: %1\$s",
     "notice.rm.info.1" => "Notice removed",
+    "notice.rm.error.5" => "Unable to check if notice is being used by any pending notecards",
+    "notice.rm.error.6" => "Unable to remove notice it is being used by %1\$s pending notecards!",
 
     "notice.up.error.1" => "Name length must be 5 or longer",
     "notice.up.error.2" => "Name length must be 100 or less",
