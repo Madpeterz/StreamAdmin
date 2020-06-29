@@ -47,6 +47,25 @@ function process_notice_change(notice $notice)
             }
             if($all_ok == true)
             {
+                if($notice->get_send_notecard() == true)
+                {
+                    if($botconfig->get_notecards() == true)
+                    {
+                        $notecard = new notecard();
+                        $notecard->set_field("rentallink",$rental->get_id());
+                        $notecard->set_field("as_notice",1);
+                        $notecard->set_field("noticelink",$notice->get_id());
+                        $create_status = $notecard->create_entry();
+                        if($create_status["status"] == false)
+                        {
+                            $all_ok = false;
+                            $why_failed = sprintf($lang["noticeserver.n.error.7"],$create_status["message"]);
+                        }
+                    }
+                }
+            }
+            if($all_ok == true)
+            {
                 $changes++;
             }
         }

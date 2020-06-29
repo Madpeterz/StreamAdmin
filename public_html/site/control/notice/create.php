@@ -5,6 +5,9 @@ $name = $input->postFilter("name");
 $hoursremaining = $input->postFilter("hoursremaining","integer");
 $immessage = $input->postFilter("immessage");
 $usebot = $input->postFilter("usebot","bool");
+$send_notecard = $input->postFilter("send_notecard","bool");
+$notecarddetail = $input->postFilter("notecarddetail");
+
 $failed_on = "";
 $redirect = "";
 if(strlen($name) < 5) $failed_on .= $lang["notice.cr.error.1"];
@@ -21,6 +24,8 @@ if($failed_on == "")
     $notice->set_field("immessage",$immessage);
     $notice->set_field("usebot",$usebot);
     $notice->set_field("hoursremaining",$hoursremaining);
+    $notice->set_field("send_notecard",$send_notecard);
+    $notice->set_field("notecarddetail",$notecarddetail);
     $create_status = $notice->create_entry();
     if($create_status["status"] == true)
     {

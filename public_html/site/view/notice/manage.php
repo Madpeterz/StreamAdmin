@@ -14,11 +14,15 @@ if($notice->load($page) == true)
         $form->col(6);
             $form->group("Basic");
             $form->text_input("name","Name",30,$notice->get_name(),"Name");
-            $form->textarea("immessage","Message",800,$notice->get_immessage(),"use the swaps as placeholders");
+            $form->textarea("immessage","Message",800,$notice->get_immessage(),"use the swaps as placeholders [max length 800]");
         $form->col(6);
             $form->group("Config");
             $form->select("usebot","Use bot to send IM",$notice->get_usebot(),array(false=>"No",true=>"Yes"));
             $form->number_input("hoursremaining","Hours remain [Trigger at]",$notice->get_hoursremaining(),3,"Max value 998");
+        $form->col(6);
+            $form->group("Notecard [Requires bot]");
+            $form->select("send_notecard","Enable",$notice->get_send_notecard(),array(false=>"No",true=>"Yes"));
+            $form->textarea("notecarddetail","Notecard content",2000,$notice->get_notecarddetail(),"use the swaps as placeholders");
         echo $form->render("Update","primary");
         include("site/view/shared/swaps_table.php");
     }
