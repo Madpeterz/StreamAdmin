@@ -1,8 +1,12 @@
 <?php
 $lang = array(
-    "mailserver.n.error.1" => "Sorry only the system owner can run a mail server!",
-    "mailserver.n.error.2" => "Unable to delete broken message with id: %1\$s",
-    "mailserver.n.error.3" => "Unable to load avatar to send message to, deleting it and continue",
-    "mailserver.n.error.4" => "Unable to remove sent message",
+    "noticeserver.n.error.1" => "Sorry only the system owner can process notices",
+    "noticeserver.n.error.2" => "Unable to load bot config",
+    "noticeserver.n.error.3" => "Bot config error - Not a vaild avatar",
+    "noticeserver.n.error.4" => "Issue: Unable to load avatar attached to bot",
+    "noticeserver.n.error.5" => "Unable to finish setting up events",
+    "noticeserver.n.error.6" => "Issue processing notices: %1\$s",
+    "noticeserver.n.error.7" => "Unable to create notecard \"%1\$s\"",
+    "noticeserver.n.info.1" => "ok ~ %1\$s",
 );
 ?>
