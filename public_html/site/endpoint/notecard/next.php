@@ -48,7 +48,7 @@ if($notecard_set->get_count() > 0)
 }
 if($load_ok == true)
 {
-    if($notecard->get_as_notice() == true)
+    if($notecard->get_as_notice() == false)
     {
         $notecard_title = "Streamdetails for ".$avatar->get_avatarname()." port: ".$stream->get_port()."";
         $notecard_content = $template->get_notecarddetail();
