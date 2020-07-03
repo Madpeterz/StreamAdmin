@@ -15,8 +15,6 @@ $load_by = array(
     "server" => array("stream"=>"serverlink"),
     "package" => array("stream"=>"packagelink"),
 );
-$notecard_title = "";
-$notecard_content = "";
 if($notecard->get_as_notice() == false)
 {
     $load_by["template"] = array("package"=>"templatelink");
@@ -48,18 +46,19 @@ if($notecard_set->get_count() > 0)
 }
 if($load_ok == true)
 {
+    $notecard_title = "";
+    $notecard_content = "";
+    $swap_helper = new swapables_helper();
     if($notecard->get_as_notice() == false)
     {
         $notecard_title = "Streamdetails for ".$avatar->get_avatarname()." port: ".$stream->get_port()."";
-        $notecard_content = $template->get_notecarddetail();
+        $notecard_content = $swap_helper->get_swapped_text($template->get_notecarddetail(),$avatar,$rental,$package,$server,$stream);
     }
     else
     {
         $notecard_title = "Reminder for ".$avatar->get_avatarname()." port: ".$stream->get_port()."";
-        $notecard_content = $notice->get_notecarddetail();
+        $notecard_content = $swap_helper->get_swapped_text($notice->get_notecarddetail(),$avatar,$rental,$package,$server,$stream);
     }
-    $swap_helper = new swapables_helper();
-    $notecard_content = $swap_helper->get_swapped_text($notecard_content,$avatar,$rental,$package,$server,$stream);
     $remove_status = $notecard->remove_me();
     if($remove_status["status"] == true)
     {
