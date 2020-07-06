@@ -9,10 +9,10 @@ $package = new package();
 if($package->load_by_field("package_uid",$packageuid) == true)
 {
     $where_config = array(
-        "fields" => array("rentallink","packagelink"),
-        "values" => array(NULL,$package->get_id()),
-        "types" => array("i","i"),
-        "matches" => array("IS","=")
+        "fields" => array("rentallink","packagelink","needwork"),
+        "values" => array(NULL,$package->get_id(),0),
+        "types" => array("i","i","i"),
+        "matches" => array("IS","=","=")
     );
     $stream_set = new stream_set();
     $stream_set->load_with_config($where_config);
