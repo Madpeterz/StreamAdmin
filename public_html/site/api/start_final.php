@@ -4,7 +4,11 @@ $checkfile = "site/api/".$required_sl_values["method"]."/".$required_sl_values["
 if(file_exists($checkfile) == true)
 {
     // $reseller, $object_owner_avatar, $owner_override, $region, $object
-    include("site/lang/api/".$required_sl_values["method"]."/".$site_lang.".php");
+    $lang_file = "site/lang/api/".$required_sl_values["method"]."/".$site_lang.".php";
+    if(file_exists($lang_file) == true)
+    {
+        include($lang_file);
+    }
     include($checkfile);
 }
 else
