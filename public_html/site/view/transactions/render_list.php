@@ -1,5 +1,9 @@
 <?php
 $table_head = array("id","Transaction UID","Client","Package","Region","Amount","Datetime","Mode");
+if($session->get_ownerlevel() == 1)
+{
+    $table_head[] = "Remove";
+}
 $table_body = array();
 foreach($transaction_set->get_all_ids() as $transaction_id)
 {
@@ -29,6 +33,10 @@ foreach($transaction_set->get_all_ids() as $transaction_id)
     $entry[] = date('l jS \of F Y h:i:s A',$transaction->get_unixtime());
     if($transaction->get_renew() == 1) $entry[] = "Renew";
     else $entry[] = "New";
+    if($session->get_ownerlevel() == 1)
+    {
+        $entry[] = "<a href=\"[[url_base]]transactions/remove/".$transaction->get_transaction_uid()."\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><i class=\"fas fa-minus-circle\"></i></button></a>";
+    }
     $table_body[] = $entry;
 }
 echo render_datatable($table_head,$table_body);
