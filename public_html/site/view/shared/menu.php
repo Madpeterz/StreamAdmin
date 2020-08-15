@@ -10,6 +10,11 @@ $menu_items = array(
         "target" => "client",
         "active_on" => array("client"),
     ),
+    "Reports" => array(
+        "icon" => "fas fa-balance-scale-right",
+        "target" => "reports",
+        "active_on" => array("reports"),
+    ),
     "Outbox" => array(
         "icon" => "fas fa-mail-bulk",
         "target" => "outbox",

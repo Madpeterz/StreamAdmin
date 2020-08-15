@@ -22,3 +22,16 @@
 {
     color: #45a7f7;
 }
+
+.reports-gain
+{
+    color: #31b310;
+}
+.reports-loss
+{
+    color: #fc4103;
+}
+.reports-best
+{
+    color: #2b66c4;
+}
