@@ -6,6 +6,7 @@ $lang = array(
 
     "renew.dt.error.1" => "Sorry unable to find your client account, if you feel this is in error please contact support",
     "renew.dt.error.2" => "Oh dear something has gone wrong please try again later",
+    "renew.dt.error.2.banned" => "Oh dear something has gone wrong please try again later",
     "renew.dt.error.3" => "There does not seem to be any rentals attached to your account right now",
     "renew.dt.info.1" => "Unable to find any active rentals on your account, if you feel this is in error please contact support",
     "renew.dt.info.2" => "Cleint account: %1\$s",
@@ -16,6 +17,7 @@ $lang = array(
     "renew.rn.error.4" => "Sorry the amount is not accepted",
     "renew.rn.error.5" => "Sorry unable to start a transaction for this payment",
     "renew.rn.error.6" => "Unable to update client time remaining",
+    "renew.rn.error.6.banned" => "Unable to update client time remaining",
     "renew.rn.error.7" => "Unable to find/create avatar to link to transaction",
     "renew.rn.error.8" => "Unable to create payment transaction",
     "renew.rn.error.9" => "Unable to finish setting up events please try again later or contact support",

@@ -22,6 +22,7 @@ $lang = array(
     // buy/startrental
     "buy.sr.error.1" => "Unable to find package with matching uid",
     "buy.sr.error.2" => "Sorry the package appears to be out of stock",
+    "buy.sr.error.2.banned" => "Sorry the package appears to be out of stock",
     "buy.sr.error.3" => "Unable to attach avatar to system",
     "buy.sr.error.4" => "Unable to assign a transaction uid",
     "buy.sr.error.5" => "Not a vaild payment amount",

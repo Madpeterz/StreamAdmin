@@ -28,6 +28,7 @@ if($all_ok == true)
         $config_areas["R4 import"] = "import";
         $config_areas["Bot"] = "bot";
         $config_areas["Staff"] = "staff";
+        $config_areas["Banlist"] = "banlist";
     }
     $template_parts["page_actions"] = "";
     $template_parts["html_title"] = "Config";

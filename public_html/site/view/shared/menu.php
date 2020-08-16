@@ -43,7 +43,7 @@ $menu_items = array(
     "Config" => array(
         "icon" => "fas fa-cogs",
         "target" => "config",
-        "active_on" => array("config","template","slconfig","textureconfig","avatar","transactions","staff","notice","objects","server"),
+        "active_on" => array("banlist","config","template","slconfig","textureconfig","avatar","transactions","staff","notice","objects","server"),
     ),
 );
 

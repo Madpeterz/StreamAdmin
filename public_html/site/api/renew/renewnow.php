@@ -68,79 +68,87 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                         if($get_av_status == true)
                         {
                             $avatar = $avatar_helper->get_avatar();
-                            $transaction->set_field("avatarlink",$avatar->get_id());
-                            $transaction->set_field("packagelink",$package->get_id());
-                            $transaction->set_field("streamlink",$stream->get_id());
-                            $transaction->set_field("resellerlink",$reseller->get_id());
-                            $transaction->set_field("regionlink",$region->get_id());
-                            $transaction->set_field("amount",$amountpaid);
-                            $transaction->set_field("unixtime",time());
-                            $transaction->set_field("transaction_uid",$uid_transaction["uid"]);
-                            $transaction->set_field("renew",1);
-                            $create_status = $transaction->create_entry();
-                            if($create_status["status"] == true)
+                            $banlist = new banlist();
+                            if($banlist->load_by_field("avatar_link",$avatar->get_id()) == false)
                             {
-                                if($owner_override == false)
+                                $transaction->set_field("avatarlink",$avatar->get_id());
+                                $transaction->set_field("packagelink",$package->get_id());
+                                $transaction->set_field("streamlink",$stream->get_id());
+                                $transaction->set_field("resellerlink",$reseller->get_id());
+                                $transaction->set_field("regionlink",$region->get_id());
+                                $transaction->set_field("amount",$amountpaid);
+                                $transaction->set_field("unixtime",time());
+                                $transaction->set_field("transaction_uid",$uid_transaction["uid"]);
+                                $transaction->set_field("renew",1);
+                                $create_status = $transaction->create_entry();
+                                if($create_status["status"] == true)
                                 {
-                                    $avatar_system = new avatar();
-                                    if($avatar_system->load($slconfig->get_owner_av()) == true)
+                                    if($owner_override == false)
                                     {
-                                        $status = true;
-                                        $one_p = floor($amountpaid / 100);
-                                        $reseller_cut = $one_p * $reseller->get_rate();
-                                        $left_over = $amountpaid - $reseller_cut;
-                                        $reply["owner_payment"] = 1;
-                                        $reply["owner_payment_amount"] = $left_over;
-                                        $reply["owner_payment_uuid"] = $avatar_system->get_avataruuid();
+                                        $avatar_system = new avatar();
+                                        if($avatar_system->load($slconfig->get_owner_av()) == true)
+                                        {
+                                            $status = true;
+                                            $one_p = floor($amountpaid / 100);
+                                            $reseller_cut = $one_p * $reseller->get_rate();
+                                            $left_over = $amountpaid - $reseller_cut;
+                                            $reply["owner_payment"] = 1;
+                                            $reply["owner_payment_amount"] = $left_over;
+                                            $reply["owner_payment_uuid"] = $avatar_system->get_avataruuid();
+                                        }
+                                        else
+                                        {
+                                            echo $lang["renew.rn.error.10"];
+                                        }
                                     }
                                     else
                                     {
-                                        echo $lang["renew.rn.error.10"];
+                                        $status = true;
+                                        $reply["owner_payment"] = 0;
+                                    }
+                                    if($status == true)
+                                    {
+                                        if($rental->get_expireunixtime() > time())
+                                        {
+                                            $all_ok = true;
+                                            if($slconfig->get_eventstorage() == true)
+                                            {
+                                                $event = new event();
+                                                $event->set_field("avatar_uuid",$avatar->get_avataruuid());
+                                                $event->set_field("avatar_name",$avatar->get_avatarname());
+                                                $event->set_field("rental_uid",$rental->get_rental_uid());
+                                                $event->set_field("package_uid",$package->get_package_uid());
+                                                $event->set_field("event_renew",true);
+                                                $event->set_field("unixtime",time());
+                                                $event->set_field("expire_unixtime",$rental->get_expireunixtime());
+                                                $event->set_field("port",$stream->get_port());
+                                                $create_status = $event->create_entry();
+                                                if($create_status["status"] == false)
+                                                {
+                                                    $status = false;
+                                                    $all_ok = false;
+                                                    echo $lang["renew.rn.error.9"];
+                                                }
+                                            }
+                                            if($all_ok == true)
+                                            {
+                                                echo sprintf($lang["renew.rn.info.2"],timeleft_hours_and_days($rental->get_expireunixtime()));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            echo $lang["renew.rn.info.1"];
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    $status = true;
-                                    $reply["owner_payment"] = 0;
-                                }
-                                if($status == true)
-                                {
-                                    if($rental->get_expireunixtime() > time())
-                                    {
-                                        $all_ok = true;
-                                        if($slconfig->get_eventstorage() == true)
-                                        {
-                                            $event = new event();
-                                            $event->set_field("avatar_uuid",$avatar->get_avataruuid());
-                                            $event->set_field("avatar_name",$avatar->get_avatarname());
-                                            $event->set_field("rental_uid",$rental->get_rental_uid());
-                                            $event->set_field("package_uid",$package->get_package_uid());
-                                            $event->set_field("event_renew",true);
-                                            $event->set_field("unixtime",time());
-                                            $event->set_field("expire_unixtime",$rental->get_expireunixtime());
-                                            $event->set_field("port",$stream->get_port());
-                                            $create_status = $event->create_entry();
-                                            if($create_status["status"] == false)
-                                            {
-                                                $status = false;
-                                                $all_ok = false;
-                                                echo $lang["renew.rn.error.9"];
-                                            }
-                                        }
-                                        if($all_ok == true)
-                                        {
-                                            echo sprintf($lang["renew.rn.info.2"],timeleft_hours_and_days($rental->get_expireunixtime()));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo $lang["renew.rn.info.1"];
-                                    }
+                                    echo $lang["renew.rn.error.8"];
                                 }
                             }
                             else
                             {
-                                echo $lang["renew.rn.error.8"];
+                                echo $lang["renew.rn.error.6.banned"];
                             }
                         }
                         else
