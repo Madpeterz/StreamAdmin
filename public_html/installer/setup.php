@@ -46,7 +46,7 @@ if(defined("correct") == false) {die("Error");}
                                 {
                                     $sql->sqlSave(true);
                                     ?>
-                                    <a href="updates"><button class="btn btn-primary btn-block" type="button">Apply updates</button></a>
+                                    <a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>
                                     <?php
                                 }
                                 else
@@ -139,8 +139,8 @@ if(defined("correct") == false) {die("Error");}
             </div>
             </form>
             <br/>
+            <br/><br/><br/><hr/><p>Do not use this option unless told to!</p>
             <a href="final"><button class="btn btn-warning btn-block" type="button">Skip setup goto final</button></a><br/>
-            <a href="patch"><button class="btn btn-danger btn-block" type="button">Install dev patch</button></a>
         </div>
     </div>
 <?php
