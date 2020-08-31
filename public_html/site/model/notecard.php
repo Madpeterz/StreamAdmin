@@ -22,6 +22,8 @@
 		protected $dataset = array(
 			"id" => array("type"=>"int","value"=>null),
 			"rentallink" => array("type"=>"int","value"=>null),
+			"as_notice" => array("type"=>"bool","value"=>0),
+			"noticelink" => array("type"=>"int","value"=>null),
 		);
 		public function get_id() : ?int
 		{
@@ -30,6 +32,14 @@
 		public function get_rentallink() : ?int
 		{
 			return $this->get_field("rentallink");
+		}
+		public function get_as_notice() : ?bool
+		{
+			return $this->get_field("as_notice");
+		}
+		public function get_noticelink() : ?int
+		{
+			return $this->get_field("noticelink");
 		}
 	}
 ?>

@@ -15,7 +15,7 @@
 			return parent::get_first();
 		}
 	}
-
+	
 	class slconfig extends genClass
 	{
 		protected $use_table = "slconfig";
@@ -25,9 +25,11 @@
 			"new_resellers" => array("type"=>"bool","value"=>0),
 			"new_resellers_rate" => array("type"=>"int","value"=>0),
 			"sllinkcode" => array("type"=>"str","value"=>null),
+			"clients_list_mode" => array("type"=>"bool","value"=>0),
 			"publiclinkcode" => array("type"=>"str","value"=>null),
 			"owner_av" => array("type"=>"int","value"=>null),
 			"eventstorage" => array("type"=>"bool","value"=>0),
+			"datatable_itemsperpage" => array("type"=>"int","value"=>10),
 			"http_inbound_secret" => array("type"=>"str","value"=>null),
 			"smtp_host" => array("type"=>"str","value"=>null),
 			"smtp_port" => array("type"=>"int","value"=>null),
@@ -56,6 +58,10 @@
 		{
 			return $this->get_field("sllinkcode");
 		}
+		public function get_clients_list_mode() : ?bool
+		{
+			return $this->get_field("clients_list_mode");
+		}
 		public function get_publiclinkcode() : ?string
 		{
 			return $this->get_field("publiclinkcode");
@@ -67,6 +73,10 @@
 		public function get_eventstorage() : ?bool
 		{
 			return $this->get_field("eventstorage");
+		}
+		public function get_datatable_itemsperpage() : ?int
+		{
+			return $this->get_field("datatable_itemsperpage");
 		}
 		public function get_http_inbound_secret() : ?string
 		{

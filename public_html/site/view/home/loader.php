@@ -118,16 +118,7 @@ $sub_grid_objects->add_content(render_table($table_head,$table_body),12);
 $main_grid = new grid();
 if(file_exists("versions/sql/".$slconfig->get_db_version().".sql") == true)
 {
-    if($session->get_ownerlevel() == 1)
-    {
-        $main_grid->add_content("<br/><a href=\"[[url_base]]update\"><button class=\"btn btn-danger btn-block\" type=\"button\">Update now</button></a>",12);
-        $main_grid->close_row();
-        $main_grid->add_content("Please make sure you have backed up the database before updating!<br/>",12);
-    }
-    else
-    {
-        $main_grid->add_content("DB update required <br/> required perm missing",12);
-    }
+    $main_grid->add_content("DB update required <br/> please run \"versions/sql/".$slconfig->get_db_version().".sql\"",12);
 }
 if(file_exists("versions/about/".$slconfig->get_db_version().".txt") == true)
 {

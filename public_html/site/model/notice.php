@@ -24,6 +24,8 @@
 			"name" => array("type"=>"str","value"=>null),
 			"immessage" => array("type"=>"str","value"=>null),
 			"usebot" => array("type"=>"bool","value"=>0),
+			"send_notecard" => array("type"=>"bool","value"=>0),
+			"notecarddetail" => array("type"=>"str","value"=>null),
 			"hoursremaining" => array("type"=>"int","value"=>0),
 		);
 		public function get_id() : ?int
@@ -41,6 +43,14 @@
 		public function get_usebot() : ?bool
 		{
 			return $this->get_field("usebot");
+		}
+		public function get_send_notecard() : ?bool
+		{
+			return $this->get_field("send_notecard");
+		}
+		public function get_notecarddetail() : ?string
+		{
+			return $this->get_field("notecarddetail");
 		}
 		public function get_hoursremaining() : ?int
 		{
