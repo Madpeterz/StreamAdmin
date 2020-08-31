@@ -36,11 +36,17 @@ if(defined("correct") == false) {die("Error");}
                                 $siteconfigok = true;
                                 if($input->postFilter("domain") != "skip")
                                 {
-                                    $content = file_get_contents("site/config/site.php");
+$content = '<?php
+$site_theme = "streamadminr5";
+$site_lang = "en";
+$template_parts["html_title"] = " Page ";
+$template_parts["html_title_after"] = "[[INSTALL_SITE_NAME]]";
+$template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
+?>';
                                     $content = str_replace("[[INSTALL_SITE_NAME]]",$input->postFilter("sitename"),$content);
                                     $content = str_replace("[[INSTALL_SITE_URI]]",$input->postFilter("domain"),$content);
-                                    unlink("site/config/site.php");
-                                    file_put_contents("site/config/site.php",$content);
+                                    if(file_exists("site/config/site_installed.php") == true) unlink("site/config/site_installed.php");
+                                    file_put_contents("site/config/site_installed.php",$content);
                                 }
                                 if($siteconfigok == true)
                                 {
