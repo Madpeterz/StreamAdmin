@@ -46,5 +46,13 @@ if(count($current) != 0)
     $current[] = " ";
     $table_body[] = $current;
 }
-echo render_table($table_head,$table_body);
+$tableout = render_table($table_head,$table_body);
+if(defined("swaps_table_paged") == true)
+{
+    $pages["Swaps"] = $tableout;
+}
+else
+{
+    echo $tableout;
+}
 ?>
