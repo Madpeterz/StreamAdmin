@@ -31,7 +31,8 @@ foreach($objects_set->get_all_ids() as $object_id)
         $entry[] = $bits[1];
     }
     $entry[] = date('l jS \of F Y h:i:s A',$object->get_lastseen());
-    $entry[] = $region->get_name();
+    $tp_url = urlencode("http://maps.secondlife.com/secondlife/".$region->get_name()."/".implode("/",explode(",",$object->get_objectxyz()))."");
+    $entry[] = "<a href=\"".$tp_url."\" target=\"_blank\">".$region->get_name()."</a>";
     $entry[] = $object->get_objectmode();
     $entry[] = $avatar->get_avatarname();
     $table_body[] = $entry;
