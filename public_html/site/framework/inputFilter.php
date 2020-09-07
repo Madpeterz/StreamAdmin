@@ -1,35 +1,89 @@
 <?php
-class inputFilter
+class inputFilter extends error_logging
 {
 	protected $failure = FALSE;
 	protected $testOK = TRUE;
+	protected $whyfailed = "";
+
+	public function get_why_failed()
+	{
+		return $this->whyfailed;
+	}
+
+	public function postFilter(string $inputName,string $filter="string",array $args = array(), $default = null)
+	{
+		$this->failure = FALSE;
+		$this->whyfailed = "";
+		$value = null;
+		if(isset($_POST[$inputName]))
+		{
+			if(in_array($filter,array("array")) == false) $value = stripslashes($_POST[$inputName]);
+			else $value = $_POST[$inputName];
+			if($this->whyfailed != "") $this->addError(__FILE__,__FUNCTION__,$this->whyfailed);
+			return $this->valueFilter($value, $filter, $args);
+		}
+		else
+		{
+			$this->failure = TRUE;
+			$this->whyfailed = "No post value found with name: ".$inputName."";
+			return $default;
+		}
+	}
+	public function getFilter(string $inputName,string $filter="string",array $args = array(), $default = null)
+	{
+		$this->failure = FALSE;
+		$this->whyfailed = "";
+		$value = null;
+		if(isset($_GET[$inputName]))
+		{
+			$value = $_GET[$inputName];
+			if($this->whyfailed != "") $this->addError(__FILE__,__FUNCTION__,$this->whyfailed);
+			return $this->valueFilter($value, $filter, $args);
+		}
+		else
+		{
+			$this->failure = TRUE;
+			$this->whyfailed = "No get value found with name: ".$inputName."";
+			return $default;
+		}
+	}
+
 	protected function valueFilter($value=null,string $filter,array $args = array())
 	{
+		$this->failure = false;
 		if($value != null)
 		{
-			$this->testOK = TRUE;
-			if($filter == "string") $value = $this->filter_string($value, $args);
-			else if($filter == "integer") $value = $this->filter_integer($value, $args);
-			else if(($filter == "double") || ($filter == "float")) $value = $this->filter_float($value, $args);
-			else if($filter == "checkbox") $value = $this->filter_checkbox($value, $args);
-			else if($filter == "bool") $value = $this->filter_bool($value, $args);
-			else if(($filter == "uuid") || ($filter == "key")) $value = $this->filter_uuid($value, $args);
-			else if($filter == "vector") $value = $this->filter_vector($value, $args);
-			else if($filter == "date") $value = $this->filter_date($value, $args);
-			else if($filter == "email") $value = $this->filter_email($value, $args);
-			else if($filter == "url") $value = $this->filter_url($value, $args);
-			else if($filter == "color") $value = $this->filter_color($value, $args);
-            else if($filter == "trueFalse") $value = $this->filter_trueFalse($value);
-			else if($filter == "json") $value = $this->filter_json($value);
-			else if($filter == "array") $value = $this->filter_array($value, $args);
-			if($value !== null) return $value;
-			$failure = true;
+			if(is_string($value) == true)
+			{
+				$this->testOK = TRUE;
+				if($filter == "string") $value = $this->filter_string($value, $args);
+				else if($filter == "integer") $value = $this->filter_integer($value, $args);
+				else if(($filter == "double") || ($filter == "float")) $value = $this->filter_float($value, $args);
+				else if($filter == "checkbox") $value = $this->filter_checkbox($value, $args);
+				else if($filter == "bool") $value = $this->filter_bool($value, $args);
+				else if(($filter == "uuid") || ($filter == "key")) $value = $this->filter_uuid($value, $args);
+				else if($filter == "vector") $value = $this->filter_vector($value, $args);
+				else if($filter == "date") $value = $this->filter_date($value, $args);
+				else if($filter == "email") $value = $this->filter_email($value, $args);
+				else if($filter == "url") $value = $this->filter_url($value, $args);
+				else if($filter == "color") $value = $this->filter_color($value, $args);
+	            else if($filter == "trueFalse") $value = $this->filter_trueFalse($value);
+				else if($filter == "json") $value = $this->filter_json($value);
+				else if($filter == "array") $value = $this->filter_array($value, $args);
+				if($value !== null) return $value;
+				$this->failure = TRUE;
+			}
+			else
+			{
+				$value = null;
+				$this->whyfailed = "Type error expected a string but got somthing else";
+			}
 		}
 		else
 		{
 			$this->failure = TRUE;
 		}
-		if($this->failure)
+		if($this->failure == true)
 		{
 			if($filter == "checkbox") return 0;
             else if($filter == "trueFalse") return 0;
@@ -43,37 +97,6 @@ class inputFilter
 	$filter (default: string):
 		string,integer,double|float,checkbox,bool,uuid|key,vector,date,email,url,color,trueFalse,json
 	*/
-	public function postFilter(string $inputName,string $filter="string",array $args = array(), $default = null)
-	{
-		$this->failure = FALSE;
-		$value = null;
-		if(isset($_POST[$inputName]))
-		{
-			if(in_array($filter,array("array")) == false) $value = stripslashes($_POST[$inputName]);
-			else $value = $_POST[$inputName];
-			return $this->valueFilter($value, $filter, $args);;
-		}
-		else
-		{
-			$this->failure = TRUE;
-			return $default;
-		}
-	}
-	public function getFilter(string $inputName,string $filter="string",array $args = array(), $default = null)
-	{
-		$this->failure = FALSE;
-		$value = null;
-		if(isset($_GET[$inputName]))
-		{
-			$value = $_GET[$inputName];
-			return $this->valueFilter($value, $filter, $args);
-		}
-		else
-		{
-			$this->failure = TRUE;
-			return $default;
-		}
-	}
 	protected function filter_array($value) : ?array
 	{
 		// used by groupped inputs
@@ -83,6 +106,7 @@ class inputFilter
 		}
 		else
 		{
+			$this->whyfailed = "not an array";
 			return null;
 		}
 	}
@@ -90,16 +114,38 @@ class inputFilter
 	{
 		$this->failure = FALSE;
 		$this->testOK = TRUE;
-		if(array_key_exists("minLength", $args))
+		if((array_key_exists("maxLength", $args) == true) && (array_key_exists("minLength", $args)  == true))
 		{
-			if(strlen($value) < $args["minLength"]) $this->testOK = FALSE;
+			if($args["minLength"] > $args["maxLength"])
+			{
+				$this->whyfailed = "Length values are mixed up";
+				$this->testOK = FALSE;
+			}
 		}
-		if(array_key_exists("maxLength", $args))
+		if($this->testOK)
 		{
-			if(strlen($value) > $args["maxLength"]) $this->testOK = FALSE;
+			if(array_key_exists("minLength", $args) == true)
+			{
+				if(strlen($value) < $args["minLength"])
+				{
+					$this->whyfailed = "Failed min length check";
+					$this->testOK = FALSE;
+				}
+			}
+			if(array_key_exists("maxLength", $args) == true)
+			{
+				if(strlen($value) > $args["maxLength"])
+				{
+					$this->whyfailed = "Failed max length check";
+					$this->testOK = FALSE;
+				}
+			}
 		}
-		if($this->testOK) return $value;
-		else return null;
+		if($this->testOK)
+		{
+			return $value;
+		}
+		return null;
 	}
 	protected function filter_integer(string $value,array $args=array()) : ?int
 	{
@@ -107,33 +153,56 @@ class inputFilter
 		$this->testOK = TRUE;
 		if(array_key_exists("zeroCheck", $args))
 		{
-			if($value == "0") $this->testOK = FALSE;
+			if($value == "0")
+			{
+				$this->testOK = FALSE;
+				$this->whyfailed = "Zero value detected";
+			}
 		}
 		if(is_numeric($value))
 		{
 			$testValue = intval($value);
 			if(array_key_exists("gtr0", $args))
 			{
-				if($testValue <= 0) $this->testOK = false;
+				if($testValue <= 0)
+				{
+					$this->testOK = false;
+					$this->whyfailed = "Value must be more than zero";
+				}
 			}
 			if($this->testOK) return $testValue;
 		}
+		else
+		{
+			$this->whyfailed = "Not a number";
+		}
 		return null;
 	}
-	protected function filter_float(string $value,array $args=array()) : ?float
+	protected function filter_float(string $value,array $args=array()) : ?double
+	{
+		return $this->filter_double($value,$args);
+	}
+	protected function filter_double(string $value,array $args=array()) : ?double
     {
         $this->failure = FALSE;
         $this->testOK = TRUE;
-        $value = floatval($value);
-        if(array_key_exists("zeroCheck", $args))
+        if(is_double($value))
         {
-            if($value == "0") $this->testOK = FALSE;
+			$value = doubleval($value);
+	        if(array_key_exists("zeroCheck", $args))
+	        {
+				if($value == "0")
+				{
+					$this->testOK = FALSE;
+					$this->whyfailed = "Zero value detected";
+				}
+	        }
+            if($this->testOK) return $value;
         }
-        if(is_float($value))
-        {
-            error_log("asdasd");
-            if($this->testOK) return floatval($value);
-        }
+		else
+		{
+			$this->whyfailed = "Not a double";
+		}
         return null;
     }
 	protected function filter_checkbox(string $value,array $args=array())
@@ -206,13 +275,28 @@ class inputFilter
 	{
 		$this->failure = FALSE;
 		$this->testOK = TRUE;
-		if(strlen($value) == 36) return $value;
+		if(strlen($value) == 36)
+		{
+			$m = 0;
+			if(preg_match('/[a-f0-9]{8}\-[a-f0-9]{4}\-4[a-f0-9]{3}\-(8|9|a|b)[a-f0-9]{3}\-[a-f0-9]{12}/', $value, $m) == true)
+			{
+				return $value;
+			}
+			else
+			{
+				$this->whyfailed = "Not a vaild UUID4";
+			}
+		}
+		else
+		{
+			$this->whyfailed = "Incorrect uuid length";
+		}
 		return null;
 	}
 	protected function filter_vector(string $value,array $args=array())
 	{
 		$this->failure = FALSE;
-		$this->testOK = TRUE;
+		$this->testOK = FALSE;
 		$vectorTest = explode(",", str_replace(array("<", " ", ">", "(", ")"), "", $value));
 		if(count($vectorTest) == 3)
 		{
@@ -222,13 +306,27 @@ class inputFilter
 				{
 					if((substr_count($value, '<') != 1) || (substr_count($value, '>') != 1))
 					{
-						$this->testOK = FALSE;
+						$this->whyfailed = "Strict mode: Required <  & > Missing";
+					}
+					else
+					{
+						$this->testOK = TRUE;
 					}
 				}
+				else
+				{
+					$this->testOK = TRUE;
+				}
 			}
-			else $this->testOK = FALSE;
+			else
+			{
+				$this->whyfailed = "the 3 Parts required to be floats or integers. example: 42.4,33,415.11";
+			}
 		}
-		else $this->testOK = FALSE;
+		else
+		{
+			$this->whyfailed = "Require 3 parts split with , example: 23,42,55";
+		}
 		if($this->testOK)
 		{
 			if(function_exists("llString2Vector"))
@@ -245,16 +343,33 @@ class inputFilter
 	}
 	protected function filter_date(string $value,array $args=array())
 	{
+		// Expected format MM/DD/YYYY
 		$this->failure = FALSE;
 		$this->testOK = TRUE;
 		$timeTest = explode("/", stl_replace(" ", "", $value));
 		if(count($timeTest) == 3)
 		{
-			if(($timeTest[0] < 1) || ($timeTest[0] > 12)) $this->testOK = FALSE;
-			if(($timeTest[1] < 1) || ($timeTest[1] > 31)) $this->testOK = FALSE;
-			if(($timeTest[2] < 1970) || ($timeTest[2] > 2999)) $this->testOK = FALSE;
+			if(($timeTest[0] < 1) || ($timeTest[0] > 12))
+			{
+				$this->whyfailed = "Month out of range";
+				$this->testOK = FALSE;
+			}
+			else if(($timeTest[1] < 1) || ($timeTest[1] > 31))
+			{
+				$this->whyfailed = "Day out of range";
+				$this->testOK = FALSE;
+			}
+			else if(($timeTest[2] < 1970) || ($timeTest[2] > 2999))
+			{
+				$this->whyfailed = "Year out of range";
+				$this->testOK = FALSE;
+			}
 		}
-		else $this->testOK = FALSE;
+		else
+		{
+			$this->testOK = FALSE;
+			$this->whyfailed = "Year out of range";
+		}
 		if($this->testOK)
 		{
 			$unix = strtotime(implode('/', $timeTest));
@@ -270,8 +385,15 @@ class inputFilter
 		$this->testOK = TRUE;
 		if(in_array("no_mailboxs",$args) == true)
 		{
-			// fails on ALOT of vaild email addresses.
-			if(filter_var($value, FILTER_VALIDATE_EMAIL) !== false) return $value;
+			// fails on ALOT of vaild email addresses. but much faster
+			if(filter_var($value, FILTER_VALIDATE_EMAIL) !== false)
+			{
+				return $value;
+			}
+			else
+			{
+				$this->whyfailed = "Does not appeat to be a vaild EMAIL (No mailboxs supported)";
+			}
 			return null;
 		}
 		else
@@ -295,9 +417,17 @@ class inputFilter
 				{
 					if($mailbox_value != "") $value = "".$local_value."+".$mailbox_value."@".$domain_value."";
 				}
-				else $allowed = false;
+				else
+				{
+					$this->whyfailed = "Failed vaildation after removing mailbox";
+					$allowed = false;
+				}
 			}
-			else $allowed = false;
+			else
+			{
+				$this->whyfailed = "Required @ missing";
+				$allowed = false;
+			}
 			if($allowed == true) return $value;
 			return null;
 		}
@@ -311,13 +441,27 @@ class inputFilter
 		{
 			if(array_key_exists("isHTTP", $args))
 			{
-				if(substr_count('http:', $value) == 1) return $value;
-				else $this->testOK = FALSE;
+				if(substr_count('http:', $value) == 1)
+				{
+					return $value;
+				}
+				else
+				{
+					$this->whyfailed = "Requires HTTP protocall but failed that check.";
+					$this->testOK = FALSE;
+				}
 			}
 			else if(array_key_exists("isHTTPS", $args))
 			{
-				if(substr_count('https:', $value) == 1) return $value;
-				else $this->testOK = FALSE;
+				if(substr_count('https:', $value) == 1)
+				{
+					return $value;
+				}
+				else
+				{
+					$this->whyfailed = "Requires HTTPS protocall but failed that check.";
+					$this->testOK = FALSE;
+				}
 			}
             else return $value;
 		}
@@ -416,8 +560,19 @@ class inputFilter
 	}
     protected function filter_trueFalse(string $value) : int
     {
-        if(($value === true) || (strtolower($value) === "true") || ($value === 1)) return 1;
-        return 0;
+        if(($value === true) || (strtolower($value) === "true") || ($value === 1))
+		{
+			return 1;
+		}
+		else if(($value === false) || (strtolower($value) === "false") || ($value === 0))
+		{
+			return 0;
+		}
+		else
+		{
+			$this->whyfailed = "Unable to check state value";
+			return null;
+		}
     }
 	protected function filter_json(string $value) : ?string
 	{
