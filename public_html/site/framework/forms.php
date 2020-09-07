@@ -203,19 +203,29 @@ class form
         $this->mygrid->add_content(' rows="5">'.$value.'</textarea>@NL@');
         $this->end_field();
     }
-    public function text_input(string $name,string $label,int $max_length,?string $value,string $placeholder,string $mask="")
+    public function text_input(string $name,string $label,int $max_length,?string $value,string $placeholder,string $mask="",string $mode="text")
     {
-        $this->enable_grid_render();
-        $this->add_label($label,$name);
-        $this->start_field();
-        $this->mygrid->add_content('<input type="text" class="form-control" name="'.$name.'"');
+        if($mode != "hidden")
+        {
+            $this->enable_grid_render();
+            $this->add_label($label,$name);
+            $this->start_field();
+        }
+        $this->mygrid->add_content('<input type="'.$mode.'" class="form-control" name="'.$name.'"');
         $this->mygrid->add_content(' value="'.$value.'" placeholder="'.$placeholder.'" '.$this->required_addon().'');
         $this->mygrid->add_content(' >@NL@');
-        $this->end_field();
+        if($mode != "hidden")
+        {
+            $this->end_field();
+        }
     }
     public function uuid_input(string $name,string $label,?string $value,string $placeholder)
     {
         $this->text_input($name,$label,36,$value,$placeholder,"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+    }
+    public function hidden_input(string $name,?string $value)
+    {
+        $this->text_input($name,$name,strlen($value),$value,"","","hidden");
     }
     public function number_input(string $name,string $label,?int $value,int $max_length,string $placeholder)
     {
