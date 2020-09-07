@@ -1,53 +1,65 @@
+var ajax_busy = false;
 $( document ).ready(function() {
     $(".ajax").submit(function(e) {
         e.preventDefault();
-        var form = $(this);
-        var url = form.attr('action');
-        var method = form.attr('method');
-        $.ajax({
-               type: method,
-               url: url,
-               data: form.serialize(),
-               success: function(data)
-               {
-                   try
+        if(ajax_busy == false)
+        {
+            ajax_busy = true;
+            var form = $(this);
+            var url = form.attr('action');
+            var method = form.attr('method');
+            $.ajax({
+                   type: method,
+                   url: url,
+                   data: form.serialize(),
+                   success: function(data)
                    {
-                       jsondata = JSON.parse(data);
-                       var redirectdelay = 1500;
-                       if(jsondata.hasOwnProperty('status'))
+                       try
                        {
-                           if(jsondata.hasOwnProperty('message'))
+                           jsondata = JSON.parse(data);
+                           var redirectdelay = 1500;
+                           if(jsondata.hasOwnProperty('status'))
                            {
-                               if(jsondata.status == true)
+                               if(jsondata.hasOwnProperty('message'))
                                {
-                                   if(jsondata.message != "") alert_success(jsondata.message);
+                                   if(jsondata.status == true)
+                                   {
+                                       if(jsondata.message != "") alert_success(jsondata.message);
+                                   }
+                                   else
+                                   {
+                                       redirectdelay = 3500;
+                                       if(jsondata.message != "") alert_warning(jsondata.message);
+                                   }
+                               }
+                               if(jsondata.hasOwnProperty('redirect'))
+                               {
+                                   setTimeout(function(){ $(location).attr('href', jsondata.redirect) }, redirectdelay);
                                }
                                else
                                {
-                                   redirectdelay = 3500;
-                                   if(jsondata.message != "") alert_warning(jsondata.message);
+                                   setTimeout(function(){ ajax_busy=false }, 1000);
                                }
                            }
-                           if(jsondata.hasOwnProperty('redirect'))
+                           else
                            {
-                               setTimeout(function(){ $(location).attr('href', jsondata.redirect) }, redirectdelay);
+                               alert_error("Reply from server is not vaild please reload the page and try again.");
+                               setTimeout(function(){ ajax_busy=false }, 1000);
                            }
                        }
-                       else
+                       catch(e)
                        {
-                           alert_error("Reply from server is not vaild please reload the page and try again.");
+                           alert_warning("Unable to process reply, please reload the page and try again!");
+                           setTimeout(function(){ ajax_busy=false }, 1000);
                        }
-                   }
-                   catch(e)
+                   },
+                   error: function (data)
                    {
-                       alert_warning("Unable to process reply, please reload the page and try again!");
+                       alert_error(data);
+                       setTimeout(function(){ ajax_busy=false }, 1000);
                    }
-               },
-               error: function (data)
-               {
-                   alert_error(data);
-               }
-        });
+            });
+        }
     });
 });
 
