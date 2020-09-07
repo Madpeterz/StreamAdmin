@@ -69,7 +69,7 @@ if(strlen($message) >= 10)
                 $form->hidden_input("source",$page);
                 $form->hidden_input("source_id",$source_id);
 
-                $table_head = array("id","X","Name");
+                $table_head = array("X","Name");
                 $table_body = array();
 
                 $banned_ids = $banlist_set->get_all_by_field("avatarlink");
@@ -79,14 +79,13 @@ if(strlen($message) >= 10)
                     {
                         $avatar = $avatar_set->get_object_by_id($avatar_id);
                         $entry = array();
-                        $entry[] = $avatar->get_id();
                         $entry[] = '<div class="checkbox"><input checked type="checkbox" id="avatarmail'.$avatar_id.'" name="avatarids[]" value="'.$avatar_id.'"></div>';
                         $entry[] = '<div class="checkbox"><label for="avatarmail'.$avatar_id.'">'.$avatar->get_avatarname().'</label></div>';
                         $table_body[] = $entry;
                     }
                 }
                 $form->col(12);
-                    $form->direct_add(render_datatable($table_head,$table_body));
+                    $form->direct_add(render_table($table_head,$table_body));
                 echo $form->render("Send to selected","success");
                 echo "<br/><hr/>Note: If an avatar has multiple streams that match the selected filter source the first rental will be used.";
             }
