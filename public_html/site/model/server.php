@@ -30,6 +30,7 @@
 			"opt_autodj_next" => array("type"=>"bool","value"=>1),
 			"opt_toggle_autodj" => array("type"=>"bool","value"=>1),
 			"event_enable_start" => array("type"=>"bool","value"=>1),
+			"event_enable_renew" => array("type"=>"bool","value"=>1),
 			"event_disable_expire" => array("type"=>"bool","value"=>0),
 			"event_disable_revoke" => array("type"=>"bool","value"=>1),
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>1),
@@ -73,6 +74,10 @@
 		public function get_event_enable_start() : ?bool
 		{
 			return $this->get_field("event_enable_start");
+		}
+		public function get_event_enable_renew() : ?bool
+		{
+			return $this->get_field("event_enable_renew");
 		}
 		public function get_event_disable_expire() : ?bool
 		{
