@@ -22,7 +22,12 @@ $lang = array(
     "renew.rn.error.8" => "Unable to create payment transaction",
     "renew.rn.error.9" => "Unable to finish setting up events please try again later or contact support",
     "renew.rn.error.10" => "Unable to load system owner avatar",
+    "renew.rn.error.11" => "Unable to attach event %1\$s because: %2\$s",
+    "renew.rn.error.12" => "Unable to load server attached to stream",
+    "renew.rn.error.13" => "Unable to load api attached to server",
+
     "renew.rn.info.1" => "Payment accepted but the account is still behind and will need to be renewed again!",
     "renew.rn.info.2" => "Payment accepted there is now: %1\$s remaining",
+
 );
 ?>

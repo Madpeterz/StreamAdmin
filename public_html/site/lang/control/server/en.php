@@ -13,7 +13,7 @@ $lang = array(
     "server.cr.error.11" => "event_disable_expire not vaild",
     "server.cr.error.12" => "event_disable_revoke not vaild",
     "server.cr.error.13" => "event_reset_password_revoke not vaild",
-
+    "server.cr.error.14" => "event_enable_renew not vaild",
 
     "server.cr.info.1" => "Server created",
 
@@ -42,6 +42,7 @@ $lang = array(
     "server.up.error.13" => "event_disable_expire not vaild",
     "server.up.error.14" => "event_disable_revoke not vaild",
     "server.up.error.15" => "event_reset_password_revoke not vaild",
+    "server.up.error.16" => "event_enable_renew not vaild",
 
     "server.up.info.1" => "Server updated"
 );

@@ -4,7 +4,8 @@ $lang = array(
     "client.br.error.2" => "Error removing rental %1\$s: %2\$s",
     "client.br.error.3" => "Error releasing stream from rental %1\$s: %2\$s",
     "client.br.error.4" => "Unable to find stream attached to rental %1\$s",
-    "client.br.info.1" => "Removed %1\$s rentals!",
+    "client.br.error.5" => "Unable to find server attached to stream for rental %1\$s",
+    "client.br.info.1" => "Removed %1\$s rentals! and skipped %2\$s",
 
     "client.cr.error.1" => "avatar uid length must be 8",
     "client.cr.error.2" => "stream uid length must be 8",
@@ -26,7 +27,12 @@ $lang = array(
     "client.rm.error.6" => "Unable to load avatar",
     "client.rm.error.7" => "Unable to remove client: %1\$s",
     "client.rm.error.8" => "Unable to finish setting up events",
-    "client.rm.info.1" => "Client removed",
+    "client.rm.error.9" => "Unable to load server",
+    "client.rm.error.10" => "Unable to load api attached to server",
+    "client.rm.error.11" => "Unable to attach event %1\$s because: %2\$s",
+    "client.rm.error.12" => "Unable to check for pending api requests attached to the client",
+    "client.rm.error.13" => "There are %1\$s pending api requests attached to the client",
+    "client.rm.info.1" => "Client rental revoked",
 
     "client.up.datetime.format" => "F j, Y, g:i a",
     "client.up.error.1" => "Unable to find client",

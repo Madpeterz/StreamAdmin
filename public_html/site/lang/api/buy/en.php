@@ -1,12 +1,5 @@
 <?php
 $lang = array(
-    // bot/notecardsync
-    "bot.ncs.error.1" => "Sorry only the system owner can do notecard servers",
-    "bot.ncs.error.2" => "Unable to load bot config",
-    "bot.ncs.error.3" => "Unable to load avatar attached to bot",
-    "bot.ncs.error.4" => "Notecard service disabled",
-    "bot.ncs.error.5" => "Unable to check pending notecards",
-
     // buy/checkstock
     "buy.cs.error.1" => "Unable to find package with matching uid",
     "buy.cs.error.2" => "Unable to load package stock levels",
@@ -33,7 +26,11 @@ $lang = array(
     "buy.sr.error.10" => "Unable to add request to send details",
     "buy.sr.error.11" => "Unable to finish setting up events please try again later or contact support",
     "buy.sr.error.12" => "Unable to load system owner avatar",
-    "buy.sr.info.1" => "Transaction processed ok - your details will be sent shortly!", // Normal ok reply
-    "buy.sr.info.2" => "Transaction processed ok - your details will be sent shortly!", // Event storage ok reply
+    "buy.sr.error.13" => "Unable to load server linked to stream",
+    "buy.sr.error.14" => "Unable to load api linked to server",
+    "buy.sr.error.15" => "Unable to attach event %1\$s because: %2\$s",
+
+    "buy.sr.info.1" => "Transaction processed ok - your details will be sent shortly!",
+
 );
 ?>

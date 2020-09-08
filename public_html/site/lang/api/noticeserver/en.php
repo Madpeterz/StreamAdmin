@@ -7,6 +7,7 @@ $lang = array(
     "noticeserver.n.error.5" => "Unable to finish setting up events",
     "noticeserver.n.error.6" => "Issue processing notices: %1\$s",
     "noticeserver.n.error.7" => "Unable to create notecard \"%1\$s\"",
+    "noticeserver.n.error.8" => "Unable to attach event %1\$s because: %2\$s",
     "noticeserver.n.info.1" => "ok ~ %1\$s",
 );
 ?>
