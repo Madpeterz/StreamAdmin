@@ -111,6 +111,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                         if($rental->get_expireunixtime() > time())
                                         {
                                             $all_ok = true;
+                                            // Event storage engine
                                             if($slconfig->get_eventstorage() == true)
                                             {
                                                 $event = new event();
@@ -128,6 +129,32 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                                     $status = false;
                                                     $all_ok = false;
                                                     echo $lang["renew.rn.error.9"];
+                                                }
+                                            }
+                                            if($all_ok == true)
+                                            {
+                                                // Server API support
+                                                $server = new server();
+                                                if($server->load($stream->get_serverlink()) == true)
+                                                {
+                                                    $api = new apis();
+                                                    if($api->load($server->get_apilink()) == true)
+                                                    {
+                                                        if(($api->get_event_enable_renew() == 1) && ($server->get_event_enable_renew() == 1))
+                                                        {
+                                                            $all_ok = create_pending_api_request($server,$stream,null,"event_enable_renew",$lang["renew.rn.error.11"],true);
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        $all_ok = false;
+                                                        echo $lang["renew.rn.error.13"];
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    $all_ok = false;
+                                                    echo $lang["renew.rn.error.12"];
                                                 }
                                             }
                                             if($all_ok == true)

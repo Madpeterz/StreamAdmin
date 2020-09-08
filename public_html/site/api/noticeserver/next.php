@@ -1,7 +1,11 @@
 <?php
+$server_set = new server_set();
+$server_set->loadAll();
+$apis_set = new apis_set();
+$apis_set->loadAll();
 function process_notice_change(notice $notice)
 {
-    global $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
+    global $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
     $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
     $stream = $stream_set->get_object_by_id($rental->get_streamlink());
     $package = $package_set->get_object_by_id($stream->get_packagelink());
@@ -26,6 +30,7 @@ function process_notice_change(notice $notice)
         {
             if($notice->get_hoursremaining() == 0)
             {
+                // Event storage engine
                 if($slconfig->get_eventstorage() == true)
                 {
                     $event = new event();
@@ -42,6 +47,19 @@ function process_notice_change(notice $notice)
                     {
                         $all_ok = false;
                         $why_failed = $lang["noticeserver.n.error.5"];
+                    }
+                }
+                if($all_ok == true)
+                {
+                    // Server API support
+                    $server = $server_set->get_object_by_id($stream->get_serverlink());
+                    $api = $apis_set->get_object_by_id($server->get_apilink());
+                    if($api != null)
+                    {
+                        if(($api->get_event_disable_expire() == 1) && ($server->get_event_disable_expire() == 1))
+                        {
+                            $all_ok = create_pending_api_request($server,$stream,null,"event_disable_expire",$lang["noticeserver.n.error.8"],true);
+                        }
                     }
                 }
             }

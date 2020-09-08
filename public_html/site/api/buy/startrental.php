@@ -114,6 +114,7 @@ if($package->load_by_field("package_uid",$packageuid) == true)
                                             if($status == true)
                                             {
                                                 $all_ok = true;
+                                                // Event storage engine
                                                 if($slconfig->get_eventstorage() == true)
                                                 {
                                                     $event = new event();
@@ -132,12 +133,34 @@ if($package->load_by_field("package_uid",$packageuid) == true)
                                                         $all_ok = false;
                                                         echo $lang["buy.sr.error.11"];
                                                     }
+                                                }
+                                                if($all_ok == true)
+                                                {
+                                                    // Server API support
+                                                    $server = new server();
+                                                    if($server->load($stream->get_serverlink()) == true)
+                                                    {
+                                                        $api = new apis();
+                                                        if($api->load($server->get_apilink()) == true)
+                                                        {
+                                                            if(($api->get_event_enable_start() == 1) && ($server->get_event_enable_start() == 1))
+                                                            {
+                                                                $all_ok = create_pending_api_request($server,$stream,null,"event_enable_start",$lang["buy.sr.error.15"]);
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            $all_ok = false;
+                                                            echo $lang["buy.sr.error.14"];
+                                                        }
+                                                    }
                                                     else
                                                     {
-                                                        echo $lang["buy.sr.info.2"];
+                                                        $all_ok = false;
+                                                        echo $lang["buy.sr.error.13"];
                                                     }
                                                 }
-                                                else
+                                                if($all_ok == true)
                                                 {
                                                     echo $lang["buy.sr.info.1"];
                                                 }
