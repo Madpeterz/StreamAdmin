@@ -284,7 +284,9 @@ class inputFilter extends error_logging
 		if(strlen($value) == 36)
 		{
 			$m = 0;
-			if(preg_match('/[a-f0-9]{8}\-[a-f0-9]{4}\-4[a-f0-9]{3}\-(8|9|a|b)[a-f0-9]{3}\-[a-f0-9]{12}/', $value, $m) == true)
+			// 6a58369e-5b9d-0062-8de1-f0d841b8cbf0
+			// [a-f0-9]{8}\-[a-f0-9]{4}\--[a-f0-9]{4}\--[a-f0-9]{4}\-
+			if(preg_match('/^[a-f\d]{8}(-[a-f\d]{4}){4}[a-f\d]{8}$/i', $value, $m) == true)
 			{
 				return $value;
 			}
