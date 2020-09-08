@@ -23,6 +23,16 @@
 			"id" => array("type"=>"int","value"=>null),
 			"domain" => array("type"=>"str","value"=>null),
 			"controlpanel_url" => array("type"=>"str","value"=>null),
+			"apilink" => array("type"=>"int","value"=>1),
+			"api_username" => array("type"=>"str","value"=>null),
+			"api_password" => array("type"=>"str","value"=>null),
+			"opt_password_reset" => array("type"=>"bool","value"=>1),
+			"opt_autodj_next" => array("type"=>"bool","value"=>1),
+			"opt_toggle_autodj" => array("type"=>"bool","value"=>1),
+			"event_enable_start" => array("type"=>"bool","value"=>1),
+			"event_disable_expire" => array("type"=>"bool","value"=>0),
+			"event_disable_revoke" => array("type"=>"bool","value"=>1),
+			"event_reset_password_revoke" => array("type"=>"bool","value"=>1),
 		);
 		public function get_id() : ?int
 		{
@@ -35,6 +45,46 @@
 		public function get_controlpanel_url() : ?string
 		{
 			return $this->get_field("controlpanel_url");
+		}
+		public function get_apilink() : ?int
+		{
+			return $this->get_field("apilink");
+		}
+		public function get_api_username() : ?string
+		{
+			return $this->get_field("api_username");
+		}
+		public function get_api_password() : ?string
+		{
+			return $this->get_field("api_password");
+		}
+		public function get_opt_password_reset() : ?bool
+		{
+			return $this->get_field("opt_password_reset");
+		}
+		public function get_opt_autodj_next() : ?bool
+		{
+			return $this->get_field("opt_autodj_next");
+		}
+		public function get_opt_toggle_autodj() : ?bool
+		{
+			return $this->get_field("opt_toggle_autodj");
+		}
+		public function get_event_enable_start() : ?bool
+		{
+			return $this->get_field("event_enable_start");
+		}
+		public function get_event_disable_expire() : ?bool
+		{
+			return $this->get_field("event_disable_expire");
+		}
+		public function get_event_disable_revoke() : ?bool
+		{
+			return $this->get_field("event_disable_revoke");
+		}
+		public function get_event_reset_password_revoke() : ?bool
+		{
+			return $this->get_field("event_reset_password_revoke");
 		}
 	}
 ?>

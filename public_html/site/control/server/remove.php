@@ -14,15 +14,31 @@ if($accept == "Accept")
         {
             if($stream_set->get_count() == 0)
             {
-                $remove_status = $server->remove_me();
-                if($remove_status["status"] == true)
+                $api_requests_set = new api_requests_set();
+                $load_status = $api_requests_set->load_on_field("serverlink",$server->get_id());
+                if($load_status["status"] == true)
                 {
-                    $status = true;
-                    echo $lang["server.rm.info.1"];
+                    if($api_requests_set->get_count() == 0)
+                    {
+                        $remove_status = $server->remove_me();
+                        if($remove_status["status"] == true)
+                        {
+                            $status = true;
+                            echo $lang["server.rm.info.1"];
+                        }
+                        else
+                        {
+                            echo sprintf($lang["server.rm.error.3"],$remove_status["message"]);
+                        }
+                    }
+                    else
+                    {
+                        echo sprintf($lang["server.rm.error.6"],$api_requests_set->get_count());
+                    }
                 }
                 else
                 {
-                    echo sprintf($lang["server.rm.error.3"],$remove_status["message"]);
+                    echo $lang["server.rm.error.7"];
                 }
             }
             else
