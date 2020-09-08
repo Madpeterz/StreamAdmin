@@ -25,6 +25,7 @@ $form->col(5);
 $form->col(1);
 $form->col(5);
     $form->select("event_enable_start","Event / Enable on start",1,array(0=>"No",1=>"Yes"));
+    $form->select("event_enable_renew","Event / Enable on renewal",1,array(0=>"No",1=>"Yes"));
     $form->select("event_disable_expire","Event / Disable on expire",0,array(0=>"No",1=>"Yes"));
     $form->select("event_disable_revoke","Event / Disable on revoke",1,array(0=>"No",1=>"Yes"));
     $form->select("event_reset_password_revoke","Event / Reset password on revoke",1,array(0=>"No",1=>"Yes"));
