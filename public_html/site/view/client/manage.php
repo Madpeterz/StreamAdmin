@@ -1,7 +1,7 @@
 <?php
 $template_parts["html_title"] .= " ~ Manage";
 $template_parts["page_title"] .= "Editing client";
-$template_parts["page_actions"] = "<a href='[[url_base]]client/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$template_parts["page_actions"] = "<a href='[[url_base]]client/revoke/".$page."'><button type='button' class='btn btn-danger'>Revoke</button></a>";
 
 $rental = new rental();
 if($rental->load_by_field("rental_uid",$page) == true)
