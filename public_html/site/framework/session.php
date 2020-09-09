@@ -185,11 +185,8 @@ class session_control extends error_logging
 				{
 					return true;
 				}
-				else echo "bad hash 1";
 			}
-			else echo "bad hash 2";
 		}
-		else echo "bad hash 3";
 		return false;
 	}
 	public function hash_userpassword(string $input_password,bool $create_new_psalt=false) : array
