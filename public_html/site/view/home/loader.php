@@ -118,7 +118,7 @@ $sub_grid_objects->add_content(render_table($table_head,$table_body),12);
 $main_grid = new grid();
 if(file_exists("versions/sql/".$slconfig->get_db_version().".sql") == true)
 {
-    $main_grid->add_content("DB update required <br/> please run \"versions/sql/".$slconfig->get_db_version().".sql\"",12);
+    $main_grid->add_content("<div class=\"alert alert-warning\" role=\"alert\">DB update required <br/> please run \"versions/sql/".$slconfig->get_db_version().".sql\"</div>",12);
 }
 if(file_exists("versions/about/".$slconfig->get_db_version().".txt") == true)
 {
