@@ -7,6 +7,7 @@ $controlpanel_url = $input->postFilter("controlpanel_url");
 $failed_on = "";
 $redirect = "";
 $apilink = $input->postFilter("apilink","integer");
+$api_url = $input->postFilter("api_url");
 $api_username = $input->postFilter("api_username");
 $api_password = $input->postFilter("api_password");
 $opt_password_reset = $input->postFilter("opt_password_reset","integer");
@@ -17,6 +18,7 @@ $event_disable_expire = $input->postFilter("event_disable_expire","integer");
 $event_disable_revoke = $input->postFilter("event_disable_revoke","integer");
 $event_reset_password_revoke = $input->postFilter("event_reset_password_revoke","integer");
 $event_enable_renew = $input->postFilter("event_enable_renew","integer");
+$opt_toggle_status = $input->postFilter("opt_toggle_status","integer");
 
 $yesno_array = array(0,1);
 if(strlen($domain) > 100) $failed_on .= $lang["server.up.error.1"];
@@ -31,6 +33,7 @@ else if(in_array($event_disable_expire,$yesno_array) == false) $failed_on .= $la
 else if(in_array($event_disable_revoke,$yesno_array) == false) $failed_on .= $lang["server.up.error.14"];
 else if(in_array($event_reset_password_revoke,$yesno_array) == false) $failed_on .= $lang["server.up.error.15"];
 else if(in_array($event_enable_renew,$yesno_array) == false) $failed_on .= $lang["server.up.error.16"];
+else if(in_array($opt_toggle_status,$yesno_array) == false) $failed_on .= $lang["server.up.error.17"];
 
 $status = false;
 if($failed_on == "")
@@ -53,6 +56,7 @@ if($failed_on == "")
                 $server->set_field("domain",$domain);
                 $server->set_field("controlpanel_url",$controlpanel_url);
                 $server->set_field("apilink",$apilink);
+                $server->set_field("api_url",$api_url);
                 $server->set_field("api_username",$api_username);
                 if($api_password != "NoChange") $server->set_field("api_password",$api_password);
                 $server->set_field("opt_password_reset",$opt_password_reset);
@@ -63,6 +67,7 @@ if($failed_on == "")
                 $server->set_field("event_disable_revoke",$event_disable_revoke);
                 $server->set_field("event_reset_password_revoke",$event_reset_password_revoke);
                 $server->set_field("event_enable_renew",$event_enable_renew);
+                $server->set_field("opt_toggle_status",$opt_toggle_status);
                 $update_status = $server->save_changes();
                 if($update_status["status"] == true)
                 {

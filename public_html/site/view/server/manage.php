@@ -16,6 +16,7 @@ if($server->load($page) == true)
         $form->text_input("controlpanel_url","Control panel",200,$server->get_controlpanel_url(),"URL to the control panel");
     $form->col(6);
         $form->select("apilink","API / type",$server->get_apilink(),$apis->get_linked_array("id","name"));
+        $form->text_input("api_url","API / URL",200,$server->get_api_url(),"");
         $form->text_input("api_username","API / Username",200,$server->get_api_username(),"the API username");
         $form->text_input("api_password","API / Password",200,"NoChange","the API password");
     $form->split();
@@ -24,6 +25,7 @@ if($server->load($page) == true)
         $form->select("opt_password_reset","Opt / PWD reset",$server->get_opt_password_reset(),array(0=>"Disabled",1=>"Allow"));
         $form->select("opt_autodj_next","Opt / ADJ next",$server->get_opt_autodj_next(),array(0=>"Disabled",1=>"Allow"));
         $form->select("opt_toggle_autodj","Opt / ADJ toggle",$server->get_opt_toggle_autodj(),array(0=>"Disabled",1=>"Allow"));
+        $form->select("opt_toggle_status","Opt / Toggle status",$server->get_opt_toggle_status(),array(0=>"Disabled",1=>"Allow"));
     $form->col(1);
     $form->col(5);
         $form->select("event_enable_start","Event / Enable on start",$server->get_event_enable_start(),array(0=>"No",1=>"Yes"));
