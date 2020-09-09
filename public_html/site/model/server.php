@@ -24,11 +24,13 @@
 			"domain" => array("type"=>"str","value"=>null),
 			"controlpanel_url" => array("type"=>"str","value"=>null),
 			"apilink" => array("type"=>"int","value"=>1),
+			"api_url" => array("type"=>"str","value"=>null),
 			"api_username" => array("type"=>"str","value"=>null),
 			"api_password" => array("type"=>"str","value"=>null),
 			"opt_password_reset" => array("type"=>"bool","value"=>1),
 			"opt_autodj_next" => array("type"=>"bool","value"=>1),
 			"opt_toggle_autodj" => array("type"=>"bool","value"=>1),
+			"opt_toggle_status" => array("type"=>"bool","value"=>1),
 			"event_enable_start" => array("type"=>"bool","value"=>1),
 			"event_enable_renew" => array("type"=>"bool","value"=>1),
 			"event_disable_expire" => array("type"=>"bool","value"=>0),
@@ -51,6 +53,10 @@
 		{
 			return $this->get_field("apilink");
 		}
+		public function get_api_url() : ?string
+		{
+			return $this->get_field("api_url");
+		}
 		public function get_api_username() : ?string
 		{
 			return $this->get_field("api_username");
@@ -70,6 +76,10 @@
 		public function get_opt_toggle_autodj() : ?bool
 		{
 			return $this->get_field("opt_toggle_autodj");
+		}
+		public function get_opt_toggle_status() : ?bool
+		{
+			return $this->get_field("opt_toggle_status");
 		}
 		public function get_event_enable_start() : ?bool
 		{

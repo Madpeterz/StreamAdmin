@@ -22,6 +22,7 @@
 		protected $dataset = array(
 			"id" => array("type"=>"int","value"=>null),
 			"name" => array("type"=>"str","value"=>null),
+			"opt_toggle_status" => array("type"=>"bool","value"=>0),
 			"opt_password_reset" => array("type"=>"bool","value"=>0),
 			"opt_autodj_next" => array("type"=>"bool","value"=>0),
 			"opt_toggle_autodj" => array("type"=>"bool","value"=>0),
@@ -38,6 +39,10 @@
 		public function get_name() : ?string
 		{
 			return $this->get_field("name");
+		}
+		public function get_opt_toggle_status() : ?bool
+		{
+			return $this->get_field("opt_toggle_status");
 		}
 		public function get_opt_password_reset() : ?bool
 		{
