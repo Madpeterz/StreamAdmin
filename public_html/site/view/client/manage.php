@@ -6,6 +6,7 @@ $template_parts["page_actions"] = "<a href='[[url_base]]client/revoke/".$page."'
 $rental = new rental();
 if($rental->load_by_field("rental_uid",$page) == true)
 {
+    $pages = array();
     $avatar = new avatar();
     $avatar->load($rental->get_avatarlink());
     $template_parts["page_title"] .= ": ".$rental->get_rental_uid()." [".$avatar->get_avatarname()."]";
@@ -24,7 +25,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
     $form->col(6);
         $form->group("Message");
         $form->textarea("message","Message",9999,$rental->get_message(),"Any rental with a message will not be listed on the Fast removal system! Max length 9999");
-    echo $form->render("Update","primary");
+    $pages["Config"] = $form->render("Update","primary");
 
     $where_config = array(
         "fields" => array("streamlink","unixtime"),
@@ -62,8 +63,35 @@ if($rental->load_by_field("rental_uid",$page) == true)
         $entry[]  = date('l jS \of F Y h:i:s A',$transaction->get_unixtime());
         $table_body[] = $entry;
     }
-    echo "<br/><hr/><h4>Transactions</h4>";
-    echo render_datatable($table_head,$table_body);
+    $pages["Transactions"] = render_datatable($table_head,$table_body);
+
+    $stream = new stream();
+    if($stream->load($rental->get_streamlink()) == true)
+    {
+        $server = new server();
+        if($server->load($stream->get_serverlink()) == true)
+        {
+            if($server->get_apilink() > 1)
+            {
+                $mygrid = new grid();
+                $form = new form();
+                $form->target("client/api/".$page."/stop");
+                $mygrid->add_content($form->render("Stop","danger"),4);
+                $form = new form();
+                $form->target("client/api/".$page."/start");
+                $mygrid->add_content($form->render("Stop","success"),4);
+                $form = new form();
+                $form->target("client/api/".$page."/autodj_next");
+                $mygrid->add_content($form->render("AutoDJ next","info"),4);
+                $form = new form();
+                $form->target("client/api/".$page."/autodj_toggle");
+                $mygrid->add_content($form->render("AutoDJ toggle","secondary"),4);
+                $pages["API"] = $mygrid->get_output();
+            }
+        }
+    }
+    $paged_info = new paged_info();
+    echo $paged_info->render($pages);
 }
 else
 {
