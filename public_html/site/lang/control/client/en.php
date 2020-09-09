@@ -1,5 +1,18 @@
 <?php
 $lang = array(
+
+    "client.api.error.1" => "Unable to load rental",
+    "client.api.error.2" => "Unable to load stream",
+    "client.api.error.3" => "Unable to load package",
+    "client.api.error.4" => "Unable to load server",
+    "client.api.error.5" => "Unable to find api used by server",
+    "client.api.error.6" => "Unknown api request",
+    "client.api.error.7" => "API or Server have the opt_toggle_autodj flag set to disabled",
+    "client.api.error.8" => "API or Server have the opt_autodj_next flag set to disabled",
+    "client.api.error.9" => "API or Server have the opt_toggle_status flag set to disabled",
+    "client.api.failed" => "API request failed",
+    "client.api.passed" => "API request accepted",
+    
     "client.br.error.1" => "Unable to finish setting up events",
     "client.br.error.2" => "Error removing rental %1\$s: %2\$s",
     "client.br.error.3" => "Error releasing stream from rental %1\$s: %2\$s",

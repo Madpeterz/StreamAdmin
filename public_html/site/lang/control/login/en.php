@@ -23,7 +23,7 @@ $lang = array(
     "login.rn.error.6" => "Unable to finalize changes to your account",
     "login.rn.info.1" => "Password updated please login",
 
-    "login.st.error.1" => "Username or Password are empty",
+    "login.st.error.1" => "Username or Password is invaild",
     "login.st.error.2" => "Incorrect Username/Password or the account is locked",
     "login.st.info.1" => "logged in ^+^"
 );
