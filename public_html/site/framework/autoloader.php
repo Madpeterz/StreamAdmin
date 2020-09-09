@@ -1,24 +1,19 @@
 <?php
 function auto_load_model($class_name="")
 {
-	$try_class_file = "";
 	$bits = explode("_",$class_name);
-    if(count($bits) >= 2)
-    {
-        if($bits[count($bits)-1] != "helper")
-        {
-            if($bits[count($bits)-1] == "set") array_pop($bits);
-            $try_class_file = implode("_",$bits).".php";
-        }
-    }
-    else $try_class_file = $bits[0].".php";
-	if($try_class_file != "")
+	if(in_array("set",$bits) == true)
 	{
-		$loadfile = "site/model/".$try_class_file."";
-		if(file_exists($loadfile)) require_once($loadfile);
-		else auto_load_helper($class_name);
+		array_pop($bits);
+		$class_name = implode("_",$bits);
 	}
-	else auto_load_helper($class_name);
+	$loadfile = "site/model/".$class_name.".php";
+	if(file_exists($loadfile)) require_once($loadfile);
+}
+function auto_load_api($class_name="")
+{
+	$loadfile = "site/serverapis/".$class_name.".php";
+	if(file_exists($loadfile)) require_once($loadfile);
 }
 function auto_load_helper($class_name="")
 {
@@ -29,4 +24,6 @@ function auto_load_helper($class_name="")
 	if(file_exists($loadfile)) require_once($loadfile);
 }
 spl_autoload_register('auto_load_model');
+spl_autoload_register('auto_load_helper');
+spl_autoload_register('auto_load_api');
 ?>
