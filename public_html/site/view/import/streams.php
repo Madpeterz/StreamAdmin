@@ -53,6 +53,7 @@ foreach($r4_items_set->get_all_ids() as $r4_item_id)
                     $stream->set_field("needwork",$r4_item->get_baditem());
                     $stream->set_field("adminpassword",$r4_item->get_adminpassword());
                     $stream->set_field("adminusername",$r4_item->get_adminusername());
+                    $stream->set_field("original_adminusername",$r4_item->get_adminusername());
                     $stream->set_field("djpassword",$r4_item->get_streampassword());
                     $stream->set_field("mountpoint","r4|".$r4_item->get_id()."");
                     $create_status = $stream->create_entry();
