@@ -18,6 +18,8 @@ $event_disable_revoke = $input->postFilter("event_disable_revoke","integer");
 $event_reset_password_revoke = $input->postFilter("event_reset_password_revoke","integer");
 $event_enable_renew = $input->postFilter("event_enable_renew","integer");
 $opt_toggle_status = $input->postFilter("opt_toggle_status","integer");
+$event_start_sync_username = $input->postFilter("event_start_sync_username","integer");
+
 
 $failed_on = "";
 $redirect = "";
@@ -36,6 +38,7 @@ else if(in_array($event_disable_revoke,$yesno_array) == false) $failed_on .= $la
 else if(in_array($event_reset_password_revoke,$yesno_array) == false) $failed_on .= $lang["server.cr.error.13"];
 else if(in_array($event_enable_renew,$yesno_array) == false) $failed_on .= $lang["server.cr.error.14"];
 else if(in_array($opt_toggle_status,$yesno_array) == false) $failed_on .= $lang["server.cr.error.15"];
+else if(in_array($event_start_sync_username,$yesno_array) == false) $failed_on .= $lang["server.cr.error.16"];
 
 $status = false;
 if($failed_on == "")
@@ -56,6 +59,7 @@ if($failed_on == "")
     $server->set_field("event_reset_password_revoke",$event_reset_password_revoke);
     $server->set_field("event_enable_renew",$event_enable_renew);
     $server->set_field("opt_toggle_status",$opt_toggle_status);
+    $server->set_field("event_start_sync_username",$event_start_sync_username);
     $create_status = $server->create_entry();
     if($create_status["status"] == true)
     {

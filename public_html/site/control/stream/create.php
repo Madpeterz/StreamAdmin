@@ -43,6 +43,7 @@ if($failed_on == "")
                 $stream->set_field("needwork",$needswork);
                 $stream->set_field("adminusername",$adminusername);
                 $stream->set_field("adminpassword",$adminpassword);
+                $stream->set_field("original_adminusername",$adminusername);
                 $stream->set_field("djpassword",$djpassword);
                 $stream->set_field("mountpoint",$mountpoint);
                 $create_status = $stream->create_entry();

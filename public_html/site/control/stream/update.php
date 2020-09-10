@@ -9,6 +9,7 @@ $mountpoint = $input->postFilter("mountpoint");
 $adminusername = $input->postFilter("adminusername");
 $adminpassword = $input->postFilter("adminpassword");
 $djpassword = $input->postFilter("djpassword");
+$original_adminusername = $input->postFilter("original_adminusername");
 $failed_on = "";
 if($port < 1) $failed_on .= $lang["stream.up.error.1"];
 else if($port > 99999) $failed_on .= $lang["stream.up.error.2"];
@@ -20,6 +21,9 @@ else if(strlen($adminpassword) < 4) $failed_on .= $lang["stream.up.error.7"];
 else if(strlen($adminpassword) > 20) $failed_on .= $lang["stream.up.error.8"];
 else if(strlen($djpassword) < 4) $failed_on .= $lang["stream.up.error.9"];
 else if(strlen($djpassword) > 20) $failed_on .= $lang["stream.up.error.10"];
+else if(strlen($original_adminusername) < 3) $failed_on .= $lang["stream.up.error.5"];
+else if(strlen($original_adminusername) > 20) $failed_on .= $lang["stream.up.error.6"];
+
 $status = false;
 if($failed_on == "")
 {
@@ -49,6 +53,15 @@ if($failed_on == "")
                 $stream->set_field("adminpassword",$adminpassword);
                 $stream->set_field("djpassword",$djpassword);
                 $stream->set_field("mountpoint",$mountpoint);
+                if($original_adminusername == "sync")
+                {
+                    $stream->set_field("original_adminusername",$adminusername);
+                }
+                else
+                {
+                    $stream->set_field("original_adminusername",$original_adminusername);
+                }
+
                 $update_status = $stream->save_changes();
                 if($update_status["status"] == true)
                 {
