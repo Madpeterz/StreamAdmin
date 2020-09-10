@@ -111,6 +111,14 @@ $('#NotecardModal').on('show.bs.modal', function (event) {
 })
 function dynamic_ajax_load(jqueryobject)
 {
+    if (typeof jqueryobject.data('loading') !== 'undefined')
+    {
+        jqueryobject.html(jqueryobject.data('loading'));
+    }
+    if (typeof jqueryobject.data('repeatingrate') !== 'undefined')
+    {
+        setTimeout(dynamic_ajax_load, (jqueryobject.data("repeatingrate")+Math.floor(Math.random() * 400)),jqueryobject);
+    }
     $.ajax({
            type: "get",
            url: jqueryobject.data("loadurl"),
