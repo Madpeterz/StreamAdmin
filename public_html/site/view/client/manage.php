@@ -73,20 +73,41 @@ if($rental->load_by_field("rental_uid",$page) == true)
         {
             if($server->get_apilink() > 1)
             {
-                $mygrid = new grid();
-                $form = new form();
-                $form->target("client/api/".$page."/stop");
-                $mygrid->add_content($form->render("Stop","danger"),4);
-                $form = new form();
-                $form->target("client/api/".$page."/start");
-                $mygrid->add_content($form->render("Stop","success"),4);
-                $form = new form();
-                $form->target("client/api/".$page."/autodj_next");
-                $mygrid->add_content($form->render("AutoDJ next","info"),4);
-                $form = new form();
-                $form->target("client/api/".$page."/autodj_toggle");
-                $mygrid->add_content($form->render("AutoDJ toggle","secondary"),4);
-                $pages["API"] = $mygrid->get_output();
+                $package = new package();
+                if($package->load($stream->get_packagelink()) == true)
+                {
+                    $mygrid = new grid();
+                    $form = new form();
+                    $form->target("client/api/".$page."/stop");
+                    $mygrid->add_content($form->render("Stop","danger",true),4);
+                    $form = new form();
+                    $form->target("client/api/".$page."/start");
+                    $mygrid->add_content($form->render("Start","success",true),4);
+                    $form = new form();
+                    $form->target("client/api/".$page."/autodj_next");
+                    $mygrid->add_content($form->render("AutoDJ next","info",true),4);
+                    $form = new form();
+                    $form->target("client/api/".$page."/autodj_toggle");
+                    $mygrid->add_content($form->render("AutoDJ toggle","secondary",true),4);
+                    $form = new form();
+                    $form->target("client/api/".$page."/customize_username");
+                    $mygrid->add_content($form->render("customize username","warning",true),4);
+                    $form = new form();
+                    $form->target("client/api/".$page."/reset_passwords");
+                    $mygrid->add_content($form->render("Reset passwords","warning",true),4);
+                    $pages["API"] = $mygrid->get_output();
+                    $avname = explode(" ",strtolower($avatar->get_avatarname()));
+                    $syncname = "".$avname[0]."_".$package->get_bitrate()."_".$stream->get_port()."";
+                    $pages["API"] .= "<br/>customize username changes the admin username for the stream following this ruleset<br/><ol>
+                    <li>Firstname eg:\"".$avname[0]."\"</li>
+                    <li>Firstname 2 letters of last name:\"".$avname[0]."_".substr($avname[1],0,2)."\"</li>
+                    <li>Firstname Port: \"".$avname[0]."_".$stream->get_port()."\"</li>
+                    <li>Firstname Port Bitrate: \"".$avname[0]."_".$stream->get_port()."_".$package->get_bitrate()."\"</li>
+                    <li>Firstname Port ServerID: \"".$avname[0]."_".$stream->get_port()."_".$server->get_id()."\"</li>
+                    <li>Firstname RentalUID: \"".$avname[0]."_".$rental->get_rental_uid()."\"</li>
+                    </ol>";
+                    $pages["API"] .= "<br/>Reset passwords: create new admin and source passwords (Not DJ account passwords).";
+                }
             }
         }
     }
