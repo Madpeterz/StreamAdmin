@@ -1,5 +1,8 @@
 var ajax_busy = false;
 $( document ).ready(function() {
+    $(".ajaxonpageload").each(function(i, obj) {
+        setTimeout(dynamic_ajax_load, (300+Math.floor(Math.random() * 400)),$(this));
+    });
     $(".ajax").submit(function(e) {
         e.preventDefault();
         if(ajax_busy == false)
@@ -106,7 +109,44 @@ $('#NotecardModal').on('show.bs.modal', function (event) {
          }
   });
 })
-
+function dynamic_ajax_load(jqueryobject)
+{
+    $.ajax({
+           type: "get",
+           url: jqueryobject.data("loadurl"),
+           success: function(data)
+           {
+               try
+               {
+                   jsondata = JSON.parse(data);
+                   var redirectdelay = 1500;
+                   if(jsondata.hasOwnProperty('status'))
+                   {
+                       if(jsondata.hasOwnProperty('message') == true)
+                       {
+                           jqueryobject.html(jsondata.message);
+                       }
+                       else
+                       {
+                           jqueryobject.html("");
+                       }
+                   }
+                   else
+                   {
+                       jqueryobject.html("bad reply");
+                   }
+               }
+               catch(e)
+               {
+                   jqueryobject.html("reply error");
+               }
+           },
+           error: function (data)
+           {
+               jqueryobject.html("ajax error");
+           }
+       });
+}
 function alert_success(smsg)
 {
     alert(smsg,"success");
