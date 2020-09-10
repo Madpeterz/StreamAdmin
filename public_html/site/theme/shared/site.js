@@ -8,6 +8,10 @@ $( document ).ready(function() {
             var form = $(this);
             var url = form.attr('action');
             var method = form.attr('method');
+            if($(this).hasClass( "slow" ) == true)
+            {
+                alert_info("Please wait this request can be slow");
+            }
             $.ajax({
                    type: method,
                    url: url,
@@ -114,6 +118,10 @@ function alert_error(smsg)
 function alert_warning(smsg)
 {
     alert(smsg,"warning");
+}
+function alert_info(smsg)
+{
+    alert(smsg,"primary");
 }
 function alert(smsg,alerttype)
 {
