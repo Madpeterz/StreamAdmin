@@ -18,6 +18,11 @@
     color: #277cc2;
 }
 
+.serverstatusdisplay
+{
+    width: 250px;
+}
+
 .sold:hover
 {
     color: #45a7f7;
