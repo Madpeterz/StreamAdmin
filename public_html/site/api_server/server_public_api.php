@@ -14,6 +14,10 @@ class server_public_api extends server_api_protected
     {
         return $this->account_name_list($server);
     }
+    public function get_server_status(server $server) : array
+    {
+        return $this->server_status($server);
+    }
     public function get_stream_state(stream $stream,server $server) : array
     {
         return $this->stream_state($stream,$server);

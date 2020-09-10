@@ -13,22 +13,39 @@ class serverapi_helper
     {
         return $this->message;
     }
-    function __construct(stream $stream)
+    function __construct(stream $stream = null)
     {
-        $this->stream = $stream;
-        if($this->load_server() == true)
+        if($stream != null)
         {
-            if($this->load_api() == true)
+            $this->stream = $stream;
+            if($this->load_server() == true)
             {
-                if($this->load_package() == true)
+                if($this->load_api() == true)
                 {
-                    if($this->load_rental() == true)
+                    if($this->load_package() == true)
                     {
-                        $this->load_avatar();
+                        if($this->load_rental() == true)
+                        {
+                            $this->load_avatar();
+                        }
                     }
                 }
             }
         }
+    }
+    public function force_set_server(server $server) : bool
+    {
+        $this->server = $server;
+        return $this->load_api();
+    }
+    public function force_set_rental(rental $rental) : bool
+    {
+        $this->rental = $rental;
+        return $this->load_avatar();
+    }
+    public function force_set_package(package $package) : bool
+    {
+        $this->package = $package;
     }
     protected function load_api() : bool
     {
@@ -141,6 +158,20 @@ class serverapi_helper
         if($length < 8) $length = 8;
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return substr(str_shuffle($chars),0,$length);
+    }
+    public function api_serverstatus() : array
+    {
+        $status = false;
+        $this->message = "started api_serverstatus";
+        if($this->server_api != null)
+        {
+            if($this->check_flags(array("api_serverstatus")) == true)
+            {
+                return $this->server_api->get_server_status($this->server);
+            }
+            return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"API not enabled on server/api");
+        }
+        return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"No api");
     }
     public function api_reset_passwords()
     {

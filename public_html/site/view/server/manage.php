@@ -19,6 +19,7 @@ if($server->load($page) == true)
         $form->text_input("api_url","API / URL",200,$server->get_api_url(),"");
         $form->text_input("api_username","API / Username",200,$server->get_api_username(),"the API username");
         $form->text_input("api_password","API / Password",200,"NoChange","the API password");
+        $form->select("api_serverstatus","Panel / Server status",$server->get_api_serverstatus(),array(0=>"Disabled",1=>"Allow"));
     $form->split();
     $form->group("API Flags");
     $form->col(6);

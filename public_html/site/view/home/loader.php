@@ -84,7 +84,7 @@ foreach($server_set->get_all_ids() as $server_id)
 {
     $server = $server_set->get_object_by_id($server_id);
     $entry = array();
-    $entry[] = '<a href="[[url_base]]stream/onserver/'.$server->get_id().'"><strong>'.$server->get_domain().'</strong></a>';
+    $entry[] = '<a href="[[url_base]]stream/onserver/'.$server->get_id().'"><strong>'.$server->get_domain().'</strong></a><br/><sub class="ajaxonpageload" data-loadurl="[[url_base]]ajax.php/server/server_load/'.$server->get_id().'"></sub>';
     $entry[] = $server_loads[$server->get_id()]["ready"];
     $entry[] = $server_loads[$server->get_id()]["needwork"];
     $entry[] = $server_loads[$server->get_id()]["sold"];

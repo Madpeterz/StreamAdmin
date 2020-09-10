@@ -16,6 +16,7 @@ $lang = array(
     "server.cr.error.14" => "event_enable_renew not vaild",
     "server.cr.error.15" => "opt_toggle_status not vaild",
     "server.cr.error.16" => "event_start_sync_username not vaild",
+    "server.cr.error.17" => "api_serverstatus not vaild",
 
     "server.cr.info.1" => "Server created",
 
@@ -46,7 +47,8 @@ $lang = array(
     "server.up.error.15" => "event_reset_password_revoke not vaild",
     "server.up.error.16" => "event_enable_renew not vaild",
     "server.up.error.17" => "opt_toggle_status not vaild",
-    "server.cr.error.18" => "event_start_sync_username not vaild",
+    "server.up.error.18" => "event_start_sync_username not vaild",
+    "server.up.error.19" => "api_serverstatus not vaild",
 
     "server.up.info.1" => "Server updated"
 );

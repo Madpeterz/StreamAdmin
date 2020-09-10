@@ -17,6 +17,10 @@ class server_api_protected extends error_logging
         $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
+    protected function server_status(server $server) : array
+    {
+        return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"This api does not support server status");
+    }
     protected function toggle_autodj(stream $stream,server $server) : bool
     {
         $this->last_api_message = "Skipped not supported on this api";

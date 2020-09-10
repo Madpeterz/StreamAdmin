@@ -67,6 +67,25 @@ class server_centova3_only extends server_public_api
 }
 class server_centova3 extends server_centova3_only
 {
+    protected function server_status(server $server) : array
+    {
+        $status = false;
+        $loads = array("1"=>0,"5"=>0,"15"=>0);
+        $ram = array("free"=>0,"max"=>0);
+        $streams = array("total"=>0,"active"=>0);
+        $message = "Unable to fetch status";
+        $reply = $this->centova_systemclass_api_call($server,"version");
+        if($this->simple_reply_ok($reply) == true)
+        {
+            $server_status = $reply["data"]["response"]["data"]["web"];
+            $status = true;
+            $loads = array("1"=>$server_status["other"]["Load (1m)"][1],"5"=>$server_status["other"]["Load (5m)"][1],"15"=>$server_status["other"]["Load (15m)"][1]);
+            $streams = array("total"=>$server_status["accounts"],"active"=>$server_status["activeaccounts"]);
+            $ram = array("free"=>floor($server_status["memfree"]/1000),"max"=>floor($server_status["memtotal"]/1000));
+            $message = "loaded";
+        }
+        return array("status"=>$status,"loads"=>$loads,"ram"=>$ram,"streams"=>$streams,"message"=>$message);
+    }
     protected function stream_state(stream $stream,server $server) : array
     {
         $reply = $this->centova_serverclass_api_call($server,$stream,"getstatus");
