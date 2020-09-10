@@ -1,93 +1,55 @@
 <?php
-class server_basic_api extends error_logging
+class server_api_protected extends error_logging
 {
-    public function event_disable_expire(stream $stream,server $server) : bool
+    protected $last_api_message = "";
+    protected $needs_retry = false;
+    protected function stream_state(stream $stream,server $server)
     {
-        if($this->stop_server($stream,$server) == true)
-        {
-            return $this->susspend_server($stream,$server);
-        }
-        return false;
+        $this->last_api_message = "Skipped stream_state not supported on this api";
+        return array("status"=>false,"state"=>false);
     }
-    public function event_disable_revoke(stream $stream,server $server) : bool
+    protected function account_name_list(server $server) : array
     {
-        if($this->stop_server($stream,$server) == true)
-        {
-            if($this->change_password($stream,$server) == true)
-            {
-                return $this->susspend_server($stream,$server);
-            }
-        }
-        return false;
+        return array("status"=>false,"usernames"=>array(),"message"=>"account_name_list supported on this api");
     }
-    public function event_enable_start(stream $stream,server $server) : bool
+    protected function sync_username(stream $stream,server $server,string $old_username) : bool
     {
-        if($this->un_susspend_server($stream,$server) == true)
-        {
-            return $this->start_server($stream,$server);
-        }
-        return false;
+        $this->last_api_message = "Skipped not supported on this api";
+        return true;
     }
-    public function event_reset_password_revoke(stream $stream,server $server) : bool
-    {
-        if($this->stop_server($stream,$server) == true)
-        {
-            return $this->change_password($stream,$server);
-        }
-        return false;
-    }
-    public function opt_autodj_next(stream $stream,server $server) : bool
-    {
-        return $this->autodj_next($stream,$server);
-    }
-    public function opt_password_reset(stream $stream,server $server) : bool
-    {
-        if($this->stop_server($stream,$server) == true)
-        {
-            if($this->change_password($stream,$server) == true)
-            {
-                return $this->start_server($stream,$server);
-            }
-        }
-        return false;
-    }
-    public function opt_toggle_autodj(stream $stream,server $server) : bool
-    {
-        return $this->toggle_autodj($stream,$server);
-    }
-
-    public function opt_toggle_status(stream $stream,server $server,bool $status=false) : bool
-    {
-        if($status == true) return $this->start_server($stream,$server);
-        else return $this->stop_server($stream,$server);
-    }
-
     protected function toggle_autodj(stream $stream,server $server) : bool
     {
+        $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
     protected function autodj_next(stream $stream,server $server) : bool
     {
+        $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
     protected function stop_server(stream $stream,server $server) : bool
     {
+        $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
     protected function start_server(stream $stream,server $server) : bool
     {
+        $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
     protected function susspend_server(stream $stream,server $server) : bool
     {
+        $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
     protected function un_susspend_server(stream $stream,server $server) : bool
     {
+        $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
     protected function change_password(stream $stream,server $server) : bool
     {
+        $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
 
