@@ -27,11 +27,13 @@
 			"api_url" => array("type"=>"str","value"=>null),
 			"api_username" => array("type"=>"str","value"=>null),
 			"api_password" => array("type"=>"str","value"=>null),
+			"api_serverstatus" => array("type"=>"bool","value"=>1),
 			"opt_password_reset" => array("type"=>"bool","value"=>1),
 			"opt_autodj_next" => array("type"=>"bool","value"=>1),
 			"opt_toggle_autodj" => array("type"=>"bool","value"=>1),
 			"opt_toggle_status" => array("type"=>"bool","value"=>1),
 			"event_enable_start" => array("type"=>"bool","value"=>1),
+			"event_start_sync_username" => array("type"=>"bool","value"=>0),
 			"event_enable_renew" => array("type"=>"bool","value"=>1),
 			"event_disable_expire" => array("type"=>"bool","value"=>0),
 			"event_disable_revoke" => array("type"=>"bool","value"=>1),
@@ -65,6 +67,10 @@
 		{
 			return $this->get_field("api_password");
 		}
+		public function get_api_serverstatus() : ?bool
+		{
+			return $this->get_field("api_serverstatus");
+		}
 		public function get_opt_password_reset() : ?bool
 		{
 			return $this->get_field("opt_password_reset");
@@ -84,6 +90,10 @@
 		public function get_event_enable_start() : ?bool
 		{
 			return $this->get_field("event_enable_start");
+		}
+		public function get_event_start_sync_username() : ?bool
+		{
+			return $this->get_field("event_start_sync_username");
 		}
 		public function get_event_enable_renew() : ?bool
 		{

@@ -26,6 +26,7 @@
 			"packagelink" => array("type"=>"int","value"=>null),
 			"port" => array("type"=>"int","value"=>null),
 			"needwork" => array("type"=>"bool","value"=>0),
+			"original_adminusername" => array("type"=>"str","value"=>null),
 			"adminusername" => array("type"=>"str","value"=>null),
 			"adminpassword" => array("type"=>"str","value"=>null),
 			"djpassword" => array("type"=>"str","value"=>null),
@@ -55,6 +56,10 @@
 		public function get_needwork() : ?bool
 		{
 			return $this->get_field("needwork");
+		}
+		public function get_original_adminusername() : ?string
+		{
+			return $this->get_field("original_adminusername");
 		}
 		public function get_adminusername() : ?string
 		{
