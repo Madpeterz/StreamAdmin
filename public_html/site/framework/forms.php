@@ -139,13 +139,18 @@ class form
         $this->mygrid->add_content("<hr/>",12);
         $this->mygrid->close_row();
     }
-    public function render(string $buttontext,string $buttonclass="success") : string
+    public function render(string $buttontext,string $buttonclass="success",bool $slow_warning=false) : string
     {
         $this->enable_grid_render();
         $this->mygrid->close_row();
+        $ajax_mode = "ajax";
+        if($slow_warning == true)
+        {
+            $ajax_mode = "slow";
+        }
         if($this->mode == "post")
         {
-            $this->mygrid->add_before('<form action="[[url_base]]ajax.php/'.$this->targeturl.'" method="POST" class="form ajax">');
+            $this->mygrid->add_before('<form action="[[url_base]]ajax.php/'.$this->targeturl.'" method="POST" class="form ajax '.$ajax_mode.'">');
         }
         else
         {
