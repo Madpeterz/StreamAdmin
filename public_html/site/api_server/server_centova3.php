@@ -107,9 +107,9 @@ class server_centova3 extends server_centova3_only
         $state = false;
         if($status == true)
         {
-            if($reply["data"]["status"] == "suspended")
+            if($reply["data"]["status"] != "disabled")
             {
-                $state = false;
+                $state = true;
             }
         }
         return array("status"=>$status,"state"=>$state);
