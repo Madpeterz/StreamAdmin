@@ -115,45 +115,48 @@ function dynamic_ajax_load(jqueryobject)
     {
         jqueryobject.html(jqueryobject.data('loading'));
     }
-    if (typeof jqueryobject.data('repeatingrate') !== 'undefined')
+    if(jqueryobject.html() != "-")
     {
-        setTimeout(dynamic_ajax_load, (jqueryobject.data("repeatingrate")+Math.floor(Math.random() * 400)),jqueryobject);
-    }
-    $.ajax({
-           type: "get",
-           url: jqueryobject.data("loadurl"),
-           success: function(data)
-           {
-               try
+        if (typeof jqueryobject.data('repeatingrate') !== 'undefined')
+        {
+            setTimeout(dynamic_ajax_load, (jqueryobject.data("repeatingrate")+Math.floor(Math.random() * 400)),jqueryobject);
+        }
+        $.ajax({
+               type: "get",
+               url: jqueryobject.data("loadurl"),
+               success: function(data)
                {
-                   jsondata = JSON.parse(data);
-                   var redirectdelay = 1500;
-                   if(jsondata.hasOwnProperty('status'))
+                   try
                    {
-                       if(jsondata.hasOwnProperty('message') == true)
+                       jsondata = JSON.parse(data);
+                       var redirectdelay = 1500;
+                       if(jsondata.hasOwnProperty('status'))
                        {
-                           jqueryobject.html(jsondata.message);
+                           if(jsondata.hasOwnProperty('message') == true)
+                           {
+                               jqueryobject.html(jsondata.message);
+                           }
+                           else
+                           {
+                               jqueryobject.html("");
+                           }
                        }
                        else
                        {
-                           jqueryobject.html("");
+                           jqueryobject.html("bad reply");
                        }
                    }
-                   else
+                   catch(e)
                    {
-                       jqueryobject.html("bad reply");
+                       jqueryobject.html("reply error");
                    }
-               }
-               catch(e)
+               },
+               error: function (data)
                {
-                   jqueryobject.html("reply error");
+                   jqueryobject.html("ajax error");
                }
-           },
-           error: function (data)
-           {
-               jqueryobject.html("ajax error");
-           }
-       });
+           });
+    }
 }
 function alert_success(smsg)
 {
