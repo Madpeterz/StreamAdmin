@@ -35,6 +35,7 @@ if($server->load($page) == true)
         $form->select("event_disable_revoke","Event / Disable on revoke",$server->get_event_disable_revoke(),array(0=>"No",1=>"Yes"));
         $form->select("event_reset_password_revoke","Event / Reset password on revoke",$server->get_event_reset_password_revoke(),array(0=>"No",1=>"Yes"));
     echo $form->render("Update","primary");
+    include("site/view/server/api_notes.php");
 }
 else
 {
