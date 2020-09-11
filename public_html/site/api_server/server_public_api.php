@@ -41,6 +41,34 @@ class server_public_api extends server_api_protected
         }
         return false;
     }
+    public function set_account_state(stream $stream,server $server,bool $state) : bool
+    {
+        $account_state = $this->account_state($stream,$server);
+        if($account_state["status"] == true)
+        {
+            if($account_state["state"] != $state)
+            {
+                if($state == true)
+                {
+                    return $this->event_enable_start($stream,$server);
+                }
+                else
+                {
+                    return $this->susspend_server($stream,$server);
+                }
+            }
+            else
+            {
+                $this->last_api_message = "No action required";
+                return true;
+            }
+        }
+        else
+        {
+            $this->last_api_message = "Unable to get account state";
+        }
+        return false;
+    }
     public function event_enable_start(stream $stream,server $server) : bool
     {
         if($this->un_susspend_server($stream,$server) == true)

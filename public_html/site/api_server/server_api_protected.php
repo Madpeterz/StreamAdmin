@@ -6,6 +6,11 @@ class server_api_protected extends error_logging
     protected function stream_state(stream $stream,server $server)
     {
         $this->last_api_message = "Skipped stream_state not supported on this api";
+        return array("status"=>false,"state"=>false,"source"=>false);
+    }
+    protected function account_state(stream $stream,server $server) : array
+    {
+        $this->last_api_message = "Skipped account_state not supported on this api";
         return array("status"=>false,"state"=>false);
     }
     protected function account_name_list(server $server) : array

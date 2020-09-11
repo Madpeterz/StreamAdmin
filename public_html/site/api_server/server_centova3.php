@@ -31,8 +31,12 @@ class server_centova3_only extends server_public_api
     {
         return $this->process_centova_api_call($server,array("xm"=>"system.".$method.""),$args);
     }
-    protected function simple_reply_ok(array $reply) : bool
+    protected function simple_reply_ok(array $reply,bool $debug=false) : bool
     {
+        if($debug == true)
+        {
+            print_r($reply);
+        }
         if(array_key_exists("status",$reply) == true)
         {
             if($reply["status"] == true)
@@ -86,22 +90,39 @@ class server_centova3 extends server_centova3_only
         }
         return array("status"=>$status,"loads"=>$loads,"ram"=>$ram,"streams"=>$streams,"message"=>$message);
     }
+    protected function account_data(stream $stream,server $server)
+    {
+        $reply = $this->centova_serverclass_api_call($server,$stream,"getaccount");
+        $this->simple_reply_ok($reply);
+        if($this->simple_reply_ok($reply) == true)
+        {
+            return array("status"=>true,"data"=>$reply["data"]["response"]["data"]["account"]);
+        }
+        return array("status"=>false,"data"=>array());
+    }
+    protected function account_state(stream $stream,server $server) : array
+    {
+        $reply = $this->account_data($stream,$server);
+        $status = $reply["status"];
+        $state = false;
+        if($status == true)
+        {
+            if($reply["data"]["status"] != "suspended")
+            {
+                $state = true;
+            }
+        }
+        return array("status"=>$status,"state"=>$state);
+    }
     protected function stream_state(stream $stream,server $server) : array
     {
         $reply = $this->centova_serverclass_api_call($server,$stream,"getstatus");
         if($this->simple_reply_ok($reply) == true)
         {
             $server_status = $reply["data"]["response"]["data"]["status"];
-            if($server_status["serverstate"] == 1)
-            {
-                return array("status"=>true,"state"=>true);
-            }
-            else
-            {
-                return array("status"=>true,"state"=>false);
-            }
+            return array("status"=>true,"state"=>$server_status["serverstate"],"source"=>$server_status["sourcestate"]);
         }
-        return array("status"=>false,"state"=>true);
+        return array("status"=>false,"state"=>false,"source"=>false);
     }
     protected function account_name_list(server $server) : array
     {
@@ -145,7 +166,7 @@ class server_centova3 extends server_centova3_only
                 else
                 {
                     // somthing connected
-                    $autodj_source_types = array("liquidsoap");
+                    $autodj_source_types = array("liquidsoap","icescc");
                     if(in_array($server_status["sourcetype"],$autodj_source_types) == true)
                     {
                         // autoDJ connected stop it
@@ -180,11 +201,11 @@ class server_centova3 extends server_centova3_only
     }
     protected function susspend_server(stream $stream,server $server) : bool
     {
-        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"setstatus",array("username"=>$old_username,"status"=>"disabled")));
+        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"setstatus",array("username"=>$stream->get_adminusername(),"status"=>"disabled")));
     }
     protected function un_susspend_server(stream $stream,server $server) : bool
     {
-        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"setstatus",array("username"=>$old_username,"status"=>"enabled")));
+        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"setstatus",array("username"=>$stream->get_adminusername(),"status"=>"enabled")));
     }
     protected function change_password(stream $stream,server $server) : bool
     {

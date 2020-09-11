@@ -159,6 +159,42 @@ class serverapi_helper
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return substr(str_shuffle($chars),0,$length);
     }
+    protected function update_account_state(bool $state) : bool
+    {
+        if($this->rental != null)
+        {
+            // flag to set rental to $state
+        }
+        $update_status = $this->server_api->set_account_state($this->stream,$this->server,$state);
+        $this->message = $this->server_api->get_last_api_message();
+        if($update_status == false)
+        {
+            // rollback here rental here as it failed
+        }
+        return $update_status;
+    }
+    public function api_enable_account() : bool
+    {
+        if($this->server_api != null)
+        {
+            if($this->check_flags(array("event_enable_start")) == true)
+            {
+                return $this->update_account_state(true);
+            }
+        }
+        return false;
+    }
+    public function api_disable_account() : bool
+    {
+        if($this->server_api != null)
+        {
+            if($this->check_flags(array("event_disable_revoke")) == true)
+            {
+                return $this->update_account_state(false);
+            }
+        }
+        return false;
+    }
     public function api_serverstatus() : array
     {
         $status = false;
