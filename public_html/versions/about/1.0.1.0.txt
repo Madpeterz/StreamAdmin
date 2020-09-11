@@ -6,3 +6,4 @@ Centova API support<br/>
 [X] Username customize<br/>
 [X] Reset passwords<br/>
 [X] Server status<br/>
+[X] Susspend/Unsusspend<br/>
