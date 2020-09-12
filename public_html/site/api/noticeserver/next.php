@@ -51,16 +51,8 @@ function process_notice_change(notice $notice)
                 }
                 if($all_ok == true)
                 {
-                    // Server API support
-                    $server = $server_set->get_object_by_id($stream->get_serverlink());
-                    $api = $apis_set->get_object_by_id($server->get_apilink());
-                    if($api != null)
-                    {
-                        if(($api->get_event_disable_expire() == 1) && ($server->get_event_disable_expire() == 1))
-                        {
-                            $all_ok = create_pending_api_request($server,$stream,null,"event_disable_expire",$lang["noticeserver.n.error.8"],true);
-                        }
-                    }
+                    include("site/api_serverlogic/expire.php");
+                    $all_ok = $api_serverlogic_reply;
                 }
             }
             if($all_ok == true)
