@@ -31,7 +31,7 @@ foreach($stream_set->get_all_ids() as $streamid)
             }
             else $entry[] = "Rented but cant find rental.";
         }
-        else $entry[] = "<span class=\"ready\">Ready</span>";
+        else $entry[] = "<span class=\"ready\">Available</span>";
     }
     else $entry[] = "<span class=\"needwork\">Need work</span>";
     $table_body[] = $entry;
