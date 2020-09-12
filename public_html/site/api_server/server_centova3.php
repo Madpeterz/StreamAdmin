@@ -71,7 +71,12 @@ class server_centova3_only extends server_public_api
 }
 class server_centova3 extends server_centova3_only
 {
-    protected function dj_list(stream $stream,server $server)
+    protected function remove_dj(stream $stream,server $server,string $djaccount) : bool
+    {
+        $reply = $this->centova_serverclass_api_call($server,$stream,"managedj",array("action"=>"terminate","djusername"=>$djaccount));
+        return $this->simple_reply_ok($reply);
+    }
+    protected function dj_list(stream $stream,server $server) : array
     {
         $reply = $this->centova_serverclass_api_call($server,$stream,"managedj",array("action"=>"list"));
         $status = false;

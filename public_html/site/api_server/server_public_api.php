@@ -45,6 +45,10 @@ class server_public_api extends server_api_protected
     {
         return $this->dj_list($stream,$server);
     }
+    public function purge_dj_account(stream $stream,server $server,string $djaccount) : bool
+    {
+        return $this->remove_dj($stream,$server,$djaccount);
+    }
     public function set_account_state(stream $stream,server $server,bool $state) : bool
     {
         $account_state = $this->account_state($stream,$server);

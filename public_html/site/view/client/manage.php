@@ -104,7 +104,10 @@ if($rental->load_by_field("rental_uid",$page) == true)
                     $form = new form();
                     $form->target("client/api/".$page."/list_djs");
                     $mygrid->add_content($form->render("List DJ accounts","info",true),4);
-                    
+                    $form = new form();
+                    $form->target("client/api/".$page."/purge_djs");
+                    $mygrid->add_content($form->render("purge DJ accounts","danger",true),4);
+
                     $pages["API"] = $mygrid->get_output();
                     $avname = explode(" ",strtolower($avatar->get_avatarname()));
                     $syncname = "".$avname[0]."_".$package->get_bitrate()."_".$stream->get_port()."";

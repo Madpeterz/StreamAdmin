@@ -187,9 +187,14 @@ class serverapi_helper
         return false;
     }
     protected $dj_list = array();
+    protected $removed_dj_counter = 0;
     public function loaded_djs() : array
     {
         return $this->dj_list;
+    }
+    public function get_removed_dj_counter() : int
+    {
+        return $this->removed_dj_counter;
     }
     public function api_list_djs() : bool
     {
@@ -209,6 +214,43 @@ class serverapi_helper
                     $this->message = $this->server_api->get_last_api_message();
                 }
                 return $reply["status"];
+            }
+        }
+        return false;
+    }
+    public function api_purge_djs() : bool
+    {
+        if($this->server_api != null)
+        {
+            if($this->check_flags(array("event_clear_djs")) == true)
+            {
+                if($this->api_list_djs() == true)
+                {
+                    $all_ok = true;
+                    $this->removed_dj_counter = 0;
+                    foreach($this->loaded_djs() as $djaccount)
+                    {
+                        $status = $this->server_api->purge_dj_account($this->stream,$this->server,$djaccount);
+                        if($status == true)
+                        {
+                            $this->removed_dj_counter++;
+                        }
+                        else
+                        {
+                            $all_ok = false;
+                            break;
+                        }
+                    }
+                    if($all_ok == true)
+                    {
+                        $this->message = "Removed ".$this->get_removed_dj_counter()." dj accounts";
+                    }
+                    else
+                    {
+                        $this->message = $this->server_api->get_last_api_message();
+                    }
+                    return $all_ok;
+                }
             }
         }
         return false;

@@ -3,15 +3,20 @@ class server_api_protected extends error_logging
 {
     protected $last_api_message = "";
     protected $needs_retry = false;
-    protected function stream_state(stream $stream,server $server)
+    protected function stream_state(stream $stream,server $server) : array
     {
         $this->last_api_message = "Skipped stream_state not supported on this api";
         return array("status"=>false,"state"=>false,"source"=>false);
     }
-    protected function dj_list(stream $stream,server $server)
+    protected function dj_list(stream $stream,server $server) : array
     {
         $this->last_api_message = "Skipped dj_list not supported on this api";
         return array("status"=>true,"list"=>array());
+    }
+    protected function remove_dj(stream $stream,server $server,string $djaccount) : bool
+    {
+        $this->last_api_message = "Skipped remove_dj not supported on this api";
+        return true;
     }
     protected function account_state(stream $stream,server $server) : array
     {
