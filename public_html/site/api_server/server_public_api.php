@@ -41,6 +41,10 @@ class server_public_api extends server_api_protected
         }
         return false;
     }
+    public function get_dj_list(stream $stream,server $server) : array
+    {
+        return $this->dj_list($stream,$server);
+    }
     public function set_account_state(stream $stream,server $server,bool $state) : bool
     {
         $account_state = $this->account_state($stream,$server);

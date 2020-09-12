@@ -179,7 +179,36 @@ class serverapi_helper
         {
             if($this->check_flags(array("event_enable_start")) == true)
             {
-                return $this->update_account_state(true);
+                $status = $this->update_account_state(true);
+                $this->message = $this->server_api->get_last_api_message();
+                return $status;
+            }
+        }
+        return false;
+    }
+    protected $dj_list = array();
+    public function loaded_djs() : array
+    {
+        return $this->dj_list;
+    }
+    public function api_list_djs() : bool
+    {
+        $this->dj_list = array();
+        if($this->server_api != null)
+        {
+            if($this->check_flags(array("event_clear_djs")) == true)
+            {
+                $reply = $this->server_api->get_dj_list($this->stream,$this->server);
+                $this->dj_list = $reply["list"];
+                if(count($this->loaded_djs()) > 0)
+                {
+                    $this->message = implode(",",$this->loaded_djs());
+                }
+                else
+                {
+                    $this->message = $this->server_api->get_last_api_message();
+                }
+                return $reply["status"];
             }
         }
         return false;
