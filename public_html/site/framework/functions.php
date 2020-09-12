@@ -1,4 +1,43 @@
 <?php
+function create_pending_api_request(server $server,stream $stream,?rental $rental,string $eventname,string $errormessage="error: %1\$s %2\$s",bool $save_to_why_failed=false) : bool
+{
+    global $why_failed, $no_api_action;
+    if($eventname == "core_send_details")
+    {
+        $detail = new detail();
+        $detail->set_field("rentallink",$rental->get_id());
+        $create_status = $detail->create_entry();
+        $status = $create_status["status"];
+        if($status == false)
+        {
+            $why_failed = $errormessage;
+        }
+        return $status;
+    }
+    else
+    {
+        $no_api_action = false;
+        $api_request = new api_requests();
+        $api_request->set_field("serverlink",$server->get_id());
+        if($rental != null ) $api_request->set_field("rentallink",$server->get_id());
+        $api_request->set_field("streamlink",$stream->get_id());
+        $api_request->set_field("streamlink",$stream->get_id());
+        $api_request->set_field("eventname",$eventname);
+        $reply = $api_request->create_entry();
+        if($reply["status"] == false)
+        {
+            if($save_to_why_failed == true)
+            {
+                $why_failed = sprintf($errormessage,$eventname,$reply["message"]);
+            }
+            else
+            {
+                echo sprintf($errormessage,$eventname,$reply["message"]);
+            }
+        }
+        return $reply["status"];
+    }
+}
 function render_table(array $table_head, array $table_body,string $classaddon="")
 {
     add_vendor("datatable");
