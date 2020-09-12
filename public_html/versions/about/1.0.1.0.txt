@@ -7,3 +7,4 @@ Centova API support<br/>
 [X] Reset passwords<br/>
 [X] Server status<br/>
 [X] Susspend/Unsusspend<br/>
+[X] Purge DJ accounts<br/>
