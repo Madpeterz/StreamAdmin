@@ -38,6 +38,7 @@
 			"event_disable_expire" => array("type"=>"bool","value"=>0),
 			"event_disable_revoke" => array("type"=>"bool","value"=>1),
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>1),
+			"event_clear_djs" => array("type"=>"bool","value"=>0),
 		);
 		public function get_id() : ?int
 		{
@@ -110,6 +111,10 @@
 		public function get_event_reset_password_revoke() : ?bool
 		{
 			return $this->get_field("event_reset_password_revoke");
+		}
+		public function get_event_clear_djs() : ?bool
+		{
+			return $this->get_field("event_clear_djs");
 		}
 	}
 ?>

@@ -7,4 +7,7 @@ ALTER TABLE `stream` ADD `original_adminusername` TEXT NOT NULL AFTER `needwork`
 UPDATE `stream` SET `original_adminusername` = `stream`.`adminusername`;
 ALTER TABLE `apis` ADD `api_serverstatus` TINYINT(1) NOT NULL DEFAULT '0' AFTER `name`;
 ALTER TABLE `server` ADD `api_serverstatus` TINYINT(1) NOT NULL DEFAULT '1' AFTER `api_password`;
-UPDATE `apis` SET `api_serverstatus` = '1' WHERE `apis`.`id` = 2; 
+UPDATE `apis` SET `api_serverstatus` = '1' WHERE `apis`.`id` = 2;
+ALTER TABLE `apis` ADD `event_clear_djs` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_reset_password_revoke`;
+ALTER TABLE `server` ADD `event_clear_djs` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_reset_password_revoke`;
+UPDATE `apis` SET `event_clear_djs` = '1' WHERE `apis`.`id` = 2; 

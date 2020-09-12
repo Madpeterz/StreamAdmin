@@ -34,6 +34,7 @@ if($server->load($page) == true)
         $form->select("event_disable_expire","Event / Disable on expire",$server->get_event_disable_expire(),array(0=>"No",1=>"Yes"));
         $form->select("event_disable_revoke","Event / Disable on revoke",$server->get_event_disable_revoke(),array(0=>"No",1=>"Yes"));
         $form->select("event_reset_password_revoke","Event / Reset password on revoke",$server->get_event_reset_password_revoke(),array(0=>"No",1=>"Yes"));
+        $form->select("event_clear_djs","Event / Clear DJ accounts on revoke",$server->get_event_clear_djs(),array(0=>"No",1=>"Yes"));
     echo $form->render("Update","primary");
     include("site/view/server/api_notes.php");
 }
