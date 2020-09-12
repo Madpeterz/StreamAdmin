@@ -71,6 +71,46 @@ class server_centova3_only extends server_public_api
 }
 class server_centova3 extends server_centova3_only
 {
+    protected function dj_list(stream $stream,server $server)
+    {
+        $reply = $this->centova_serverclass_api_call($server,$stream,"managedj",array("action"=>"list"));
+        $status = false;
+        $list = array();
+        if($this->simple_reply_ok($reply) == true)
+        {
+            $status = true;
+            $djlist_data = $reply["data"]["response"]["data"];
+            if(is_array($djlist_data) == true)
+            {
+                foreach($djlist_data as $djentry)
+                {
+                    $list[] = $djentry["djusername"];
+                }
+            }
+        }
+        else
+        {
+            // Handle broken API [v3.2.12]
+            if(array_key_exists("data",$reply) == true)
+            {
+                $reply = $reply["data"];
+                if(array_key_exists("response",$reply) == true)
+                {
+                    $reply = $reply["response"];
+                    if(array_key_exists("message",$reply) == true)
+                    {
+                        $reply = $reply["message"];
+                        if (strpos($reply, "Invalid argument supplied for foreach()") !== false)
+                        {
+                            $status = true;
+                            $this->last_api_message = "No DJ accounts";
+                        }
+                    }
+                }
+            }
+        }
+        return array("status"=>$status,"list"=>$list);
+    }
     protected function server_status(server $server) : array
     {
         $status = false;
