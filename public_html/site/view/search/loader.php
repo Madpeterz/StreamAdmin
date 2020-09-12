@@ -220,9 +220,9 @@ if(strlen($search) > 3)
     echo "<hr/>";
     echo "<h4>How search finds stuff</h4>";
     echo "<ul>";
-    echo "<li>1: Search avatars for UUID or Name or UID that knida matchs.</li>";
-    echo "<li>2: Search clients for UID or Message that knida matchs or is an Avatar from step 1.</li>";
-    echo "<li>3: Search streams for Adminusername or Port or UID that knida matchs. or is from a client found in step 2.</li>";
+    echo "<li>1: Search avatars for UUID or Name or UID that partially matchs.</li>";
+    echo "<li>2: Search clients for UID or Message that partially matchs or is an Avatar from step 1.</li>";
+    echo "<li>3: Search streams for Adminusername or Port or UID that partially matchs. or is from a client found in step 2.</li>";
     echo "<li>4: Search servers for Domain or Controlpanel that knida matchs or is used by a stream found in step 3</li>";
     echo "<li>5: Search clients again using sold streams found in step 3</li>";
     echo "</ul>";
