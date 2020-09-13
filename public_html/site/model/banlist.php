@@ -25,7 +25,7 @@
 		);
 		public function get_id() : ?int {  return $this->get_field("id");  } 
 		public function get_avatar_link() : ?int {  return $this->get_field("avatar_link");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_avatar_link(?int $newvalue) : array {  return $this->set_field("avatar_link",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_avatar_link(?int $newvalue) : array {  return $this->update_field("avatar_link",$newvalue);  } 
 	}
 ?>

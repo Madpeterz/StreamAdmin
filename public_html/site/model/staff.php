@@ -41,15 +41,15 @@
 		public function get_lhash() : ?string {  return $this->get_field("lhash");  } 
 		public function get_psalt() : ?string {  return $this->get_field("psalt");  } 
 		public function get_ownerlevel() : ?bool {  return $this->get_field("ownerlevel");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_username(?string $newvalue) : array {  return $this->set_field("username",$newvalue);  } 
-		public function set_email(?string $newvalue) : array {  return $this->set_field("email",$newvalue);  } 
-		public function set_email_reset_code(?string $newvalue) : array {  return $this->set_field("email_reset_code",$newvalue);  } 
-		public function set_email_reset_expires(?int $newvalue) : array {  return $this->set_field("email_reset_expires",$newvalue);  } 
-		public function set_avatarlink(?int $newvalue) : array {  return $this->set_field("avatarlink",$newvalue);  } 
-		public function set_phash(?string $newvalue) : array {  return $this->set_field("phash",$newvalue);  } 
-		public function set_lhash(?string $newvalue) : array {  return $this->set_field("lhash",$newvalue);  } 
-		public function set_psalt(?string $newvalue) : array {  return $this->set_field("psalt",$newvalue);  } 
-		public function set_ownerlevel(?bool $newvalue) : array {  return $this->set_field("ownerlevel",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_username(?string $newvalue) : array {  return $this->update_field("username",$newvalue);  } 
+		public function set_email(?string $newvalue) : array {  return $this->update_field("email",$newvalue);  } 
+		public function set_email_reset_code(?string $newvalue) : array {  return $this->update_field("email_reset_code",$newvalue);  } 
+		public function set_email_reset_expires(?int $newvalue) : array {  return $this->update_field("email_reset_expires",$newvalue);  } 
+		public function set_avatarlink(?int $newvalue) : array {  return $this->update_field("avatarlink",$newvalue);  } 
+		public function set_phash(?string $newvalue) : array {  return $this->update_field("phash",$newvalue);  } 
+		public function set_lhash(?string $newvalue) : array {  return $this->update_field("lhash",$newvalue);  } 
+		public function set_psalt(?string $newvalue) : array {  return $this->update_field("psalt",$newvalue);  } 
+		public function set_ownerlevel(?bool $newvalue) : array {  return $this->update_field("ownerlevel",$newvalue);  } 
 	}
 ?>

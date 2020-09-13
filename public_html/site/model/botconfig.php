@@ -31,10 +31,10 @@
 		public function get_secret() : ?string {  return $this->get_field("secret");  } 
 		public function get_notecards() : ?bool {  return $this->get_field("notecards");  } 
 		public function get_ims() : ?bool {  return $this->get_field("ims");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_avatarlink(?int $newvalue) : array {  return $this->set_field("avatarlink",$newvalue);  } 
-		public function set_secret(?string $newvalue) : array {  return $this->set_field("secret",$newvalue);  } 
-		public function set_notecards(?bool $newvalue) : array {  return $this->set_field("notecards",$newvalue);  } 
-		public function set_ims(?bool $newvalue) : array {  return $this->set_field("ims",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_avatarlink(?int $newvalue) : array {  return $this->update_field("avatarlink",$newvalue);  } 
+		public function set_secret(?string $newvalue) : array {  return $this->update_field("secret",$newvalue);  } 
+		public function set_notecards(?bool $newvalue) : array {  return $this->update_field("notecards",$newvalue);  } 
+		public function set_ims(?bool $newvalue) : array {  return $this->update_field("ims",$newvalue);  } 
 	}
 ?>

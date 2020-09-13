@@ -45,17 +45,17 @@
 		public function get_unixtime() : ?int {  return $this->get_field("unixtime");  } 
 		public function get_expire_unixtime() : ?int {  return $this->get_field("expire_unixtime");  } 
 		public function get_port() : ?int {  return $this->get_field("port");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_avatar_uuid(?string $newvalue) : array {  return $this->set_field("avatar_uuid",$newvalue);  } 
-		public function set_avatar_name(?string $newvalue) : array {  return $this->set_field("avatar_name",$newvalue);  } 
-		public function set_rental_uid(?string $newvalue) : array {  return $this->set_field("rental_uid",$newvalue);  } 
-		public function set_package_uid(?string $newvalue) : array {  return $this->set_field("package_uid",$newvalue);  } 
-		public function set_event_new(?bool $newvalue) : array {  return $this->set_field("event_new",$newvalue);  } 
-		public function set_event_renew(?bool $newvalue) : array {  return $this->set_field("event_renew",$newvalue);  } 
-		public function set_event_expire(?bool $newvalue) : array {  return $this->set_field("event_expire",$newvalue);  } 
-		public function set_event_remove(?bool $newvalue) : array {  return $this->set_field("event_remove",$newvalue);  } 
-		public function set_unixtime(?int $newvalue) : array {  return $this->set_field("unixtime",$newvalue);  } 
-		public function set_expire_unixtime(?int $newvalue) : array {  return $this->set_field("expire_unixtime",$newvalue);  } 
-		public function set_port(?int $newvalue) : array {  return $this->set_field("port",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_avatar_uuid(?string $newvalue) : array {  return $this->update_field("avatar_uuid",$newvalue);  } 
+		public function set_avatar_name(?string $newvalue) : array {  return $this->update_field("avatar_name",$newvalue);  } 
+		public function set_rental_uid(?string $newvalue) : array {  return $this->update_field("rental_uid",$newvalue);  } 
+		public function set_package_uid(?string $newvalue) : array {  return $this->update_field("package_uid",$newvalue);  } 
+		public function set_event_new(?bool $newvalue) : array {  return $this->update_field("event_new",$newvalue);  } 
+		public function set_event_renew(?bool $newvalue) : array {  return $this->update_field("event_renew",$newvalue);  } 
+		public function set_event_expire(?bool $newvalue) : array {  return $this->update_field("event_expire",$newvalue);  } 
+		public function set_event_remove(?bool $newvalue) : array {  return $this->update_field("event_remove",$newvalue);  } 
+		public function set_unixtime(?int $newvalue) : array {  return $this->update_field("unixtime",$newvalue);  } 
+		public function set_expire_unixtime(?int $newvalue) : array {  return $this->update_field("expire_unixtime",$newvalue);  } 
+		public function set_port(?int $newvalue) : array {  return $this->update_field("port",$newvalue);  } 
 	}
 ?>

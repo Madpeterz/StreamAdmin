@@ -43,16 +43,16 @@
 		public function get_totalamount() : ?int {  return $this->get_field("totalamount");  } 
 		public function get_message() : ?string {  return $this->get_field("message");  } 
 		public function get_rental_uid() : ?string {  return $this->get_field("rental_uid");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_avatarlink(?int $newvalue) : array {  return $this->set_field("avatarlink",$newvalue);  } 
-		public function set_streamlink(?int $newvalue) : array {  return $this->set_field("streamlink",$newvalue);  } 
-		public function set_packagelink(?int $newvalue) : array {  return $this->set_field("packagelink",$newvalue);  } 
-		public function set_noticelink(?int $newvalue) : array {  return $this->set_field("noticelink",$newvalue);  } 
-		public function set_startunixtime(?int $newvalue) : array {  return $this->set_field("startunixtime",$newvalue);  } 
-		public function set_expireunixtime(?int $newvalue) : array {  return $this->set_field("expireunixtime",$newvalue);  } 
-		public function set_renewals(?int $newvalue) : array {  return $this->set_field("renewals",$newvalue);  } 
-		public function set_totalamount(?int $newvalue) : array {  return $this->set_field("totalamount",$newvalue);  } 
-		public function set_message(?string $newvalue) : array {  return $this->set_field("message",$newvalue);  } 
-		public function set_rental_uid(?string $newvalue) : array {  return $this->set_field("rental_uid",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_avatarlink(?int $newvalue) : array {  return $this->update_field("avatarlink",$newvalue);  } 
+		public function set_streamlink(?int $newvalue) : array {  return $this->update_field("streamlink",$newvalue);  } 
+		public function set_packagelink(?int $newvalue) : array {  return $this->update_field("packagelink",$newvalue);  } 
+		public function set_noticelink(?int $newvalue) : array {  return $this->update_field("noticelink",$newvalue);  } 
+		public function set_startunixtime(?int $newvalue) : array {  return $this->update_field("startunixtime",$newvalue);  } 
+		public function set_expireunixtime(?int $newvalue) : array {  return $this->update_field("expireunixtime",$newvalue);  } 
+		public function set_renewals(?int $newvalue) : array {  return $this->update_field("renewals",$newvalue);  } 
+		public function set_totalamount(?int $newvalue) : array {  return $this->update_field("totalamount",$newvalue);  } 
+		public function set_message(?string $newvalue) : array {  return $this->update_field("message",$newvalue);  } 
+		public function set_rental_uid(?string $newvalue) : array {  return $this->update_field("rental_uid",$newvalue);  } 
 	}
 ?>

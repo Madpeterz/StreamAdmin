@@ -27,7 +27,7 @@
 			"eventname" => array("type"=>"str","value"=>null),
 			"attempts" => array("type"=>"int","value"=>0),
 			"last_attempt" => array("type"=>"int","value"=>0),
-			"last_failed_why" => array("type"=>"str","value"=>null),
+			"message" => array("type"=>"str","value"=>null),
 		);
 		public function get_id() : ?int {  return $this->get_field("id");  } 
 		public function get_serverlink() : ?int {  return $this->get_field("serverlink");  } 
@@ -36,14 +36,14 @@
 		public function get_eventname() : ?string {  return $this->get_field("eventname");  } 
 		public function get_attempts() : ?int {  return $this->get_field("attempts");  } 
 		public function get_last_attempt() : ?int {  return $this->get_field("last_attempt");  } 
-		public function get_last_failed_why() : ?string {  return $this->get_field("last_failed_why");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_serverlink(?int $newvalue) : array {  return $this->set_field("serverlink",$newvalue);  } 
-		public function set_rentallink(?int $newvalue) : array {  return $this->set_field("rentallink",$newvalue);  } 
-		public function set_streamlink(?int $newvalue) : array {  return $this->set_field("streamlink",$newvalue);  } 
-		public function set_eventname(?string $newvalue) : array {  return $this->set_field("eventname",$newvalue);  } 
-		public function set_attempts(?int $newvalue) : array {  return $this->set_field("attempts",$newvalue);  } 
-		public function set_last_attempt(?int $newvalue) : array {  return $this->set_field("last_attempt",$newvalue);  } 
-		public function set_last_failed_why(?string $newvalue) : array {  return $this->set_field("last_failed_why",$newvalue);  } 
+		public function get_message() : ?string {  return $this->get_field("message");  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_serverlink(?int $newvalue) : array {  return $this->update_field("serverlink",$newvalue);  } 
+		public function set_rentallink(?int $newvalue) : array {  return $this->update_field("rentallink",$newvalue);  } 
+		public function set_streamlink(?int $newvalue) : array {  return $this->update_field("streamlink",$newvalue);  } 
+		public function set_eventname(?string $newvalue) : array {  return $this->update_field("eventname",$newvalue);  } 
+		public function set_attempts(?int $newvalue) : array {  return $this->update_field("attempts",$newvalue);  } 
+		public function set_last_attempt(?int $newvalue) : array {  return $this->update_field("last_attempt",$newvalue);  } 
+		public function set_message(?string $newvalue) : array {  return $this->update_field("message",$newvalue);  } 
 	}
 ?>

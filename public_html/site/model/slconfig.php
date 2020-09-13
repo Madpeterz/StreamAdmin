@@ -55,22 +55,22 @@
 		public function get_smtp_accesscode() : ?string {  return $this->get_field("smtp_accesscode");  } 
 		public function get_smtp_from() : ?string {  return $this->get_field("smtp_from");  } 
 		public function get_smtp_replyto() : ?string {  return $this->get_field("smtp_replyto");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_db_version(?string $newvalue) : array {  return $this->set_field("db_version",$newvalue);  } 
-		public function set_new_resellers(?bool $newvalue) : array {  return $this->set_field("new_resellers",$newvalue);  } 
-		public function set_new_resellers_rate(?int $newvalue) : array {  return $this->set_field("new_resellers_rate",$newvalue);  } 
-		public function set_sllinkcode(?string $newvalue) : array {  return $this->set_field("sllinkcode",$newvalue);  } 
-		public function set_clients_list_mode(?bool $newvalue) : array {  return $this->set_field("clients_list_mode",$newvalue);  } 
-		public function set_publiclinkcode(?string $newvalue) : array {  return $this->set_field("publiclinkcode",$newvalue);  } 
-		public function set_owner_av(?int $newvalue) : array {  return $this->set_field("owner_av",$newvalue);  } 
-		public function set_eventstorage(?bool $newvalue) : array {  return $this->set_field("eventstorage",$newvalue);  } 
-		public function set_datatable_itemsperpage(?int $newvalue) : array {  return $this->set_field("datatable_itemsperpage",$newvalue);  } 
-		public function set_http_inbound_secret(?string $newvalue) : array {  return $this->set_field("http_inbound_secret",$newvalue);  } 
-		public function set_smtp_host(?string $newvalue) : array {  return $this->set_field("smtp_host",$newvalue);  } 
-		public function set_smtp_port(?int $newvalue) : array {  return $this->set_field("smtp_port",$newvalue);  } 
-		public function set_smtp_username(?string $newvalue) : array {  return $this->set_field("smtp_username",$newvalue);  } 
-		public function set_smtp_accesscode(?string $newvalue) : array {  return $this->set_field("smtp_accesscode",$newvalue);  } 
-		public function set_smtp_from(?string $newvalue) : array {  return $this->set_field("smtp_from",$newvalue);  } 
-		public function set_smtp_replyto(?string $newvalue) : array {  return $this->set_field("smtp_replyto",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_db_version(?string $newvalue) : array {  return $this->update_field("db_version",$newvalue);  } 
+		public function set_new_resellers(?bool $newvalue) : array {  return $this->update_field("new_resellers",$newvalue);  } 
+		public function set_new_resellers_rate(?int $newvalue) : array {  return $this->update_field("new_resellers_rate",$newvalue);  } 
+		public function set_sllinkcode(?string $newvalue) : array {  return $this->update_field("sllinkcode",$newvalue);  } 
+		public function set_clients_list_mode(?bool $newvalue) : array {  return $this->update_field("clients_list_mode",$newvalue);  } 
+		public function set_publiclinkcode(?string $newvalue) : array {  return $this->update_field("publiclinkcode",$newvalue);  } 
+		public function set_owner_av(?int $newvalue) : array {  return $this->update_field("owner_av",$newvalue);  } 
+		public function set_eventstorage(?bool $newvalue) : array {  return $this->update_field("eventstorage",$newvalue);  } 
+		public function set_datatable_itemsperpage(?int $newvalue) : array {  return $this->update_field("datatable_itemsperpage",$newvalue);  } 
+		public function set_http_inbound_secret(?string $newvalue) : array {  return $this->update_field("http_inbound_secret",$newvalue);  } 
+		public function set_smtp_host(?string $newvalue) : array {  return $this->update_field("smtp_host",$newvalue);  } 
+		public function set_smtp_port(?int $newvalue) : array {  return $this->update_field("smtp_port",$newvalue);  } 
+		public function set_smtp_username(?string $newvalue) : array {  return $this->update_field("smtp_username",$newvalue);  } 
+		public function set_smtp_accesscode(?string $newvalue) : array {  return $this->update_field("smtp_accesscode",$newvalue);  } 
+		public function set_smtp_from(?string $newvalue) : array {  return $this->update_field("smtp_from",$newvalue);  } 
+		public function set_smtp_replyto(?string $newvalue) : array {  return $this->update_field("smtp_replyto",$newvalue);  } 
 	}
 ?>

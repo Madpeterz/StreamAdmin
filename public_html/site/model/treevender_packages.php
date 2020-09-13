@@ -27,8 +27,8 @@
 		public function get_id() : ?int {  return $this->get_field("id");  } 
 		public function get_treevenderlink() : ?int {  return $this->get_field("treevenderlink");  } 
 		public function get_packagelink() : ?int {  return $this->get_field("packagelink");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_treevenderlink(?int $newvalue) : array {  return $this->set_field("treevenderlink",$newvalue);  } 
-		public function set_packagelink(?int $newvalue) : array {  return $this->set_field("packagelink",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_treevenderlink(?int $newvalue) : array {  return $this->update_field("treevenderlink",$newvalue);  } 
+		public function set_packagelink(?int $newvalue) : array {  return $this->update_field("packagelink",$newvalue);  } 
 	}
 ?>

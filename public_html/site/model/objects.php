@@ -37,13 +37,13 @@
 		public function get_objectmode() : ?string {  return $this->get_field("objectmode");  } 
 		public function get_objectxyz() : ?string {  return $this->get_field("objectxyz");  } 
 		public function get_lastseen() : ?int {  return $this->get_field("lastseen");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_avatarlink(?int $newvalue) : array {  return $this->set_field("avatarlink",$newvalue);  } 
-		public function set_regionlink(?int $newvalue) : array {  return $this->set_field("regionlink",$newvalue);  } 
-		public function set_objectuuid(?string $newvalue) : array {  return $this->set_field("objectuuid",$newvalue);  } 
-		public function set_objectname(?string $newvalue) : array {  return $this->set_field("objectname",$newvalue);  } 
-		public function set_objectmode(?string $newvalue) : array {  return $this->set_field("objectmode",$newvalue);  } 
-		public function set_objectxyz(?string $newvalue) : array {  return $this->set_field("objectxyz",$newvalue);  } 
-		public function set_lastseen(?int $newvalue) : array {  return $this->set_field("lastseen",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_avatarlink(?int $newvalue) : array {  return $this->update_field("avatarlink",$newvalue);  } 
+		public function set_regionlink(?int $newvalue) : array {  return $this->update_field("regionlink",$newvalue);  } 
+		public function set_objectuuid(?string $newvalue) : array {  return $this->update_field("objectuuid",$newvalue);  } 
+		public function set_objectname(?string $newvalue) : array {  return $this->update_field("objectname",$newvalue);  } 
+		public function set_objectmode(?string $newvalue) : array {  return $this->update_field("objectmode",$newvalue);  } 
+		public function set_objectxyz(?string $newvalue) : array {  return $this->update_field("objectxyz",$newvalue);  } 
+		public function set_lastseen(?int $newvalue) : array {  return $this->update_field("lastseen",$newvalue);  } 
 	}
 ?>

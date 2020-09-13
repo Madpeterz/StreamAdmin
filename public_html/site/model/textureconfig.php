@@ -45,17 +45,17 @@
 		public function get_proxyrenew() : ?string {  return $this->get_field("proxyrenew");  } 
 		public function get_getting_details() : ?string {  return $this->get_field("getting_details");  } 
 		public function get_request_details() : ?string {  return $this->get_field("request_details");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_name(?string $newvalue) : array {  return $this->set_field("name",$newvalue);  } 
-		public function set_offline(?string $newvalue) : array {  return $this->set_field("offline",$newvalue);  } 
-		public function set_wait_owner(?string $newvalue) : array {  return $this->set_field("wait_owner",$newvalue);  } 
-		public function set_stock_levels(?string $newvalue) : array {  return $this->set_field("stock_levels",$newvalue);  } 
-		public function set_make_payment(?string $newvalue) : array {  return $this->set_field("make_payment",$newvalue);  } 
-		public function set_inuse(?string $newvalue) : array {  return $this->set_field("inuse",$newvalue);  } 
-		public function set_renew_here(?string $newvalue) : array {  return $this->set_field("renew_here",$newvalue);  } 
-		public function set_treevend_waiting(?string $newvalue) : array {  return $this->set_field("treevend_waiting",$newvalue);  } 
-		public function set_proxyrenew(?string $newvalue) : array {  return $this->set_field("proxyrenew",$newvalue);  } 
-		public function set_getting_details(?string $newvalue) : array {  return $this->set_field("getting_details",$newvalue);  } 
-		public function set_request_details(?string $newvalue) : array {  return $this->set_field("request_details",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_name(?string $newvalue) : array {  return $this->update_field("name",$newvalue);  } 
+		public function set_offline(?string $newvalue) : array {  return $this->update_field("offline",$newvalue);  } 
+		public function set_wait_owner(?string $newvalue) : array {  return $this->update_field("wait_owner",$newvalue);  } 
+		public function set_stock_levels(?string $newvalue) : array {  return $this->update_field("stock_levels",$newvalue);  } 
+		public function set_make_payment(?string $newvalue) : array {  return $this->update_field("make_payment",$newvalue);  } 
+		public function set_inuse(?string $newvalue) : array {  return $this->update_field("inuse",$newvalue);  } 
+		public function set_renew_here(?string $newvalue) : array {  return $this->update_field("renew_here",$newvalue);  } 
+		public function set_treevend_waiting(?string $newvalue) : array {  return $this->update_field("treevend_waiting",$newvalue);  } 
+		public function set_proxyrenew(?string $newvalue) : array {  return $this->update_field("proxyrenew",$newvalue);  } 
+		public function set_getting_details(?string $newvalue) : array {  return $this->update_field("getting_details",$newvalue);  } 
+		public function set_request_details(?string $newvalue) : array {  return $this->update_field("request_details",$newvalue);  } 
 	}
 ?>

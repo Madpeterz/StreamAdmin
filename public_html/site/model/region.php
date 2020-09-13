@@ -25,7 +25,7 @@
 		);
 		public function get_id() : ?int {  return $this->get_field("id");  } 
 		public function get_name() : ?string {  return $this->get_field("name");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_name(?string $newvalue) : array {  return $this->set_field("name",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_name(?string $newvalue) : array {  return $this->update_field("name",$newvalue);  } 
 	}
 ?>

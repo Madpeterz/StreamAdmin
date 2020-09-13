@@ -41,15 +41,15 @@
 		public function get_unixtime() : ?int {  return $this->get_field("unixtime");  } 
 		public function get_transaction_uid() : ?string {  return $this->get_field("transaction_uid");  } 
 		public function get_renew() : ?bool {  return $this->get_field("renew");  } 
-		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
-		public function set_avatarlink(?int $newvalue) : array {  return $this->set_field("avatarlink",$newvalue);  } 
-		public function set_packagelink(?int $newvalue) : array {  return $this->set_field("packagelink",$newvalue);  } 
-		public function set_streamlink(?int $newvalue) : array {  return $this->set_field("streamlink",$newvalue);  } 
-		public function set_resellerlink(?int $newvalue) : array {  return $this->set_field("resellerlink",$newvalue);  } 
-		public function set_regionlink(?int $newvalue) : array {  return $this->set_field("regionlink",$newvalue);  } 
-		public function set_amount(?int $newvalue) : array {  return $this->set_field("amount",$newvalue);  } 
-		public function set_unixtime(?int $newvalue) : array {  return $this->set_field("unixtime",$newvalue);  } 
-		public function set_transaction_uid(?string $newvalue) : array {  return $this->set_field("transaction_uid",$newvalue);  } 
-		public function set_renew(?bool $newvalue) : array {  return $this->set_field("renew",$newvalue);  } 
+		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
+		public function set_avatarlink(?int $newvalue) : array {  return $this->update_field("avatarlink",$newvalue);  } 
+		public function set_packagelink(?int $newvalue) : array {  return $this->update_field("packagelink",$newvalue);  } 
+		public function set_streamlink(?int $newvalue) : array {  return $this->update_field("streamlink",$newvalue);  } 
+		public function set_resellerlink(?int $newvalue) : array {  return $this->update_field("resellerlink",$newvalue);  } 
+		public function set_regionlink(?int $newvalue) : array {  return $this->update_field("regionlink",$newvalue);  } 
+		public function set_amount(?int $newvalue) : array {  return $this->update_field("amount",$newvalue);  } 
+		public function set_unixtime(?int $newvalue) : array {  return $this->update_field("unixtime",$newvalue);  } 
+		public function set_transaction_uid(?string $newvalue) : array {  return $this->update_field("transaction_uid",$newvalue);  } 
+		public function set_renew(?bool $newvalue) : array {  return $this->update_field("renew",$newvalue);  } 
 	}
 ?>
