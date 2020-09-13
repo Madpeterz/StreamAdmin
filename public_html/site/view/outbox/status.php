@@ -4,6 +4,7 @@ $services = array(
     "notecard" => array("timeper"=>30,"classname"=>"notecard_set"),
     "details" => array("timeper"=>15,"classname"=>"detail_set"),
     "mail" => array("timeper"=>15,"classname"=>"message_set"),
+    "api" => array("timeper"=>10,"classname"=>"api_requests_set"),
 );
 $table_head = array("Outbox name","Pending","TTC");
 $table_body = array();
