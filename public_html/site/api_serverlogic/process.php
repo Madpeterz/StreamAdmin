@@ -7,15 +7,15 @@ $api_logiclang = array(
 $api_serverlogic_reply = true;
 $lang_file = "site/lang/api_serverlogic/".$site_lang.".php";
 if(file_exists($lang_file) == true) { include($lang_file); }
-if(is_set($server) == false)
+if(isset($server) == false)
 {
     $server = new server();
     $server->load($stream->get_serverlink());
 }
-if(is_set($no_api_action) == false) { $no_api_action = true; }
-if(is_set($rental) == false) { $rental = null; }
-if(is_set($why_failed) == false) { $why_failed = ""; }
-if(is_set($current_step) == false) { $current_step = ""; }
+if(isset($no_api_action) == false) { $no_api_action = true; }
+if(isset($rental) == false) { $rental = null; }
+if(isset($why_failed) == false) { $why_failed = ""; }
+if(isset($current_step) == false) { $current_step = ""; }
 if($server->is_loaded() == true)
 {
     $api = new apis();
@@ -23,40 +23,47 @@ if($server->is_loaded() == true)
     {
         if($api->get_id() != 1)
         {
-            $continue_steps = false;
-            foreach($steps as $key => $value)
+            $cleaned_steps = array();
+            if($current_step != "")
             {
-                $use_step = true;
-                if($continue_steps == false)
+                $skip = true;
+                foreach($steps as $key => $value)
                 {
-                    $use_step = false;
-                    if($key == $current_step)
+                    if(($key == $current_step) && ($skip == true))
                     {
-                        $continue_steps = true;
-                        $use_step = true;
+                        $skip = false;
+                    }
+                    if($skip == false)
+                    {
+                        $cleaned_steps[] = $value;
                     }
                 }
-                if($use_step == true)
+            }
+            else
+            {
+                $cleaned_steps = array_values($steps);
+            }
+            $continue_steps = false;
+            foreach($cleaned_steps as $value)
+            {
+                $has_api_step = false;
+                if($value != "core_send_details")
                 {
-                    $has_api_step = false;
-                    if($value != "core_send_details")
-                    {
-                        $get_name = "get_".$value."";
-                        if(($api->$get_name() == 1) && ($server->$get_name() == 1))
-                        {
-                            $has_api_step = true;
-                        }
-                    }
-                    else
+                    $get_name = "get_".$value."";
+                    if(($api->$get_name() == 1) && ($server->$get_name() == 1))
                     {
                         $has_api_step = true;
                     }
-                    if($has_api_step == true)
-                    {
-                        $no_api_action = false;
-                        $api_serverlogic_reply = create_pending_api_request($server,$stream,$rental,$value,$api_logiclang["failed.create"],true);
-                        break;
-                    }
+                }
+                else
+                {
+                    $has_api_step = true;
+                }
+                if($has_api_step == true)
+                {
+                    $no_api_action = false;
+                    $api_serverlogic_reply = create_pending_api_request($server,$stream,$rental,$value,$api_logiclang["failed.create"],true);
+                    break;
                 }
             }
         }
