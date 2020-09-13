@@ -107,6 +107,12 @@ foreach($rental_set->get_all_ids() as $rental_id)
                                 echo $message;
                                 break;
                             }
+                        }
+                        else
+                        {
+                            echo $lang["client.rm.error.4"];
+                            break;
+                        }
                     }
                     else
                     {
