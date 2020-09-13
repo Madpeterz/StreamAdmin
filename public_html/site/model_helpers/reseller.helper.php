@@ -18,9 +18,9 @@ class reseller_helper
             else
             {
                 $this->reseller = new reseller();
-                $this->reseller->set_field("avatarlink",$avatarlinkid);
-                $this->reseller->set_field("allowed",$auto_accept);
-                $this->reseller->set_field("rate",$auto_accept_rate);
+                $this->reseller->set_avatarlink($avatarlinkid);
+                $this->reseller->set_allowed($auto_accept);
+                $this->reseller->set_rate($auto_accept_rate);
                 $save_status = $this->reseller->create_entry();
                 if($save_status["status"] == false)
                 {

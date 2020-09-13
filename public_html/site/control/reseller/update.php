@@ -12,8 +12,8 @@ if($failed_on == "")
     $reseller = new reseller();
     if($reseller->load($page) == true)
     {
-        $reseller->set_field("rate",$rate);
-        $reseller->set_field("allowed",$allowed);
+        $reseller->set_rate($rate);
+        $reseller->set_allowed($allowed);
         $update_status = $reseller->save_changes();
         if($update_status["status"] == true)
         {

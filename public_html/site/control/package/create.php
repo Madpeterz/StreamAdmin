@@ -36,18 +36,18 @@ if($failed_on == "")
     $uid = $package->create_uid("package_uid",8,10);
     if($uid["status"] == true)
     {
-        $package->set_field("package_uid",$uid["uid"]);
-        $package->set_field("name",$name);
-        $package->set_field("autodj",$autodj);
-        $package->set_field("audodj_size",$autodj_size);
-        $package->set_field("listeners",$listeners);
-        $package->set_field("bitrate",$bitrate);
-        $package->set_field("templatelink",$templatelink);
-        $package->set_field("cost",$cost);
-        $package->set_field("days",$days);
-        $package->set_field("texture_uuid_soldout",$texture_uuid_soldout);
-        $package->set_field("texture_uuid_instock_small",$texture_uuid_instock_small);
-        $package->set_field("texture_uuid_instock_selected",$texture_uuid_instock_selected);
+        $package->set_package_uid($uid["uid"]);
+        $package->set_name($name);
+        $package->set_autodj($autodj);
+        $package->set_audodj_size($autodj_size);
+        $package->set_listeners($listeners);
+        $package->set_bitrate($bitrate);
+        $package->set_templatelink($templatelink);
+        $package->set_cost($cost);
+        $package->set_days($days);
+        $package->set_texture_uuid_soldout($texture_uuid_soldout);
+        $package->set_texture_uuid_instock_small($texture_uuid_instock_small);
+        $package->set_texture_uuid_instock_selected($texture_uuid_instock_selected);
         $create_status = $package->create_entry();
         if($create_status["status"] == true)
         {

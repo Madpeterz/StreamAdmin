@@ -32,14 +32,14 @@ if($failed_on == "")
         {
             if($count_check["count"] == $expected_count)
             {
-                $notice->set_field("name",$name);
-                $notice->set_field("immessage",$immessage);
-                $notice->set_field("usebot",$usebot);
-                $notice->set_field("send_notecard",$send_notecard);
-                $notice->set_field("notecarddetail",$notecarddetail);
+                $notice->set_name($name);
+                $notice->set_immessage($immessage);
+                $notice->set_usebot($usebot);
+                $notice->set_send_notecard($send_notecard);
+                $notice->set_notecarddetail($notecarddetail);
                 if(in_array($page,array(6,10)) == false)
                 {
-                    $notice->set_field("hoursremaining",$hoursremaining);
+                    $notice->set_hoursremaining($hoursremaining);
                 }
                 $update_status = $notice->save_changes();
                 if($update_status["status"] == true)

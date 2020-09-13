@@ -19,7 +19,7 @@ function process_notice_change(notice $notice)
     }
     else
     {
-        $rental->set_field("noticelink",$notice->get_id());
+        $rental->set_noticelink($notice->get_id());
         $save_status = $rental->save_changes();
         if($save_status["status"] == false)
         {
@@ -34,14 +34,14 @@ function process_notice_change(notice $notice)
                 if($slconfig->get_eventstorage() == true)
                 {
                     $event = new event();
-                    $event->set_field("avatar_uuid",$avatar->get_avataruuid());
-                    $event->set_field("avatar_name",$avatar->get_avatarname());
-                    $event->set_field("rental_uid",$rental->get_rental_uid());
-                    $event->set_field("package_uid",$package->get_package_uid());
-                    $event->set_field("event_expire",true);
-                    $event->set_field("unixtime",time());
-                    $event->set_field("expire_unixtime",$rental->get_expireunixtime());
-                    $event->set_field("port",$stream->get_port());
+                    $event->set_avatar_uuid($avatar->get_avataruuid());
+                    $event->set_avatar_name($avatar->get_avatarname());
+                    $event->set_rental_uid($rental->get_rental_uid());
+                    $event->set_package_uid($package->get_package_uid());
+                    $event->set_event_expire(true);
+                    $event->set_unixtime(time());
+                    $event->set_expire_unixtime($rental->get_expireunixtime());
+                    $event->set_port($stream->get_port());
                     $create_status = $event->create_entry();
                     if($create_status["status"] == false)
                     {
@@ -62,9 +62,9 @@ function process_notice_change(notice $notice)
                     if($botconfig->get_notecards() == true)
                     {
                         $notecard = new notecard();
-                        $notecard->set_field("rentallink",$rental->get_id());
-                        $notecard->set_field("as_notice",1);
-                        $notecard->set_field("noticelink",$notice->get_id());
+                        $notecard->set_rentallink($rental->get_id());
+                        $notecard->set_as_notice(1);
+                        $notecard->set_noticelink($notice->get_id());
                         $create_status = $notecard->create_entry();
                         if($create_status["status"] == false)
                         {

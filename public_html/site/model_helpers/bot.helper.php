@@ -39,8 +39,8 @@ class bot_helper
       function send_message_to_avatar(avatar $avatar,string $sendmessage) : array
       {
           $message = new message();
-          $message->set_field("avatarlink",$avatar->get_id());
-          $message->set_field("message",$sendmessage);
+          $message->set_avatarlink($avatar->get_id());
+          $message->set_message($sendmessage);
           return $message->create_entry();
       }
 }

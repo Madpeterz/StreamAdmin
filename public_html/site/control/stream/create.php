@@ -36,16 +36,16 @@ if($failed_on == "")
         {
             if($count_check["count"] == 0)
             {
-                $stream->set_field("stream_uid",$uid["uid"]);
-                $stream->set_field("packagelink",$packagelink);
-                $stream->set_field("serverlink",$serverlink);
-                $stream->set_field("port",$port);
-                $stream->set_field("needwork",$needswork);
-                $stream->set_field("adminusername",$adminusername);
-                $stream->set_field("adminpassword",$adminpassword);
-                $stream->set_field("original_adminusername",$adminusername);
-                $stream->set_field("djpassword",$djpassword);
-                $stream->set_field("mountpoint",$mountpoint);
+                $stream->set_stream_uid($uid["uid"]);
+                $stream->set_packagelink($packagelink);
+                $stream->set_serverlink($serverlink);
+                $stream->set_port($port);
+                $stream->set_needwork($needswork);
+                $stream->set_adminusername($adminusername);
+                $stream->set_adminpassword($adminpassword);
+                $stream->set_original_adminusername($adminusername);
+                $stream->set_djpassword($djpassword);
+                $stream->set_mountpoint($mountpoint);
                 $create_status = $stream->create_entry();
                 if($create_status["status"] == true)
                 {

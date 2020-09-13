@@ -21,9 +21,9 @@ class avatar_helper
                 $uid = $this->avatar->create_uid("avatar_uid",8,10);
                 if($uid["status"] == true)
                 {
-                    $this->avatar->set_field("avatar_uid",$uid["uid"]);
-                    $this->avatar->set_field("avatarname",$avatar_name);
-                    $this->avatar->set_field("avataruuid",$avatar_uuid);
+                    $this->avatar->set_avatar_uid($uid["uid"]);
+                    $this->avatar->set_avatarname($avatar_name);
+                    $this->avatar->set_avataruuid($avatar_uuid);
                     $create_status = $this->avatar->create_entry();
                     if($create_status["status"] == false)
                     {

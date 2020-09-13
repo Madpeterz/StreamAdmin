@@ -27,7 +27,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
             $avatar_from = new avatar();
             if($avatar_from->load($rental->get_avatarlink()) == true)
             {
-                $rental->set_field("avatarlink",$avatar->get_id());
+                $rental->set_avatarlink($avatar->get_id());
                 $actions_taken .= $lang["client.up.info.2"];
                 $message .= sprintf($lang["client.up.info.1"],date($lang["client.up.datetime.format"],time()),$avatar->get_avatarname(),$avatar->get_avatar_uid(),$avatar_from->get_avatarname(),$avatar_from->get_avatar_uid());
             }
@@ -121,10 +121,10 @@ if($rental->load_by_field("rental_uid",$page) == true)
             {
                 if($rental->get_noticelink() != $closest_diff_index)
                 {
-                    $rental->set_field("noticelink",$closest_diff_index);
+                    $rental->set_noticelink($closest_diff_index);
                 }
             }
-            $rental->set_field("expireunixtime",$new_unixtime);
+            $rental->set_expireunixtime($new_unixtime);
         }
         else
         {
@@ -133,7 +133,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
     }
     if($message != $rental->get_message())
     {
-        $rental->set_field("message",$message);
+        $rental->set_message($message);
         $actions_taken .= $lang["client.up.info.5"];
     }
     if($actions_taken != "")

@@ -29,16 +29,16 @@ if($failed_on == "")
 {
     if($avatar->get_id() != $slconfig->get_owner_av())
     {
-        $slconfig->set_field("owner_av",$avatar->get_id());
+        $slconfig->set_owner_av($avatar->get_id());
     }
-    $slconfig->set_field("sllinkcode",$sllinkcode);
-    $slconfig->set_field("publiclinkcode",$publiclinkcode);
-    $slconfig->set_field("http_inbound_secret",$httpcode);
-    $slconfig->set_field("new_resellers",$new_resellers);
-    $slconfig->set_field("new_resellers_rate",$new_resellers_rate);
-    $slconfig->set_field("eventstorage",$event_storage);
-    $slconfig->set_field("clients_list_mode",$ui_tweaks_clients_fulllist);
-    $slconfig->set_field("datatable_itemsperpage",$ui_tweaks_datatable_itemsperpage);
+    $slconfig->set_sllinkcode($sllinkcode);
+    $slconfig->set_publiclinkcode($publiclinkcode);
+    $slconfig->set_http_inbound_secret($httpcode);
+    $slconfig->set_new_resellers($new_resellers);
+    $slconfig->set_new_resellers_rate($new_resellers_rate);
+    $slconfig->set_eventstorage($event_storage);
+    $slconfig->set_clients_list_mode($ui_tweaks_clients_fulllist);
+    $slconfig->set_datatable_itemsperpage($ui_tweaks_datatable_itemsperpage);
     if($session->get_ownerlevel() == 1)
     {
         $smtp_from = $input->postFilter("smtp_from");
@@ -48,12 +48,12 @@ if($failed_on == "")
         $smtp_code = $input->postFilter("smtp_code");
         $smtp_port = $input->postFilter("smtp_port");
         // missing tests here :P
-        $slconfig->set_field("smtp_host",$smtp_host);
-        $slconfig->set_field("smtp_port",$smtp_port);
-        if($smtp_user != "skip") $slconfig->set_field("smtp_username",$smtp_user);
-        if($smtp_code != "skip") $slconfig->set_field("smtp_accesscode",$smtp_code);
-        $slconfig->set_field("smtp_from",$smtp_from);
-        $slconfig->set_field("smtp_replyto",$smtp_reply);
+        $slconfig->set_smtp_host($smtp_host);
+        $slconfig->set_smtp_port($smtp_port);
+        if($smtp_user != "skip") $slconfig->set_smtp_username($smtp_user);
+        if($smtp_code != "skip") $slconfig->set_smtp_accesscode($smtp_code);
+        $slconfig->set_smtp_from($smtp_from);
+        $slconfig->set_smtp_replyto($smtp_reply);
     }
     $update_status = $slconfig->save_changes();
     if($update_status["status"] == true)

@@ -14,7 +14,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
         if($count_data["count"] == 0)
         {
             $detail = new detail();
-            $detail->set_field("rentallink",$rental->get_id());
+            $detail->set_rentallink($rental->get_id());
             $create_status = $detail->create_entry();
             if($create_status["status"] == true)
             {

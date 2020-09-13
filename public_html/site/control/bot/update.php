@@ -22,10 +22,10 @@ if($session->get_ownerlevel() == true)
             $avatar = new avatar();
             if($avatar->load_by_field("avatar_uid",$avataruid) == true)
             {
-                $botconfig->set_field("avatarlink",$avatar->get_id());
-                $botconfig->set_field("secret",$secret);
-                $botconfig->set_field("notecards",$notecards);
-                $botconfig->set_field("ims",$ims);
+                $botconfig->set_avatarlink($avatar->get_id());
+                $botconfig->set_secret($secret);
+                $botconfig->set_notecards($notecards);
+                $botconfig->set_ims($ims);
                 $save_changes = $botconfig->save_changes();
                 if($save_changes["status"] == true)
                 {

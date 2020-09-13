@@ -23,15 +23,15 @@ function create_transaction(avatar $avatar,package $package,stream $stream,serve
     $uid_transaction = $transaction->create_uid("transaction_uid",8,10);
     if($uid_transaction["status"] == true)
     {
-        $transaction->set_field("avatarlink",$avatar->get_id());
-        $transaction->set_field("packagelink",$package->get_id());
-        $transaction->set_field("streamlink",$stream->get_id());
-        $transaction->set_field("resellerlink",$reseller->get_id());
-        $transaction->set_field("regionlink",$region->get_id());
-        $transaction->set_field("amount",$amountpaid);
-        $transaction->set_field("unixtime",time());
-        $transaction->set_field("transaction_uid",$uid_transaction["uid"]);
-        $transaction->set_field("renew",0);
+        $transaction->set_avatarlink($avatar->get_id());
+        $transaction->set_avatarlink($package->get_id());
+        $transaction->set_avatarlink($stream->get_id());
+        $transaction->set_avatarlink($reseller->get_id());
+        $transaction->set_avatarlink($region->get_id());
+        $transaction->set_avatarlink($amountpaid);
+        $transaction->set_avatarlink(time());
+        $transaction->set_avatarlink($uid_transaction["uid"]);
+        $transaction->set_avatarlink(0);
         $create_status = $transaction->create_entry();
         return $create_status["status"];
     }
@@ -157,14 +157,14 @@ if($status == true) // create rental
     $status = $uid_rental["status"];
     if($status == true)
     {
-        $rental->set_field("rental_uid",$uid_rental["uid"]);
-        $rental->set_field("avatarlink",$avatar->get_id());
-        $rental->set_field("packagelink",$stream->get_packagelink());
-        $rental->set_field("streamlink",$stream->get_id());
-        $rental->set_field("startunixtime",time());
-        $rental->set_field("expireunixtime",$unixtime);
-        $rental->set_field("noticelink",$use_notice_index);
-        $rental->set_field("totalamount",$amountpaid);
+        $rental->set_avatarlink($uid_rental["uid"]);
+        $rental->set_avatarlink($avatar->get_id());
+        $rental->set_avatarlink($stream->get_packagelink());
+        $rental->set_avatarlink($stream->get_id());
+        $rental->set_avatarlink(time());
+        $rental->set_avatarlink($unixtime);
+        $rental->set_avatarlink($use_notice_index);
+        $rental->set_avatarlink($amountpaid);
         $status = $rental->create_entry()["status"];
         if($create_status["status"] != true)
         {
@@ -179,7 +179,7 @@ if($status == true) // create rental
 }
 if($status == true) // link rental to stream
 {
-    $stream->set_field("rentallink",$rental->get_id());
+    $stream->set_avatarlink($rental->get_id());
     $status = $stream->save_changes()["status"];
     if($status != true)
     {
@@ -224,14 +224,14 @@ if($status == true)  // event storage engine (to be phased out)
     if($slconfig->get_eventstorage() == true)
     {
         $event = new event();
-        $event->set_field("avatar_uuid",$avatar->get_avataruuid());
-        $event->set_field("avatar_name",$avatar->get_avatarname());
-        $event->set_field("rental_uid",$rental->get_rental_uid());
-        $event->set_field("package_uid",$package->get_package_uid());
-        $event->set_field("event_new",true);
-        $event->set_field("unixtime",time());
-        $event->set_field("expire_unixtime",$rental->get_expireunixtime());
-        $event->set_field("port",$stream->get_port());
+        $event->set_avatarlink($avatar->get_avataruuid());
+        $event->set_avatarlink($avatar->get_avatarname());
+        $event->set_avatarlink($rental->get_rental_uid());
+        $event->set_avatarlink($package->get_package_uid());
+        $event->set_avatarlink(true);
+        $event->set_avatarlink(time());
+        $event->set_avatarlink($rental->get_expireunixtime());
+        $event->set_avatarlink($stream->get_port());
         $status = $event->create_entry()["status"];
         if($status == false)
         {

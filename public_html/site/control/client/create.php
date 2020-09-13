@@ -59,19 +59,19 @@ if($failed_on == "")
     $uid = $rental->create_uid("rental_uid",8,10);
     if($uid["status"] == true)
     {
-        $rental->set_field("rental_uid",$uid["uid"]);
-        $rental->set_field("avatarlink",$avatar->get_id());
-        $rental->set_field("packagelink",$stream->get_packagelink());
-        $rental->set_field("streamlink",$stream->get_id());
-        $rental->set_field("startunixtime",time());
-        $rental->set_field("expireunixtime",$unixtime);
-        $rental->set_field("avatarlink",$avatar->get_id());
-        $rental->set_field("noticelink",$use_notice_index);
+        $rental->set_rental_uid($uid["uid"]);
+        $rental->set_avatarlink($avatar->get_id());
+        $rental->set_packagelink($stream->get_packagelink());
+        $rental->set_streamlink($stream->get_id());
+        $rental->set_startunixtime(time());
+        $rental->set_expireunixtime($unixtime);
+        $rental->set_avatarlink($avatar->get_id());
+        $rental->set_noticelink($use_notice_index);
         $create_status = $rental->create_entry();
         if($create_status["status"] == true)
         {
-            $stream->set_field("rentallink",$rental->get_id());
-            $stream->set_field("needwork",0);
+            $stream->set_rentallink($rental->get_id());
+            $stream->set_needwork(0);
             $update_status = $stream->save_changes();
             if($update_status["status"] == true)
             {

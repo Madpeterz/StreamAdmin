@@ -5,7 +5,7 @@ function create_pending_api_request(server $server,stream $stream,?rental $renta
     if($eventname == "core_send_details")
     {
         $detail = new detail();
-        $detail->set_field("rentallink",$rental->get_id());
+        $detail->set_rentallink($rental->get_id());
         $create_status = $detail->create_entry();
         $status = $create_status["status"];
         if($status == false)
@@ -18,13 +18,13 @@ function create_pending_api_request(server $server,stream $stream,?rental $renta
     {
         $no_api_action = false;
         $api_request = new api_requests();
-        $api_request->set_field("serverlink",$server->get_id());
-        if($rental != null ) $api_request->set_field("rentallink",$server->get_id());
-        $api_request->set_field("streamlink",$stream->get_id());
-        $api_request->set_field("streamlink",$stream->get_id());
-        $api_request->set_field("eventname",$eventname);
-        $api_request->set_field("message","in Q");
-        $api_request->set_field("last_attempt",time());
+        $api_request->set_serverlink($server->get_id());
+        if($rental != null ) $api_request->set_rentallink($server->get_id());
+        $api_request->set_streamlink($stream->get_id());
+        $api_request->set_streamlink($stream->get_id());
+        $api_request->set_eventname($eventname);
+        $api_request->set_message("in Q");
+        $api_request->set_last_attempt(time());
         $reply = $api_request->create_entry();
         if($reply["status"] == false)
         {

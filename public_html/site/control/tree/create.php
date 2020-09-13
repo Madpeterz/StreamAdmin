@@ -11,7 +11,7 @@ $status = false;
 if($failed_on == "")
 {
     $treevender = new treevender();
-    $treevender->set_field("name",$name);
+    $treevender->set_name($name);
     $create_status = $treevender->create_entry();
     if($create_status["status"] == true)
     {

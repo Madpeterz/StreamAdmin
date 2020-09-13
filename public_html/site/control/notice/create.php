@@ -20,12 +20,12 @@ else if($notice->load_by_field("hoursremaining",$hoursremaining) == true) $faile
 if($failed_on == "")
 {
     $notice = new notice();
-    $notice->set_field("name",$name);
-    $notice->set_field("immessage",$immessage);
-    $notice->set_field("usebot",$usebot);
-    $notice->set_field("hoursremaining",$hoursremaining);
-    $notice->set_field("send_notecard",$send_notecard);
-    $notice->set_field("notecarddetail",$notecarddetail);
+    $notice->set_name($name);
+    $notice->set_immessage($immessage);
+    $notice->set_usebot($usebot);
+    $notice->set_hoursremaining($hoursremaining);
+    $notice->set_send_notecard($send_notecard);
+    $notice->set_notecarddetail($notecarddetail);
     $create_status = $notice->create_entry();
     if($create_status["status"] == true)
     {

@@ -43,15 +43,15 @@ foreach($r4_sales_tracking_set->get_all_ids() as $r4_sales_tracking_id)
             }
             $unixtime = mktime($time[0],$time[1],$time[2],$date[1],$date[2],$date[0]);
         }
-        $transaction->set_field("avatarlink",$avatar_id);
-        $transaction->set_field("packagelink",null);
-        $transaction->set_field("streamlink",null);
-        $transaction->set_field("resellerlink",null);
-        $transaction->set_field("regionlink",null);
-        $transaction->set_field("amount",$r4_sales_tracking->get_amount());
-        $transaction->set_field("unixtime",$unixtime);
-        $transaction->set_field("transaction_uid",$uid_transaction["uid"]);
-        $transaction->set_field("renew",$r4_sales_tracking->get_salemode());
+        $transaction->set_avatarlink($avatar_id);
+        $transaction->set_packagelink(null);
+        $transaction->set_streamlink(null);
+        $transaction->set_resellerlink(null);
+        $transaction->set_regionlink(null);
+        $transaction->set_amount($r4_sales_tracking->get_amount());
+        $transaction->set_unixtime($unixtime);
+        $transaction->set_transaction_uid($uid_transaction["uid"]);
+        $transaction->set_renew($r4_sales_tracking->get_salemode());
         $create_status = $transaction->create_entry();
         if($create_status["status"] == true)
         {

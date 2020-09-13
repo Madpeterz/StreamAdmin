@@ -43,7 +43,7 @@ if($owner_override == true)
                                                 if($botconfig->get_notecards() == true)
                                                 {
                                                      $notecard = new notecard();
-                                                     $notecard->set_field("rentallink",$rental->get_id());
+                                                     $notecard->set_rentallink($rental->get_id());
                                                      $create_status = $notecard->create_entry();
                                                 }
                                                 $status = true;

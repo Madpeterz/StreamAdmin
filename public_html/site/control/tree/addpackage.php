@@ -22,8 +22,8 @@ if($treevender->load($page) == true)
             if($treevender_package->load_with_config($where_fields) == false)
             {
                 $treevender_package = new treevender_packages();
-                $treevender_package->set_field("packagelink",$package->get_id());
-                $treevender_package->set_field("treevenderlink",$treevender->get_id());
+                $treevender_package->set_packagelink($package->get_id());
+                $treevender_package->set_treevenderlink($treevender->get_id());
                 $create_status = $treevender_package->create_entry();
                 if($create_status["status"] == true)
                 {

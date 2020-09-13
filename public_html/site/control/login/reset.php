@@ -31,8 +31,8 @@ if($staff->get_id() > 0)
     if($uid["status"] == true)
     {
         $reset_url = $template_parts["url_base"]."login/resetwithtoken/".$uid["uid"];
-        $staff->set_field("email_reset_code",$uid["uid"]);
-        $staff->set_field("email_reset_expires",(time()+$unixtime_hour));
+        $staff->set_email_reset_code($uid["uid"]);
+        $staff->set_email_reset_expires((time()+$unixtime_hour));
 
         $update_status = $staff->save_changes();
         if($update_status["status"] == true)
@@ -51,8 +51,8 @@ if($staff->get_id() > 0)
             else
             {
                 $message = new message();
-                $message->set_field("avatarlink",$avatar->get_id());
-                $message->set_field("message",sprintf($lang["login.rs.sl.message"],$reset_url));
+                $message->set_avatarlink($avatar->get_id());
+                $message->set_message(sprintf($lang["login.rs.sl.message"],$reset_url));
                 $add_status = $message->create_entry();
                 if($add_status["status"] == true)
                 {

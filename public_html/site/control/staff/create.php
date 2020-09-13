@@ -25,13 +25,13 @@ if($session->get_ownerlevel() == true)
         if($failed_on == "")
         {
             $staff = new staff();
-            $staff->set_field("username",$username);
-            $staff->set_field("avatarlink",$avatar->get_id());
-            $staff->set_field("email",$email);
-            $staff->set_field("phash",sha1("phash install".microtime()."".$username));
-            $staff->set_field("lhash",sha1("lhash install".microtime()."".$username));
-            $staff->set_field("psalt",sha1("psalt install".microtime()."".$username));
-            $staff->set_field("ownerlevel",false);
+            $staff->set_username($username);
+            $staff->set_avatarlink($avatar->get_id());
+            $staff->set_email($email);
+            $staff->set_phash(sha1("phash install".microtime()."".$username));
+            $staff->set_lhash(sha1("lhash install".microtime()."".$username));
+            $staff->set_psalt(sha1("psalt install".microtime()."".$username));
+            $staff->set_ownerlevel(false);
             $create_status = $staff->create_entry();
             if($create_status["status"] == true)
             {

@@ -45,21 +45,21 @@ if($failed_on == "")
         {
             if($count_check["count"] == $expected_count)
             {
-                $stream->set_field("packagelink",$packagelink);
-                $stream->set_field("serverlink",$serverlink);
-                $stream->set_field("port",$port);
-                $stream->set_field("needwork",0);
-                $stream->set_field("adminusername",$adminusername);
-                $stream->set_field("adminpassword",$adminpassword);
-                $stream->set_field("djpassword",$djpassword);
-                $stream->set_field("mountpoint",$mountpoint);
+                $stream->set_packagelink($packagelink);
+                $stream->set_serverlink($serverlink);
+                $stream->set_port($port);
+                $stream->set_needwork(0);
+                $stream->set_adminusername($adminusername);
+                $stream->set_adminpassword($adminpassword);
+                $stream->set_djpassword($djpassword);
+                $stream->set_mountpoint($mountpoint);
                 if($original_adminusername == "sync")
                 {
-                    $stream->set_field("original_adminusername",$adminusername);
+                    $stream->set_original_adminusername($adminusername);
                 }
                 else
                 {
-                    $stream->set_field("original_adminusername",$original_adminusername);
+                    $stream->set_original_adminusername($original_adminusername);
                 }
 
                 $update_status = $stream->save_changes();

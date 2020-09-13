@@ -34,8 +34,8 @@ if($newpw1 == $newpw2)
                         $update_status = $session_helper->update_password($newpw1);
                         if($update_status["status"] == true)
                         {
-                            $staff->set_field("email_reset_code",null);
-                            $staff->set_field("email_reset_expires",time()-1);
+                            $staff->set_email_reset_code(null);
+                            $staff->set_email_reset_expires(time()-1);
                             $update_status = $staff->save_changes();
                             if($update_status["status"] == true)
                             {

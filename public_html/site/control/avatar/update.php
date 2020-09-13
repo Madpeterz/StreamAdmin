@@ -26,8 +26,8 @@ if($failed_on == "")
         {
             if($count_check["count"] == $expected_count)
             {
-                $avatar->set_field("avatarname",$avatarname);
-                $avatar->set_field("avataruuid",$avataruuid);
+                $avatar->set_avatarname($avatarname);
+                $avatar->set_avataruuid($avataruuid);
                 $update_status = $avatar->save_changes();
                 if($update_status["status"] == true)
                 {

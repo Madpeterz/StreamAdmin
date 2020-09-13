@@ -25,9 +25,9 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                 {
                     $unixtime_to_add = (($package->get_days() * $unixtime_day)*$multipler);
                     $new_expires_time = $rental->get_expireunixtime() + $unixtime_to_add;
-                    $rental->set_field("expireunixtime",$new_expires_time);
-                    $rental->set_field("renewals",($rental->get_renewals()+$multipler));
-                    $rental->set_field("totalamount",($rental->get_totalamount()+$amountpaid));
+                    $rental->set_expireunixtime($new_expires_time);
+                    $rental->set_renewals(($rental->get_renewals()+$multipler));
+                    $rental->set_totalamount(($rental->get_totalamount()+$amountpaid));
                     $unixtime_remain = $new_expires_time - time();
                     if($unixtime_remain > 0)
                     {
@@ -56,7 +56,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                         {
                             if($rental->get_noticelink() != $use_notice_index)
                             {
-                                $rental->set_field("noticelink",$use_notice_index);
+                                $rental->set_noticelink($use_notice_index);
                             }
                         }
                     }
@@ -71,15 +71,15 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                             $banlist = new banlist();
                             if($banlist->load_by_field("avatar_link",$avatar->get_id()) == false)
                             {
-                                $transaction->set_field("avatarlink",$avatar->get_id());
-                                $transaction->set_field("packagelink",$package->get_id());
-                                $transaction->set_field("streamlink",$stream->get_id());
-                                $transaction->set_field("resellerlink",$reseller->get_id());
-                                $transaction->set_field("regionlink",$region->get_id());
-                                $transaction->set_field("amount",$amountpaid);
-                                $transaction->set_field("unixtime",time());
-                                $transaction->set_field("transaction_uid",$uid_transaction["uid"]);
-                                $transaction->set_field("renew",1);
+                                $transaction->set_avatarlink($avatar->get_id());
+                                $transaction->set_packagelink($package->get_id());
+                                $transaction->set_streamlink($stream->get_id());
+                                $transaction->set_resellerlink($reseller->get_id());
+                                $transaction->set_regionlink($region->get_id());
+                                $transaction->set_amount($amountpaid);
+                                $transaction->set_unixtime(time());
+                                $transaction->set_transaction_uid($uid_transaction["uid"]);
+                                $transaction->set_renew(1);
                                 $create_status = $transaction->create_entry();
                                 if($create_status["status"] == true)
                                 {
@@ -115,14 +115,14 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                             if($slconfig->get_eventstorage() == true)
                                             {
                                                 $event = new event();
-                                                $event->set_field("avatar_uuid",$avatar->get_avataruuid());
-                                                $event->set_field("avatar_name",$avatar->get_avatarname());
-                                                $event->set_field("rental_uid",$rental->get_rental_uid());
-                                                $event->set_field("package_uid",$package->get_package_uid());
-                                                $event->set_field("event_renew",true);
-                                                $event->set_field("unixtime",time());
-                                                $event->set_field("expire_unixtime",$rental->get_expireunixtime());
-                                                $event->set_field("port",$stream->get_port());
+                                                $event->set_avatar_uuid($avatar->get_avataruuid());
+                                                $event->set_avatar_name($avatar->get_avatarname());
+                                                $event->set_rental_uid($rental->get_rental_uid());
+                                                $event->set_package_uid($package->get_package_uid());
+                                                $event->set_event_renew(true);
+                                                $event->set_unixtime(time());
+                                                $event->set_expire_unixtime($rental->get_expireunixtime());
+                                                $event->set_port($stream->get_port());
                                                 $create_status = $event->create_entry();
                                                 if($create_status["status"] == false)
                                                 {

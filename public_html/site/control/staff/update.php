@@ -33,11 +33,11 @@ if($session->get_ownerlevel() == true)
             {
                 if($count_check["count"] == $expected_count)
                 {
-                    $staff->set_field("username",$username);
-                    $staff->set_field("email",$email);
-                    $staff->set_field("phash",sha1("phash install".microtime()."".$username));
-                    $staff->set_field("lhash",sha1("lhash install".microtime()."".$username));
-                    $staff->set_field("psalt",sha1("psalt install".microtime()."".$username));
+                    $staff->set_username($username);
+                    $staff->set_email($email);
+                    $staff->set_phash(sha1("phash install".microtime()."".$username));
+                    $staff->set_lhash(sha1("lhash install".microtime()."".$username));
+                    $staff->set_psalt(sha1("psalt install".microtime()."".$username));
                     $update_status = $staff->save_changes();
                     if($update_status["status"] == true)
                     {

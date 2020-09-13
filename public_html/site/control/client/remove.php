@@ -28,8 +28,8 @@ if($accept == "Accept")
             $stream = new stream();
             if($stream->load($rental->get_streamlink()) == true)
             {
-                $stream->set_field("rentallink",null);
-                $stream->set_field("needwork",1);
+                $stream->set_rentallink(null);
+                $stream->set_needwork(1);
                 $update_status = $stream->save_changes();
                 $server = new server();
                 if($server->load($stream->get_serverlink()) == true)
@@ -47,14 +47,14 @@ if($accept == "Accept")
                                 if($slconfig->get_eventstorage() == true)
                                 {
                                     $event = new event();
-                                    $event->set_field("avatar_uuid",$avatar->get_avataruuid());
-                                    $event->set_field("avatar_name",$avatar->get_avatarname());
-                                    $event->set_field("rental_uid",$rental->get_rental_uid());
-                                    $event->set_field("package_uid",$package->get_package_uid());
-                                    $event->set_field("event_remove",true);
-                                    $event->set_field("unixtime",time());
-                                    $event->set_field("expire_unixtime",$rental->get_expireunixtime());
-                                    $event->set_field("port",$stream->get_port());
+                                    $event->set_avatar_uuid($avatar->get_avataruuid());
+                                    $event->set_avatar_name($avatar->get_avatarname());
+                                    $event->set_rental_uid($rental->get_rental_uid());
+                                    $event->set_package_uid($package->get_package_uid());
+                                    $event->set_event_remove(true);
+                                    $event->set_unixtime(time());
+                                    $event->set_expire_unixtime($rental->get_expireunixtime());
+                                    $event->set_port($stream->get_port());
                                     $create_status = $event->create_entry();
                                     if($create_status["status"] == false)
                                     {

@@ -13,9 +13,9 @@ $status = false;
 if($failed_on == "")
 {
     $template = new template();
-    $template->set_field("name",$name);
-    $template->set_field("detail",$detail);
-    $template->set_field("notecarddetail",$notecarddetail);
+    $template->set_name($name);
+    $template->set_detail($detail);
+    $template->set_notecarddetail($notecarddetail);
     $create_status = $template->create_entry();
     if($create_status["status"] == true)
     {

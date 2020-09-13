@@ -18,7 +18,7 @@ class region_helper
             else
             {
                 $this->region = new region();
-                $this->region->set_field("name",$regionname);
+                $this->region->set_name($regionname);
                 $save_status = $this->region->create_entry();
                 return $save_status["status"];
             }

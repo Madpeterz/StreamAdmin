@@ -15,9 +15,9 @@ if($failed_on == "")
     $template = new template();
     if($template->load($page) == true)
     {
-        $template->set_field("name",$name);
-        $template->set_field("detail",$detail);
-        $template->set_field("notecarddetail",$notecarddetail);
+        $template->set_name($name);
+        $template->set_detail($detail);
+        $template->set_notecarddetail($notecarddetail);
         $update_status = $template->save_changes();
         if($update_status["status"] == true)
         {

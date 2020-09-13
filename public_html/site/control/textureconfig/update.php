@@ -33,17 +33,17 @@ if($failed_on == "")
     $textureconfig = new textureconfig();
     if($textureconfig->load($page) == true)
     {
-        $textureconfig->set_field("name",$name);
-        $textureconfig->set_field("offline",$offline);
-        $textureconfig->set_field("wait_owner",$wait_owner);
-        $textureconfig->set_field("stock_levels",$stock_levels);
-        $textureconfig->set_field("make_payment",$make_payment);
-        $textureconfig->set_field("inuse",$inuse);
-        $textureconfig->set_field("renew_here",$renew_here);
-        $textureconfig->set_field("getting_details",$getting_details);
-        $textureconfig->set_field("request_details",$request_details);
-        $textureconfig->set_field("proxyrenew",$proxyrenew);
-        $textureconfig->set_field("treevend_waiting",$treevend_waiting);
+        $textureconfig->set_name($name);
+        $textureconfig->set_offline($offline);
+        $textureconfig->set_wait_owner($wait_owner);
+        $textureconfig->set_stock_levels($stock_levels);
+        $textureconfig->set_make_payment($make_payment);
+        $textureconfig->set_inuse($inuse);
+        $textureconfig->set_renew_here($renew_here);
+        $textureconfig->set_getting_details($getting_details);
+        $textureconfig->set_request_details($request_details);
+        $textureconfig->set_proxyrenew($proxyrenew);
+        $textureconfig->set_treevend_waiting($treevend_waiting);
         $update_status = $textureconfig->save_changes();
         if($update_status["status"] == true)
         {

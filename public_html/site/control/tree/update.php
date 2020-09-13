@@ -23,7 +23,7 @@ if($failed_on == "")
         {
             if($count_check["count"] == $expected_count)
             {
-                $treevender->set_field("name",$name);
+                $treevender->set_name($name);
                 $update_status = $treevender->save_changes();
                 if($update_status["status"] == true)
                 {

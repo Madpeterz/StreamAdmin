@@ -40,7 +40,7 @@ class session_control extends error_logging
 		if($this->create_main_object() == true)
 		{
 			$new_lhash = $this->hash_password(time(),rand(1000,4000),microtime(),$this->main_class_object->get_lhash());
-			$this->main_class_object->set_field("lhash",$new_lhash);
+			$this->main_class_object->set_lhash($new_lhash);
 			$this->nextcheck = time() + 120;
 			$save_status = $this->main_class_object->save_changes();
 			if($save_status["status"] == true)
@@ -166,8 +166,8 @@ class session_control extends error_logging
 				$psalt,
 				$this->main_class_object->get_ownerlevel()
 			);
-			$this->main_class_object->set_field("psalt",$psalt);
-			$this->main_class_object->set_field("phash",$phash);
+			$this->main_class_object->set_psalt($psalt);
+			$this->main_class_object->set_phash($phash);
 			return $this->main_class_object->save_changes();
 		}
 		else return array("status"=>false,"message"=>"update_password requires the user object to be loaded!");

@@ -59,24 +59,24 @@ if($failed_on == "")
         {
             if($count_check["count"] == $expected_count)
             {
-                $server->set_field("domain",$domain);
-                $server->set_field("controlpanel_url",$controlpanel_url);
-                $server->set_field("apilink",$apilink);
-                $server->set_field("api_url",$api_url);
-                $server->set_field("api_username",$api_username);
-                if($api_password != "NoChange") $server->set_field("api_password",$api_password);
-                $server->set_field("opt_password_reset",$opt_password_reset);
-                $server->set_field("opt_autodj_next",$opt_autodj_next);
-                $server->set_field("opt_toggle_autodj",$opt_toggle_autodj);
-                $server->set_field("event_enable_start",$event_enable_start);
-                $server->set_field("event_disable_expire",$event_disable_expire);
-                $server->set_field("event_disable_revoke",$event_disable_revoke);
-                $server->set_field("event_reset_password_revoke",$event_reset_password_revoke);
-                $server->set_field("event_enable_renew",$event_enable_renew);
-                $server->set_field("opt_toggle_status",$opt_toggle_status);
-                $server->set_field("event_start_sync_username",$event_start_sync_username);
-                $server->set_field("api_serverstatus",$api_serverstatus);
-                $server->set_field("event_clear_djs",$event_clear_djs);
+                $server->set_domain($domain);
+                $server->set_controlpanel_url($controlpanel_url);
+                $server->set_apilink($apilink);
+                $server->set_api_url($api_url);
+                $server->set_api_username($api_username);
+                if($api_password != "NoChange") $server->set_api_password($api_password);
+                $server->set_opt_password_reset($opt_password_reset);
+                $server->set_opt_autodj_next($opt_autodj_next);
+                $server->set_opt_toggle_autodj($opt_toggle_autodj);
+                $server->set_event_enable_start($event_enable_start);
+                $server->set_event_disable_expire($event_disable_expire);
+                $server->set_event_disable_revoke($event_disable_revoke);
+                $server->set_event_reset_password_revoke($event_reset_password_revoke);
+                $server->set_event_enable_renew($event_enable_renew);
+                $server->set_opt_toggle_status($opt_toggle_status);
+                $server->set_event_start_sync_username($event_start_sync_username);
+                $server->set_api_serverstatus($api_serverstatus);
+                $server->set_event_clear_djs($event_clear_djs);
                 $update_status = $server->save_changes();
                 if($update_status["status"] == true)
                 {

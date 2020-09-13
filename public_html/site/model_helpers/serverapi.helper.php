@@ -289,8 +289,8 @@ class serverapi_helper
         {
             if($this->check_flags(array("opt_password_reset","event_reset_password_revoke")) == true)
             {
-                $this->stream->set_field("adminpassword",$this->rand_string(7+rand(1,6)));
-                $this->stream->set_field("djpassword",$this->rand_string(5+rand(1,3)));
+                $this->stream->set_adminpassword($this->rand_string(7+rand(1,6)));
+                $this->stream->set_djpassword($this->rand_string(5+rand(1,3)));
                 $update_status = $this->stream->save_changes();
                 if($update_status["status"] == true)
                 {
@@ -416,7 +416,7 @@ class serverapi_helper
                                 if(in_array($accepted_name,$acceptable_names) == true)
                                 {
                                     $old_username = $this->stream->get_adminusername();
-                                    $this->stream->set_field("adminusername",$accepted_name);
+                                    $this->stream->set_adminusername($accepted_name);
                                     $update_status = $this->stream->save_changes();
                                     if($update_status["status"] == true)
                                     {

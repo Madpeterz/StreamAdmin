@@ -20,7 +20,7 @@ if($avatar_set->get_count() == 1)
     if($banlist->load_by_field("avatar_link",$avatar->get_id()) == false)
     {
         $banlist = new banlist();
-        $banlist->set_field("avatar_link",$avatar->get_id());
+        $banlist->set_avatar_link($avatar->get_id());
         $create_status = $banlist->create_entry();
         if($create_status["status"] == true)
         {
