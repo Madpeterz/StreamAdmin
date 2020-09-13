@@ -23,6 +23,8 @@ function create_pending_api_request(server $server,stream $stream,?rental $renta
         $api_request->set_field("streamlink",$stream->get_id());
         $api_request->set_field("streamlink",$stream->get_id());
         $api_request->set_field("eventname",$eventname);
+        $api_request->set_field("message","in Q");
+        $api_request->set_field("last_attempt",time());
         $reply = $api_request->create_entry();
         if($reply["status"] == false)
         {
