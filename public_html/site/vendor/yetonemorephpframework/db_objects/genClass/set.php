@@ -33,6 +33,11 @@ abstract class genClass_set extends genClass_get
         }
         return array("status"=>$status,"message"=>$message);
     }
+    /*
+    find: (set_field\(\")(.*)(\",)
+    replace: set_$2(
+    dirs: !public_html\site\model, !public_html\site\vendor
+    */
     public function set_field(string $fieldname="",$value=null,bool $ignore_set_id_warning=false) :array
     {
         trigger_error("set_field is being phased out please use set_[fieldname]",E_USER_DEPRECATED);
