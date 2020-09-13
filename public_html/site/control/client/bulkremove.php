@@ -48,6 +48,7 @@ foreach($rental_set->get_all_ids() as $rental_id)
                         if($update_status["status"] == true)
                         {
                             $all_ok = true;
+                            $message = "";
                             if($slconfig->get_eventstorage() == true)
                             {
                                 $package = $package_set->get_object_by_id($rental->get_packagelink());
@@ -65,64 +66,47 @@ foreach($rental_set->get_all_ids() as $rental_id)
                                 if($create_status["status"] == false)
                                 {
                                     $all_ok = false;
-                                    break;
-                                    $why_failed = $lang["client.br.error.1"];
+                                    $message = $lang["client.br.error.1"];
                                 }
                             }
                             // Server API support
                             if($all_ok == true)
                             {
-                                $api = $apis_set->get_object_by_id($server->get_apilink());
-                                if($api != null)
+                                $remove_status = $rental->remove_me();
+                                $all_ok = $remove_status["status"];
+                                if($remove_status["status"] == true)
                                 {
-                                    if(($api->get_event_disable_revoke() == 1) && ($server->get_event_disable_revoke() == 1))
-                                    {
-                                        // create pending api request to disable stream
-                                        $all_ok = create_pending_api_request($server,$stream,null,"event_disable_revoke",$lang["client.rm.error.11"]);
-                                    }
-                                    if($all_ok == true)
-                                    {
-                                        if(($api->get_event_reset_password_revoke() == 1) && ($server->get_event_reset_password_revoke() == 1))
-                                        {
-                                            // create pending api request to reset password
-                                            $all_ok = create_pending_api_request($server,$stream,null,"event_reset_password_revoke",$lang["client.rm.error.11"]);
-                                        }
-                                    }
+                                    $status = true;
+                                    $redirect = "client";
+                                    $message = $lang["client.rm.info.1"];
                                 }
                                 else
                                 {
-                                    $status = false;
-                                    $all_ok = false;
-                                    echo $lang["client.rm.error.10"];
-                                    break;
+                                    $message = sprintf($lang["client.rm.error.7"],$remove_status["message"]);
                                 }
                             }
                             if($all_ok == true)
                             {
-                                $remove_status = $rental->remove_me();
-                                if($remove_status["status"] == false)
+                                $rental = null;
+                                include("site/api_serverlogic/revoke.php");
+                                $all_ok = $api_serverlogic_reply;
+                                if($status != true)
                                 {
-                                    $status = false;
-                                    echo sprintf($lang["client.br.error.2"],$rental->get_rental_uid(),$remove_status["message"]);
-                                    break;
+                                    $message = $why_failed;
                                 }
-                                else
-                                {
-                                    $removed_counter++;
-                                }
+                            }
+                            if($all_ok == true)
+                            {
+                                $status = true;
+                                $redirect = "client";
+                                echo $lang["client.rm.info.1"];
+                                break;
                             }
                             else
                             {
-                                $status=false;
+                                echo $message;
                                 break;
                             }
-                        }
-                        else
-                        {
-                            $status = false;
-                            echo sprintf($lang["client.br.error.3"],$rental->get_rental_uid(),$update_status["message"]);
-                            break;
-                        }
                     }
                     else
                     {
