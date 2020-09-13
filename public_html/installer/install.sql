@@ -555,3 +555,6 @@ ALTER TABLE `treevender_packages`
   ALTER TABLE `apis` ADD `event_clear_djs` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_reset_password_revoke`;
   ALTER TABLE `server` ADD `event_clear_djs` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_reset_password_revoke`;
   UPDATE `apis` SET `event_clear_djs` = '1' WHERE `apis`.`id` = 2;
+  ALTER TABLE `api_requests` ADD `attempts` INT NOT NULL DEFAULT '0' AFTER `eventname`;
+  ALTER TABLE `api_requests` ADD `last_attempt` INT NOT NULL DEFAULT '0' AFTER `attempts`;
+  ALTER TABLE `api_requests` ADD `last_failed_why` TEXT NULL AFTER `last_attempt`; 
