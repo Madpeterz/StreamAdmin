@@ -35,6 +35,11 @@ abstract class genClass_set extends genClass_get
     }
     public function set_field(string $fieldname="",$value=null,bool $ignore_set_id_warning=false) :array
     {
+        trigger_error("set_field is being phased out please use set_[fieldname]",E_USER_DEPRECATED);
+        return $this->update_field($fieldname,$value,$ignore_set_id_warning);
+    }
+    protected function update_field(string $fieldname="",$value=null,bool $ignore_set_id_warning=false) :array
+    {
         if(is_object($value) == false)
         {
             if(is_array($value) == false)
