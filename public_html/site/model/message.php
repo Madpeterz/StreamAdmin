@@ -24,17 +24,11 @@
 			"avatarlink" => array("type"=>"int","value"=>null),
 			"message" => array("type"=>"str","value"=>null),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_avatarlink() : ?int
-		{
-			return $this->get_field("avatarlink");
-		}
-		public function get_message() : ?string
-		{
-			return $this->get_field("message");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_avatarlink() : ?int {  return $this->get_field("avatarlink");  } 
+		public function get_message() : ?string {  return $this->get_field("message");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_avatarlink(?int $newvalue) : array {  return $this->set_field("avatarlink",$newvalue);  } 
+		public function set_message(?string $newvalue) : array {  return $this->set_field("message",$newvalue);  } 
 	}
 ?>

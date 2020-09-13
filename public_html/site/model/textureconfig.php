@@ -33,53 +33,29 @@
 			"getting_details" => array("type"=>"str","value"=>null),
 			"request_details" => array("type"=>"str","value"=>null),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_name() : ?string
-		{
-			return $this->get_field("name");
-		}
-		public function get_offline() : ?string
-		{
-			return $this->get_field("offline");
-		}
-		public function get_wait_owner() : ?string
-		{
-			return $this->get_field("wait_owner");
-		}
-		public function get_stock_levels() : ?string
-		{
-			return $this->get_field("stock_levels");
-		}
-		public function get_make_payment() : ?string
-		{
-			return $this->get_field("make_payment");
-		}
-		public function get_inuse() : ?string
-		{
-			return $this->get_field("inuse");
-		}
-		public function get_renew_here() : ?string
-		{
-			return $this->get_field("renew_here");
-		}
-		public function get_treevend_waiting() : ?string
-		{
-			return $this->get_field("treevend_waiting");
-		}
-		public function get_proxyrenew() : ?string
-		{
-			return $this->get_field("proxyrenew");
-		}
-		public function get_getting_details() : ?string
-		{
-			return $this->get_field("getting_details");
-		}
-		public function get_request_details() : ?string
-		{
-			return $this->get_field("request_details");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_name() : ?string {  return $this->get_field("name");  } 
+		public function get_offline() : ?string {  return $this->get_field("offline");  } 
+		public function get_wait_owner() : ?string {  return $this->get_field("wait_owner");  } 
+		public function get_stock_levels() : ?string {  return $this->get_field("stock_levels");  } 
+		public function get_make_payment() : ?string {  return $this->get_field("make_payment");  } 
+		public function get_inuse() : ?string {  return $this->get_field("inuse");  } 
+		public function get_renew_here() : ?string {  return $this->get_field("renew_here");  } 
+		public function get_treevend_waiting() : ?string {  return $this->get_field("treevend_waiting");  } 
+		public function get_proxyrenew() : ?string {  return $this->get_field("proxyrenew");  } 
+		public function get_getting_details() : ?string {  return $this->get_field("getting_details");  } 
+		public function get_request_details() : ?string {  return $this->get_field("request_details");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_name(?string $newvalue) : array {  return $this->set_field("name",$newvalue);  } 
+		public function set_offline(?string $newvalue) : array {  return $this->set_field("offline",$newvalue);  } 
+		public function set_wait_owner(?string $newvalue) : array {  return $this->set_field("wait_owner",$newvalue);  } 
+		public function set_stock_levels(?string $newvalue) : array {  return $this->set_field("stock_levels",$newvalue);  } 
+		public function set_make_payment(?string $newvalue) : array {  return $this->set_field("make_payment",$newvalue);  } 
+		public function set_inuse(?string $newvalue) : array {  return $this->set_field("inuse",$newvalue);  } 
+		public function set_renew_here(?string $newvalue) : array {  return $this->set_field("renew_here",$newvalue);  } 
+		public function set_treevend_waiting(?string $newvalue) : array {  return $this->set_field("treevend_waiting",$newvalue);  } 
+		public function set_proxyrenew(?string $newvalue) : array {  return $this->set_field("proxyrenew",$newvalue);  } 
+		public function set_getting_details(?string $newvalue) : array {  return $this->set_field("getting_details",$newvalue);  } 
+		public function set_request_details(?string $newvalue) : array {  return $this->set_field("request_details",$newvalue);  } 
 	}
 ?>

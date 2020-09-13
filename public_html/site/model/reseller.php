@@ -25,21 +25,13 @@
 			"allowed" => array("type"=>"bool","value"=>0),
 			"rate" => array("type"=>"int","value"=>0),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_avatarlink() : ?int
-		{
-			return $this->get_field("avatarlink");
-		}
-		public function get_allowed() : ?bool
-		{
-			return $this->get_field("allowed");
-		}
-		public function get_rate() : ?int
-		{
-			return $this->get_field("rate");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_avatarlink() : ?int {  return $this->get_field("avatarlink");  } 
+		public function get_allowed() : ?bool {  return $this->get_field("allowed");  } 
+		public function get_rate() : ?int {  return $this->get_field("rate");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_avatarlink(?int $newvalue) : array {  return $this->set_field("avatarlink",$newvalue);  } 
+		public function set_allowed(?bool $newvalue) : array {  return $this->set_field("allowed",$newvalue);  } 
+		public function set_rate(?int $newvalue) : array {  return $this->set_field("rate",$newvalue);  } 
 	}
 ?>

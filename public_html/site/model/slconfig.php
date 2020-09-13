@@ -38,73 +38,39 @@
 			"smtp_from" => array("type"=>"str","value"=>null),
 			"smtp_replyto" => array("type"=>"str","value"=>null),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_db_version() : ?string
-		{
-			return $this->get_field("db_version");
-		}
-		public function get_new_resellers() : ?bool
-		{
-			return $this->get_field("new_resellers");
-		}
-		public function get_new_resellers_rate() : ?int
-		{
-			return $this->get_field("new_resellers_rate");
-		}
-		public function get_sllinkcode() : ?string
-		{
-			return $this->get_field("sllinkcode");
-		}
-		public function get_clients_list_mode() : ?bool
-		{
-			return $this->get_field("clients_list_mode");
-		}
-		public function get_publiclinkcode() : ?string
-		{
-			return $this->get_field("publiclinkcode");
-		}
-		public function get_owner_av() : ?int
-		{
-			return $this->get_field("owner_av");
-		}
-		public function get_eventstorage() : ?bool
-		{
-			return $this->get_field("eventstorage");
-		}
-		public function get_datatable_itemsperpage() : ?int
-		{
-			return $this->get_field("datatable_itemsperpage");
-		}
-		public function get_http_inbound_secret() : ?string
-		{
-			return $this->get_field("http_inbound_secret");
-		}
-		public function get_smtp_host() : ?string
-		{
-			return $this->get_field("smtp_host");
-		}
-		public function get_smtp_port() : ?int
-		{
-			return $this->get_field("smtp_port");
-		}
-		public function get_smtp_username() : ?string
-		{
-			return $this->get_field("smtp_username");
-		}
-		public function get_smtp_accesscode() : ?string
-		{
-			return $this->get_field("smtp_accesscode");
-		}
-		public function get_smtp_from() : ?string
-		{
-			return $this->get_field("smtp_from");
-		}
-		public function get_smtp_replyto() : ?string
-		{
-			return $this->get_field("smtp_replyto");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_db_version() : ?string {  return $this->get_field("db_version");  } 
+		public function get_new_resellers() : ?bool {  return $this->get_field("new_resellers");  } 
+		public function get_new_resellers_rate() : ?int {  return $this->get_field("new_resellers_rate");  } 
+		public function get_sllinkcode() : ?string {  return $this->get_field("sllinkcode");  } 
+		public function get_clients_list_mode() : ?bool {  return $this->get_field("clients_list_mode");  } 
+		public function get_publiclinkcode() : ?string {  return $this->get_field("publiclinkcode");  } 
+		public function get_owner_av() : ?int {  return $this->get_field("owner_av");  } 
+		public function get_eventstorage() : ?bool {  return $this->get_field("eventstorage");  } 
+		public function get_datatable_itemsperpage() : ?int {  return $this->get_field("datatable_itemsperpage");  } 
+		public function get_http_inbound_secret() : ?string {  return $this->get_field("http_inbound_secret");  } 
+		public function get_smtp_host() : ?string {  return $this->get_field("smtp_host");  } 
+		public function get_smtp_port() : ?int {  return $this->get_field("smtp_port");  } 
+		public function get_smtp_username() : ?string {  return $this->get_field("smtp_username");  } 
+		public function get_smtp_accesscode() : ?string {  return $this->get_field("smtp_accesscode");  } 
+		public function get_smtp_from() : ?string {  return $this->get_field("smtp_from");  } 
+		public function get_smtp_replyto() : ?string {  return $this->get_field("smtp_replyto");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_db_version(?string $newvalue) : array {  return $this->set_field("db_version",$newvalue);  } 
+		public function set_new_resellers(?bool $newvalue) : array {  return $this->set_field("new_resellers",$newvalue);  } 
+		public function set_new_resellers_rate(?int $newvalue) : array {  return $this->set_field("new_resellers_rate",$newvalue);  } 
+		public function set_sllinkcode(?string $newvalue) : array {  return $this->set_field("sllinkcode",$newvalue);  } 
+		public function set_clients_list_mode(?bool $newvalue) : array {  return $this->set_field("clients_list_mode",$newvalue);  } 
+		public function set_publiclinkcode(?string $newvalue) : array {  return $this->set_field("publiclinkcode",$newvalue);  } 
+		public function set_owner_av(?int $newvalue) : array {  return $this->set_field("owner_av",$newvalue);  } 
+		public function set_eventstorage(?bool $newvalue) : array {  return $this->set_field("eventstorage",$newvalue);  } 
+		public function set_datatable_itemsperpage(?int $newvalue) : array {  return $this->set_field("datatable_itemsperpage",$newvalue);  } 
+		public function set_http_inbound_secret(?string $newvalue) : array {  return $this->set_field("http_inbound_secret",$newvalue);  } 
+		public function set_smtp_host(?string $newvalue) : array {  return $this->set_field("smtp_host",$newvalue);  } 
+		public function set_smtp_port(?int $newvalue) : array {  return $this->set_field("smtp_port",$newvalue);  } 
+		public function set_smtp_username(?string $newvalue) : array {  return $this->set_field("smtp_username",$newvalue);  } 
+		public function set_smtp_accesscode(?string $newvalue) : array {  return $this->set_field("smtp_accesscode",$newvalue);  } 
+		public function set_smtp_from(?string $newvalue) : array {  return $this->set_field("smtp_from",$newvalue);  } 
+		public function set_smtp_replyto(?string $newvalue) : array {  return $this->set_field("smtp_replyto",$newvalue);  } 
 	}
 ?>

@@ -40,81 +40,43 @@
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>1),
 			"event_clear_djs" => array("type"=>"bool","value"=>0),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_domain() : ?string
-		{
-			return $this->get_field("domain");
-		}
-		public function get_controlpanel_url() : ?string
-		{
-			return $this->get_field("controlpanel_url");
-		}
-		public function get_apilink() : ?int
-		{
-			return $this->get_field("apilink");
-		}
-		public function get_api_url() : ?string
-		{
-			return $this->get_field("api_url");
-		}
-		public function get_api_username() : ?string
-		{
-			return $this->get_field("api_username");
-		}
-		public function get_api_password() : ?string
-		{
-			return $this->get_field("api_password");
-		}
-		public function get_api_serverstatus() : ?bool
-		{
-			return $this->get_field("api_serverstatus");
-		}
-		public function get_opt_password_reset() : ?bool
-		{
-			return $this->get_field("opt_password_reset");
-		}
-		public function get_opt_autodj_next() : ?bool
-		{
-			return $this->get_field("opt_autodj_next");
-		}
-		public function get_opt_toggle_autodj() : ?bool
-		{
-			return $this->get_field("opt_toggle_autodj");
-		}
-		public function get_opt_toggle_status() : ?bool
-		{
-			return $this->get_field("opt_toggle_status");
-		}
-		public function get_event_enable_start() : ?bool
-		{
-			return $this->get_field("event_enable_start");
-		}
-		public function get_event_start_sync_username() : ?bool
-		{
-			return $this->get_field("event_start_sync_username");
-		}
-		public function get_event_enable_renew() : ?bool
-		{
-			return $this->get_field("event_enable_renew");
-		}
-		public function get_event_disable_expire() : ?bool
-		{
-			return $this->get_field("event_disable_expire");
-		}
-		public function get_event_disable_revoke() : ?bool
-		{
-			return $this->get_field("event_disable_revoke");
-		}
-		public function get_event_reset_password_revoke() : ?bool
-		{
-			return $this->get_field("event_reset_password_revoke");
-		}
-		public function get_event_clear_djs() : ?bool
-		{
-			return $this->get_field("event_clear_djs");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_domain() : ?string {  return $this->get_field("domain");  } 
+		public function get_controlpanel_url() : ?string {  return $this->get_field("controlpanel_url");  } 
+		public function get_apilink() : ?int {  return $this->get_field("apilink");  } 
+		public function get_api_url() : ?string {  return $this->get_field("api_url");  } 
+		public function get_api_username() : ?string {  return $this->get_field("api_username");  } 
+		public function get_api_password() : ?string {  return $this->get_field("api_password");  } 
+		public function get_api_serverstatus() : ?bool {  return $this->get_field("api_serverstatus");  } 
+		public function get_opt_password_reset() : ?bool {  return $this->get_field("opt_password_reset");  } 
+		public function get_opt_autodj_next() : ?bool {  return $this->get_field("opt_autodj_next");  } 
+		public function get_opt_toggle_autodj() : ?bool {  return $this->get_field("opt_toggle_autodj");  } 
+		public function get_opt_toggle_status() : ?bool {  return $this->get_field("opt_toggle_status");  } 
+		public function get_event_enable_start() : ?bool {  return $this->get_field("event_enable_start");  } 
+		public function get_event_start_sync_username() : ?bool {  return $this->get_field("event_start_sync_username");  } 
+		public function get_event_enable_renew() : ?bool {  return $this->get_field("event_enable_renew");  } 
+		public function get_event_disable_expire() : ?bool {  return $this->get_field("event_disable_expire");  } 
+		public function get_event_disable_revoke() : ?bool {  return $this->get_field("event_disable_revoke");  } 
+		public function get_event_reset_password_revoke() : ?bool {  return $this->get_field("event_reset_password_revoke");  } 
+		public function get_event_clear_djs() : ?bool {  return $this->get_field("event_clear_djs");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_domain(?string $newvalue) : array {  return $this->set_field("domain",$newvalue);  } 
+		public function set_controlpanel_url(?string $newvalue) : array {  return $this->set_field("controlpanel_url",$newvalue);  } 
+		public function set_apilink(?int $newvalue) : array {  return $this->set_field("apilink",$newvalue);  } 
+		public function set_api_url(?string $newvalue) : array {  return $this->set_field("api_url",$newvalue);  } 
+		public function set_api_username(?string $newvalue) : array {  return $this->set_field("api_username",$newvalue);  } 
+		public function set_api_password(?string $newvalue) : array {  return $this->set_field("api_password",$newvalue);  } 
+		public function set_api_serverstatus(?bool $newvalue) : array {  return $this->set_field("api_serverstatus",$newvalue);  } 
+		public function set_opt_password_reset(?bool $newvalue) : array {  return $this->set_field("opt_password_reset",$newvalue);  } 
+		public function set_opt_autodj_next(?bool $newvalue) : array {  return $this->set_field("opt_autodj_next",$newvalue);  } 
+		public function set_opt_toggle_autodj(?bool $newvalue) : array {  return $this->set_field("opt_toggle_autodj",$newvalue);  } 
+		public function set_opt_toggle_status(?bool $newvalue) : array {  return $this->set_field("opt_toggle_status",$newvalue);  } 
+		public function set_event_enable_start(?bool $newvalue) : array {  return $this->set_field("event_enable_start",$newvalue);  } 
+		public function set_event_start_sync_username(?bool $newvalue) : array {  return $this->set_field("event_start_sync_username",$newvalue);  } 
+		public function set_event_enable_renew(?bool $newvalue) : array {  return $this->set_field("event_enable_renew",$newvalue);  } 
+		public function set_event_disable_expire(?bool $newvalue) : array {  return $this->set_field("event_disable_expire",$newvalue);  } 
+		public function set_event_disable_revoke(?bool $newvalue) : array {  return $this->set_field("event_disable_revoke",$newvalue);  } 
+		public function set_event_reset_password_revoke(?bool $newvalue) : array {  return $this->set_field("event_reset_password_revoke",$newvalue);  } 
+		public function set_event_clear_djs(?bool $newvalue) : array {  return $this->set_field("event_clear_djs",$newvalue);  } 
 	}
 ?>

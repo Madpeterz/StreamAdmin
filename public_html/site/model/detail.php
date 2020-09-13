@@ -23,13 +23,9 @@
 			"id" => array("type"=>"int","value"=>null),
 			"rentallink" => array("type"=>"int","value"=>null),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_rentallink() : ?int
-		{
-			return $this->get_field("rentallink");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_rentallink() : ?int {  return $this->get_field("rentallink");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_rentallink(?int $newvalue) : array {  return $this->set_field("rentallink",$newvalue);  } 
 	}
 ?>

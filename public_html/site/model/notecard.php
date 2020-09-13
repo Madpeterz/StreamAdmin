@@ -25,21 +25,13 @@
 			"as_notice" => array("type"=>"bool","value"=>0),
 			"noticelink" => array("type"=>"int","value"=>null),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_rentallink() : ?int
-		{
-			return $this->get_field("rentallink");
-		}
-		public function get_as_notice() : ?bool
-		{
-			return $this->get_field("as_notice");
-		}
-		public function get_noticelink() : ?int
-		{
-			return $this->get_field("noticelink");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_rentallink() : ?int {  return $this->get_field("rentallink");  } 
+		public function get_as_notice() : ?bool {  return $this->get_field("as_notice");  } 
+		public function get_noticelink() : ?int {  return $this->get_field("noticelink");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_rentallink(?int $newvalue) : array {  return $this->set_field("rentallink",$newvalue);  } 
+		public function set_as_notice(?bool $newvalue) : array {  return $this->set_field("as_notice",$newvalue);  } 
+		public function set_noticelink(?int $newvalue) : array {  return $this->set_field("noticelink",$newvalue);  } 
 	}
 ?>

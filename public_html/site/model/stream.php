@@ -33,53 +33,29 @@
 			"stream_uid" => array("type"=>"str","value"=>null),
 			"mountpoint" => array("type"=>"str","value"=>null),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_serverlink() : ?int
-		{
-			return $this->get_field("serverlink");
-		}
-		public function get_rentallink() : ?int
-		{
-			return $this->get_field("rentallink");
-		}
-		public function get_packagelink() : ?int
-		{
-			return $this->get_field("packagelink");
-		}
-		public function get_port() : ?int
-		{
-			return $this->get_field("port");
-		}
-		public function get_needwork() : ?bool
-		{
-			return $this->get_field("needwork");
-		}
-		public function get_original_adminusername() : ?string
-		{
-			return $this->get_field("original_adminusername");
-		}
-		public function get_adminusername() : ?string
-		{
-			return $this->get_field("adminusername");
-		}
-		public function get_adminpassword() : ?string
-		{
-			return $this->get_field("adminpassword");
-		}
-		public function get_djpassword() : ?string
-		{
-			return $this->get_field("djpassword");
-		}
-		public function get_stream_uid() : ?string
-		{
-			return $this->get_field("stream_uid");
-		}
-		public function get_mountpoint() : ?string
-		{
-			return $this->get_field("mountpoint");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_serverlink() : ?int {  return $this->get_field("serverlink");  } 
+		public function get_rentallink() : ?int {  return $this->get_field("rentallink");  } 
+		public function get_packagelink() : ?int {  return $this->get_field("packagelink");  } 
+		public function get_port() : ?int {  return $this->get_field("port");  } 
+		public function get_needwork() : ?bool {  return $this->get_field("needwork");  } 
+		public function get_original_adminusername() : ?string {  return $this->get_field("original_adminusername");  } 
+		public function get_adminusername() : ?string {  return $this->get_field("adminusername");  } 
+		public function get_adminpassword() : ?string {  return $this->get_field("adminpassword");  } 
+		public function get_djpassword() : ?string {  return $this->get_field("djpassword");  } 
+		public function get_stream_uid() : ?string {  return $this->get_field("stream_uid");  } 
+		public function get_mountpoint() : ?string {  return $this->get_field("mountpoint");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_serverlink(?int $newvalue) : array {  return $this->set_field("serverlink",$newvalue);  } 
+		public function set_rentallink(?int $newvalue) : array {  return $this->set_field("rentallink",$newvalue);  } 
+		public function set_packagelink(?int $newvalue) : array {  return $this->set_field("packagelink",$newvalue);  } 
+		public function set_port(?int $newvalue) : array {  return $this->set_field("port",$newvalue);  } 
+		public function set_needwork(?bool $newvalue) : array {  return $this->set_field("needwork",$newvalue);  } 
+		public function set_original_adminusername(?string $newvalue) : array {  return $this->set_field("original_adminusername",$newvalue);  } 
+		public function set_adminusername(?string $newvalue) : array {  return $this->set_field("adminusername",$newvalue);  } 
+		public function set_adminpassword(?string $newvalue) : array {  return $this->set_field("adminpassword",$newvalue);  } 
+		public function set_djpassword(?string $newvalue) : array {  return $this->set_field("djpassword",$newvalue);  } 
+		public function set_stream_uid(?string $newvalue) : array {  return $this->set_field("stream_uid",$newvalue);  } 
+		public function set_mountpoint(?string $newvalue) : array {  return $this->set_field("mountpoint",$newvalue);  } 
 	}
 ?>

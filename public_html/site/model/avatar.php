@@ -25,21 +25,13 @@
 			"avatarname" => array("type"=>"str","value"=>null),
 			"avatar_uid" => array("type"=>"str","value"=>null),
 		);
-		public function get_id() : ?int
-		{
-			return $this->get_field("id");
-		}
-		public function get_avataruuid() : ?string
-		{
-			return $this->get_field("avataruuid");
-		}
-		public function get_avatarname() : ?string
-		{
-			return $this->get_field("avatarname");
-		}
-		public function get_avatar_uid() : ?string
-		{
-			return $this->get_field("avatar_uid");
-		}
+		public function get_id() : ?int {  return $this->get_field("id");  } 
+		public function get_avataruuid() : ?string {  return $this->get_field("avataruuid");  } 
+		public function get_avatarname() : ?string {  return $this->get_field("avatarname");  } 
+		public function get_avatar_uid() : ?string {  return $this->get_field("avatar_uid");  } 
+		public function set_id(?int $newvalue) : array {  return $this->set_field("id",$newvalue);  } 
+		public function set_avataruuid(?string $newvalue) : array {  return $this->set_field("avataruuid",$newvalue);  } 
+		public function set_avatarname(?string $newvalue) : array {  return $this->set_field("avatarname",$newvalue);  } 
+		public function set_avatar_uid(?string $newvalue) : array {  return $this->set_field("avatar_uid",$newvalue);  } 
 	}
 ?>
