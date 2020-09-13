@@ -1,6 +1,6 @@
 <?php
 // $api_request
-$logic_step = "revoke";
-$functionname = "event_disable_revoke";
+$logic_step = "renew";
+$functionname = "event_enable_renew";
 include("site/apirequests/call_api.php");
 ?>

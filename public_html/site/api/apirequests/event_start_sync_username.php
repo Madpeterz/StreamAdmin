@@ -1,6 +1,6 @@
 <?php
 // $api_request
-$logic_step = "revoke";
-$functionname = "event_disable_revoke";
+$logic_step = "buy";
+$functionname = "event_start_sync_username";
 include("site/apirequests/call_api.php");
 ?>
