@@ -69,14 +69,20 @@ class inputFilter extends error_logging
 				else if($filter == "color") $value = $this->filter_color($value, $args);
 	            else if($filter == "trueFalse") $value = $this->filter_trueFalse($value);
 				else if($filter == "json") $value = $this->filter_json($value);
-				else if($filter == "array") $value = $this->filter_array($value, $args);
 				if($value !== null) return $value;
 				$this->failure = TRUE;
 			}
 			else
 			{
-				$value = null;
-				$this->whyfailed = "Type error expected a string but got somthing else";
+				if($filter == "array")
+				{
+					return $this->filter_array($value, $args);
+				}
+				else
+				{
+					$value = null;
+					$this->whyfailed = "Type error expected a string but got somthing else";
+				}
 			}
 		}
 		else
@@ -278,7 +284,9 @@ class inputFilter extends error_logging
 		if(strlen($value) == 36)
 		{
 			$m = 0;
-			if(preg_match('/[a-f0-9]{8}\-[a-f0-9]{4}\-4[a-f0-9]{3}\-(8|9|a|b)[a-f0-9]{3}\-[a-f0-9]{12}/', $value, $m) == true)
+			// 6a58369e-5b9d-0062-8de1-f0d841b8cbf0
+			// [a-f0-9]{8}\-[a-f0-9]{4}\--[a-f0-9]{4}\--[a-f0-9]{4}\-
+			if(preg_match('/^[a-f\d]{8}(-[a-f\d]{4}){4}[a-f\d]{8}$/i', $value, $m) == true)
 			{
 				return $value;
 			}
