@@ -8,5 +8,10 @@ $lang = array(
     "noticeserver.n.error.6" => "Issue processing notices: %1\$s",
     "noticeserver.n.error.7" => "Unable to create notecard \"%1\$s\"",
     "noticeserver.n.info.1" => "ok ~ %1\$s",
+
+    "noticeserver.up.error.1" => "Unable to update static notice notecard's missing status",
+    "noticeserver.up.error.2" => "Unable to create a new static notice notecard",
+    "noticeserver.up.error.3" => "No notecards given but expected something or the word none",
+    "noticeserver.up.error.4" => "Unable to remove dead notecard"
 );
 ?>
