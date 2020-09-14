@@ -5,7 +5,7 @@ $apis_set = new apis_set();
 $apis_set->loadAll();
 function process_notice_change(notice $notice)
 {
-    global $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
+    global $reply, $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
     $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
     $stream = $stream_set->get_object_by_id($rental->get_streamlink());
     $package = $package_set->get_object_by_id($stream->get_packagelink());
@@ -72,6 +72,23 @@ function process_notice_change(notice $notice)
                             $why_failed = sprintf($lang["noticeserver.n.error.7"],$create_status["message"]);
                         }
                     }
+                }
+            }
+            if($all_ok == true)
+            {
+                $notice_notecard = new notice_notecard();
+                if($notice_notecard->load($notice->get_notice_notecardlink()) == true)
+                {
+                    if($notice_notecard->get_missing() == false)
+                    {
+                        $reply["send_static_notecard"] = $notice_notecard->get_name();
+                        $reply["send_static_notecard_to"] = $avatar->get_avataruuid();
+                    }
+                }
+                else
+                {
+                    $all_ok = false;
+                    $why_failed = "Unable to find notice card";
                 }
             }
             if($all_ok == true)
@@ -161,7 +178,7 @@ if($owner_override == true)
                                 {
                                     $notice = $notice_set->get_object_by_id($use_notice_index);
                                     process_notice_change($notice);
-                                    if($all_ok == false) break;
+                                    break;
                                 }
                             }
                         }
@@ -169,6 +186,7 @@ if($owner_override == true)
                     else
                     {
                         process_notice_change($expired_notice);
+                        break;
                     }
                 }
                 if($all_ok == false)
