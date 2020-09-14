@@ -8,7 +8,7 @@ if(install_ok() == true)
 {
 
     include("site/config/load.php"); // sql_config
-    require_once("site/vendor/yetonemorephpframework/mysqli/loader.php"); // sql_driver
+    require_once("site/framework/mysqli/src/loader.php"); // sql_driver
 
     // lets get some work done.
     $sql = new mysqli_controler();
