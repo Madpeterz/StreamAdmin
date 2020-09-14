@@ -68,7 +68,22 @@ abstract class genClass_collection_updatebulk extends genClass_collection_get
                     }
                     if($expected_changes > 0)
                     {
-                        return $this->sql->update($worker->get_table(), $setfields, $setvalues, $wherefields, $wherevalues, "OR",$expected_changes);
+                        $update_status = $this->sql->update($worker->get_table(), $setfields, $setvalues, $wherefields, $wherevalues, "OR",$expected_changes);
+                        if($update_status["status"] == true)
+                        {
+                            foreach($this->get_all_ids() as $entry_id)
+                            {
+                                $localworker = $this->collected[$entry_id];
+                                $loop2 = 0;
+                                while($loop2 < count($update_fields))
+                                {
+                                    $setter = "set_".$update_fields[$loop2];
+                                    $localworker->$setter($new_values[$loop2]);
+                                    $loop2++;
+                                }
+                            }
+                        }
+                        else return $update_status;
                     }
                     else return array("status"=>true,"changes"=>0,"message"=>"no changes to be made");
                 }
