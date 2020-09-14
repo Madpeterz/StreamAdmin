@@ -1,7 +1,7 @@
 <?php
 if(defined("correct") == false) {die("Error");}
 include("site/config/db.php");
-require_once("site/vendor/yetonemorephpframework/mysqli/loader.php"); // sql_driver
+require_once("site/framework/mysqli/src/loader.php"); // sql_driver
 $sql = new mysqli_controler();
 if($sql->sqlStart() == true)
 {
