@@ -1,4 +1,13 @@
 <?php
+$where_config = array(
+    "fields" => array("missing"),
+    "values" => array(0),
+    "types" => array("i"),
+    "matches" => array("=")
+);
+$notice_notecard_set = new notice_notecard_set();
+$notice_notecard_set->load_with_config($where_config);
+
 $template_parts["html_title"] .= " ~ Create";
 $template_parts["page_title"] .= " : New";
 $template_parts["page_actions"] = "";
@@ -13,10 +22,15 @@ $form->col(6);
     $form->group("Config");
     $form->select("usebot","Use bot to send IM",false,array(false=>"No",true=>"Yes"));
     $form->number_input("hoursremaining","Hours remain [Trigger at]",24,3,"Max value 999");
+$form->col(12);
+    $form->direct_add("<br/>");
 $form->col(6);
-    $form->group("Notecard [Requires bot]");
+    $form->group("Dynamic notecard [Requires bot]");
     $form->select("send_notecard","Enable",false,array(false=>"No",true=>"Yes"));
     $form->textarea("notecarddetail","Notecard content",2000,"","use the swaps as placeholders");
+$form->col(6);
+    $form->group("Static notecard");
+    $form->select("notice_notecardlink"," ",1,$notice_notecard_set->get_linked_array("id","name"));
 echo $form->render("Create","primary");
 include("site/view/shared/swaps_table.php");
 ?>

@@ -8,6 +8,7 @@ $lang = array(
     "notice.cr.error.6" => "hoursremaining must be 999 or less",
     "notice.cr.error.7" => "There is already a notice assigned to that remaining hours",
     "notice.cr.error.8" => "Unable to create notice: %1\$s",
+    "notice.cr.error.9" => "Unable to find selected static notecard",
     "notice.cr.info.1" => "Notice created",
 
     "notice.rm.error.1" => "Did not Accept",
@@ -28,6 +29,7 @@ $lang = array(
     "notice.up.error.8" => "Unable to check if there is a notice assigned already",
     "notice.up.error.9" => "There is already a notice with that hours remaining trigger",
     "notice.up.error.10" => "Unable to update notice: %1\$s",
+    "notice.up.error.11" => "Unable to find selected static notecard",
     "notice.up.info.1" => "Notice updated"
 
 );

@@ -1,5 +1,6 @@
 <?php
 $notice = new notice();
+$static_notecard = new notice_notecard();
 $input = new inputFilter();
 $name = $input->postFilter("name");
 $hoursremaining = $input->postFilter("hoursremaining","integer");
@@ -7,6 +8,10 @@ $immessage = $input->postFilter("immessage");
 $usebot = $input->postFilter("usebot","bool");
 $send_notecard = $input->postFilter("send_notecard","bool");
 $notecarddetail = $input->postFilter("notecarddetail");
+$notice_notecardlink = $input->postFilter("notice_notecardlink","integer");
+
+
+
 
 $failed_on = "";
 $redirect = "";
@@ -17,6 +22,9 @@ else if(strlen($immessage) > 800) $failed_on .= $lang["notice.cr.error.4"];
 else if(strlen($hoursremaining) < 0) $failed_on .= $lang["notice.cr.error.5"];
 else if(strlen($hoursremaining) > 999) $failed_on .= $lang["notice.cr.error.6"];
 else if($notice->load_by_field("hoursremaining",$hoursremaining) == true) $failed_on .= $lang["notice.cr.error.7"];
+else if($static_notecard->load($notice_notecardlink) == false) $failed_on .= $lang["notice.cr.error.9"];
+else if($static_notecard->get_missing() == true) $failed_on .= $lang["notice.cr.error.9"];
+
 if($failed_on == "")
 {
     $notice = new notice();
@@ -26,6 +34,7 @@ if($failed_on == "")
     $notice->set_hoursremaining($hoursremaining);
     $notice->set_send_notecard($send_notecard);
     $notice->set_notecarddetail($notecarddetail);
+    $notice->set_notice_notecardlink($static_notecard->get_id());
     $create_status = $notice->create_entry();
     if($create_status["status"] == true)
     {
