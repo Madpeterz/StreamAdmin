@@ -27,6 +27,7 @@
 			"send_notecard" => array("type"=>"bool","value"=>0),
 			"notecarddetail" => array("type"=>"str","value"=>null),
 			"hoursremaining" => array("type"=>"int","value"=>0),
+			"notice_notecardlink" => array("type"=>"int","value"=>1),
 		);
 		public function get_id() : ?int {  return $this->get_field("id");  } 
 		public function get_name() : ?string {  return $this->get_field("name");  } 
@@ -35,6 +36,7 @@
 		public function get_send_notecard() : ?bool {  return $this->get_field("send_notecard");  } 
 		public function get_notecarddetail() : ?string {  return $this->get_field("notecarddetail");  } 
 		public function get_hoursremaining() : ?int {  return $this->get_field("hoursremaining");  } 
+		public function get_notice_notecardlink() : ?int {  return $this->get_field("notice_notecardlink");  } 
 		public function set_id(?int $newvalue) : array {  return $this->update_field("id",$newvalue);  } 
 		public function set_name(?string $newvalue) : array {  return $this->update_field("name",$newvalue);  } 
 		public function set_immessage(?string $newvalue) : array {  return $this->update_field("immessage",$newvalue);  } 
@@ -42,5 +44,6 @@
 		public function set_send_notecard(?bool $newvalue) : array {  return $this->update_field("send_notecard",$newvalue);  } 
 		public function set_notecarddetail(?string $newvalue) : array {  return $this->update_field("notecarddetail",$newvalue);  } 
 		public function set_hoursremaining(?int $newvalue) : array {  return $this->update_field("hoursremaining",$newvalue);  } 
+		public function set_notice_notecardlink(?int $newvalue) : array {  return $this->update_field("notice_notecardlink",$newvalue);  } 
 	}
 ?>
