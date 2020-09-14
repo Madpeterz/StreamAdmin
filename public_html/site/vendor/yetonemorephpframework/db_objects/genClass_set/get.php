@@ -7,6 +7,7 @@ abstract class genClass_collection_get extends genClass_collectionSet
     }
     public function get_collection() : array
     {
+        trigger_error("get_collection is marked as \"avoid\" please use: get_all_ids and get_object_id",E_USER_DEPRECATED);
         // please use get_all_ids and then get_object_id to avoid unneeded memory usage.
         // this function should only be used on shit tables that dont have a unique index.
         return array_values($this->collected);
