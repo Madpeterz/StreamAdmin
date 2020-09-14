@@ -14,4 +14,26 @@ UPDATE `apis` SET `event_clear_djs` = '1' WHERE `apis`.`id` = 2;
 ALTER TABLE `api_requests` ADD `attempts` INT NOT NULL DEFAULT '0' AFTER `eventname`;
 ALTER TABLE `api_requests` ADD `last_attempt` INT NOT NULL DEFAULT '0' AFTER `attempts`;
 ALTER TABLE `api_requests` ADD `last_failed_why` TEXT NULL AFTER `last_attempt`;
-ALTER TABLE `api_requests` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT; 
+ALTER TABLE `api_requests` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+CREATE TABLE `notice_notecard` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `notice_notecard` (`id`, `name`) VALUES
+(1, 'none');
+
+
+ALTER TABLE `notice_notecard`
+  ADD PRIMARY KEY (`id`);
+
+
+ALTER TABLE `notice_notecard`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+ALTER TABLE `notice` ADD `notice_notecardlink` INT NOT NULL DEFAULT '1' AFTER `hoursremaining`, ADD INDEX (`notice_notecardlink`);
+
+ALTER TABLE `notice` ADD CONSTRAINT `notice_notice_notecard_inuse` FOREIGN KEY (`notice_notecardlink`) REFERENCES `notice_notecard`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `notice_notecard` ADD `missing` TINYINT(1) NOT NULL DEFAULT '0' AFTER `name`;
+ALTER TABLE `notice_notecard` CHANGE `name` `name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+ALTER TABLE `notice_notecard` ADD UNIQUE(`name`);
