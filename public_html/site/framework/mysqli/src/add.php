@@ -77,11 +77,17 @@ abstract class mysqli_add extends mysqli_binds
                             }
                             else
                             {
+                                $err_msg = $stmt->error;
                                 $stmt->close();
-                                return $this->failure("unable to bind");
+                                return $this->failure("unable to bind because: ".$err_msg."");
                             }
                         }
-                        else return $this->failure("unable to prepair");
+                        else
+                        {
+                            $err_msg = $stmt->error;
+                            $stmt->close();
+                            return $this->failure("unable to prepair because: ".$err_msg."");
+                        }
                     }
                     else return $this->failure("types and values counts do not match!");
                 }
