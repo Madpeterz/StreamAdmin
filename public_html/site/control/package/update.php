@@ -37,7 +37,7 @@ if($failed_on == "")
     {
         $package->set_name($name);
         $package->set_autodj($autodj);
-        $package->set_audodj_size($autodj_size);
+        $package->set_autodj_size($autodj_size);
         $package->set_listeners($listeners);
         $package->set_bitrate($bitrate);
         $package->set_templatelink($templatelink);
