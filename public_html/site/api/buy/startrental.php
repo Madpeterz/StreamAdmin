@@ -2,7 +2,15 @@
 function not_banned(avatar $avatar) : bool
 {
     $banlist = new banlist();
-    return $banlist->load_by_field("avatar_link",$avatar->get_id());
+    $banlist->load_by_field("avatar_link",$avatar->get_id());
+    if($banlist->is_loaded() == true)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 }
 function get_avatar(string $avataruuid,string $avatarname) : ?avatar
 {
