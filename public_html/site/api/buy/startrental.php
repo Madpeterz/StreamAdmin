@@ -175,7 +175,7 @@ if($status == true) // create rental
 }
 if($status == true) // link rental to stream
 {
-    $stream->set_avatarlink($rental->get_id());
+    $stream->set_rentallink($rental->get_id());
     $status = $stream->save_changes()["status"];
     if($status != true)
     {
