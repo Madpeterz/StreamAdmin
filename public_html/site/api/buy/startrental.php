@@ -29,14 +29,14 @@ function create_transaction(avatar $avatar,package $package,stream $stream,resel
     if($uid_transaction["status"] == true)
     {
         $transaction->set_avatarlink($avatar->get_id());
-        $transaction->set_avatarlink($package->get_id());
-        $transaction->set_avatarlink($stream->get_id());
-        $transaction->set_avatarlink($reseller->get_id());
-        $transaction->set_avatarlink($region->get_id());
-        $transaction->set_avatarlink($amountpaid);
-        $transaction->set_avatarlink(time());
-        $transaction->set_avatarlink($uid_transaction["uid"]);
-        $transaction->set_avatarlink(0);
+        $transaction->set_packagelink($package->get_id());
+        $transaction->set_streamlink($stream->get_id());
+        $transaction->set_resellerlink($reseller->get_id());
+        $transaction->set_regionlink($region->get_id());
+        $transaction->set_amount($amountpaid);
+        $transaction->set_unixtime(time());
+        $transaction->set_transaction_uid($uid_transaction["uid"]);
+        $transaction->set_renew(false);
         $create_status = $transaction->create_entry();
         return $create_status["status"];
     }
