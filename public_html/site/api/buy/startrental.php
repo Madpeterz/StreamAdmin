@@ -45,6 +45,7 @@ function get_package(string $packageuid) : ?package
 }
 function get_unassigned_stream_on_package(package $package) : ?stream
 {
+    global $reply;
     $where_config = array(
         "fields" => array("rentallink","packagelink","needwork"),
         "values" => array(NULL,$package->get_id(),0),
@@ -56,8 +57,17 @@ function get_unassigned_stream_on_package(package $package) : ?stream
     if($stream_set->get_count() > 0)
     {
         $stream_id = $stream_set->get_all_ids()[rand(0,$stream_set->get_count()-1)];
-        $stream = $stream_set->get_object_by_id($stream_id);
-        return $stream;
+        $reply["debug"] .= " Found a stream with id: ".$stream_id."";
+        $streamfinder = $stream_set->get_object_by_id($stream_id);
+        if($streamfinder == null)
+        {
+            $reply["debug"] .=  " Lost it when trying to get its object";
+        }
+        return $streamfinder;
+    }
+    else
+    {
+        $reply["debug"] .=  " No streams found";
     }
     return null;
 }
