@@ -92,7 +92,7 @@ if($package == null) // find package
 if($status == true) // find avatar
 {
     $avatar = get_avatar($input->postFilter("avataruuid"),$input->postFilter("avatarname"));
-    if($avatar != null)
+    if($avatar == null)
     {
         $status = false;
         $why_failed = $lang["buy.sr.error.3"];
@@ -109,7 +109,7 @@ if($status == true) // check banlist
 if($status == true) // find stream
 {
     $stream = get_unassigned_stream_on_package($package);
-    if($stream != null)
+    if($stream == null)
     {
         $status = false;
         $why_failed = $lang["buy.sr.error.2"];
