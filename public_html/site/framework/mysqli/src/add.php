@@ -84,7 +84,7 @@ abstract class mysqli_add extends mysqli_binds
                         }
                         else
                         {
-                            return $this->failure("unable to prepair: ".$sql."");
+                            return $this->failure("unable to prepair: ".$sql." because ".$this->sqlConnection->error."");
                         }
                     }
                     else return $this->failure("types and values counts do not match!");
