@@ -22,7 +22,7 @@ function get_avatar(string $avataruuid,string $avatarname) : ?avatar
     }
     return null;
 }
-function create_transaction(avatar $avatar,package $package,stream $stream,server $server,reseller $reseller,region $region,int $amountpaid) : bool
+function create_transaction(avatar $avatar,package $package,stream $stream,reseller $reseller,region $region,int $amountpaid) : bool
 {
     $transaction = new transactions();
     $uid_transaction = $transaction->create_uid("transaction_uid",8,10);
@@ -184,7 +184,7 @@ if($status == true) // link rental to stream
 }
 if($status == true)
 {
-    $status = create_transaction($avatar,$package,$stream,$server,$reseller,$region,$amountpaid);
+    $status = create_transaction($avatar,$package,$stream,$reseller,$region,$amountpaid);
     if($status == false)
     {
         $why_failed = $lang["buy.sr.error.4"];
