@@ -6,3 +6,7 @@ id_rsa
 .git
 gen
 example.php
+ready.txt
+db_installed.php
+r4.php
+site_installed.php
