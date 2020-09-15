@@ -76,19 +76,22 @@ function process_notice_change(notice $notice)
             }
             if($all_ok == true)
             {
-                $notice_notecard = new notice_notecard();
-                if($notice_notecard->load($notice->get_notice_notecardlink()) == true)
+                if($notice->get_notice_notecardlink() > 1)
                 {
-                    if($notice_notecard->get_missing() == false)
+                    $notice_notecard = new notice_notecard();
+                    if($notice_notecard->load($notice->get_notice_notecardlink()) == true)
                     {
-                        $reply["send_static_notecard"] = $notice_notecard->get_name();
-                        $reply["send_static_notecard_to"] = $avatar->get_avataruuid();
+                        if($notice_notecard->get_missing() == false)
+                        {
+                            $reply["send_static_notecard"] = $notice_notecard->get_name();
+                            $reply["send_static_notecard_to"] = $avatar->get_avataruuid();
+                        }
                     }
-                }
-                else
-                {
-                    $all_ok = false;
-                    $why_failed = "Unable to find notice card";
+                    else
+                    {
+                        $all_ok = false;
+                        $why_failed = "Unable to find notice card";
+                    }
                 }
             }
             if($all_ok == true)
