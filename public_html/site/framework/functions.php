@@ -19,7 +19,7 @@ function create_pending_api_request(server $server,stream $stream,?rental $renta
         $no_api_action = false;
         $api_request = new api_requests();
         $api_request->set_serverlink($server->get_id());
-        if($rental != null ) $api_request->set_rentallink($rental->get_id());
+        if($rental != null) $api_request->set_rentallink($rental->get_id());
         $api_request->set_streamlink($stream->get_id());
         $api_request->set_eventname($eventname);
         $api_request->set_message("in Q");
