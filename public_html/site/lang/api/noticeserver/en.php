@@ -12,6 +12,7 @@ $lang = array(
     "noticeserver.up.error.1" => "Unable to update static notice notecard's missing status",
     "noticeserver.up.error.2" => "Unable to create a new static notice notecard",
     "noticeserver.up.error.3" => "No notecards given but expected something or the word none",
-    "noticeserver.up.error.4" => "Unable to remove dead notecard"
+    "noticeserver.up.error.4" => "Unable to remove dead notecard",
+    "noticeserver.up.error.5" => "Unable to mark all notecards as missing",
 );
 ?>

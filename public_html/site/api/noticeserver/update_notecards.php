@@ -62,6 +62,17 @@ if($notecards != "none")
         echo $lang["noticeserver.up.error.3"];
     }
 }
+else
+{
+    if($notice_notecard_set->get_count() > 0)
+    {
+        $status = $notice_notecard_set->update_single_field_for_collection("missing",1)["status"];
+        if($status == false)
+        {
+            echo $lang["noticeserver.up.error.5"];
+        }
+    }
+}
 if($status == true)
 {
     // remove dead notecards from db
