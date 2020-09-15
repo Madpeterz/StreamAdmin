@@ -53,7 +53,6 @@ function get_package(string $packageuid) : ?package
 }
 function get_unassigned_stream_on_package(package $package) : ?stream
 {
-    global $reply;
     $where_config = array(
         "fields" => array("rentallink","packagelink","needwork"),
         "values" => array(NULL,$package->get_id(),0),
@@ -65,17 +64,8 @@ function get_unassigned_stream_on_package(package $package) : ?stream
     if($stream_set->get_count() > 0)
     {
         $stream_id = $stream_set->get_all_ids()[rand(0,$stream_set->get_count()-1)];
-        $reply["debug"] .= " Found a stream with id: ".$stream_id."";
         $streamfinder = $stream_set->get_object_by_id($stream_id);
-        if($streamfinder == null)
-        {
-            $reply["debug"] .=  " Lost it when trying to get its object";
-        }
         return $streamfinder;
-    }
-    else
-    {
-        $reply["debug"] .=  " No streams found";
     }
     return null;
 }
@@ -164,14 +154,14 @@ if($status == true) // create rental
     $status = $uid_rental["status"];
     if($status == true)
     {
-        $rental->set_avatarlink($uid_rental["uid"]);
+        $rental->set_rental_uid($uid_rental["uid"]);
         $rental->set_avatarlink($avatar->get_id());
-        $rental->set_avatarlink($stream->get_packagelink());
-        $rental->set_avatarlink($stream->get_id());
-        $rental->set_avatarlink(time());
-        $rental->set_avatarlink($unixtime);
-        $rental->set_avatarlink($use_notice_index);
-        $rental->set_avatarlink($amountpaid);
+        $rental->set_packagelink($stream->get_packagelink());
+        $rental->set_streamlink($stream->get_id());
+        $rental->set_startunixtime(time());
+        $rental->set_expireunixtime($unixtime);
+        $rental->set_noticelink($use_notice_index);
+        $rental->set_totalamount($amountpaid);
         $status = $rental->create_entry()["status"];
         if($create_status["status"] != true)
         {
@@ -231,14 +221,14 @@ if($status == true)  // event storage engine (to be phased out)
     if($slconfig->get_eventstorage() == true)
     {
         $event = new event();
-        $event->set_avatarlink($avatar->get_avataruuid());
-        $event->set_avatarlink($avatar->get_avatarname());
-        $event->set_avatarlink($rental->get_rental_uid());
-        $event->set_avatarlink($package->get_package_uid());
-        $event->set_avatarlink(true);
-        $event->set_avatarlink(time());
-        $event->set_avatarlink($rental->get_expireunixtime());
-        $event->set_avatarlink($stream->get_port());
+        $event->set_avatar_uuid($avatar->get_avataruuid());
+        $event->set_avatar_name($avatar->get_avatarname());
+        $event->set_rental_uid($rental->get_rental_uid());
+        $event->set_package_uid($package->get_package_uid());
+        $event->set_event_new(true);
+        $event->set_unixtime(time());
+        $event->set_expire_unixtime($rental->get_expireunixtime());
+        $event->set_port($stream->get_port());
         $status = $event->create_entry()["status"];
         if($status == false)
         {
