@@ -7,6 +7,6 @@ id_rsa
 gen
 example.php
 ready.txt
-db_installed.php
-r4.php
-site_installed.php
+site/config/db_installed.php
+site/config/r4.php
+site/config/site_installed.php
