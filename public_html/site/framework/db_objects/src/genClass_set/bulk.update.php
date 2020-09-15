@@ -1,11 +1,11 @@
 <?php
 abstract class genClass_collection_updatebulk extends genClass_collection_get
 {
-    public function update_single_field_for_collection($update_field="",$new_value="")
+    public function update_single_field_for_collection($update_field="",$new_value="") : array
     {
         return $this->update_multiple_fields_for_collection(array($update_field),array($new_value));
     }
-    public function update_multiple_fields_for_collection($update_fields=array(),$new_values=array())
+    public function update_multiple_fields_for_collection($update_fields=array(),$new_values=array()) : array
     {
         if($this->get_count() > 0)
         {
