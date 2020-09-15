@@ -583,3 +583,5 @@ ALTER TABLE `treevender_packages`
 
   ALTER TABLE `notice_notecard` CHANGE `name` `name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
   ALTER TABLE `notice_notecard` ADD UNIQUE(`name`);
+
+  ALTER TABLE `api_requests` CHANGE `last_failed_why` `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL; 
