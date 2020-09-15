@@ -6,7 +6,7 @@ if($owner_override == true)
     $limits_config = array("page_number" => 0,"max_entrys" => 1);
     $api_requests_set = new api_requests_set();
     $message = "not set";
-    if($api_requests_set->load_with_config(array(),$order_config,$limits_config)["status"] == true)
+    if($api_requests_set->load_with_config(null,$order_config,$limits_config)["status"] == true)
     {
         if($api_requests_set->get_count() > 0)
         {
