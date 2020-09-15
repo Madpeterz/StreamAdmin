@@ -29,6 +29,7 @@ if(defined("correct") == true)
     include("installer/config.php");
     add_vendor("website");
     load_template("install");
+    render();
     $input = new inputFilter();
     if($module == "owner")
     {
@@ -40,7 +41,6 @@ if(defined("correct") == true)
     }
     else if($module == "install")
     {
-        render();
         include("installer/install.php");
     }
     else if($module == "setup")

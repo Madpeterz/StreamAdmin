@@ -5,6 +5,13 @@ if(defined("correct") == false) {die("Error");}
     please do not edit this unless instructed.
 */
 // install mode (Please do not edit this)
+function url(){
+  return sprintf(
+    "%s://%s/",
+    isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+    $_SERVER['SERVER_NAME']
+  );
+}
 $site_theme = "streamadminr5";
 $site_lang = "en";
 $template_parts["html_title"] = " Page ";
@@ -19,6 +26,6 @@ if(getenv('DB_HOST') !== false)
 }
 else
 {
-    $template_parts["url_base"] = "/";
+    $template_parts["url_base"] = url();
 }
 ?>
