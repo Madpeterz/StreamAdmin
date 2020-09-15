@@ -78,13 +78,20 @@ function timeleft_hours_and_days($unixtime=0)
     $dif = $unixtime-time();
     if($dif > 0)
     {
-        $hours = floor((($dif / 60)/60));
+        $mins = floor(($dif / 60));
+        $hours = floor(($mins/60));
         $days = floor($hours / 24);
         if($days > 0)
         {
             $hours -= $days * 24;
+            return "".$days." days, ".$hours." hours";
         }
-        return "".$days." days, ".$hours." hours";
+        else
+        {
+            $mins -= $hours * 60;
+            return "".$hours." hours, ".$mins." mins";
+        }
+
     }
     else return "0 days, 0 hours";
 }
