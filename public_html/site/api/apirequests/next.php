@@ -20,7 +20,7 @@ if($owner_override == true)
             {
                 if(file_exists($load_path) == true)
                 {
-                    if($sql->sqlSave(false) = true)
+                    if($sql->sqlSave(false) == true)
                     {
                         include($load_path);
                     }
