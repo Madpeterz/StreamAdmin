@@ -9,7 +9,7 @@ $status = true;
 $notice_notecard_set = new notice_notecard_set();
 $notice_notecard_set->load_with_config($where_config);
 $notecards = $input->postFilter("notecards");
-$notecards_list = arary();
+$notecards_list = array();
 if($notecards != "none")
 {
     if(strlen($notecards) > 0)
