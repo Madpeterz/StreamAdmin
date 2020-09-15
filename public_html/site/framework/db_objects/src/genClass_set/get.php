@@ -65,7 +65,7 @@ abstract class genClass_collection_get extends genClass_collectionSet
 			return null;
 		}
 	}
-    public function get_first() : ?object
+    public function get_first() : ?mixed
     {
         $return_obj = null;
         foreach($this->collected as $key => $value)
@@ -116,12 +116,12 @@ abstract class genClass_collection_get extends genClass_collectionSet
             }
         }
     }
-    protected function shit_index_search($value) : ?object
+    protected function shit_index_search($value) : ?mixed
     {
         if(array_key_exists($value,$this->shit_index_dataset) == true) return $this->shit_index_dataset[$value];
         else return null;
     }
-    protected function find_object_by_field(string $fieldname,$value) : ?object
+    protected function find_object_by_field(string $fieldname,$value) : ?mixed
     {
         if($this->worker == null) $this->worker = new $this->worker_class();
         $use_field = "id";
@@ -145,11 +145,11 @@ abstract class genClass_collection_get extends genClass_collectionSet
         }
     }
 
-    public function get_object_by_field(string $fieldname,$value) : ?object
+    public function get_object_by_field(string $fieldname,$value) : ?mixed
     {
         return $this->find_object_by_field($fieldname,$value);
     }
-    public function get_object_by_id($id=null) : ?object
+    public function get_object_by_id($id=null) : ?mixed
     {
         if($this->worker == null) $this->worker = new $this->worker_class();
         $use_field = "id";
@@ -171,7 +171,7 @@ abstract class genClass_collection_get extends genClass_collectionSet
         $use_field = "id";
         if($this->worker->bad_id == true) $use_field = $this->worker->use_id_field;
         return $this->get_all_by_field($use_field);
-    }
+    }  
 
 }
 ?>

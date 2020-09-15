@@ -13,6 +13,17 @@ abstract class genClass_setvalue extends genClass_getvalue
         $this->save_dataset = $this->dataset;
         return true;
     }
+    public function set_id(?int $newvalue) : array
+    {
+        if($this->bad_id == false)
+        {
+            return $this->update_field("id",$newvalue);
+        }
+        else
+        {
+            return array("status"=>false,"message"=>"Support for bad ids no just no");
+        }
+    }
     public function set_table(string $tablename="")
     {
         $this->use_table = $tablename;
