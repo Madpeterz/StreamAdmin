@@ -1,14 +1,22 @@
 <?php
 set_time_limit (120);
-ob_start();
-include("site/framework/install.php");
-if(install_ok() == true)
+if(ob_start() == true)
 {
-    include("site/view/view.php");
+    include("site/framework/install.php");
+    if(install_ok() == true)
+    {
+        include("site/view/view.php");
+    }
+    else
+    {
+        define("correct",true);
+        include("installer/index.php");
+        render();
+    }
+    ob_end_flush();
 }
 else
 {
-    define("correct",true);
-    include("installer/index.php");
+    echo "This system requires access to ob_ and its failed";
 }
-ob_end_flush();?>
+?>
