@@ -12,10 +12,7 @@ function get_avatar(string $avataruuid,string $avatarname) : ?avatar
     {
         return $avatar_helper->get_avatar();
     }
-    else
-    {
-        return null;
-    }
+    return null;
 }
 function create_transaction(avatar $avatar,package $package,stream $stream,server $server,reseller $reseller,region $region,int $amountpaid) : bool
 {
@@ -35,10 +32,7 @@ function create_transaction(avatar $avatar,package $package,stream $stream,serve
         $create_status = $transaction->create_entry();
         return $create_status["status"];
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 function get_package(string $packageuid) : ?package
 {
@@ -47,10 +41,7 @@ function get_package(string $packageuid) : ?package
     {
         return $package;
     }
-    else
-    {
-        return null;
-    }
+    return null;
 }
 function get_unassigned_stream_on_package(package $package) : ?stream
 {
@@ -66,11 +57,9 @@ function get_unassigned_stream_on_package(package $package) : ?stream
     {
         $stream_id = $stream_set->get_all_ids()[rand(0,$stream_set->get_count()-1)];
         $stream = $stream_set->get_object_by_id($stream_id);
+        return $stream;
     }
-    else
-    {
-        return null;
-    }
+    return null;
 }
 
 $input = new inputFilter();
@@ -191,7 +180,7 @@ if($status == true)
     $status = create_transaction($avatar,$package,$stream,$server,$reseller,$region,$amountpaid);
     if($status == false)
     {
-
+        $why_failed = $lang["buy.sr.error.4"];
     }
 }
 if($status == true) // process reseller cut / owner cut
