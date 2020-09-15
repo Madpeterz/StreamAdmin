@@ -163,9 +163,8 @@ if($status == true) // create rental
         $rental->set_noticelink($use_notice_index);
         $rental->set_totalamount($amountpaid);
         $status = $rental->create_entry()["status"];
-        if($create_status["status"] != true)
+        if($status != true)
         {
-            $status = false;
             $why_failed = $lang["buy.sr.error.7"];
         }
     }
