@@ -238,11 +238,29 @@ class server_centova3 extends server_centova3_only
     }
     protected function stop_server(stream $stream,server $server) : bool
     {
-        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"stop"));
+        $streamstate = $this->stream_state($stream,$server);
+        if(($streamstate["status"] == true) && ($streamstate["state"] == true))
+        {
+            return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"stop"));
+        }
+        else
+        {
+            $this->last_api_message = "Skipped server is already stopped";
+            return true;
+        }
     }
     protected function start_server(stream $stream,server $server,int $skip_auto_dj=0) : bool
     {
-        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"start",array("noapps"=>$skip_auto_dj)));
+        $streamstate = $this->stream_state($stream,$server);
+        if(($streamstate["status"] == true) && ($streamstate["state"] == false))
+        {
+            return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"start",array("noapps"=>$skip_auto_dj)));
+        }
+        else
+        {
+            $this->last_api_message = "Skipped server is already up";
+            return true;
+        }
     }
     protected function susspend_server(stream $stream,server $server) : bool
     {
