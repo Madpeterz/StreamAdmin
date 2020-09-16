@@ -5,7 +5,7 @@ $apis_set = new apis_set();
 $apis_set->loadAll();
 function process_notice_change(notice $notice)
 {
-    global $reply, $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
+    global $site_lang, $reply, $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
     $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
     $stream = $stream_set->get_object_by_id($rental->get_streamlink());
     $package = $package_set->get_object_by_id($stream->get_packagelink());
