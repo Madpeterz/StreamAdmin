@@ -18,6 +18,7 @@
 			"event_enable_renew" => array("type"=>"bool","value"=>0),
 			"event_disable_expire" => array("type"=>"bool","value"=>0),
 			"event_disable_revoke" => array("type"=>"bool","value"=>0),
+			"event_revoke_reset_username" => array("type"=>"bool","value"=>1),
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>0),
 			"event_clear_djs" => array("type"=>"bool","value"=>0),
 		);
@@ -32,6 +33,7 @@
 		public function get_event_enable_renew() : ?bool {  return $this->get_field("event_enable_renew");  } 
 		public function get_event_disable_expire() : ?bool {  return $this->get_field("event_disable_expire");  } 
 		public function get_event_disable_revoke() : ?bool {  return $this->get_field("event_disable_revoke");  } 
+		public function get_event_revoke_reset_username() : ?bool {  return $this->get_field("event_revoke_reset_username");  } 
 		public function get_event_reset_password_revoke() : ?bool {  return $this->get_field("event_reset_password_revoke");  } 
 		public function get_event_clear_djs() : ?bool {  return $this->get_field("event_clear_djs");  } 
 		public function set_name(?string $newvalue) : array {  return $this->update_field("name",$newvalue);  } 
@@ -45,6 +47,7 @@
 		public function set_event_enable_renew(?bool $newvalue) : array {  return $this->update_field("event_enable_renew",$newvalue);  } 
 		public function set_event_disable_expire(?bool $newvalue) : array {  return $this->update_field("event_disable_expire",$newvalue);  } 
 		public function set_event_disable_revoke(?bool $newvalue) : array {  return $this->update_field("event_disable_revoke",$newvalue);  } 
+		public function set_event_revoke_reset_username(?bool $newvalue) : array {  return $this->update_field("event_revoke_reset_username",$newvalue);  } 
 		public function set_event_reset_password_revoke(?bool $newvalue) : array {  return $this->update_field("event_reset_password_revoke",$newvalue);  } 
 		public function set_event_clear_djs(?bool $newvalue) : array {  return $this->update_field("event_clear_djs",$newvalue);  } 
 	}

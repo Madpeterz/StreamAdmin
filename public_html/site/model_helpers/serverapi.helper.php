@@ -61,6 +61,10 @@ class serverapi_helper
     {
         return $this->api_customize_username();
     }
+    public function event_revoke_reset_username() : bool
+    {
+        return $this->api_customize_username();
+    }
     public function opt_autodj_next() : bool
     {
         return $this->api_autodj_next();
@@ -465,7 +469,7 @@ class serverapi_helper
             if($this->avatar == null)
             {
                 // reset username
-                $new_username = $stream->get_original_adminusername();
+                $new_username = $this->stream->get_original_adminusername();
             }
             else
             {
