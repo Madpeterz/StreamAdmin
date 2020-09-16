@@ -18,6 +18,9 @@ $lang = array(
     "package.cr.error.16" => "Unable to assign a new UID to the package",
     "package.cr.error.17" => "Unable to create package: %1\$s",
     "package.cr.info.1" => "Package created",
+    "package.cr.error.18" => "API template name can not be longer than 50",
+    "package.cr.error.19" => "API template name can not be shorter than 3",
+    "package.cr.error.20"=> "Unable to find server type",
 
     "package.rm.error.1" => "Did not Accept",
     "package.rm.error.2" => "Unable to find package",
@@ -50,5 +53,8 @@ $lang = array(
     "package.up.error.16" => "Unable to load package",
     "package.up.error.17" => "Unable to update package: %1\$s",
     "package.up.info.1" => "Package updated",
+    "package.up.error.18" => "API template name can not be longer than 50",
+    "package.up.error.19" => "API template name can not be shorter than 3",
+    "package.up.error.20"=> "Unable to find server type",
 );
 ?>
