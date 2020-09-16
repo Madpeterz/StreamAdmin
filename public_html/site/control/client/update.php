@@ -8,7 +8,7 @@ $adjustment_dir = $input->postFilter("adjustment_dir","bool"); // array(false=>"
 $transfer_avataruid = $input->postFilter("transfer_avataruid");
 // message
 $message = $input->postFilter("message");
-if($message == null) $message = "";
+if(strlen($message) < 1) $message = null;
 
 $actions_taken = "";
 $status = false;
