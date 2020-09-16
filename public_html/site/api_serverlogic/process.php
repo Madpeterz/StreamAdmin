@@ -23,48 +23,58 @@ if($server->is_loaded() == true)
     {
         if($api->get_id() != 1)
         {
-            $cleaned_steps = array();
-            if($current_step != "")
+            $exit = false;
+            while($exit == false)
             {
-                $skip = true;
-                foreach($steps as $key => $value)
+                if(array_key_exists($current_step,$steps) == true)
                 {
-                    if(($key == $current_step) && ($skip == true))
-                    {
-                        $skip = false;
-                    }
-                    if($skip == false)
-                    {
-                        $cleaned_steps[] = $value;
-                    }
+                    $current_step = $steps[$current_step];
+                    error_log("Checking step: ".$current_step."");
                 }
-            }
-            else
-            {
-                $cleaned_steps = array_values($steps);
-            }
-            $continue_steps = false;
-            foreach($cleaned_steps as $value)
-            {
-                $has_api_step = false;
-                if($value != "core_send_details")
+                else
                 {
-                    $get_name = "get_".$value."";
-                    if(($api->$get_name() == 1) && ($server->$get_name() == 1))
+                    $current_step = "none";
+                }
+                if($current_step != "none")
+                {
+                    $has_api_step = true;
+                    if($current_step != "core_send_details")
                     {
-                        $has_api_step = true;
+                        $has_api_step = false;
+                        $get_name = "get_".$current_step."";
+                        if(($api->$get_name() == 1) && ($server->$get_name() == 1))
+                        {
+                            $has_api_step = true;
+                        }
+                    }
+                    if($has_api_step == true)
+                    {
+                        $all_ok = true;
+                        $exit = true;
+                        if($current_step == "core_send_details")
+                        {
+                            if($rental == null)
+                            {
+                                $rental = new rental();
+                                $all_ok = $rental->load_by_field("streamlink",$stream->get_id());
+                            }
+                        }
+                        if($all_ok == true)
+                        {
+                            $no_api_action = false;
+                            $api_serverlogic_reply = create_pending_api_request($server,$stream,$rental,$current_step,$api_logiclang["failed.create"],true);
+                        }
+                        else
+                        {
+                            $api_serverlogic_reply = false;
+                        }
                     }
                 }
                 else
                 {
-                    $has_api_step = true;
+                    $exit = true;
                 }
-                if($has_api_step == true)
-                {
-                    $no_api_action = false;
-                    $api_serverlogic_reply = create_pending_api_request($server,$stream,$rental,$value,$api_logiclang["failed.create"],true);
-                    break;
-                }
+                error_log("step: ".$current_step." ".$api_serverlogic_reply."");
             }
         }
     }
