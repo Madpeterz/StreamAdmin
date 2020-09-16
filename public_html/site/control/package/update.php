@@ -1,5 +1,6 @@
 <?php
 $template = new template();
+$servertype = new servertypes();
 $input = new inputFilter();
 $name = $input->postFilter("name");
 $templatelink = $input->postFilter("templatelink","integer");
@@ -12,6 +13,9 @@ $texture_uuid_instock_small = $input->postFilter("texture_uuid_instock_small","u
 $texture_uuid_instock_selected = $input->postFilter("texture_uuid_instock_selected","uuid");
 $autodj = $input->postFilter("autodj","bool");
 $autodj_size = $input->postFilter("autodj_size","integer");
+$api_template = $input->postFilter("api_template");
+$servertypelink = $input->postFilter("servertypelink","integer");
+
 $failed_on = "";
 if(strlen($name) < 5) $failed_on .= $lang["package.up.error.1"];
 else if(strlen($name) > 60) $failed_on .= $lang["package.up.error.2"];
@@ -28,6 +32,10 @@ else if(strlen($texture_uuid_instock_small) != 36) $failed_on .= $lang["package.
 else if(strlen($texture_uuid_instock_selected) != 36) $failed_on .= $lang["package.up.error.13"];
 else if($autodj_size > 9999) $failed_on .= $lang["package.up.error.14"];
 else if($template->load($templatelink) == false) $failed_on .= $lang["package.up.error.15"];
+else if(strlen($api_template) > 50) $failed_on .= $lang["package.up.error.18"];
+else if(strlen($api_template) < 3)  $failed_on .= $lang["package.up.error.19"];
+else if($servertype->load($servertypelink) == false) $failed_on .= $lang["package.up.error.20"];
+
 $status = false;
 $redirect = "package";
 if($failed_on == "")
@@ -46,6 +54,9 @@ if($failed_on == "")
         $package->set_texture_uuid_soldout($texture_uuid_soldout);
         $package->set_texture_uuid_instock_small($texture_uuid_instock_small);
         $package->set_texture_uuid_instock_selected($texture_uuid_instock_selected);
+        $package->set_api_template($api_template);
+        $package->set_servertypelink($servertypelink);
+        
         $update_status = $package->save_changes();
         if($update_status["status"] == true)
         {

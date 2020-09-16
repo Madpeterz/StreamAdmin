@@ -22,7 +22,7 @@ $event_start_sync_username = $input->postFilter("event_start_sync_username","int
 $api_serverstatus = $input->postFilter("api_serverstatus","integer");
 $event_clear_djs = $input->postFilter("event_clear_djs","integer");
 $event_revoke_reset_username = $input->postFilter("event_revoke_reset_username","integer");
-
+$event_recreate_revoke = $input->postFilter("event_recreate_revoke","integer");
 
 $failed_on = "";
 $redirect = "";
@@ -45,6 +45,7 @@ else if(in_array($event_start_sync_username,$yesno_array) == false) $failed_on .
 else if(in_array($api_serverstatus,$yesno_array) == false) $failed_on .= $lang["server.cr.error.17"];
 else if(in_array($event_clear_djs,$yesno_array) == false) $failed_on .= $lang["server.cr.error.18"];
 else if(in_array($event_revoke_reset_username,$yesno_array) == false) $failed_on .= $lang["server.cr.error.19"];
+else if(in_array($event_recreate_revoke,$yesno_array) == false) $failed_on .= $lang["server.cr.error.20"];
 
 $status = false;
 if($failed_on == "")
@@ -69,6 +70,7 @@ if($failed_on == "")
     $server->set_api_serverstatus($api_serverstatus);
     $server->set_event_clear_djs($event_clear_djs);
     $server->set_event_revoke_reset_username($event_revoke_reset_username);
+    $server->set_event_recreate_revoke($event_recreate_revoke);
     $create_status = $server->create_entry();
     if($create_status["status"] == true)
     {
