@@ -9,9 +9,13 @@ if($package->load_by_field("package_uid",$packageuid) == true)
     $apirequests_set->loadAll();
     $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
     $stream = new stream();
-    $where_fields = array(array("rentallink"=>"IS"),array("packagelink"=>"="),array("needwork"=>"="),array("id" => "NOT IN"));
-    $where_values = array(array(NULL => "i"),array($package->get_id() => "i"),array(0 => "i"),array($used_stream_ids => "i"));
-    $count_data = $sql->basic_count($stream->get_table(),$where_fields,$where_values);
+    $whereconfig = array(
+                "fields"=>array("rentallink","packagelink","needwork","id"),
+                "matches"=>array("IS","=","=","NOT IN"),
+                "values"=>array(null,$package->get_id(),0,$used_stream_ids),
+                "types"=>array("i","i","i","i"),
+    );
+    $count_data = $sql->basic_count_v2($stream->get_table(),$whereconfig);
     if($count_data["status"] == true)
     {
         $status = true;

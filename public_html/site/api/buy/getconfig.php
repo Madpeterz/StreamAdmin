@@ -12,12 +12,18 @@ if($texturepack > 0)
         if($package->load_by_field("package_uid",$packageuid) == true)
         {
             // $reseller, $object_owner_avatar, $owner_override, $region, $object
-
+            $apirequests_set = new api_requests_set();
+            $apirequests_set->loadAll();
+            $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
             // package_instock,
             $stream = new stream();
-            $where_fields = array(array("rentallink"=>"IS"),array("packagelink"=>"="));
-            $where_values = array(array(NULL => "i"),array($package->get_id() => "i"));
-            $count_data = $sql->basic_count($stream->get_table(),$where_fields,$where_values);
+            $whereconfig = array(
+                        "fields"=>array("rentallink","packagelink","needwork","id"),
+                        "matches"=>array("IS","=","=","NOT IN"),
+                        "values"=>array(null,$package->get_id(),0,$used_stream_ids),
+                        "types"=>array("i","i","i","i"),
+            );
+            $count_data = $sql->basic_count_v2($stream->get_table(),$whereconfig);
             if($count_data["status"] == true)
             {
                 // array("status"=>true, "count"=>$load_data["dataSet"][0]["sqlCount"]);
