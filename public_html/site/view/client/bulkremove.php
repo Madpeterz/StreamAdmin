@@ -21,6 +21,9 @@ $stream_set = new stream_set();
 $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
 $notice_set = new notice_set();
 $notice_set->load_ids($rental_set->get_all_by_field("noticelink"));
+$apirequests_set = new api_requests_set();
+$apirequests_set->loadAll();
+$used_stream_ids = $apirequests_set->get_unique_array("streamlink");
 $unixtime_oneday_ago = time() - $unixtime_day;
 foreach($rental_set->get_all_ids() as $rental_id)
 {
@@ -31,36 +34,39 @@ foreach($rental_set->get_all_ids() as $rental_id)
     $notice = $notice_set->get_object_by_id($rental->get_noticelink());
     if(strlen($rental->get_message()) == 0)
     {
-        $entry = array();
-        $entry[] = $rental->get_id();
-        $action = '
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-outline-danger">
-            <input type="radio" value="purge" name="rental'.$rental->get_rental_uid().'" autocomplete="off"> Remove
-          </label>
-          <label class="btn btn-outline-secondary active">
-            <input type="radio" value="keep" name="rental'.$rental->get_rental_uid().'" autocomplete="off" checked> Skip
-          </label>
-        </div>';
-        if(($notice->get_id() == 6) && ($rental->get_expireunixtime() < $unixtime_oneday_ago))
+        if(in_array($stream->get_id(),$used_stream_ids) == false)
         {
+            $entry = array();
+            $entry[] = $rental->get_id();
             $action = '
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-outline-danger active">
-                <input type="radio" value="purge" name="rental'.$rental->get_rental_uid().'" autocomplete="off" checked> Remove
+              <label class="btn btn-outline-danger">
+                <input type="radio" value="purge" name="rental'.$rental->get_rental_uid().'" autocomplete="off"> Remove
               </label>
-              <label class="btn btn-outline-secondary">
-                <input type="radio" value="keep" name="rental'.$rental->get_rental_uid().'" autocomplete="off"> Skip
+              <label class="btn btn-outline-secondary active">
+                <input type="radio" value="keep" name="rental'.$rental->get_rental_uid().'" autocomplete="off" checked> Skip
               </label>
             </div>';
+            if(($notice->get_id() == 6) && ($rental->get_expireunixtime() < $unixtime_oneday_ago))
+            {
+                $action = '
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-outline-danger active">
+                    <input type="radio" value="purge" name="rental'.$rental->get_rental_uid().'" autocomplete="off" checked> Remove
+                  </label>
+                  <label class="btn btn-outline-secondary">
+                    <input type="radio" value="keep" name="rental'.$rental->get_rental_uid().'" autocomplete="off"> Skip
+                  </label>
+                </div>';
+            }
+            $entry[] = $action;
+            $entry[] = $avatar->get_avatarname();
+            $entry[] = $server->get_domain();
+            $entry[] = $stream->get_port();
+            $entry[] = $notice->get_name();
+            $entry[] = expired_ago($rental->get_expireunixtime());
+            $table_body[] = $entry;
         }
-        $entry[] = $action;
-        $entry[] = $avatar->get_avatarname();
-        $entry[] = $server->get_domain();
-        $entry[] = $stream->get_port();
-        $entry[] = $notice->get_name();
-        $entry[] = expired_ago($rental->get_expireunixtime());
-        $table_body[] = $entry;
     }
 }
 if(count($table_body) > 0)

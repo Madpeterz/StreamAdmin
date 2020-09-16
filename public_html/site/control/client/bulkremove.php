@@ -26,6 +26,7 @@ $skipped_counter = 0;
 $status = true;
 $redirect = "client/bulkremove";
 $rental_ids_removed = array();
+$status = true;
 foreach($rental_set->get_all_ids() as $rental_id)
 {
     $rental = $rental_set->get_object_by_id($rental_id);
@@ -97,19 +98,18 @@ foreach($rental_set->get_all_ids() as $rental_id)
                             }
                             if($all_ok == true)
                             {
-                                $status = true;
-                                $redirect = "client";
-                                echo $lang["client.rm.info.1"];
-                                break;
+                                $removed_counter++;
                             }
                             else
                             {
+                                $status = false;
                                 echo $message;
                                 break;
                             }
                         }
                         else
                         {
+                            $status = false;
                             echo $lang["client.rm.error.4"];
                             break;
                         }
@@ -137,6 +137,8 @@ foreach($rental_set->get_all_ids() as $rental_id)
 }
 if($status == true)
 {
+    $status = true;
+    $redirect = "client";
     echo sprintf($lang["client.br.info.1"],$removed_counter,$skipped_counter);
 }
 ?>
