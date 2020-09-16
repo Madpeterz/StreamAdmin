@@ -438,7 +438,7 @@ class serverapi_helper
     }
     public function api_customize_username()
     {
-        global $sql;
+        global $sql, $retry;
         $status = false;
 
         $all_ok = false;
@@ -545,7 +545,6 @@ class serverapi_helper
                 $status = $this->server_api->opt_toggle_status($this->stream,$this->server,false);
                 if($status == true)
                 {
-                    $status = false;
                     $this->message = "Unable to update username right now stopping server!";
                 }
             }

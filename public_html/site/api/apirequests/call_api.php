@@ -4,6 +4,7 @@ $soft_fail = false;
 $status = false;
 $message = "Started call_api";
 $current_step = $functionname;
+$retry = false;
 if($stream->load($api_request->get_streamlink()) == true)
 {
     $server_api_helper = new serverapi_helper($stream);
@@ -13,31 +14,39 @@ if($stream->load($api_request->get_streamlink()) == true)
         $message = $server_api_helper->get_message();
         if($status == true)
         {
-            $remove_status = $api_request->remove_me();
-            if($remove_status["status"] == true)
+            if($retry == false)
             {
-                $why_failed = "";
-                if($logic_step != "opt")
+                $remove_status = $api_request->remove_me();
+                if($remove_status["status"] == true)
                 {
-                    include("site/api_serverlogic/".$logic_step.".php");
-                    $status = $api_serverlogic_reply;
-                    if($status == true)
+                    $why_failed = "";
+                    if($logic_step != "opt")
                     {
-                        $message = "ok reply from ".$logic_step." - ".$functionname."";
+                        include("site/api_serverlogic/".$logic_step.".php");
+                        $status = $api_serverlogic_reply;
+                        if($status == true)
+                        {
+                            $message = "ok reply from ".$logic_step." - ".$functionname."";
+                        }
+                        else
+                        {
+                            $message = $why_failed;
+                        }
                     }
                     else
                     {
-                        $message = $why_failed;
+                        $message = "ok";
                     }
                 }
                 else
                 {
-                    $message = "ok";
+                    $message = "Unable to remove old api request";
                 }
             }
             else
             {
-                $message = "Unable to remove old api request";
+                $message = "retry";
+                $status = true;
             }
         }
         else
