@@ -53,15 +53,10 @@ if($failed_on == "")
                 $stream->set_adminpassword($adminpassword);
                 $stream->set_djpassword($djpassword);
                 $stream->set_mountpoint($mountpoint);
-                if($original_adminusername == "sync")
-                {
-                    $stream->set_original_adminusername($adminusername);
-                }
-                else
+                if($adminusername != $original_adminusername)
                 {
                     $stream->set_original_adminusername($original_adminusername);
                 }
-
                 $update_status = $stream->save_changes();
                 if($update_status["status"] == true)
                 {
