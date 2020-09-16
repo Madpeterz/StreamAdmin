@@ -39,5 +39,41 @@ ALTER TABLE `notice_notecard` CHANGE `name` `name` VARCHAR(50) CHARACTER SET utf
 ALTER TABLE `notice_notecard` ADD UNIQUE(`name`);
 ALTER TABLE `api_requests` CHANGE `last_failed_why` `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 
-ALTER TABLE `apis` ADD `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '1' AFTER `event_disable_revoke`; 
+ALTER TABLE `apis` ADD `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '1' AFTER `event_disable_revoke`;
 ALTER TABLE `server` ADD `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '1' AFTER `event_disable_revoke`;
+
+ALTER TABLE `apis` ADD `event_recreate_revoke` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_clear_djs`;
+ALTER TABLE `server` ADD `event_recreate_revoke` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_clear_djs`;
+UPDATE `apis` SET `event_disable_revoke` = '0', `event_revoke_reset_username` = '0', `event_reset_password_revoke` = '0', `event_recreate_revoke` = '1' WHERE `apis`.`id` = 2;
+ALTER TABLE `package` ADD `api_template` TEXT NULL AFTER `texture_uuid_instock_selected`;
+UPDATE `apis` SET `event_disable_revoke` = '1', `event_revoke_reset_username` = '1', `event_reset_password_revoke` = '1' WHERE `apis`.`id` = 2;
+
+
+CREATE TABLE `servertypes` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `servertypes` (`id`, `name`) VALUES
+(1, 'ShoutcastV1'),
+(2, 'ShoutcastV2'),
+(3, 'Icecast');
+
+
+ALTER TABLE `servertypes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+
+ALTER TABLE `servertypes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+ALTER TABLE `package` ADD `servertypelink` INT NOT NULL DEFAULT '1' AFTER `templatelink`, ADD INDEX (`servertypelink`);
+
+ALTER TABLE `package` ADD CONSTRAINT `package_ibfk_2` FOREIGN KEY (`servertypelink`) REFERENCES `servertypes`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+
+ALTER TABLE `apis` CHANGE `event_revoke_reset_username` `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '0';
+
+UPDATE `apis` SET `event_disable_revoke` = '1', `event_revoke_reset_username` = '1', `event_reset_password_revoke` = '1' WHERE `apis`.`id` = 2;
+
+UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 1; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 3; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 4; 
