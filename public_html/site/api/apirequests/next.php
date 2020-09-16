@@ -15,8 +15,8 @@ if($owner_override == true)
             $api_request->set_attempts($api_request->get_attempts()+1);
             $api_request->set_last_attempt(time());
             $api_request->set_message("started processing");
-
-            if($save_status["status"] == false)
+            $save_status = $api_request->save_changes();
+            if($save_status["status"] == true)
             {
                 if(file_exists($load_path) == true)
                 {

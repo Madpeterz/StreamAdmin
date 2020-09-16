@@ -23,7 +23,7 @@ if($stream->load($api_request->get_streamlink()) == true)
                     $status = $api_serverlogic_reply;
                     if($status == true)
                     {
-                        $message = "ok";
+                        $message = "ok reply from ".$logic_step." - ".$functionname."";
                     }
                     else
                     {
@@ -40,10 +40,14 @@ if($stream->load($api_request->get_streamlink()) == true)
                 $message = "Unable to remove old api request";
             }
         }
+        else
+        {
+            $message = "API call ".$functionname." failed with: ".$message."";
+        }
     }
     else
     {
-        $message = "Unable to api function: ".$functionname;
+        $message = "Unable to run api function: ".$functionname." because: its missing";
     }
 }
 else
