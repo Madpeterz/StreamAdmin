@@ -7,17 +7,18 @@ $api_requests_set->loadAll();
 $stream_set = new stream_set();
 $stream_set->load_ids($api_requests_set->get_unique_array("streamlink"));
 $event_names = array(
-    "opt_toggle_status" => "Toggle state",
-    "opt_password_reset" => "Reset PWs",
-    "opt_autodj_next" => "AutoDJ next",
-    "opt_toggle_autodj" => "Toggle AutoDJ",
+    "opt_toggle_status" => "Toggle state {Opt}",
+    "opt_password_reset" => "Reset PWs {Opt}",
+    "opt_autodj_next" => "AutoDJ next {Opt}",
+    "opt_toggle_autodj" => "Toggle AutoDJ {Opt}",
     "event_enable_start" => "Enable {New}",
-    "event_start_sync_username" => "Change username",
+    "event_start_sync_username" => "Customize username {New}",
     "event_enable_renew" => "Enable {Renew}",
     "event_disable_expire" => "Disable {Expire}",
     "event_disable_revoke" => "Disable {Revoke}",
     "event_reset_password_revoke" => "New PWs {Revoke}",
     "event_clear_djs" => "Clear DJs {Revoke}",
+    "event_revoke_reset_username" => "Reset username {Revoke}"
 );
 foreach($api_requests_set->get_all_ids() as $request_id)
 {
