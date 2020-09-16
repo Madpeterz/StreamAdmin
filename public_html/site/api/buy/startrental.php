@@ -53,11 +53,14 @@ function get_package(string $packageuid) : ?package
 }
 function get_unassigned_stream_on_package(package $package) : ?stream
 {
+    $apirequests_set = new api_requests_set();
+    $apirequests_set->loadAll();
+    $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
     $where_config = array(
-        "fields" => array("rentallink","packagelink","needwork"),
-        "values" => array(NULL,$package->get_id(),0),
-        "types" => array("i","i","i"),
-        "matches" => array("IS","=","=")
+        "fields" => array("rentallink","packagelink","needwork","id"),
+        "values" => array(NULL,$package->get_id(),0,$used_stream_ids),
+        "types" => array("i","i","i","i"),
+        "matches" => array("IS","=","=","NOT IN")
     );
     $stream_set = new stream_set();
     $stream_set->load_with_config($where_config);
