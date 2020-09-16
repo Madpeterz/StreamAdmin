@@ -26,6 +26,7 @@
 			"event_revoke_reset_username" => array("type"=>"bool","value"=>1),
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>1),
 			"event_clear_djs" => array("type"=>"bool","value"=>0),
+			"event_recreate_revoke" => array("type"=>"bool","value"=>0),
 		);
 		public function get_domain() : ?string {  return $this->get_field("domain");  } 
 		public function get_controlpanel_url() : ?string {  return $this->get_field("controlpanel_url");  } 
@@ -46,6 +47,7 @@
 		public function get_event_revoke_reset_username() : ?bool {  return $this->get_field("event_revoke_reset_username");  } 
 		public function get_event_reset_password_revoke() : ?bool {  return $this->get_field("event_reset_password_revoke");  } 
 		public function get_event_clear_djs() : ?bool {  return $this->get_field("event_clear_djs");  } 
+		public function get_event_recreate_revoke() : ?bool {  return $this->get_field("event_recreate_revoke");  } 
 		public function set_domain(?string $newvalue) : array {  return $this->update_field("domain",$newvalue);  } 
 		public function set_controlpanel_url(?string $newvalue) : array {  return $this->update_field("controlpanel_url",$newvalue);  } 
 		public function set_apilink(?int $newvalue) : array {  return $this->update_field("apilink",$newvalue);  } 
@@ -65,5 +67,6 @@
 		public function set_event_revoke_reset_username(?bool $newvalue) : array {  return $this->update_field("event_revoke_reset_username",$newvalue);  } 
 		public function set_event_reset_password_revoke(?bool $newvalue) : array {  return $this->update_field("event_reset_password_revoke",$newvalue);  } 
 		public function set_event_clear_djs(?bool $newvalue) : array {  return $this->update_field("event_clear_djs",$newvalue);  } 
+		public function set_event_recreate_revoke(?bool $newvalue) : array {  return $this->update_field("event_recreate_revoke",$newvalue);  } 
 	}
 ?>

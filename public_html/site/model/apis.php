@@ -21,6 +21,7 @@
 			"event_revoke_reset_username" => array("type"=>"bool","value"=>1),
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>0),
 			"event_clear_djs" => array("type"=>"bool","value"=>0),
+			"event_recreate_revoke" => array("type"=>"bool","value"=>0),
 		);
 		public function get_name() : ?string {  return $this->get_field("name");  } 
 		public function get_api_serverstatus() : ?bool {  return $this->get_field("api_serverstatus");  } 
@@ -36,6 +37,7 @@
 		public function get_event_revoke_reset_username() : ?bool {  return $this->get_field("event_revoke_reset_username");  } 
 		public function get_event_reset_password_revoke() : ?bool {  return $this->get_field("event_reset_password_revoke");  } 
 		public function get_event_clear_djs() : ?bool {  return $this->get_field("event_clear_djs");  } 
+		public function get_event_recreate_revoke() : ?bool {  return $this->get_field("event_recreate_revoke");  } 
 		public function set_name(?string $newvalue) : array {  return $this->update_field("name",$newvalue);  } 
 		public function set_api_serverstatus(?bool $newvalue) : array {  return $this->update_field("api_serverstatus",$newvalue);  } 
 		public function set_opt_toggle_status(?bool $newvalue) : array {  return $this->update_field("opt_toggle_status",$newvalue);  } 
@@ -50,5 +52,6 @@
 		public function set_event_revoke_reset_username(?bool $newvalue) : array {  return $this->update_field("event_revoke_reset_username",$newvalue);  } 
 		public function set_event_reset_password_revoke(?bool $newvalue) : array {  return $this->update_field("event_reset_password_revoke",$newvalue);  } 
 		public function set_event_clear_djs(?bool $newvalue) : array {  return $this->update_field("event_clear_djs",$newvalue);  } 
+		public function set_event_recreate_revoke(?bool $newvalue) : array {  return $this->update_field("event_recreate_revoke",$newvalue);  } 
 	}
 ?>
