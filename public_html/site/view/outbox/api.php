@@ -18,7 +18,8 @@ $event_names = array(
     "event_disable_revoke" => "Disable {Revoke}",
     "event_reset_password_revoke" => "New PWs {Revoke}",
     "event_clear_djs" => "Clear DJs {Revoke}",
-    "event_revoke_reset_username" => "Reset username {Revoke}"
+    "event_revoke_reset_username" => "Reset username {Revoke}",
+    "event_recreate_revoke" => "Recreate account {Revoke}",
 );
 foreach($api_requests_set->get_all_ids() as $request_id)
 {
