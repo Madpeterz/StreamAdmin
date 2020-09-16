@@ -5,6 +5,8 @@ $template_parts["page_actions"] = "";
 
 $template_set = new template_set();
 $template_set->loadAll();
+$servertypes_set = new servertypes_set();
+$servertypes_set->loadAll();
 
 $form = new form();
 $form->target("package/create");
@@ -13,6 +15,8 @@ $form->col(6);
     $form->group("Basics");
     $form->text_input("name","Name",30,"","Package name [60 chars]");
     $form->select("templatelink","Template",0,$template_set->get_linked_array("id","name"));
+    $form->select("servertypelink","Server type",1,$servertypes_set->get_linked_array("id","name"));
+    $form->text_input("api_template","API template",50,"","API template name");
 $form->col(6);
     $form->group("Terms");
     $form->number_input("cost","Cost L$",null,5,"Max L$ 99999");

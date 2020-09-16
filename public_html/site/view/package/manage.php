@@ -5,6 +5,9 @@ $template_parts["page_actions"] = "<a href='[[url_base]]package/remove/".$page."
 
 $template_set = new template_set();
 $template_set->loadAll();
+$servertypes_set = new servertypes_set();
+$servertypes_set->loadAll();
+
 $package = new package();
 if($package->load_by_field("package_uid",$page) == true)
 {
@@ -16,6 +19,8 @@ if($package->load_by_field("package_uid",$page) == true)
         $form->group("Basics");
         $form->text_input("name","Name",30,$package->get_name(),"Package name [60 chars]");
         $form->select("templatelink","Template",$package->get_templatelink(),$template_set->get_linked_array("id","name"));
+        $form->select("servertypelink","Server type",$package->get_servertypelink(),$servertypes_set->get_linked_array("id","name"));
+        $form->text_input("api_template","API template",50,$package->get_api_template(),"API template name");
     $form->col(6);
         $form->group("Terms");
         $form->number_input("cost","Cost L$",$package->get_cost(),5,"Max L$ 99999");
