@@ -17,6 +17,9 @@ if($avatar->load_by_field("avataruuid",$avataruuid) == true)
             $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
             if($stream_set->get_count() > 0)
             {
+                $apirequests_set = new api_requests_set();
+                $apirequests_set->loadAll();
+                $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
                 $reply_dataset = array();
                 foreach($rental_set->get_all_ids() as $rental_id)
                 {
@@ -24,7 +27,10 @@ if($avatar->load_by_field("avataruuid",$avataruuid) == true)
                     $stream = $stream_set->get_object_by_id($rental->get_streamlink());
                     if($stream != null)
                     {
-                        $reply_dataset[] = "".$rental->get_rental_uid()."|||".$stream->get_port()."";
+                        if(in_array($stream->get_id(),$used_stream_ids) == false)
+                        {
+                            $reply_dataset[] = "".$rental->get_rental_uid()."|||".$stream->get_port()."";
+                        }
                     }
                 }
                 if(count($reply_dataset) > 0)
