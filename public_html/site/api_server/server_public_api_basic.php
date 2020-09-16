@@ -61,5 +61,13 @@ class server_public_api_basic extends server_api_protected
         }
         return false;
     }
+    public function remove_account(stream $stream,server $server,string $old_username) : bool
+    {
+        return $this->terminate_account($stream,$server,$old_username);
+    }
+    public function recreate_account(stream $stream,server $server,package $package) : bool
+    {
+        return $this->create_account($stream,$server,$package);
+    }
 }
 ?>

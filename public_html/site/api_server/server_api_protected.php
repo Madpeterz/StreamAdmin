@@ -8,6 +8,16 @@ class server_api_protected extends error_logging
         $this->last_api_message = "Skipped stream_state not supported on this api";
         return array("status"=>false,"state"=>false,"source"=>false);
     }
+    protected function terminate_account(stream $stream,server $server,string $old_username)  : bool
+    {
+        $this->last_api_message = "Skipped terminate_account not supported on this api";
+        return true;
+    }
+    protected function create_account(stream $stream,server $server,package $package) : bool
+    {
+        $this->last_api_message = "Skipped create_account not supported on this api";
+        return true;
+    }
     protected function dj_list(stream $stream,server $server) : array
     {
         $this->last_api_message = "Skipped dj_list not supported on this api";

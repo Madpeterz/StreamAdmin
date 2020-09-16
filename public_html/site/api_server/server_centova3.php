@@ -71,6 +71,66 @@ class server_centova3_only extends server_public_api
 }
 class server_centova3 extends server_centova3_only
 {
+    protected function terminate_account(stream $stream,server $server,string $old_username)  : bool
+    {
+        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"terminate",array("username"=>$old_username)));
+    }
+    protected function create_account(stream $stream,server $server,package $package) : bool
+    {
+        if($package->get_api_template() != null)
+        {
+            $servertype = new servertypes();
+            if($servertype->load($package->get_servertypelink()) == true)
+            {
+                $post_data = array(
+                    "port" => $stream->get_port(),
+                    "maxclients" => $package->get_listeners(),
+                    "adminpassword" => $stream->get_adminpassword(),
+                    "sourcepassword" => $stream->get_djpassword(),
+                    "maxbitrate" => $package->get_bitrate(),
+                    "username" => $stream->get_adminusername(),
+                    "email" => "port".$stream->get_port()."@noemail.com",
+                    "usesource" => 2,
+                    "autostart" => 1,
+                    "template" => $package->get_api_template(),
+                );
+                /*
+                if($servertype->get_id() == 1)
+                {
+                    $post_data["servertype"] = "ShoutCast";
+                }
+                else if($servertype->get_id() == 2)
+                {
+                    $post_data["servertype"] = "ShoutCast2";
+                }
+                else if($servertype->get_id() == 3)
+                {
+                    $post_data["servertype"] = "IceCast";
+                }
+                */
+                if($package->get_autodj() == true)
+                {
+                    $post_data["autostart"] = 0;
+                    $post_data["usesource"] = 1;
+                    $post_data["diskquota"] = $package->get_autodj_size()*1000;
+                }
+                $reply = $this->centova_systemclass_api_call($server,"provision",$post_data);
+                if($this->simple_reply_ok($reply) == true)
+                {
+                    return $this->susspend_server($stream,$server);
+                }
+            }
+            else
+            {
+                $this->last_api_message = "Unable to find servertype linked to package";
+            }
+        }
+        else
+        {
+            $this->last_api_message = "Package does not have a template!";
+        }
+        return false;
+    }
     protected function remove_dj(stream $stream,server $server,string $djaccount) : bool
     {
         $reply = $this->centova_serverclass_api_call($server,$stream,"managedj",array("action"=>"terminate","djusername"=>$djaccount));

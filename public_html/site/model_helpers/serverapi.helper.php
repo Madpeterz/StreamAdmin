@@ -33,6 +33,10 @@ class serverapi_helper
             }
         }
     }
+    public function event_recreate_revoke() : bool
+    {
+        return $this->api_recreate_account();
+    }
     public function event_enable_start() : bool
     {
         return $this->api_enable_account();
@@ -217,6 +221,49 @@ class serverapi_helper
             // rollback here rental here as it failed
         }
         return $update_status;
+    }
+    public function api_recreate_account() : bool
+    {
+        global $sql;
+        if($this->server_api != null)
+        {
+            if($this->check_flags(array("event_recreate_revoke")) == true)
+            {
+                $old_username = $this->stream->get_adminusername();
+                $this->stream->set_adminusername($this->stream->get_original_adminusername());
+                $this->stream->set_adminpassword($this->rand_string(7+rand(1,6)));
+                $this->stream->set_djpassword($this->rand_string(5+rand(1,3)));
+                $this->stream->set_needwork(false);
+                $update_status = $this->stream->save_changes();
+                if($update_status["status"] == true)
+                {
+                    $status = $this->server_api->remove_account($this->stream,$this->server,$old_username);
+                    if($status == true)
+                    {
+
+                        $status = $this->server_api->recreate_account($this->stream,$this->server,$this->package);
+                    }
+                    $this->message = $this->server_api->get_last_api_message();
+                    if($status == false)
+                    {
+                        $sql->flagError();
+                    }
+                    return $status;
+                }
+                else
+                {
+                    $sql->flagError();
+                    $this->message = "Unable to update password in db";
+                }
+            }
+            else
+            {
+                global $current_step;
+                $current_step = "recreate_not_enabled";
+                return true;
+            }
+        }
+        return false;
     }
     public function api_enable_account() : bool
     {

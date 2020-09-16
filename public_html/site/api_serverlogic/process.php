@@ -5,11 +5,7 @@ $api_logiclang = array(
     "failed.noserver" => "Unable to find server"
 );
 $api_serverlogic_reply = true;
-if(isset($site_lang) == false)
-{
-    error_log(print_r(debug_backtrace(), true));
-    $site_lang = "en";
-}
+if(isset($site_lang) == false) { $site_lang = "en"; }
 $lang_file = "site/lang/api_serverlogic/".$site_lang.".php";
 if(file_exists($lang_file) == true) { include($lang_file); }
 if(isset($server) == false)
@@ -71,6 +67,13 @@ if($server->is_loaded() == true)
                         else
                         {
                             $api_serverlogic_reply = false;
+                        }
+                    }
+                    else
+                    {
+                        if($current_step == "event_recreate_revoke")
+                        {
+                            $current_step = "recreate_not_enabled";
                         }
                     }
                 }
