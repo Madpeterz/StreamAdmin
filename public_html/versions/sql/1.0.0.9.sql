@@ -37,4 +37,7 @@ ALTER TABLE `notice` ADD CONSTRAINT `notice_notice_notecard_inuse` FOREIGN KEY (
 ALTER TABLE `notice_notecard` ADD `missing` TINYINT(1) NOT NULL DEFAULT '0' AFTER `name`;
 ALTER TABLE `notice_notecard` CHANGE `name` `name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `notice_notecard` ADD UNIQUE(`name`);
-ALTER TABLE `api_requests` CHANGE `last_failed_why` `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL; 
+ALTER TABLE `api_requests` CHANGE `last_failed_why` `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `apis` ADD `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '1' AFTER `event_disable_revoke`; 
+ALTER TABLE `server` ADD `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '1' AFTER `event_disable_revoke`;
