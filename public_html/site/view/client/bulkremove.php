@@ -25,6 +25,7 @@ $apirequests_set = new api_requests_set();
 $apirequests_set->loadAll();
 $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
 $unixtime_oneday_ago = time() - $unixtime_day;
+$hidden_clients = array();
 foreach($rental_set->get_all_ids() as $rental_id)
 {
     $rental = $rental_set->get_object_by_id($rental_id);
@@ -67,6 +68,14 @@ foreach($rental_set->get_all_ids() as $rental_id)
             $entry[] = expired_ago($rental->get_expireunixtime());
             $table_body[] = $entry;
         }
+        else
+        {
+            $hidden_clients[] = array("why"=>"Pending api request","rentaluid"=>$rental->get_rental_uid(),"avatar"=>$avatar->get_avatarname(),"port"=>$stream->get_port());
+        }
+    }
+    else
+    {
+        $hidden_clients[] = array("why"=>"Message on account","rentaluid"=>$rental->get_rental_uid(),"avatar"=>$avatar->get_avatarname(),"port"=>$stream->get_port());
     }
 }
 if(count($table_body) > 0)
@@ -81,11 +90,20 @@ else
 {
     echo "No clients to remove right now";
 }
-echo "<br><hr/><p>To appear in this list a client must meet the following checks<br/>
-<ol>
-<li>Expired for more than 24 hours</li>
-<li>Have the NoticeLevel: Expired</li>
-<li>Not have any messages attached to the account</li>
-</ol>
-</p>";
+if(count($hidden_clients) > 0)
+{
+    echo "<hr/><h4>Unlisted clients</h4>";
+    $table_head = array("Why","Rental UID","Avatar","Port");
+    $table_body = array();
+    foreach($hidden_clients as $hclient)
+    {
+        $entry = array();
+        $entry[] = $hclient["why"];
+        $entry[] = $hclient["rentaluid"];
+        $entry[] = $hclient["avatar"];
+        $entry[] = $hclient["port"];
+        $table_body[] = $entry;
+    }
+    echo render_table($table_head,$table_body);
+}
 ?>
