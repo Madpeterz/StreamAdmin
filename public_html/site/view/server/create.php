@@ -30,10 +30,13 @@ $form->col(6);
     $form->select("event_start_sync_username","Event / Customize username on rental start",0,array(0=>"No",1=>"Yes"));
     $form->select("event_enable_renew","Event / Enable on renewal",1,array(0=>"No",1=>"Yes"));
     $form->select("event_disable_expire","Event / Disable on expire",0,array(0=>"No",1=>"Yes"));
+$form->col(6);
     $form->select("event_disable_revoke","Event / Disable on revoke",1,array(0=>"No",1=>"Yes"));
     $form->select("event_reset_password_revoke","Event / Reset password on revoke",1,array(0=>"No",1=>"Yes"));
     $form->select("event_revoke_reset_username","Event / Reset username on revoke",1,array(0=>"No",1=>"Yes"));
     $form->select("event_clear_djs","Event / Clear DJ accounts on revoke",0,array(0=>"No",1=>"Yes"));
+$form->col(6);
+    $form->select("event_recreate_revoke","Event / Recreate account on revoke",0,array(0=>"No",1=>"Yes"));
 echo $form->render("Create","primary");
 include("site/view/server/api_notes.php");
 ?>
