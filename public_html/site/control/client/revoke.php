@@ -10,7 +10,7 @@ if($accept == "Accept")
     {
         $api_requests = new api_requests_set();
         $all_ok = true;
-        if($api_requests->load_by_field($rental->get_id(),"rentallink") == true)
+        if($api_requests->load_by_field("rentallink",$rental->get_id()) == true)
         {
             if($api_requests->get_count() > 0)
             {
