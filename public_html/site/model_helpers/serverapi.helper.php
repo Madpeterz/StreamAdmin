@@ -248,7 +248,6 @@ class serverapi_helper
         {
             if($this->check_flags(array("event_clear_djs")) == true)
             {
-
                 $reply = $this->server_api->get_dj_list($this->stream,$this->server);
                 $this->dj_list = $reply["list"];
                 if(count($this->loaded_djs()) > 0)
@@ -266,52 +265,49 @@ class serverapi_helper
     }
     public function api_purge_djs() : bool
     {
+        $function_statue = "start";
         if($this->server_api != null)
         {
+            $function_statue = "hasapi";
             if($this->check_flags(array("event_clear_djs")) == true)
             {
-                $stream_state_check = $this->server_api->get_stream_state($this->stream,$this->server);
-                $this->message = $this->server_api->get_last_api_message();
-                if($stream_state_check["status"] == true)
+                $function_statue = "hasflag";
+                if($this->api_enable_account() == true)
                 {
-                    if($stream_state_check["state"] == true)
+                    $function_statue = "accountenabled";
+                    if($this->api_list_djs() == true)
                     {
-                        if($this->api_list_djs() == true)
+                        $function_statue = "hasdjs";
+                        $all_ok = true;
+                        $this->removed_dj_counter = 0;
+                        foreach($this->loaded_djs() as $djaccount)
                         {
-                            $all_ok = true;
-                            $this->removed_dj_counter = 0;
-                            foreach($this->loaded_djs() as $djaccount)
+                            $status = $this->server_api->purge_dj_account($this->stream,$this->server,$djaccount);
+                            if($status == true)
                             {
-                                $status = $this->server_api->purge_dj_account($this->stream,$this->server,$djaccount);
-                                if($status == true)
-                                {
-                                    $this->removed_dj_counter++;
-                                }
-                                else
-                                {
-                                    $all_ok = false;
-                                    break;
-                                }
-                            }
-                            if($all_ok == true)
-                            {
-                                $this->message = "Removed ".$this->get_removed_dj_counter()." dj accounts";
+                                $this->removed_dj_counter++;
                             }
                             else
                             {
-                                $this->message = $this->server_api->get_last_api_message();
+                                $all_ok = false;
+                                break;
                             }
-                            return $all_ok;
                         }
-                    }
-                    else
-                    {
-                        $this->message = "Skipped - Account disabled";
-                        return true;
+                        if($all_ok == true)
+                        {
+                            $this->message = "Removed ".$this->get_removed_dj_counter()." dj accounts";
+                        }
+                        else
+                        {
+                            $this->message = $this->server_api->get_last_api_message();
+                        }
+                        $this->message .= " function: ".$function_statue."";
+                        return $all_ok;
                     }
                 }
             }
         }
+        $this->message .= " function: ".$function_statue."";
         return false;
     }
     public function api_disable_account() : bool
