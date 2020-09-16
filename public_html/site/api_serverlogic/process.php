@@ -29,7 +29,6 @@ if($server->is_loaded() == true)
                 if(array_key_exists($current_step,$steps) == true)
                 {
                     $current_step = $steps[$current_step];
-                    error_log("Checking step: ".$current_step."");
                 }
                 else
                 {
@@ -74,7 +73,6 @@ if($server->is_loaded() == true)
                 {
                     $exit = true;
                 }
-                error_log("step: ".$current_step." ".$api_serverlogic_reply."");
             }
         }
     }
