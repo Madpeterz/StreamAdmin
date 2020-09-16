@@ -9,7 +9,16 @@ $form->target("client/revoke/".$page."");
 $form->required(true);
 $form->col(6);
 $form->group("Warning</h4><p>This will end the rental without any refund!</p><h4>");
-$form->text_input("accept","Type \"Accept\"",30,"","I understand and accept the outcome of my actions");
+$action = '
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-outline-danger active">
+    <input type="radio" value="Accept" name="accept" autocomplete="off" > Accept
+  </label>
+  <label class="btn btn-outline-secondary">
+    <input type="radio" value="Nevermind" name="accept" autocomplete="off" checked> Nevermind
+  </label>
+</div>';
+$form->direct_add($action);
 echo $form->render("Revoke","danger");
 echo "";
 ?>
