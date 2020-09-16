@@ -114,71 +114,33 @@ abstract class mysqli_count extends mysqli_select
         }
         else return $this->failure("Please select a table first");
     }
-
-    public function basic_count(string $table,array $wherefields = array(),array $wherevalues = array(),string $joinOption = "AND") : array
+    public function basic_count_v2(string $table,array $whereconfig = array()) : array
     {
-        /*
-            fast and basic count if you dont need to know how many of everything is in a table
-            just how many of somthing that clears the where conditions
-
-            if you want multiple results groupped please use group_count
-
-            returns [true]: array("status"=>true,"count"=>x)
-            returns [false]: array("status"=>false,"message" => "why it failed")
-        */
         $this->sqlStart();
-		if($table != null)
-		{
-			if(count($wherefields) == count($wherevalues))
-			{
-                $where_fields = array();
-                $where_values = array();
-                $where_types = array();
-                $where_match = array();
-                foreach($wherefields as $data => $set)
-                {
-                    foreach($set as $field => $match)
-                    {
-                        $where_fields[] = $field;
-                        $where_match[] = $match;
-                    }
-                }
-                foreach($wherevalues as $data => $set)
-                {
-                    foreach($set as $value => $vtype)
-                    {
-                        $where_types[] = $vtype;
-                        if($value === null) $value = "NULL";
-                        $where_values[] = $value;
-                    }
-                }
-                $where_config = array(
-                    "join_with"=>$joinOption,
-                    "fields"=>$where_fields,
-                    "values"=>$where_values,
-                    "types"=>$where_types,
-                    "matches"=>$where_match
-                );
-                $load_data = $this->selectV2(
-                    array("table"=>$table,"fields"=>array("COUNT(*) AS sqlCount")),
-                    null,
-                    $where_config
-                );
-                if($load_data["status"] == true)
-                {
-                    return array("status"=>true, "count"=>$load_data["dataSet"][0]["sqlCount"]);
-                }
-                else
-                {
-                    return array("status"=>false,"count"=>0,"message"=>$load_data["message"]);
-                }
+        if($table != null)
+        {
+            $load_data = $this->selectV2(
+                array(
+                    "table"=>$table,
+                    "fields"=>array("COUNT(*) AS sqlCount")
+                ),
+                null,
+                $whereconfig
+            );
+            if($load_data["status"] == true)
+            {
+                return array("status"=>true, "count"=>$load_data["dataSet"][0]["sqlCount"],"message"=>"ok");
             }
-			else return $this->failure("Incorrect Where settings.");
-		}
-		else return $this->failure("Please select a table first");
+            else
+            {
+                return array("status"=>false,"count"=>0,"message"=>$load_data["message"]);
+            }
+        }
+        else
+        {
+            return $this->failure("No table selected to count from");
+        }
     }
-
-
     /**
      * @deprecated this function has been replaced by basic_count
      */

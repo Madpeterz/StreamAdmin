@@ -3,6 +3,7 @@ abstract class mysqli_select extends mysqli_remove
 {
     public function selectV2(array $basic_config,?array $order_config=null,?array $where_config=null,?array $options_config=null,?array $join_tables=null) : array
     {
+        $where_config = $this->preclean_where_config($where_config);
         if(array_key_exists("table",$basic_config) == true)
         {
             if($this->sqlStart() == true)
@@ -47,8 +48,15 @@ abstract class mysqli_select extends mysqli_remove
                     }
                     else
                     {
-                        if(($main_table_id != "") && ($auto_ids == true)) $sql .= " ".$main_table_id.".".implode(", ".$main_table_id.".",$basic_config["fields"]);
-                        else $sql .= " ".implode(", ",$basic_config["fields"]);
+                        if(($main_table_id != "") && ($auto_ids == true))
+                        {
+                            $sql .= " ".$main_table_id.".".implode(", ".$main_table_id.".",$basic_config["fields"]);
+                        }
+                        else
+                        {
+                            $sql .= " ".implode(", ",$basic_config["fields"]);
+                            $clean_ids = false; // no need to clean
+                        }
                     }
                 }
                 else
@@ -172,7 +180,7 @@ abstract class mysqli_select extends mysqli_remove
                         }
                         else return array("status"=>false,"message"=>"Unable to prepair: ".$sql);
                     }
-                    else return array("status"=>true,"message"=>"no data empty in array.","dataSet"=>array());
+                    else return array("status"=>false,"message"=>"no data empty in array.","dataSet"=>array());
                 }
                 else return array("status"=>false,"message"=>"failed with message:".$failed_on);
              }

@@ -11,6 +11,7 @@ abstract class mysqli_update extends mysqli_add
                 "types" => array(),   // s,i,d
             );
         */
+        $where_config = $this->preclean_where_config($where_config);
         if($this->sqlStart())
         {
             if($table != null)

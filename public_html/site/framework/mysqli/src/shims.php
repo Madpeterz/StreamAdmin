@@ -6,6 +6,55 @@ class mysqli_shims extends mysqli_custom
         V2 method but are left here to maintain compatibity for the next version
         these are due to be removed at a later date so should not be used in updates/new projects.
     */
+    /**
+     * @deprecated this function has been replaced by basic_count_v2
+     */
+    public function basic_count(string $table,array $wherefields = array(),array $wherevalues = array(),string $joinOption = "AND") : array
+    {
+        /*
+            fast and basic count if you dont need to know how many of everything is in a table
+            just how many of somthing that clears the where conditions
+
+            if you want multiple results groupped please use group_count
+
+            returns [true]: array("status"=>true,"count"=>x)
+            returns [false]: array("status"=>false,"message" => "why it failed")
+        */
+
+		if(count($wherefields) == count($wherevalues))
+		{
+            $where_fields = array();
+            $where_values = array();
+            $where_types = array();
+            $where_match = array();
+            foreach($wherefields as $data => $set)
+            {
+                foreach($set as $field => $match)
+                {
+                    $where_fields[] = $field;
+                    $where_match[] = $match;
+                }
+            }
+            foreach($wherevalues as $data => $set)
+            {
+                foreach($set as $value => $vtype)
+                {
+                    $where_types[] = $vtype;
+                    if($value === null) $value = "NULL";
+                    $where_values[] = $value;
+                }
+            }
+            $where_config = array(
+                "join_with"=>$joinOption,
+                "fields"=>$where_fields,
+                "values"=>$where_values,
+                "types"=>$where_types,
+                "matches"=>$where_match
+            );
+            return $this->basic_count_v2($table,$where_config);
+        }
+		else return $this->failure("Incorrect Where settings.");
+    }
     public function select(string $table,?array $fields,array $wherefields = array(),array $wherevalues = array(),string $whereJoin = "AND",string $orderBy = "",string $orderDir = "DESC",int $limit = 0,int $page = 0)
     {
         // rebuild into V2
