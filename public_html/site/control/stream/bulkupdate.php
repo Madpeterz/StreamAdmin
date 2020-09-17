@@ -15,7 +15,7 @@ $streams_skipped_original_adminusername = 0;
 foreach($stream_set->get_all_ids() as $stream_id)
 {
     $stream = $stream_set->get_object_by_id($stream_id);
-    if($stream->get_original_adminusername() != $stream->get_adminusername())
+    if($stream->get_original_adminusername() == $stream->get_adminusername())
     {
         $accept = $input->postFilter("stream".$stream->get_stream_uid()."");
         if($accept == "update")
