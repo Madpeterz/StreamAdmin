@@ -76,4 +76,6 @@ ALTER TABLE `apis` CHANGE `event_revoke_reset_username` `event_revoke_reset_user
 
 UPDATE `apis` SET `event_disable_revoke` = '1', `event_revoke_reset_username` = '1', `event_reset_password_revoke` = '1' WHERE `apis`.`id` = 2;
 
-UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 1; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 3; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 4; 
+UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 1; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 3; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 4;
+
+ALTER TABLE `server` CHANGE `api_serverstatus` `api_serverstatus` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `opt_password_reset` `opt_password_reset` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `opt_autodj_next` `opt_autodj_next` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `opt_toggle_autodj` `opt_toggle_autodj` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `opt_toggle_status` `opt_toggle_status` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `event_enable_start` `event_enable_start` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `event_enable_renew` `event_enable_renew` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `event_disable_revoke` `event_disable_revoke` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `event_revoke_reset_username` `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `event_reset_password_revoke` `event_reset_password_revoke` TINYINT(1) NOT NULL DEFAULT '0'; 

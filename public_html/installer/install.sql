@@ -1,30 +1,37 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-
 CREATE TABLE `apis` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
+  `api_serverstatus` tinyint(1) NOT NULL DEFAULT 0,
+  `opt_toggle_status` tinyint(1) NOT NULL DEFAULT 0,
   `opt_password_reset` tinyint(1) NOT NULL DEFAULT 0,
   `opt_autodj_next` tinyint(1) NOT NULL DEFAULT 0,
   `opt_toggle_autodj` tinyint(1) NOT NULL DEFAULT 0,
   `event_enable_start` tinyint(1) NOT NULL DEFAULT 0,
+  `event_start_sync_username` tinyint(1) NOT NULL DEFAULT 0,
   `event_enable_renew` tinyint(1) NOT NULL DEFAULT 0,
   `event_disable_expire` tinyint(1) NOT NULL DEFAULT 0,
   `event_disable_revoke` tinyint(1) NOT NULL DEFAULT 0,
-  `event_reset_password_revoke` tinyint(1) NOT NULL DEFAULT 0
+  `event_revoke_reset_username` tinyint(1) NOT NULL DEFAULT 0,
+  `event_reset_password_revoke` tinyint(1) NOT NULL DEFAULT 0,
+  `event_clear_djs` tinyint(1) NOT NULL DEFAULT 0,
+  `event_recreate_revoke` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `apis` (`id`, `name`, `opt_password_reset`, `opt_autodj_next`, `opt_toggle_autodj`, `event_enable_start`, `event_enable_renew`, `event_disable_expire`, `event_disable_revoke`, `event_reset_password_revoke`) VALUES
-(1, 'none', 0, 0, 0, 0, 0, 0, 0, 0),
-(2, 'centova3', 0, 0, 0, 0, 0, 0, 0, 0),
-(3, 'mediacp', 0, 0, 0, 0, 0, 0, 0, 0),
-(4, 'whmsonic', 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `apis` (`id`, `name`, `api_serverstatus`, `opt_toggle_status`, `opt_password_reset`, `opt_autodj_next`, `opt_toggle_autodj`, `event_enable_start`, `event_start_sync_username`, `event_enable_renew`, `event_disable_expire`, `event_disable_revoke`, `event_revoke_reset_username`, `event_reset_password_revoke`, `event_clear_djs`, `event_recreate_revoke`) VALUES
+(1, 'none', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(2, 'centova3', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(3, 'mediacp', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(4, 'whmsonic', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 CREATE TABLE `api_requests` (
   `id` int(11) NOT NULL,
   `serverlink` int(11) NOT NULL,
   `rentallink` int(11) DEFAULT NULL,
   `streamlink` int(11) NOT NULL,
-  `eventname` text NOT NULL
+  `eventname` text NOT NULL,
+  `attempts` int(11) NOT NULL DEFAULT 0,
+  `last_attempt` int(11) NOT NULL DEFAULT 0,
+  `message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `avatar` (
@@ -51,7 +58,7 @@ CREATE TABLE `botconfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `botconfig` (`id`, `avatarlink`, `secret`, `notecards`, `ims`) VALUES
-(1, 1, 'notsetup', 1, 0);
+(1, 1, 'notsetup', 0, 0);
 
 CREATE TABLE `detail` (
   `id` int(11) NOT NULL,
@@ -96,17 +103,27 @@ CREATE TABLE `notice` (
   `usebot` tinyint(1) NOT NULL DEFAULT 0,
   `send_notecard` tinyint(1) NOT NULL DEFAULT 0,
   `notecarddetail` text NOT NULL,
-  `hoursremaining` int(11) NOT NULL DEFAULT 0
+  `hoursremaining` int(11) NOT NULL DEFAULT 0,
+  `notice_notecardlink` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `notice` (`id`, `name`, `immessage`, `usebot`, `send_notecard`, `notecarddetail`, `hoursremaining`) VALUES
-(1, '7 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining', 1, 0, '', 168),
-(2, '5 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]]  remaining, When you have time please drop into our store.', 1, 0, '', 120),
-(3, '3 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining, Dont forget to renew your service!', 1, 0, '', 72),
-(4, '1 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 24 hours remaining. Please renew to avoid loss of service.', 1, 0, '', 24),
-(5, '5 hour notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 5 hours remaining. ', 1, 0, '', 5),
-(6, 'Expired', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]]  has now expired please renew asap or risk losing the assigned port.', 1, 0, '', 0),
-(10, 'Active', '', 0, 0, '', 999);
+INSERT INTO `notice` (`id`, `name`, `immessage`, `usebot`, `send_notecard`, `notecarddetail`, `hoursremaining`, `notice_notecardlink`) VALUES
+(1, '7 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining', 1, 0, '', 168, 1),
+(2, '5 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]]  remaining, When you have time please drop into our store.', 1, 0, '', 120, 1),
+(3, '3 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining, Dont forget to renew your service!', 1, 0, '', 72, 1),
+(4, '1 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 24 hours remaining. Please renew to avoid loss of service.', 1, 0, '', 24, 1),
+(5, '5 hour notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 5 hours remaining. ', 1, 0, '', 5, 1),
+(6, 'Expired', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]]  has now expired please renew asap or risk losing the assigned port.', 1, 0, '', 0, 1),
+(10, 'Active', '', 0, 0, '', 999, 1);
+
+CREATE TABLE `notice_notecard` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `missing` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `notice_notecard` (`id`, `name`, `missing`) VALUES
+(1, 'none', 0);
 
 CREATE TABLE `objects` (
   `id` int(11) NOT NULL,
@@ -128,11 +145,13 @@ CREATE TABLE `package` (
   `listeners` int(11) DEFAULT NULL,
   `bitrate` int(11) DEFAULT NULL,
   `templatelink` int(11) DEFAULT NULL,
+  `servertypelink` int(11) NOT NULL DEFAULT 1,
   `cost` int(11) DEFAULT NULL,
   `days` int(11) DEFAULT NULL,
   `texture_uuid_soldout` varchar(36) NOT NULL,
   `texture_uuid_instock_small` varchar(36) NOT NULL,
-  `texture_uuid_instock_selected` varchar(36) NOT NULL
+  `texture_uuid_instock_selected` varchar(36) NOT NULL,
+  `api_template` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `region` (
@@ -166,17 +185,34 @@ CREATE TABLE `server` (
   `domain` varchar(100) NOT NULL,
   `controlpanel_url` text NOT NULL,
   `apilink` int(11) NOT NULL DEFAULT 1,
+  `api_url` text DEFAULT NULL,
   `api_username` text DEFAULT NULL,
   `api_password` text DEFAULT NULL,
-  `opt_password_reset` tinyint(1) NOT NULL DEFAULT 1,
-  `opt_autodj_next` tinyint(1) NOT NULL DEFAULT 1,
-  `opt_toggle_autodj` tinyint(1) NOT NULL DEFAULT 1,
-  `event_enable_start` tinyint(1) NOT NULL DEFAULT 1,
-  `event_enable_renew` tinyint(1) NOT NULL DEFAULT 1,
+  `api_serverstatus` tinyint(1) NOT NULL DEFAULT 0,
+  `opt_password_reset` tinyint(1) NOT NULL DEFAULT 0,
+  `opt_autodj_next` tinyint(1) NOT NULL DEFAULT 0,
+  `opt_toggle_autodj` tinyint(1) NOT NULL DEFAULT 0,
+  `opt_toggle_status` tinyint(1) NOT NULL DEFAULT 0,
+  `event_enable_start` tinyint(1) NOT NULL DEFAULT 0,
+  `event_start_sync_username` tinyint(1) NOT NULL DEFAULT 0,
+  `event_enable_renew` tinyint(1) NOT NULL DEFAULT 0,
   `event_disable_expire` tinyint(1) NOT NULL DEFAULT 0,
-  `event_disable_revoke` tinyint(1) NOT NULL DEFAULT 1,
-  `event_reset_password_revoke` tinyint(1) NOT NULL DEFAULT 1
+  `event_disable_revoke` tinyint(1) NOT NULL DEFAULT 0,
+  `event_revoke_reset_username` tinyint(1) NOT NULL DEFAULT 0,
+  `event_reset_password_revoke` tinyint(1) NOT NULL DEFAULT 0,
+  `event_clear_djs` tinyint(1) NOT NULL DEFAULT 0,
+  `event_recreate_revoke` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `servertypes` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `servertypes` (`id`, `name`) VALUES
+(3, 'Icecast'),
+(1, 'ShoutcastV1'),
+(2, 'ShoutcastV2');
 
 CREATE TABLE `slconfig` (
   `id` int(11) NOT NULL,
@@ -199,7 +235,7 @@ CREATE TABLE `slconfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `slconfig` (`id`, `db_version`, `new_resellers`, `new_resellers_rate`, `sllinkcode`, `clients_list_mode`, `publiclinkcode`, `owner_av`, `eventstorage`, `datatable_itemsperpage`, `http_inbound_secret`, `smtp_host`, `smtp_port`, `smtp_username`, `smtp_accesscode`, `smtp_from`, `smtp_replyto`) VALUES
-(1, '1.0.0.8', 0, 0, 'asdasdasd', 0, NULL, 1, 0, 10, '', NULL, NULL, NULL, NULL, NULL, NULL);
+(1, '1.0.1.0', 0, 0, 'asdasdasd', 0, NULL, 1, 0, 10, '', NULL, NULL, NULL, NULL, NULL, NULL);
 
 CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
@@ -224,6 +260,7 @@ CREATE TABLE `stream` (
   `packagelink` int(11) NOT NULL,
   `port` int(5) NOT NULL,
   `needwork` tinyint(1) NOT NULL DEFAULT 0,
+  `original_adminusername` text NOT NULL,
   `adminusername` text NOT NULL,
   `adminpassword` text NOT NULL,
   `djpassword` text NOT NULL,
@@ -239,9 +276,8 @@ CREATE TABLE `template` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `template` (`id`, `name`, `detail`, `notecarddetail`) VALUES
-(1, 'No mountpoint', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]] \r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] [[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]'),
-(2, 'With mountpoint', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] \r\n[[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]'),
-(3, 'asdasd', 'asdasdasd', 'asdasdasd');
+(1, 'Shoutcast', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS]][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS]][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]] \r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] [[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]'),
+(2, 'Icecast', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS]][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS]][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] \r\n[[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]');
 
 CREATE TABLE `textureconfig` (
   `id` int(11) NOT NULL,
@@ -259,7 +295,7 @@ CREATE TABLE `textureconfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `textureconfig` (`id`, `name`, `offline`, `wait_owner`, `stock_levels`, `make_payment`, `inuse`, `renew_here`, `treevend_waiting`, `proxyrenew`, `getting_details`, `request_details`) VALUES
-(1, 'asdasda', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5', '9a92d601-5464-c5a2-6f19-cbcc12e40ac5');
+(1, 'SA7 defaults', '718fdaf8-df99-5c7f-48fb-feb94db12675', '51d5f381-43cd-84f0-c226-f9f89c12af7e', '257c594e-41d8-53d8-5280-5329a259a5d8', '19e57cf0-254f-32d7-fc9f-0d698aca4dc2', '10b68027-7e7f-fbbc-0c9f-6afabbfc636c', '0e99005c-526e-468c-7c0c-2569096f6162', 'c2b33611-f114-7415-0919-ffa18841c892', 'cc1c1124-b5d0-595b-12b6-016c61b82456', 'bc14cd11-edca-4bd2-3a21-46d870966edd', 'c724a9ea-ee79-6d80-3249-ff016de063b0');
 
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
@@ -326,7 +362,12 @@ ALTER TABLE `notecard`
 
 ALTER TABLE `notice`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `hoursremaining` (`hoursremaining`);
+  ADD UNIQUE KEY `hoursremaining` (`hoursremaining`),
+  ADD KEY `notice_notecardlink` (`notice_notecardlink`);
+
+ALTER TABLE `notice_notecard`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 ALTER TABLE `objects`
   ADD PRIMARY KEY (`id`),
@@ -337,7 +378,8 @@ ALTER TABLE `package`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `package_uid` (`package_uid`),
   ADD UNIQUE KEY `name` (`name`),
-  ADD KEY `templatelink` (`templatelink`);
+  ADD KEY `templatelink` (`templatelink`),
+  ADD KEY `servertypelink` (`servertypelink`);
 
 ALTER TABLE `region`
   ADD PRIMARY KEY (`id`),
@@ -359,6 +401,10 @@ ALTER TABLE `server`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `domain` (`domain`),
   ADD KEY `apilink` (`apilink`);
+
+ALTER TABLE `servertypes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 ALTER TABLE `slconfig`
   ADD PRIMARY KEY (`id`),
@@ -409,6 +455,9 @@ ALTER TABLE `treevender_packages`
 ALTER TABLE `apis`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
+ALTER TABLE `api_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `avatar`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
@@ -433,6 +482,9 @@ ALTER TABLE `notecard`
 ALTER TABLE `notice`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
+ALTER TABLE `notice_notecard`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 ALTER TABLE `objects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -451,6 +503,9 @@ ALTER TABLE `reseller`
 ALTER TABLE `server`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
+ALTER TABLE `servertypes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 ALTER TABLE `slconfig`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
@@ -461,7 +516,7 @@ ALTER TABLE `stream`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `textureconfig`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
@@ -497,12 +552,16 @@ ALTER TABLE `notecard`
   ADD CONSTRAINT `notecard_ibfk_1` FOREIGN KEY (`rentallink`) REFERENCES `rental` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `notecard_ibfk_2` FOREIGN KEY (`noticelink`) REFERENCES `notice` (`id`) ON UPDATE NO ACTION;
 
+ALTER TABLE `notice`
+  ADD CONSTRAINT `notice_notice_notecard_inuse` FOREIGN KEY (`notice_notecardlink`) REFERENCES `notice_notecard` (`id`) ON UPDATE NO ACTION;
+
 ALTER TABLE `objects`
   ADD CONSTRAINT `objects_ibfk_1` FOREIGN KEY (`regionlink`) REFERENCES `region` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `objects_ibfk_2` FOREIGN KEY (`avatarlink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `package`
-  ADD CONSTRAINT `package_ibfk_1` FOREIGN KEY (`templatelink`) REFERENCES `template` (`id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `package_ibfk_1` FOREIGN KEY (`templatelink`) REFERENCES `template` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `package_ibfk_2` FOREIGN KEY (`servertypelink`) REFERENCES `servertypes` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `rental`
   ADD CONSTRAINT `rental_ibfk_1` FOREIGN KEY (`streamlink`) REFERENCES `stream` (`id`) ON UPDATE NO ACTION,
@@ -536,90 +595,3 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevender_packages`
   ADD CONSTRAINT `treevender_packages_ibfk_1` FOREIGN KEY (`treevenderlink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_packages_ibfk_2` FOREIGN KEY (`packagelink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION;
-
-  UPDATE `slconfig` SET `db_version` = '1.0.0.9' WHERE `slconfig`.`id` = 1;
-  ALTER TABLE `server` ADD `api_url` TEXT NULL AFTER `apilink`;
-  ALTER TABLE `apis` ADD `opt_toggle_status` TINYINT(1) NOT NULL DEFAULT '0' AFTER `name`;
-  ALTER TABLE `server` ADD `opt_toggle_status` TINYINT(1) NOT NULL DEFAULT '1' AFTER `opt_toggle_autodj`;
-
-  UPDATE `slconfig` SET `db_version` = '1.0.1.0' WHERE `slconfig`.`id` = 1;
-  UPDATE `apis` SET `opt_toggle_status` = '1', `opt_password_reset` = '1', `opt_autodj_next` = '1', `opt_toggle_autodj` = '1', `event_enable_start` = '1', `event_enable_renew` = '1', `event_disable_expire` = '1', `event_disable_revoke` = '1', `event_reset_password_revoke` = '1' WHERE `apis`.`id` = 2;
-  ALTER TABLE `server` ADD `event_start_sync_username` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_enable_start`;
-  ALTER TABLE `apis` ADD `event_start_sync_username` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_enable_start`;
-  UPDATE `apis` SET `event_start_sync_username` = '1' WHERE `apis`.`id` = 2;
-  ALTER TABLE `stream` ADD `original_adminusername` TEXT NOT NULL AFTER `needwork`;
-  UPDATE `stream` SET `original_adminusername` = `stream`.`adminusername`;
-  ALTER TABLE `apis` ADD `api_serverstatus` TINYINT(1) NOT NULL DEFAULT '0' AFTER `name`;
-  ALTER TABLE `server` ADD `api_serverstatus` TINYINT(1) NOT NULL DEFAULT '1' AFTER `api_password`;
-  UPDATE `apis` SET `api_serverstatus` = '1' WHERE `apis`.`id` = 2;
-  ALTER TABLE `apis` ADD `event_clear_djs` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_reset_password_revoke`;
-  ALTER TABLE `server` ADD `event_clear_djs` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_reset_password_revoke`;
-  UPDATE `apis` SET `event_clear_djs` = '1' WHERE `apis`.`id` = 2;
-  ALTER TABLE `api_requests` ADD `attempts` INT NOT NULL DEFAULT '0' AFTER `eventname`;
-  ALTER TABLE `api_requests` ADD `last_attempt` INT NOT NULL DEFAULT '0' AFTER `attempts`;
-  ALTER TABLE `api_requests` ADD `last_failed_why` TEXT NULL AFTER `last_attempt`;
-  ALTER TABLE `api_requests` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
-
-  CREATE TABLE `notice_notecard` (
-    `id` int(11) NOT NULL,
-    `name` text NOT NULL
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-  INSERT INTO `notice_notecard` (`id`, `name`) VALUES
-  (1, 'none');
-
-
-  ALTER TABLE `notice_notecard`
-    ADD PRIMARY KEY (`id`);
-
-
-  ALTER TABLE `notice_notecard`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
-  ALTER TABLE `notice` ADD `notice_notecardlink` INT NOT NULL DEFAULT '1' AFTER `hoursremaining`, ADD INDEX (`notice_notecardlink`);
-
-  ALTER TABLE `notice` ADD CONSTRAINT `notice_notice_notecard_inuse` FOREIGN KEY (`notice_notecardlink`) REFERENCES `notice_notecard`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
-  ALTER TABLE `notice_notecard` ADD `missing` TINYINT(1) NOT NULL DEFAULT '0' AFTER `name`;
-
-  ALTER TABLE `notice_notecard` CHANGE `name` `name` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
-  ALTER TABLE `notice_notecard` ADD UNIQUE(`name`);
-
-  ALTER TABLE `api_requests` CHANGE `last_failed_why` `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
-
-  ALTER TABLE `apis` ADD `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '1' AFTER `event_disable_revoke`;
-  ALTER TABLE `server` ADD `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '1' AFTER `event_disable_revoke`;
-
-  ALTER TABLE `apis` ADD `event_recreate_revoke` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_clear_djs`;
-  ALTER TABLE `server` ADD `event_recreate_revoke` TINYINT(1) NOT NULL DEFAULT '0' AFTER `event_clear_djs`;
-  UPDATE `apis` SET `event_disable_revoke` = '0', `event_revoke_reset_username` = '0', `event_reset_password_revoke` = '0', `event_recreate_revoke` = '1' WHERE `apis`.`id` = 2;
-  ALTER TABLE `package` ADD `api_template` TEXT NULL AFTER `texture_uuid_instock_selected`;
-  UPDATE `apis` SET `event_disable_revoke` = '1', `event_revoke_reset_username` = '1', `event_reset_password_revoke` = '1' WHERE `apis`.`id` = 2;
-
-  CREATE TABLE `servertypes` (
-    `id` int(11) NOT NULL,
-    `name` varchar(50) NOT NULL
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-  INSERT INTO `servertypes` (`id`, `name`) VALUES
-  (1, 'ShoutcastV1'),
-  (2, 'ShoutcastV2'),
-  (3, 'Icecast');
-
-
-  ALTER TABLE `servertypes`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`);
-
-
-  ALTER TABLE `servertypes`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
-  ALTER TABLE `package` ADD `servertypelink` INT NOT NULL DEFAULT '1' AFTER `templatelink`, ADD INDEX (`servertypelink`);
-
-  ALTER TABLE `package` ADD CONSTRAINT `package_ibfk_2` FOREIGN KEY (`servertypelink`) REFERENCES `servertypes`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
-
-  ALTER TABLE `apis` CHANGE `event_revoke_reset_username` `event_revoke_reset_username` TINYINT(1) NOT NULL DEFAULT '0';
-
-  UPDATE `apis` SET `event_disable_revoke` = '1', `event_revoke_reset_username` = '1', `event_reset_password_revoke` = '1' WHERE `apis`.`id` = 2;
-
-  UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 1; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 3; UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 4; 
