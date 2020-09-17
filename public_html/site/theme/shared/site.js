@@ -3,6 +3,60 @@ $( document ).ready(function() {
     $(".ajaxonpageload").each(function(i, obj) {
         setTimeout(dynamic_ajax_load, (300+Math.floor(Math.random() * 400)),$(this));
     });
+    $(".avatarfinderajax").submit(function(e) {
+        e.preventDefault();
+        if(ajax_busy == false)
+        {
+            ajax_busy = true;
+            var form = $(this);
+            var url = form.attr('action');
+            var method = form.attr('method');
+            $.ajax({
+                   type: method,
+                   url: url,
+                   data: form.serialize(),
+                   success: function(data)
+                   {
+                       try
+                       {
+                           jsondata = JSON.parse(data);
+                           var redirectdelay = 1500;
+                           if(jsondata.hasOwnProperty('status'))
+                           {
+                               if(jsondata.hasOwnProperty('values'))
+                               {
+                                   $("#finderscore").html(jsondata.values.score+"%");
+                                   $("#finderuid").html(jsondata.values.matchuid);
+                                   $("#findername").html(jsondata.values.matchname);
+                               }
+                               else
+                               {
+                                   $("#finderscore").html("0%");
+                                   $("#finderuid").html("-");
+                                   $("#findername").html("-");
+                               }
+                               setTimeout(function(){ ajax_busy=false }, 1000);
+                           }
+                           else
+                           {
+                               alert_error("Reply from server is not vaild please reload the page and try again.");
+                               setTimeout(function(){ ajax_busy=false }, 1000);
+                           }
+                       }
+                       catch(e)
+                       {
+                           alert_warning("Unable to process reply, please reload the page and try again!");
+                           setTimeout(function(){ ajax_busy=false }, 1000);
+                       }
+                   },
+                   error: function (data)
+                   {
+                       alert_error(data);
+                       setTimeout(function(){ ajax_busy=false }, 1000);
+                   }
+            });
+        }
+    });
     $(".ajax").submit(function(e) {
         e.preventDefault();
         if(ajax_busy == false)
