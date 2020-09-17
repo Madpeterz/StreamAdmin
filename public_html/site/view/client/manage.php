@@ -20,7 +20,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
         $form->select("adjustment_dir","Adjustment (Type)",false,array(false=>"Remove",true=>"Add"));
     $form->col(6);
         $form->group("Transfer");
-        $form->text_input("transfer_avataruid","Avatar UID <a href=\"[[url_base]]avatar\" target=\"_blank\">Find</a>",8,"","Avatar UID (Not SL UUID)");
+        $form->text_input("transfer_avataruid","Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>",8,"","Avatar UID (Not SL UUID)");
     $form->split();
     $form->col(6);
         $form->group("Message");

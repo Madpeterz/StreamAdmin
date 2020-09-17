@@ -8,7 +8,7 @@ if($session->get_ownerlevel() == true)
     $form->target("staff/create");
     $form->required(true);
     $form->col(6);
-        $form->text_input("avataruid","Avatar UID <a href=\"[[url_base]]avatar\" target=\"_blank\">Find</a>",8,"","Avatar uid");
+        $form->text_input("avataruid","Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>",8,"","Avatar uid");
         $form->text_input("username","Username",40,null,"Used to login [does not have to be the same as their SL name]");
         $form->text_input("email","Email",200,"","Used to change their password via email");
     echo $form->render("Create","primary");
