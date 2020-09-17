@@ -14,7 +14,7 @@ $form->target("bot/update");
 $form->required(true);
 $form->col(6);
     $form->group("Basic");
-    $form->text_input("avataruid","Avatar UID <a href=\"[[url_base]]avatar\" target=\"_blank\">Find</a>",30,$avatar->get_avatar_uid(),"Avatar uid [Not the same as a SL UUID!]");
+    $form->text_input("avataruid","Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>",30,$avatar->get_avatar_uid(),"Avatar uid [Not the same as a SL UUID!]");
     $form->text_input("secret","Secret SL->Bot",36,$botconfig->get_secret(),"Bot secret [Found in ***.json or env value]");
 $form->col(6);
     $form->group("Actions");
