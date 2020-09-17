@@ -1,42 +1,27 @@
-.logo
-{
+.logo {
     width: 100%;
 }
-
-.needwork
-{
+.needwork {
     color: #d0db32;
 }
-
-.ready
-{
+.ready {
     color: #39c227;
 }
-
-.sold
-{
+.sold {
     color: #277cc2;
 }
-
-.serverstatusdisplay
-{
+.serverstatusdisplay {
     width: 250px;
 }
-
-.sold:hover
-{
+.sold:hover {
     color: #45a7f7;
 }
-
-.reports-gain
-{
+.reports-gain {
     color: #31b310;
 }
-.reports-loss
-{
+.reports-loss {
     color: #fc4103;
 }
-.reports-best
-{
+.reports-best {
     color: #2b66c4;
 }
