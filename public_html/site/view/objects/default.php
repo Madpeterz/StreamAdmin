@@ -38,5 +38,5 @@ foreach($objects_set->get_all_ids() as $object_id)
     $entry[] = $avatar->get_avatarname();
     $table_body[] = $entry;
 }
-print render_datatable($table_head,$table_body);
+echo render_datatable($table_head,$table_body);
 ?>

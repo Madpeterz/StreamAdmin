@@ -48,22 +48,22 @@ if($failed_on == "")
         if($update_status["status"] == true)
         {
             $status = true;
-            print $lang["textureconfig.up.info.1"];
+            echo $lang["textureconfig.up.info.1"];
             $redirect = "textureconfig";
         }
         else
         {
-            print sprintf($lang["textureconfig.up.error.14"],$update_status["message"]);
+            echo sprintf($lang["textureconfig.up.error.14"],$update_status["message"]);
         }
     }
     else
     {
-        print $lang["textureconfig.up.error.13"];
+        echo $lang["textureconfig.up.error.13"];
         $redirect = "textureconfig";
     }
 }
 else
 {
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

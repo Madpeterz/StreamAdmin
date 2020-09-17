@@ -53,8 +53,8 @@ foreach($avatar_set->get_all_ids() as $avatar_id)
     $entry[] = $avatar->get_avatarname();
     $table_body[] = $entry;
 }
-print render_datatable($table_head,$table_body);
-print "<br/><hr/>";
+echo render_datatable($table_head,$table_body);
+echo "<br/><hr/>";
 $form = new form();
 $form->mode("get");
 $form->target("avatar");
@@ -63,5 +63,5 @@ $form->col(4);
     $form->group("Search: Name or UUID");
     $form->text_input("name","Name",30,"","2 letters min to match");
     $form->text_input("uuid","SL UUID",36,"","a full UUID to match");
-print $form->render("Start","info");
+echo $form->render("Start","info");
 ?>

@@ -125,7 +125,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
         }
     }
     $paged_info = new paged_info();
-    print $paged_info->render($pages);
+    echo $paged_info->render($pages);
 }
 else
 {

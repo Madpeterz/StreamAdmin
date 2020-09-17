@@ -63,14 +63,14 @@ foreach($r4_items_set->get_all_ids() as $r4_item_id)
                     }
                     else
                     {
-                        print sprintf($lang["stream.cr.error.14"],$create_status["message"]);
+                        echo sprintf($lang["stream.cr.error.14"],$create_status["message"]);
                         $all_ok = false;
                         break;
                     }
                 }
                 else
                 {
-                    print $lang["stream.cr.error.11"];
+                    echo $lang["stream.cr.error.11"];
                     $all_ok = false;
                     break;
                 }
@@ -92,7 +92,7 @@ foreach($r4_items_set->get_all_ids() as $r4_item_id)
 }
 if($all_ok == true)
 {
-    print "Created: ".$stream_created." streams, ".$stream_skipped_no_server." skipped (No server), ".$stream_skipped_no_package." skipped (No package) <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    echo "Created: ".$stream_created." streams, ".$stream_skipped_no_server." skipped (No server), ".$stream_skipped_no_package." skipped (No package) <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
 }
 else
 {

@@ -12,5 +12,5 @@ foreach($server_set->get_all_ids() as $server_id)
     $entry[] = '<a href="[[url_base]]server/manage/'.$server->get_id().'">'.$server->get_domain().'</a>';
     $table_body[] = $entry;
 }
-print render_datatable($table_head,$table_body);
+echo render_datatable($table_head,$table_body);
 ?>

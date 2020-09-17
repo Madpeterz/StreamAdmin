@@ -37,7 +37,7 @@ if($package->load_by_field("package_uid",$page) == true)
         $form->group("Auto DJ");
         $form->select("autodj","Enabled",$package->get_autodj(),array(false=>"No",true=>"Yes"));
         $form->number_input("autodj_size","Storage GB",$package->get_autodj_size(),3,"Max GB storage 9999");
-    print $form->render("Update","primary");
+    echo $form->render("Update","primary");
 }
 else
 {

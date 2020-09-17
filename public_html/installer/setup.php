@@ -58,43 +58,43 @@ $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
                                 else
                                 {
                                     $sql->sqlRollBack(true);
-                                    print "Site config not vaild";
+                                    echo "Site config not vaild";
                                 }
                             }
                             else
                             {
                                 $sql->sqlRollBack(true);
-                                print "Unable to update config entry";
+                                echo "Unable to update config entry";
                             }
                         }
                         else
                         {
                             $sql->sqlRollBack(true);
-                            print "Unable to load config entry";
+                            echo "Unable to load config entry";
                         }
                     }
                     else
                     {
                         $sql->sqlRollBack(true);
-                        print "Unable to update avatar entry";
+                        echo "Unable to update avatar entry";
                     }
                 }
                 else
                 {
                     $sql->sqlRollBack(true);
-                    print "Unable to load avatar entry";
+                    echo "Unable to load avatar entry";
                 }
             }
             else
             {
                 $sql->sqlRollBack(true);
-                print "unable to update staff entry";
+                echo "unable to update staff entry";
             }
         }
         else
         {
             $sql->sqlRollBack(true);
-            print "unable to load staff entry";
+            echo "unable to load staff entry";
         }
     }
     if($load_ok == false)
@@ -109,7 +109,7 @@ $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
             {
                 ?>
                 <div class="row mt-4">
-                    <div class="col-8 offset-2"><input name="domain" class="form-control" type="text" placeholder="Site URL (Dont forget the ending /)" value="http://<?php print $_SERVER['HTTP_HOST'];?>/"></div>
+                    <div class="col-8 offset-2"><input name="domain" class="form-control" type="text" placeholder="Site URL (Dont forget the ending /)" value="http://<?php echo $_SERVER['HTTP_HOST'];?>/"></div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-8 offset-2"><input name="sitename" class="form-control" type="text" placeholder="Site name" value="Streamadmin R7"></div>

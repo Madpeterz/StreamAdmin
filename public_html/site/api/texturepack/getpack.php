@@ -29,15 +29,15 @@ if($texturepack > 0)
             $reply["reseller_rate"] = 100;
             $reply["reseller_mode"] = $lang["texturepack.gp.info.2"];
         }
-        print "ok";
+        echo "ok";
     }
     else
     {
-        print $lang["texturepack.gp.error.2"];
+        echo $lang["texturepack.gp.error.2"];
     }
 }
 else
 {
-    print $lang["texturepack.gp.error.1"];
+    echo $lang["texturepack.gp.error.1"];
 }
 ?>

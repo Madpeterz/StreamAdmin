@@ -35,10 +35,10 @@ if($search_avatar_set->get_count() > 0)
     {
         $reply["values"] = $scored_results[0];
     }
-    print "ok";
+    echo "ok";
 }
 else
 {
-    print "nope";
+    echo "nope";
 }
 ?>

@@ -16,11 +16,11 @@ if($owner_override == true)
             {
                 $reply["hasmessage"] = 1;
                 $reply["avataruuid"] = $avatar->get_avataruuid();
-                print $message->get_message();
+                echo $message->get_message();
             }
             else
             {
-                print $lang["mailserver.n.error.4"];
+                echo $lang["mailserver.n.error.4"];
             }
         }
         else
@@ -28,21 +28,21 @@ if($owner_override == true)
             $remove_status = $message->remove_me();
             if($remove_status["status"] == true)
             {
-                print $lang["mailserver.n.error.3"];
+                echo $lang["mailserver.n.error.3"];
             }
             else
             {
-                print sprintf($lang["mailserver.n.error.2"],$message->get_id());
+                echo sprintf($lang["mailserver.n.error.2"],$message->get_id());
             }
         }
     }
     else
     {
-        print "nowork";
+        echo "nowork";
     }
 }
 else
 {
-    print $lang["mailserver.n.error.1"];
+    echo $lang["mailserver.n.error.1"];
 }
 ?>

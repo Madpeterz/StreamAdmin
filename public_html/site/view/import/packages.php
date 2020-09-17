@@ -52,21 +52,21 @@ foreach($r4_packages_set->get_all_ids() as $r4_package_id)
         }
         else
         {
-            print sprintf($lang["package.cr.error.17"],$create_status["message"]);
+            echo sprintf($lang["package.cr.error.17"],$create_status["message"]);
             $all_ok = false;
             break;
         }
     }
     else
     {
-        print $lang["package.cr.error.16"];
+        echo $lang["package.cr.error.16"];
         $all_ok = false;
         break;
     }
 }
 if($all_ok == true)
 {
-    print "Created: ".$packages_created." packages <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    echo "Created: ".$packages_created." packages <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
 }
 else
 {

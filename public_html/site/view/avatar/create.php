@@ -8,5 +8,5 @@ $form->required(true);
 $form->col(6);
     $form->text_input("avatarname","Name",125,null,"Madpeter Zond [You can leave out Resident]");
     $form->text_input("avataruuid","SL UUID",3,null,"SecondLife UUID [found on their SL profile]");
-print $form->render("Create","primary");
+echo $form->render("Create","primary");
 ?>

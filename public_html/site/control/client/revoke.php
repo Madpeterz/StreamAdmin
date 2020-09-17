@@ -15,13 +15,13 @@ if($accept == "Accept")
             if($api_requests->get_count() > 0)
             {
                 $all_ok = false;
-                print  sprintf($lang["client.rm.error.13"],$api_requests->get_count());
+                echo  sprintf($lang["client.rm.error.13"],$api_requests->get_count());
             }
         }
         else
         {
             $all_ok = false;
-            print $lang["client.rm.error.12"];
+            echo $lang["client.rm.error.12"];
         }
         if($all_ok == true)
         {
@@ -92,50 +92,50 @@ if($accept == "Accept")
                                 {
                                     $status = true;
                                     $redirect = "client";
-                                    print $lang["client.rm.info.1"];
+                                    echo $lang["client.rm.info.1"];
                                 }
                                 else
                                 {
-                                    print $message;
+                                    echo $message;
                                 }
                             }
                             else
                             {
-                                print $lang["client.rm.error.6"];
+                                echo $lang["client.rm.error.6"];
                             }
                         }
                         else
                         {
-                            print $lang["client.rm.error.5"];
+                            echo $lang["client.rm.error.5"];
                         }
                     }
                     else
                     {
-                        print $lang["client.rm.error.4"];
+                        echo $lang["client.rm.error.4"];
                     }
                 }
                 else
                 {
-                    print $lang["client.rm.error.9"];
+                    echo $lang["client.rm.error.9"];
                 }
             }
             else
             {
-                print $lang["client.rm.error.3"];
+                echo $lang["client.rm.error.3"];
             }
         }
         else
         {
-            print $lang["client.rm.error.3"];
+            echo $lang["client.rm.error.3"];
         }
     }
     else
     {
-        print $lang["client.rm.error.2"];
+        echo $lang["client.rm.error.2"];
     }
 }
 else
 {
-    print $lang["client.rm.error.1"];
+    echo $lang["client.rm.error.1"];
 }
 ?>

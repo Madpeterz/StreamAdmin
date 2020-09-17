@@ -22,21 +22,21 @@ if($failed_on == "")
         if($update_status["status"] == true)
         {
             $status = true;
-            print $lang["template.up.info.1"];
+            echo $lang["template.up.info.1"];
             $redirect = "template";
         }
         else
         {
-            print sprintf($lang["template.up.error.7"],$update_status["message"]);
+            echo sprintf($lang["template.up.error.7"],$update_status["message"]);
         }
     }
     else
     {
-        print $lang["template.up.error.6"];
+        echo $lang["template.up.error.6"];
     }
 }
 else
 {
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

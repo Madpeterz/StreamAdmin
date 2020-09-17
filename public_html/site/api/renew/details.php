@@ -38,33 +38,33 @@ if($avatar->load_by_field("avataruuid",$avataruuid) == true)
                     $status = true;
                     $reply["dataset_count"] = count($reply_dataset);
                     $reply["dataset"] = $reply_dataset;
-                    print sprintf($lang["renew.dt.info.2"],$avatar->get_avatarname());
+                    echo sprintf($lang["renew.dt.info.2"],$avatar->get_avatarname());
                 }
                 else
                 {
                     $status = true;
-                    print $lang["renew.dt.error.3"];
+                    echo $lang["renew.dt.error.3"];
                 }
             }
             else
             {
-                print $lang["renew.dt.error2"];
+                echo $lang["renew.dt.error2"];
             }
         }
         else
         {
             $status = true;
-            print $lang["renew.dt.info.1"];
+            echo $lang["renew.dt.info.1"];
         }
     }
     else
     {
-        print $lang["renew.dt.error2.banned"];
+        echo $lang["renew.dt.error2.banned"];
     }
 }
 else
 {
     $status = true;
-    print $lang["renew.dt.error.1"];
+    echo $lang["renew.dt.error.1"];
 }
 ?>

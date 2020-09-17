@@ -88,21 +88,21 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
                         }
                         else
                         {
-                            print $lang["client.cr.error.10"];
+                            echo $lang["client.cr.error.10"];
                             $all_ok=false;
                             break;
                         }
                     }
                     else
                     {
-                        print sprintf($lang["client.cr.error.9"],$create_status["message"]);
+                        echo sprintf($lang["client.cr.error.9"],$create_status["message"]);
                         $all_ok=false;
                         break;
                     }
                 }
                 else
                 {
-                    print $lang["client.cr.error.8"];
+                    echo $lang["client.cr.error.8"];
                     $all_ok=false;
                     break;
                 }
@@ -124,7 +124,7 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
 }
 if($all_ok == true)
 {
-    print "Created: ".$clients_created." clients, ".$clients_skipped_no_stream." skipped (No stream), ".$clients_skipped_no_avatar." skipped (No avatar), ".$clients_skipped_bad_notice_level." skipped (Bad notice level) <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    echo "Created: ".$clients_created." clients, ".$clients_skipped_no_stream." skipped (No stream), ".$clients_skipped_no_avatar." skipped (No avatar), ".$clients_skipped_bad_notice_level." skipped (Bad notice level) <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
 }
 else
 {

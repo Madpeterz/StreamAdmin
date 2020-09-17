@@ -14,12 +14,12 @@ if($session->get_ownerlevel() == 1)
     }
     file_put_contents("site/config/r4.php",$saveconfig);
     $status = true;
-    print "ok";
+    echo "ok";
     $redirect = "import";
 }
 else
 {
     $status = false;
-    print "Only the system owner can access this area";
+    echo "Only the system owner can access this area";
 }
 ?>

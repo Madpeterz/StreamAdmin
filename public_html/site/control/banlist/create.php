@@ -26,20 +26,20 @@ if($avatar_set->get_count() == 1)
         {
             $status = true;
             $redirect = "banlist";
-            print $lang["banlist.create.ok"];
+            echo $lang["banlist.create.ok"];
         }
         else
         {
-            print $lang["banlist.create.failed.unabletocreate"];
+            echo $lang["banlist.create.failed.unabletocreate"];
         }
     }
     else
     {
-        print $lang["banlist.create.failed.avataralreadybanned"];
+        echo $lang["banlist.create.failed.avataralreadybanned"];
     }
 }
 else
 {
-    print $lang["banlist.create.failed.noavatar"];
+    echo $lang["banlist.create.failed.noavatar"];
 }
 ?>

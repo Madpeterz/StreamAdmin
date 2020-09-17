@@ -49,10 +49,10 @@ if(count($table_body) > 0)
     $form->target("stream/bulkupdate");
     $form->col(12);
         $form->direct_add(render_datatable($table_head,$table_body));
-    print $form->render("Process","outline-warning");
+    echo $form->render("Process","outline-warning");
 }
 else
 {
-    print "No streams marked as need work";
+    echo "No streams marked as need work";
 }
 ?>

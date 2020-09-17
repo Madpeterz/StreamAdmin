@@ -36,61 +36,61 @@ if($accept == "Accept")
                                         if($remove_status["status"] == true)
                                         {
                                             $status = true;
-                                            print $lang["package.rm.info.1"];
+                                            echo $lang["package.rm.info.1"];
                                         }
                                         else
                                         {
-                                            print sprintf($lang["package.rm.error.3"],$remove_status["message"]);
+                                            echo sprintf($lang["package.rm.error.3"],$remove_status["message"]);
                                         }
                                     }
                                     else
                                     {
-                                        print sprintf($lang["package.rm.error.11"],$treevender_packages_set->get_count());
+                                        echo sprintf($lang["package.rm.error.11"],$treevender_packages_set->get_count());
                                     }
                                 }
                                 else
                                 {
-                                    print $lang["package.rm.error.10"];
+                                    echo $lang["package.rm.error.10"];
                                 }
                             }
                             else
                             {
-                                print sprintf($lang["package.rm.error.9"],$rental_set->get_count());
+                                echo sprintf($lang["package.rm.error.9"],$rental_set->get_count());
                             }
                         }
                         else
                         {
-                            print $lang["package.rm.error.8"];
+                            echo $lang["package.rm.error.8"];
                         }
                     }
                     else
                     {
-                        print sprintf($lang["package.rm.error.7"],$stream_set->get_count());
+                        echo sprintf($lang["package.rm.error.7"],$stream_set->get_count());
                     }
                 }
                 else
                 {
-                    print $lang["package.rm.error.6"];
+                    echo $lang["package.rm.error.6"];
                 }
             }
             else
             {
-                print sprintf($lang["package.rm.error.5"],$stream_set->get_count());
+                echo sprintf($lang["package.rm.error.5"],$stream_set->get_count());
             }
         }
         else
         {
-            print $lang["package.rm.error.4"];
+            echo $lang["package.rm.error.4"];
         }
     }
     else
     {
-        print $lang["package.rm.error.2"];
+        echo $lang["package.rm.error.2"];
     }
 }
 else
 {
-    print $lang["package.rm.error.1"];
+    echo $lang["package.rm.error.1"];
     $redirect ="package/manage/".$page."";
 }
 ?>

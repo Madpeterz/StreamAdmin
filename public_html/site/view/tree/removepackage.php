@@ -19,7 +19,7 @@ if($treevender_packages->load($page) == true)
             $form->col(6);
             $form->group("Warning");
             $form->text_input("accept","Type \"Accept\"",30,"","This will remove the link to the package");
-            print $form->render("Remove","danger");
+            echo $form->render("Remove","danger");
         }
         else
         {

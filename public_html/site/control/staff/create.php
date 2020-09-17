@@ -36,21 +36,21 @@ if($session->get_ownerlevel() == true)
             if($create_status["status"] == true)
             {
                 $status = true;
-                print $lang["staff.cr.info.1"];
+                echo $lang["staff.cr.info.1"];
             }
             else
             {
-                print sprintf($lang["staff.cr.error.10"],$create_status["message"]);
+                echo sprintf($lang["staff.cr.error.10"],$create_status["message"]);
             }
         }
         else
         {
-            print $failed_on;
+            echo $failed_on;
         }
 }
 else
 {
     $redirect = "";
-    print $lang["staff.cr.error.9"];
+    echo $lang["staff.cr.error.9"];
 }
 ?>

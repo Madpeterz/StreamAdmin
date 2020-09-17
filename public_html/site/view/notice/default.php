@@ -17,5 +17,5 @@ foreach($notice_set->get_all_ids() as $notice_id)
         $table_body[] = $entry;
     }
 }
-print render_datatable($table_head,$table_body);
+echo render_datatable($table_head,$table_body);
 ?>

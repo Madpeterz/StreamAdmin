@@ -12,21 +12,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            print $lang["av.rm.info.1"];
+            echo $lang["av.rm.info.1"];
         }
         else
         {
-            print sprintf($lang["av.rm.error.3"],$remove_status["message"]);
+            echo sprintf($lang["av.rm.error.3"],$remove_status["message"]);
         }
     }
     else
     {
-        print $lang["av.rm.error.2"];
+        echo $lang["av.rm.error.2"];
     }
 }
 else
 {
-    print $lang["av.rm.error.1"];
+    echo $lang["av.rm.error.1"];
     $redirect ="avatar/manage/".$page."";
 }
 ?>

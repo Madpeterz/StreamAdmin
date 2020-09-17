@@ -24,7 +24,7 @@ if($textureconfig->load($page) == true)
         $form->text_input("stock_levels","Stock levels",36,$textureconfig->get_stock_levels(),"UUID of texture");
         $form->text_input("renew_here","Renew here",36,$textureconfig->get_renew_here(),"UUID of texture");
         $form->text_input("proxyrenew","Proxy Renew",36,$textureconfig->get_proxyrenew(),"UUID of texture");
-    print $form->render("Update","primary");
+    echo $form->render("Update","primary");
 }
 else
 {

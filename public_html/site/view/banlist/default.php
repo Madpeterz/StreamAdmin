@@ -58,8 +58,8 @@ foreach($banlist_set->get_all_ids() as $ban_id)
     $entry[] = '<a href="[[url_base]]banlist/clear/'.$ban_id.'">'.$avatar->get_avatarname().'</a>';
     $table_body[] = $entry;
 }
-print render_datatable($table_head,$table_body);
-print "<br/><hr/>";
+echo render_datatable($table_head,$table_body);
+echo "<br/><hr/>";
 $form = new form();
 $form->mode("get");
 $form->target("banlist");
@@ -79,6 +79,6 @@ $form2 = $form->render("Goodbye","primary");
 $mygrid = new grid();
 $mygrid->add_content($form1,6);
 $mygrid->add_content($form2,6);
-print $mygrid->get_output();
+echo $mygrid->get_output();
 
 ?>

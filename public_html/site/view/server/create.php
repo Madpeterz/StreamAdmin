@@ -37,6 +37,6 @@ $form->col(6);
     $form->select("event_clear_djs","Event / Clear DJ accounts on revoke",0,array(0=>"No",1=>"Yes"));
 $form->col(6);
     $form->select("event_recreate_revoke","Event / Recreate account on revoke",0,array(0=>"No",1=>"Yes"));
-print $form->render("Create","primary");
+echo $form->render("Create","primary");
 include("site/view/server/api_notes.php");
 ?>

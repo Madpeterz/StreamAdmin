@@ -43,7 +43,7 @@ $buffer = ob_get_contents();
 ob_clean();
 $found_path = get_require_path($module,"",false);
 if($found_path != null) require_once($found_path);
-else print "Unable to load page<br/>Please try again later";
+else echo "Unable to load page<br/>Please try again later";
 $template_parts["page_content"] = ob_get_contents();
 ob_clean();
 foreach($template_parts as $key => $value)
@@ -61,5 +61,5 @@ $buffer = str_replace("[[MODULE]]",$page,$buffer);
 $buffer = str_replace("[[AREA]]",$optional,$buffer);
 $buffer = str_replace("[[PAGE]]",$page,$buffer);
 $buffer = str_replace("@NL@","\r\n",$buffer);
-print $buffer;
+echo $buffer;
 ?>

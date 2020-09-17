@@ -14,6 +14,6 @@ if(file_exists($checkfile) == true)
 else
 {
     $status = false;
-    print sprintf($lang["final_not_supported"],$required_sl_values["method"],$required_sl_values["action"]);
+    echo sprintf($lang["final_not_supported"],$required_sl_values["method"],$required_sl_values["action"]);
 }
 ?>

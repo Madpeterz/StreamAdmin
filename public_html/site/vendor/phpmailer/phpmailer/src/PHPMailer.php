@@ -403,14 +403,14 @@ class PHPMailer
     /**
      * How to handle debug output.
      * Options:
-     * * `print` Output plain-text as-is, appropriate for CLI
+     * * `echo` Output plain-text as-is, appropriate for CLI
      * * `html` Output escaped, line breaks converted to `<br>`, appropriate for browser output
      * * `error_log` Output to error log as configured in php.ini
-     * By default PHPMailer will use `print` if run from a `cli` or `cli-server` SAPI, `html` otherwise.
+     * By default PHPMailer will use `echo` if run from a `cli` or `cli-server` SAPI, `html` otherwise.
      * Alternatively, you can provide a callable expecting two params: a message string and the debug level:
      *
      * ```php
-     * $mail->Debugoutput = function($str, $level) {print "debug level $level; message: $str";};
+     * $mail->Debugoutput = function($str, $level) {echo "debug level $level; message: $str";};
      * ```
      *
      * Alternatively, you can pass in an instance of a PSR-3 compatible logger, though only `debug`
@@ -424,7 +424,7 @@ class PHPMailer
      *
      * @var string|callable|\Psr\Log\LoggerInterface
      */
-    public $Debugoutput = 'print';
+    public $Debugoutput = 'echo';
 
     /**
      * Whether to keep SMTP connection open after each message.
@@ -826,7 +826,7 @@ class PHPMailer
             $this->exceptions = (bool) $exceptions;
         }
         //Pick an appropriate debug output format automatically
-        $this->Debugoutput = (strpos(PHP_SAPI, 'cli') !== false ? 'print' : 'html');
+        $this->Debugoutput = (strpos(PHP_SAPI, 'cli') !== false ? 'echo' : 'html');
     }
 
     /**
@@ -891,7 +891,7 @@ class PHPMailer
             return;
         }
         //Avoid clash with built-in function names
-        if (is_callable($this->Debugoutput) && !in_array($this->Debugoutput, ['error_log', 'html', 'print'])) {
+        if (is_callable($this->Debugoutput) && !in_array($this->Debugoutput, ['error_log', 'html', 'echo'])) {
             call_user_func($this->Debugoutput, $str, $this->SMTPDebug);
 
             return;
@@ -903,17 +903,17 @@ class PHPMailer
                 break;
             case 'html':
                 //Cleans up output a bit for a better looking, HTML-safe output
-                print htmlentities(
+                echo htmlentities(
                     preg_replace('/[\r\n]+/', '', $str),
                     ENT_QUOTES,
                     'UTF-8'
                 ), "<br>\n";
                 break;
-            case 'print':
+            case 'echo':
             default:
                 //Normalize line breaks
                 $str = preg_replace('/\r\n|\r/m', "\n", $str);
-                print gmdate('Y-m-d H:i:s'),
+                echo gmdate('Y-m-d H:i:s'),
                 "\t",
                     //Trim trailing space
                 trim(

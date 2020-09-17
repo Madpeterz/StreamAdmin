@@ -12,21 +12,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            print $lang["reseller.rm.info.1"];
+            echo $lang["reseller.rm.info.1"];
         }
         else
         {
-            print sprintf($lang["reseller.rm.error.3"],$remove_status["message"]);
+            echo sprintf($lang["reseller.rm.error.3"],$remove_status["message"]);
         }
     }
     else
     {
-        print $lang["reseller.rm.error.2"];
+        echo $lang["reseller.rm.error.2"];
     }
 }
 else
 {
-    print $lang["reseller.rm.error.1"];
+    echo $lang["reseller.rm.error.1"];
     $redirect ="reseller/manage/".$page."";
 }
 ?>

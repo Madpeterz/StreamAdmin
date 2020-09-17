@@ -20,16 +20,16 @@ if($failed_on == "")
     if($create_status["status"] == true)
     {
         $status = true;
-        print $lang["template.cr.info.1"];
+        echo $lang["template.cr.info.1"];
         $redirect = "template";
     }
     else
     {
-        print sprintf($lang["template.cr.error.6"],$create_status["message"]);
+        echo sprintf($lang["template.cr.error.6"],$create_status["message"]);
     }
 }
 else
 {
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

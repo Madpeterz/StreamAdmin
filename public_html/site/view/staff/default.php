@@ -19,5 +19,5 @@ foreach($staff_set->get_all_ids() as $staff_id)
     $entry[] = array(false=>"No",true=>"Yes")[$staff->get_ownerlevel()];
     $table_body[] = $entry;
 }
-print render_datatable($table_head,$table_body);
+echo render_datatable($table_head,$table_body);
 ?>

@@ -87,12 +87,12 @@ if($server->is_loaded() == true)
     else
     {
         $all_ok = false;
-        print $api_logiclang["failed.noapi"];
+        echo $api_logiclang["failed.noapi"];
     }
 }
 else
 {
     $all_ok = false;
-    print $lang["failed.noserver"];
+    echo $lang["failed.noserver"];
 }
 ?>

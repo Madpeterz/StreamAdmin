@@ -76,26 +76,26 @@ if($failed_on == "")
             if($update_status["status"] == true)
             {
                 $status = true;
-                print $lang["client.cr.info.1"];
+                echo $lang["client.cr.info.1"];
             }
             else
             {
-                print $lang["client.cr.error.10"];
+                echo $lang["client.cr.error.10"];
             }
         }
         else
         {
-            print sprintf($lang["client.cr.error.9"],$create_status["message"]);
+            echo sprintf($lang["client.cr.error.9"],$create_status["message"]);
         }
     }
     else
     {
-        print $lang["client.cr.error.8"];
+        echo $lang["client.cr.error.8"];
     }
 }
 else
 {
     $redirect = "";
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

@@ -7,5 +7,5 @@ include("site/view/outbox/bulk.server.php");
 include("site/view/outbox/bulk.status.php");
 include("site/view/shared/swaps_table.php");
 $paged_info = new paged_info();
-print $paged_info->render($pages);
+echo $paged_info->render($pages);
 ?>

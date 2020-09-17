@@ -7,5 +7,5 @@ $form->target("tree/create");
 $form->required(true);
 $form->col(6);
     $form->text_input("name","Name",30,"","Name");
-print $form->render("Create","primary");
+echo $form->render("Create","primary");
 ?>

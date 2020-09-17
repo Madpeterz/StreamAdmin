@@ -62,21 +62,21 @@ if($failed_on == "")
         if($create_status["status"] == true)
         {
             $status = true;
-            print $lang["package.cr.info.1"];
+            echo $lang["package.cr.info.1"];
         }
         else
         {
-            print sprintf($lang["package.cr.error.17"],$create_status["message"]);
+            echo sprintf($lang["package.cr.error.17"],$create_status["message"]);
         }
     }
     else
     {
-        print $lang["package.cr.error.16"];
+        echo $lang["package.cr.error.16"];
     }
 }
 else
 {
     $redirect = "";
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

@@ -42,27 +42,27 @@ if($session->get_ownerlevel() == true)
                     if($update_status["status"] == true)
                     {
                         $status = true;
-                        print "staff member updated";
+                        echo "staff member updated";
                     }
                     else
                     {
-                        print sprintf($lang["staff.cr.error.10"],$update_status["message"]);
+                        echo sprintf($lang["staff.cr.error.10"],$update_status["message"]);
                     }
                 }
             }
         }
         else
         {
-            print $lang["staff.up.error.7"];
+            echo $lang["staff.up.error.7"];
         }
     }
     else
     {
-        print $failed_on;
+        echo $failed_on;
     }
 }
 else
 {
-    print $lang["staff.up.error.6"];
+    echo $lang["staff.up.error.6"];
 }
 ?>

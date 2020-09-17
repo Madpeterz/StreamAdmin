@@ -20,8 +20,8 @@ foreach($reseller_set->get_all_ids() as $reseller_id)
     $entry[] = $reseller->get_rate();
     $table_body[] = $entry;
 }
-print render_datatable($table_head,$table_body);
-print "<br/><hr/><p>
+echo render_datatable($table_head,$table_body);
+echo "<br/><hr/><p>
 To register a new reseller please have them rez and activate any StreamAdmin object<br/>
 if enabled in config they will be automagicly accepted<br/>
 failing that added to this list for a member of staff to set the rate and enable.<br/>

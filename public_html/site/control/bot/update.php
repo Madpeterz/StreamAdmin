@@ -31,31 +31,31 @@ if($session->get_ownerlevel() == true)
                 {
                     $status = true;
                     $redirect = "";
-                    print $lang["bot.up.info.1"];
+                    echo $lang["bot.up.info.1"];
                 }
                 else
                 {
-                    print sprintf($lang["bot.up.error.6"],$save_changes["message"]);
+                    echo sprintf($lang["bot.up.error.6"],$save_changes["message"]);
                 }
             }
             else
             {
-                print $lang["bot.up.error.5"];
+                echo $lang["bot.up.error.5"];
             }
         }
         else
         {
-            print $lang["bot.up.error.4"];
+            echo $lang["bot.up.error.4"];
         }
     }
     else
     {
         $redirect = "";
-        print $failed_on;
+        echo $failed_on;
     }
 }
 else
 {
-    print $lang["bot.up.error.3"];
+    echo $lang["bot.up.error.3"];
 }
 ?>

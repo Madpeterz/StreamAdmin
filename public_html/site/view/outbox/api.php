@@ -29,5 +29,5 @@ foreach($api_requests_set->get_all_ids() as $request_id)
     $stream->get_port(),expired_ago($request->get_last_attempt()),
     $request->get_attempts(),$request->get_message());
 }
-print render_datatable($table_head,$table_body);
+echo render_datatable($table_head,$table_body);
 ?>

@@ -17,6 +17,6 @@ if(ob_start() == true)
 }
 else
 {
-    print "This system requires access to ob_ and its failed";
+    echo "This system requires access to ob_ and its failed";
 }
 ?>

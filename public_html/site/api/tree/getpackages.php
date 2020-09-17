@@ -46,25 +46,25 @@ if($tree_vender_id > 0)
                         $reply["package_cost"][] = $package->get_cost();
                     }
                 }
-                print $lang["tree.gp.info.1"];
+                echo $lang["tree.gp.info.1"];
             }
             else
             {
-                print $lang["tree.gp.error.4"];
+                echo $lang["tree.gp.error.4"];
             }
         }
         else
         {
-            print $lang["tree.gp.error.3"];
+            echo $lang["tree.gp.error.3"];
         }
     }
     else
     {
-        print $lang["tree.gp.error.2"];
+        echo $lang["tree.gp.error.2"];
     }
 }
 else
 {
-    print $lang["tree.gp.error.1"];
+    echo $lang["tree.gp.error.1"];
 }
 ?>

@@ -88,31 +88,31 @@ if($failed_on == "")
                 {
                     $status = true;
                     $redirect = "server";
-                    print $lang["server.up.info.1"];
+                    echo $lang["server.up.info.1"];
                 }
                 else
                 {
-                    print sprintf($lang["server.up.error.7"],$update_status["message"]);
+                    echo sprintf($lang["server.up.error.7"],$update_status["message"]);
                 }
             }
             else
             {
-                print $lang["server.up.error.6"];
+                echo $lang["server.up.error.6"];
             }
         }
         else
         {
-            print $lang["server.up.error.5"];
+            echo $lang["server.up.error.5"];
         }
     }
     else
     {
-        print $lang["server.up.error.4"];
+        echo $lang["server.up.error.4"];
         $redirect = "server";
     }
 }
 else
 {
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

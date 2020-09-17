@@ -24,14 +24,14 @@ class reseller_helper
                 $save_status = $this->reseller->create_entry();
                 if($save_status["status"] == false)
                 {
-                    if($show_errors == true) print "[Reseller_helper] - Unable to create reseller entry because: ".$save_status["message"]."";
+                    if($show_errors == true) echo "[Reseller_helper] - Unable to create reseller entry because: ".$save_status["message"]."";
                 }
                 return $save_status["status"];
             }
         }
         else
         {
-            if($show_errors == true) print "[Reseller_helper] - Reseller avatar link id needs to be 1 or more! - Given value: ".$avatarlinkid."";
+            if($show_errors == true) echo "[Reseller_helper] - Reseller avatar link id needs to be 1 or more! - Given value: ".$avatarlinkid."";
         }
         return false;
     }

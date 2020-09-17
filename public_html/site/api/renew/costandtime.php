@@ -13,20 +13,20 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
         {
             $status = true;
             $reply["cost"] = $package->get_cost();
-            print timeleft_hours_and_days($rental->get_expireunixtime());
+            echo timeleft_hours_and_days($rental->get_expireunixtime());
         }
         else
         {
-            print $lang["renew.cat.error.3"];
+            echo $lang["renew.cat.error.3"];
         }
     }
     else
     {
-        print $lang["renew.cat.error.2"];
+        echo $lang["renew.cat.error.2"];
     }
 }
 else
 {
-    print $lang["renew.cat.error.1"];
+    echo $lang["renew.cat.error.1"];
 }
 ?>

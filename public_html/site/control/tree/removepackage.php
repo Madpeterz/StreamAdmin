@@ -14,20 +14,20 @@ if($accept == "Accept")
         {
             $status = true;
             $redirect = "tree/manage/".$redirect_to."";
-            print $lang["tree.rp.info.1"];
+            echo $lang["tree.rp.info.1"];
         }
         else
         {
-            print sprintf($lang["tree.rp.error.3"],$remove_status["message"]);
+            echo sprintf($lang["tree.rp.error.3"],$remove_status["message"]);
         }
     }
     else
     {
-        print $lang["tree.rp.error.1"];
+        echo $lang["tree.rp.error.1"];
     }
 }
 else
 {
-    print $lang["tree.rp.error.1"];
+    echo $lang["tree.rp.error.1"];
 }
 ?>

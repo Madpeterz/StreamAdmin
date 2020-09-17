@@ -10,7 +10,7 @@ if($all_found == true)
 }
 else
 {
-    print $lang["ld.error.1"];
+    echo $lang["ld.error.1"];
 }
 if($status == false)
 {
@@ -25,5 +25,5 @@ if($status == true) $status = 1;
 else $status = 0;
 $reply["status"] = $status;
 $reply["message"] = $buffer;
-print json_encode($reply);
+echo json_encode($reply);
 ?>

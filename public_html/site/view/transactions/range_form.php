@@ -1,5 +1,5 @@
 <?php
-print "<hr/>";
+echo "<hr/>";
 $form = new form();
 $form->target("transactions/inrange");
 $form->mode("get");
@@ -16,5 +16,5 @@ $form->col(6);
         $start_year++;
     }
     $form->select("year","Year",$year,$year_select);
-print $form->render("View","primary");
+echo $form->render("View","primary");
 ?>

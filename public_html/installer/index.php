@@ -21,7 +21,7 @@ function render()
     $buffer = str_replace("[[AREA]]",$optional,$buffer);
     $buffer = str_replace("[[PAGE]]",$page,$buffer);
     $buffer = str_replace("@NL@","\r\n",$buffer);
-    print $buffer;
+    echo $buffer;
 }
 if(defined("correct") == true)
 {
@@ -58,7 +58,7 @@ if(defined("correct") == true)
 }
 else
 {
-    print "Please do not attempt to run installer directly it will break something!";
+    echo "Please do not attempt to run installer directly it will break something!";
 }
 render();
 

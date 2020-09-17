@@ -98,7 +98,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                         }
                                         else
                                         {
-                                            print $lang["renew.rn.error.10"];
+                                            echo $lang["renew.rn.error.10"];
                                         }
                                     }
                                     else
@@ -128,7 +128,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                                 {
                                                     $status = false;
                                                     $all_ok = false;
-                                                    print $lang["renew.rn.error.9"];
+                                                    echo $lang["renew.rn.error.9"];
                                                 }
                                             }
                                             if($all_ok == true)
@@ -139,57 +139,57 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                             }
                                             if($all_ok == true)
                                             {
-                                                print sprintf($lang["renew.rn.info.2"],timeleft_hours_and_days($rental->get_expireunixtime()));
+                                                echo sprintf($lang["renew.rn.info.2"],timeleft_hours_and_days($rental->get_expireunixtime()));
                                             }
                                         }
                                         else
                                         {
-                                            print $lang["renew.rn.info.1"];
+                                            echo $lang["renew.rn.info.1"];
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    print $lang["renew.rn.error.8"];
+                                    echo $lang["renew.rn.error.8"];
                                 }
                             }
                             else
                             {
-                                print $lang["renew.rn.error.6.banned"];
+                                echo $lang["renew.rn.error.6.banned"];
                             }
                         }
                         else
                         {
-                            print $lang["renew.rn.error.7"];
+                            echo $lang["renew.rn.error.7"];
                         }
                     }
                     else
                     {
-                        print $lang["renew.rn.error.6"];
+                        echo $lang["renew.rn.error.6"];
                     }
                 }
                 else
                 {
-                    print $lang["renew.rn.error.5"];
+                    echo $lang["renew.rn.error.5"];
                 }
             }
             else
             {
-                print $lang["renew.rn.error.4"];
+                echo $lang["renew.rn.error.4"];
             }
         }
         else
         {
-            print $lang["renew.rn.error.3"];
+            echo $lang["renew.rn.error.3"];
         }
     }
     else
     {
-        print $lang["renew.rn.error.2"];
+        echo $lang["renew.rn.error.2"];
     }
 }
 else
 {
-    print $lang["renew.rn.error.1"];
+    echo $lang["renew.rn.error.1"];
 }
 ?>

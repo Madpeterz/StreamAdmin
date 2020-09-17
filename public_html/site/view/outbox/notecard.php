@@ -15,5 +15,5 @@ foreach($notecard_set->get_all_ids() as $notecard_id)
     $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
     $table_body[] = array($notecard->get_id(),$rental->get_rental_uid(),$avatar->get_avatarname());
 }
-print render_datatable($table_head,$table_body);
+echo render_datatable($table_head,$table_body);
 ?>

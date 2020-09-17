@@ -45,7 +45,7 @@ if($notice->load($page) == true)
                 $form->direct_add("<div class=\"alert alert-danger\" role=\"alert\">Current notecard \"".$current_notecard_notice->get_name()."\" is missing</div>");
             }
             $form->select("notice_notecardlink"," ",$use_notecard_link,$notice_notecard_set->get_linked_array("id","name"));
-        print $form->render("Update","primary");
+        echo $form->render("Update","primary");
         include("site/view/shared/swaps_table.php");
     }
     else

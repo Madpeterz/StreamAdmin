@@ -32,32 +32,32 @@ if($failed_on == "")
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    print $lang["av.ud.info.1"];
+                    echo $lang["av.ud.info.1"];
                 }
                 else
                 {
-                    print sprintf($lang["av.ud.error.7"],$update_status["message"]);
+                    echo sprintf($lang["av.ud.error.7"],$update_status["message"]);
                 }
             }
             else
             {
-                print $lang["av.ud.error.6"];
+                echo $lang["av.ud.error.6"];
             }
         }
         else
         {
-            print $lang["av.ud.error.5"];
+            echo $lang["av.ud.error.5"];
         }
     }
     else
     {
-        print $lang["av.ud.error.4"];
+        echo $lang["av.ud.error.4"];
     }
 }
 else
 {
     $redirect = null;
     $status = false;
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

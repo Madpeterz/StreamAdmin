@@ -59,17 +59,17 @@ if($failed_on == "")
     if($update_status["status"] == true)
     {
         $status = true;
-        print $lang["slconfig.up.info.1"];
+        echo $lang["slconfig.up.info.1"];
     }
     else
     {
-        print sprintf($lang["slconfig.up.error.9"],$update_status["message"]);
+        echo sprintf($lang["slconfig.up.error.9"],$update_status["message"]);
     }
 }
 else
 {
     $status = false;
     $redirect = "";
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

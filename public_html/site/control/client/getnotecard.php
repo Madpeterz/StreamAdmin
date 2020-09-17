@@ -33,12 +33,12 @@ if($rental->load_by_field("rental_uid",$page) == true)
     Expires: [[RENTAL_EXPIRES_DATETIME]]
     ";
     $swapables_helper = new swapables_helper();
-    print $swapables_helper->get_swapped_text($viewnotecard,$avatar,$rental,$package,$server,$stream);
+    echo $swapables_helper->get_swapped_text($viewnotecard,$avatar,$rental,$package,$server,$stream);
 }
 else
 {
     $status = false;
-    print "Unable to load rental";
+    echo "Unable to load rental";
 }
 
 ?>

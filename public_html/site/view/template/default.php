@@ -13,5 +13,5 @@ foreach($template_set->get_all_ids() as $template_id)
     $entry[] = '<a href="[[url_base]]template/manage/'.$tempalte->get_id().'">'.$tempalte->get_name().'</a>';
     $table_body[] = $entry;
 }
-print render_datatable($table_head,$table_body);
+echo render_datatable($table_head,$table_body);
 ?>

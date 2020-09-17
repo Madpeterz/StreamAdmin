@@ -18,5 +18,5 @@ $action = '
   </label>
 </div>';
 $form->direct_add($action);
-print $form->render("Remove","danger");
+echo $form->render("Remove","danger");
 ?>

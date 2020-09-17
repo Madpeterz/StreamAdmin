@@ -53,6 +53,6 @@ if(defined("swaps_table_paged") == true)
 }
 else
 {
-    print $tableout;
+    echo $tableout;
 }
 ?>

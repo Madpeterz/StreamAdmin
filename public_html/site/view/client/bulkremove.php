@@ -84,15 +84,15 @@ if(count($table_body) > 0)
     $form->target("client/bulkremove");
     $form->col(12);
         $form->direct_add(render_datatable($table_head,$table_body));
-    print $form->render("Process","outline-danger");
+    echo $form->render("Process","outline-danger");
 }
 else
 {
-    print "No clients to remove right now";
+    echo "No clients to remove right now";
 }
 if(count($hidden_clients) > 0)
 {
-    print "<hr/><h4>Unlisted clients</h4>";
+    echo "<hr/><h4>Unlisted clients</h4>";
     $table_head = array("Why","Rental UID","Avatar","Port");
     $table_body = array();
     foreach($hidden_clients as $hclient)
@@ -104,6 +104,6 @@ if(count($hidden_clients) > 0)
         $entry[] = $hclient["port"];
         $table_body[] = $entry;
     }
-    print render_table($table_head,$table_body);
+    echo render_table($table_head,$table_body);
 }
 ?>

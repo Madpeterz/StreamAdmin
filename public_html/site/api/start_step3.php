@@ -39,31 +39,31 @@ if($hashcheck == $hash)
                     }
                     else
                     {
-                        print $lang["ss3.error.1"];
+                        echo $lang["ss3.error.1"];
                     }
                 }
                 else
                 {
-                    print $lang["ss3.error.2"];
+                    echo $lang["ss3.error.2"];
                 }
             }
             else
             {
-                print $lang["ss3.error.3"];
+                echo $lang["ss3.error.3"];
             }
         }
         else
         {
-            print $lang["ss3.error.4"];
+            echo $lang["ss3.error.4"];
         }
     }
     else
     {
-        print $lang["ss3.error.5"];
+        echo $lang["ss3.error.5"];
     }
 }
 else
 {
-    print $lang["ss3.error.6"];
+    echo $lang["ss3.error.6"];
 }
 ?>

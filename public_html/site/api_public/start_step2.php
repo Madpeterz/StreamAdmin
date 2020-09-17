@@ -21,6 +21,6 @@ if($outofscope == false)
 }
 else
 {
-    print $lang["start_step2_scope"];
+    echo $lang["start_step2_scope"];
 }
 ?>

@@ -29,32 +29,32 @@ if($accept == "Accept")
                 if($remove_status["status"] == true)
                 {
                     $status = true;
-                    print $lang["stream.rm.info.1"];
+                    echo $lang["stream.rm.info.1"];
                 }
                 else
                 {
-                    print sprintf($lang["stream.rm.error.3"],$remove_status["message"]);
+                    echo sprintf($lang["stream.rm.error.3"],$remove_status["message"]);
                 }
             }
             else
             {
-                print sprintf($lang["stream.rm.error.5"],$bulkupdate_status["message"]);
+                echo sprintf($lang["stream.rm.error.5"],$bulkupdate_status["message"]);
             }
         }
         else
         {
-            print sprintf($lang["stream.rm.error.4"],$load_status["message"]);
+            echo sprintf($lang["stream.rm.error.4"],$load_status["message"]);
         }
     }
     else
     {
-        print $lang["stream.rm.error.2"];
+        echo $lang["stream.rm.error.2"];
     }
 }
 else
 {
     $status = false;
-    print $lang["stream.rm.error.1"];
+    echo $lang["stream.rm.error.1"];
     $redirect ="stream/manage/".$page."";
 }
 ?>

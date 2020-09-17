@@ -61,21 +61,21 @@ if($failed_on == "")
         if($update_status["status"] == true)
         {
             $status = true;
-            print $lang["package.up.info.1"];
+            echo $lang["package.up.info.1"];
         }
         else
         {
-            print sprintf($lang["package.up.error.17"],$update_status["message"]);
+            echo sprintf($lang["package.up.error.17"],$update_status["message"]);
         }
     }
     else
     {
-        print $lang["package.up.error.16"];
+        echo $lang["package.up.error.16"];
     }
 }
 else
 {
     $redirect = "";
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

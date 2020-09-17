@@ -86,8 +86,8 @@ if(strlen($message) >= 10)
                 }
                 $form->col(12);
                     $form->direct_add(render_table($table_head,$table_body));
-                print $form->render("Send to selected","success");
-                print "<br/><hr/>Note: If an avatar has multiple streams that match the selected filter source the first rental will be used.";
+                echo $form->render("Send to selected","success");
+                echo "<br/><hr/>Note: If an avatar has multiple streams that match the selected filter source the first rental will be used.";
             }
             else
             {

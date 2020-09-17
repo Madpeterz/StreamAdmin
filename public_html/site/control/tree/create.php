@@ -17,15 +17,15 @@ if($failed_on == "")
     {
         $status = true;
         $redirect = "tree";
-        print $lang["tree.cr.info.1"];
+        echo $lang["tree.cr.info.1"];
     }
     else
     {
-        print sprintf($lang["tree.cr.error.4"],$create_status["message"]);
+        echo sprintf($lang["tree.cr.error.4"],$create_status["message"]);
     }
 }
 else
 {
-    print $failed_on;
+    echo $failed_on;
 }
 ?>

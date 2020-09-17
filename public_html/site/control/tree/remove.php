@@ -17,26 +17,26 @@ if($accept == "Accept")
             if($remove_status["status"] == true)
             {
                 $status = true;
-                print $lang["tree.rm.info.1"];
+                echo $lang["tree.rm.info.1"];
             }
             else
             {
-                print sprintf($lang["tree.rm.error.4"],$remove_status["message"]);
+                echo sprintf($lang["tree.rm.error.4"],$remove_status["message"]);
             }
         }
         else
         {
-            print $lang["tree.rm.error.3"];
+            echo $lang["tree.rm.error.3"];
         }
     }
     else
     {
-        print $lang["tree.rm.error.2"];
+        echo $lang["tree.rm.error.2"];
     }
 }
 else
 {
-    print $lang["tree.rm.error.1"];
+    echo $lang["tree.rm.error.1"];
     $redirect ="tree/manage/".$page."";
 }
 ?>

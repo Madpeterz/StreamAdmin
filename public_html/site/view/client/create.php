@@ -20,5 +20,5 @@ $form->col(6);
 $form->col(6);
 $form->col(6);
     $form->direct_add("<br/>If there are multiple streams with the same port number you must use the UID!");
-print $form->render("Create","primary");
+echo $form->render("Create","primary");
 ?>

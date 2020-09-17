@@ -43,6 +43,6 @@ if($all_ok == true)
         $table_body[] = $entry;
         $loop++;
     }
-    print render_table($table_head,$table_body);
+    echo render_table($table_head,$table_body);
 }
 ?>
