@@ -18,6 +18,6 @@ $action = '
   </label>
 </div>';
 $form->direct_add($action);
-echo $form->render("Clear","warning");
-echo "";
+print $form->render("Clear","warning");
+print "";
 ?>

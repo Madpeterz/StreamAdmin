@@ -39,5 +39,5 @@ foreach($transaction_set->get_all_ids() as $transaction_id)
     }
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+print render_datatable($table_head,$table_body);
 ?>

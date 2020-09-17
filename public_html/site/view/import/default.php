@@ -19,5 +19,5 @@ foreach($config_areas as $key => $value)
     $table_body[] = $entry;
     $loop++;
 }
-echo render_table($table_head,$table_body);
+print render_table($table_head,$table_body);
 ?>

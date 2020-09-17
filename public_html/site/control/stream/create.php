@@ -50,31 +50,31 @@ if($failed_on == "")
                 if($create_status["status"] == true)
                 {
                     $status = true;
-                    echo $lang["stream.cr.info.1"];
+                    print $lang["stream.cr.info.1"];
                     $redirect = "stream";
                 }
                 else
                 {
-                    echo sprintf($lang["stream.cr.error.14"],$create_status["message"]);
+                    print sprintf($lang["stream.cr.error.14"],$create_status["message"]);
                 }
             }
             else
             {
-                echo $lang["stream.cr.error.13"];
+                print $lang["stream.cr.error.13"];
             }
         }
         else
         {
-            echo $lang["stream.cr.error.12"];
+            print $lang["stream.cr.error.12"];
         }
     }
     else
     {
-        echo $lang["stream.cr.error.11"];
+        print $lang["stream.cr.error.11"];
     }
 }
 else
 {
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

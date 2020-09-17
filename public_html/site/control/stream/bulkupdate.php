@@ -30,7 +30,7 @@ foreach($stream_set->get_all_ids() as $stream_id)
                 $update_status = $stream->save_changes();
                 if($update_status["status"] == false)
                 {
-                    echo sprintf($lang["stream.bu.error.1"],$update_status["message"]);
+                    print sprintf($lang["stream.bu.error.1"],$update_status["message"]);
                     $status = false;
                     break;
                 }
@@ -50,11 +50,11 @@ if($status == true)
 {
     if($streams_skipped_original_adminusername > 0)
     {
-        echo sprintf($lang["stream.bu.info.1"],$streams_updated,$streams_skipped_original_adminusername);
+        print sprintf($lang["stream.bu.info.1"],$streams_updated,$streams_skipped_original_adminusername);
     }
     else
     {
-        echo sprintf($lang["stream.bu.info.1"],$streams_updated);
+        print sprintf($lang["stream.bu.info.1"],$streams_updated);
     }
 }
 ?>

@@ -16,7 +16,7 @@ if($template->load($page) == true)
         $form->textarea("detail","Template [Object+Bot IM]",800,$template->get_detail(),"Use swap tags as the placeholders! max length 800");
     $form->col(6);
         $form->textarea("notecarddetail","Notecard template",2000,$template->get_notecarddetail(),"Use swap tags as the placeholder");
-    echo $form->render("Update","primary");
+    print $form->render("Update","primary");
     include("site/view/shared/swaps_table.php");
 }
 else

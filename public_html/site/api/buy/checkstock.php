@@ -28,11 +28,11 @@ if($package->load_by_field("package_uid",$packageuid) == true)
     }
     else
     {
-        echo $lang["buy.cs.error.2"];
+        print $lang["buy.cs.error.2"];
     }
 }
 else
 {
-    echo $lang["buy.cs.error.1"];
+    print $lang["buy.cs.error.1"];
 }
 ?>

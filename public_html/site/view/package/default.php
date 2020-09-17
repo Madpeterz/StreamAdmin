@@ -19,5 +19,5 @@ foreach($package_set->get_all_ids() as $package_id)
     $entry[] = $package->get_cost();
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+print render_datatable($table_head,$table_body);
 ?>

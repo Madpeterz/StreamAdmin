@@ -17,16 +17,16 @@ if($failed_on == "")
     if($status == true)
     {
         $status = true;
-        echo $lang["av.cr.info.1"];
+        print $lang["av.cr.info.1"];
         $redirect = "avatar";
     }
     else
     {
-        echo $lang["av.cr.error.5"];
+        print $lang["av.cr.error.5"];
     }
 }
 else
 {
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

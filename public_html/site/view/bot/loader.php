@@ -20,7 +20,7 @@ $form->col(6);
     $form->group("Actions");
     $form->select("notecards","Create notecards",$botconfig->get_notecards(),array(false=>"No",true=>"Yes"));
     $form->select("ims","Send ims",$botconfig->get_ims(),array(false=>"No",true=>"Yes"));
-echo $form->render("Update","primary");
+print $form->render("Update","primary");
 }
 else
 {

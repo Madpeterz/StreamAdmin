@@ -18,16 +18,16 @@ if($status["status"] == true)
         }
         else
         {
-            echo "Error: Expected install config db value is invaild";
+            print "Error: Expected install config db value is invaild";
         }
     }
     else
     {
-        echo "Error: reading from datatabase";
+        print "Error: reading from datatabase";
     }
 }
 else
 {
-    echo "Rrror: installing db file: ".$status["message"]."";
+    print "Rrror: installing db file: ".$status["message"]."";
 }
 ?>

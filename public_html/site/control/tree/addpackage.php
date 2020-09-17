@@ -28,33 +28,33 @@ if($treevender->load($page) == true)
                 if($create_status["status"] == true)
                 {
                     $redirect = "tree/manage/".$page."";
-                    echo $lang["tree.ap.info.1"];
+                    print $lang["tree.ap.info.1"];
                     $status = true;
                 }
                 else
                 {
-                    echo $lang["tree.ap.error.5"];
+                    print $lang["tree.ap.error.5"];
                 }
             }
             else
             {
                 $redirect = "";
-                echo $lang["tree.ap.error.4"];
+                print $lang["tree.ap.error.4"];
             }
         }
         else
         {
-            echo $lang["tree.ap.error.3"];
+            print $lang["tree.ap.error.3"];
         }
     }
     else
     {
-        echo $lang["tree.ap.error.2"];
+        print $lang["tree.ap.error.2"];
     }
 }
 else
 {
-    echo $lang["tree.ap.error.1"];
+    print $lang["tree.ap.error.1"];
 
 }
 ?>

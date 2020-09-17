@@ -14,15 +14,15 @@ if($apilink > 0)
         }
         $status = true;
         $reply["update_api_flags"] = true;
-        echo "API config loaded";
+        print "API config loaded";
     }
     else
     {
-        echo "Unknown API selected";
+        print "Unknown API selected";
     }
 }
 else
 {
-    echo "Invaild API selected";
+    print "Invaild API selected";
 }
 ?>

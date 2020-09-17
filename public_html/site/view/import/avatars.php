@@ -31,7 +31,7 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
         else
         {
             $all_ok = false;
-            echo $lang["av.cr.error.5"];
+            print $lang["av.cr.error.5"];
             break;
         }
     }
@@ -39,7 +39,7 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
 
 if($all_ok == true)
 {
-    echo "Created: ".$avatars_created." avatars <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    print "Created: ".$avatars_created." avatars <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
 }
 else
 {

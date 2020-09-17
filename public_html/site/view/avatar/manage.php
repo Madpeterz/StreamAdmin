@@ -12,7 +12,7 @@ if($avatar->load_by_field("avatar_uid",$page) == true)
     $form->col(6);
         $form->text_input("avatarname","Name",125,$avatar->get_avatarname(),"Madpeter Zond [You can leave out Resident]");
         $form->text_input("avataruuid","SL UUID",3,$avatar->get_avataruuid(),"SecondLife UUID [found on their SL profile]");
-    echo $form->render("Update","primary");
+    print $form->render("Update","primary");
 }
 else
 {

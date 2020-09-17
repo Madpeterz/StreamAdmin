@@ -52,21 +52,21 @@ if($texturepack > 0)
             }
             else
             {
-                echo $lang["buy.gc.error.4"];
+                print $lang["buy.gc.error.4"];
             }
         }
         else
         {
-            echo $lang["buy.gc.error.3"];
+            print $lang["buy.gc.error.3"];
         }
     }
     else
     {
-        echo $lang["buy.gc.error.2"];
+        print $lang["buy.gc.error.2"];
     }
 }
 else
 {
-    echo $lang["buy.gc.error.1"];
+    print $lang["buy.gc.error.1"];
 }
 ?>

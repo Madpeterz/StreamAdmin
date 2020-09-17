@@ -33,5 +33,5 @@ $form->col(6);
     $form->group("Auto DJ");
     $form->select("autodj","Enabled",false,array(false=>"No",true=>"Yes"));
     $form->number_input("autodj_size","Storage GB",null,3,"Max GB storage 9999");
-echo $form->render("Create","primary");
+print $form->render("Create","primary");
 ?>

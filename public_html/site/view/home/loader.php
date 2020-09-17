@@ -162,7 +162,7 @@ if($session->get_ownerlevel() == 1)
     }
 
 }
-echo $main_grid->get_output();
+print $main_grid->get_output();
 
 
 ?>

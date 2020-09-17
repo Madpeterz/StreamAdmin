@@ -14,5 +14,5 @@ foreach($message_set->get_all_ids() as $message_id)
     if(strlen($message_content) > 24) $message_content = substr($message_content,0,24)." ...";
     $table_body[] = array($message->get_id(),$avatar->get_avatarname(),$message_content);
 }
-echo render_datatable($table_head,$table_body);
+print render_datatable($table_head,$table_body);
 ?>

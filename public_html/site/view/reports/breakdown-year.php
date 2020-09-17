@@ -186,5 +186,5 @@ $pages = array();
 $pages["Fast report"] = render_table(array("New","Renews","L$ total [New]","L$ total [Rewew]"),array(array($new_rentals,$renewed_rentals,$amount_new,$amount_renew)));
 $pages["Month breakdown"] = render_table($table_head,$table_body);
 $paged_info = new paged_info();
-echo $paged_info->render($pages);
+print $paged_info->render($pages);
 ?>

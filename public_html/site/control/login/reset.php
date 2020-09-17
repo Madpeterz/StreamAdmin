@@ -45,7 +45,7 @@ if($staff->get_id() > 0)
                 {
                     $status = true;
                     $redirect = "here";
-                    echo $lang["login.rs.info.2"];
+                    print $lang["login.rs.info.2"];
                 }
             }
             else
@@ -58,7 +58,7 @@ if($staff->get_id() > 0)
                 {
                     $status = true;
                     $redirect = "here";
-                    echo $lang["login.rs.info.1"];
+                    print $lang["login.rs.info.1"];
                 }
             }
         }
@@ -66,6 +66,6 @@ if($staff->get_id() > 0)
 }
 if($status == false)
 {
-    echo $lang["login.rs.error.1"];
+    print $lang["login.rs.error.1"];
 }
 ?>

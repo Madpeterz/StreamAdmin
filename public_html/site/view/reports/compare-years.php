@@ -204,5 +204,5 @@ foreach($yeara_month_datasets as $index => $dataset)
     $entry[] = amount_changed($dataset["counted"],$dataset2["counted"]);
     $table_body[] = $entry;
 }
-echo render_table($table_head,$table_body)
+print render_table($table_head,$table_body)
 ?>

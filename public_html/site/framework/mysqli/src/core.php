@@ -133,7 +133,7 @@ abstract class mysqli_core extends db
 					}
 					if($current_command != "")
 					{
-						echo "Warning: raw sql has no ending ;";
+						print "Warning: raw sql has no ending ;";
 						$commands[] = $current_command;
 					}
 					$had_error = false;

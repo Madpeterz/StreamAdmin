@@ -14,12 +14,12 @@ if($server->load($page) == true)
             $addon = "";
             if($apireply["loads"]["1"] > 0.0)
             {
-                echo "CPU: <span class=\"text-light\">".$apireply["loads"]["5"]."</span>";
+                print "CPU: <span class=\"text-light\">".$apireply["loads"]["5"]."</span>";
                 $addon = " | ";
             }
             if($apireply["ram"]["max"] > 0)
             {
-                echo $addon;
+                print $addon;
                 $percent = round((($apireply["ram"]["max"]-$apireply["ram"]["free"])/$apireply["ram"]["max"])*100,2);
                 $kb = $apireply["ram"]["free"];
                 $mb = floor($kb / 1000);
@@ -52,12 +52,12 @@ if($server->load($page) == true)
                 {
                     $text_color = "text-info";
                 }
-                echo "Ram: <span class=\"".$text_color."\">".$percent." %</span>";
+                print "Ram: <span class=\"".$text_color."\">".$percent." %</span>";
                 $addon = " | ";
             }
             if($apireply["streams"]["total"] > 0)
             {
-                echo $addon;
+                print $addon;
                 $percent = 100 - round((($apireply["streams"]["total"]-$apireply["streams"]["active"])/$apireply["streams"]["total"])*100,2);
                 $text_color = "text-light";
                 if($percent < 40)
@@ -72,13 +72,13 @@ if($server->load($page) == true)
                 {
                     $text_color = "text-info";
                 }
-                echo "Str: <span class=\"".$text_color."\">".$percent." %</span>";
+                print "Str: <span class=\"".$text_color."\">".$percent." %</span>";
             }
         }
     }
 }
 else
 {
-    echo "Unable to find server";
+    print "Unable to find server";
 }
 ?>

@@ -145,26 +145,26 @@ if($rental->load_by_field("rental_uid",$page) == true)
             {
                 $status = true;
                 $redirect = "client/manage/".$page;
-                echo $lang["client.up.info.6"];
+                print $lang["client.up.info.6"];
             }
             else
             {
-                echo sprintf($lang["client.up.error.3"],$change_status["message"]);
+                print sprintf($lang["client.up.error.3"],$change_status["message"]);
             }
         }
         else
         {
-            echo $issues;
+            print $issues;
         }
     }
     else
     {
-        echo $lang["client.up.error.2"];
+        print $lang["client.up.error.2"];
     }
 }
 else
 {
     $redirect = "client";
-    echo $lang["client.up.error.1"];
+    print $lang["client.up.error.1"];
 }
 ?>

@@ -83,25 +83,25 @@ if(count($avatarids) <= $max_avatars)
                 }
                 $status = true;
                 $redirect = "outbox";
-                echo sprintf($lang["outbox.send.ok"],$sent_counter);
+                print sprintf($lang["outbox.send.ok"],$sent_counter);
             }
             else
             {
-                echo $lang["outbox.send.error.4"];
+                print $lang["outbox.send.error.4"];
             }
         }
         else
         {
-            echo $lang["outbox.send.error.3"];
+            print $lang["outbox.send.error.3"];
         }
     }
     else
     {
-        echo $lang["outbox.send.error.2"];
+        print $lang["outbox.send.error.2"];
     }
 }
 else
 {
-    echo $lang["outbox.send.error.1"];
+    print $lang["outbox.send.error.1"];
 }
 ?>

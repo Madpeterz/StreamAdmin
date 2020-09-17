@@ -20,5 +20,5 @@ $form->col(6);
     $form->text_input("stock_levels","Stock levels",36,"","UUID of texture");
     $form->text_input("renew_here","Renew here",36,"","UUID of texture");
     $form->text_input("proxyrenew","Proxy Renew",36,"","UUID of texture");
-echo $form->render("Create","primary");
+print $form->render("Create","primary");
 ?>

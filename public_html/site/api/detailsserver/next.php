@@ -47,67 +47,67 @@ if($owner_override == true)
                                                      $create_status = $notecard->create_entry();
                                                 }
                                                 $status = true;
-                                                echo "ok";
+                                                print "ok";
                                             }
                                             else
                                             {
-                                                echo $lang["detailsserver.n.error.11"];
+                                                print $lang["detailsserver.n.error.11"];
                                             }
                                         }
                                         else
                                         {
-                                            echo $lang["detailsserver.n.error.10"];
+                                            print $lang["detailsserver.n.error.10"];
                                         }
                                     }
                                     else
                                     {
-                                        echo $lang["detailsserver.n.error.9"];
+                                        print $lang["detailsserver.n.error.9"];
 
                                     }
                                 }
                                 else
                                 {
-                                    echo $lang["detailsserver.n.error.8"];
+                                    print $lang["detailsserver.n.error.8"];
                                 }
                             }
                             else
                             {
-                                echo $lang["detailsserver.n.error.7"];
+                                print $lang["detailsserver.n.error.7"];
                             }
                         }
                         else
                         {
-                            echo $lang["detailsserver.n.error.6"];
+                            print $lang["detailsserver.n.error.6"];
                         }
                     }
                     else
                     {
-                        echo $lang["detailsserver.n.error.5"];
+                        print $lang["detailsserver.n.error.5"];
                     }
                 }
                 else
                 {
-                    echo $lang["detailsserver.n.error.4"];
+                    print $lang["detailsserver.n.error.4"];
                 }
             }
             else
             {
                 $status = true;
-                echo "nowork";
+                print "nowork";
             }
         }
         else
         {
-            echo $lang["detailsserver.n.error.3"];
+            print $lang["detailsserver.n.error.3"];
         }
     }
     else
     {
-        echo $lang["detailsserver.n.error.2"];
+        print $lang["detailsserver.n.error.2"];
     }
 }
 else
 {
-    echo $lang["detailsserver.n.error.1"];
+    print $lang["detailsserver.n.error.1"];
 }
 ?>

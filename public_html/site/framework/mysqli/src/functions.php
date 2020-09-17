@@ -76,7 +76,7 @@ abstract class mysqli_functions extends mysqli_core
                 if($this->dbPass === null)
                 {
                     $this->dbPass = "";
-                    echo "Warning: SQL connection without password is bad";
+                    print "Warning: SQL connection without password is bad";
                 }
                 $this->sqlConnection = @mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
                 $error_code = mysqli_connect_errno($this->sqlConnection);

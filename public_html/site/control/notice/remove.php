@@ -20,36 +20,36 @@ if($accept == "Accept")
                     if($remove_status["status"] == true)
                     {
                         $status = true;
-                        echo $lang["notice.rm.info.1"];
+                        print $lang["notice.rm.info.1"];
                     }
                     else
                     {
-                        echo sprintf($lang["notice.rm.error.4"],$remove_status["message"]);
+                        print sprintf($lang["notice.rm.error.4"],$remove_status["message"]);
                     }
                 }
                 else
                 {
-                    echo sprintf($lang["notice.rm.error.6"],$notecard_set->get_count());
+                    print sprintf($lang["notice.rm.error.6"],$notecard_set->get_count());
                 }
             }
             else
             {
-                echo $lang["notice.rm.error.5"];
+                print $lang["notice.rm.error.5"];
             }
         }
         else
         {
-            echo $lang["notice.rm.error.3"];
+            print $lang["notice.rm.error.3"];
         }
     }
     else
     {
-        echo $lang["notice.rm.error.2"];
+        print $lang["notice.rm.error.2"];
     }
 }
 else
 {
-    echo $lang["notice.rm.error.1"];
+    print $lang["notice.rm.error.1"];
     $redirect ="notice/manage/".$page."";
 }
 ?>

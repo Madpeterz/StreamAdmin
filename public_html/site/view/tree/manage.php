@@ -14,8 +14,8 @@ if($treevender->load($page) == true)
     $form->required(true);
     $form->col(6);
         $form->text_input("name","Name",30,$treevender->get_name(),"Name");
-    echo $form->render("Update","primary");
-    echo "<br/><hr/><br/>";
+    print $form->render("Update","primary");
+    print "<br/><hr/><br/>";
     $treevender_packages_set = new treevender_packages_set();
     $treevender_packages_set->load_on_field("treevenderlink",$treevender->get_id());
     $table_head = array("ID","Name","Action");
@@ -32,7 +32,7 @@ if($treevender->load($page) == true)
         $entry[] = "<a href='[[url_base]]tree/removepackage/".$treevender_packages->get_id()."'><button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
         $table_body[] = $entry;
     }
-    echo render_datatable($table_head,$table_body);
+    print render_datatable($table_head,$table_body);
     $unused_index = array();
     foreach($package_set->get_linked_array("id","name") as $id => $name)
     {
@@ -46,7 +46,7 @@ if($treevender->load($page) == true)
         $form = new form();
         $form->target("tree/addpackage/".$page."");
         $form->select("package","Package","",$unused_index);
-        echo $form->render("Add package","success");
+        print $form->render("Add package","success");
     }
 }
 else

@@ -1,4 +1,4 @@
 <?php
 $status = true;
-echo "pong";
+print "pong";
 ?>

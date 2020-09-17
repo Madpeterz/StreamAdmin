@@ -12,21 +12,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            echo $lang["textureconfig.rm.info.1"];
+            print $lang["textureconfig.rm.info.1"];
         }
         else
         {
-            echo sprintf($lang["textureconfig.cr.error.13"],$remove_status["message"]);
+            print sprintf($lang["textureconfig.cr.error.13"],$remove_status["message"]);
         }
     }
     else
     {
-        echo $lang["textureconfig.rm.error.2"];
+        print $lang["textureconfig.rm.error.2"];
     }
 }
 else
 {
     $redirect ="textureconfig/manage/".$page."";
-    echo $lang["textureconfig.rm.error.1"];
+    print $lang["textureconfig.rm.error.1"];
 }
 ?>

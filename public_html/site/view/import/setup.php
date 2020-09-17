@@ -10,5 +10,5 @@ $form->col(6);
     $form->text_input("db_name","Name",999,"streamadminr4database","Database name");
     $form->text_input("db_username","Username",999,"dbusername","Database username");
     $form->text_input("db_pass","Password",999,"dbpass","Database password");
-echo $form->render("Setup","primary");
+print $form->render("Setup","primary");
 ?>

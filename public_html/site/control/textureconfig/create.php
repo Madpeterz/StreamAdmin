@@ -47,15 +47,15 @@ if($failed_on == "")
     {
         $status = true;
         $redirect = "textureconfig";
-        echo $lang["textureconfig.cr.info.1"];
+        print $lang["textureconfig.cr.info.1"];
     }
     else
     {
-        echo sprintf($lang["textureconfig.cr.error.13"],$create_status["message"]);
+        print sprintf($lang["textureconfig.cr.error.13"],$create_status["message"]);
     }
 }
 else
 {
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

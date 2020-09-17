@@ -12,21 +12,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            echo $lang["template.rm.info.1"];
+            print $lang["template.rm.info.1"];
         }
         else
         {
-            echo sprintf($lang["template.cr.error.6"],$remove_status["message"]);
+            print sprintf($lang["template.cr.error.6"],$remove_status["message"]);
         }
     }
     else
     {
-        echo $lang["tempalte.rm.error.2"];
+        print $lang["tempalte.rm.error.2"];
     }
 }
 else
 {
-    echo $lang["tempalte.rm.error.1"];
+    print $lang["tempalte.rm.error.1"];
     $redirect ="template/manage/".$page."";
 }
 ?>

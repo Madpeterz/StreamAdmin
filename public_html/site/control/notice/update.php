@@ -52,31 +52,31 @@ if($failed_on == "")
                 {
                     $status = true;
                     $redirect = "notice";
-                    echo $lang["notice.up.info.1"];
+                    print $lang["notice.up.info.1"];
                 }
                 else
                 {
-                    echo sprintf($lang["notice.up.error.10"],$update_status["message"]);
+                    print sprintf($lang["notice.up.error.10"],$update_status["message"]);
                 }
             }
             else
             {
-                echo $lang["notice.up.error.9"];
+                print $lang["notice.up.error.9"];
             }
         }
         else
         {
-            echo $lang["notice.up.error.8"];
+            print $lang["notice.up.error.8"];
         }
     }
     else
     {
-        echo $lang["notice.up.error.7"];
+        print $lang["notice.up.error.7"];
         $redirect = "notice";
     }
 }
 else
 {
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

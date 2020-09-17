@@ -36,5 +36,5 @@ foreach($stream_set->get_all_ids() as $streamid)
     else $entry[] = "<span class=\"needwork\">Need work</span>";
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+print render_datatable($table_head,$table_body);
 ?>

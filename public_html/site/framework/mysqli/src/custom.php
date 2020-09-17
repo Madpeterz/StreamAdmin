@@ -22,7 +22,7 @@ abstract class mysqli_custom extends mysqli_old_binds
                 $table_id++;
             }
             $sql .= " ORDER BY id DESC";
-            echo $sql;
+            print $sql;
             if($stmt = $this->sqlConnection->prepare($sql))
             {
                 $this->sql_bind($stmt, $bind_values,false);

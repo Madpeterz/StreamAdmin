@@ -19,25 +19,25 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
             if($create_status["status"] == true)
             {
                 $status = true;
-                echo $lang["details.rs.info.1"];
+                print $lang["details.rs.info.1"];
             }
             else
             {
-                echo $lang["details.rs.error.4"];
+                print $lang["details.rs.error.4"];
             }
         }
         else
         {
-            echo $lang["details.rs.error.3"];
+            print $lang["details.rs.error.3"];
         }
     }
     else
     {
-        echo $lang["details.rs.error.2"];
+        print $lang["details.rs.error.2"];
     }
 }
 else
 {
-    echo $lang["details.rs.error.1"];
+    print $lang["details.rs.error.1"];
 }
 ?>

@@ -24,41 +24,41 @@ if($accept == "Accept")
                         if($remove_status["status"] == true)
                         {
                             $status = true;
-                            echo $lang["server.rm.info.1"];
+                            print $lang["server.rm.info.1"];
                         }
                         else
                         {
-                            echo sprintf($lang["server.rm.error.3"],$remove_status["message"]);
+                            print sprintf($lang["server.rm.error.3"],$remove_status["message"]);
                         }
                     }
                     else
                     {
-                        echo sprintf($lang["server.rm.error.6"],$api_requests_set->get_count());
+                        print sprintf($lang["server.rm.error.6"],$api_requests_set->get_count());
                     }
                 }
                 else
                 {
-                    echo $lang["server.rm.error.7"];
+                    print $lang["server.rm.error.7"];
                 }
             }
             else
             {
-                echo sprintf($lang["server.rm.error.5"],$stream_set->get_count());
+                print sprintf($lang["server.rm.error.5"],$stream_set->get_count());
             }
         }
         else
         {
-            echo $lang["server.rm.error.4"];
+            print $lang["server.rm.error.4"];
         }
     }
     else
     {
-        echo $lang["server.rm.error.2"];
+        print $lang["server.rm.error.2"];
     }
 }
 else
 {
-    echo $lang["server.rm.error.1"];
+    print $lang["server.rm.error.1"];
     $redirect ="server/manage/".$page."";
 }
 ?>

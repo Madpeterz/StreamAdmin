@@ -25,39 +25,39 @@ if($owner_override == true)
                         $reply["hassyncmessage"] = 1;
                         $reply["avataruuid"] = $botavatar->get_avataruuid();
                         $bot_helper = new bot_helper();
-                        echo $bot_helper->send_bot_command($botconfig,"fetchnextnotecard",[$template_parts["url_base"],$slconfig->get_http_inbound_secret()]);
+                        print $bot_helper->send_bot_command($botconfig,"fetchnextnotecard",[$template_parts["url_base"],$slconfig->get_http_inbound_secret()]);
                     }
                     else
                     {
                         $reply["hassyncmessage"] = 0;
-                        echo "No work";
+                        print "No work";
                     }
                 }
                 else
                 {
                     $status = false;
-                    echo $lang["bot.ncs.error.5"];
+                    print $lang["bot.ncs.error.5"];
                 }
             }
             else
             {
                 $status = true;
                 $reply["hassyncmessage"] = 2;
-                echo $lang["bot.ncs.error.4"];
+                print $lang["bot.ncs.error.4"];
             }
         }
         else
         {
-            echo $lang["bot.ncs.error.3"];
+            print $lang["bot.ncs.error.3"];
         }
     }
     else
     {
-        echo $lang["bot.ncs.error.2"];
+        print $lang["bot.ncs.error.2"];
     }
 }
 else
 {
-    echo $lang["bot.ncs.error.1"];
+    print $lang["bot.ncs.error.1"];
 }
 ?>

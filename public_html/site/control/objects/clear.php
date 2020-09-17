@@ -11,15 +11,15 @@ if($accept == "Accept")
     if($purge_status["status"] == true)
     {
         $status = true;
-        echo $lang["objects.cl.info.1"];
+        print $lang["objects.cl.info.1"];
     }
     else
     {
-        echo sprintf($lang["objects.cl.error.2"],$purge_status["message"]);
+        print sprintf($lang["objects.cl.error.2"],$purge_status["message"]);
     }
 }
 else
 {
-    echo $lang["objects.cl.error.1"];
+    print $lang["objects.cl.error.1"];
 }
 ?>

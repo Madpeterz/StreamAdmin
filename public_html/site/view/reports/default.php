@@ -103,5 +103,5 @@ $mygrid->add_content("<h4>Month breakdown</h4>".$flow_form_month,6);
 $mygrid->add_content("<h4>Year breakdown</h4>".$flow_form_year,6);
 $mygrid->add_content("<hr/>",12);
 $mygrid->add_content("<h4>Year vs Year</h4>".$compare_form_year,6);
-echo $mygrid->get_output();
+print $mygrid->get_output();
 ?>

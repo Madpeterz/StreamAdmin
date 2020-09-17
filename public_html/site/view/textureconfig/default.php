@@ -14,5 +14,5 @@ foreach($textureconfig_set->get_all_ids() as $textureconfig_id)
     $entry[] = '<a href="[[url_base]]textureconfig/manage/'.$textureconfig->get_id().'">'.$textureconfig->get_name().'</a>';
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+print render_datatable($table_head,$table_body);
 ?>

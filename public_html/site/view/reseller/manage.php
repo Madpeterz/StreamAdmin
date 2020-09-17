@@ -15,7 +15,7 @@ if($reseller->load($page) == true)
     $form->col(6);
         $form->select("allowed","Allow",$reseller->get_allowed(),array(false=>"No",true=>"Yes"));
         $form->number_input("rate","Rate (as %)",$reseller->get_rate(),3,"Max 100");
-    echo $form->render("Update","primary");
+    print $form->render("Update","primary");
 }
 else
 {

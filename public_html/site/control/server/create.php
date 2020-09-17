@@ -76,15 +76,15 @@ if($failed_on == "")
     {
         $status = true;
         $redirect = "server";
-        echo $lang["server.cr.info.1"];
+        print $lang["server.cr.info.1"];
     }
     else
     {
-        echo sprintf($lang["server.cr.error.5"],$create_status["message"]);
+        print sprintf($lang["server.cr.error.5"],$create_status["message"]);
     }
 }
 else
 {
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

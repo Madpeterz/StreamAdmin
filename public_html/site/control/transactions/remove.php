@@ -14,25 +14,25 @@ if($session->get_ownerlevel() == 1)
             if($remove_status["status"] == true)
             {
                 $status = true;
-                echo $lang["tr.rm.info.1"];
+                print $lang["tr.rm.info.1"];
             }
             else
             {
-                echo sprintf($lang["tr.rm.error.3"],$remove_status["message"]);
+                print sprintf($lang["tr.rm.error.3"],$remove_status["message"]);
             }
         }
         else
         {
-            echo $lang["tr.rm.error.2"];
+            print $lang["tr.rm.error.2"];
         }
     }
     else
     {
-        echo $lang["tr.rm.error.1"];
+        print $lang["tr.rm.error.1"];
     }
 }
 else
 {
-    echo $lang["tr.rm.error.4"];
+    print $lang["tr.rm.error.4"];
 }
 ?>

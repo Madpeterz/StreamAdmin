@@ -14,7 +14,7 @@ if($session->get_ownerlevel() == true)
         $form->col(6);
             $form->text_input("username","Username",40,$staff->get_username(),"Used to login [does not have to be the same as their SL name]");
             $form->text_input("email","Email",200,$staff->get_email(),"Used to change their password via email");
-        echo $form->render("Update","primary");
+        print $form->render("Update","primary");
     }
     else
     {

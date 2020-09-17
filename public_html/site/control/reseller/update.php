@@ -18,22 +18,22 @@ if($failed_on == "")
         if($update_status["status"] == true)
         {
             $status = true;
-            echo $lang["reseller.up.info.1"];
+            print $lang["reseller.up.info.1"];
         }
         else
         {
-            echo sprintf($lang["reseller.up.error.4"],$update_status["message"]);
+            print sprintf($lang["reseller.up.error.4"],$update_status["message"]);
         }
     }
     else
     {
-        echo $lang["reseller.up.error.3"];
+        print $lang["reseller.up.error.3"];
     }
 }
 else
 {
     $status = false;
     $redirect = "";
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

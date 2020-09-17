@@ -29,32 +29,32 @@ if($failed_on == "")
                 {
                     $status = true;
                     $redirect = "tree";
-                    echo $lang["tree.up.info.1"];
+                    print $lang["tree.up.info.1"];
                 }
                 else
                 {
-                    echo sprintf($lang["tree.up.error.6"],$update_status["message"]);
+                    print sprintf($lang["tree.up.error.6"],$update_status["message"]);
                 }
             }
             else
             {
-                echo $lang["tree.up.error.5"];
+                print $lang["tree.up.error.5"];
             }
         }
         else
         {
-            echo $lang["tree.up.error.4"];
+            print $lang["tree.up.error.4"];
         }
     }
     else
     {
-        echo $lang["tree.up.error.3"];
+        print $lang["tree.up.error.3"];
         $redirect = "tree";
     }
 }
 else
 {
 
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

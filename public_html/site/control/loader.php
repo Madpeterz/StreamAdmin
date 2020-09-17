@@ -18,7 +18,7 @@ if($session->get_logged_in() == true)
     else
     {
         $status = false;
-        echo $lang["ld.error.1"];
+        print $lang["ld.error.1"];
     }
 }
 else
@@ -31,7 +31,7 @@ else
     else
     {
         $status = false;
-        echo $lang["ld.error.2"];
+        print $lang["ld.error.2"];
     }
 }
 if($status == false)
@@ -50,5 +50,5 @@ if($redirect != null)
     if($redirect == "here") $redirect = "";
     $reply["redirect"] = "".$template_parts["url_base"]."".$redirect."";
 }
-echo json_encode($reply);
+print json_encode($reply);
 ?>

@@ -58,31 +58,31 @@ if($failed_on == "")
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    echo $lang["stream.up.info.1"];
+                    print $lang["stream.up.info.1"];
                     $redirect = "stream";
                 }
                 else
                 {
-                    echo sprintf($lang["stream.up.error.14"],$update_status["message"]);
+                    print sprintf($lang["stream.up.error.14"],$update_status["message"]);
                 }
             }
             else
             {
-                echo $lang["stream.up.error.13"];
+                print $lang["stream.up.error.13"];
             }
         }
         else
         {
-            echo $lang["stream.up.error.12"];
+            print $lang["stream.up.error.12"];
         }
     }
     else
     {
-        echo $lang["stream.up.error.11"];
+        print $lang["stream.up.error.11"];
     }
 }
 else
 {
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

@@ -253,10 +253,10 @@ if($status == true) // api storage engine
 }
 if($status == false) // final output
 {
-    echo $why_failed;
+    print $why_failed;
 }
 else
 {
-    echo $lang["buy.sr.info.1"];
+    print $lang["buy.sr.info.1"];
 }
 ?>

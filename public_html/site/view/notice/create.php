@@ -31,6 +31,6 @@ $form->col(6);
 $form->col(6);
     $form->group("Static notecard");
     $form->select("notice_notecardlink"," ",1,$notice_notecard_set->get_linked_array("id","name"));
-echo $form->render("Create","primary");
+print $form->render("Create","primary");
 include("site/view/shared/swaps_table.php");
 ?>

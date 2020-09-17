@@ -21,7 +21,7 @@ class object_helper
                 $save_status = $this->object->save_changes();
                 if($save_status["status"] == false)
                 {
-                    if($show_errors == true) echo "[Objects helper] - ".$save_status["message"];
+                    if($show_errors == true) print "[Objects helper] - ".$save_status["message"];
                 }
                 return $save_status["status"];
             }
@@ -38,14 +38,14 @@ class object_helper
                 $save_status = $this->object->create_entry();
                 if($save_status["status"] == false)
                 {
-                    if($show_errors == true) echo "[Objects helper] - ".$save_status["message"];
+                    if($show_errors == true) print "[Objects helper] - ".$save_status["message"];
                 }
                 return $save_status["status"];
             }
         }
         else
         {
-            if($show_errors == true) echo "[Objects helper] - Object UUID length must be 36";
+            if($show_errors == true) print "[Objects helper] - Object UUID length must be 36";
         }
         return false;
     }

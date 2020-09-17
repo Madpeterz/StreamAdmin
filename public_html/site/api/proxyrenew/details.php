@@ -46,32 +46,32 @@ if($targetuid != null)
                     $status = true;
                     $reply["dataset_count"] = count($reply_dataset);
                     $reply["dataset"] = $reply_dataset;
-                    echo sprintf($lang["proxyrenew.dt.info.1"],$avatar->get_avatarname());
+                    print sprintf($lang["proxyrenew.dt.info.1"],$avatar->get_avatarname());
                 }
                 else
                 {
                     $status = true;
                     $reply["dataset_count"] = 0;
-                    echo $lang["proxyrenew.dt.error.5"];
+                    print $lang["proxyrenew.dt.error.5"];
                 }
             }
             else
             {
-                echo $lang["proxyrenew.dt.error.4"];
+                print $lang["proxyrenew.dt.error.4"];
             }
         }
         else
         {
-            echo $lang["proxyrenew.dt.error.3"];
+            print $lang["proxyrenew.dt.error.3"];
         }
     }
     else
     {
-        echo $lang["proxyrenew.dt.error.2"];
+        print $lang["proxyrenew.dt.error.2"];
     }
 }
 else
 {
-    echo $lang["proxyrenew.dt.error.1"];
+    print $lang["proxyrenew.dt.error.1"];
 }
 ?>

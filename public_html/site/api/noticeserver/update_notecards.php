@@ -30,7 +30,7 @@ if($notecards != "none")
                 $status = $notice_notecard->save_changes()["status"];
                 if($status == false)
                 {
-                    echo $lang["noticeserver.up.error.1"];
+                    print $lang["noticeserver.up.error.1"];
                     break;
                 }
             }
@@ -50,7 +50,7 @@ if($notecards != "none")
                 }
                 else
                 {
-                    echo $lang["noticeserver.up.error.2"];
+                    print $lang["noticeserver.up.error.2"];
                     break;
                 }
             }
@@ -59,7 +59,7 @@ if($notecards != "none")
     else
     {
         $status = false;
-        echo $lang["noticeserver.up.error.3"];
+        print $lang["noticeserver.up.error.3"];
     }
 }
 else
@@ -69,7 +69,7 @@ else
         $status = $notice_notecard_set->update_single_field_for_collection("missing",1)["status"];
         if($status == false)
         {
-            echo $lang["noticeserver.up.error.5"];
+            print $lang["noticeserver.up.error.5"];
         }
     }
 }
@@ -91,7 +91,7 @@ if($status == true)
                     $status = $notice_notecard->remove_me()["status"];
                     if($status == false)
                     {
-                        echo $lang["noticeserver.up.error.4"];
+                        print $lang["noticeserver.up.error.4"];
                     }
                 }
             }
@@ -101,6 +101,6 @@ if($status == true)
 }
 if($status == true)
 {
-    echo "ok";
+    print "ok";
 }
 ?>

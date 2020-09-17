@@ -194,31 +194,31 @@ if($owner_override == true)
                 }
                 if($all_ok == false)
                 {
-                    echo sprintf($lang["noticeserver.n.error.6"],$why_failed);
+                    print sprintf($lang["noticeserver.n.error.6"],$why_failed);
                 }
                 else
                 {
                     $status = true;
-                    echo sprintf($lang["noticeserver.n.info.1"],$changes);
+                    print sprintf($lang["noticeserver.n.info.1"],$changes);
                 }
             }
             else
             {
-                echo $lang["noticeserver.n.error.4"];
+                print $lang["noticeserver.n.error.4"];
             }
         }
         else
         {
-            echo $lang["noticeserver.n.error.3"];
+            print $lang["noticeserver.n.error.3"];
         }
     }
     else
     {
-        echo $lang["noticeserver.n.error.2"];
+        print $lang["noticeserver.n.error.2"];
     }
 }
 else
 {
-    echo $lang["noticeserver.n.error.1"];
+    print $lang["noticeserver.n.error.1"];
 }
 ?>

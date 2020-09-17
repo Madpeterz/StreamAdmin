@@ -40,17 +40,17 @@ if($failed_on == "")
     {
         $status = true;
         $redirect = "notice";
-        echo $lang["notice.cr.info.1"];
+        print $lang["notice.cr.info.1"];
     }
     else
     {
         $status = false;
-        echo sprintf($lang["notice.cr.error.8"],$create_status["message"]);
+        print sprintf($lang["notice.cr.error.8"],$create_status["message"]);
     }
 }
 else
 {
     $status = false;
-    echo $failed_on;
+    print $failed_on;
 }
 ?>

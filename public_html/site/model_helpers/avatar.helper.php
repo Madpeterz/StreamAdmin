@@ -27,19 +27,19 @@ class avatar_helper
                     $create_status = $this->avatar->create_entry();
                     if($create_status["status"] == false)
                     {
-                        if($show_errors == true) echo "[Avatar Helper] -> as unable to create avatar because:".$create_status["message"];
+                        if($show_errors == true) print "[Avatar Helper] -> as unable to create avatar because:".$create_status["message"];
                     }
                     return $create_status["status"];
                 }
                 else
                 {
-                    if($show_errors == true) echo "[Avatar Helper] -> Unable to create UID";
+                    if($show_errors == true) print "[Avatar Helper] -> Unable to create UID";
                 }
             }
         }
         else
         {
-            if($show_errors == true) echo "[Avatar Helper] -> UUID not vaild";
+            if($show_errors == true) print "[Avatar Helper] -> UUID not vaild";
         }
         return false;
     }

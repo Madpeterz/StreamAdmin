@@ -60,10 +60,10 @@ if($owner_override == true)
     {
         $message= "Unable to load next api request";
     }
-    echo $message;
+    print $message;
 }
 else
 {
-    echo "This API is owner only";
+    print "This API is owner only";
 }
 ?>

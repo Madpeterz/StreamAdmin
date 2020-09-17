@@ -103,28 +103,28 @@ foreach($rental_set->get_all_ids() as $rental_id)
                             else
                             {
                                 $status = false;
-                                echo $message;
+                                print $message;
                                 break;
                             }
                         }
                         else
                         {
                             $status = false;
-                            echo $lang["client.rm.error.4"];
+                            print $lang["client.rm.error.4"];
                             break;
                         }
                     }
                     else
                     {
                         $status = false;
-                        echo sprintf($lang["client.br.error.5"],$rental->get_rental_uid());
+                        print sprintf($lang["client.br.error.5"],$rental->get_rental_uid());
                         break;
                     }
                 }
                 else
                 {
                     $status = false;
-                    echo sprintf($lang["client.br.error.4"],$rental->get_rental_uid());
+                    print sprintf($lang["client.br.error.4"],$rental->get_rental_uid());
                     break;
                 }
             }
@@ -139,6 +139,6 @@ if($status == true)
 {
     $status = true;
     $redirect = "client";
-    echo sprintf($lang["client.br.info.1"],$removed_counter,$skipped_counter);
+    print sprintf($lang["client.br.info.1"],$removed_counter,$skipped_counter);
 }
 ?>

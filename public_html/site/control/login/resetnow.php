@@ -41,7 +41,7 @@ if($newpw1 == $newpw2)
                             {
                                 $status = true;
                                 $redirect = "login";
-                                echo $lang["login.rn.info.1"];
+                                print $lang["login.rn.info.1"];
                             }
                             else
                             {
@@ -75,11 +75,11 @@ if($status == false)
 {
     if($failed_on == "")
     {
-        echo $lang["login.rn.error.1"];
+        print $lang["login.rn.error.1"];
     }
     else
     {
-        echo $failed_on;
+        print $failed_on;
     }
 }
 

@@ -33,7 +33,7 @@ function create_pending_api_request(server $server,stream $stream,?rental $renta
             }
             else
             {
-                echo sprintf($errormessage,$eventname,$reply["message"]);
+                print sprintf($errormessage,$eventname,$reply["message"]);
             }
         }
         return $reply["status"];
@@ -109,9 +109,9 @@ function load_template_file($selected_layout="",$layer="",$allow_downgrade=true)
         {
             if($layer == "layout") load_template_file($selected_layout,"shared");
             else if($layer != "shared") load_template_file($selected_layout,"layout");
-            else echo "Unable to find template file ".$selected_layout."<Br/>";
+            else print "Unable to find template file ".$selected_layout."<Br/>";
         }
-        else echo "Unable to find template file ".$selected_layout." no downgrade allowed<Br/>";
+        else print "Unable to find template file ".$selected_layout." no downgrade allowed<Br/>";
     }
 }
 function is_checked(bool $input_value) : string
@@ -129,14 +129,14 @@ function redirect($to="",$off_site=false)
 	if($off_site == true)
 	{
 		if (!headers_sent()) { header("Location: ".$to.""); }
-        else echo "<meta http-equiv=\"refresh\" content=\"0; url=".$to."\">";
+        else print "<meta http-equiv=\"refresh\" content=\"0; url=".$to."\">";
 	}
 	else
 	{
 		global $template_parts;
         if($template_parts["url_base"] == "") $template_parts["url_base"] = "https://localhost";
 		if (!headers_sent()) { header("Location: ".$template_parts["url_base"]."".$to.""); }
-        else echo "<meta http-equiv=\"refresh\" content=\"0; url=".$template_parts["url_base"]."/".$to."\">";
+        else print "<meta http-equiv=\"refresh\" content=\"0; url=".$template_parts["url_base"]."/".$to."\">";
 	}
 }
 function clean_and_short_excerpt(string $input,array $allowed_tags=array(),int $max_length)

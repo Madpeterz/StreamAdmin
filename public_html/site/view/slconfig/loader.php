@@ -42,8 +42,8 @@ $form->col(6);
     $form->group("UI settings");
     $form->select("ui_tweaks_clients_fulllist","Clients [Full list]",$slconfig->get_clients_list_mode(),array(false=>"Disabled",true=>"Enabled"));
     $form->text_input("ui_tweaks_datatable_itemsperpage","Datatables items per page",3,$slconfig->get_datatable_itemsperpage(),"10 to 200");    
-echo $form->render("Update","primary");
-echo "<hr/>
+print $form->render("Update","primary");
+print "<hr/>
 Feature packs<br/>
 <ul>
 <li>Event storage: Stores events into the database in an unlinked format, once im happy with the code the centova API engine uses this to automate ^+^</li>

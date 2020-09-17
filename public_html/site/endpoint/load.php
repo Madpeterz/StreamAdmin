@@ -35,5 +35,5 @@ else
 {
     $reply = array("status"=>false,"message"=>"Failed: Invaild token");
 }
-echo json_encode($reply);
+print json_encode($reply);
 ?>
