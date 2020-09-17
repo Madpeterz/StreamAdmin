@@ -32,7 +32,7 @@ class server_public_api_basic extends server_api_protected
     }
     public function set_account_state(stream $stream,server $server,bool $state) : bool
     {
-        $pacakge = new package();
+        $package = new package();
         if($package->load($stream->get_packagelink()) == true)
         {
             $account_state = $this->account_state($stream,$server);
