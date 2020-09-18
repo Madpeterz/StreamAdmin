@@ -595,3 +595,6 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevender_packages`
   ADD CONSTRAINT `treevender_packages_ibfk_1` FOREIGN KEY (`treevenderlink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_packages_ibfk_2` FOREIGN KEY (`packagelink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION;
+
+INSERT INTO `apis` (`id`, `name`, `api_serverstatus`, `opt_toggle_status`, `opt_password_reset`, `opt_autodj_next`, `opt_toggle_autodj`, `event_enable_start`, `event_start_sync_username`, `event_enable_renew`, `event_disable_expire`, `event_disable_revoke`, `event_revoke_reset_username`, `event_reset_password_revoke`, `event_clear_djs`, `event_recreate_revoke`) 
+VALUES (NULL, 'secondbot', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
