@@ -89,9 +89,21 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                         if($avatar_system->load($slconfig->get_owner_av()) == true)
                                         {
                                             $status = true;
-                                            $one_p = floor($amountpaid / 100);
-                                            $reseller_cut = $one_p * $reseller->get_rate();
-                                            $left_over = $amountpaid - $reseller_cut;
+                                            $left_over = $amountpaid;
+                                            if($reseller->get_rate() > 0)
+                                            {
+                                                $one_p = $amountpaid / 100;
+                                                $reseller_cut = floor($one_p * $reseller->get_rate());
+                                                $left_over = $amountpaid - $reseller_cut;
+                                                if($reseller_cut < 1)
+                                                {
+                                                    if($left_over >= 2)
+                                                    {
+                                                        $left_over--;
+                                                        $reseller_cut++;
+                                                    }
+                                                }
+                                            }
                                             $reply["owner_payment"] = 1;
                                             $reply["owner_payment_amount"] = $left_over;
                                             $reply["owner_payment_uuid"] = $avatar_system->get_avataruuid();
