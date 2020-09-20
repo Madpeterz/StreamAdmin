@@ -224,6 +224,22 @@ class form
             $this->end_field();
         }
     }
+    public function texture_input(string $name,string $label,int $max_length,?string $value,string $placeholder,string $mask="",string $mode="text")
+    {
+        if($mode != "hidden")
+        {
+            $this->enable_grid_render();
+            $this->add_label($label,$name);
+            $this->start_field();
+        }
+        $this->mygrid->add_content('<input type="'.$mode.'" class="form-control" name="'.$name.'"');
+        $this->mygrid->add_content(' value="'.$value.'" placeholder="'.$placeholder.'" '.$this->required_addon().'');
+        $this->mygrid->add_content(' > <a href="http://secondlife.com/app/image/'.$value.'/1" target="_blank"><i class="fas fa-images"></i></a> @NL@');
+        if($mode != "hidden")
+        {
+            $this->end_field();
+        }
+    }
     public function uuid_input(string $name,string $label,?string $value,string $placeholder)
     {
         $this->text_input($name,$label,36,$value,$placeholder,"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
