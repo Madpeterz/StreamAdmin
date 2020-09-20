@@ -30,9 +30,9 @@ if($package->load_by_field("package_uid",$page) == true)
     $form->split();
     $form->col(6);
         $form->group("Textures");
-        $form->texture_input("texture_uuid_soldout","Sold out",$package->get_texture_uuid_soldout(),"UUID of texture");
-        $form->texture_input("texture_uuid_instock_small","In stock [Small]",$package->get_texture_uuid_instock_small(),"UUID of texture");
-        $form->texture_input("texture_uuid_instock_selected","In stock [Selected]",$package->get_texture_uuid_instock_selected(),"UUID of texture");
+        $form->texture_input("texture_uuid_soldout","Sold out",36,$package->get_texture_uuid_soldout(),"UUID of texture");
+        $form->texture_input("texture_uuid_instock_small","In stock [Small]",36,$package->get_texture_uuid_instock_small(),"UUID of texture");
+        $form->texture_input("texture_uuid_instock_selected","In stock [Selected]",36,$package->get_texture_uuid_instock_selected(),"UUID of texture");
     $form->col(6);
         $form->group("Auto DJ");
         $form->select("autodj","Enabled",$package->get_autodj(),array(false=>"No",true=>"Yes"));
