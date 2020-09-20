@@ -21,12 +21,15 @@ if($targetuid != null)
     {
         $load_status = $avatar->load_by_field("avataruuid",$targetuid);
     }
+    $status = true;
+    $reply["dataset_count"] = 0;
     if($load_status == true)
     {
         $rental_set = new rental_set();
         $rental_set->load_on_field("avatarlink",$avatar->get_id());
         if($rental_set->get_count() > 0)
         {
+            $status = false;
             $stream_set = new stream_set();
             $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
             if($stream_set->get_count() > 0)
@@ -50,8 +53,6 @@ if($targetuid != null)
                 }
                 else
                 {
-                    $status = true;
-                    $reply["dataset_count"] = 0;
                     echo $lang["proxyrenew.dt.error.5"];
                 }
             }
