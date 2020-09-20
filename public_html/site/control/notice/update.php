@@ -8,6 +8,13 @@ $usebot = $input->postFilter("usebot","bool");
 $send_notecard = $input->postFilter("send_notecard","bool");
 $notecarddetail = $input->postFilter("notecarddetail");
 $notice_notecardlink = $input->postFilter("notice_notecardlink","integer");
+if($send_notecard == false)
+{
+    if(strlen($notecarddetail) < 1)
+    {
+        $notecarddetail = " ";
+    }
+}
 $failed_on = "";
 $redirect = "";
 if(strlen($name) < 5) $failed_on .= $lang["notice.up.error.1"];
