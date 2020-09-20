@@ -13,7 +13,7 @@ $form->required(true);
 $form->col(6);
     $form->group("Core");
     $form->direct_add("Current owner: ".$avatar->get_avatarname()."<br/>");
-    $form->text_input("owneravuid","Owner avatar UID <a href=\"[[url_base]]avatar\" target=\"_blank\">Find</a>",8,$avatar->get_avatar_uid(),"Not a SL uuid!");
+    $form->text_input("owneravuid","Owner avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>",8,$avatar->get_avatar_uid(),"Not a SL uuid!");
     $form->text_input("sllinkcode","Link code [SL->Server]",30,$slconfig->get_sllinkcode(),"The code shared by your vendors to connet");
     $form->text_input("publiclinkcode","Public Link code [SL->Server]",30,$slconfig->get_publiclinkcode(),"The code shared by your user hud");
     $form->text_input("httpcode","HTTP code [Apps->Server]",36,$slconfig->get_http_inbound_secret(),"Enter here");
@@ -41,7 +41,7 @@ $form->col(6);
     $form->direct_add("<br/>");
     $form->group("UI settings");
     $form->select("ui_tweaks_clients_fulllist","Clients [Full list]",$slconfig->get_clients_list_mode(),array(false=>"Disabled",true=>"Enabled"));
-    $form->text_input("ui_tweaks_datatable_itemsperpage","Datatables items per page",3,$slconfig->get_datatable_itemsperpage(),"10 to 200");    
+    $form->text_input("ui_tweaks_datatable_itemsperpage","Datatables items per page",3,$slconfig->get_datatable_itemsperpage(),"10 to 200");
 echo $form->render("Update","primary");
 echo "<hr/>
 Feature packs<br/>
