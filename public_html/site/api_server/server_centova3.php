@@ -334,5 +334,9 @@ class server_centova3 extends server_centova3_only
     {
         return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"reconfigure",array("adminpassword"=>$stream->get_adminpassword(),"sourcepassword"=>$stream->get_djpassword())));
     }
+    protected function change_title_now(stream $stream,server $server,string $newtitle="Not set") : bool
+    {
+        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"reconfigure",array("title"=>$title)));
+    }
 }
 ?>

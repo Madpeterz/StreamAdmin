@@ -271,8 +271,13 @@ class serverapi_helper
         {
             if($this->check_flags(array("event_enable_start")) == true)
             {
-                $status = $this->update_account_state(true);
+                $status = $this->api_change_title();
                 $this->message = $this->server_api->get_last_api_message();
+                if($status == true)
+                {
+                    $status = $this->update_account_state(true);
+                    $this->message = $this->server_api->get_last_api_message();
+                }
                 return $status;
             }
         }
@@ -307,6 +312,19 @@ class serverapi_helper
                 }
                 return $reply["status"];
             }
+        }
+        return false;
+    }
+    public function api_change_title() : bool
+    {
+        if($this->check_flags(array("event_enable_start")) == true)
+        {
+            if($this->avatar != null)
+            {
+                $reply = $this->server_api->change_tile($this->stream,$this->server,"".$this->avatar->get_avatarname()." stream");
+                return $reply;
+            }
+            return true;
         }
         return false;
     }

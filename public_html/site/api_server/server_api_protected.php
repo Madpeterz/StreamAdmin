@@ -81,6 +81,11 @@ class server_api_protected extends error_logging
         $this->last_api_message = "Skipped not supported on this api";
         return true;
     }
+    protected function change_title_now(stream $stream,server $server,string $newtitle) : bool
+    {
+        $this->last_api_message = "Skipped not supported on this api";
+        return true;
+    }
 
     protected function curl_request(string $url,array $post_data) : array
     {

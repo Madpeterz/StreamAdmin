@@ -22,5 +22,9 @@ class server_public_api extends server_public_api_basic
     {
         return $this->change_password($stream,$server);
     }
+    public function change_tile(stream $stream,server $server,string $newtitle="New title")
+    {
+        return $this->change_title_now($stream,$server,$newtitle);
+    }
 }
 ?>
