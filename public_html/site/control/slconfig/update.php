@@ -1,5 +1,6 @@
 <?php
 $avatar = new avatar();
+$timezone = new timezones();
 $input = new inputFilter();
 $sllinkcode = $input->postFilter("sllinkcode");
 $httpcode = $input->postFilter("httpcode");
@@ -10,6 +11,9 @@ $event_storage = $input->postFilter("event_storage","bool");
 $owneravuid = $input->postFilter("owneravuid");
 $ui_tweaks_clients_fulllist = $input->postFilter("ui_tweaks_clients_fulllist","bool");
 $ui_tweaks_datatable_itemsperpage = $input->postFilter("ui_tweaks_datatable_itemsperpage","integer");
+$api_default_email = $input->postFilter("api_default_email","email");
+$displaytimezonelink = $input->postFilter("displaytimezonelink","integer");
+
 
 
 $failed_on = "";
@@ -23,6 +27,9 @@ else if($ui_tweaks_datatable_itemsperpage < 10) $failed_on .= $lang["slconfig.up
 else if($ui_tweaks_datatable_itemsperpage > 200) $failed_on .= $lang["slconfig.up.error.11"];
 else if(strlen($owneravuid) != 8) $failed_on .= $lang["slconfig.up.error.7"];
 else if($avatar->load_by_field("avatar_uid",$owneravuid) == false) $failed_on .= $lang["slconfig.up.error.8"];
+else if($timezone->load($displaytimezonelink) == false) $failed_on .= $lang["slconfig.up.error.12"];
+else if(strlen($owneravuid) < 7) $failed_on .= $lang["slconfig.up.error.13"];
+
 $redirect = "slconfig";
 $status = false;
 if($failed_on == "")
