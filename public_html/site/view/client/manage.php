@@ -108,7 +108,13 @@ if($rental->load_by_field("rental_uid",$page) == true)
                     $form = new form();
                     $form->target("client/api/".$page."/purge_djs");
                     $mygrid->add_content($form->render("purge DJ accounts","danger",true),4);
-
+                    $mygrid->add_content("<hr/>",12);
+                    $form = new form();
+                    $form->target("client/api/".$page."/set_passwords");
+                    $form->group("API force set passwords");
+                    $form->text_input("set_dj_password","Set DJ password",6,$stream->get_djpassword(),"DJ/Stream password");
+                    $form->text_input("set_admin_password","Set Admin password",6,$stream->get_adminpassword(),"Admin password");
+                    $mygrid->add_content($form->render("Set passwords","warning",true),6);
                     $pages["API"] = $mygrid->get_output();
                     $avname = explode(" ",strtolower($avatar->get_avatarname()));
                     $syncname = "".$avname[0]."_".$package->get_bitrate()."_".$stream->get_port()."";

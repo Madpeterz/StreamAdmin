@@ -6,7 +6,7 @@ class serverapi_helper
     protected $rental = null;
     protected $stream = null;
     protected $avatar = null;
-    protected $message = "";
+    protected $message = "No actions taken";
     protected $server_api = null;
     protected $api_config = null;
     public function get_message()
@@ -400,36 +400,75 @@ class serverapi_helper
         }
         return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"No api");
     }
-    public function api_reset_passwords()
+    public function api_set_passwords(string $new_dj_password=null,string $new_admin_password=null)
     {
         global $sql;
-        $status = false;
-        $this->message = "started api_reset_passwords";
-        if($this->server_api != null)
+        $this->message = "started";
+        if(($new_dj_password == null) || ($new_admin_password == null))
         {
-            if($this->check_flags(array("opt_password_reset","event_reset_password_revoke")) == true)
+            $this->message = "no passwords sent";
+            $input = new inputFilter();
+            $set_dj_password = $input->postFilter("set_dj_password","string",array("minLength"=>5,"maxLength"=>12));
+            $set_admin_password = $input->postFilter("set_admin_password","string",array("minLength"=>5,"maxLength"=>12));
+            if(($set_dj_password != null) && ($set_admin_password != null))
             {
-                $this->stream->set_adminpassword($this->rand_string(7+rand(1,6)));
-                $this->stream->set_djpassword($this->rand_string(5+rand(1,3)));
-                $this->stream->set_needwork(false);
-                $update_status = $this->stream->save_changes();
-                if($update_status["status"] == true)
-                {
-                    $status = $this->server_api->opt_password_reset($this->stream,$this->server);
-                    $this->message = $this->server_api->get_last_api_message();
-                    if($status == false)
-                    {
-                        $sql->flagError();
-                    }
-                }
-                else
-                {
-                    $sql->flagError();
-                    $this->message = "Unable to update password in db";
-                }
+                $new_dj_password = $set_dj_password;
+                $new_admin_password = $set_admin_password;
+                $this->message = "got passwords from input";
+            }
+            else
+            {
+                $this->message = "input failed because:".$input->get_why_failed();
+                return false;
             }
         }
+        if(($new_dj_password != null) && ($new_admin_password != null))
+        {
+            if($new_dj_password != $new_admin_password)
+            {
+                $status = false;
+                $this->message = "started api_reset_passwords";
+                if($this->server_api != null)
+                {
+                    if($this->check_flags(array("opt_password_reset","event_reset_password_revoke")) == true)
+                    {
+                        $this->message = "passed flag check";
+                        $this->stream->set_adminpassword($new_admin_password);
+                        $this->stream->set_djpassword($new_dj_password);
+                        $this->stream->set_needwork(false);
+                        $update_status = $this->stream->save_changes();
+                        if($update_status["status"] == true)
+                        {
+                            $this->message = "calling api";
+                            $status = $this->server_api->opt_password_reset($this->stream,$this->server);
+                            $this->message = $this->server_api->get_last_api_message();
+                            if($status == false)
+                            {
+                                $sql->flagError();
+                            }
+                        }
+                        else
+                        {
+                            $sql->flagError();
+                            $this->message = "Unable to update password in db";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $this->message = "DJ and Admin passwords are not allowed to match";
+            }
+        }
+        else
+        {
+            $this->message = "Unable to create passwords";
+        }
         return $status;
+    }
+    public function api_reset_passwords()
+    {
+        return $this->api_set_passwords($this->rand_string(5+rand(1,3)),$this->rand_string(7+rand(1,6)));
     }
     public function api_start()
     {
