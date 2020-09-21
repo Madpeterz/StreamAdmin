@@ -230,20 +230,50 @@ class server_centova3 extends server_centova3_only
         }
         return array("status"=>false,"state"=>false,"source"=>false);
     }
-    protected function account_name_list(server $server) : array
+    protected function account_name_list(server $server,bool $include_passwords=false,stream_set $stream_set=null) : array
     {
-        $reply = $this->centova_systemclass_api_call($server,"listaccounts",array("start"=>0,"limit"=>1000));
-        if($this->simple_reply_ok($reply) == true)
+        $current_usernames = array();
+        $current_passwords = array();
+        $all_ok = true;
+        if($include_passwords == true)
         {
-            $current_usernames = array();
-            $server_accounts = $reply["data"]["response"]["data"];
-            foreach($server_accounts as $entry)
+            if($stream_set == null)
             {
-                $current_usernames[] = $entry["username"];
+                $stream_set = new stream_set();
+                $stream_set->load_by_field("serverlink",$server->get_id());
+                if($stream_set->get_count() == 0)
+                {
+                    $all_ok = false;
+                    $this->last_api_message = "Unable to find streams attached to server";
+                }
             }
-            return array("status"=>true,"usernames"=>$current_usernames);
         }
-        return array("status"=>false,"usernames"=>array());
+        if($all_ok == true)
+        {
+            $reply = $this->centova_systemclass_api_call($server,"listaccounts",array("start"=>0,"limit"=>1000));
+            if($this->simple_reply_ok($reply) == true)
+            {
+                $server_accounts = $reply["data"]["response"]["data"];
+                foreach($server_accounts as $entry)
+                {
+                    $current_usernames[] = $entry["username"];
+                }
+                if($include_passwords == true)
+                {
+                    foreach($stream_set->get_all_ids() as $streamid)
+                    {
+                        $stream = $stream_set->get_object_by_id($streamid);
+                        $reply = $this->centova_serverclass_api_call($server,$stream,"getaccount");
+                        if($this->simple_reply_ok($reply) == true)
+                        {
+                            $accountinfo = $reply["data"]["response"]["data"]["account"];
+                            $current_passwords[$stream->get_adminusername()] = array("admin"=>$accountinfo["adminpassword"],"dj"=>$accountinfo["sourcepassword"]);
+                        }
+                    }
+                }
+            }
+        }
+        return array("status"=>$all_ok,"usernames"=>$current_usernames,"passwords"=>$current_passwords);
     }
 
     protected function sync_username(stream $stream,server $server,string $old_username) : bool

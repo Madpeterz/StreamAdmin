@@ -536,6 +536,17 @@ class serverapi_helper
         }
         return $status;
     }
+    public function get_all_accounts(bool $include_passwords=false,stream_set $stream_set=null) : array
+    {
+        if($this->server_api != null)
+        {
+            $status = $this->server_api->get_account_name_list($this->server,$include_passwords,$stream_set);
+            $this->message = $this->server_api->get_last_api_message();
+            return $status;
+        }
+        return array("status"=>false,"usernames"=>array(),"passwords"=>array());
+
+    }
     public function api_customize_username()
     {
         global $sql, $retry;

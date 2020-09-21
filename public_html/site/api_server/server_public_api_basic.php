@@ -10,9 +10,9 @@ class server_public_api_basic extends server_api_protected
     {
         return $this->needs_retry;
     }
-    public function get_account_name_list(server $server) : array
+    public function get_account_name_list(server $server,bool $include_passwords=false,stream_set $stream_set=null) : array
     {
-        return $this->account_name_list($server);
+        return $this->account_name_list($server,$include_passwords,$stream_set);
     }
     public function get_server_status(server $server) : array
     {
