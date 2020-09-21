@@ -77,6 +77,7 @@ class server_centova3 extends server_centova3_only
     }
     protected function create_account(stream $stream,server $server,package $package) : bool
     {
+        global $slconfig;
         if($package->get_api_template() != null)
         {
             $servertype = new servertypes();
@@ -89,7 +90,7 @@ class server_centova3 extends server_centova3_only
                     "sourcepassword" => $stream->get_djpassword(),
                     "maxbitrate" => $package->get_bitrate(),
                     "username" => $stream->get_adminusername(),
-                    "email" => "port".$stream->get_port()."@noemail.com",
+                    "email" => $slconfig->get_api_default_email(),
                     "usesource" => 2,
                     "autostart" => 1,
                     "template" => $package->get_api_template(),
