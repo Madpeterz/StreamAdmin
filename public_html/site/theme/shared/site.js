@@ -65,14 +65,17 @@ $( document ).ready(function() {
             var form = $(this);
             var url = form.attr('action');
             var method = form.attr('method');
+            var timeout = 3000;
             if($(this).hasClass( "slow" ) == true)
             {
                 alert_info("Please wait this request can be slow");
+                timeout = 25000;
             }
             $.ajax({
                    type: method,
                    url: url,
                    data: form.serialize(),
+                   timeout: timeout,
                    success: function(data)
                    {
                        try
