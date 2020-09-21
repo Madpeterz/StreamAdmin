@@ -20,6 +20,7 @@ class inputFilter extends error_logging
 			if(in_array($filter,array("array")) == false) $value = stripslashes($_POST[$inputName]);
 			else $value = $_POST[$inputName];
 			if($this->whyfailed != "") $this->addError(__FILE__,__FUNCTION__,$this->whyfailed);
+			else $this->whyfailed = "-all ok-";
 			return $this->valueFilter($value, $filter, $args);
 		}
 		else
@@ -151,6 +152,7 @@ class inputFilter extends error_logging
 		{
 			return $value;
 		}
+		$this->whyfailed = "value is null";
 		return null;
 	}
 	protected function filter_integer(string $value,array $args=array()) : ?int
