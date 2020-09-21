@@ -14,7 +14,8 @@ if($rental->load_by_field("rental_uid",$page) == true)
     $form->target("client/update/".$page."");
     $form->required(true);
     $form->col(6);
-        $form->group("Timeleft: ".timeleft_hours_and_days($rental->get_expireunixtime())."<br/><sub>".date('l jS \of F Y h:i:s A',$rental->get_expireunixtime())."</sub>");
+        $form->group("Timeleft: ".timeleft_hours_and_days($rental->get_expireunixtime())."");
+        $form->direct_add("<sub>".date('l jS \of F Y h:i:s A',$rental->get_expireunixtime())."</sub><br/><br/>");
         $form->number_input("adjustment_days","Adjustment [Days]",0,3,"Max 999");
         $form->number_input("adjustment_hours","Adjustment [Hours]",0,2,"Max 23");
         $form->select("adjustment_dir","Adjustment (Type)",false,array(false=>"Remove",true=>"Add"));
