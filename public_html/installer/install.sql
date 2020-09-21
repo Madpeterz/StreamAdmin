@@ -596,5 +596,39 @@ ALTER TABLE `treevender_packages`
   ADD CONSTRAINT `treevender_packages_ibfk_1` FOREIGN KEY (`treevenderlink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_packages_ibfk_2` FOREIGN KEY (`packagelink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION;
 
-INSERT INTO `apis` (`id`, `name`, `api_serverstatus`, `opt_toggle_status`, `opt_password_reset`, `opt_autodj_next`, `opt_toggle_autodj`, `event_enable_start`, `event_start_sync_username`, `event_enable_renew`, `event_disable_expire`, `event_disable_revoke`, `event_revoke_reset_username`, `event_reset_password_revoke`, `event_clear_djs`, `event_recreate_revoke`) 
+INSERT INTO `apis` (`id`, `name`, `api_serverstatus`, `opt_toggle_status`, `opt_password_reset`, `opt_autodj_next`, `opt_toggle_autodj`, `event_enable_start`, `event_start_sync_username`, `event_enable_renew`, `event_disable_expire`, `event_disable_revoke`, `event_revoke_reset_username`, `event_reset_password_revoke`, `event_clear_djs`, `event_recreate_revoke`)
 VALUES (NULL, 'secondbot', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
+
+UPDATE `slconfig` SET `db_version` = '1.0.1.1' WHERE `slconfig`.`id` = 1;
+CREATE TABLE `timezones` (
+  `id` int(11) NOT NULL,
+  `name` varchar(125) NOT NULL,
+  `code` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `timezones` (`id`, `name`, `code`) VALUES
+(1, 'United States / Eastern', 'America/New_York'),
+(2, 'United States / Central', 'America/Chicago'),
+(3, 'United States / Mountain', 'America/Denver'),
+(4, 'United States / Mountain [No DST]', 'America/Phoenix'),
+(5, 'United States / Pacific', 'America/Los_Angeles'),
+(6, 'United States / Alaska', 'America/Anchorage'),
+(7, 'United States / Hawaii', 'America/Adak'),
+(8, 'United States / Hawaii [No DST]', 'Pacific/Honolulu'),
+(9, 'Europe / Dublin', 'Europe/Dublin'),
+(10, 'Europe / Paris', 'Europe/Paris'),
+(11, 'Europe / London', 'Europe/London');
+
+
+ALTER TABLE `timezones`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+
+ALTER TABLE `timezones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `slconfig` ADD `displaytimezonelink` INT NOT NULL DEFAULT '11' AFTER `smtp_replyto`;
+
+ALTER TABLE `slconfig` ADD `api_default_email` TEXT NOT NULL AFTER `displaytimezonelink`;
+
+UPDATE `slconfig` SET `api_default_email` = 'noone@no.email.com' WHERE `slconfig`.`id` = 1;
