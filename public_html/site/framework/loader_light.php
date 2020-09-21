@@ -17,6 +17,12 @@ if(install_ok() == true)
     if($slconfig->load(1) == true)
     {
         $session->load_from_session();
+        $timezone = new timezones();
+        if($timezone->load($slconfig->get_displaytimezonelink()) == true)
+        {
+            $timezone_name = $timezone->get_name();
+            date_default_timezone_set($timezone->get_code());
+        }
     }
     else
     {

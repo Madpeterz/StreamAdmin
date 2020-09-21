@@ -37,4 +37,7 @@ $template_parts = array(
     "username" => "",
 );
 $page_buffer = "";
+$timezone_name = "Europe / London";
+date_default_timezone_set("Europe/London");
+
 ?>
