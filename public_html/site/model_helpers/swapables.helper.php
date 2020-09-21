@@ -3,6 +3,7 @@ class swapables_helper
 {
       function get_swapped_text(string $template,avatar $avatar,rental $rental,package $package,server $server,stream $stream) : string
       {
+          global $timezone_name;
             $av_split = explode(" ",$avatar->get_avatarname());
             if(count($av_split) == 1)
             {
@@ -32,6 +33,7 @@ class swapables_helper
                 "NL" => "\n",
                 "PACKAGE_UID" => $package->get_package_uid(),
                 "RENTAL_UID" => $rental->get_rental_uid(),
+                "TIMEZONE" => $timezone_name
             );
             foreach($swaps as $key => $value)
             {

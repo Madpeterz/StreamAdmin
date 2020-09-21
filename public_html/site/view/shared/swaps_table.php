@@ -21,8 +21,8 @@ $swaps = array(
     "PACKAGE_AUTODJ_SIZE" => 3,
     "PACKAGE_UID" => "XXXXXXXX",
     "RENTAL_UID" => "XXXXXXXX",
-    "NL" => "~ Creates a new line ~"
-
+    "NL" => "~ Creates a new line ~",
+    "TIMEZONE" => "Europe / London"
 );
 
 $table_head = array("Tag","Example","Tag","Example");
