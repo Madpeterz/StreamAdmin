@@ -27,7 +27,7 @@ $lang = array(
     "renew.rn.error.13" => "Unable to load api attached to server",
 
     "renew.rn.info.1" => "Payment accepted but the account is still behind and will need to be renewed again!",
-    "renew.rn.info.2" => "Payment accepted there is now: %1\$s remaining",
+    "renew.rn.info.2" => "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
 
 );
 ?>

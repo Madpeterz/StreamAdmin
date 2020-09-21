@@ -151,7 +151,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                             }
                                             if($all_ok == true)
                                             {
-                                                echo sprintf($lang["renew.rn.info.2"],timeleft_hours_and_days($rental->get_expireunixtime()));
+                                                echo sprintf($lang["renew.rn.info.2"],timeleft_hours_and_days($rental->get_expireunixtime()),date('l jS \of F Y h:i:s A',$rental->get_expireunixtime()));
                                             }
                                         }
                                         else
