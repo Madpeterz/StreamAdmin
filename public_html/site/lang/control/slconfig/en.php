@@ -12,5 +12,7 @@ $lang = array(
     "slconfig.up.info.1" => "system config updated",
     "slconfig.up.error.10" => "Datatable entrys per page length must be 10 or more",
     "slconfig.up.error.11" => "Datatable entrys per page must be 200 or less",
+    "slconfig.up.error.12" => "Timezone selected not supported",
+    "slconfig.up.error.13" => "API default email address does not appear to be vaild",
 );
 ?>

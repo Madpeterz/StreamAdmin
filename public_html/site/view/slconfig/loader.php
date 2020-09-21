@@ -6,6 +6,8 @@ $slconfig = new slconfig();
 $slconfig->load(1);
 $avatar = new avatar();
 $avatar->load($slconfig->get_owner_av());
+$timezones_set = new timezones_set();
+$timezones_set->loadAll();
 
 $form = new form();
 $form->target("slconfig/update/".$page."");
@@ -39,9 +41,11 @@ $form->col(6);
     $form->select("event_storage","Event storage",$slconfig->get_eventstorage(),array(false=>"Disabled",true=>"Enabled"));
 $form->col(6);
     $form->direct_add("<br/>");
-    $form->group("UI settings");
+    $form->group("Misc settings");
     $form->select("ui_tweaks_clients_fulllist","Clients [Full list]",$slconfig->get_clients_list_mode(),array(false=>"Disabled",true=>"Enabled"));
     $form->text_input("ui_tweaks_datatable_itemsperpage","Datatables items per page",3,$slconfig->get_datatable_itemsperpage(),"10 to 200");
+    $form->text_input("api_default_email","API default email",3,$slconfig->get_api_default_email(),"Required to be a vaild email");
+    $form->select("displaytimezonelink","Auto accept resellers",$slconfig->get_displaytimezonelink(),$timezones_set->get_linked_array("id","name"));
 echo $form->render("Update","primary");
 echo "<hr/>
 Feature packs<br/>
