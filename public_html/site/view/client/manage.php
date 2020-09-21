@@ -64,7 +64,6 @@ if($rental->load_by_field("rental_uid",$page) == true)
         $entry[]  = date('l jS \of F Y h:i:s A',$transaction->get_unixtime());
         $table_body[] = $entry;
     }
-    $pages["Transactions"] = render_datatable($table_head,$table_body);
 
     $stream = new stream();
     if($stream->load($rental->get_streamlink()) == true)
@@ -133,6 +132,8 @@ if($rental->load_by_field("rental_uid",$page) == true)
     }
     $paged_info = new paged_info();
     echo $paged_info->render($pages);
+    echo "<br/><h4>Transactions</h4>";
+    echo render_datatable($table_head,$table_body);
 }
 else
 {
