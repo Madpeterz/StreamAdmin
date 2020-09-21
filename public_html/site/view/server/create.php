@@ -18,6 +18,7 @@ $form->col(6);
     $form->text_input("api_username","API / Username",200,"","the API username");
     $form->text_input("api_password","API / Password",200,"","the API password");
     $form->select("api_serverstatus","Panel / Server status",1,array(0=>"Disabled",1=>"Allow"));
+    $form->select("api_sync_accounts","Panel / Sync accounts",1,array(0=>"Disabled",1=>"Allow"));
 $form->split();
 $form->group("API Flags");
 $form->col(6);

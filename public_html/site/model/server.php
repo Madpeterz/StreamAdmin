@@ -14,6 +14,7 @@
 			"api_username" => array("type"=>"str","value"=>null),
 			"api_password" => array("type"=>"str","value"=>null),
 			"api_serverstatus" => array("type"=>"bool","value"=>0),
+			"api_sync_accounts" => array("type"=>"bool","value"=>0),
 			"opt_password_reset" => array("type"=>"bool","value"=>0),
 			"opt_autodj_next" => array("type"=>"bool","value"=>0),
 			"opt_toggle_autodj" => array("type"=>"bool","value"=>0),
@@ -35,6 +36,7 @@
 		public function get_api_username() : ?string {  return $this->get_field("api_username");  } 
 		public function get_api_password() : ?string {  return $this->get_field("api_password");  } 
 		public function get_api_serverstatus() : ?bool {  return $this->get_field("api_serverstatus");  } 
+		public function get_api_sync_accounts() : ?bool {  return $this->get_field("api_sync_accounts");  } 
 		public function get_opt_password_reset() : ?bool {  return $this->get_field("opt_password_reset");  } 
 		public function get_opt_autodj_next() : ?bool {  return $this->get_field("opt_autodj_next");  } 
 		public function get_opt_toggle_autodj() : ?bool {  return $this->get_field("opt_toggle_autodj");  } 
@@ -55,6 +57,7 @@
 		public function set_api_username(?string $newvalue) : array {  return $this->update_field("api_username",$newvalue);  } 
 		public function set_api_password(?string $newvalue) : array {  return $this->update_field("api_password",$newvalue);  } 
 		public function set_api_serverstatus(?bool $newvalue) : array {  return $this->update_field("api_serverstatus",$newvalue);  } 
+		public function set_api_sync_accounts(?bool $newvalue) : array {  return $this->update_field("api_sync_accounts",$newvalue);  } 
 		public function set_opt_password_reset(?bool $newvalue) : array {  return $this->update_field("opt_password_reset",$newvalue);  } 
 		public function set_opt_autodj_next(?bool $newvalue) : array {  return $this->update_field("opt_autodj_next",$newvalue);  } 
 		public function set_opt_toggle_autodj(?bool $newvalue) : array {  return $this->update_field("opt_toggle_autodj",$newvalue);  } 

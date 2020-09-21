@@ -20,6 +20,7 @@ $lang = array(
     "server.cr.error.18" => "event_clear_djs not vaild",
     "server.cr.error.19" => "event_revoke_reset_username not vaild",
     "server.cr.error.20" => "event_recreate_revoke not vaild",
+    "server.cr.error.21" => "api_sync_accounts not vaild",
 
     "server.cr.info.1" => "Server created",
 
@@ -55,6 +56,7 @@ $lang = array(
     "server.up.error.20" => "event_clear_djs not vaild",
     "server.up.error.21" => "event_revoke_reset_username not vaild",
     "server.up.error.22" => "event_recreate_revoke not vaild",
+    "server.cr.error.23" => "api_sync_accounts not vaild",
 
     "server.up.info.1" => "Server updated"
 );

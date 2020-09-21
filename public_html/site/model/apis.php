@@ -9,6 +9,7 @@
 			"id" => array("type"=>"int","value"=>null),
 			"name" => array("type"=>"str","value"=>null),
 			"api_serverstatus" => array("type"=>"bool","value"=>0),
+			"api_sync_accounts" => array("type"=>"bool","value"=>0),
 			"opt_toggle_status" => array("type"=>"bool","value"=>0),
 			"opt_password_reset" => array("type"=>"bool","value"=>0),
 			"opt_autodj_next" => array("type"=>"bool","value"=>0),
@@ -25,6 +26,7 @@
 		);
 		public function get_name() : ?string {  return $this->get_field("name");  } 
 		public function get_api_serverstatus() : ?bool {  return $this->get_field("api_serverstatus");  } 
+		public function get_api_sync_accounts() : ?bool {  return $this->get_field("api_sync_accounts");  } 
 		public function get_opt_toggle_status() : ?bool {  return $this->get_field("opt_toggle_status");  } 
 		public function get_opt_password_reset() : ?bool {  return $this->get_field("opt_password_reset");  } 
 		public function get_opt_autodj_next() : ?bool {  return $this->get_field("opt_autodj_next");  } 
@@ -40,6 +42,7 @@
 		public function get_event_recreate_revoke() : ?bool {  return $this->get_field("event_recreate_revoke");  } 
 		public function set_name(?string $newvalue) : array {  return $this->update_field("name",$newvalue);  } 
 		public function set_api_serverstatus(?bool $newvalue) : array {  return $this->update_field("api_serverstatus",$newvalue);  } 
+		public function set_api_sync_accounts(?bool $newvalue) : array {  return $this->update_field("api_sync_accounts",$newvalue);  } 
 		public function set_opt_toggle_status(?bool $newvalue) : array {  return $this->update_field("opt_toggle_status",$newvalue);  } 
 		public function set_opt_password_reset(?bool $newvalue) : array {  return $this->update_field("opt_password_reset",$newvalue);  } 
 		public function set_opt_autodj_next(?bool $newvalue) : array {  return $this->update_field("opt_autodj_next",$newvalue);  } 

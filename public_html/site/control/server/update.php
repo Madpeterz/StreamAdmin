@@ -24,6 +24,7 @@ $api_serverstatus = $input->postFilter("api_serverstatus","integer");
 $event_clear_djs = $input->postFilter("event_clear_djs","integer");
 $event_revoke_reset_username = $input->postFilter("event_revoke_reset_username","integer");
 $event_recreate_revoke = $input->postFilter("event_recreate_revoke","integer");
+$api_sync_accounts = $input->postFilter("api_sync_accounts","integer");
 
 $yesno_array = array(0,1);
 if(strlen($domain) > 100) $failed_on .= $lang["server.up.error.1"];
@@ -44,6 +45,7 @@ else if(in_array($api_serverstatus,$yesno_array) == false) $failed_on .= $lang["
 else if(in_array($event_clear_djs,$yesno_array) == false) $failed_on .= $lang["server.up.error.20"];
 else if(in_array($event_revoke_reset_username,$yesno_array) == false) $failed_on .= $lang["server.up.error.21"];
 else if(in_array($event_recreate_revoke,$yesno_array) == false) $failed_on .= $lang["server.up.error.22"];
+else if(in_array($api_sync_accounts,$yesno_array) == false) $failed_on .= $lang["server.up.error.23"];
 
 $status = false;
 if($failed_on == "")
@@ -83,6 +85,7 @@ if($failed_on == "")
                 $server->set_event_clear_djs($event_clear_djs);
                 $server->set_event_revoke_reset_username($event_revoke_reset_username);
                 $server->set_event_recreate_revoke($event_recreate_revoke);
+                $server->set_api_sync_accounts($api_sync_accounts);
                 $update_status = $server->save_changes();
                 if($update_status["status"] == true)
                 {
