@@ -13,18 +13,18 @@
 			"api_url" => array("type"=>"str","value"=>null),
 			"api_username" => array("type"=>"str","value"=>null),
 			"api_password" => array("type"=>"str","value"=>null),
-			"api_serverstatus" => array("type"=>"bool","value"=>1),
-			"opt_password_reset" => array("type"=>"bool","value"=>1),
-			"opt_autodj_next" => array("type"=>"bool","value"=>1),
-			"opt_toggle_autodj" => array("type"=>"bool","value"=>1),
-			"opt_toggle_status" => array("type"=>"bool","value"=>1),
-			"event_enable_start" => array("type"=>"bool","value"=>1),
+			"api_serverstatus" => array("type"=>"bool","value"=>0),
+			"opt_password_reset" => array("type"=>"bool","value"=>0),
+			"opt_autodj_next" => array("type"=>"bool","value"=>0),
+			"opt_toggle_autodj" => array("type"=>"bool","value"=>0),
+			"opt_toggle_status" => array("type"=>"bool","value"=>0),
+			"event_enable_start" => array("type"=>"bool","value"=>0),
 			"event_start_sync_username" => array("type"=>"bool","value"=>0),
-			"event_enable_renew" => array("type"=>"bool","value"=>1),
+			"event_enable_renew" => array("type"=>"bool","value"=>0),
 			"event_disable_expire" => array("type"=>"bool","value"=>0),
-			"event_disable_revoke" => array("type"=>"bool","value"=>1),
-			"event_revoke_reset_username" => array("type"=>"bool","value"=>1),
-			"event_reset_password_revoke" => array("type"=>"bool","value"=>1),
+			"event_disable_revoke" => array("type"=>"bool","value"=>0),
+			"event_revoke_reset_username" => array("type"=>"bool","value"=>0),
+			"event_reset_password_revoke" => array("type"=>"bool","value"=>0),
 			"event_clear_djs" => array("type"=>"bool","value"=>0),
 			"event_recreate_revoke" => array("type"=>"bool","value"=>0),
 		);

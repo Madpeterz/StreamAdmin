@@ -23,6 +23,8 @@
 			"smtp_accesscode" => array("type"=>"str","value"=>null),
 			"smtp_from" => array("type"=>"str","value"=>null),
 			"smtp_replyto" => array("type"=>"str","value"=>null),
+			"displaytimezonelink" => array("type"=>"int","value"=>1),
+			"api_default_email" => array("type"=>"str","value"=>null),
 		);
 		public function get_db_version() : ?string {  return $this->get_field("db_version");  } 
 		public function get_new_resellers() : ?bool {  return $this->get_field("new_resellers");  } 
@@ -40,6 +42,8 @@
 		public function get_smtp_accesscode() : ?string {  return $this->get_field("smtp_accesscode");  } 
 		public function get_smtp_from() : ?string {  return $this->get_field("smtp_from");  } 
 		public function get_smtp_replyto() : ?string {  return $this->get_field("smtp_replyto");  } 
+		public function get_displaytimezonelink() : ?int {  return $this->get_field("displaytimezonelink");  } 
+		public function get_api_default_email() : ?string {  return $this->get_field("api_default_email");  } 
 		public function set_db_version(?string $newvalue) : array {  return $this->update_field("db_version",$newvalue);  } 
 		public function set_new_resellers(?bool $newvalue) : array {  return $this->update_field("new_resellers",$newvalue);  } 
 		public function set_new_resellers_rate(?int $newvalue) : array {  return $this->update_field("new_resellers_rate",$newvalue);  } 
@@ -56,5 +60,7 @@
 		public function set_smtp_accesscode(?string $newvalue) : array {  return $this->update_field("smtp_accesscode",$newvalue);  } 
 		public function set_smtp_from(?string $newvalue) : array {  return $this->update_field("smtp_from",$newvalue);  } 
 		public function set_smtp_replyto(?string $newvalue) : array {  return $this->update_field("smtp_replyto",$newvalue);  } 
+		public function set_displaytimezonelink(?int $newvalue) : array {  return $this->update_field("displaytimezonelink",$newvalue);  } 
+		public function set_api_default_email(?string $newvalue) : array {  return $this->update_field("api_default_email",$newvalue);  } 
 	}
 ?>

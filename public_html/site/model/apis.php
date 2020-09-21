@@ -18,7 +18,7 @@
 			"event_enable_renew" => array("type"=>"bool","value"=>0),
 			"event_disable_expire" => array("type"=>"bool","value"=>0),
 			"event_disable_revoke" => array("type"=>"bool","value"=>0),
-			"event_revoke_reset_username" => array("type"=>"bool","value"=>1),
+			"event_revoke_reset_username" => array("type"=>"bool","value"=>0),
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>0),
 			"event_clear_djs" => array("type"=>"bool","value"=>0),
 			"event_recreate_revoke" => array("type"=>"bool","value"=>0),
