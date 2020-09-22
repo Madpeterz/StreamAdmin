@@ -18,6 +18,7 @@
 			"djpassword" => array("type"=>"str","value"=>null),
 			"stream_uid" => array("type"=>"str","value"=>null),
 			"mountpoint" => array("type"=>"str","value"=>null),
+			"last_api_sync" => array("type"=>"int","value"=>0),
 		);
 		public function get_serverlink() : ?int {  return $this->get_field("serverlink");  } 
 		public function get_rentallink() : ?int {  return $this->get_field("rentallink");  } 
@@ -30,6 +31,7 @@
 		public function get_djpassword() : ?string {  return $this->get_field("djpassword");  } 
 		public function get_stream_uid() : ?string {  return $this->get_field("stream_uid");  } 
 		public function get_mountpoint() : ?string {  return $this->get_field("mountpoint");  } 
+		public function get_last_api_sync() : ?int {  return $this->get_field("last_api_sync");  } 
 		public function set_serverlink(?int $newvalue) : array {  return $this->update_field("serverlink",$newvalue);  } 
 		public function set_rentallink(?int $newvalue) : array {  return $this->update_field("rentallink",$newvalue);  } 
 		public function set_packagelink(?int $newvalue) : array {  return $this->update_field("packagelink",$newvalue);  } 
@@ -41,5 +43,6 @@
 		public function set_djpassword(?string $newvalue) : array {  return $this->update_field("djpassword",$newvalue);  } 
 		public function set_stream_uid(?string $newvalue) : array {  return $this->update_field("stream_uid",$newvalue);  } 
 		public function set_mountpoint(?string $newvalue) : array {  return $this->update_field("mountpoint",$newvalue);  } 
+		public function set_last_api_sync(?int $newvalue) : array {  return $this->update_field("last_api_sync",$newvalue);  } 
 	}
 ?>

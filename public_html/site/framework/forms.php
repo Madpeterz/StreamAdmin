@@ -139,7 +139,7 @@ class form
         $this->mygrid->add_content("<hr/>",12);
         $this->mygrid->close_row();
     }
-    public function render(string $buttontext,string $buttonclass="success",bool $slow_warning=false) : string
+    public function render(string $buttontext,string $buttonclass="success",bool $slow_warning=false,bool $no_margin_top=false) : string
     {
         $this->enable_grid_render();
         $this->mygrid->close_row();
@@ -156,7 +156,12 @@ class form
         {
             $this->mygrid->add_before('<form action="[[url_base]]'.$this->targeturl.'" method="POST" class="form">');
         }
-        $this->mygrid->add_after('<div class="row mt-4"><div class="col-12"><button type="submit" class="btn btn-'.$buttonclass.'">'.$buttontext.'</button></div></div></form>');
+        $mgtop = "mt-4";
+        if($no_margin_top == true)
+        {
+            $mgtop = "";
+        }
+        $this->mygrid->add_after('<div class="row '.$mgtop.'"><div class="col-12"><button type="submit" class="btn btn-'.$buttonclass.'">'.$buttontext.'</button></div></div></form>');
         return $this->mygrid->get_output();
     }
     public function required(bool $status)

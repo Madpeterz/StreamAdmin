@@ -637,3 +637,7 @@ UPDATE `slconfig` SET `db_version` = '1.0.1.2' WHERE `slconfig`.`id` = 1;
 ALTER TABLE `apis` ADD `api_sync_accounts` TINYINT(1) NOT NULL DEFAULT '0' AFTER `api_serverstatus`;
 UPDATE `apis` SET `api_sync_accounts` = '1' WHERE `apis`.`id` = 2;
 ALTER TABLE `server` ADD `api_sync_accounts` TINYINT(1) NOT NULL DEFAULT '0' AFTER `api_serverstatus`;
+
+UPDATE `slconfig` SET `db_version` = '1.0.1.3' WHERE `slconfig`.`id` = 1;
+ALTER TABLE `stream` ADD `last_api_sync` INT NOT NULL DEFAULT '0' AFTER `mountpoint`;
+ALTER TABLE `server` ADD `last_api_sync` INT NOT NULL DEFAULT '0' AFTER `event_recreate_revoke`;

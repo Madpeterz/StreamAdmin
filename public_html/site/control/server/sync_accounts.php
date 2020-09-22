@@ -11,8 +11,19 @@ if($server->load($page) == true)
             $serverapi_helper = new serverapi_helper();
             if($serverapi_helper->force_set_server($server) == true)
             {
+                $oneday_ago = time() - ((60*60)*24);
+                $where_config = array(
+                    "fields"=>array("serverlink","last_api_sync"),
+                    "matches"=>array("=","<="),
+                    "values"=>array($server->get_id(),$oneday_ago),
+                    "types"=>array("i","i"),
+                );
+                $limits = array(
+                             "page_number" => 0,
+                             "max_entrys" => 10
+                );
                 $stream_set = new stream_set();
-                $stream_set->load_by_field("serverlink",$server->get_id());
+                $stream_set->load_with_config($where_config,null,$limits);
                 if($stream_set->get_count() > 0)
                 {
                     $accounts_found = $serverapi_helper->get_all_accounts(true,$stream_set);
@@ -41,6 +52,7 @@ if($server->load($page) == true)
                                         $has_update = true;
                                         $stream->set_djpassword($accounts_found["passwords"][$stream->get_adminusername()]["dj"]);
                                     }
+                                    $stream->set_last_api_sync(time());
                                     if($has_update == true)
                                     {
                                         $update_status = $stream->save_changes();
@@ -57,7 +69,17 @@ if($server->load($page) == true)
                                     }
                                     else
                                     {
-                                        $accounts_insync++;
+                                        $update_status = $stream->save_changes();
+                                        if($update_status["status"] == true)
+                                        {
+                                            $accounts_insync++;
+                                        }
+                                        else
+                                        {
+                                            $all_ok = false;
+                                            echo "Failed to mark stream as in sync";
+                                            break;
+                                        }
                                     }
                                 }
                                 else
@@ -72,15 +94,24 @@ if($server->load($page) == true)
                         }
                         if($all_ok == true)
                         {
-                            $status = true;
-                            echo "Updated: ".$accounts_updated." / Ok: ".$accounts_insync."";
-                            if($accounts_missing_passwords > 0)
+                            $server->set_last_api_sync(time());
+                            $update_status = $server->save_changes();
+                            if($update_status["status"] == true)
                             {
-                                echo " / Missing PW dataset: ".$accounts_missing_passwords;
+                                $status = true;
+                                echo "Updated: ".$accounts_updated." / Ok: ".$accounts_insync."";
+                                if($accounts_missing_passwords > 0)
+                                {
+                                    echo " / Missing PW dataset: ".$accounts_missing_passwords;
+                                }
+                                if($accounts_missing_global > 0)
+                                {
+                                    echo " / Account missing: ".$accounts_missing_global;
+                                }
                             }
-                            if($accounts_missing_global > 0)
+                            else
                             {
-                                echo " / Account missing: ".$accounts_missing_global;
+                                echo "Unable to update server last sync time";
                             }
                         }
                     }
@@ -91,7 +122,7 @@ if($server->load($page) == true)
                 }
                 else
                 {
-                    echo "Unable to find any streams attached to server";
+                    echo "Unable to find any streams attached to server or all streamed sync'd in the last 24 hours";
                 }
             }
             else
