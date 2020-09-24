@@ -1,5 +1,5 @@
 <?php
-$required_sl = array("method","action","mode","objectuuid","region","ownerkey","ownername","pos","objectname","objecttype");
+$required_sl = array("method","action","mode","ownerkey","ownername");
 $required_sl_values = array();
 $input = new inputFilter();
 $all_found = true;
@@ -25,6 +25,11 @@ if($hash === null)
 }
 $sentunixtime = $input->postFilter("unixtime");
 if($sentunixtime === null)
+{
+    $all_found = false;
+}
+$ownerhash = $input->postFilter("ownerhash");
+if($ownerhash === null)
 {
     $all_found = false;
 }

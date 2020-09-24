@@ -4,6 +4,7 @@ $timewindow = 120;
 include("site/framework/loader_light.php");
 include("site/lang/api_public/".$site_lang.".php");
 include("site/api_public/start_step1.php");
+$status = false;
 if($all_found == true)
 {
     include("site/api_public/start_step2.php");

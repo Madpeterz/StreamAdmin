@@ -10,5 +10,6 @@ $lang = array(
     "ss3.error.4" => "unable to create region entry",
     "ss3.error.5" => "unable to create avatar entry",
     "ss3.error.6" => "unable to vaildate request",
+    "final_not_supported" => "Unable to call api %1\$s %2\$s",
 );
 ?>
