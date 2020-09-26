@@ -105,6 +105,8 @@ class server_api_protected extends error_logging
             curl_setopt($ch, CURLOPT_POSTFIELDS,$post_dataset);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_TIMEOUT, 15);
             $reply  = curl_exec($ch);
             $curl_error  = curl_error($ch);
