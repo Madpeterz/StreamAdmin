@@ -20,39 +20,34 @@ if($server->load($page) == true)
             if($apireply["ram"]["max"] > 0)
             {
                 echo $addon;
-                $percent = round((($apireply["ram"]["max"]-$apireply["ram"]["free"])/$apireply["ram"]["max"])*100,2);
-                $kb = $apireply["ram"]["free"];
-                $mb = floor($kb / 1000);
-                $kb -= $mb * 1000;
-                $gb = floor($mb / 1000);
-                $mb -= $gb * 100;
-                $freeram = "/";
-                if($gb > 0)
+                $pcent = $apireply["ram"]["max"] / 100;
+                $dif = $apireply["ram"]["max"] - $apireply["ram"]["free"];
+                $pcents = 0;
+                while($dif > $pcent)
                 {
-                    $freeram = "".$gb.".".round($mb/1000)." gb";
+                    $pcents++;
+                    $dif -= $pcent;
                 }
-                else if($mb > 0)
-                {
-                    $freeram = "".$mb.".".round($kb/1000)." mb";
-                }
-                else if($kb > 0)
-                {
-                    $freeram = "".round($kb/1000)." mb";
-                }
+                $usage = $apireply["ram"]["max"] - $apireply["ram"]["free"];
+                $mbmax = ($apireply["ram"]["max"] / 1000)/1000;
+                $mbusage = ($usage / 1000)/1000;
+                $max = round($mbmax,2);
+                $used = round($mbusage,2);
+
                 $text_color = "text-light";
-                if($percent > 80)
+                if($pcents > 80)
                 {
                     $text_color = "text-danger";
                 }
-                else if($percent > 60)
+                else if($pcents > 60)
                 {
                     $text_color = "text-warning";
                 }
-                else if($percent > 40)
+                else if($pcents > 40)
                 {
                     $text_color = "text-info";
                 }
-                echo "Ram: <span class=\"".$text_color."\">".$percent." %</span>";
+                echo "Ram: <span class=\"".$text_color."\">".$used."/".$max." [".$pcents." %]</span>";
                 $addon = " | ";
             }
             if($apireply["streams"]["total"] > 0)
