@@ -17,7 +17,7 @@ if($session->get_logged_in() == true)
     else
     {
         $status = false;
-        echo $lang["ld.error.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["ld.error.1"]);
     }
 }
 else
@@ -30,7 +30,7 @@ else
     else
     {
         $status = false;
-        echo $lang["ld.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["ld.error.2"]);
     }
 }
 if($status == false)
