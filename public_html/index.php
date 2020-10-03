@@ -1,22 +1,15 @@
 <?php
-set_time_limit (120);
-if(ob_start() == true)
+set_time_limit(15);
+include("site/framework/install.php");
+if(install_ok() == true)
 {
-    include("site/framework/install.php");
-    if(install_ok() == true)
-    {
-        include("site/view/view.php");
-    }
-    else
-    {
-        define("correct",true);
-        include("installer/index.php");
-        render();
-    }
-    ob_end_flush();
+    if($_SERVER["REQUEST_METHOD"] == "POST") include("site/control/loader.php");
+    else include("site/view/view.php");
 }
 else
 {
-    echo "This system requires access to ob_ and its failed";
+    define("correct",true);
+    include("installer/index.php");
+    render();
 }
 ?>
