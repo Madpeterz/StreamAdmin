@@ -61,5 +61,5 @@ foreach($menu_items as $menu_key => $menu_config)
     $output .= '"><i class="'.$menu_config["icon"].' text-success"></i> '.$menu_key.'</a>';
     $output .= '</li>';
 }
-$template_parts["html_menu"] = $output;
+$view_reply->set_swap_tag_string("html_menu",$output);
 ?>

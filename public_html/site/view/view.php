@@ -1,6 +1,7 @@
 <?php
 function get_require_path(string $module="",string $file="",bool $allow_downgrade=true) : ?string
 {
+    global $view_reply;
     if($module == "login")
     {
         return "site/view/login/full.php";
@@ -17,8 +18,9 @@ function get_require_path(string $module="",string $file="",bool $allow_downgrad
         }
         else
         {
-            $template_parts["page_title"] = "Oh snap";
-            $template_parts["page_actions"] = "- ERROR -";
+            $view_reply->set_swap_tag_string("page_title","Oh snap");
+            $view_reply->set_swap_tag_string("page_actions","- ERROR -");
+            $view_reply->set_swap_tag_string("page_content","Unable to load ".$module." ".$file."");
             return null;
         }
     }
@@ -31,35 +33,15 @@ if($session->get_logged_in() == false)
 }
 if($module != "login")
 {
-    load_template("sidemenu");
+    include("site/theme/streamadminr5/layout/sidemenu/template.php");
     if($area == "") $area = "default";
     require_once("site/view/shared/menu.php");
 }
 else
 {
-    load_template("full");
+    include("site/theme/streamadminr5/layout/full/template.php");
 }
-$buffer = ob_get_contents();
-ob_clean();
 $found_path = get_require_path($module,"",false);
 if($found_path != null) require_once($found_path);
-else echo "Unable to load page<br/>Please try again later";
-$template_parts["page_content"] = ob_get_contents();
-ob_clean();
-foreach($template_parts as $key => $value)
-{
-    $buffer = str_replace("[[".$key."]]",$value,$buffer);
-}
-$buffer = str_replace("[[MODULE]]",$page,$buffer);
-$buffer = str_replace("[[AREA]]",$optional,$buffer);
-$buffer = str_replace("[[PAGE]]",$page,$buffer);
-foreach($template_parts as $key => $value)
-{
-    $buffer = str_replace("[[".$key."]]",$value,$buffer);
-}
-$buffer = str_replace("[[MODULE]]",$page,$buffer);
-$buffer = str_replace("[[AREA]]",$optional,$buffer);
-$buffer = str_replace("[[PAGE]]",$page,$buffer);
-$buffer = str_replace("@NL@","\r\n",$buffer);
-echo $buffer;
+$view_reply->render_page();
 ?>
