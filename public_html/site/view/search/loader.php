@@ -4,7 +4,7 @@ $template_parts["page_actions"] = "";
 $template_parts["page_title"] = "Search results [Not loaded]";
 
 $input = new inputFilter();
-$search = $input->postFilter("search");
+$search = $input->getFilter("search");
 if(strlen($search) > 3)
 {
     $template_parts["page_title"] = "Search results for: ".$search."";
