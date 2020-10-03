@@ -44,8 +44,8 @@ if($staff->get_id() > 0)
                 if($status_reply["status"] == true)
                 {
                     $status = true;
-                    $redirect = "here";
-                    echo $lang["login.rs.info.2"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["login.rs.info.2"]);
+                    $ajax_reply->set_swap_tag_string("redirect","here");
                 }
             }
             else
@@ -57,8 +57,8 @@ if($staff->get_id() > 0)
                 if($add_status["status"] == true)
                 {
                     $status = true;
-                    $redirect = "here";
-                    echo $lang["login.rs.info.1"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["login.rs.info.1"]);
+                    $ajax_reply->set_swap_tag_string("redirect","here");
                 }
             }
         }
@@ -66,6 +66,6 @@ if($staff->get_id() > 0)
 }
 if($status == false)
 {
-    echo $lang["login.rs.error.1"];
+    $ajax_reply->set_swap_tag_string("message",$lang["login.rs.error.1"]);
 }
 ?>

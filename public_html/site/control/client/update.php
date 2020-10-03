@@ -12,7 +12,6 @@ if(strlen($message) < 1) $message = null;
 
 $actions_taken = "";
 $status = false;
-$redirect = "";
 
 $rental = new rental();
 $issues = "";
@@ -144,27 +143,27 @@ if($rental->load_by_field("rental_uid",$page) == true)
             if($change_status["status"] == true)
             {
                 $status = true;
-                $redirect = "client/manage/".$page;
-                echo $lang["client.up.info.6"];
+                $ajax_reply->set_swap_tag_string("redirect","client/manage/".$page);
+                $ajax_reply->set_swap_tag_string("message",$lang["client.up.info.6"]);
             }
             else
             {
-                echo sprintf($lang["client.up.error.3"],$change_status["message"]);
+                $ajax_reply->set_swap_tag_string("message",sprintf($lang["client.up.error.3"],$change_status["message"]));
             }
         }
         else
         {
-            echo $issues;
+            $ajax_reply->set_swap_tag_string("message",$issues);
         }
     }
     else
     {
-        echo $lang["client.up.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["client.up.error.2"]);
     }
 }
 else
 {
-    $redirect = "client";
-    echo $lang["client.up.error.1"];
+    $ajax_reply->set_swap_tag_string("message",$lang["client.up.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","client");
 }
 ?>

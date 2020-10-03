@@ -1,8 +1,9 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect = "avatar";
+$ajax_reply->set_swap_tag_string("redirect","avatar");
 $status = false;
+$ajax_reply->set_swap_tag_string("message",$lang["av.cr.info.1"]);
 if($accept == "Accept")
 {
     $avatar = new avatar();
@@ -12,21 +13,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            echo $lang["av.rm.info.1"];
+            $ajax_reply->set_swap_tag_string("message",$lang["av.rm.info.1"]);
         }
         else
         {
-            echo sprintf($lang["av.rm.error.3"],$remove_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["av.rm.error.3"],$remove_status["message"]));
         }
     }
     else
     {
-        echo $lang["av.rm.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["av.rm.error.2"]);
     }
 }
 else
 {
-    echo $lang["av.rm.error.1"];
-    $redirect ="avatar/manage/".$page."";
+    $ajax_reply->set_swap_tag_string("message",$lang["av.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","avatar/manage/".$page."");
 }
 ?>

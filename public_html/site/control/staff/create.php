@@ -1,6 +1,6 @@
 <?php
 $status = false;
-$redirect = "staff";
+$ajax_reply->set_swap_tag_string("redirect","staff");
 if($session->get_ownerlevel() == true)
 {
     $staff = new staff();
@@ -36,21 +36,21 @@ if($session->get_ownerlevel() == true)
             if($create_status["status"] == true)
             {
                 $status = true;
-                echo $lang["staff.cr.info.1"];
+                $ajax_reply->set_swap_tag_string("message",$lang["staff.cr.info.1"]);
             }
             else
             {
-                echo sprintf($lang["staff.cr.error.10"],$create_status["message"]);
+                $ajax_reply->set_swap_tag_string("message",sprintf($lang["staff.cr.error.10"],$create_status["message"]));
             }
         }
         else
         {
-            echo $failed_on;
+            $ajax_reply->set_swap_tag_string("message",$failed_on);
         }
 }
 else
 {
-    $redirect = "";
-    echo $lang["staff.cr.error.9"];
+    $ajax_reply->set_swap_tag_string("message",$lang["staff.cr.error.9"]);
+    $ajax_reply->set_swap_tag_string("redirect","");
 }
 ?>

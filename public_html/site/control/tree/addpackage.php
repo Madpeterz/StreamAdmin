@@ -4,7 +4,7 @@ $package_id = $input->postFilter("package","integer");
 
 $status = false;
 $treevender = new treevender();
-$redirect = "tree";
+$ajax_reply->set_swap_tag_string("redirect","tree");
 if($treevender->load($page) == true)
 {
     if($package_id > 0)
@@ -27,34 +27,33 @@ if($treevender->load($page) == true)
                 $create_status = $treevender_package->create_entry();
                 if($create_status["status"] == true)
                 {
-                    $redirect = "tree/manage/".$page."";
-                    echo $lang["tree.ap.info.1"];
+                    $ajax_reply->set_swap_tag_string("redirect","tree/manage/".$page."");
+                    $ajax_reply->set_swap_tag_string("message",$lang["tree.ap.info.1"]);
                     $status = true;
                 }
                 else
                 {
-                    echo $lang["tree.ap.error.5"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["tree.ap.error.5"]);
                 }
             }
             else
             {
-                $redirect = "";
-                echo $lang["tree.ap.error.4"];
+                $ajax_reply->set_swap_tag_string("message",$lang["tree.ap.error.4"]);
+                $ajax_reply->set_swap_tag_string("redirect","");
             }
         }
         else
         {
-            echo $lang["tree.ap.error.3"];
+            $ajax_reply->set_swap_tag_string("message",$lang["tree.ap.error.3"]);
         }
     }
     else
     {
-        echo $lang["tree.ap.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["tree.ap.error.2"]);
     }
 }
 else
 {
-    echo $lang["tree.ap.error.1"];
-
+    $ajax_reply->set_swap_tag_string("message",$lang["tree.ap.error.1"]);
 }
 ?>

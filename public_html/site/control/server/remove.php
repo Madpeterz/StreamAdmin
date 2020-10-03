@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect ="server";
+$ajax_reply->set_swap_tag_string("redirect","server");
 $status = false;
 if($accept == "Accept")
 {
@@ -24,41 +24,41 @@ if($accept == "Accept")
                         if($remove_status["status"] == true)
                         {
                             $status = true;
-                            echo $lang["server.rm.info.1"];
+                            $ajax_reply->set_swap_tag_string("message",$lang["server.rm.info.1"]);
                         }
                         else
                         {
-                            echo sprintf($lang["server.rm.error.3"],$remove_status["message"]);
+                            $ajax_reply->set_swap_tag_string("message",sprintf($lang["server.rm.error.3"],$remove_status["message"]));
                         }
                     }
                     else
                     {
-                        echo sprintf($lang["server.rm.error.6"],$api_requests_set->get_count());
+                        $ajax_reply->set_swap_tag_string("message",sprintf($lang["server.rm.error.6"],$api_requests_set->get_count()));
                     }
                 }
                 else
                 {
-                    echo $lang["server.rm.error.7"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["server.rm.error.7"]);
                 }
             }
             else
             {
-                echo sprintf($lang["server.rm.error.5"],$stream_set->get_count());
+                $ajax_reply->set_swap_tag_string("message",sprintf($lang["server.rm.error.5"],$stream_set->get_count()));
             }
         }
         else
         {
-            echo $lang["server.rm.error.4"];
+            $ajax_reply->set_swap_tag_string("message",$lang["server.rm.error.4"]);
         }
     }
     else
     {
-        echo $lang["server.rm.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["server.rm.error.2"]);
     }
 }
 else
 {
-    echo $lang["server.rm.error.1"];
-    $redirect ="server/manage/".$page."";
+    $ajax_reply->set_swap_tag_string("message",$lang["server.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","server/manage/".$page."");
 }
 ?>

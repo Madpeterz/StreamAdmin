@@ -20,7 +20,7 @@ if($send_notecard == false)
 
 
 $failed_on = "";
-$redirect = "";
+$ajax_reply->set_swap_tag_string("redirect",null);
 if(strlen($name) < 5) $failed_on .= $lang["notice.cr.error.1"];
 else if(strlen($name) > 100) $failed_on .= $lang["notice.cr.error.2"];
 else if(strlen($immessage) < 5) $failed_on .= $lang["notice.cr.error.3"];
@@ -45,18 +45,18 @@ if($failed_on == "")
     if($create_status["status"] == true)
     {
         $status = true;
-        $redirect = "notice";
-        echo $lang["notice.cr.info.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["notice.cr.info.1"]);
+        $ajax_reply->set_swap_tag_string("redirect","notice");
     }
     else
     {
         $status = false;
-        echo sprintf($lang["notice.cr.error.8"],$create_status["message"]);
+        $ajax_reply->set_swap_tag_string("message",sprintf($lang["notice.cr.error.8"],$create_status["message"]));
     }
 }
 else
 {
     $status = false;
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

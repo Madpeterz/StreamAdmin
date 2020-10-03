@@ -46,16 +46,16 @@ if($failed_on == "")
     if($create_status["status"] == true)
     {
         $status = true;
-        $redirect = "textureconfig";
-        echo $lang["textureconfig.cr.info.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["textureconfig.cr.info.1"]);
+        $ajax_reply->set_swap_tag_string("redirect","textureconfig");
     }
     else
     {
-        echo sprintf($lang["textureconfig.cr.error.13"],$create_status["message"]);
+        $ajax_reply->set_swap_tag_string("message",sprintf($lang["textureconfig.cr.error.13"],$create_status["message"]));
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

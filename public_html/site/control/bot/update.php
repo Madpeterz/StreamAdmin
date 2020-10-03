@@ -1,6 +1,6 @@
 <?php
 $status = false;
-$redirect = "config";
+$ajax_reply->set_swap_tag_string("redirect","config");
 if($session->get_ownerlevel() == true)
 {
     $input = new inputFilter();
@@ -30,32 +30,32 @@ if($session->get_ownerlevel() == true)
                 if($save_changes["status"] == true)
                 {
                     $status = true;
-                    $redirect = "";
-                    echo $lang["bot.up.info.1"];
+                    $ajax_reply->set_swap_tag_string("redirect",null);
+                    $ajax_reply->set_swap_tag_string("message",$lang["bot.up.info.1"]);
                 }
                 else
                 {
-                    echo sprintf($lang["bot.up.error.6"],$save_changes["message"]);
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["bot.up.error.6"],$save_changes["message"]));
                 }
             }
             else
             {
-                echo $lang["bot.up.error.5"];
+                $ajax_reply->set_swap_tag_string("message",$lang["bot.up.error.5"]);
             }
         }
         else
         {
-            echo $lang["bot.up.error.4"];
+            $ajax_reply->set_swap_tag_string("message",$lang["bot.up.error.4"]);
         }
     }
     else
     {
-        $redirect = "";
-        echo $failed_on;
+        $ajax_reply->set_swap_tag_string("message",$failed_on);
+        $ajax_reply->set_swap_tag_string("redirect",null);
     }
 }
 else
 {
-    echo $lang["bot.up.error.3"];
+    $ajax_reply->set_swap_tag_string("message",$lang["bot.up.error.3"]);
 }
 ?>

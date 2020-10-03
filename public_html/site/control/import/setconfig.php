@@ -14,12 +14,13 @@ if($session->get_ownerlevel() == 1)
     }
     file_put_contents("site/config/r4.php",$saveconfig);
     $status = true;
-    echo "ok";
-    $redirect = "import";
+    $ajax_reply->set_swap_tag_string("message","ok");
+    $ajax_reply->set_swap_tag_string("redirect","import");
 }
 else
 {
     $status = false;
-    echo "Only the system owner can access this area";
+    $ajax_reply->set_swap_tag_string("message","Only the system owner can access this area");
+    $ajax_reply->set_swap_tag_string("redirect","");
 }
 ?>

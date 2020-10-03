@@ -25,21 +25,21 @@ if($avatar_set->get_count() == 1)
         if($create_status["status"] == true)
         {
             $status = true;
-            $redirect = "banlist";
-            echo $lang["banlist.create.ok"];
+            $ajax_reply->set_swap_tag_string("message",$lang["banlist.create.ok"]);
+            $ajax_reply->set_swap_tag_string("redirect","banlist");
         }
         else
         {
-            echo $lang["banlist.create.failed.unabletocreate"];
+            $ajax_reply->set_swap_tag_string("message",$lang["banlist.create.failed.unabletocreate"]);
         }
     }
     else
     {
-        echo $lang["banlist.create.failed.avataralreadybanned"];
+        $ajax_reply->set_swap_tag_string("message",$lang["banlist.create.failed.avataralreadybanned"]);
     }
 }
 else
 {
-    echo $lang["banlist.create.failed.noavatar"];
+    $ajax_reply->set_swap_tag_string("message",$lang["banlist.create.failed.noavatar"]);
 }
 ?>

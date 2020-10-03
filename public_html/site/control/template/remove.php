@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect = "template";
+$ajax_reply->set_swap_tag_string("redirect","template");
 $status = false;
 if($accept == "Accept")
 {
@@ -12,21 +12,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            echo $lang["template.rm.info.1"];
+            $ajax_reply->set_swap_tag_string("message",$lang["template.rm.info.1"]);
         }
         else
         {
-            echo sprintf($lang["template.cr.error.6"],$remove_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["template.cr.error.6"],$remove_status["message"]));
         }
     }
     else
     {
-        echo $lang["tempalte.rm.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["tempalte.rm.error.2"]);
     }
 }
 else
 {
-    echo $lang["tempalte.rm.error.1"];
-    $redirect ="template/manage/".$page."";
+    $ajax_reply->set_swap_tag_string("message",$lang["tempalte.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","template/manage/".$page."");
 }
 ?>

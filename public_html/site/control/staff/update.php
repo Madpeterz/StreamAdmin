@@ -42,27 +42,28 @@ if($session->get_ownerlevel() == true)
                     if($update_status["status"] == true)
                     {
                         $status = true;
-                        echo "staff member updated";
+                        $ajax_reply->set_swap_tag_string("message","staff member updated");
                     }
                     else
                     {
-                        echo sprintf($lang["staff.cr.error.10"],$update_status["message"]);
+                        $ajax_reply->set_swap_tag_string("message",sprintf($lang["staff.cr.error.10"],$update_status["message"]));
                     }
                 }
             }
         }
         else
         {
-            echo $lang["staff.up.error.7"];
+            $ajax_reply->set_swap_tag_string("message",$lang["staff.up.error.7"]);
         }
     }
     else
     {
-        echo $failed_on;
+        $ajax_reply->set_swap_tag_string("message",$failed_on);
     }
 }
 else
 {
-    echo $lang["staff.up.error.6"];
+    $ajax_reply->set_swap_tag_string("message",$lang["staff.up.error.6"]);
+    $ajax_reply->set_swap_tag_string("redirect","staff/manage/".$page."");
 }
 ?>

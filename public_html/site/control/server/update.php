@@ -5,7 +5,6 @@ $input = new inputFilter();
 $domain = $input->postFilter("domain");
 $controlpanel_url = $input->postFilter("controlpanel_url");
 $failed_on = "";
-$redirect = "";
 $apilink = $input->postFilter("apilink","integer");
 $api_url = $input->postFilter("api_url");
 $api_username = $input->postFilter("api_username");
@@ -90,32 +89,33 @@ if($failed_on == "")
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    $redirect = "server";
-                    echo $lang["server.up.info.1"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["server.up.info.1"]);
+                    $ajax_reply->set_swap_tag_string("redirect","server");
                 }
                 else
                 {
-                    echo sprintf($lang["server.up.error.7"],$update_status["message"]);
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["server.up.error.7"],$update_status["message"]));
                 }
             }
             else
             {
-                echo $lang["server.up.error.6"];
+                $ajax_reply->set_swap_tag_string("message",$lang["server.up.error.6"]);
             }
         }
         else
         {
-            echo $lang["server.up.error.5"];
+            $ajax_reply->set_swap_tag_string("message",$lang["server.up.error.5"]);
         }
     }
     else
     {
-        echo $lang["server.up.error.4"];
-        $redirect = "server";
+        $ajax_reply->set_swap_tag_string("message",$lang["server.up.error.4"]);
+        $ajax_reply->set_swap_tag_string("redirect","server");
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
+    $ajax_reply->set_swap_tag_string("redirect","server/manage/".$page."");
 }
 ?>

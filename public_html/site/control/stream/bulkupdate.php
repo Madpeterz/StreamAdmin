@@ -8,7 +8,7 @@ $whereconfig = array(
 $stream_set = new stream_set();
 $stream_set->load_with_config($whereconfig);
 $status = true;
-$redirect = "stream/bulkupdate";
+$ajax_reply->set_swap_tag_string("redirect","stream/bulkupdate");
 $input = new inputFilter();
 $streams_updated = 0;
 $streams_skipped_original_adminusername = 0;
@@ -50,11 +50,11 @@ if($status == true)
 {
     if($streams_skipped_original_adminusername > 0)
     {
-        echo sprintf($lang["stream.bu.info.1"],$streams_updated,$streams_skipped_original_adminusername);
+        $ajax_reply->set_swap_tag_string("message",sprintf($lang["stream.bu.info.1"],$streams_updated,$streams_skipped_original_adminusername));
     }
     else
     {
-        echo sprintf($lang["stream.bu.info.1"],$streams_updated);
+        $ajax_reply->set_swap_tag_string("message",sprintf($lang["stream.bu.info.1"],$streams_updated));
     }
 }
 ?>

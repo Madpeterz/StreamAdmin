@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect ="tree";
+$ajax_reply->set_swap_tag_string("redirect","tree");
 $status = false;
 if($accept == "Accept")
 {
@@ -13,21 +13,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            $redirect = "tree/manage/".$redirect_to."";
-            echo $lang["tree.rp.info.1"];
+            $ajax_reply->set_swap_tag_string("redirect","tree/manage/".$redirect_to."");
+            $ajax_reply->set_swap_tag_string("message",$lang["tree.rp.info.1"]);
         }
         else
         {
-            echo sprintf($lang["tree.rp.error.3"],$remove_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["tree.rp.error.3"],$remove_status["message"]));
         }
     }
     else
     {
-        echo $lang["tree.rp.error.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["tree.rp.error.1"]);
     }
 }
 else
 {
-    echo $lang["tree.rp.error.1"];
+    $ajax_reply->set_swap_tag_string("message",$lang["tree.rp.error.1"]);
 }
 ?>

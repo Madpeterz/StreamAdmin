@@ -22,21 +22,21 @@ if($failed_on == "")
         if($update_status["status"] == true)
         {
             $status = true;
-            echo $lang["template.up.info.1"];
-            $redirect = "template";
+            $ajax_reply->set_swap_tag_string("message",$lang["template.up.info.1"]);
+            $ajax_reply->set_swap_tag_string("redirect","template");
         }
         else
         {
-            echo sprintf($lang["template.up.error.7"],$update_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["template.up.error.7"],$update_status["message"]));
         }
     }
     else
     {
-        echo $lang["template.up.error.6"];
+        $ajax_reply->set_swap_tag_string("message",$lang["template.up.error.6"]);
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>
