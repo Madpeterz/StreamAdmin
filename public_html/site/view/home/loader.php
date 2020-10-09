@@ -1,8 +1,7 @@
 <?php
-$template_parts["page_title"] = "Dashboard";
-$template_parts["page_actions"] = "";
-$template_parts["html_title"] = "Dashboard";
-$template_parts["page_actions"] = "";
+$view_reply->set_swap_tag_string("html_title","Dashboard");
+$view_reply->set_swap_tag_string("page_title","Dashboard");
+$view_reply->set_swap_tag_string("page_actions","");
 
 $server_set = new server_set();
 $server_set->loadAll();
@@ -160,9 +159,6 @@ if($session->get_ownerlevel() == 1)
         $main_grid->add_content("<hr/>",12);
         $main_grid->add_content("<a href=\"[[url_base]]import\"><button class=\"btn btn-info btn-block\" type=\"button\">Import from R4</button></a>",12);
     }
-
 }
-echo $main_grid->get_output();
-
-
+$view_reply->add_swap_tag_string("page_content",$main_grid->get_output());
 ?>

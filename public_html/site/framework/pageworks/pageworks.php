@@ -21,8 +21,13 @@ class templated
             $this->tempalte_parts["right_content"] = "";
             $this->tempalte_parts["body_end"] = "</body>";
             $this->tempalte_parts["footer"] = "</html>";
-
         }
+    }
+    public function redirect(string $to,bool $offsite=false)
+    {
+        $this->redirect_enabled = true;
+        $this->redirect_offsite = $offsite;
+        $this->redirect_to = $to;
     }
     public function load_template(string $layout,string $theme,array $layout)
     {

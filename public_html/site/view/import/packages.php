@@ -52,21 +52,21 @@ foreach($r4_packages_set->get_all_ids() as $r4_package_id)
         }
         else
         {
-            echo sprintf($lang["package.cr.error.17"],$create_status["message"]);
+            $view_reply->add_swap_tag_string("page_content",sprintf($lang["package.cr.error.17"],$create_status["message"]));
             $all_ok = false;
             break;
         }
     }
     else
     {
-        echo $lang["package.cr.error.16"];
+        $view_reply->add_swap_tag_string("page_content",$lang["package.cr.error.16"]);
         $all_ok = false;
         break;
     }
 }
 if($all_ok == true)
 {
-    echo "Created: ".$packages_created." packages <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    $view_reply->add_swap_tag_string("page_content","Created: ".$packages_created." packages <br/> <a href=\"[[url_base]]import\">Back to menu</a>");
 }
 else
 {

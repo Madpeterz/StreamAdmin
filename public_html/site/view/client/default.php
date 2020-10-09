@@ -5,7 +5,8 @@ if($slconfig->get_clients_list_mode() == true)
 }
 else
 {
-    $template_parts["page_title"] .= " Select a notice level";
+    $view_reply->add_swap_tag_string("page_title","Select a notice level");
+    $view_reply->set_swap_tag_string("page_actions","");
     $notice_set = new notice_set();
     $notice_set->loadAll();
     $rental = new rental();
@@ -24,6 +25,6 @@ else
             $table_body[] = $entry;
         }
     }
-    echo render_datatable($table_head,$table_body);
+    $view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 }
 ?>

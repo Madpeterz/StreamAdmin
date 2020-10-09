@@ -26,14 +26,14 @@ foreach($r4_items_servers as $serverurl)
     }
     else
     {
-        echo "Unable to create server because: ".$server_status["message"]."";
+        $view_reply->add_swap_tag_string("page_content","Unable to create server because: ".$server_status["message"]);
         $all_ok = false;
         break;
     }
 }
 if($all_ok == true)
 {
-    echo "Created: ".$created_servers." servers <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    $view_reply->add_swap_tag_string("page_content","Created: ".$created_servers." servers <br/> <a href=\"[[url_base]]import\">Back to menu</a>");
 }
 else
 {

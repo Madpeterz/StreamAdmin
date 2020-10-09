@@ -45,7 +45,7 @@ else
     $banlist_set->load_ids($avatar_set->get_all_ids(),"avatar_link");
 }
 
-$table_head = array("id","Name");
+$table_head = array("id","Name","Remove");
 $table_body = array();
 
 foreach($banlist_set->get_all_ids() as $ban_id)
@@ -55,11 +55,15 @@ foreach($banlist_set->get_all_ids() as $ban_id)
 
     $entry = array();
     $entry[] = $banlist->get_id();
-    $entry[] = '<a href="[[url_base]]banlist/clear/'.$ban_id.'">'.$avatar->get_avatarname().'</a>';
+    $form = new form();
+    $form->target("banlist/clear/'.$ban_id.'");
+    $form->required(true);
+    $entry[] = $avatar->get_avatarname();
+    $entry[] = $form->render("Remove","danger");
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
-echo "<br/><hr/>";
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
+$view_reply->add_swap_tag_string("page_content","<br/><hr/>");
 $form = new form();
 $form->mode("get");
 $form->target("banlist");
@@ -79,6 +83,6 @@ $form2 = $form->render("Goodbye","primary");
 $mygrid = new grid();
 $mygrid->add_content($form1,6);
 $mygrid->add_content($form2,6);
-echo $mygrid->get_output();
+$view_reply->add_swap_tag_string("page_content",$mygrid->get_output());
 
 ?>

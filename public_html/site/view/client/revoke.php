@@ -1,8 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Revoke";
-$template_parts["page_title"] .= "revoke client rental:";
-$template_parts["page_title"] .= $page;
-$template_parts["page_actions"] = "";
+$view_reply->add_swap_tag_string("html_title"," ~ Revoke");
+$view_reply->add_swap_tag_string("page_title","revoke client rental:".$page);
+$view_reply->set_swap_tag_string("page_actions","");
 
 $form = new form();
 $form->target("client/revoke/".$page."");
@@ -19,6 +18,5 @@ $action = '
   </label>
 </div>';
 $form->direct_add($action);
-echo $form->render("Revoke","danger");
-echo "";
+$view_reply->add_swap_tag_string("page_content",$form->render("Revoke","danger"));
 ?>
