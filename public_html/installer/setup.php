@@ -51,83 +51,80 @@ $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
                                 if($siteconfigok == true)
                                 {
                                     $sql->sqlSave(true);
-                                    ?>
-                                    <a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>
-                                    <?php
+                                    $view_reply->set_swap_tag_string("page_content",'<a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>');
                                 }
                                 else
                                 {
                                     $sql->sqlRollBack(true);
-                                    echo "Site config not vaild";
+                                    $view_reply->set_swap_tag_string("page_content","Site config not vaild");
                                 }
                             }
                             else
                             {
                                 $sql->sqlRollBack(true);
-                                echo "Unable to update config entry";
+                                $view_reply->set_swap_tag_string("page_content","Unable to update config entry");
                             }
                         }
                         else
                         {
                             $sql->sqlRollBack(true);
-                            echo "Unable to load config entry";
+                            $view_reply->set_swap_tag_string("page_content","Unable to load config entry");
                         }
                     }
                     else
                     {
                         $sql->sqlRollBack(true);
-                        echo "Unable to update avatar entry";
+                        $view_reply->set_swap_tag_string("page_content","Unable to update avatar entry");
                     }
                 }
                 else
                 {
                     $sql->sqlRollBack(true);
-                    echo "Unable to load avatar entry";
+                    $view_reply->set_swap_tag_string("page_content","Unable to load avatar entry");
                 }
             }
             else
             {
                 $sql->sqlRollBack(true);
-                echo "unable to update staff entry";
+                $view_reply->set_swap_tag_string("page_content","unable to update staff entry");
             }
         }
         else
         {
             $sql->sqlRollBack(true);
-            echo "unable to load staff entry";
+            $view_reply->set_swap_tag_string("page_content","unable to load staff entry");
         }
     }
     if($load_ok == false)
     {
-?>
+        $view_reply->add_swap_tag_string("page_content",'
     <div class="card border border-success rounded">
       <div class="card-body">
         <h5 class="card-title">Final setup<br/>
-            <form action="setup" method="post">
-            <?php
+            <form action="setup" method="post">');
             if(getenv('DB_HOST') === false)
             {
-                ?>
+                $view_reply->add_swap_tag_string("page_content",'
                 <div class="row mt-4">
-                    <div class="col-8 offset-2"><input name="domain" class="form-control" type="text" placeholder="Site URL (Dont forget the ending /)" value="http://<?php echo $_SERVER['HTTP_HOST'];?>/"></div>
+                    <div class="col-8 offset-2"><input name="domain" class="form-control" type="text" placeholder="Site URL (Dont forget the ending /)" value="http://'.$_SERVER['HTTP_HOST'].'/"></div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-8 offset-2"><input name="sitename" class="form-control" type="text" placeholder="Site name" value="Streamadmin R7"></div>
                 </div>
-                <?php
+                ');
             }
             else
             {
-                ?>
+                $view_reply->add_swap_tag_string("page_content",'
                 <div class="row mt-4">
                     <div class="col-8 offset-2"><input name="domain" class="form-control" type="hidden" placeholder="" value="skip"></div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-8 offset-2"><input name="sitename" class="form-control" type="hidden" placeholder="" value="skip"></div>
                 </div>
-                <?php
+                ');
             }
-            ?>
+            $view_reply->add_swap_tag_string("page_content",'
             <div class="row mt-4">
                 <div class="col-8 offset-2"><input name="av_username" class="form-control" type="text" placeholder="Username (Does not have to match SL name)" value=""></div>
             </div>
@@ -148,7 +145,6 @@ $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
             <br/><br/><br/><hr/><p>Do not use this option unless told to!</p>
             <a href="final"><button class="btn btn-warning btn-block" type="button">Skip setup goto final</button></a><br/>
         </div>
-    </div>
-<?php
+    </div>');
     }
 ?>

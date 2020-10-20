@@ -10,6 +10,5 @@ else
 {
     define("correct",true);
     include("installer/index.php");
-    render();
 }
 ?>
