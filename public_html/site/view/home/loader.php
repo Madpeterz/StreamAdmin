@@ -3,162 +3,17 @@ $view_reply->set_swap_tag_string("html_title","Dashboard");
 $view_reply->set_swap_tag_string("page_title","Dashboard");
 $view_reply->set_swap_tag_string("page_actions","");
 
-$server_set = new server_set();
-$server_set->loadAll();
-
-$server_loads = array();
-foreach($server_set->get_all_ids() as $server_id)
+$dashboard_load_order = array("servers","server_loads","streams_status","notices");
+foreach($dashboard_load_order as $load_file)
 {
-    $server = $server_set->get_object_by_id($server_id);
-    $server_loads[$server_id] = array("ready"=>0,"sold"=>0,"needwork"=>0);
+    include("site/view/home/dashboard/loaders/".$load_file.".php");
 }
-
-
-$stream_total_sold = 0;
-$stream_total_ready = 0;
-$stream_total_needwork = 0;
-$stream_set = new stream_set();
-$stream_set->loadAll();
-foreach($stream_set->get_all_ids() as $stream_id)
-{
-    $stream = $stream_set->get_object_by_id($stream_id);
-    $server = $server_set->get_object_by_id($stream->get_serverlink());
-    if($stream->get_rentallink() == null)
-    {
-        if($stream->get_needwork() == false)
-        {
-            $stream_total_ready++;
-            $server_loads[$server->get_id()]["ready"]++;
-        }
-        else
-        {
-            $stream_total_needwork++;
-            $server_loads[$server->get_id()]["needwork"]++;
-        }
-    }
-    else
-    {
-        $stream_total_sold++;
-        $server_loads[$server->get_id()]["sold"]++;
-    }
-}
-$notice_set = new notice_set();
-$notice_set->loadAll();
-$client_expired = 0;
-$client_expires_soon = 0;
-$client_ok = 0;
-$rental = new rental();
-$group_count = $sql->group_count($rental->get_table(),"noticelink");
-if($group_count["status"] == true)
-{
-    foreach($group_count["dataset"] as $key => $count)
-    {
-        $notice = $notice_set->get_object_by_id($key);
-        if($notice->get_hoursremaining() <= 0) $client_expired+=$count;
-        else if($notice->get_hoursremaining() > 24) $client_ok+=$count;
-        else $client_expires_soon+=$count;
-    }
-}
-
-$sub_grid_streams = new grid();
-$sub_grid_streams->add_content('<strong>Streams</strong>',12);
-$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/ready"><span class="badge badge-success">Ready <span class="badge badge-light">'.$stream_total_ready.'</span></span></a></h5>',4);
-$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/needwork"><span class="badge badge-warning">Needwork <span class="badge badge-light">'.$stream_total_needwork.'</span></span></a></h5>',4);
-$sub_grid_streams->add_content('<h5><a href="[[url_base]]stream/sold"><span class="badge badge-info">Sold <span class="badge badge-light">'.$stream_total_sold.'</span></span></a></h5><br/>',4);
-
-$sub_grid_clients = new grid();
-$sub_grid_clients->add_content('<strong>Clients</strong>',12);
-$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/expired"><span class="badge badge-danger">Expired <span class="badge badge-light">'.$client_expired.'</span></span></a></h5>',4);
-$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/soon"><span class="badge badge-warning">Expires in 24 hours <span class="badge badge-light">'.$client_expires_soon.'</span></span></a></h5>',4);
-$sub_grid_clients->add_content('<h5><a href="[[url_base]]client/ok"><span class="badge badge-success">Ok <span class="badge badge-light">'.$client_ok.'</span></span></a></h5><br/>',4);
-
-$table_head = array("Server",
-'<h5><span class="badge badge-success">Ready</span></h5>',
-'<h5><span class="badge badge-warning">Need work</span></h5>',
-'<h5><span class="badge badge-info">Sold</span></h5>');
-$table_body = array();
-
-
-foreach($server_set->get_all_ids() as $server_id)
-{
-    $server = $server_set->get_object_by_id($server_id);
-    $entry = array();
-    $serverstatus = '<a href="[[url_base]]stream/onserver/'.$server->get_id().'"><strong>'.$server->get_domain().'</strong></a><br/><br/><div class="serverstatusdisplay">';
-    if($server->get_api_serverstatus() == true)
-    {
-        $serverstatus .= '<sub data-loading="
-        CPU: <span class=\'text-light\'>?</span> |
-        Ram: <span class=\'text-light\'>?</span> % |
-        Str: <span class=\'text-light\'>?</span> %"
-        data-repeatingrate="7000" class="ajaxonpageload" data-loadurl="[[url_base]]ajax.php/server/server_load/'.$server->get_id().'"></sub>';
-    }
-    else
-    {
-        $serverstatus .= '<sub> </sub>';
-    }
-    $serverstatus .= '</div>';
-    $entry[] = $serverstatus;
-    $entry[] = $server_loads[$server->get_id()]["ready"];
-    $entry[] = $server_loads[$server->get_id()]["needwork"];
-    $entry[] = $server_loads[$server->get_id()]["sold"];
-    $table_body[] = $entry;
-}
-$sub_grid_servers = new grid();
-$sub_grid_servers->add_content('<h4>servers</h4>',12);
-$sub_grid_servers->add_content(render_table($table_head,$table_body),12);
-
-
-$table_head = array("Object type","Count");
-$table_body = array();
-$objects = new objects();
-$one_hour_ago = (time()-$unixtime_hour);
-$countdata = $sql->group_count($objects->get_table(),"objectmode",array(array("lastseen"=>">=")),array(array($one_hour_ago=>"i")));
-if($countdata["status"] == true)
-{
-    foreach($countdata["dataset"] as $key => $count)
-    {
-        $entry = array();
-        $entry[] = $key;
-        $entry[] = $count;
-        $table_body[] = $entry;
-    }
-}
-$sub_grid_objects = new grid();
-$sub_grid_objects->add_content('<h4>Objects seen in the last hour</h4>',12);
-$sub_grid_objects->add_content(render_table($table_head,$table_body),12);
-
 
 $main_grid = new grid();
-if(file_exists("versions/sql/".$slconfig->get_db_version().".sql") == true)
+$dashboard_display_order = array("streams","clients","servers","objects","versions","final_normal","owner");
+foreach($dashboard_load_order as $load_file)
 {
-    $main_grid->add_content("<div class=\"alert alert-warning\" role=\"alert\">DB update required <br/> please run \"versions/sql/".$slconfig->get_db_version().".sql\"</div>",12);
-}
-if(file_exists("versions/about/".$slconfig->get_db_version().".txt") == true)
-{
-    $main_grid->close_row();
-    $main_grid->add_content("<br/>Version: ".$slconfig->get_db_version()."",12);
-    $main_grid->add_content(file_get_contents("versions/about/".$slconfig->get_db_version().".txt"),12);
-}
-else
-{
-    $main_grid->add_content("Version: ".$slconfig->get_db_version()."",12);
-}
-$main_grid->add_content("<br/>",12);
-$main_grid->close_row();
-$main_grid->add_content($sub_grid_streams->get_output(),6);
-$main_grid->add_content($sub_grid_clients->get_output(),6);
-$main_grid->add_content("<br/>",12);
-$main_grid->close_row();
-$main_grid->add_content($sub_grid_servers->get_output(),6);
-$main_grid->add_content($sub_grid_objects->get_output(),6);
-$main_grid->close_row();
-if($session->get_ownerlevel() == 1)
-{
-    if($server_set->get_count() == 0)
-    {
-        $main_grid->add_content("<hr/>",12);
-        $main_grid->add_content("<a href=\"[[url_base]]import\"><button class=\"btn btn-info btn-block\" type=\"button\">Import from R4</button></a>",12);
-    }
+    include("site/view/home/dashboard/displays/".$load_file.".php");
 }
 $view_reply->add_swap_tag_string("page_content",$main_grid->get_output());
 ?>
