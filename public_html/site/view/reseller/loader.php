@@ -1,5 +1,5 @@
 <?php
-$template_parts["html_title"] = "Resellers";
-$template_parts["page_actions"] = "";
-$template_parts["page_title"] = "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ";
+$view_reply->set_swap_tag_string("html_title","Resellers");
+$view_reply->set_swap_tag_string("page_title","[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");
+$view_reply->set_swap_tag_string("page_actions","");
 ?>

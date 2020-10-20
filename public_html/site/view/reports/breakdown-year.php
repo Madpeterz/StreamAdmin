@@ -4,7 +4,7 @@ $year = $input->postFilter("year","integer");
 if($year < 2013) $year = 2013;
 else if($year > date("Y")) $year=date("Y");
 
-$template_parts["page_title"] .= "Year breakdown: ".$year."";
+$view_reply->add_swap_tag_string("page_title","Year breakdown: ".$year);
 
 $transactions_set = new transactions_set();
 $whereconfig = array(
@@ -186,5 +186,5 @@ $pages = array();
 $pages["Fast report"] = render_table(array("New","Renews","L$ total [New]","L$ total [Rewew]"),array(array($new_rentals,$renewed_rentals,$amount_new,$amount_renew)));
 $pages["Month breakdown"] = render_table($table_head,$table_body);
 $paged_info = new paged_info();
-echo $paged_info->render($pages);
+$view_reply->set_swap_tag_string("page_content",$paged_info->render($pages));
 ?>

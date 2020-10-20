@@ -39,22 +39,22 @@ function proccess_add_request(string $provider_name="",$provider=array(),array $
 }
 function on_add(string $provider)
 {
-    global $template_parts, $slconfig;
+    global $view_reply, $slconfig;
     if($provider == "datatable")
     {
-        $template_parts["html_js_onready"] .= "
+        $view_reply->add_swap_tag_string("html_js_onready","
         $('.datatable-default').DataTable({
           'order': [[ 0, 'desc' ]],
           responsive: true,
-        ";
+        ");
         if(version_compare($slconfig->get_db_version(),"1.0.0.4",">") == true)
         {
-            $template_parts["html_js_onready"] .= "
+            $view_reply->add_swap_tag_string("html_js_onready","
                 pageLength: ".$slconfig->get_datatable_itemsperpage().",
                 lengthMenu: [[".$slconfig->get_datatable_itemsperpage().", 10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
-                ";
+                ");
         }
-        $template_parts["html_js_onready"] .= "
+        $view_reply->add_swap_tag_string("html_js_onready","
           language: {
             searchPlaceholder: 'Search...',
             sSearch: '',
@@ -66,7 +66,7 @@ function on_add(string $provider)
                     'visible': false,
                     'searchable': false
                 }]
-        });";
+        });");
     }
 }
 function add_vendor(string $provider_name="",array $sub_class=array(),bool $css_only=false,bool $js_only=false)
@@ -165,7 +165,7 @@ function add_vendor(string $provider_name="",array $sub_class=array(),bool $css_
 }
 function add_css_to_page(string $provider_name,array $provider,string $file="")
 {
-    global $template_parts, $registered_vendors;
+    global $view_reply, $registered_vendors;
     $load_path = "[[url_base]]site/vendor/".$provider["main_folder"]."";
     if(array_key_exists("local_folder",$provider) == true)
     {
@@ -175,12 +175,12 @@ function add_css_to_page(string $provider_name,array $provider,string $file="")
     if(array_key_exists($file,$registered_vendors[$provider_name]["css"]) == false)
     {
         $registered_vendors[$provider_name]["css"][] = $file;
-        $template_parts["html_cs_top"] .= '<link rel="stylesheet" type="text/css" href="'.$load_path.'/'.$file.'.css">';
+        $view_reply->add_swap_tag_string("html_cs_top",'<link rel="stylesheet" type="text/css" href="'.$load_path.'/'.$file.'.css">');
     }
 }
 function add_js_to_page(string $provider_name,array $provider,string $file="")
 {
-    global $template_parts, $registered_vendors;
+    global $view_reply, $registered_vendors;
     $load_path = "[[url_base]]site/vendor/".$provider["main_folder"]."";
     if(array_key_exists("local_folder",$provider) == true)
     {
@@ -190,7 +190,7 @@ function add_js_to_page(string $provider_name,array $provider,string $file="")
     if(array_key_exists($file,$registered_vendors[$provider_name]["css"]) == false)
     {
         $registered_vendors[$provider_name]["js"][] = $file;
-        $template_parts["html_js_bottom"] .= '<script src="'.$load_path.'/'.$file.'.js"></script>';
+        $view_reply->add_swap_tag_string("html_js_bottom",'<script src="'.$load_path.'/'.$file.'.js"></script>');
     }
 }
 function add_css(string $provider_name="",array $sub_class=array())

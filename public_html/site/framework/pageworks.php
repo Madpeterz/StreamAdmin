@@ -29,10 +29,10 @@ class templated
         $this->redirect_offsite = $offsite;
         $this->redirect_to = $to;
     }
-    public function load_template(string $layout,string $theme,array $layout)
+    public function load_template(string $layout,string $theme,array $layout_entrys)
     {
         $this->render_layout = "";
-        foreach(array_keys($layout) as $entry)
+        foreach(array_keys($layout_entrys) as $entry)
         {
             $this->render_layout .= "[[".$entry."]]";
             $this->load_template_file($layout,$theme,$entry);
@@ -57,7 +57,7 @@ class templated
             }
         }
     }
-    public function get_swap_tag_string(string $tagname) : string
+    public function get_swap_tag_string(string $tagname) : ?string
     {
         if(array_key_exists($tagname,$this->swaptags) == false)
         {

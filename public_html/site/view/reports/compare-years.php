@@ -14,8 +14,7 @@ if($yearb < $yeara)
     $yeara = $yearb;
     $yearb = $swap;
 }
-
-$template_parts["page_title"] .= "Year vs Year: ".$yeara." vs ".$yearb."";
+$view_reply->add_swap_tag_string("page_title","Year vs Year: ".$yeara." vs ".$yearb);
 
 $transactions_set_a = new transactions_set();
 $whereconfig = array(
@@ -204,5 +203,5 @@ foreach($yeara_month_datasets as $index => $dataset)
     $entry[] = amount_changed($dataset["counted"],$dataset2["counted"]);
     $table_body[] = $entry;
 }
-echo render_table($table_head,$table_body)
+$view_reply->set_swap_tag_string("page_content",render_table($table_head,$table_body));
 ?>
