@@ -44,7 +44,11 @@ $reply["status"] = $status;
 $reply["message"] = $ajax_reply->get_swap_tag_string("message");
 if($ajax_reply->get_swap_tag_string("redirect") != null)
 {
-    if($ajax_reply->get_swap_tag_string("redirect") == "here") $ajax_reply->get_swap_tag_string("redirect") = "";
+    $redirect_target = $ajax_reply->get_swap_tag_string("redirect");
+    if($redirect_target == "here")
+    {
+        $ajax_reply->set_swap_tag_string("redirect","");
+    }
     $reply["redirect"] = "".$ajax_reply->get_swap_tag_string("url_base")."".$ajax_reply->get_swap_tag_string("redirect")."";
 }
 $ajax_reply->set_swap_tag_string("content",json_encode($reply));

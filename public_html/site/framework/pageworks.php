@@ -121,6 +121,10 @@ class templated
     }
     public function render_page()
     {
+        global $page,$module,$area;
+        $this->set_swap_tag_string("MODULE",$module);
+        $this->set_swap_tag_string("AREA",$area);
+        $this->set_swap_tag_string("PAGE",$page);
         if($this->redirect_enabled == true)
         {
             if($this->redirect_offsite == true)
@@ -150,6 +154,7 @@ class templated
             {
                 $output = str_replace("[[".$key."]]",$value,$output);
             }
+            $output = str_replace("@NL@","<br/>",$output);
             print $output;
         }
     }

@@ -30,13 +30,13 @@ if($session->get_logged_in() == false)
 }
 if($module != "login")
 {
-    include("site/theme/streamadminr5/layout/sidemenu/template.php");
+    include("site/theme/".$site_theme."/layout/sidemenu/template.php");
     if($area == "") $area = "default";
     require_once("site/view/shared/menu.php");
 }
 else
 {
-    include("site/theme/streamadminr5/layout/full/template.php");
+    include("site/theme/".$site_theme."/layout/full/template.php");
 }
 $load_files = load_module_view();
 foreach($load_files as $file)
