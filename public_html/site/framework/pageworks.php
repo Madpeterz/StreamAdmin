@@ -7,6 +7,7 @@ class templated
     protected $redirect_enabled = false;
     protected $redirect_offsite = false;
     protected $redirect_to = "";
+    protected $catche_version = "";
     function __construct($with_defaults=true)
     {
         if($with_defaults == true)
@@ -30,6 +31,12 @@ class templated
             if(array_key_exists("html_title_after",$template_parts) == true)
             {
                 $this->set_swap_tag_string("html_title_after",$template_parts["html_title_after"]);
+                $this->site_name($template_parts["html_title_after"]);
+            }
+            else
+            {
+                $this->set_swap_tag_string("html_title_after","StreamAdmin R7");
+                $this->site_name("StreamAdmin R7");
             }
             if(array_key_exists("url_base",$template_parts) == true)
             {
@@ -37,6 +44,100 @@ class templated
             }
         }
     }
+    public function set_cache_file(string $content,string $name,bool $with_module_tag=true)
+    {
+        global $module;
+        $this->get_catche_version();
+        $filename = $name;
+        if($with_module_tag == true)
+        {
+            $filename .= $module;
+        }
+        $filename = base64_encode($filename);
+        file_put_contents("catche/".$filename,$content);
+    }
+    public function get_cache_file(string $name,bool $with_module_tag=true) : ?string
+    {
+        global $module;
+        $this->get_catche_version();
+        $filename = $name;
+        if($with_module_tag == true)
+        {
+            $filename .= $module;
+        }
+        $filename = "catche/".base64_encode($filename);
+        if(file_exists($filename) == true)
+        {
+            return file_get_contents($filename);
+        }
+        else
+        {
+            return null;
+        }
+    }
+    protected function create_cache_version_file()
+    {
+        global $slconfig;
+        if(is_dir("catche") == false)
+        {
+            mkdir("catche");
+        }
+        if(file_exists("catche/version.info") == false)
+        {
+            file_put_contents("catche/version.info",$slconfig->get_db_version());
+            $this->catche_version = $slconfig->get_db_version();
+        }
+        else
+        {
+            $this->catche_version = file_get_contents("catche/version.info");
+        }
+    }
+    public function get_catche_version() : ?string
+    {
+        if($this->catche_version == null)
+        {
+            $this->create_cache_version_file();
+        }
+        $this->purge_cache();
+        return $this->catche_version;
+    }
+    public function purge_cache()
+    {
+        global $slconfig;
+        if($this->catche_version != null)
+        {
+            if(version_compare($slconfig->get_db_version(),  $this->catche_version) == 1)
+            {
+                // DB is newer force reload cache
+                $this->delTree("catche");
+                $this->create_cache_version_file();
+            }
+        }
+        else
+        {
+            // force clear cache
+            $this->delTree("catche");
+            $this->create_cache_version_file();
+        }
+    }
+
+    protected function delTree($dir)
+    {
+        $files = array_diff(scandir($dir), array('.','..'));
+        foreach ($files as $file)
+        {
+            if(is_dir($dir."/".$file) == true)
+            {
+                $this->delTree($dir."/".$file);
+            }
+            else
+            {
+                unlink($dir."/".$file);
+            }
+        }
+        return rmdir($dir);
+    }
+
     public function redirect(string $to,bool $offsite=false)
     {
         $this->redirect_enabled = true;
@@ -125,6 +226,7 @@ class templated
         $this->set_swap_tag_string("MODULE",$module);
         $this->set_swap_tag_string("AREA",$area);
         $this->set_swap_tag_string("PAGE",$page);
+
         if($this->redirect_enabled == true)
         {
             if($this->redirect_offsite == true)
@@ -141,7 +243,7 @@ class templated
         }
         else
         {
-            $output = $this->render_layout;
+            $output = trim($this->render_layout);
             foreach($this->tempalte_parts as $key => $value)
             {
                 $output = str_replace("[[".$key."]]",$value,$output);
@@ -154,7 +256,7 @@ class templated
             {
                 $output = str_replace("[[".$key."]]",$value,$output);
             }
-            $output = str_replace("@NL@","<br/>",$output);
+            $output = str_replace("@NL@","\n\r",$output);
             print $output;
         }
     }

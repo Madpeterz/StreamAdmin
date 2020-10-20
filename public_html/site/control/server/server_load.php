@@ -19,7 +19,7 @@ if($server->load($page) == true)
             }
             if($apireply["ram"]["max"] > 0)
             {
-                echo $addon;
+                $ajax_reply->add_swap_tag_string("message",$addon);
                 $pcent = $apireply["ram"]["max"] / 100;
                 $dif = $apireply["ram"]["max"] - $apireply["ram"]["free"];
                 $pcents = 0;
@@ -52,7 +52,7 @@ if($server->load($page) == true)
             }
             if($apireply["streams"]["total"] > 0)
             {
-                echo $addon;
+                $ajax_reply->add_swap_tag_string("message",$addon);
                 $percent = 100 - round((($apireply["streams"]["total"]-$apireply["streams"]["active"])/$apireply["streams"]["total"])*100,2);
                 $text_color = "text-light";
                 if($percent < 40)

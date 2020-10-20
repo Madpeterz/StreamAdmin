@@ -56,7 +56,7 @@ foreach($avatar_set->get_all_ids() as $avatar_id)
 }
 $view_reply->add_swap_tag_string("html_title","~ ".$view_reply->get_swap_tag_string("page_title"));
 $view_reply->add_swap_tag_string("page_content",render_datatable($table_head,$table_body));
-$view_reply->set_swap_tag_string("page_content","<br/><hr/>");
+$view_reply->add_swap_tag_string("page_content","<br/><hr/>");
 
 $form = new form();
 $form->mode("get");

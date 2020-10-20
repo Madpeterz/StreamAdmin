@@ -1,5 +1,5 @@
 <head>
-    <title>[[page_title]][[html_title]] - [[SITE_NAME]]</title>
+    <title>[[html_title]] - [[SITE_NAME]]</title>
     [[html_cs_top]]
     <meta content='maximum-scale=1.0, initial-scale=1.0, width=device-width' name='viewport'>
     <link rel="icon" type="image/png" href="[[url_base]]site/theme/streamadminr5/images/favicon-32x32.png">
