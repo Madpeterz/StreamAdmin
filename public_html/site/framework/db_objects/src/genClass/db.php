@@ -79,13 +79,24 @@ abstract class genClass_db extends genClass_load
     			{
     				$update_fields = array();
     				$update_values = array();
-    				$had_error = false;
+                    $where_config = array(
+                        "fields"=>array("id"),
+                        "matches"=>array("="),
+                        "values"=>array($this->save_dataset["id"]["value"]),
+                        "types"=>array("i")
+                    );
+                    $update_config = array(
+                        "fields" => array(),  // a field
+                        "values" => array(),  // value or null
+                        "types" => array(),   // s,i,d
+                    );
+                    $had_error = false;
     				$error_msg = "";
-    				foreach($this->save_dataset as $key => $value)
-    				{
-    					if ($key != "id")
-    					{
-    						if (array_key_exists($key, $this->save_dataset))
+                    foreach($this->save_dataset as $key => $value)
+                    {
+                        if ($key != "id")
+                        {
+                            if (array_key_exists($key, $this->save_dataset))
     						{
     							if (array_key_exists("value", $this->dataset[$key]))
     							{
@@ -96,9 +107,9 @@ abstract class genClass_db extends genClass_load
                                         $value = $this->dataset[$key]["value"];
 										if ($this->dataset[$key]["type"] == "str") $update_code = "s";
                                         else if ($this->dataset[$key]["type"] == "float") $update_code = "d";
-										$update_values[] = array(
-											$value => $update_code
-										);
+                                        $update_config["fields"][] = $key;
+                                        $update_config["values"][] = $value;
+                                        $update_config["types"][] = $update_code;
     								}
     							}
     							else
@@ -114,20 +125,14 @@ abstract class genClass_db extends genClass_load
     							$error_msg = "Attempting to set field: " . $key . " but this is not supported!";
     							break;
     						}
-    					}
-    				}
-
+                        }
+                    }
     				if ($had_error == false)
     				{
-    					$wherefields = array(
-    						array("id" => "=")
-    					);
-    					$wherevalues = array(
-    						array($this->save_dataset["id"]["value"] => "i")
-    					);
-    					if(count($update_fields) > 0)
+                        $expected_changes = count($update_config["fields"]);
+                        if($expected_changes > 0)
     					{
-    						return $this->sql->update($this->get_table() , $update_fields, $update_values, $wherefields, $wherevalues);
+    						return $this->sql->updateV2($this->get_table(),$update_config,$where_config,$expected_changes);
     					}
     					else
     					{
