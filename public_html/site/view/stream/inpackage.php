@@ -1,12 +1,12 @@
 <?php
-$template_parts["page_title"] .= " In package:";
+$view_reply->add_swap_tag_string("page_title"," In package:");
 $package = new package();
 $server_set = new server_set();
 $server_set->loadAll();
 if($package->load_by_field("package_uid",$page) == true)
 {
-    $template_parts["page_title"] .= " ".$package->get_name();
-    $template_parts["page_title"] .= " (".$package->get_package_uid().")";
+    $view_reply->add_swap_tag_string("page_title"," ".$package->get_name());
+    $view_reply->add_swap_tag_string("page_title"," (".$package->get_package_uid().")");
     $stream_set = new stream_set();
     $stream_set->load_on_field("packagelink",$package->get_id());
 
@@ -18,6 +18,6 @@ if($package->load_by_field("package_uid",$page) == true)
 }
 else
 {
-    redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
+    $view_reply->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
 }
 ?>

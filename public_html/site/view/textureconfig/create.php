@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Create";
-$template_parts["page_title"] .= "Create new texture config pack";
-$template_parts["page_actions"] = "";
+$view_reply->add_swap_tag_string("html_title"," ~ Create");
+$view_reply->add_swap_tag_string("page_title"," Create new texture config pack");
+$view_reply->set_swap_tag_string("page_actions","");
 $form = new form();
 $form->target("textureconfig/create");
 $form->required(true);
@@ -20,5 +20,5 @@ $form->col(6);
     $form->text_input("stock_levels","Stock levels",36,"","UUID of texture");
     $form->text_input("renew_here","Renew here",36,"","UUID of texture");
     $form->text_input("proxyrenew","Proxy Renew",36,"","UUID of texture");
-echo $form->render("Create","primary");
+$view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
 ?>

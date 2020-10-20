@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= "Please select a package";
+$view_reply->add_swap_tag_string("page_title"," Please select a package");
 $package_set = new package_set();
 $package_set->loadAll();
 $stream_set = new stream_set();
@@ -35,5 +35,5 @@ foreach($package_set->get_all_ids() as $package_id)
     $entry[] = $streams_in_package[$package_id]["ready"];
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

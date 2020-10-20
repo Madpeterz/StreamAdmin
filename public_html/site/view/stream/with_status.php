@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_actions"] = "";
+$view_reply->set_swap_tag_string("page_actions","");
 $stream_set = new stream_set();
 $stream_set->load_with_config($whereconfig);
 

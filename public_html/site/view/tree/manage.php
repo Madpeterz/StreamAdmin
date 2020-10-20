@@ -1,21 +1,20 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= " Editing";
-$template_parts["page_actions"] = "<a href='[[url_base]]tree/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$view_reply->add_swap_tag_string("html_title"," ~ Manage");
+$view_reply->add_swap_tag_string("page_title"," Editing");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]tree/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $treevender = new treevender();
 if($treevender->load($page) == true)
 {
     $package_set = new package_set();
     $package_set->loadAll();
-
-    $template_parts["page_title"] .= ":".$treevender->get_name()."";
+    $view_reply->add_swap_tag_string("page_title",":".$treevender->get_name());
     $form = new form();
     $form->target("tree/update/".$page."");
     $form->required(true);
     $form->col(6);
         $form->text_input("name","Name",30,$treevender->get_name(),"Name");
-    echo $form->render("Update","primary");
-    echo "<br/><hr/><br/>";
+    $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
+    $view_reply->add_swap_tag_string("page_content","<br/><hr/><br/>");
     $treevender_packages_set = new treevender_packages_set();
     $treevender_packages_set->load_on_field("treevenderlink",$treevender->get_id());
     $table_head = array("ID","Name","Action");
@@ -32,7 +31,7 @@ if($treevender->load($page) == true)
         $entry[] = "<a href='[[url_base]]tree/removepackage/".$treevender_packages->get_id()."'><button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
         $table_body[] = $entry;
     }
-    echo render_datatable($table_head,$table_body);
+    $view_reply->add_swap_tag_string("page_content",render_datatable($table_head,$table_body));
     $unused_index = array();
     foreach($package_set->get_linked_array("id","name") as $id => $name)
     {
@@ -46,11 +45,11 @@ if($treevender->load($page) == true)
         $form = new form();
         $form->target("tree/addpackage/".$page."");
         $form->select("package","Package","",$unused_index);
-        echo $form->render("Add package","success");
+        $view_reply->add_swap_tag_string("page_content",$form->render("Add package","success"));
     }
 }
 else
 {
-    redirect("tree?bubblemessage=unable to find tree vender&bubbletype=warning");
+    $view_reply->redirect("tree?bubblemessage=unable to find tree vender&bubbletype=warning");
 }
 ?>

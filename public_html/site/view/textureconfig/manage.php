@@ -1,11 +1,11 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= "Editing texture pack";
-$template_parts["page_actions"] = "<a href='[[url_base]]textureconfig/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$view_reply->add_swap_tag_string("html_title"," ~ Manage");
+$view_reply->add_swap_tag_string("page_title"," Editing texture pack");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]textureconfig/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $textureconfig = new textureconfig();
 if($textureconfig->load($page) == true)
 {
-    $template_parts["page_title"] .= ":".$textureconfig->get_name()."";
+    $view_reply->add_swap_tag_string("page_title",":".$textureconfig->get_name());
     $form = new form();
     $form->target("textureconfig/update/".$page."");
     $form->required(true);
@@ -24,10 +24,10 @@ if($textureconfig->load($page) == true)
         $form->texture_input("stock_levels","Stock levels",36,$textureconfig->get_stock_levels(),"UUID of texture");
         $form->texture_input("renew_here","Renew here",36,$textureconfig->get_renew_here(),"UUID of texture");
         $form->texture_input("proxyrenew","Proxy Renew",36,$textureconfig->get_proxyrenew(),"UUID of texture");
-    echo $form->render("Update","primary");
+    $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
 }
 else
 {
-    redirect("package?bubblemessage=unable to find package&bubbletype=warning");
+    $view_reply->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
 }
 ?>

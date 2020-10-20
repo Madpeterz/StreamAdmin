@@ -12,5 +12,5 @@ foreach($treevender_set->get_all_ids() as $treevender_id)
     $entry[] = ''.$treevender->get_id().' - <a href="[[url_base]]tree/manage/'.$treevender->get_id().'">'.$treevender->get_name().'</a>';
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

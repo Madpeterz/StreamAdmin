@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= "Editing stream";
-$template_parts["page_actions"] = "<a href='[[url_base]]stream/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$view_reply->add_swap_tag_string("html_title"," ~ Manage");
+$view_reply->add_swap_tag_string("page_title"," Editing stream");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]stream/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 
 $template_set = new template_set();
 $template_set->loadAll();
@@ -28,10 +28,10 @@ if($stream->load_by_field("stream_uid",$page) == true)
         $form->text_input("adminusername","Admin Usr",5,$stream->get_adminusername(),"Admin username");
         $form->text_input("adminpassword","Admin PW",3,$stream->get_adminpassword(),"Admin password");
         $form->text_input("djpassword","Encoder/Stream password",3,$stream->get_djpassword(),"Encoder/Stream password");
-    echo $form->render("Update","primary");
+    $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
 }
 else
 {
-    redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
+    $view_reply->redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
 }
 ?>

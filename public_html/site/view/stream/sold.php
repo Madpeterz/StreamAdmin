@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= " With status: Sold";
+$view_reply->add_swap_tag_string("page_title"," With status: Sold");
 $server_set = new server_set();
 $server_set->loadAll();
 $whereconfig = array(

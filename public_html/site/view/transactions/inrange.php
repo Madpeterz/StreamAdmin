@@ -18,7 +18,7 @@ if($end_month > 12)
 }
 $end_unixtime = mktime (0,0,1,$end_month,1,$end_year);
 $end_unixtime-=5;
-$template_parts["page_title"] .= " In selected period - ".date("F Y",$start_unixtime)."";
+$view_reply->add_swap_tag_string("page_title"," In selected period - ".date("F Y",$start_unixtime));
 
 $whereconfig = array(
     "fields" => array("unixtime","unixtime"),
