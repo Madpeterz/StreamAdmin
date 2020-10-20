@@ -1,8 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Remove";
-$template_parts["page_title"] .= " Remove notice:";
-$template_parts["page_title"] .= $page;
-$template_parts["page_actions"] = "";
+$view_reply->add_swap_tag_string("html_title"," ~ Remove");
+$view_reply->add_swap_tag_string("page_title"," Remove notice:".$page);
+$view_reply->set_swap_tag_string("page_actions","");
 if(in_array($page,array(6,10)) == false)
 {
     $form = new form();
@@ -20,11 +19,10 @@ if(in_array($page,array(6,10)) == false)
       </label>
     </div>';
     $form->direct_add($action);
-    echo $form->render("Remove","danger");
-    echo "";
+    $view_reply->set_swap_tag_string("page_content",$form->render("Remove","danger"));
 }
 else
 {
-    redirect("notice?bubblemessage=This notice is protected&bubbletype=warning");
+    $view_reply->redirect("notice?bubblemessage=This notice is protected&bubbletype=warning");
 }
 ?>

@@ -86,26 +86,26 @@ if(strlen($message) >= 10)
                 }
                 $form->col(12);
                     $form->direct_add(render_table($table_head,$table_body));
-                echo $form->render("Send to selected","success");
-                echo "<br/><hr/>Note: If an avatar has multiple streams that match the selected filter source the first rental will be used.";
+                $view_reply->set_swap_tag_string("page_content",$form->render("Send to selected","success"));
+                $view_reply->add_swap_tag_string("page_content","<br/><hr/>Note: If an avatar has multiple streams that match the selected filter source the first rental will be used.");
             }
             else
             {
-                redirect("outbox?message=No selectable avatars for the ".$page."");
+                $view_reply->redirect("outbox?message=No selectable avatars for the ".$page."");
             }
         }
         else
         {
-            redirect("outbox?message=Filter option not supported");
+            $view_reply->redirect("outbox?message=Filter option not supported");
         }
     }
     else
     {
-        redirect("outbox?message=Message length to long");
+        $view_reply->redirect("outbox?message=Message length to long");
     }
 }
 else
 {
-    redirect("outbox?message=Message length to short");
+    $view_reply->redirect("outbox?message=Message length to short");
 }
 ?>

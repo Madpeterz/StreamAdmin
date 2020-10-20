@@ -17,5 +17,5 @@ foreach($notice_set->get_all_ids() as $notice_id)
         $table_body[] = $entry;
     }
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

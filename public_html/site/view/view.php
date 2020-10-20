@@ -33,11 +33,11 @@ if($module != "login")
     include("site/theme/streamadminr5/layout/sidemenu/template.php");
     if($area == "") $area = "default";
     require_once("site/view/shared/menu.php");
-    load_module_view();
 }
 else
 {
     include("site/theme/streamadminr5/layout/full/template.php");
 }
+load_module_view();
 $view_reply->render_page();
 ?>

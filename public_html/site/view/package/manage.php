@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= "Editing package";
-$template_parts["page_actions"] = "<a href='[[url_base]]package/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$view_reply->add_swap_tag_string("html_title"," ~ Manage");
+$view_reply->add_swap_tag_string("page_title"," Editing package");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]package/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 
 $template_set = new template_set();
 $template_set->loadAll();
@@ -37,10 +37,10 @@ if($package->load_by_field("package_uid",$page) == true)
         $form->group("Auto DJ");
         $form->select("autodj","Enabled",$package->get_autodj(),array(false=>"No",true=>"Yes"));
         $form->number_input("autodj_size","Storage GB",$package->get_autodj_size(),3,"Max GB storage 9999");
-    echo $form->render("Update","primary");
+    $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
 }
 else
 {
-    redirect("package?bubblemessage=unable to find package&bubbletype=warning");
+    $view_reply->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
 }
 ?>

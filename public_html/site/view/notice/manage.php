@@ -45,16 +45,16 @@ if($notice->load($page) == true)
                 $form->direct_add("<div class=\"alert alert-danger\" role=\"alert\">Current notecard \"".$current_notecard_notice->get_name()."\" is missing</div>");
             }
             $form->select("notice_notecardlink"," ",$use_notecard_link,$notice_notecard_set->get_linked_array("id","name"));
-        echo $form->render("Update","primary");
+        $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
         include("site/view/shared/swaps_table.php");
     }
     else
     {
-        redirect("notice?bubblemessage=This notice is protected&bubbletype=warning");
+        $view_reply->redirect("notice?bubblemessage=This notice is protected&bubbletype=warning");
     }
 }
 else
 {
-    redirect("notice?bubblemessage=unable to find notice&bubbletype=warning");
+    $view_reply->redirect("notice?bubblemessage=unable to find notice&bubbletype=warning");
 }
 ?>

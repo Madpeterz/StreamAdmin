@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= "All";
+$view_reply->add_swap_tag_string("page_title"," All");
 $package_set = new package_set();
 $package_set->loadAll();
 
@@ -19,5 +19,5 @@ foreach($package_set->get_all_ids() as $package_id)
     $entry[] = $package->get_cost();
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>
