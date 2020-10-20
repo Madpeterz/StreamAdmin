@@ -1,17 +1,17 @@
 <?php
-function load_module_view() : ?bool
+function load_module_view() : array
 {
-    global $view_reply, $module;
+    global $view_reply, $module, $area;
+    $target_files = array();
     $test_path = "site/view/".$module."/loader.php";
     if(file_exists($test_path) == true)
     {
-        include($test_path); // run normal loader
+        $target_files[] = $test_path;
         $check_file = "site/view/".$module."/".$area.".php";
         if(file_exists($check_file) == true)
         {
-            include($check_file); // run targeted area
+            $target_files[] = $check_file;
         }
-        return true;
     }
     else
     {
@@ -20,7 +20,7 @@ function load_module_view() : ?bool
         $view_reply->set_swap_tag_string("page_actions","- ERROR -");
         $view_reply->set_swap_tag_string("page_content","Unable to load ".$module." ".$file."");
     }
-    return false;
+    return $target_files;
 }
 include("site/framework/loader_light.php");
 add_vendor("website");
@@ -38,6 +38,10 @@ else
 {
     include("site/theme/streamadminr5/layout/full/template.php");
 }
-load_module_view();
+$load_files = load_module_view();
+foreach($load_files as $file)
+{
+    include($file);
+}
 $view_reply->render_page();
 ?>
