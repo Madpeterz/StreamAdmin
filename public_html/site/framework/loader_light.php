@@ -33,4 +33,5 @@ else
 {
     include("installer/config.php");
 }
+include("site/framework/pageworks.php");
 ?>
