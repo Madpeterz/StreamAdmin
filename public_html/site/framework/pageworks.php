@@ -21,6 +21,20 @@ class templated
             $this->tempalte_parts["right_content"] = "";
             $this->tempalte_parts["body_end"] = "</body>";
             $this->tempalte_parts["footer"] = "</html>";
+
+            // global patch (to be phased out)
+            global $site_theme, $site_lang, $template_parts;
+            $this->set_swap_tag_string("site_theme",$site_theme);
+            $this->set_swap_tag_string("site_lang",$site_lang);
+            $this->set_swap_tag_string("html_title","Page");
+            if(array_key_exists("html_title_after",$template_parts) == true)
+            {
+                $this->set_swap_tag_string("html_title_after",$template_parts["html_title_after"]);
+            }
+            if(array_key_exists("url_base",$template_parts) == true)
+            {
+                $this->set_swap_tag_string("url_base",$template_parts["url_base"]);
+            }
         }
     }
     public function redirect(string $to,bool $offsite=false)
@@ -32,7 +46,7 @@ class templated
     public function load_template(string $layout,string $theme,array $layout_entrys)
     {
         $this->render_layout = "";
-        foreach(array_keys($layout_entrys) as $entry)
+        foreach($layout_entrys as $entry)
         {
             $this->render_layout .= "[[".$entry."]]";
             $this->load_template_file($layout,$theme,$entry);
@@ -49,9 +63,9 @@ class templated
     }
     protected function load_template_file(string $layout,string $theme,string $bit)
     {
-        if($this->load_template_part("site/theme/".$theme."/".$layout."/".$bit.".layout",$bit) == false)
+        if($this->load_template_part("site/theme/".$theme."/layout/".$layout."/".$bit.".layout",$bit) == false)
         {
-            if($this->load_template_part("site/theme/shared/".$bit.".layout",$bit) == false)
+            if($this->load_template_part("site/theme/shared/layout/".$bit.".layout",$bit) == false)
             {
                 $this->tempalte_parts[$bit] = "";
             }
@@ -65,19 +79,19 @@ class templated
         }
         return $this->swaptags[$tagname];
     }
-    public function add_swap_tag_string(string $tagname,string $add_me=null) : string
+    public function add_swap_tag_string(string $tagname,string $add_me=null) : ?string
     {
         $current = $this->get_swap_tag_string($tagname);
         $current .= $add_me;
         $this->swaptags[$tagname] = $current;
         return $current;
     }
-    public function set_swap_tag_string(string $tagname,string $newvalue=null) : string
+    public function set_swap_tag_string(string $tagname,string $newvalue=null) : ?string
     {
         $current = $this->get_swap_tag_string($tagname);
-        if($update != null)
+        if($current != $newvalue)
         {
-            $this->swaptags[$tagname] = $update;
+            $this->swaptags[$tagname] = $newvalue;
         }
         return $this->swaptags[$tagname];
     }
@@ -124,9 +138,9 @@ class templated
         else
         {
             $output = $this->render_layout;
-            foreach($this->tempalte_part as $key => $value)
+            foreach($this->tempalte_parts as $key => $value)
             {
-                $output = str_replace("[[".$key."]]",$value);
+                $output = str_replace("[[".$key."]]",$value,$output);
             }
             foreach($this->swaptags as $key => $value)
             {
