@@ -95,15 +95,15 @@ class templated
         }
         return $this->swaptags[$tagname];
     }
-    public function url_base(string $newvalue=null) : string
+    public function url_base(string $newvalue=null) : ?string
     {
         return $this->set_swap_tag_string("url_base",$newvalue);
     }
-    public function page_title(string $newvalue=null) : string
+    public function page_title(string $newvalue=null) : ?string
     {
         return $this->set_swap_tag_string("PAGE_TITLE",$newvalue);
     }
-    public function site_name(string $newvalue=null) : string
+    public function site_name(string $newvalue=null) : ?string
     {
         return $this->set_swap_tag_string("SITE_NAME",$newvalue);
     }
