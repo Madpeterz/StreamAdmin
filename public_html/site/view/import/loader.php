@@ -27,16 +27,11 @@ if($session->get_ownerlevel() == 1)
     spl_autoload_register('auto_load_r4_model');
     if(file_exists("site/config/r4.php") == true)
     {
-        $check_file = "site/view/import/".$area.".php";
-        if(file_exists($check_file) == true)
-        {
-            include("site/config/r4.php");
-            include($check_file);
-        }
+        include("site/config/r4.php");
     }
     else
     {
-        include("site/view/import/setup.php");
+        $area = "setup";
     }
 }
 else
