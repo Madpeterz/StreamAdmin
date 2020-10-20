@@ -132,7 +132,7 @@ abstract class genClass_db extends genClass_load
                         $expected_changes = count($update_config["fields"]);
                         if($expected_changes > 0)
     					{
-    						return $this->sql->updateV2($this->get_table(),$update_config,$where_config,$expected_changes);
+    						return $this->sql->updateV2($this->get_table(),$update_config,$where_config,1);
     					}
     					else
     					{
