@@ -49,7 +49,7 @@ if($ajax_reply->get_swap_tag_string("redirect") != null)
     {
         $ajax_reply->set_swap_tag_string("redirect","");
     }
-    $reply["redirect"] = "".$ajax_reply->get_swap_tag_string("url_base")."".$ajax_reply->get_swap_tag_string("redirect")."";
+    $reply["redirect"] = "".$ajax_reply->url_base()."".$ajax_reply->get_swap_tag_string("redirect")."";
 }
 $ajax_reply->set_swap_tag_string("content",trim(json_encode($reply)));
 $ajax_reply->render_page();
