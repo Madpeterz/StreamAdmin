@@ -57,6 +57,26 @@ class templated
         $filename = base64_encode($filename);
         file_put_contents("catche/".$filename,$content);
     }
+    public function purge_cache_file(string $name,bool $with_module_tag=true) : bool
+    {
+        global $module;
+        $this->get_catche_version();
+        $filename = $name;
+        if($with_module_tag == true)
+        {
+            $filename .= $module;
+        }
+        $filename = base64_encode($filename);
+        if(file_exists("catche/".$filename) == true)
+        {
+            unlink("catche/".$filename);
+            if(file_exists("catche/".$filename) == true)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public function get_cache_file(string $name,bool $with_module_tag=true) : ?string
     {
         global $module;
