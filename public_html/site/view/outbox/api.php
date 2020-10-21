@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= " Pending api calls";
+$view_reply->add_swap_tag_string("page_title"," Pending api calls"); 
 $table_head = array("id","Event","Port","Last tryed","Attempts","message");
 $table_body = array();
 $api_requests_set = new api_requests_set();
