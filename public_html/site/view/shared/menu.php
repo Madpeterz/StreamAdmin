@@ -61,4 +61,5 @@
         $output .= '"><i class="'.$menu_config["icon"].' text-success"></i> '.$menu_key.'</a>';
         $output .= '</li>';
     }
+    $view_reply->set_swap_tag_string("html_menu",$output);
 ?>
