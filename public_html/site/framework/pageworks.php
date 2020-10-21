@@ -41,6 +41,7 @@ class templated
             if(array_key_exists("url_base",$template_parts) == true)
             {
                 $this->set_swap_tag_string("url_base",$template_parts["url_base"]);
+                $this->url_base($template_parts["url_base"]);
             }
         }
     }
@@ -192,7 +193,10 @@ class templated
         $current = $this->get_swap_tag_string($tagname);
         if($current != $newvalue)
         {
-            $this->swaptags[$tagname] = $newvalue;
+            if($newvalue !== null)
+            {
+                $this->swaptags[$tagname] = $newvalue;
+            }
         }
         return $this->swaptags[$tagname];
     }
@@ -261,7 +265,7 @@ class templated
         }
     }
 }
-$ajax_reply = new templated(false);
+$ajax_reply = new templated();
 $ajax_reply->load_template("ajax","shared",array("ajax"));
 $view_reply = new templated();
 ?>
