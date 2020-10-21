@@ -1,4 +1,6 @@
 <?php
+$ajax_reply->purge_cache_file("current_timezone",false);
+
 $avatar = new avatar();
 $timezone = new timezones();
 $input = new inputFilter();
