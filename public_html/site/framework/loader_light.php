@@ -6,10 +6,8 @@ $slconfig = null;
 include("site/framework/core.php");
 if(install_ok() == true)
 {
-
     include("site/config/load.php"); // sql_config
     require_once("site/framework/mysqli/src/loader.php"); // sql_driver
-
     // lets get some work done.
     $sql = new mysqli_controler();
     $session = new session_control();
@@ -17,12 +15,6 @@ if(install_ok() == true)
     if($slconfig->load(1) == true)
     {
         $session->load_from_session();
-        $timezone = new timezones();
-        if($timezone->load($slconfig->get_displaytimezonelink()) == true)
-        {
-            $timezone_name = $timezone->get_name();
-            date_default_timezone_set($timezone->get_code());
-        }
     }
     else
     {
@@ -32,5 +24,26 @@ if(install_ok() == true)
 else
 {
     include("installer/config.php");
+}
+include("site/framework/pageworks.php");
+if($slconfig != null)
+{
+    $timezone_config_from_cache = $view_reply->get_cache_file("current_timezone",false);
+    if($timezone_config_from_cache == null)
+    {
+        $timezone = new timezones();
+        if($timezone->load($slconfig->get_displaytimezonelink()) == true)
+        {
+            $cooked = $timezone_name."###".$timezone->get_code();
+            $view_reply->set_cache_file($cooked,"current_timezone",false);
+        }
+        $timezone_config_from_cache = $view_reply->get_cache_file("current_timezone",false);
+    }
+    if($timezone_config_from_cache != null)
+    {
+        $bits = explode("###",$timezone_config_from_cache);
+        $timezone_name = $bits[0];
+        date_default_timezone_set($bits[1]);
+    }
 }
 ?>

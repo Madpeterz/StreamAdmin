@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= " Unsent details";
+$view_reply->add_swap_tag_string("page_title"," Unsent details");
 $table_head = array("id","Rental UID","Avatar name");
 $table_body = array();
 $detail_set = new detail_set();
@@ -15,5 +15,5 @@ foreach($detail_set->get_all_ids() as $detail_id)
     $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
     $table_body[] = array($detail->get_id(),$rental->get_rental_uid(),$avatar->get_avatarname());
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

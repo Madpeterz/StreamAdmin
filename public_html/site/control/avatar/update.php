@@ -7,7 +7,7 @@ if(count(explode(" ",$avatarname)) == 1) $avatarname .= " Resident";
 if(strlen($avatarname) < 5) $failed_on .= $lang["av.ud.error.1"];
 else if(strlen($avatarname) > 125) $failed_on .= $lang["av.ud.error.2"];
 else if(strlen($avataruuid) != 36) $failed_on .= $lang["av.ud.error.3"];
-$redirect = "avatar";
+$ajax_reply->set_swap_tag_string("redirect","avatar");
 $status = false;
 if($failed_on == "")
 {
@@ -32,32 +32,32 @@ if($failed_on == "")
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    echo $lang["av.ud.info.1"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["av.ud.info.1"]);
                 }
                 else
                 {
-                    echo sprintf($lang["av.ud.error.7"],$update_status["message"]);
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["av.ud.error.7"],$update_status["message"]));
                 }
             }
             else
             {
-                echo $lang["av.ud.error.6"];
+                $ajax_reply->set_swap_tag_string("message",$lang["av.ud.error.6"]);
             }
         }
         else
         {
-            echo $lang["av.ud.error.5"];
+            $ajax_reply->set_swap_tag_string("message",$lang["av.ud.error.5"]);
         }
     }
     else
     {
-        echo $lang["av.ud.error.4"];
+        $ajax_reply->set_swap_tag_string("message",$lang["av.ud.error.4"]);
     }
 }
 else
 {
-    $redirect = null;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
+    $ajax_reply->set_swap_tag_string("redirect",null);
     $status = false;
-    echo $failed_on;
 }
 ?>

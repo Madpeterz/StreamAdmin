@@ -63,7 +63,7 @@ if($server->load($page) == true)
                                         else
                                         {
                                             $all_ok = false;
-                                            echo "failed to sync password to db";
+                                            $ajax_reply->set_swap_tag_string("message","failed to sync password to db");
                                             break;
                                         }
                                     }
@@ -77,7 +77,7 @@ if($server->load($page) == true)
                                         else
                                         {
                                             $all_ok = false;
-                                            echo "Failed to mark stream as in sync";
+                                            $ajax_reply->set_swap_tag_string("message","Failed to mark stream as in sync");
                                             break;
                                         }
                                     }
@@ -99,49 +99,49 @@ if($server->load($page) == true)
                             if($update_status["status"] == true)
                             {
                                 $status = true;
-                                echo "Updated: ".$accounts_updated." / Ok: ".$accounts_insync."";
+                                $ajax_reply->set_swap_tag_string("message","Updated: ".$accounts_updated." / Ok: ".$accounts_insync."");
                                 if($accounts_missing_passwords > 0)
                                 {
-                                    echo " / Missing PW dataset: ".$accounts_missing_passwords;
+                                    $ajax_reply->add_swap_tag_string("message"," / Missing PW dataset: ".$accounts_missing_passwords);
                                 }
                                 if($accounts_missing_global > 0)
                                 {
-                                    echo " / Account missing: ".$accounts_missing_global;
+                                    $ajax_reply->add_swap_tag_string("message"," / Account missing: ".$accounts_missing_global);
                                 }
                             }
                             else
                             {
-                                echo "Unable to update server last sync time";
+                                $ajax_reply->set_swap_tag_string("message","Unable to update server last sync time");
                             }
                         }
                     }
                     else
                     {
-                        echo $server_api_helper->get_message();
+                        $ajax_reply->set_swap_tag_string("message",$server_api_helper->get_message());
                     }
                 }
                 else
                 {
-                    echo "Unable to find any streams attached to server or all streamed sync'd in the last 24 hours";
+                    $ajax_reply->set_swap_tag_string("message","Unable to find any streams attached to server or all streamed sync'd in the last 24 hours");
                 }
             }
             else
             {
-                echo "Unable to attach server to api helper";
+                $ajax_reply->set_swap_tag_string("message","Unable to attach server to api helper");
             }
         }
         else
         {
-            echo "Server or API have sync accounts disabled";
+            $ajax_reply->set_swap_tag_string("message","Server or API have sync accounts disabled");
         }
     }
     else
     {
-        echo "Unable to find api used by server";
+        $ajax_reply->set_swap_tag_string("message","Unable to find api used by server");
     }
 }
 else
 {
-    echo "Unable to find server";
+    $ajax_reply->set_swap_tag_string("message","Unable to find server");
 }
 ?>

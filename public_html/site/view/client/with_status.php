@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_actions"] = "";
+$view_reply->set_swap_tag_string("page_actions","");
 $rental_set = new rental_set();
 $rental_set->load_with_config($whereconfig);
 $avatar_set = new avatar_set();

@@ -24,7 +24,7 @@ $server_set->loadAll();
 $removed_counter = 0;
 $skipped_counter = 0;
 $status = true;
-$redirect = "client/bulkremove";
+$ajax_reply->set_swap_tag_string("redirect","client/bulkremove");
 $rental_ids_removed = array();
 $status = true;
 foreach($rental_set->get_all_ids() as $rental_id)
@@ -78,8 +78,8 @@ foreach($rental_set->get_all_ids() as $rental_id)
                                 if($remove_status["status"] == true)
                                 {
                                     $status = true;
-                                    $redirect = "client";
-                                    $message = $lang["client.rm.info.1"];
+                                    $ajax_reply->set_swap_tag_string("redirect","client");
+                                    $ajax_reply->set_swap_tag_string("message",$lang["client.rm.info.1"]);
                                 }
                                 else
                                 {
@@ -103,28 +103,28 @@ foreach($rental_set->get_all_ids() as $rental_id)
                             else
                             {
                                 $status = false;
-                                echo $message;
+                                $ajax_reply->set_swap_tag_string("message",$message);
                                 break;
                             }
                         }
                         else
                         {
                             $status = false;
-                            echo $lang["client.rm.error.4"];
+                            $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.4"]);
                             break;
                         }
                     }
                     else
                     {
                         $status = false;
-                        echo sprintf($lang["client.br.error.5"],$rental->get_rental_uid());
+                        $ajax_reply->set_swap_tag_string("message",sprintf($lang["client.br.error.5"],$rental->get_rental_uid()));
                         break;
                     }
                 }
                 else
                 {
                     $status = false;
-                    echo sprintf($lang["client.br.error.4"],$rental->get_rental_uid());
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["client.br.error.4"],$rental->get_rental_uid()));
                     break;
                 }
             }
@@ -138,7 +138,7 @@ foreach($rental_set->get_all_ids() as $rental_id)
 if($status == true)
 {
     $status = true;
-    $redirect = "client";
-    echo sprintf($lang["client.br.info.1"],$removed_counter,$skipped_counter);
+    $ajax_reply->set_swap_tag_string("message",sprintf($lang["client.br.info.1"],$removed_counter,$skipped_counter));
+    $ajax_reply->set_swap_tag_string("redirect","client");
 }
 ?>

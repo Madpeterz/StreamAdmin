@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Create";
-$template_parts["page_title"] .= "Create new package";
-$template_parts["page_actions"] = "";
+$view_reply->add_swap_tag_string("html_title"," ~ Create");
+$view_reply->add_swap_tag_string("page_title"," Create new package");
+$view_reply->set_swap_tag_string("page_actions","");
 
 $template_set = new template_set();
 $template_set->loadAll();
@@ -33,5 +33,5 @@ $form->col(6);
     $form->group("Auto DJ");
     $form->select("autodj","Enabled",false,array(false=>"No",true=>"Yes"));
     $form->number_input("autodj_size","Storage GB",null,3,"Max GB storage 9999");
-echo $form->render("Create","primary");
+$view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
 ?>

@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] = " System setup";
-$template_parts["page_title"] = "Editing system setup";
-$template_parts["page_actions"] = "";
+$view_reply->set_swap_tag_string("html_title"," System setup");
+$view_reply->set_swap_tag_string("page_title"," Editing system setup");
+$view_reply->set_swap_tag_string("page_actions","");
 $slconfig = new slconfig();
 $slconfig->load(1);
 $avatar = new avatar();
@@ -46,11 +46,11 @@ $form->col(6);
     $form->text_input("ui_tweaks_datatable_itemsperpage","Datatables items per page",3,$slconfig->get_datatable_itemsperpage(),"10 to 200");
     $form->text_input("api_default_email","API default email",3,$slconfig->get_api_default_email(),"Required to be a vaild email");
     $form->select("displaytimezonelink","Default timezone",$slconfig->get_displaytimezonelink(),$timezones_set->get_linked_array("id","name"));
-echo $form->render("Update","primary");
-echo "<hr/>
+$view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
+$view_reply->add_swap_tag_string("page_content","<hr/>
 Feature packs<br/>
 <ul>
 <li>Event storage: Stores events into the database in an unlinked format, once im happy with the code the centova API engine uses this to automate ^+^</li>
 </ul>
-</p>";
+</p>");
 ?>

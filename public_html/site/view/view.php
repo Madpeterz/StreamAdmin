@@ -1,27 +1,26 @@
 <?php
-function get_require_path(string $module="",string $file="",bool $allow_downgrade=true) : ?string
+function load_module_view() : array
 {
-    if($module == "login")
+    global $view_reply, $module, $area;
+    $target_files = array();
+    $test_path = "site/view/".$module."/loader.php";
+    if(file_exists($test_path) == true)
     {
-        return "site/view/login/full.php";
+        $target_files[] = $test_path;
+        $check_file = "site/view/".$module."/".$area.".php";
+        if(file_exists($check_file) == true)
+        {
+            $target_files[] = $check_file;
+        }
     }
     else
     {
-        $test_path = "site/view/";
-        if($module != "") $test_path .= "/".$module;
-        if($file != "") $test_path .= "/".$file;
-        else $test_path .= "/loader.php";
-        if(file_exists($test_path) == true)
-        {
-            return $test_path;
-        }
-        else
-        {
-            $template_parts["page_title"] = "Oh snap";
-            $template_parts["page_actions"] = "- ERROR -";
-            return null;
-        }
+        $view_reply->set_swap_tag_string("html_title","Oh snap");
+        $view_reply->set_swap_tag_string("page_title","Oh snap");
+        $view_reply->set_swap_tag_string("page_actions","- ERROR -");
+        $view_reply->set_swap_tag_string("page_content","Unable to load ".$module." ".$file."");
     }
+    return $target_files;
 }
 include("site/framework/loader_light.php");
 add_vendor("website");
@@ -31,35 +30,18 @@ if($session->get_logged_in() == false)
 }
 if($module != "login")
 {
-    load_template("sidemenu");
+    include("site/theme/".$site_theme."/layout/sidemenu/template.php");
     if($area == "") $area = "default";
     require_once("site/view/shared/menu.php");
 }
 else
 {
-    load_template("full");
+    include("site/theme/".$site_theme."/layout/full/template.php");
 }
-$buffer = ob_get_contents();
-ob_clean();
-$found_path = get_require_path($module,"",false);
-if($found_path != null) require_once($found_path);
-else echo "Unable to load page<br/>Please try again later";
-$template_parts["page_content"] = ob_get_contents();
-ob_clean();
-foreach($template_parts as $key => $value)
+$load_files = load_module_view();
+foreach($load_files as $file)
 {
-    $buffer = str_replace("[[".$key."]]",$value,$buffer);
+    include($file);
 }
-$buffer = str_replace("[[MODULE]]",$page,$buffer);
-$buffer = str_replace("[[AREA]]",$optional,$buffer);
-$buffer = str_replace("[[PAGE]]",$page,$buffer);
-foreach($template_parts as $key => $value)
-{
-    $buffer = str_replace("[[".$key."]]",$value,$buffer);
-}
-$buffer = str_replace("[[MODULE]]",$page,$buffer);
-$buffer = str_replace("[[AREA]]",$optional,$buffer);
-$buffer = str_replace("[[PAGE]]",$page,$buffer);
-$buffer = str_replace("@NL@","\r\n",$buffer);
-echo $buffer;
+$view_reply->render_page();
 ?>

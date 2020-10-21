@@ -14,12 +14,12 @@ if($server->load($page) == true)
             $addon = "";
             if($apireply["loads"]["1"] > 0.0)
             {
-                echo "CPU: <span class=\"text-light\">".$apireply["loads"]["5"]."</span>";
+                $ajax_reply->add_swap_tag_string("message","CPU: <span class=\"text-light\">".$apireply["loads"]["5"]."</span>");
                 $addon = " | ";
             }
             if($apireply["ram"]["max"] > 0)
             {
-                echo $addon;
+                $ajax_reply->add_swap_tag_string("message",$addon);
                 $pcent = $apireply["ram"]["max"] / 100;
                 $dif = $apireply["ram"]["max"] - $apireply["ram"]["free"];
                 $pcents = 0;
@@ -47,12 +47,12 @@ if($server->load($page) == true)
                 {
                     $text_color = "text-info";
                 }
-                echo "Ram: <span class=\"".$text_color."\">".$used."/".$max." [".$pcents." %]</span>";
+                $ajax_reply->add_swap_tag_string("message","Ram: <span class=\"".$text_color."\">".$used."/".$max." [".$pcents." %]</span>");
                 $addon = " | ";
             }
             if($apireply["streams"]["total"] > 0)
             {
-                echo $addon;
+                $ajax_reply->add_swap_tag_string("message",$addon);
                 $percent = 100 - round((($apireply["streams"]["total"]-$apireply["streams"]["active"])/$apireply["streams"]["total"])*100,2);
                 $text_color = "text-light";
                 if($percent < 40)
@@ -67,13 +67,13 @@ if($server->load($page) == true)
                 {
                     $text_color = "text-info";
                 }
-                echo "Str: <span class=\"".$text_color."\">".$percent." %</span>";
+                $ajax_reply->add_swap_tag_string("message","Str: <span class=\"".$text_color."\">".$percent." %</span>");
             }
         }
     }
 }
 else
 {
-    echo "Unable to find server";
+    $ajax_reply->set_swap_tag_string("message","Unable to find server");
 }
 ?>

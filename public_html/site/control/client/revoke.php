@@ -3,6 +3,7 @@ $input = new inputFilter();
 $accept = $input->postFilter("accept");
 $status = false;
 $redirect ="client/manage/".$page."";
+$ajax_reply->set_swap_tag_string("redirect",null);
 if($accept == "Accept")
 {
     $rental = new rental();
@@ -70,12 +71,12 @@ if($accept == "Accept")
                                     if($remove_status["status"] == true)
                                     {
                                         $status = true;
-                                        $redirect = "client";
-                                        $message = $lang["client.rm.info.1"];
+                                        $ajax_reply->set_swap_tag_string("redirect","client");
+                                        $ajax_reply->set_swap_tag_string("message",$lang["client.rm.info.1"]);
                                     }
                                     else
                                     {
-                                        $message = sprintf($lang["client.rm.error.7"],$remove_status["message"]);
+                                        $ajax_reply->set_swap_tag_string("message",sprintf($lang["client.rm.error.7"],$remove_status["message"]));
                                     }
                                 }
                                 if($all_ok == true)
@@ -85,57 +86,54 @@ if($accept == "Accept")
                                     $all_ok = $api_serverlogic_reply;
                                     if($status != true)
                                     {
-                                        $message = $why_failed;
+                                        $ajax_reply->set_swap_tag_string("message",$why_failed);
                                     }
                                 }
                                 if($all_ok == true)
                                 {
                                     $status = true;
-                                    $redirect = "client";
-                                    echo $lang["client.rm.info.1"];
-                                }
-                                else
-                                {
-                                    echo $message;
+                                    $ajax_reply->set_swap_tag_string("redirect","client");
+                                    $ajax_reply->set_swap_tag_string("message",$lang["client.rm.info.1"]);
                                 }
                             }
                             else
                             {
-                                echo $lang["client.rm.error.6"];
+                                $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.6"]);
                             }
                         }
                         else
                         {
-                            echo $lang["client.rm.error.5"];
+                            $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.5"]);
                         }
                     }
                     else
                     {
-                        echo $lang["client.rm.error.4"];
+                        $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.4"]);
                     }
                 }
                 else
                 {
-                    echo $lang["client.rm.error.9"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.9"]);
                 }
             }
             else
             {
-                echo $lang["client.rm.error.3"];
+                $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.3"]);
             }
         }
         else
         {
-            echo $lang["client.rm.error.3"];
+            $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.3"]);
         }
     }
     else
     {
-        echo $lang["client.rm.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.2"]);
     }
 }
 else
 {
-    echo $lang["client.rm.error.1"];
+    $ajax_reply->set_swap_tag_string("message",$lang["client.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect",null);
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= " Unsent mail";
+$view_reply->add_swap_tag_string("page_title"," Unsent mail");
 $table_head = array("id","Avatar name","Start of message");
 $table_body = array();
 $message_set = new message_set();
@@ -14,5 +14,5 @@ foreach($message_set->get_all_ids() as $message_id)
     if(strlen($message_content) > 24) $message_content = substr($message_content,0,24)." ...";
     $table_body[] = array($message->get_id(),$avatar->get_avatarname(),$message_content);
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

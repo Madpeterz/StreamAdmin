@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Create";
-$template_parts["page_title"] .= " : New";
-$template_parts["page_actions"] = "";
+$view_reply->add_swap_tag_string("html_title"," ~ Create");
+$view_reply->add_swap_tag_string("page_title"," : New");
+$view_reply->set_swap_tag_string("page_actions","");
 $apis = new apis_set();
 $apis->loadAll();
 
@@ -38,6 +38,7 @@ $form->col(6);
     $form->select("event_clear_djs","Event / Clear DJ accounts on revoke",0,array(0=>"No",1=>"Yes"));
 $form->col(6);
     $form->select("event_recreate_revoke","Event / Recreate account on revoke",0,array(0=>"No",1=>"Yes"));
-echo $form->render("Create","primary");
+$view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
 include("site/view/server/api_notes.php");
+include("site/view/server/js_on_select_api.php");
 ?>

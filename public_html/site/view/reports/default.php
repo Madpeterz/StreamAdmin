@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= "Toolbox";
+$view_reply->add_swap_tag_string("page_title","Toolbox");
 $input = new inputFilter();
 $month = $input->postFilter("month","integer");
 $year = $input->postFilter("year","integer");
@@ -103,5 +103,5 @@ $mygrid->add_content("<h4>Month breakdown</h4>".$flow_form_month,6);
 $mygrid->add_content("<h4>Year breakdown</h4>".$flow_form_year,6);
 $mygrid->add_content("<hr/>",12);
 $mygrid->add_content("<h4>Year vs Year</h4>".$compare_form_year,6);
-echo $mygrid->get_output();
+$view_reply->set_swap_tag_string("page_content",$mygrid->get_output());
 ?>

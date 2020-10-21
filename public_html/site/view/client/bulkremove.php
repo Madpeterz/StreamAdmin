@@ -1,7 +1,8 @@
 <?php
-$template_parts["html_title"] = "Clients";
-$template_parts["page_title"] .= " Bulk remove";
-$template_parts["page_actions"] = "";
+$view_reply->set_swap_tag_string("html_title","Clients");
+$view_reply->add_swap_tag_string("page_title","Bulk remove");
+$view_reply->set_swap_tag_string("page_actions","");
+
 $table_head = array("id","Action","Avatar","Server","Port","NoticeLevel","Expired");
 $table_body = array();
 $whereconfig = array(
@@ -10,7 +11,6 @@ $whereconfig = array(
     "types" => array("i"),
     "matches" => array("<="),
 );
-$template_parts["page_actions"] = "";
 $rental_set = new rental_set();
 $rental_set->load_with_config($whereconfig);
 $server_set = new server_set();
@@ -84,15 +84,15 @@ if(count($table_body) > 0)
     $form->target("client/bulkremove");
     $form->col(12);
         $form->direct_add(render_datatable($table_head,$table_body));
-    echo $form->render("Process","outline-danger");
+    $view_reply->set_swap_tag_string("page_content",$form->render("Process","outline-danger"));
 }
 else
 {
-    echo "No clients to remove right now";
+    $view_reply->set_swap_tag_string("page_content","No clients to remove right now");
 }
 if(count($hidden_clients) > 0)
 {
-    echo "<hr/><h4>Unlisted clients</h4>";
+    $view_reply->add_swap_tag_string("page_content","<hr/><h4>Unlisted clients</h4>");
     $table_head = array("Why","Rental UID","Avatar","Port");
     $table_body = array();
     foreach($hidden_clients as $hclient)
@@ -104,6 +104,6 @@ if(count($hidden_clients) > 0)
         $entry[] = $hclient["port"];
         $table_body[] = $entry;
     }
-    echo render_table($table_head,$table_body);
+    $view_reply->add_swap_tag_string("page_content",render_table($table_head,$table_body));
 }
 ?>

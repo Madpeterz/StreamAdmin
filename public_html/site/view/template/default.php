@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= " Templates";
+$view_reply->add_swap_tag_string("page_title"," Templates");
 $table_head = array("id","name");
 $table_body = array();
 $template_set = new template_set();
@@ -13,5 +13,5 @@ foreach($template_set->get_all_ids() as $template_id)
     $entry[] = '<a href="[[url_base]]template/manage/'.$tempalte->get_id().'">'.$tempalte->get_name().'</a>';
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

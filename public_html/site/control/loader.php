@@ -1,10 +1,9 @@
 <?php
 include("site/framework/loader_light.php");
 include("site/lang/control/".$site_lang.".php");
-$redirect = null;
 $status = true;
-$soft_fail = false;
 $reply = array();
+$soft_fail = false;
 if($session->get_logged_in() == true)
 {
     if(file_exists("site/control/".$module."/".$area.".php") == true)
@@ -18,7 +17,7 @@ if($session->get_logged_in() == true)
     else
     {
         $status = false;
-        echo $lang["ld.error.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["ld.error.1"]);
     }
 }
 else
@@ -31,7 +30,7 @@ else
     else
     {
         $status = false;
-        echo $lang["ld.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["ld.error.2"]);
     }
 }
 if($status == false)
@@ -41,14 +40,17 @@ if($status == false)
         $sql->flagError();
     }
 }
-$buffer = ob_get_contents();
-ob_clean();
 $reply["status"] = $status;
-$reply["message"] = $buffer;
-if($redirect != null)
+$reply["message"] = $ajax_reply->get_swap_tag_string("message");
+if($ajax_reply->get_swap_tag_string("redirect") != null)
 {
-    if($redirect == "here") $redirect = "";
-    $reply["redirect"] = "".$template_parts["url_base"]."".$redirect."";
+    $redirect_target = $ajax_reply->get_swap_tag_string("redirect");
+    if($redirect_target == "here")
+    {
+        $ajax_reply->set_swap_tag_string("redirect","");
+    }
+    $reply["redirect"] = "".$ajax_reply->url_base()."".$ajax_reply->get_swap_tag_string("redirect")."";
 }
-echo json_encode($reply);
+$ajax_reply->set_swap_tag_string("content",trim(json_encode($reply)));
+$ajax_reply->render_page();
 ?>

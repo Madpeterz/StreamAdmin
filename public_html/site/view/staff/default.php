@@ -1,6 +1,6 @@
 <?php
-$template_parts["html_title"] .= " ~ List";
-$template_parts["page_title"] .= ": List";
+$view_reply->add_swap_tag_string("html_title"," ~ List");
+$view_reply->add_swap_tag_string("page_title",": List");
 
 $staff_set = new staff_set();
 $staff_set->loadAll();
@@ -19,5 +19,5 @@ foreach($staff_set->get_all_ids() as $staff_id)
     $entry[] = array(false=>"No",true=>"Yes")[$staff->get_ownerlevel()];
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

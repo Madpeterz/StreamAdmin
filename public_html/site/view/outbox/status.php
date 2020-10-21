@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= "Status";
+$view_reply->add_swap_tag_string("page_title"," Status");
 $services = array(
     "notecard" => array("timeper"=>30,"classname"=>"notecard_set"),
     "details" => array("timeper"=>15,"classname"=>"detail_set"),

@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect ="stream";
+$ajax_reply->set_swap_tag_string("redirect","stream");
 $status = false;
 if($accept == "Accept")
 {
@@ -29,32 +29,32 @@ if($accept == "Accept")
                 if($remove_status["status"] == true)
                 {
                     $status = true;
-                    echo $lang["stream.rm.info.1"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["stream.rm.info.1"]);
                 }
                 else
                 {
-                    echo sprintf($lang["stream.rm.error.3"],$remove_status["message"]);
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["stream.rm.error.3"],$remove_status["message"]));
                 }
             }
             else
             {
-                echo sprintf($lang["stream.rm.error.5"],$bulkupdate_status["message"]);
+                $ajax_reply->set_swap_tag_string("message",sprintf($lang["stream.rm.error.5"],$bulkupdate_status["message"]));
             }
         }
         else
         {
-            echo sprintf($lang["stream.rm.error.4"],$load_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["stream.rm.error.4"],$load_status["message"]));
         }
     }
     else
     {
-        echo $lang["stream.rm.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["stream.rm.error.2"]);
     }
 }
 else
 {
     $status = false;
-    echo $lang["stream.rm.error.1"];
-    $redirect ="stream/manage/".$page."";
+    $ajax_reply->set_swap_tag_string("message",$lang["stream.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","stream/manage/".$page."");
 }
 ?>

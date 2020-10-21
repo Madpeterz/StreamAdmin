@@ -10,8 +10,7 @@ $package_set->load_ids($transaction_set->get_all_by_field("packagelink"));
 $region_set->load_ids($transaction_set->get_all_by_field("regionlink"));
 $avatar_set->load_ids($transaction_set->get_all_by_field("avatarlink"));
 
-
-$template_parts["page_title"] .= " Newest 30";
+$view_reply->add_swap_tag_string("page_title"," Newest 30");
 include("site/view/transactions/render_list.php");
 include("site/view/transactions/range_form.php");
 ?>

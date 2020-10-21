@@ -48,22 +48,22 @@ if($failed_on == "")
         if($update_status["status"] == true)
         {
             $status = true;
-            echo $lang["textureconfig.up.info.1"];
-            $redirect = "textureconfig";
+            $ajax_reply->set_swap_tag_string("message",$lang["textureconfig.up.info.1"]);
+            $ajax_reply->set_swap_tag_string("redirect","textureconfig");
         }
         else
         {
-            echo sprintf($lang["textureconfig.up.error.14"],$update_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["textureconfig.up.error.14"],$update_status["message"]));
         }
     }
     else
     {
-        echo $lang["textureconfig.up.error.13"];
-        $redirect = "textureconfig";
+        $ajax_reply->set_swap_tag_string("message",$lang["textureconfig.up.error.13"]);
+        $ajax_reply->set_swap_tag_string("redirect","textureconfig");
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

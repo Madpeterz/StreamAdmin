@@ -17,16 +17,16 @@ if($failed_on == "")
     if($status == true)
     {
         $status = true;
-        echo $lang["av.cr.info.1"];
-        $redirect = "avatar";
+        $ajax_reply->set_swap_tag_string("message",$lang["av.cr.info.1"]);
+        $ajax_reply->set_swap_tag_string("redirect","avatar");
     }
     else
     {
-        echo $lang["av.cr.error.5"];
+        $ajax_reply->set_swap_tag_string("message",$lang["av.cr.error.5"]);
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

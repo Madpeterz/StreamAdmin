@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect ="reseller";
+$ajax_reply->set_swap_tag_string("redirect","reseller");
 $status = false;
 if($accept == "Accept")
 {
@@ -12,21 +12,21 @@ if($accept == "Accept")
         if($remove_status["status"] == true)
         {
             $status = true;
-            echo $lang["reseller.rm.info.1"];
+            $ajax_reply->set_swap_tag_string("message",$lang["reseller.rm.info.1"]);
         }
         else
         {
-            echo sprintf($lang["reseller.rm.error.3"],$remove_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["reseller.rm.error.3"],$remove_status["message"]));
         }
     }
     else
     {
-        echo $lang["reseller.rm.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["reseller.rm.error.2"]);
     }
 }
 else
 {
-    echo $lang["reseller.rm.error.1"];
-    $redirect ="reseller/manage/".$page."";
+    $ajax_reply->set_swap_tag_string("message",$lang["reseller.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","reseller/manage/".$page."");
 }
 ?>

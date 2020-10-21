@@ -9,7 +9,6 @@ $stream_set = new stream_set();
 $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
 $notice = new notice();
 $notice->load($page);
-$template_parts["page_title"] .= " By notice level: ".$notice->get_name()."";
-
+$view_reply->add_swap_tag_string("page_title"," By notice level: ".$notice->get_name());
 include("site/view/client/render_list.php");
 ?>

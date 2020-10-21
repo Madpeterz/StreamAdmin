@@ -36,7 +36,7 @@ else if(strlen($api_template) > 50) $failed_on .= $lang["package.cr.error.18"];
 else if(strlen($api_template) < 3)  $failed_on .= $lang["package.cr.error.19"];
 else if($servertype->load($servertypelink) == false) $failed_on .= $lang["package.cr.error.20"];
 
-$redirect = "package";
+$ajax_reply->set_swap_tag_string("redirect","package");
 $status = false;
 if($failed_on == "")
 {
@@ -62,21 +62,21 @@ if($failed_on == "")
         if($create_status["status"] == true)
         {
             $status = true;
-            echo $lang["package.cr.info.1"];
+            $ajax_reply->set_swap_tag_string("message",$lang["package.cr.info.1"]);
         }
         else
         {
-            echo sprintf($lang["package.cr.error.17"],$create_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["package.cr.error.17"],$create_status["message"]));
         }
     }
     else
     {
-        echo $lang["package.cr.error.16"];
+        $ajax_reply->set_swap_tag_string("message",$lang["package.cr.error.16"]);
     }
 }
 else
 {
-    $redirect = "";
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
+    $ajax_reply->set_swap_tag_string("redirect","");
 }
 ?>

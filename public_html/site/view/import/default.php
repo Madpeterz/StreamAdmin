@@ -8,7 +8,7 @@ $config_areas = array(
     "Clients" => "clients",
     "Transactions" => "transactions"
 );
-$template_parts["page_title"] .= " Select action";
+$view_reply->add_swap_tag_string("page_title"," Select action");
 $table_head = array("Name");
 $table_body = array();
 $loop = 0;
@@ -19,5 +19,5 @@ foreach($config_areas as $key => $value)
     $table_body[] = $entry;
     $loop++;
 }
-echo render_table($table_head,$table_body);
+$view_reply->add_swap_tag_string("page_content",render_table($table_head,$table_body));
 ?>

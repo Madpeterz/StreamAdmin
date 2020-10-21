@@ -59,21 +59,21 @@ foreach($r4_sales_tracking_set->get_all_ids() as $r4_sales_tracking_id)
         }
         else
         {
-            echo "Unable to create transaction because: ".$create_status["message"]."";
+            $view_reply->add_swap_tag_string("page_content","Unable to create transaction because: ".$create_status["message"]);
             $all_ok = false;
             break;
         }
     }
     else
     {
-        echo "Unable to create transaction because: unable to assign it a uid";
+        $view_reply->add_swap_tag_string("page_content","Unable to create transaction because: unable to assign it a uid");
         $all_ok = false;
         break;
     }
 }
 if($all_ok == true)
 {
-    echo "Created: ".$transactions_created." transactions <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    $view_reply->add_swap_tag_string("page_content","Created: ".$transactions_created." transactions <br/> <a href=\"[[url_base]]import\">Back to menu</a>");
 }
 else
 {

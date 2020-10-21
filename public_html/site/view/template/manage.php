@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= "Manage";
-$template_parts["page_actions"] = "<a href='[[url_base]]template/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$view_reply->add_swap_tag_string("html_title"," ~ Manage");
+$view_reply->add_swap_tag_string("page_title"," Manage");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]template/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $template = new template();
 if($template->load($page) == true)
 {
@@ -16,11 +16,11 @@ if($template->load($page) == true)
         $form->textarea("detail","Template [Object+Bot IM]",800,$template->get_detail(),"Use swap tags as the placeholders! max length 800");
     $form->col(6);
         $form->textarea("notecarddetail","Notecard template",2000,$template->get_notecarddetail(),"Use swap tags as the placeholder");
-    echo $form->render("Update","primary");
+    $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
     include("site/view/shared/swaps_table.php");
 }
 else
 {
-    redirect("template?bubblemessage=unable to find template&bubbletype=warning");
+    $view_reply->redirect("template?bubblemessage=unable to find template&bubbletype=warning");
 }
 ?>

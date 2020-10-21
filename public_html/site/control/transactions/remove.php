@@ -3,7 +3,7 @@ if($session->get_ownerlevel() == 1)
 {
     $input = new inputFilter();
     $accept = $input->postFilter("accept");
-    $redirect = "transactions";
+    $ajax_reply->set_swap_tag_string("redirect","transactions");
     $status = false;
     if($accept == "Accept")
     {
@@ -14,25 +14,25 @@ if($session->get_ownerlevel() == 1)
             if($remove_status["status"] == true)
             {
                 $status = true;
-                echo $lang["tr.rm.info.1"];
+                $ajax_reply->set_swap_tag_string("message",$lang["tr.rm.info.1"]);
             }
             else
             {
-                echo sprintf($lang["tr.rm.error.3"],$remove_status["message"]);
+                $ajax_reply->set_swap_tag_string("message",sprintf($lang["tr.rm.error.3"],$remove_status["message"]));
             }
         }
         else
         {
-            echo $lang["tr.rm.error.2"];
+            $ajax_reply->set_swap_tag_string("message",$lang["tr.rm.error.2"]);
         }
     }
     else
     {
-        echo $lang["tr.rm.error.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["tr.rm.error.1"]);
     }
 }
 else
 {
-    echo $lang["tr.rm.error.4"];
+    $ajax_reply->set_swap_tag_string("message",$lang["tr.rm.error.4"]);
 }
 ?>

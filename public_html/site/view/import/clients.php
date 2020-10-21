@@ -88,21 +88,21 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
                         }
                         else
                         {
-                            echo $lang["client.cr.error.10"];
+                            $view_reply->add_swap_tag_string("page_content",$lang["client.cr.error.10"]);
                             $all_ok=false;
                             break;
                         }
                     }
                     else
                     {
-                        echo sprintf($lang["client.cr.error.9"],$create_status["message"]);
+                        $view_reply->add_swap_tag_string("page_content",sprintf($lang["client.cr.error.9"],$create_status["message"]));
                         $all_ok=false;
                         break;
                     }
                 }
                 else
                 {
-                    echo $lang["client.cr.error.8"];
+                    $view_reply->add_swap_tag_string("page_content",$lang["client.cr.error.8"]);
                     $all_ok=false;
                     break;
                 }
@@ -124,7 +124,7 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
 }
 if($all_ok == true)
 {
-    echo "Created: ".$clients_created." clients, ".$clients_skipped_no_stream." skipped (No stream), ".$clients_skipped_no_avatar." skipped (No avatar), ".$clients_skipped_bad_notice_level." skipped (Bad notice level) <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    $view_reply->add_swap_tag_string("page_content","Created: ".$clients_created." clients, ".$clients_skipped_no_stream." skipped (No stream), ".$clients_skipped_no_avatar." skipped (No avatar), ".$clients_skipped_bad_notice_level." skipped (Bad notice level) <br/> <a href=\"[[url_base]]import\">Back to menu</a>");
 }
 else
 {

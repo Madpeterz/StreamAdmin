@@ -22,16 +22,26 @@ abstract class genClass_load extends genClass_setvalue
         }
         return false;
     }
-    public function load_targeted(array $wherefields=array(),array $wherevalues=array(),string $joinword="AND",string $orderBy = "",string $orderDir = "DESC") :bool
+    public function load_targeted(array $wherefields=array(),array $wherevalues=array(),string $joinword="AND") :bool
     {
-        return $this->load_data($wherefields,$wherevalues,$joinword,$orderBy,$orderDir,1);
+        $whereconfig = array(
+            "join_with" => $joinword,
+             "fields"=>array_keys($wherefields),
+             "matches"=>array_values($wherefields),
+             "values"=>array_keys($wherevalues),
+             "type"=>array_values($wherevalues)
+         );
+        return $this->load_data($whereconfig);
     }
-    protected function load_data(array $wherefields=array(),array $wherevalues=array(),string $joinword="AND",string $orderBy = "",string $orderDir = "DESC",int $limit=12) :bool
+    protected function load_data(array $whereconfig=array()) :bool
     {
         if($this->disabled == false)
         {
-            $fields = array_keys($this->dataset);
-            $load_data = $this->sql->select($this->get_table(),$fields,$wherefields,$wherevalues,$joinword,$orderBy,$orderDir,$limit);
+            $options_config = array(
+                "page_number" => 0,
+                "max_entrys" => 1
+            );
+            $load_data = $this->sql->selectV2(array("table"=>$this->get_table()),null,$whereconfig,$options_config);
             return $this->process_load($load_data);
         }
         else $this->addError(__FILE__, __FUNCTION__, " this class is disabled");
@@ -46,7 +56,13 @@ abstract class genClass_load extends genClass_setvalue
 		$field_type = $this->get_field_type($field_name,true);
 		if($field_type !== false)
 		{
-			return $this->load_data(array(array($field_name => "=")),array(array($field_value => $field_type)));
+            $whereconfig = array(
+                 "fields"=>array($field_name),
+                 "matches"=>array("="),
+                 "values"=>array($field_value),
+                 "types"=>array($field_type)
+             );
+			return $this->load_data($whereconfig);
 		}
 		else
 		{
@@ -56,16 +72,17 @@ abstract class genClass_load extends genClass_setvalue
 	}
     public function load_with_config(array $where_config=array()) :bool
     {
-        $load_data = $this->sql->selectV2(
-            array("table"=>$this->get_table()),
-            null,
-            $where_config
-        );
-        return $this->process_load($load_data);
+        return $this->load_data($where_config);
     }
     public function load($id=0)
     {
-        return $this->load_data(array(array("id" => "=")),array(array($id => "i")));
+        $whereconfig = array(
+             "fields"=>array("id"),
+             "matches"=>array("="),
+             "values"=>array($id),
+             "types"=>array("i")
+         );
+        return $this->load_data($whereconfig);
     }
 }
 ?>

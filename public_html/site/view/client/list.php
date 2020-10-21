@@ -11,7 +11,6 @@ $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
 $package_set = new package_set();
 $package_set->load_ids($stream_set->get_all_by_field("packagelink"));
 
-$template_parts["page_title"] .= " [All]";
-
+$view_reply->add_swap_tag_string("page_title"," [All]");
 include("site/view/client/render_list.php");
 ?>

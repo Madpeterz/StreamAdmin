@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= "All";
+$view_reply->add_swap_tag_string("page_title"," All");
 $reseller_set = new reseller_set();
 $reseller_set->loadAll();
 
@@ -20,13 +20,13 @@ foreach($reseller_set->get_all_ids() as $reseller_id)
     $entry[] = $reseller->get_rate();
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
-echo "<br/><hr/><p>
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
+$view_reply->add_swap_tag_string("page_content","<br/><hr/><p>
 To register a new reseller please have them rez and activate any StreamAdmin object<br/>
 if enabled in config they will be automagicly accepted<br/>
 failing that added to this list for a member of staff to set the rate and enable.<br/>
 <hr/>
 Note: Even if the system assigned avatar appears in this list,
 the settings defined for the reseller are ignored.
-</p>";
+</p>");
 ?>

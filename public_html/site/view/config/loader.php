@@ -7,7 +7,8 @@ foreach($check_objects as $check)
     if($obj->HasAny() == false)
     {
         $all_ok = false;
-        redirect($check);
+        $view_reply->redirect($check);
+        redirect();
         break;
     }
 }
@@ -30,9 +31,9 @@ if($all_ok == true)
         $config_areas["Staff"] = "staff";
         $config_areas["Banlist"] = "banlist";
     }
-    $template_parts["page_actions"] = "";
-    $template_parts["html_title"] = "Config";
-    $template_parts["page_title"] = "[[page_breadcrumb_icon]] [[page_breadcrumb_text]]";
+    $view_reply->set_swap_tag_string("html_title","Config");
+    $view_reply->set_swap_tag_string("page_title","[[page_breadcrumb_icon]] [[page_breadcrumb_text]]");
+    $view_reply->set_swap_tag_string("page_actions","");
     $table_head = array("Name");
     $table_body = array();
     $loop = 0;
@@ -43,6 +44,6 @@ if($all_ok == true)
         $table_body[] = $entry;
         $loop++;
     }
-    echo render_table($table_head,$table_body);
+    $view_reply->add_swap_tag_string("page_content",render_table($table_head,$table_body));
 }
 ?>

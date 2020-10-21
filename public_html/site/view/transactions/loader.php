@@ -1,12 +1,7 @@
 <?php
-$template_parts["html_title"] = "Transactions";
-$template_parts["page_actions"] = "";
-$template_parts["page_title"] = "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / Transactions: ";
-$check_file = "site/view/transactions/".$area.".php";
+$view_reply->set_swap_tag_string("html_title","Transactions");
+$view_reply->set_swap_tag_string("page_title","[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / Transactions: ");
+$view_reply->set_swap_tag_string("page_actions","");
 $month = date("m");
 $year = date("Y");
-if(file_exists($check_file) == true)
-{
-    include($check_file);
-}
 ?>

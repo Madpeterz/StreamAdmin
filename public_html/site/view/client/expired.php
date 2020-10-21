@@ -5,7 +5,7 @@ $whereconfig = array(
     "types" => array("i"),
     "matches" => array("<="),
 );
-$template_parts["page_title"] .= " With status: Expired";
+$view_reply->add_swap_tag_string("page_title","With status: Expired");
 include("site/view/client/with_status.php");
-$template_parts["page_actions"] = "<a href='[[url_base]]client/bulkremove'><button type='button' class='btn btn-outline-danger btn-sm'>Bulk remove</button></a>";
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]client/bulkremove'><button type='button' class='btn btn-outline-danger btn-sm'>Bulk remove</button></a>");
 ?>

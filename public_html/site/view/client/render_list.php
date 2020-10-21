@@ -26,5 +26,5 @@ foreach($rental_set->get_all_ids() as $rental_id)
     $entry[] = $rental->get_renewals();
     $table_body[] = $entry;
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->add_swap_tag_string("page_content",render_datatable($table_head,$table_body)); 
 ?>

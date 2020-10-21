@@ -16,7 +16,7 @@ if($send_notecard == false)
     }
 }
 $failed_on = "";
-$redirect = "";
+$ajax_reply->set_swap_tag_string("redirect",null);
 if(strlen($name) < 5) $failed_on .= $lang["notice.up.error.1"];
 else if(strlen($name) > 100) $failed_on .= $lang["notice.up.error.2"];
 else if(strlen($immessage) < 5) $failed_on .= $lang["notice.up.error.3"];
@@ -58,32 +58,32 @@ if($failed_on == "")
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    $redirect = "notice";
-                    echo $lang["notice.up.info.1"];
+                    $ajax_reply->set_swap_tag_string("message",$lang["notice.up.info.1"]);
+                    $ajax_reply->set_swap_tag_string("redirect","notice");
                 }
                 else
                 {
-                    echo sprintf($lang["notice.up.error.10"],$update_status["message"]);
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["notice.up.error.10"],$update_status["message"]));
                 }
             }
             else
             {
-                echo $lang["notice.up.error.9"];
+                $ajax_reply->set_swap_tag_string("message",$lang["notice.up.error.9"]);
             }
         }
         else
         {
-            echo $lang["notice.up.error.8"];
+            $ajax_reply->set_swap_tag_string("message",$lang["notice.up.error.8"]);
         }
     }
     else
     {
-        echo $lang["notice.up.error.7"];
-        $redirect = "notice";
+        $ajax_reply->set_swap_tag_string("message",$lang["notice.up.error.7"]);
+        $ajax_reply->set_swap_tag_string("redirect","notice");
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

@@ -6,7 +6,7 @@ $avataruid = $input->postFilter("avataruid");
 $streamuid = $input->postFilter("streamuid");
 $daysremaining = $input->postFilter("daysremaining","integer");
 $status = false;
-$redirect = "client";
+$ajax_reply->set_swap_tag_string("redirect","client");
 $failed_on = "";
 
 $avatar_where_config = array(
@@ -76,26 +76,26 @@ if($failed_on == "")
             if($update_status["status"] == true)
             {
                 $status = true;
-                echo $lang["client.cr.info.1"];
+                $ajax_reply->set_swap_tag_string("message",$lang["client.cr.info.1"]);
             }
             else
             {
-                echo $lang["client.cr.error.10"];
+                $ajax_reply->set_swap_tag_string("message",$lang["client.cr.error.10"]);
             }
         }
         else
         {
-            echo sprintf($lang["client.cr.error.9"],$create_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["client.cr.error.9"],$create_status["message"]));
         }
     }
     else
     {
-        echo $lang["client.cr.error.8"];
+        $ajax_reply->set_swap_tag_string("message",$lang["client.cr.error.8"]);
     }
 }
 else
 {
-    $redirect = "";
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
+    $ajax_reply->set_swap_tag_string("redirect",null);
 }
 ?>

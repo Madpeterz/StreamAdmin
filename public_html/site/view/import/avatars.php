@@ -31,7 +31,6 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
         else
         {
             $all_ok = false;
-            echo $lang["av.cr.error.5"];
             break;
         }
     }
@@ -39,10 +38,11 @@ foreach($r4_users_set->get_all_ids() as $r4_user_id)
 
 if($all_ok == true)
 {
-    echo "Created: ".$avatars_created." avatars <br/> <a href=\"[[url_base]]import\">Back to menu</a>";
+    $view_reply->add_swap_tag_string("page_content","Created: ".$avatars_created." avatars <br/> <a href=\"[[url_base]]import\">Back to menu</a>");
 }
 else
 {
+    $view_reply->add_swap_tag_string("page_content",$lang["av.cr.error.5"]);
     $sql->flagError();
 }
 ?>

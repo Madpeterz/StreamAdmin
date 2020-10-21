@@ -12,22 +12,20 @@ if($status["status"] == true)
         if($avatar->get_avatar_uid() == "system")
         {
             $sql->sqlSave(true);
-            ?>
-            <a href="setup"><button class="btn btn-primary btn-block" type="button">Setup</button></a>
-            <?php
+            $view_reply->set_swap_tag_string("page_content",'<a href="setup"><button class="btn btn-primary btn-block" type="button">Setup</button></a>');
         }
         else
         {
-            echo "Error: Expected install config db value is invaild";
+            $view_reply->set_swap_tag_string("page_content",'Error: Expected install config db value is invaild');
         }
     }
     else
     {
-        echo "Error: reading from datatabase";
+        $view_reply->set_swap_tag_string("page_content",'Error: reading from datatabase');
     }
 }
 else
 {
-    echo "Rrror: installing db file: ".$status["message"]."";
+    $view_reply->set_swap_tag_string("page_content",'Error: installing db file: '.$status["message"]);
 }
 ?>

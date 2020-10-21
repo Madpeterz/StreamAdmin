@@ -50,31 +50,31 @@ if($failed_on == "")
                 if($create_status["status"] == true)
                 {
                     $status = true;
-                    echo $lang["stream.cr.info.1"];
-                    $redirect = "stream";
+                    $ajax_reply->set_swap_tag_string("message",$lang["stream.cr.info.1"]);
+                    $ajax_reply->set_swap_tag_string("redirect","stream");
                 }
                 else
                 {
-                    echo sprintf($lang["stream.cr.error.14"],$create_status["message"]);
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["stream.cr.error.14"],$create_status["message"]));
                 }
             }
             else
             {
-                echo $lang["stream.cr.error.13"];
+                $ajax_reply->set_swap_tag_string("message",$lang["stream.cr.error.13"]);
             }
         }
         else
         {
-            echo $lang["stream.cr.error.12"];
+            $ajax_reply->set_swap_tag_string("message",$lang["stream.cr.error.12"]);
         }
     }
     else
     {
-        echo $lang["stream.cr.error.11"];
+        $ajax_reply->set_swap_tag_string("message",$lang["stream.cr.error.11"]);
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

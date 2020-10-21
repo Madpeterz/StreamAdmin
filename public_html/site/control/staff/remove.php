@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect = "staff";
+$ajax_reply->set_swap_tag_string("redirect","staff");
 $status = false;
 if($accept == "Accept")
 {
@@ -14,26 +14,26 @@ if($accept == "Accept")
             if($remove_status["status"] == true)
             {
                 $status = true;
-                echo $lang["staff.rm.info.1"];
+                $ajax_reply->set_swap_tag_string("message",$lang["staff.rm.info.1"]);
             }
             else
             {
-                echo sprintf($lang["staff.cr.error.10"],$remove_status["message"]);
+                $ajax_reply->set_swap_tag_string("message",sprintf($lang["staff.cr.error.10"],$remove_status["message"]));
             }
         }
         else
         {
-            echo $lang["staff.rm.error.1"];
+            $ajax_reply->set_swap_tag_string("message",$lang["staff.rm.error.1"]);
         }
     }
     else
     {
-        echo $lang["staff.rm.error.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["staff.rm.error.1"]);
     }
 }
 else
 {
-    echo $lang["staff.rm.error.1"];
-    $redirect ="staff/manage/".$page."";
+    $ajax_reply->set_swap_tag_string("message",$lang["staff.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","staff/manage/".$page."");
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Create";
-$template_parts["page_title"] .= "Create new client";
-$template_parts["page_actions"] = "";
+$view_reply->add_swap_tag_string("html_title"," ~ Create");
+$view_reply->add_swap_tag_string("page_title","Create new client");
+$view_reply->set_swap_tag_string("page_actions","");
 
 $package_set = new package_set();
 $package_set->loadAll();
@@ -20,5 +20,5 @@ $form->col(6);
 $form->col(6);
 $form->col(6);
     $form->direct_add("<br/>If there are multiple streams with the same port number you must use the UID!");
-echo $form->render("Create","primary");
+$view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
 ?>

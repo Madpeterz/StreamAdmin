@@ -35,10 +35,10 @@ if($search_avatar_set->get_count() > 0)
     {
         $reply["values"] = $scored_results[0];
     }
-    echo "ok";
+    $ajax_reply->set_swap_tag_string("message","ok");
 }
 else
 {
-    echo "nope";
+    $ajax_reply->set_swap_tag_string("message","nope");
 }
 ?>

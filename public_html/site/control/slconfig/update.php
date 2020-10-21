@@ -1,4 +1,6 @@
 <?php
+$ajax_reply->purge_cache_file("current_timezone",false);
+
 $avatar = new avatar();
 $timezone = new timezones();
 $input = new inputFilter();
@@ -30,7 +32,7 @@ else if($avatar->load_by_field("avatar_uid",$owneravuid) == false) $failed_on .=
 else if($timezone->load($displaytimezonelink) == false) $failed_on .= $lang["slconfig.up.error.12"];
 else if(strlen($api_default_email) < 7) $failed_on .= $lang["slconfig.up.error.13"];
 
-$redirect = "slconfig";
+$ajax_reply->set_swap_tag_string("redirect","slconfig");
 $status = false;
 if($failed_on == "")
 {
@@ -68,17 +70,17 @@ if($failed_on == "")
     if($update_status["status"] == true)
     {
         $status = true;
-        echo $lang["slconfig.up.info.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["slconfig.up.info.1"]);
     }
     else
     {
-        echo sprintf($lang["slconfig.up.error.9"],$update_status["message"]);
+        $ajax_reply->set_swap_tag_string("message",sprintf($lang["slconfig.up.error.9"],$update_status["message"]));
     }
 }
 else
 {
     $status = false;
-    $redirect = "";
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
+    $ajax_reply->set_swap_tag_string("redirect","");
 }
 ?>

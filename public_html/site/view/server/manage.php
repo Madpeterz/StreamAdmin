@@ -1,13 +1,13 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= " Editing";
-$template_parts["page_actions"] = "<a href='[[url_base]]server/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$view_reply->add_swap_tag_string("html_title"," ~ Manage");
+$view_reply->add_swap_tag_string("page_title"," Editing");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]server/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $server = new server();
 $apis = new apis_set();
 $apis->loadAll();
 if($server->load($page) == true)
 {
-    $template_parts["page_title"] .= ":".$server->get_domain()."";
+    $view_reply->add_swap_tag_string("page_title"," :".$server->get_domain());
     $form = new form();
     $form->target("server/update/".$page."");
     $form->required(true);
@@ -41,11 +41,11 @@ if($server->load($page) == true)
         $form->select("event_clear_djs","Event / Clear DJ accounts on revoke",$server->get_event_clear_djs(),array(0=>"No",1=>"Yes"));
     $form->col(6);
         $form->select("event_recreate_revoke","Event / Recreate account on revoke",$server->get_event_recreate_revoke(),array(0=>"No",1=>"Yes"));
-    echo $form->render("Update","primary");
+    $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
     include("site/view/server/api_notes.php");
 }
 else
 {
-    redirect("server?bubblemessage=unable to find server&bubbletype=warning");
+    $view_reply->redirect("server?bubblemessage=unable to find server&bubbletype=warning");
 }
 ?>

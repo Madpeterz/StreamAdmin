@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$redirect ="notice";
+$ajax_reply->set_swap_tag_string("redirect","notice");
 $status = false;
 if($accept == "Accept")
 {
@@ -20,36 +20,36 @@ if($accept == "Accept")
                     if($remove_status["status"] == true)
                     {
                         $status = true;
-                        echo $lang["notice.rm.info.1"];
+                        $ajax_reply->set_swap_tag_string("message",$lang["notice.rm.info.1"]);
                     }
                     else
                     {
-                        echo sprintf($lang["notice.rm.error.4"],$remove_status["message"]);
+                        $ajax_reply->set_swap_tag_string("message",sprintf($lang["notice.rm.error.4"],$remove_status["message"]));
                     }
                 }
                 else
                 {
-                    echo sprintf($lang["notice.rm.error.6"],$notecard_set->get_count());
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["notice.rm.error.6"],$notecard_set->get_count()));
                 }
             }
             else
             {
-                echo $lang["notice.rm.error.5"];
+                $ajax_reply->set_swap_tag_string("message",$lang["notice.rm.error.5"]);
             }
         }
         else
         {
-            echo $lang["notice.rm.error.3"];
+            $ajax_reply->set_swap_tag_string("message",$lang["notice.rm.error.3"]);
         }
     }
     else
     {
-        echo $lang["notice.rm.error.2"];
+        $ajax_reply->set_swap_tag_string("message",$lang["notice.rm.error.2"]);
     }
 }
 else
 {
-    echo $lang["notice.rm.error.1"];
-    $redirect ="notice/manage/".$page."";
+    $ajax_reply->set_swap_tag_string("message",$lang["notice.rm.error.1"]);
+    $ajax_reply->set_swap_tag_string("redirect","notice/manage/".$page."");
 }
 ?>

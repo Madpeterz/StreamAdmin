@@ -5,6 +5,6 @@ $whereconfig = array(
     "types" => array("i","i"),
     "matches" => array("<=",">"),
 );
-$template_parts["page_title"] .= " With status: Expires soon";
+$view_reply->add_swap_tag_string("page_title"," With status: Expires soon");
 include("site/view/client/with_status.php");
 ?>

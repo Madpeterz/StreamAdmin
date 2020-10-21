@@ -40,8 +40,8 @@ if($newpw1 == $newpw2)
                             if($update_status["status"] == true)
                             {
                                 $status = true;
-                                $redirect = "login";
-                                echo $lang["login.rn.info.1"];
+                                $ajax_reply->set_swap_tag_string("message",$lang["login.rn.info.1"]);
+                                $ajax_reply->set_swap_tag_string("redirect","login");
                             }
                             else
                             {
@@ -75,11 +75,11 @@ if($status == false)
 {
     if($failed_on == "")
     {
-        echo $lang["login.rn.error.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["login.rn.error.1"]);
     }
     else
     {
-        echo $failed_on;
+        $ajax_reply->set_swap_tag_string("message",$failed_on);
     }
 }
 

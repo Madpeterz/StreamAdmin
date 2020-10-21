@@ -37,7 +37,7 @@ else if(strlen($api_template) < 3)  $failed_on .= $lang["package.up.error.19"];
 else if($servertype->load($servertypelink) == false) $failed_on .= $lang["package.up.error.20"];
 
 $status = false;
-$redirect = "package";
+$ajax_reply->set_swap_tag_string("redirect","package");
 if($failed_on == "")
 {
     $package = new package();
@@ -56,26 +56,26 @@ if($failed_on == "")
         $package->set_texture_uuid_instock_selected($texture_uuid_instock_selected);
         $package->set_api_template($api_template);
         $package->set_servertypelink($servertypelink);
-        
+
         $update_status = $package->save_changes();
         if($update_status["status"] == true)
         {
             $status = true;
-            echo $lang["package.up.info.1"];
+            $ajax_reply->set_swap_tag_string("message",$lang["package.up.info.1"]);
         }
         else
         {
-            echo sprintf($lang["package.up.error.17"],$update_status["message"]);
+            $ajax_reply->set_swap_tag_string("message",sprintf($lang["package.up.error.17"],$update_status["message"]));
         }
     }
     else
     {
-        echo $lang["package.up.error.16"];
+        $ajax_reply->set_swap_tag_string("message",$lang["package.up.error.16"]);
     }
 }
 else
 {
-    $redirect = "";
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
+    $ajax_reply->set_swap_tag_string("redirect",null);
 }
 ?>

@@ -26,7 +26,7 @@ $event_recreate_revoke = $input->postFilter("event_recreate_revoke","integer");
 $api_sync_accounts = $input->postFilter("api_sync_accounts","integer");
 
 $failed_on = "";
-$redirect = "";
+$ajax_reply->set_swap_tag_string("redirect","");
 $yesno_array = array(0,1);
 if(strlen($domain) > 100) $failed_on .= $lang["server.cr.error.1"];
 else if(strlen($domain) < 5) $failed_on .= $lang["server.cr.error.2"];
@@ -78,16 +78,16 @@ if($failed_on == "")
     if($create_status["status"] == true)
     {
         $status = true;
-        $redirect = "server";
-        echo $lang["server.cr.info.1"];
+        $ajax_reply->set_swap_tag_string("message",$lang["server.cr.info.1"]);
+        $ajax_reply->set_swap_tag_string("redirect","server");
     }
     else
     {
-        echo sprintf($lang["server.cr.error.5"],$create_status["message"]);
+        $ajax_reply->set_swap_tag_string("message",sprintf($lang["server.cr.error.5"],$create_status["message"]));
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

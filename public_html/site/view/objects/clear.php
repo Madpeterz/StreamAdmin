@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Clear";
-$template_parts["page_title"] .= ": Clear";
-$template_parts["page_actions"] = "";
+$view_reply->add_swap_tag_string("html_title"," ~ Clear");
+$view_reply->add_swap_tag_string("page_title"," : Clear");
+$view_reply->set_swap_tag_string("page_actions","");
 
 $form = new form();
 $form->target("objects/clear");
@@ -18,6 +18,5 @@ $action = '
   </label>
 </div>';
 $form->direct_add($action);
-echo $form->render("Clear","warning");
-echo "";
+$view_reply->set_swap_tag_string("page_content",$form->render("Clear","warning"));
 ?>

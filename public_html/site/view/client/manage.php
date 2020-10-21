@@ -1,7 +1,8 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= "Editing client";
-$template_parts["page_actions"] = "<a href='[[url_base]]client/revoke/".$page."'><button type='button' class='btn btn-danger'>Revoke</button></a>";
+$view_reply->add_swap_tag_string("html_title","~ Manage");
+$view_reply->add_swap_tag_string("page_title","Editing client");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]client/revoke/".$page."'><button type='button' class='btn btn-danger'>Revoke</button></a>");
+
 
 $rental = new rental();
 if($rental->load_by_field("rental_uid",$page) == true)
@@ -131,12 +132,12 @@ if($rental->load_by_field("rental_uid",$page) == true)
         }
     }
     $paged_info = new paged_info();
-    echo $paged_info->render($pages);
-    echo "<br/><h4>Transactions</h4>";
-    echo render_datatable($table_head,$table_body);
+    $view_reply->set_swap_tag_string("page_content",$paged_info->render($pages));
+    $view_reply->add_swap_tag_string("page_content","<br/><h4>Transactions</h4>");
+    $view_reply->add_swap_tag_string("page_content",render_datatable($table_head,$table_body)); 
 }
 else
 {
-    redirect("client?bubblemessage=unable to find client&bubbletype=warning");
+    $view_reply->redirect("client?bubblemessage=unable to find client&bubbletype=warning");
 }
 ?>

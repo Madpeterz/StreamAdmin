@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= " Pending api calls";
+$view_reply->add_swap_tag_string("page_title"," Pending api calls"); 
 $table_head = array("id","Event","Port","Last tryed","Attempts","message");
 $table_body = array();
 $api_requests_set = new api_requests_set();
@@ -29,5 +29,5 @@ foreach($api_requests_set->get_all_ids() as $request_id)
     $stream->get_port(),expired_ago($request->get_last_attempt()),
     $request->get_attempts(),$request->get_message());
 }
-echo render_datatable($table_head,$table_body);
+$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 ?>

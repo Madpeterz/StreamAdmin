@@ -14,15 +14,15 @@ if($apilink > 0)
         }
         $status = true;
         $reply["update_api_flags"] = true;
-        echo "API config loaded";
+        $ajax_reply->set_swap_tag_string("message","API config loaded");
     }
     else
     {
-        echo "Unknown API selected";
+        $ajax_reply->set_swap_tag_string("message","Unknown API selected");
     }
 }
 else
 {
-    echo "Invaild API selected";
+    $ajax_reply->set_swap_tag_string("message","Invaild API selected");
 }
 ?>

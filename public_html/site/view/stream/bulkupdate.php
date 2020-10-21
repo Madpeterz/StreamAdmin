@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] = "Streams";
-$template_parts["page_title"] .= " Bulk update";
-$template_parts["page_actions"] = "";
+$view_reply->set_swap_tag_string("html_title","Streams");
+$view_reply->add_swap_tag_string("page_title"," Bulk update");
+$view_reply->set_swap_tag_string("page_actions","");
 $whereconfig = array(
     "fields" => array("needwork","rentallink"),
     "values" => array(1,null),
@@ -49,10 +49,10 @@ if(count($table_body) > 0)
     $form->target("stream/bulkupdate");
     $form->col(12);
         $form->direct_add(render_datatable($table_head,$table_body));
-    echo $form->render("Process","outline-warning");
+    $view_reply->set_swap_tag_string("page_content",$form->render("Process","outline-warning"));
 }
 else
 {
-    echo "No streams marked as need work";
+    $view_reply->set_swap_tag_string("page_content","No streams marked as need work");
 }
 ?>

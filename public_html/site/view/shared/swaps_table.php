@@ -53,6 +53,6 @@ if(defined("swaps_table_paged") == true)
 }
 else
 {
-    echo $tableout;
+    $view_reply->add_swap_tag_string("page_content",$tableout);
 }
 ?>

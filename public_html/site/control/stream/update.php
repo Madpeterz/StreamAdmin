@@ -58,31 +58,31 @@ if($failed_on == "")
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    echo $lang["stream.up.info.1"];
-                    $redirect = "stream";
+                    $ajax_reply->set_swap_tag_string("message",$lang["stream.up.info.1"]);
+                    $ajax_reply->set_swap_tag_string("redirect","stream");
                 }
                 else
                 {
-                    echo sprintf($lang["stream.up.error.14"],$update_status["message"]);
+                    $ajax_reply->set_swap_tag_string("message",sprintf($lang["stream.up.error.14"],$update_status["message"]));
                 }
             }
             else
             {
-                echo $lang["stream.up.error.13"];
+                $ajax_reply->set_swap_tag_string("message",$lang["stream.up.error.13"]);
             }
         }
         else
         {
-            echo $lang["stream.up.error.12"];
+            $ajax_reply->set_swap_tag_string("message",$lang["stream.up.error.12"]);
         }
     }
     else
     {
-        echo $lang["stream.up.error.11"];
+        $ajax_reply->set_swap_tag_string("message",$lang["stream.up.error.11"]);
     }
 }
 else
 {
-    echo $failed_on;
+    $ajax_reply->set_swap_tag_string("message",$failed_on);
 }
 ?>

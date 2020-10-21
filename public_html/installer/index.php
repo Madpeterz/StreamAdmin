@@ -1,35 +1,10 @@
 <?php
-function render()
-{
-    global $page, $optional, $module, $template_parts;
-    $buffer = ob_get_contents();
-    ob_clean();
-    $template_parts["page_content"] = ob_get_contents();
-    ob_clean();
-    foreach($template_parts as $key => $value)
-    {
-        $buffer = str_replace("[[".$key."]]",$value,$buffer);
-    }
-    $buffer = str_replace("[[MODULE]]",$module,$buffer);
-    $buffer = str_replace("[[AREA]]",$optional,$buffer);
-    $buffer = str_replace("[[PAGE]]",$page,$buffer);
-    foreach($template_parts as $key => $value)
-    {
-        $buffer = str_replace("[[".$key."]]",$value,$buffer);
-    }
-    $buffer = str_replace("[[MODULE]]",$module,$buffer);
-    $buffer = str_replace("[[AREA]]",$optional,$buffer);
-    $buffer = str_replace("[[PAGE]]",$page,$buffer);
-    $buffer = str_replace("@NL@","\r\n",$buffer);
-    echo $buffer;
-}
 if(defined("correct") == true)
 {
     include("site/framework/core.php");
     include("installer/config.php");
     add_vendor("website");
-    load_template("install");
-    render();
+    include("site/theme/streamadminr5/layout/install/template.php");
     $input = new inputFilter();
     if($module == "owner")
     {
@@ -55,11 +30,10 @@ if(defined("correct") == true)
     {
         include("installer/dbconfig.php");
     }
+    $view_reply->render_page();
 }
 else
 {
-    echo "Please do not attempt to run installer directly it will break something!";
+    die("Please do not attempt to run installer directly it will break something!");
 }
-render();
-
 ?>

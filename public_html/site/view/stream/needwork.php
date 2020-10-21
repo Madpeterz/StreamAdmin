@@ -1,5 +1,5 @@
 <?php
-$template_parts["page_title"] .= " With status: Need work";
+$view_reply->add_swap_tag_string("page_title"," With status: Need work");
 $server_set = new server_set();
 $server_set->loadAll();
 $whereconfig = array(
@@ -9,5 +9,5 @@ $whereconfig = array(
     "matches" => array("="),
 );
 include("site/view/stream/with_status.php");
-$template_parts["page_actions"] = "<a href='[[url_base]]stream/bulkupdate'><button type='button' class='btn btn-outline-warning btn-sm'>Bulk update</button></a>";
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]stream/bulkupdate'><button type='button' class='btn btn-outline-warning btn-sm'>Bulk update</button></a>");
 ?>
