@@ -8,4 +8,5 @@ include("site/framework/session.php");
 include("site/framework/autoloader.php");
 include("site/framework/forms.php");
 include("site/vendor/vendor.php");
+include("site/framework/pageworks.php");
 ?>

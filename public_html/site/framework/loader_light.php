@@ -25,7 +25,6 @@ else
 {
     include("installer/config.php");
 }
-include("site/framework/pageworks.php");
 if($slconfig != null)
 {
     $timezone_config_from_cache = $view_reply->get_cache_file("current_timezone",false);
