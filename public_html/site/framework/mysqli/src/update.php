@@ -11,7 +11,6 @@ abstract class mysqli_update extends mysqli_add
                 "types" => array(),   // s,i,d
             );
         */
-        $where_config = $this->preclean_where_config($where_config);
         if($this->sqlStart())
         {
             if($table != null)
@@ -70,40 +69,44 @@ abstract class mysqli_update extends mysqli_add
                     }
                     if($failed == false)
                     {
-                        if($stmt = $this->sqlConnection->prepare($sql))
+                        if($sql != "empty_in_array")
                         {
-                            $bind_ok = true;
-                            if(count($bind_args) > 0)
+                            if($stmt = $this->sqlConnection->prepare($sql))
                             {
-                                $bind_ok = mysqli_stmt_bind_param($stmt, $bind_text, ...$bind_args);
-                            }
-                            if($bind_ok == true)
-                            {
-                                if($stmt->execute() == true)
+                                $bind_ok = true;
+                                if(count($bind_args) > 0)
                                 {
-                                    $changes = mysqli_stmt_affected_rows($stmt);
-    								$stmt->close();
-                                    if($changes == $expected_changes)
+                                    $bind_ok = mysqli_stmt_bind_param($stmt, $bind_text, ...$bind_args);
+                                }
+                                if($bind_ok == true)
+                                {
+                                    if($stmt->execute() == true)
                                     {
-                                        $this->needToSave = true;
-                                        return array("status"=>true,"changes" => $changes, "message"=>"update ok");
+                                        $changes = mysqli_stmt_affected_rows($stmt);
+        								$stmt->close();
+                                        if($changes == $expected_changes)
+                                        {
+                                            $this->needToSave = true;
+                                            return array("status"=>true,"changes" => $changes, "message"=>"update ok");
+                                        }
+                                        else
+                                        {
+                                            $this->flagError();
+                                            return $this->failure("Unexpeected number of changes wanted ".$expected_changes." but got:".$changes);
+                                        }
                                     }
                                     else
                                     {
+                                        $stmt->close();
                                         $this->flagError();
-                                        return $this->failure("Unexpeected number of changes wanted ".$expected_changes." but got:".$changes);
+                                        return $this->failure("Failed to execute: [".$sql." ".implode(",",$bind_args)."]");
                                     }
                                 }
-                                else
-                                {
-                                    $stmt->close();
-                                    $this->flagError();
-                                    return $this->failure("Failed to execute: [".$sql." ".implode(",",$bind_args)."]");
-                                }
+                                else return $this->failure("Failed to bind");
                             }
-                            else return $this->failure("Failed to bind");
+                            else return $this->failure("Failed to prepair");
                         }
-                        else return $this->failure("Failed to prepair");
+                        else return $this->failure("Targeting IN|NOT IN with no array");
                     }
                     else return $this->failure("Failed: ".$failed_on."");
                 }
