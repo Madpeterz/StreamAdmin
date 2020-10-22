@@ -47,7 +47,7 @@ abstract class mysqli_update extends mysqli_add
                         if($loop == 0) $sql .= "SET ";
                         $sql .= $addon;
                         $sql .= $update_config["fields"][$loop]."= ";
-                        if(($update_config["values"][$loop] == null) && ($update_config["values"][$loop] !== 0)) $sql .= " NULL";
+                        if(($update_config["values"][$loop] === null) && ($update_config["values"][$loop] !== 0)) $sql .= " NULL";
                         else
                         {
                             $sql .= "?";
