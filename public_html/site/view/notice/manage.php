@@ -1,7 +1,7 @@
 <?php
-$template_parts["html_title"] .= " ~ Manage";
-$template_parts["page_title"] .= " Editing";
-$template_parts["page_actions"] = "<a href='[[url_base]]notice/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>";
+$view_reply->add_swap_tag_string("html_title"," ~ Manage");
+$view_reply->add_swap_tag_string("page_title"," Editing");
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]notice/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $where_config = array(
     "fields" => array("missing"),
     "values" => array(0),
@@ -18,7 +18,7 @@ if($notice->load($page) == true)
     {
         $current_notecard_notice = new notice_notecard();
         $current_notecard_notice->load($notice->get_notice_notecardlink());
-        $template_parts["page_title"] .= ":".$notice->get_name()."";
+        $view_reply->add_swap_tag_string("page_title",":".$notice->get_name());
         $form = new form();
         $form->target("notice/update/".$page."");
         $form->required(true);
