@@ -22,9 +22,12 @@ abstract class genClass_collection_get extends genClass_collectionSet
         {
             if(method_exists($worker,$right_side_field))
             {
-                foreach($this->collected as $object)
+                foreach($this->collected as $key => $object)
                 {
-                    $return_array[$object->$left_side_field()] = $object->$right_side_field();
+                    if(is_object($object) == true)
+                    {
+                        $return_array[$object->$left_side_field()] = $object->$right_side_field();
+                    }
                 }
             }
             else
@@ -44,10 +47,13 @@ abstract class genClass_collection_get extends genClass_collectionSet
         $function = "get_".$field_name."";
         foreach($this->collected as $key => $object)
         {
-            $value = $object->$function();
-            if(in_array($value,$found_values) == false)
+            if(is_object($object) == true)
             {
-                $found_values[] = $value;
+                $value = $object->$function();
+                if(in_array($value,$found_values) == false)
+                {
+                    $found_values[] = $value;
+                }
             }
         }
         return $found_values;

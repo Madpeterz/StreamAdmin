@@ -126,7 +126,6 @@ abstract class genClass_collection_load extends genClass_collection_removebulk
             }
             else
             {
-                print_r($load_data);
                 $this->addError(__FILE__, __FUNCTION__, "".get_class($this)." Unable to load data: ".$load_data["message"]."");
                 return array("status"=>false,"count"=>0,"message"=>"Unable to load data ".$load_data["message"]."");
             }
@@ -184,14 +183,20 @@ abstract class genClass_collection_load extends genClass_collection_removebulk
             $worker = new $this->worker_class();
             $read_from_table = $worker->get_table();
             $new_object = new $this->worker_class();
-
-            return $this->load_with_config(array(
-                "fields"=>array($fieldname),
-                "matches"=>array("IN"),
-                "values"=>array($uids),
-                "types"=>array($new_object->get_field_type($fieldname,true))
-                )
-            );
+            if(count($uids) > 0)
+            {
+                return $this->load_with_config(array(
+                    "fields"=>array($fieldname),
+                    "matches"=>array("IN"),
+                    "values"=>array($uids),
+                    "types"=>array($new_object->get_field_type($fieldname,true))
+                    )
+                );
+            }
+            else
+            {
+                return array("status"=>true,"count"=>0,"message"=>"No ids sent");
+            }
         }
         else
         {

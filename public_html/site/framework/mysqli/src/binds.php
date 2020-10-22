@@ -118,6 +118,63 @@ abstract class mysqli_binds extends mysqli_functions
         else $failed_on = "Where config is null";
         return $failed;
     }
+
+    protected function auto_id_where(string $field,string $main_table_id,bool $auto_ids) : string
+    {
+        if($auto_ids == true)
+        {
+            if(strpos($field,".") === false)
+            {
+                $field = "".$main_table_id.".".$field."";
+            }
+        }
+        return $field;
+    }
+
+    protected function build_where_case_is(string &$current_where_code,string $field,string $match)
+    {
+        $current_where_code .= "".$field." ".$match." NULL ";
+    }
+
+    protected function build_where_case_like(string &$current_where_code,string $field,string $match,string &$bind_text,array &$bind_args,$value,string $type)
+    {
+        if($match == "% LIKE") $value = "%".$value."";
+        else if($match == "LIKE %") $value = "".$value."%";
+        else if($match == "% LIKE %") $value = "%".$value."%";
+        $match = "LIKE";
+        $current_where_code .= "".$field." ".$match." ?";
+        $bind_text .= $type;
+        $bind_args[] = $value;
+    }
+
+    protected function build_where_case_in(string &$current_where_code,string $field,string $match,string &$bind_text,array &$bind_args,$value,string $type,string &$sql)
+    {
+        if(is_array($value) == true)
+        {
+            if(count($value) > 0)
+            {
+                $current_where_code .= "".$field." ".$match." (";
+                $addon2 = "";
+                foreach($value as $entry)
+                {
+                    $current_where_code .= "".$addon2." ? ";
+                    $addon2 = ", ";
+                    $bind_text .= $type;
+                    $bind_args[] = $entry;
+                }
+                $current_where_code .= ") ";
+            }
+            else
+            {
+                $sql = "empty_in_array";
+            }
+        }
+        else
+        {
+            $sql = "empty_in_array";
+        }
+    }
+
     protected function build_where(string &$sql,string &$bind_text,array &$bind_args,array $where_config,string $main_table_id="",bool $auto_ids=false) :bool
     {
         $loop = 0;
@@ -134,56 +191,25 @@ abstract class mysqli_binds extends mysqli_functions
             $type = $where_config["types"][$loop];
             $value = $where_config["values"][$loop];
             $field = $where_config["fields"][$loop];
-            if($auto_ids == true)
+
+            $field = $this->auto_id_where($field,$main_table_id,$auto_ids);
+            if(in_array($match,array("IS","IS NOT")) == true)
             {
-                if(strpos($field,".") === false)
-                {
-                    $field = "".$main_table_id.".".$field."";
-                }
+                $this->build_where_case_is($current_where_code,$field,$match);
             }
-            if(in_array($match,array("IS","IS NOT","IN","NOT IN")) == false)
+            else if(in_array($match,array("% LIKE","LIKE %","% LIKE %")) == true)
             {
-                if(in_array($match,array("% LIKE","LIKE %","% LIKE %")) == true)
-                {
-                    if($match == "% LIKE") $value = "%".$value."";
-                    else if($match == "LIKE %") $value = "".$value."%";
-                    else if($match == "% LIKE %") $value = "%".$value."%";
-                    $match = "LIKE";
-                }
-                $current_where_code .= "".$field." ".$match." ?";
-                $bind_text .= $type;
-                $bind_args[] = $value;
+                $this->build_where_case_like($current_where_code,$field,$match,$bind_text,$bind_args,$value,$type);
+            }
+            else if(in_array($match,array("IN","NOT IN")) == true)
+            {
+                $this->build_where_case_in($current_where_code,$field,$match,$bind_text,$bind_args,$value,$type,$sql);
             }
             else
             {
-                if(in_array($match,array("IS","IS NOT")) == true)
-                {
-                    $current_where_code .= "".$field." ".$match." NULL ";
-                }
-                else
-                {
-                    if(is_array($value) == true)
-                    {
-                        if(count($value) > 0)
-                        {
-                            $current_where_code .= "".$field." ".$match." (";
-                            $addon2 = "";
-                            foreach($value as $entry)
-                            {
-                                $current_where_code .= "".$addon2." ? ";
-                                $addon2 = ", ";
-                                $bind_text .= $type;
-                                $bind_args[] = $entry;
-                            }
-                            $current_where_code .= ") ";
-                        }
-                        else
-                        {
-                            $sql = "empty_in_array";
-                            break;
-                        }
-                    }
-                }
+                $current_where_code .= "".$field." ".$match." ?";
+                $bind_text .= $type;
+                $bind_args[] = $value;
             }
             if($sql != "empty_in_array")
             {
@@ -218,6 +244,10 @@ abstract class mysqli_binds extends mysqli_functions
                 }
                 $loop++;
             }
+            else
+            {
+                break;
+            }
         }
         if($sql != "empty_in_array")
         {
@@ -230,12 +260,8 @@ abstract class mysqli_binds extends mysqli_functions
             {
                 $sql .= " WHERE ".$current_where_code;
             }
-            return true;
         }
-        else
-        {
-            return false;
-        }
+        return true;
     }
 }
 
