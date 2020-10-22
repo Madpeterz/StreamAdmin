@@ -3,8 +3,8 @@ if($session->get_ownerlevel() == 1)
 {
     $match_with = "newest";
     $input = new inputFilter();
-    $name = $input->postFilter("name");
-    $uuid = $input->postFilter("uuid");
+    $name = $input->getFilter("name");
+    $uuid = $input->getFilter("uuid");
     $wherefields = array();
     $wherevalues = array();
     $wheretypes = array();
@@ -31,7 +31,7 @@ if($session->get_ownerlevel() == 1)
     {
         $banlist_set->load_newest(30);
         $avatar_set->load_ids($banlist_set->get_unique_array("avatar_link"));
-        $template_parts["page_title"] .= "Newest 30 avatars banned";
+        $view_reply->add_swap_tag_string("page_title"," Newest 30 avatars banned");
     }
     else
     {
@@ -42,8 +42,8 @@ if($session->get_ownerlevel() == 1)
             "matches" => $wherematchs
         );
         $avatar_set->load_with_config($where_config);
-        if($match_with == "name") $template_parts["page_title"] .= "Names containing: ".$name."";
-        else $template_parts["page_title"] .= "UUID: ".$uuid."";
+        if($match_with == "name") $view_reply->add_swap_tag_string("page_title","Names containing: ".$name);
+        else $view_reply->add_swap_tag_string("page_title","UUID: ".$uuid);
         $banlist_set->load_ids($avatar_set->get_all_ids(),"avatar_link");
     }
 
