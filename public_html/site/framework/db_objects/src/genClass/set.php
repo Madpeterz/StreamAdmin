@@ -17,7 +17,7 @@ abstract class genClass_setvalue extends genClass_getvalue
     {
         if($this->bad_id == false)
         {
-            return $this->update_field("id",$newvalue);
+            return $this->update_field("id",$newvalue,true);
         }
         else
         {
@@ -34,7 +34,7 @@ abstract class genClass_setvalue extends genClass_getvalue
         $message = "ok";
         foreach($keyvaluepairs as $fieldname => $value)
         {
-            $reply = $this->set_field($fieldname,$value);
+            $reply = $this->update_field($fieldname,$value,true);
             if($reply["status"] == false)
             {
                 $status = false;
