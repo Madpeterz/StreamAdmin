@@ -134,8 +134,8 @@ $('#NotecardModal').on('show.bs.modal', function (event) {
   modal.find('#ModalTitle').text('Loading');
   modal.find('#ModalText').val("Fetching notecard for rental "+rentaluid);
   $.ajax({
-         type: "get",
-         url: url_base+"ajax.php/client/getnotecard/"+rentaluid,
+         type: "post",
+         url: url_base+"client/getnotecard/"+rentaluid,
          success: function(data)
          {
              try
