@@ -5,7 +5,7 @@ $view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]template/r
 $template = new template();
 if($template->load($page) == true)
 {
-    $template_parts["page_title"] .= ":".$template->get_name()."";
+    $view_reply->add_swap_tag_string("page_title",":".$template->get_name());
     $form = new form();
     $form->target("template/update/".$page."");
     $form->required(true);
