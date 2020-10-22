@@ -8,7 +8,6 @@ foreach($check_objects as $check)
     {
         $all_ok = false;
         $view_reply->redirect($check);
-        redirect();
         break;
     }
 }
