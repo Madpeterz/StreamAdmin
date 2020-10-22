@@ -5,7 +5,7 @@ $input_filter = new inputFilter();
 $source_id = -1;
 $souce_named = "";
 $ok = false;
-$message = $input_filter->postFilter("message");
+$message = $input_filter->getFilter("message");
 
 if(strlen($message) >= 10)
 {
@@ -13,7 +13,7 @@ if(strlen($message) >= 10)
     {
         if($page == "notice")
         {
-            $source_id = $input_filter->postFilter("noticelink","integer");
+            $source_id = $input_filter->getFilter("noticelink","integer");
             if($source_id != null)
             {
                 $notice = new notice();
@@ -25,7 +25,7 @@ if(strlen($message) >= 10)
         }
         else if($page == "server")
         {
-            $source_id = $input_filter->postFilter("serverlink","integer");
+            $source_id = $input_filter->getFilter("serverlink","integer");
             if($source_id != null)
             {
                 $server = new server();
@@ -39,7 +39,7 @@ if(strlen($message) >= 10)
         }
         else if($page == "package")
         {
-            $source_id = $input_filter->postFilter("packagelink","integer");
+            $source_id = $input_filter->getFilter("packagelink","integer");
             if($source_id != null)
             {
                 $package = new package();
@@ -51,7 +51,7 @@ if(strlen($message) >= 10)
         }
         if($ok == true)
         {
-            $template_parts["page_title"] .= "Bulk sending to ".$page.": ".$souce_named."";
+            $view_reply->add_swap_tag_string("page_title"," Bulk sending to ".$page.": ".$souce_named."");
             $stream_set = new stream_set();
             $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
             $avatar_set = new avatar_set();
