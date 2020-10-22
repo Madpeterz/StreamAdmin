@@ -367,7 +367,7 @@ class server_centova3 extends server_centova3_only
     }
     protected function change_title_now(stream $stream,server $server,string $newtitle="Not set") : bool
     {
-        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"reconfigure",array("title"=>$title)));
+        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"reconfigure",array("title"=>$newtitle)));
     }
 }
 ?>
