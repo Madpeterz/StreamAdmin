@@ -17,7 +17,7 @@ foreach($server_set->get_all_ids() as $server_id)
         CPU: <span class=\'text-light\'>?</span> |
         Ram: <span class=\'text-light\'>?</span> % |
         Str: <span class=\'text-light\'>?</span> %"
-        data-repeatingrate="7000" class="ajaxonpageload" data-loadurl="[[url_base]]ajax.php/server/server_load/'.$server->get_id().'"></sub>';
+        data-repeatingrate="7000" class="ajaxonpageload" data-loadmethod="post" data-loadurl="[[url_base]]server/server_load/'.$server->get_id().'"></sub>';
     }
     else
     {

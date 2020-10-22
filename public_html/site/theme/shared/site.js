@@ -172,6 +172,12 @@ function dynamic_ajax_load(jqueryobject)
     {
         jqueryobject.html(jqueryobject.data('loading'));
     }
+    var loadtype = "get";
+    if (typeof jqueryobject.data('loadmethod') !== 'undefined')
+    {
+        loadtype = jqueryobject.data('loadmethod');
+    }
+
     if(jqueryobject.html() != "-")
     {
         if (typeof jqueryobject.data('repeatingrate') !== 'undefined')
@@ -179,7 +185,7 @@ function dynamic_ajax_load(jqueryobject)
             setTimeout(dynamic_ajax_load, (jqueryobject.data("repeatingrate")+Math.floor(Math.random() * 400)),jqueryobject);
         }
         $.ajax({
-               type: "get",
+               type: loadtype,
                url: jqueryobject.data("loadurl"),
                success: function(data)
                {
