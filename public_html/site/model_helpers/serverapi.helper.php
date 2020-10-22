@@ -253,7 +253,7 @@ class serverapi_helper
                 else
                 {
                     $sql->flagError();
-                    $this->message = "Unable to update password in db";
+                    $this->message = "Unable to update password in db: ".$update_status["message"];
                 }
             }
             else
