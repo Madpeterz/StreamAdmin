@@ -1,7 +1,7 @@
 <?php
 $lang = array(
     "slconfig.up.error.1" => "sllinkcode length must be 5 or longer",
-    "slconfig.up.error.2" => "sllinkcode length must be 30 or less",
+    "slconfig.up.error.2" => "sllinkcode length must be 10 or less",
     "slconfig.up.error.3" => "httpcode length must be 5 or longer",
     "slconfig.up.error.4" => "httpcode length must be 30 or less",
     "slconfig.up.error.5" => "new_resellers_rate must be 1 or more",
@@ -14,5 +14,7 @@ $lang = array(
     "slconfig.up.error.11" => "Datatable entrys per page must be 200 or less",
     "slconfig.up.error.12" => "Timezone selected not supported",
     "slconfig.up.error.13" => "API default email address does not appear to be vaild",
+    "slconfig.up.error.14" => "Public link code min length is 6",
+    "slconfig.up.error.15" => "Public link code max length is 12",
 );
 ?>

@@ -20,7 +20,7 @@ $displaytimezonelink = $input->postFilter("displaytimezonelink","integer");
 
 $failed_on = "";
 if(strlen($sllinkcode) < 5) $failed_on .= $lang["slconfig.up.error.1"];
-else if(strlen($sllinkcode) > 30) $failed_on .= $lang["slconfig.up.error.2"];
+else if(strlen($sllinkcode) > 10) $failed_on .= $lang["slconfig.up.error.2"];
 if(strlen($httpcode) < 5) $failed_on .= $lang["slconfig.up.error.3"];
 else if(strlen($httpcode) > 30) $failed_on .= $lang["slconfig.up.error.4"];
 else if($new_resellers_rate < 0) $failed_on .= $lang["slconfig.up.error.5"];
@@ -31,6 +31,9 @@ else if(strlen($owneravuid) != 8) $failed_on .= $lang["slconfig.up.error.7"];
 else if($avatar->load_by_field("avatar_uid",$owneravuid) == false) $failed_on .= $lang["slconfig.up.error.8"];
 else if($timezone->load($displaytimezonelink) == false) $failed_on .= $lang["slconfig.up.error.12"];
 else if(strlen($api_default_email) < 7) $failed_on .= $lang["slconfig.up.error.13"];
+else if(strlen($publiclinkcode) < 6) $failed_on .= $lang["slconfig.up.error.14"];
+else if(strlen($publiclinkcode) > 12) $failed_on .= $lang["slconfig.up.error.15"];
+
 
 $ajax_reply->set_swap_tag_string("redirect","slconfig");
 $status = false;
