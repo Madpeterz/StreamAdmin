@@ -150,11 +150,11 @@ class form
         }
         if($this->mode == "post")
         {
-            $this->mygrid->add_before('<form action="[[url_base]]ajax.php/'.$this->targeturl.'" method="POST" class="form ajax '.$ajax_mode.'">');
+            $this->mygrid->add_before('<form action="[[url_base]]'.$this->targeturl.'" method="POST" class="form ajax '.$ajax_mode.'">');
         }
         else
         {
-            $this->mygrid->add_before('<form action="[[url_base]]'.$this->targeturl.'" method="POST" class="form">');
+            $this->mygrid->add_before('<form action="[[url_base]]'.$this->targeturl.'" method="GET" class="form">');
         }
         $mgtop = "mt-4";
         if($no_margin_top == true)
