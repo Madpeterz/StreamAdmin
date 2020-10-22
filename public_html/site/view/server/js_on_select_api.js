@@ -1,4 +1,4 @@
-$('select[name=\"apilink\"]').change(function() {
+$('select[name="apilink"]').change(function() {
     update_api_flags($(this));
 });
 function sync_api_flags(json)
@@ -29,7 +29,7 @@ $.each(flags, function( index, value )
         $('select[name=\"'+value+'\"]').val(newval);
     }
 });
-alert_info(\"Sync'd API flags with API config\");
+alert_info("Sync'd API flags with API config");
 }
 function update_api_flags(caller)
 {
