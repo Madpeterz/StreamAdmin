@@ -9,4 +9,5 @@ $view_reply->set_swap_tag_string("page_title","");
 $view_reply->set_swap_tag_string("page_actions","");
 $view_reply->set_swap_tag_string("page_content","");
 $view_reply->set_swap_tag_string("html_title","");
+$view_reply->set_swap_tag_string("html_js_onready","");
 ?>
