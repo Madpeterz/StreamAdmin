@@ -10,7 +10,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
     $pages = array();
     $avatar = new avatar();
     $avatar->load($rental->get_avatarlink());
-    $template_parts["page_title"] .= ": ".$rental->get_rental_uid()." [".$avatar->get_avatarname()."]";
+    $view_reply->add_swap_tag_string("page_title",": ".$rental->get_rental_uid()." [".$avatar->get_avatarname()."]");
     $form = new form();
     $form->target("client/update/".$page."");
     $form->required(true);
@@ -134,7 +134,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
     $paged_info = new paged_info();
     $view_reply->set_swap_tag_string("page_content",$paged_info->render($pages));
     $view_reply->add_swap_tag_string("page_content","<br/><h4>Transactions</h4>");
-    $view_reply->add_swap_tag_string("page_content",render_datatable($table_head,$table_body)); 
+    $view_reply->add_swap_tag_string("page_content",render_datatable($table_head,$table_body));
 }
 else
 {
