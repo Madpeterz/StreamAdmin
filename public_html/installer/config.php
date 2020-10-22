@@ -36,8 +36,6 @@ if(getenv('DB_HOST') !== false)
     $view_reply->set_swap_tag_string("url_base",getenv('SITE_HOST'));
     $view_reply->url_base(getenv('SITE_HOST'));
     $view_reply->set_swap_tag_string("site_lang",getenv('SITE_LANG'));
-    $ajax_reply->set_swap_tag_string("url_base",url());
-    $view_reply->set_swap_tag_string("url_base",url());
 }
 else
 {
