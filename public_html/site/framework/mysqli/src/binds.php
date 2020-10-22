@@ -162,56 +162,62 @@ abstract class mysqli_binds extends mysqli_functions
                 }
                 else
                 {
-                    if(count($value) > 0)
+                    if(is_array($value) == true)
                     {
-                        $current_where_code .= "".$field." ".$match." (";
-                        $addon2 = "";
-                        foreach($value as $entry)
+                        if(count($value) > 0)
                         {
-                            $current_where_code .= "".$addon2." ? ";
-                            $addon2 = ", ";
-                            $bind_text .= $type;
-                            $bind_args[] = $entry;
+                            $current_where_code .= "".$field." ".$match." (";
+                            $addon2 = "";
+                            foreach($value as $entry)
+                            {
+                                $current_where_code .= "".$addon2." ? ";
+                                $addon2 = ", ";
+                                $bind_text .= $type;
+                                $bind_args[] = $entry;
+                            }
+                            $current_where_code .= ") ";
                         }
-                        $current_where_code .= ") ";
+                        else
+                        {
+                            $sql = "empty_in_array";
+                            break;
+                        }
+                    }
+                }
+            }
+            if($sql != "empty_in_array")
+            {
+                if($loop < count($where_config["join_with"]))
+                {
+                    if(in_array($where_config["join_with"][$loop],$group_options) == true)
+                    {
+                        if(in_array($where_config["join_with"][$loop],$close_only) == true)
+                        {
+                            $current_where_code .= " ) ";
+                            $open_groups--;
+                        }
+                        else if(in_array($where_config["join_with"][$loop],$open_only) == false)
+                        {
+                            if($open_groups > 0)
+                            {
+                                $open_groups--;
+                                $current_where_code .= " ) ";
+                            }
+                        }
+                        $current_where_code .= " ".$look_up[$where_config["join_with"][$loop]]." ";
+                        if((in_array($where_config["join_with"][$loop],$open_only) == true) || (in_array($where_config["join_with"][$loop],$close_only) == false))
+                        {
+                            $current_where_code .= " ( ";
+                            $open_groups++;
+                        }
                     }
                     else
                     {
-                        $sql = "empty_in_array";
-                        break;
+                        $current_where_code .= " ".$where_config["join_with"][$loop]." ";
                     }
                 }
+                $loop++;
             }
-            if($loop < count($where_config["join_with"]))
-            {
-                if(in_array($where_config["join_with"][$loop],$group_options) == true)
-                {
-                    if(in_array($where_config["join_with"][$loop],$close_only) == true)
-                    {
-                        $current_where_code .= " ) ";
-                        $open_groups--;
-                    }
-                    else if(in_array($where_config["join_with"][$loop],$open_only) == false)
-                    {
-                        if($open_groups > 0)
-                        {
-                            $open_groups--;
-                            $current_where_code .= " ) ";
-                        }
-                    }
-                    $current_where_code .= " ".$look_up[$where_config["join_with"][$loop]]." ";
-                    if((in_array($where_config["join_with"][$loop],$open_only) == true) || (in_array($where_config["join_with"][$loop],$close_only) == false))
-                    {
-                        $current_where_code .= " ( ";
-                        $open_groups++;
-                    }
-                }
-                else
-                {
-                    $current_where_code .= " ".$where_config["join_with"][$loop]." ";
-                }
-            }
-            $loop++;
         }
         if($sql != "empty_in_array")
         {
@@ -224,11 +230,13 @@ abstract class mysqli_binds extends mysqli_functions
             {
                 $sql .= " WHERE ".$current_where_code;
             }
+            return true;
         }
-        return true;
+        else
+        {
+            return false;
+        }
     }
-
-
 }
 
 ?>
