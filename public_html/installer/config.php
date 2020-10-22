@@ -12,20 +12,36 @@ function url(){
     $_SERVER['SERVER_NAME']
   );
 }
-$site_theme = "streamadminr5";
-$site_lang = "en";
-$template_parts["html_title"] = " Page ";
-$template_parts["html_title_after"] = "StreamAdmin";
-$template_parts["url_base"] = "/";
+$ajax_reply->set_swap_tag_string("site_theme","streamadminr5");
+$ajax_reply->set_swap_tag_string("site_lang","en");
+$ajax_reply->set_swap_tag_string("html_title_after","StreamAdmin R7");
+$ajax_reply->site_name("StreamAdmin R7");
+$ajax_reply->set_swap_tag_string("url_base","/");
+$ajax_reply->url_base("/");
+
+$view_reply->set_swap_tag_string("site_theme","streamadminr5");
+$view_reply->set_swap_tag_string("site_lang","en");
+$view_reply->set_swap_tag_string("html_title_after","StreamAdmin R7");
+$view_reply->site_name("StreamAdmin R7");
+$view_reply->set_swap_tag_string("url_base","/");
+$view_reply->url_base("/");
 if(getenv('DB_HOST') !== false)
 {
-    $site_theme = "streamadminr5";
-    $template_parts["html_title_after"] = getenv('SITE_TITLE');
-    $template_parts["url_base"] = getenv('SITE_HOST');
-    $site_lang = getenv('SITE_LANG');
+    $ajax_reply->set_swap_tag_string("html_title_after",getenv('SITE_TITLE'));
+    $ajax_reply->set_swap_tag_string("url_base",getenv('SITE_HOST'));
+    $ajax_reply->url_base(getenv('SITE_HOST'));
+    $ajax_reply->set_swap_tag_string("site_lang",getenv('SITE_LANG'));
+
+    $view_reply->set_swap_tag_string("html_title_after",getenv('SITE_TITLE'));
+    $view_reply->set_swap_tag_string("url_base",getenv('SITE_HOST'));
+    $view_reply->url_base(getenv('SITE_HOST'));
+    $view_reply->set_swap_tag_string("site_lang",getenv('SITE_LANG'));
+    $ajax_reply->set_swap_tag_string("url_base",url());
+    $view_reply->set_swap_tag_string("url_base",url());
 }
 else
 {
-    $template_parts["url_base"] = url();
+    $ajax_reply->set_swap_tag_string("url_base",url());
+    $view_reply->set_swap_tag_string("url_base",url());
 }
 ?>

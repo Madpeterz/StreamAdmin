@@ -28,20 +28,28 @@ class templated
             $this->set_swap_tag_string("site_theme",$site_theme);
             $this->set_swap_tag_string("site_lang",$site_lang);
             $this->set_swap_tag_string("html_title","Page");
-            if(array_key_exists("html_title_after",$template_parts) == true)
+            if(is_array($template_parts) == true)
             {
-                $this->set_swap_tag_string("html_title_after",$template_parts["html_title_after"]);
-                $this->site_name($template_parts["html_title_after"]);
+                if(array_key_exists("html_title_after",$template_parts) == true)
+                {
+                    $this->set_swap_tag_string("html_title_after",$template_parts["html_title_after"]);
+                    $this->site_name($template_parts["html_title_after"]);
+                }
+                else
+                {
+                    $this->set_swap_tag_string("html_title_after","StreamAdmin R7");
+                    $this->site_name("StreamAdmin R7");
+                }
+                if(array_key_exists("url_base",$template_parts) == true)
+                {
+                    $this->set_swap_tag_string("url_base",$template_parts["url_base"]);
+                    $this->url_base($template_parts["url_base"]);
+                }
             }
             else
             {
                 $this->set_swap_tag_string("html_title_after","StreamAdmin R7");
                 $this->site_name("StreamAdmin R7");
-            }
-            if(array_key_exists("url_base",$template_parts) == true)
-            {
-                $this->set_swap_tag_string("url_base",$template_parts["url_base"]);
-                $this->url_base($template_parts["url_base"]);
             }
         }
     }

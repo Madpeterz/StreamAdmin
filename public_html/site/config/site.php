@@ -21,4 +21,18 @@ else
 		$template_parts["url_base"] = "http://localhost/";
 	}
 }
+
+$ajax_reply->set_swap_tag_string("site_theme",$site_theme);
+$ajax_reply->set_swap_tag_string("site_lang",$site_lang);
+$ajax_reply->set_swap_tag_string("html_title_after",$template_parts["html_title_after"]);
+$ajax_reply->site_name($template_parts["html_title_after"]);
+$ajax_reply->set_swap_tag_string("url_base",$template_parts["url_base"]);
+$ajax_reply->url_base($template_parts["url_base"]);
+
+$view_reply->set_swap_tag_string("site_theme",$site_theme);
+$view_reply->set_swap_tag_string("site_lang",$site_lang);
+$view_reply->set_swap_tag_string("html_title_after",$template_parts["html_title_after"]);
+$view_reply->site_name($template_parts["html_title_after"]);
+$view_reply->set_swap_tag_string("url_base",$template_parts["url_base"]);
+$view_reply->url_base($template_parts["url_base"]);
 ?>
