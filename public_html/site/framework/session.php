@@ -136,7 +136,11 @@ class session_control extends error_logging
 					{
 						$this->logged_in = $this->vaildate_lhash();
 					}
-					if($this->logged_in == false) $this->end_session();
+					if($this->logged_in == false)
+					{
+						$this->end_session();
+						$this->why_logged_out = "Session state error: Not logged in by session active";
+					}
 					return $this->logged_in;
 				}
 				else
