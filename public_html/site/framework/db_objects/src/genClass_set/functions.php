@@ -53,7 +53,6 @@ abstract class genClass_collection_functions  extends genClass_collection_load
     public function search($search_settings=array())
     {
         // array("wp_parent_id" => $wp_post->get_id(),...)
-        $fast_search_index = array();
         $matched_object = null;
         if(count($search_settings) == 1)
         {

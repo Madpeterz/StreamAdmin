@@ -64,11 +64,8 @@ abstract class genClass_load extends genClass_setvalue
              );
 			return $this->load_data($whereconfig);
 		}
-		else
-		{
-            $this->addError("Attempted to get field type: ".$field_name." but its not supported!");
-			return false;
-		}
+        $this->addError("Attempted to get field type: ".$field_name." but its not supported!");
+		return false;
 	}
     public function load_with_config(array $where_config=array()) :bool
     {

@@ -56,55 +56,51 @@ abstract class genClass_setvalue extends genClass_getvalue
     }
     protected function update_field(string $fieldname="",$value=null,bool $ignore_set_id_warning=false) :array
     {
-        if(is_object($value) == false)
+        $errored_on = "";
+        if(count($this->dataset) != count($this->save_dataset))
         {
-            if(is_array($value) == false)
-            {
-                if($this->disabled == false)
-                {
-                    if($this->allow_set_field)
-                    {
-                        if(array_key_exists($fieldname,$this->dataset))
-                        {
-                            if(count($this->dataset) != count($this->save_dataset))
-                            {
-                                $this->save_dataset = $this->dataset;
-                            }
-                            if(($fieldname != "id") || ($ignore_set_id_warning == true))
-                            {
-            	                 $this->dataset[$fieldname]["value"] = $value;
-                                 if(($fieldname == "id") && ($ignore_set_id_warning == true))
-                                 {
-                                     // you should rly not be doing this unless you understand what this is doing ^+^
-                                     $this->save_dataset["id"]["value"] = $value;
-                                 }
-            	                 return array("status"=>true,"message"=>"value set");
-                            }
-                            else
-                            {
-                                $this->addError(__FILE__, __FUNCTION__, "Fieldname: ".$fieldname." - Sorry this object does not allow you to set the id field!");
-                            }
-                        }
-                        else
-                        {
-                            $this->addError(__FILE__, __FUNCTION__, "Fieldname: ".$fieldname." - Sorry this object does not have the field!");
-                        }
-                    }
-                    else
-                    {
-                        $this->addError(__FILE__, __FUNCTION__, "Fieldname: ".$fieldname." - Sorry this collection does not allow you to use the set_field function please call the direct object only!");
-                    }
-                }
-                else
-                {
-                    $this->addError(__FILE__, __FUNCTION__, " this class is disabled");
-                }
-                return array("status"=>false,"message"=>$this->myLastError);
-            }
-            else die("System error: Attempt to put a array onto field: ".$fieldname);
+            $this->addError(__FILE__, __FUNCTION__, "save_dataset is out of sync this should never happen!");
+            $this->save_dataset = $this->dataset;
         }
-        else die("System error: Attempt to put a object onto field: ".$fieldname);
-        return array("status"=>false,"message"=>"This should not run its after dies");
+        if(is_object($value) == true)
+        {
+            $errored_on = "System error: Attempt to put a object onto field: ".$fieldname;
+        }
+        else if(is_array($value) == true)
+        {
+            $errored_on = "System error: Attempt to put a array onto field: ".$fieldname;
+        }
+        else if($this->disabled == true)
+        {
+            $errored_on = "This class is disabled";
+        }
+        else if($this->allow_set_field == false)
+        {
+            $errored_on = "update_field is not allowed for this object";
+        }
+        else if(array_key_exists($fieldname,$this->dataset) == false)
+        {
+            $errored_on = "Sorry this object does not have the field: ".$fieldname;
+        }
+        else if(($fieldname == "id") && ($ignore_set_id_warning == false))
+        {
+            $errored_on = "Sorry this object does not allow you to set the id field!";
+        }
+        if($errored_on == "")
+        {
+            $this->dataset[$fieldname]["value"] = $value;
+            if(($fieldname == "id") && ($ignore_set_id_warning == true))
+            {
+                // you should rly not be doing this unless you understand what this is doing ^+^
+                $this->save_dataset["id"]["value"] = $value;
+            }
+            return array("status"=>true,"message"=>"value set");
+        }
+        else
+        {
+            $this->addError(__FILE__, __FUNCTION__, $errored_on);
+            return array("status"=>false,"message"=>$this->myLastError);
+        }
     }
 }
 ?>
