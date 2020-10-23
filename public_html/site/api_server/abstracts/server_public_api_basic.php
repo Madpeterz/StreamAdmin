@@ -1,5 +1,5 @@
 <?php
-class server_public_api_basic extends server_api_protected
+abstract class server_public_api_basic extends server_api_protected
 {
     public function get_last_api_message() : string
     {

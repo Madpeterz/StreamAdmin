@@ -1,5 +1,5 @@
 <?php
-class server_api_protected extends error_logging
+abstract class server_api_protected extends error_logging
 {
     protected $last_api_message = "";
     protected $needs_retry = false;

@@ -1,5 +1,5 @@
 <?php
-class server_public_api extends server_public_api_basic
+abstract class server_public_api extends server_public_api_basic
 {
     public function event_start_sync_username(stream $stream,server $server,string $old_username) : bool
     {
