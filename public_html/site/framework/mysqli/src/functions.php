@@ -14,29 +14,26 @@ abstract class mysqli_functions extends mysqli_core
     {
         $this->hadErrors = true;
     }
+    protected function create_mysql_connection(string $dbusername,string $dbpass,string $dbname,string $remote_host_target)
+    {
+        if($remote_host_target != "")
+        {
+            return mysqli_connect($remote_host_target, $dbusername, $dbpass, $dbname);
+        }
+        return mysqli_connect($this->dbHost, $dbusername, $dbpass, $dbname);
+    }
     public function sqlStart_test(string $dbusername,string $dbpass,string $dbname,bool $auto_stop=false,string $remote_host_target="") :bool
 	{
 		$this->sqlStop();
-        if($remote_host_target != "")
-        {
-            $this->sqlConnection = mysqli_connect($remote_host_target, $dbusername, $dbpass, $dbname);
-        }
-        else
-        {
-            $this->sqlConnection = mysqli_connect($this->dbHost, $dbusername, $dbpass, $dbname);
-        }
+        $this->sqlConnection = $this->create_mysql_connection($dbusername,$dbpass,$dbname,$remote_host_target);
 		$error_code = mysqli_connect_errno($this->sqlConnection);
 		if($error_code)
 		{
 			$this->failure("Attempting custom sql connection failed with code: ".$error_code."");
 			return false;
 		}
-		else
-		{
-			if($auto_stop == true) $this->sqlStop();
-			return true;
-		}
-
+		if($auto_stop == true) $this->sqlStop();
+		return true;
 	}
     public function sqlSave(bool $stop_after=true) :bool
     {
@@ -75,8 +72,8 @@ abstract class mysqli_functions extends mysqli_core
 			{
                 if($this->dbPass === null)
                 {
+                    error_log("Warning: SQL connection without password is bad");
                     $this->dbPass = "";
-                    echo "Warning: SQL connection without password is bad";
                 }
                 $this->sqlConnection = @mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass, $this->dbName);
                 $error_code = mysqli_connect_errno($this->sqlConnection);
@@ -85,9 +82,10 @@ abstract class mysqli_functions extends mysqli_core
                     $this->failure("Attempting sql connection failed with code: ".$error_code."");
                     return false;
                 }
-				else $this->sqlConnection->autocommit(false);
+				$this->sqlConnection->autocommit(false);
+                return true;
 			}
-			else return false;
+            return false;
 		}
 		return true;
 	}
