@@ -131,8 +131,8 @@ abstract class genClass_getvalue extends genClass_core
                     if($this->dataset[$fieldname]["type"] == "int") return intval($value);
                     else if($this->dataset[$fieldname]["type"] == "bool")
                     {
-                        if(($value === 1) || ($value === "1") || ($value === "true") || ($value === true) || ($value === "yes")) return true;
-                        else return false;
+                        $array_true = array(1,"1","true",true,"yes");
+                        return in_array($value,$array_true);
                     }
                     else if($this->dataset[$fieldname]["type"] == "float") return floatval($value);
                     else return $value;
