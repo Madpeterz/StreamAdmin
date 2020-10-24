@@ -9,15 +9,14 @@ abstract class inputFilter_getFilter extends inputFilter_valueFilter
 		if(isset($_GET[$inputName]) == false)
 		{
             $this->failure = true;
-            $this->whyfailed = "No get value found with name: ".$inputName."";
 		}
-        if($this->whyfailed == "")
+        if($this->failure == false)
         {
             $value = $this->valueFilter($_GET[$inputName], $filter, $args);
-        }
-        if($this->whyfailed != "")
-        {
-            $this->addError(__FILE__,__FUNCTION__,$this->whyfailed);
+            if($this->whyfailed != "")
+            {
+                $this->addError(__FILE__,__FUNCTION__,$this->whyfailed);
+            }
         }
 		return $value;
 	}
