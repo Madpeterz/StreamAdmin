@@ -10,11 +10,18 @@ if($package->load_by_field("package_uid",$packageuid) == true)
     $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
     $stream = new stream();
     $whereconfig = array(
-                "fields"=>array("rentallink","packagelink","needwork","id"),
-                "matches"=>array("IS","=","=","NOT IN"),
-                "values"=>array(null,$package->get_id(),0,$used_stream_ids),
-                "types"=>array("i","i","i","i"),
+                "fields"=>array("rentallink","packagelink","needwork"),
+                "matches"=>array("IS","=","="),
+                "values"=>array(null,$package->get_id(),0),
+                "types"=>array("i","i","i"),
     );
+    if(count($used_stream_ids) > 0)
+    {
+        $whereconfig["fields"][] = "id";
+        $whereconfig["matches"][] = "NOT IN";
+        $whereconfig["values"][] = $used_stream_ids;
+        $whereconfig["types"][] = "i";
+    }
     $count_data = $sql->basic_count_v2($stream->get_table(),$whereconfig);
     if($count_data["status"] == true)
     {

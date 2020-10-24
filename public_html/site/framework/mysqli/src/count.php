@@ -129,7 +129,14 @@ abstract class mysqli_count extends mysqli_select
             );
             if($load_data["status"] == true)
             {
-                return array("status"=>true, "count"=>$load_data["dataSet"][0]["sqlCount"],"message"=>"ok");
+                if(count($load_data["dataSet"]) > 0)
+                {
+                    return array("status"=>true, "count"=>$load_data["dataSet"][0]["sqlCount"],"message"=>"ok");
+                }
+                else
+                {
+                    return array("status"=>false,"count"=>0,"message"=>$load_data["message"]);
+                }
             }
             else
             {

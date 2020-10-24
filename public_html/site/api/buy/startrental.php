@@ -57,11 +57,18 @@ function get_unassigned_stream_on_package(package $package) : ?stream
     $apirequests_set->loadAll();
     $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
     $where_config = array(
-        "fields" => array("rentallink","packagelink","needwork","id"),
-        "values" => array(NULL,$package->get_id(),0,$used_stream_ids),
-        "types" => array("i","i","i","i"),
-        "matches" => array("IS","=","=","NOT IN")
+        "fields" => array("rentallink","packagelink","needwork"),
+        "values" => array(NULL,$package->get_id(),0),
+        "types" => array("i","i","i"),
+        "matches" => array("IS","=","=")
     );
+    if(count($used_stream_ids) > 0)
+    {
+        $whereconfig["fields"][] = "id";
+        $whereconfig["matches"][] = "NOT IN";
+        $whereconfig["values"][] = $used_stream_ids;
+        $whereconfig["types"][] = "i";
+    }
     $stream_set = new stream_set();
     $stream_set->load_with_config($where_config);
     if($stream_set->get_count() > 0)
