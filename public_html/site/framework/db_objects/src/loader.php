@@ -8,7 +8,7 @@ if(isset($db_objects_load_path) == false)
     $db_objects_load_path = dirname(__FILE__)."/";
 }
 include($db_objects_load_path."error_logging.php");
-include($db_objects_load_path."inputFilter.php");
+include($db_objects_load_path."filter/loader.php");
 include($db_objects_load_path."genClass/core.php");
 include($db_objects_load_path."genClass/get.php");
 include($db_objects_load_path."genClass/set.php");
