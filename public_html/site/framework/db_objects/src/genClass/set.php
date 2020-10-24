@@ -59,7 +59,7 @@ abstract class genClass_setvalue extends genClass_getvalue
         $errored_on = "";
         if(count($this->dataset) != count($this->save_dataset))
         {
-            $this->addError(__FILE__, __FUNCTION__, "save_dataset is out of sync this should never happen!");
+            //$this->addError(__FILE__, __FUNCTION__, "save_dataset is out of sync this should never happen!");
             $this->save_dataset = $this->dataset;
         }
         if(is_object($value) == true)
