@@ -19,6 +19,7 @@ $lang = array(
     "stream.cr.error.14" => "Unable to create stream: %1\$s",
     "stream.cr.info.1" => "Stream created",
 
+    "stream.rm.info.1" => "Stream removed",
     "stream.rm.error.1" => "Did not Accept",
     "stream.rm.error.2" => "Unable to find stream",
     "stream.rm.error.3" => "Unable to remove stream: %1\$s",
