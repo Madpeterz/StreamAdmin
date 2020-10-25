@@ -48,7 +48,7 @@ if($failed_on == "")
                 $stream->set_packagelink($packagelink);
                 $stream->set_serverlink($serverlink);
                 $stream->set_port($port);
-                $stream->set_needwork(0);
+                $stream->set_needwork(false);
                 $stream->set_adminusername($adminusername);
                 $stream->set_adminpassword($adminpassword);
                 $stream->set_djpassword($djpassword);
