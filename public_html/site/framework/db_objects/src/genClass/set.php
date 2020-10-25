@@ -88,7 +88,20 @@ abstract class genClass_setvalue extends genClass_getvalue
         }
         if($errored_on == "")
         {
-            $this->dataset[$fieldname]["value"] = $value;
+            if($this->get_field_type($fieldname) == "bool")
+            {
+                $array_true = array(1,"1","true",true,"yes");
+                $this->dataset[$fieldname]["value"] = 0;
+                if(in_array($value,$array_true,true) == true)
+                {
+                    $this->dataset[$fieldname]["value"] = 1;
+                }
+            }
+            else
+            {
+                $this->dataset[$fieldname]["value"] = $value;
+            }
+
             if(($fieldname == "id") && ($ignore_set_id_warning == true))
             {
                 // you should rly not be doing this unless you understand what this is doing ^+^
