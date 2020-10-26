@@ -4,8 +4,8 @@ if(defined("correct") == false) {die("Error");}
     $load_ok = false;
     if($av_uuid != null)
     {
-        include("site/config/db.php");
-        require_once("site/framework/mysqli/src/loader.php"); // sql_driver
+        include("shared/config/db.php");
+        require_once("shared/framework/mysqli/src/loader.php"); // sql_driver
         $sql = new mysqli_controler();
         $staff = new staff();
         if($staff->load(1) == true)
@@ -45,8 +45,8 @@ $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
 ?>';
                                     $content = str_replace("[[INSTALL_SITE_NAME]]",$input->postFilter("sitename"),$content);
                                     $content = str_replace("[[INSTALL_SITE_URI]]",$input->postFilter("domain"),$content);
-                                    if(file_exists("site/config/site_installed.php") == true) unlink("site/config/site_installed.php");
-                                    file_put_contents("site/config/site_installed.php",$content);
+                                    if(file_exists("shared/config/site_installed.php") == true) unlink("shared/config/site_installed.php");
+                                    file_put_contents("shared/config/site_installed.php",$content);
                                 }
                                 if($siteconfigok == true)
                                 {

@@ -1,9 +1,9 @@
 <?php
 ob_start();
-include("site/framework/install.php");
+include("shared/framework/install.php");
 if(install_ok() == true)
 {
-    include("site/api_public/loader.php");
+    include("endpoints/api_public/loader.php");
 }
 else
 {

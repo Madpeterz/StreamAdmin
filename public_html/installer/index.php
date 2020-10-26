@@ -1,10 +1,10 @@
 <?php
 if(defined("correct") == true)
 {
-    include("site/framework/core.php");
+    include("shared/framework/core.php");
     include("installer/config.php");
     add_vendor("website");
-    include("site/theme/streamadminr5/layout/install/template.php");
+    include("theme/streamadminr5/layout/install/template.php");
     $input = new inputFilter();
     if($module == "owner")
     {

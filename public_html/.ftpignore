@@ -7,7 +7,7 @@ id_rsa
 gen
 example.php
 ready.txt
-site/config/db_installed.php
-site/config/r4.php
-site/config/site_installed.php
+shared/config/db_installed.php
+shared/config/r4.php
+shared/config/site_installed.php
 catche

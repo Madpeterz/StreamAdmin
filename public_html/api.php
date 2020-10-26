@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include("site/framework/install.php");
-include("site/api/loader.php");
+include("shared/framework/install.php");
+include("endpoints/api/loader.php");
 ob_end_flush();
 ?>
