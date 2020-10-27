@@ -41,6 +41,8 @@ if($server->load($page) == true)
         $form->select("event_clear_djs","Event / Clear DJ accounts on revoke",$server->get_event_clear_djs(),array(0=>"No",1=>"Yes"));
     $form->col(6);
         $form->select("event_recreate_revoke","Event / Recreate account on revoke",$server->get_event_recreate_revoke(),array(0=>"No",1=>"Yes"));
+        $form->select("event_create_stream","Event / Create stream on server",$server->get_event_create_stream(),array(0=>"No",1=>"Yes"));
+        $form->select("event_update_stream","Event / Update stream on server",$server->get_event_update_stream(),array(0=>"No",1=>"Yes"));
     $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
     include "webpanel/view/server/api_notes.php";
     include "webpanel/view/server/js_on_select_api.php";

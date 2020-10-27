@@ -18,7 +18,9 @@ function sync_api_flags(json)
 'opt_autodj_next',
 'opt_password_reset',
 'api_serverstatus',
-'api_sync_accounts'
+'api_sync_accounts',
+'event_create_stream',
+'event_update_stream'
 ];
 $.each(flags, function( index, value )
 {

@@ -24,6 +24,8 @@ $event_clear_djs = $input->postFilter("event_clear_djs","integer");
 $event_revoke_reset_username = $input->postFilter("event_revoke_reset_username","integer");
 $event_recreate_revoke = $input->postFilter("event_recreate_revoke","integer");
 $api_sync_accounts = $input->postFilter("api_sync_accounts","integer");
+$event_create_stream = $input->postFilter("event_create_stream","integer");
+$event_update_stream = $input->postFilter("event_update_stream","integer");
 
 $failed_on = "";
 $ajax_reply->set_swap_tag_string("redirect","");
@@ -47,7 +49,9 @@ else if(in_array($api_serverstatus,$yesno_array) == false) $failed_on .= $lang["
 else if(in_array($event_clear_djs,$yesno_array) == false) $failed_on .= $lang["server.cr.error.18"];
 else if(in_array($event_revoke_reset_username,$yesno_array) == false) $failed_on .= $lang["server.cr.error.19"];
 else if(in_array($event_recreate_revoke,$yesno_array) == false) $failed_on .= $lang["server.cr.error.20"];
-else if(in_array($api_sync_accounts,$yesno_array) == false) $failed_on .= $lang["server.up.error.21"];
+else if(in_array($api_sync_accounts,$yesno_array) == false) $failed_on .= $lang["server.cr.error.21"];
+else if(in_array($event_create_stream,$yesno_array) == false) $failed_on .= $lang["server.cr.error.22"];
+else if(in_array($event_update_stream,$yesno_array) == false) $failed_on .= $lang["server.cr.error.23"];
 
 $status = false;
 if($failed_on == "")
@@ -74,6 +78,8 @@ if($failed_on == "")
     $server->set_event_revoke_reset_username($event_revoke_reset_username);
     $server->set_event_recreate_revoke($event_recreate_revoke);
     $server->set_api_sync_accounts($api_sync_accounts);
+    $server->set_event_create_stream($event_create_stream);
+    $server->set_event_update_stream($event_update_stream);
     $create_status = $server->create_entry();
     if($create_status["status"] == true)
     {

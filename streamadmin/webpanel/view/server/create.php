@@ -38,6 +38,8 @@ $form->col(6);
     $form->select("event_clear_djs","Event / Clear DJ accounts on revoke",0,array(0=>"No",1=>"Yes"));
 $form->col(6);
     $form->select("event_recreate_revoke","Event / Recreate account on revoke",0,array(0=>"No",1=>"Yes"));
+    $form->select("event_create_stream","Event / Create stream on server",0,array(0=>"No",1=>"Yes"));
+    $form->select("event_update_stream","Event / Update stream on server",0,array(0=>"No",1=>"Yes"));
 $view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
 include "webpanel/view/server/api_notes.php";
 include "webpanel/view/server/js_on_select_api.php";

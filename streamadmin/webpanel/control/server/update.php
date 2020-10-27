@@ -24,6 +24,8 @@ $event_clear_djs = $input->postFilter("event_clear_djs","integer");
 $event_revoke_reset_username = $input->postFilter("event_revoke_reset_username","integer");
 $event_recreate_revoke = $input->postFilter("event_recreate_revoke","integer");
 $api_sync_accounts = $input->postFilter("api_sync_accounts","integer");
+$event_create_stream = $input->postFilter("event_create_stream","integer");
+$event_update_stream = $input->postFilter("event_update_stream","integer");
 
 $yesno_array = array(0,1);
 if(strlen($domain) > 100) $failed_on .= $lang["server.up.error.1"];
@@ -45,6 +47,8 @@ else if(in_array($event_clear_djs,$yesno_array) == false) $failed_on .= $lang["s
 else if(in_array($event_revoke_reset_username,$yesno_array) == false) $failed_on .= $lang["server.up.error.21"];
 else if(in_array($event_recreate_revoke,$yesno_array) == false) $failed_on .= $lang["server.up.error.22"];
 else if(in_array($api_sync_accounts,$yesno_array) == false) $failed_on .= $lang["server.up.error.23"];
+else if(in_array($event_create_stream,$yesno_array) == false) $failed_on .= $lang["server.cr.error.24"];
+else if(in_array($event_update_stream,$yesno_array) == false) $failed_on .= $lang["server.cr.error.25"];
 
 $status = false;
 if($failed_on == "")
@@ -85,6 +89,9 @@ if($failed_on == "")
                 $server->set_event_revoke_reset_username($event_revoke_reset_username);
                 $server->set_event_recreate_revoke($event_recreate_revoke);
                 $server->set_api_sync_accounts($api_sync_accounts);
+                $server->set_event_create_stream($event_create_stream);
+                $server->set_event_update_stream($event_update_stream);
+                
                 $update_status = $server->save_changes();
                 if($update_status["status"] == true)
                 {
