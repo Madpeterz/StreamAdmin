@@ -31,7 +31,7 @@ exit("this is a read me not a php file how is this even running....");
             "fields"=>array("draft","public_unixtime","public_anyway"),
             "matches"=>array("IS NOT",">=","="),
             "values"=>array(null,44,true),
-            "type"=>array("i","i","b"),
+            "types"=>array("i","i","b"),
             "join_with"=>array("AND","(OR)")
         ),
         /*
@@ -50,7 +50,7 @@ exit("this is a read me not a php file how is this even running....");
              "fields"=>array("draft","public_unixtime","public_anyway"),
              "matches"=>array("IS NOT",">=","="),
              "values"=>array(null,44,true),
-             "type"=>array("i","i","b"),
+             "types"=>array("i","i","b"),
              "join_with"=>array("AND","(OR)")
          ),
          array(
@@ -74,7 +74,7 @@ exit("this is a read me not a php file how is this even running....");
              "fields"=>array("draft","public_unixtime","public_anyway"),
              "matches"=>array("IS NOT",">=","="),
              "values"=>array(null,44,true),
-             "type"=>array("i","i","b"),
+             "types"=>array("i","i","b"),
              "join_with"=>array("AND","(OR)")
          ),
          array(
@@ -110,7 +110,7 @@ exit("this is a read me not a php file how is this even running....");
              "fields"=>array("ev.hidden","draft","public_unixtime"),
              "matches"=>array("=","IS",">="),
              "values"=>array(false,null,44),
-             "type"=>array("b","i","i")
+             "types"=>array("b","i","i")
          ),
          array(
              "page_number" => 0,
@@ -149,7 +149,7 @@ $where_config = array(
         "fields" => array(),  // any vaild fields
         "values" => array(),  // value or array
         "types" => array(),   // s,i,d,b, note: if the values entry is an array what ever type you pick is used for all entrys.
-        "match" = array()    // =, !=, IS, IS NOT, IN, NOT IN, >, <, <=, >=
+        "matchs" = array()    // =, !=, IS, IS NOT, IN, NOT IN, >, <, <=, >=
 );
 $options = array(
        "page_number" => null,
