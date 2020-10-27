@@ -108,7 +108,7 @@ class serverapi_helper
                 $server_api_name = "server_".$api->get_name()."";
                 if(class_exists($server_api_name) == true)
                 {
-                    $this->server_api = new $server_api_name();
+                    $this->server_api = new $server_api_name($this->stream,$this->server,$this->package);
                     $this->message = "server API loaded";
                     return true;
                 }
