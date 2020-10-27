@@ -19,7 +19,8 @@
 			"stream_uid" => array("type"=>"str","value"=>null),
 			"mountpoint" => array("type"=>"str","value"=>null),
 			"last_api_sync" => array("type"=>"int","value"=>0),
-			"api_uid" => array("type"=>"str","value"=>null),
+			"api_uid_1" => array("type"=>"str","value"=>null),
+			"api_uid_2" => array("type"=>"str","value"=>null),
 		);
 		public function get_serverlink() : ?int {  return $this->get_field("serverlink");  } 
 		public function get_rentallink() : ?int {  return $this->get_field("rentallink");  } 
@@ -33,7 +34,8 @@
 		public function get_stream_uid() : ?string {  return $this->get_field("stream_uid");  } 
 		public function get_mountpoint() : ?string {  return $this->get_field("mountpoint");  } 
 		public function get_last_api_sync() : ?int {  return $this->get_field("last_api_sync");  } 
-		public function get_api_uid() : ?string {  return $this->get_field("api_uid");  } 
+		public function get_api_uid_1() : ?string {  return $this->get_field("api_uid_1");  } 
+		public function get_api_uid_2() : ?string {  return $this->get_field("api_uid_2");  } 
 		public function set_serverlink(?int $newvalue) : array {  return $this->update_field("serverlink",$newvalue);  } 
 		public function set_rentallink(?int $newvalue) : array {  return $this->update_field("rentallink",$newvalue);  } 
 		public function set_packagelink(?int $newvalue) : array {  return $this->update_field("packagelink",$newvalue);  } 
@@ -46,6 +48,7 @@
 		public function set_stream_uid(?string $newvalue) : array {  return $this->update_field("stream_uid",$newvalue);  } 
 		public function set_mountpoint(?string $newvalue) : array {  return $this->update_field("mountpoint",$newvalue);  } 
 		public function set_last_api_sync(?int $newvalue) : array {  return $this->update_field("last_api_sync",$newvalue);  } 
-		public function set_api_uid(?string $newvalue) : array {  return $this->update_field("api_uid",$newvalue);  } 
+		public function set_api_uid_1(?string $newvalue) : array {  return $this->update_field("api_uid_1",$newvalue);  } 
+		public function set_api_uid_2(?string $newvalue) : array {  return $this->update_field("api_uid_2",$newvalue);  } 
 	}
 ?>
