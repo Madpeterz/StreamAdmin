@@ -12,14 +12,14 @@ function auto_load_model($class_name="")
 }
 function auto_load_api($class_name="")
 {
-	$loadfile = "shared/api_server/".$class_name.".php";
+	$loadfile = "shared/media_server_apis/".$class_name.".php";
 	if(file_exists($loadfile))
 	{
 		require_once($loadfile);
 	}
 	else
 	{
-		$loadfile = "shared/api_server/abstracts/".$class_name.".php";
+		$loadfile = "shared/media_server_apis/abstracts/".$class_name.".php";
 		if(file_exists($loadfile))
 		{
 			require_once($loadfile);
