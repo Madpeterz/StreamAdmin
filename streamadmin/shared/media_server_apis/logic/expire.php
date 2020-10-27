@@ -2,5 +2,5 @@
 $steps = array(
     "" => "event_disable_expire"
 );
-include("shared/api_serverlogic/process.php");
+include("shared/media_server_apislogic/process.php");
 ?>

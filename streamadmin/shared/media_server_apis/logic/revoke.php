@@ -6,5 +6,5 @@ $steps = array(
     "event_clear_djs" => "event_revoke_reset_username",
     "event_revoke_reset_username" => "event_disable_revoke",
 );
-include("shared/api_serverlogic/process.php");
+include("shared/media_server_apislogic/process.php");
 ?>
