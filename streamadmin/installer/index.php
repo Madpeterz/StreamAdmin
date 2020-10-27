@@ -1,8 +1,7 @@
 <?php
 if(defined("correct") == true)
 {
-    include "shared/framework/core.php";
-    include "installer/config.php";
+    include "shared/framework/load.php";
     add_vendor("website");
     include "theme/streamadminr5/layout/install/template.php";
     $input = new inputFilter();

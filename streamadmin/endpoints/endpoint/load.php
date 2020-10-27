@@ -1,5 +1,4 @@
 <?php
-include "shared/framework/loader_light.php";
 $input = new inputFilter();
 $senttoken = $input->postFilter("token");
 $timewindow = 30;

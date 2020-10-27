@@ -1,7 +1,6 @@
 <?php
 $soft_fail = false;
 $timewindow = 120;
-include "shared/framework/loader_light.php";
 include "shared/lang/api/".$site_lang.".php";
 include "endpoints/api/start_step1.php";
 if($all_found == true)

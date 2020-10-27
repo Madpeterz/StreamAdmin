@@ -1,7 +1,7 @@
 <?php
 ob_start();
 include "shared/framework/install.php";
-if(install_ok() == true)
+if(defined("installed") == true)
 {
     include "endpoints/endpoint/load.php";
 }

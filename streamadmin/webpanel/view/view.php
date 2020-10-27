@@ -22,7 +22,6 @@ function load_module_view() : array
     }
     return $target_files;
 }
-include "shared/framework/loader_light.php";
 add_vendor("website");
 if($session->get_logged_in() == false)
 {

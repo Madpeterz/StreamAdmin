@@ -1,5 +1,4 @@
 <?php
-include "shared/framework/loader_light.php";
 include "shared/lang/control/".$site_lang.".php";
 $status = true;
 $reply = array();
