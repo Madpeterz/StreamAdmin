@@ -84,16 +84,16 @@ class server_centova3 extends server_centova3_only
             if($servertype->load($this->package->get_servertypelink()) == true)
             {
                 $post_data = array(
-                    "port" => $stream->get_port(),
-                    "maxclients" => $package->get_listeners(),
-                    "adminpassword" => $stream->get_adminpassword(),
-                    "sourcepassword" => $stream->get_djpassword(),
-                    "maxbitrate" => $package->get_bitrate(),
-                    "username" => $stream->get_adminusername(),
+                    "port" => $this->stream->get_port(),
+                    "maxclients" => $this->package->get_listeners(),
+                    "adminpassword" => $this->stream->get_adminpassword(),
+                    "sourcepassword" => $this->stream->get_djpassword(),
+                    "maxbitrate" => $this->package->get_bitrate(),
+                    "username" => $this->stream->get_adminusername(),
                     "email" => $slconfig->get_api_default_email(),
                     "usesource" => 2,
                     "autostart" => 1,
-                    "template" => $package->get_api_template(),
+                    "template" => $this->package->get_api_template(),
                 );
                 /*
                 if($servertype->get_id() == 1)
