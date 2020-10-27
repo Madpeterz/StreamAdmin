@@ -1,11 +1,12 @@
 <?php
+require_once("webpanel/vendor/autoload.php");
 abstract class server_rest_api extends error_logging
 {
     protected $stream = null;
     protected $server = null;
     protected $package = null;
 
-    function __construct(stream $stream,server $server,package $package)
+    function __construct(?stream $stream,?server $server,?package $package)
     {
         $this->stream = $stream;
         $this->server = $server;
@@ -13,17 +14,24 @@ abstract class server_rest_api extends error_logging
     }
     protected function rest_request(string $method,string $endpoint,array $args=array()) : array
     {
-        $address = $this->server->get_api_url()."".$endpoint;
         $client = new GuzzleHttp\Client();
         $headers = array(
-            'Authorization' => 'Bearer ' . $server->get_api_password(),
+            'Authorization' => 'Bearer ' . $this->server->get_api_password(),
             'Accept'        => 'application/json',
         );
         if(count($args) > 0)
         {
             $headers['form_params'] = array($args);
         }
-        $res = $client->request($method,$address,$headers);
+        $res = $client->request($method,$this->server->get_api_url()."".$endpoint,$headers);
+        if($res->getStatusCode() == 200)
+        {
+            return array("status"=>true,"message"=>$res->getBody()->getContents());
+        }
+        else
+        {
+            return array("status"=>false,"message"=>"Http error: ".$res->getStatusCode());
+        }
     }
     protected function rest_get(string $endpoint,array $args=array()) : array
     {
