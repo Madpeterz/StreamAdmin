@@ -1,5 +1,5 @@
 <?php
-$view_reply->add_swap_tag_string("page_title"," Pending api calls"); 
+$view_reply->add_swap_tag_string("page_title"," Pending api calls");
 $table_head = array("id","Event","Port","Last tryed","Attempts","message");
 $table_body = array();
 $api_requests_set = new api_requests_set();
@@ -20,6 +20,8 @@ $event_names = array(
     "event_clear_djs" => "Clear DJs {Revoke}",
     "event_revoke_reset_username" => "Reset username {Revoke}",
     "event_recreate_revoke" => "Recreate account {Revoke}",
+    "event_create_stream" => "Create stream on server",
+    "event_update_stream" => "Update stream on server",
 );
 foreach($api_requests_set->get_all_ids() as $request_id)
 {
