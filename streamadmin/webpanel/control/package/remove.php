@@ -65,7 +65,7 @@ if($accept == "Accept")
                     }
                     else
                     {
-                        $ajax_reply->set_swap_tag_string("message",sprintf($lang["package.rm.error.7"],$stream_set->get_count()));
+                        $ajax_reply->set_swap_tag_string("message",sprintf($lang["package.rm.error.7"],$transaction_set->get_count()));
                     }
                 }
                 else
