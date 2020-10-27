@@ -3,11 +3,11 @@
     Please move this file up a level out of the gen folder before running ^+^
 */
 // setup workarea
-define("framework_location","site/framework/"); // db_objects and mysqli
+define("framework_location","shared/framework/"); // db_objects and mysqli
 define("gen_database_host","localhost");
 define("gen_database_username","root");
 define("gen_database_password","");
-define("save_models_to_folder","site/model/");
+define("save_models_to_folder","shared/model/");
 //define("add_db_to_table",true); // add the database name before the table name
 //define("source_databases",array("streamadmin","secondbothost"));
 
