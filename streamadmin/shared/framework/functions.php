@@ -39,16 +39,20 @@ function create_pending_api_request(server $server,stream $stream,?rental $renta
         return $reply["status"];
     }
 }
-function render_table(array $table_head, array $table_body,string $classaddon="")
+function render_table(array $table_head, array $table_body,string $classaddon="",bool $show_head=true)
 {
     add_vendor("datatable");
     $output = '<table class="'.$classaddon.' table table-striped">';
-    $output .= '<thead><tr>';
-    foreach($table_head as $entry)
+    if($show_head == true)
     {
-        $output .= '<th scope="col">'.$entry.'</th>';
+        $output .= '<thead><tr>';
+        foreach($table_head as $entry)
+        {
+            $output .= '<th scope="col">'.$entry.'</th>';
+        }
+        $output .= '</tr></thead>';
     }
-    $output .= '</tr></thead>';
+
     $output .= '<tbody>';
     foreach($table_body as $row)
     {
@@ -68,12 +72,12 @@ function render_datatable(array $table_head, array $table_body)
     add_vendor("datatable");
     return render_table($table_head, $table_body,"datatable-default display responsive");
 }
-function expired_ago($unixtime=0)
+function expired_ago($unixtime=0,bool $use_secs=false)
 {
     $dif = time()-$unixtime;
-    return timeleft_hours_and_days(time()+$dif);
+    return timeleft_hours_and_days(time()+$dif,$use_secs);
 }
-function timeleft_hours_and_days($unixtime=0)
+function timeleft_hours_and_days($unixtime=0,bool $use_secs=false)
 {
     $dif = $unixtime-time();
     if($dif > 0)
@@ -84,12 +88,34 @@ function timeleft_hours_and_days($unixtime=0)
         if($days > 0)
         {
             $hours -= $days * 24;
-            return "".$days." days, ".$hours." hours";
+            return $days." days, ".$hours." hours";
         }
         else
         {
-            $mins -= $hours * 60;
-            return "".$hours." hours, ".$mins." mins";
+            if(($use_secs == false) || ($hours > 0))
+            {
+                $mins -= $hours * 60;
+                return $hours." hours, ".$mins." mins";
+            }
+            else
+            {
+                if($use_secs == false)
+                {
+                    return $mins." mins";
+                }
+                else
+                {
+                    $dif -= $mins * 60;
+                    if($mins > 0)
+                    {
+                        return $mins." mins, ".$dif." secs";
+                    }
+                    else
+                    {
+                        return $dif." secs";
+                    }
+                }
+            }
         }
 
     }
