@@ -1,6 +1,6 @@
 <?php
 $input = new inputFilter();
-$year = $input->postFilter("year","integer");
+$year = $input->getFilter("year","integer");
 if($year < 2013) $year = 2013;
 else if($year > date("Y")) $year=date("Y");
 

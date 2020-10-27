@@ -1,10 +1,10 @@
 <?php
 $input = new inputFilter();
-$yeara = $input->postFilter("yeara","integer");
+$yeara = $input->getFilter("yeara","integer");
 if($yeara < 2013) $yeara = 2013;
 else if($yeara > date("Y")) $yeara=date("Y");
 
-$yearb = $input->postFilter("yearb","integer");
+$yearb = $input->getFilter("yearb","integer");
 if($yearb < 2013) $yearb = 2013;
 else if($yearb > date("Y")) $yearb=date("Y");
 

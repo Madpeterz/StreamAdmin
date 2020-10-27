@@ -1,11 +1,11 @@
 <?php
 $input = new inputFilter();
-$year = $input->postFilter("year","integer");
+$year = $input->getFilter("year","integer");
 if($year < 2013) $year = 2013;
 else if($year > date("Y")) $year=date("Y");
 
 $months = array(1=>"Jan",2=>"Feb",3=>"Mar",4=>"Apr",5=>"May",6=>"June",7=>"July",8=>"Aug",9=>"Sep",10=>"Oct",11=>"Nov",12=>"Dec");
-$month = $input->postFilter("month","integer");
+$month = $input->getFilter("month","integer");
 if($month < 1) $month = 1;
 else if($month > 12) $month = 12;
 
