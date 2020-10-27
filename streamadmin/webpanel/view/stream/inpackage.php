@@ -14,7 +14,7 @@ if($package->load_by_field("package_uid",$page) == true)
     $rental_set->load_ids($stream_set->get_all_by_field("rentallink"));
     $rental_set_ids = $rental_set->get_all_ids();
 
-    include("webpanel/view/stream/render_list.php");
+    include "webpanel/view/stream/render_list.php";
 }
 else
 {

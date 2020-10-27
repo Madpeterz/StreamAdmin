@@ -8,5 +8,5 @@ $whereconfig = array(
     "types" => array("s"),
     "matches" => array("IS NOT"),
 );
-include("webpanel/view/stream/with_status.php");
+include "webpanel/view/stream/with_status.php";
 ?>

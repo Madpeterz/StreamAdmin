@@ -42,8 +42,8 @@ if($server->load($page) == true)
     $form->col(6);
         $form->select("event_recreate_revoke","Event / Recreate account on revoke",$server->get_event_recreate_revoke(),array(0=>"No",1=>"Yes"));
     $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
-    include("webpanel/view/server/api_notes.php");
-    include("webpanel/view/server/js_on_select_api.php");
+    include "webpanel/view/server/api_notes.php";
+    include "webpanel/view/server/js_on_select_api.php";
 }
 else
 {

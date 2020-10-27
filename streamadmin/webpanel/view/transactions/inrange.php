@@ -38,6 +38,6 @@ $package_set->load_ids($transaction_set->get_all_by_field("packagelink"));
 $region_set->load_ids($transaction_set->get_all_by_field("regionlink"));
 $avatar_set->load_ids($transaction_set->get_all_by_field("avatarlink"));
 
-include("webpanel/view/transactions/render_list.php");
-include("webpanel/view/transactions/range_form.php");
+include "webpanel/view/transactions/render_list.php";
+include "webpanel/view/transactions/range_form.php";
 ?>

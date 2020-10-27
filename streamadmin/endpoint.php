@@ -1,9 +1,9 @@
 <?php
 ob_start();
-include("shared/framework/install.php");
+include "shared/framework/install.php";
 if(install_ok() == true)
 {
-    include("endpoints/endpoint/load.php");
+    include "endpoints/endpoint/load.php";
 }
 else
 {

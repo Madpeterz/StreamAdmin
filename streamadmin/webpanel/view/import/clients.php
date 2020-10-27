@@ -25,7 +25,7 @@ $clients_skipped_no_avatar = 0;
 $clients_skipped_bad_notice_level = 0;
 $all_ok = true;
 
-include("shared/lang/control/client/".$site_lang.".php");
+include "shared/lang/control/client/".$site_lang.".php";
 
 $notice_set = new notice_set();
 $notice_set->loadAll();

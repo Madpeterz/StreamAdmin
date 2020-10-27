@@ -8,21 +8,21 @@ function auto_load_model($class_name="")
 		$class_name = implode("_",$bits);
 	}
 	$loadfile = "shared/model/".$class_name.".php";
-	if(file_exists($loadfile)) require_once($loadfile);
+	if(file_exists($loadfile)) include $loadfile;
 }
 function auto_load_api($class_name="")
 {
 	$loadfile = "shared/media_server_apis/".$class_name.".php";
 	if(file_exists($loadfile))
 	{
-		require_once($loadfile);
+		include $loadfile;
 	}
 	else
 	{
 		$loadfile = "shared/media_server_apis/abstracts/".$class_name.".php";
 		if(file_exists($loadfile))
 		{
-			require_once($loadfile);
+			include $loadfile;
 		}
 	}
 }
@@ -34,7 +34,7 @@ function auto_load_helper($class_name="")
 		array_pop($bits);
 		$class_name = implode("_",$bits);
 		$loadfile = "shared/model_helpers/".$class_name.".helper.php";
-		if(file_exists($loadfile)) require_once($loadfile);
+		if(file_exists($loadfile)) include $loadfile;
 	}
 }
 spl_autoload_register('auto_load_model');

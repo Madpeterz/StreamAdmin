@@ -3,10 +3,10 @@ session_start();
 $sql = null;
 $session = null;
 $slconfig = null;
-include("shared/framework/core.php");
+include "shared/framework/core.php";
 if(install_ok() == true)
 {
-    include("shared/config/load.php"); // sql_config
+    include "shared/framework/core.php"; // sql_config
     require_once("shared/framework/mysqli/src/loader.php"); // sql_driver
     // lets get some work done.
     $sql = new mysqli_controler();
@@ -23,7 +23,7 @@ if(install_ok() == true)
 }
 else
 {
-    include("installer/config.php");
+    include "shared/framework/core.php";
 }
 if($slconfig != null)
 {

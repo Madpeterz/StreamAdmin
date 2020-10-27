@@ -16,7 +16,7 @@ $template_set->loadAll();
 $template = $template_set->get_first();
 
 
-include("shared/lang/control/package/".$site_lang.".php");
+include "shared/lang/control/package/".$site_lang.".php";
 
 $all_ok = true;
 $packages_created = 0;

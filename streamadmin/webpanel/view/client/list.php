@@ -12,5 +12,5 @@ $package_set = new package_set();
 $package_set->load_ids($stream_set->get_all_by_field("packagelink"));
 
 $view_reply->add_swap_tag_string("page_title"," [All]");
-include("webpanel/view/client/render_list.php");
+include "webpanel/view/client/render_list.php";
 ?>

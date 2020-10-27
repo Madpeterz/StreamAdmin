@@ -12,7 +12,7 @@ if($hashcheck == $hash)
         if($get_av_status == true)
         {
             $object_owner_avatar = $avatar_helper->get_avatar();
-            include("endpoints/api_public/start_final.php");
+            include "endpoints/api_public/start_final.php";
         }
         else
         {

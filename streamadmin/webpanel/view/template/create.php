@@ -13,5 +13,5 @@ $form->col(6);
 $form->col(6);
     $form->textarea("notecarddetail","Notecard template",2000,"","Use swap tags as the placeholder");
 $view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
-include("webpanel/view/shared/swaps_table.php");
+include "webpanel/view/shared/swaps_table.php";
 ?>

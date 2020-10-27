@@ -1,13 +1,13 @@
 <?php
 $soft_fail = false;
 $timewindow = 120;
-include("shared/framework/loader_light.php");
-include("shared/lang/api_public/".$site_lang.".php");
-include("endpoints/api_public/start_step1.php");
+include "shared/framework/loader_light.php";
+include "shared/lang/api_public/".$site_lang.".php";
+include "endpoints/api_public/start_step1.php";
 $status = false;
 if($all_found == true)
 {
-    include("endpoints/api_public/start_step2.php");
+    include "endpoints/api_public/start_step2.php";
 }
 else
 {

@@ -1,5 +1,5 @@
 <?php
-include("shared/framework/loader_light.php");
+include "shared/framework/loader_light.php";
 $input = new inputFilter();
 $senttoken = $input->postFilter("token");
 $timewindow = 30;
@@ -24,7 +24,7 @@ if($vaild == true)
     if(file_exists($testfile) == true)
     {
         $reply = array("status"=>false,"message"=>"Failed: endpoint not processed");
-        include($testfile);
+        include $testfile;
     }
     else
     {

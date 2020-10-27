@@ -33,5 +33,5 @@ $form->col(6);
     $form->group("Static notecard");
     $form->select("notice_notecardlink"," ",1,$notice_notecard_set->get_linked_array("id","name"));
 $view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
-include("webpanel/view/shared/swaps_table.php");
+include "webpanel/view/shared/swaps_table.php";
 ?>

@@ -6,5 +6,5 @@ $whereconfig = array(
     "matches" => array("<=",">"),
 );
 $view_reply->add_swap_tag_string("page_title"," With status: Expires soon");
-include("webpanel/view/client/with_status.php");
+include "webpanel/view/client/with_status.php";
 ?>

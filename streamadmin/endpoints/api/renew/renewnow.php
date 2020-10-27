@@ -146,7 +146,7 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                                             if($all_ok == true)
                                             {
                                                 // Server API support
-                                                include("shared/media_server_apis/logic/renew.php");
+                                                include "shared/media_server_apis/logic/renew.php";
                                                 $all_ok = $api_serverlogic_reply;
                                             }
                                             if($all_ok == true)

@@ -47,9 +47,9 @@ if(in_array(null,$fasttest) == false)
                                 $lang_file = "shared/lang/api/renew/".$site_lang.".php";
                                 if(file_exists($lang_file) == true)
                                 {
-                                    include($lang_file);
+                                    include $lang_file;
                                 }
-                                include("endpoints/api/renew/renewnow.php");
+                                include "endpoints/api/renew/renewnow.php";
                                 if($status == true)
                                 {
                                     $bot_helper = new bot_helper();

@@ -1,6 +1,6 @@
 <?php
 if(defined("correct") == false) {die("Error");}
-include("shared/config/db.php");
+include "shared/config/db.php";
 if(class_exists("db") == true)
 {
     require_once("shared/framework/mysqli/src/loader.php"); // sql_driver

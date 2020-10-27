@@ -22,7 +22,7 @@ if($owner_override == true)
                 {
                     if($sql->sqlSave(false) == true)
                     {
-                        include($load_path);
+                        include $load_path;
                     }
                     else
                     {

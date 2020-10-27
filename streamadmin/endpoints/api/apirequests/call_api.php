@@ -22,7 +22,7 @@ if($stream->load($api_request->get_streamlink()) == true)
                     $why_failed = "";
                     if($logic_step != "opt")
                     {
-                        include("shared/media_server_apis/logic/".$logic_step.".php");
+                        include "shared/media_server_apis/logic/".$logic_step.".php";
                         $status = $api_serverlogic_reply;
                         if($status == true)
                         {

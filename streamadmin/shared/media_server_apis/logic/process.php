@@ -7,7 +7,7 @@ $api_logiclang = array(
 $api_serverlogic_reply = true;
 if(isset($site_lang) == false) { $site_lang = "en"; }
 $lang_file = "shared/lang/api_serverlogic/".$site_lang.".php";
-if(file_exists($lang_file) == true) { include($lang_file); }
+if(file_exists($lang_file) == true) { include $lang_file; }
 if(isset($server) == false)
 {
     $server = new server();

@@ -1,7 +1,7 @@
 <?php
 if($slconfig->get_clients_list_mode() == true)
 {
-    include("webpanel/view/client/list.php");
+    include "webpanel/view/client/list.php";
 }
 else
 {

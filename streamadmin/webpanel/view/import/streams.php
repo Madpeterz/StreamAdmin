@@ -13,7 +13,7 @@ $r4_packages_set->loadAll();
 
 $r4_package_id_to_name = $r4_packages_set->get_linked_array("id","name");
 
-include("shared/lang/control/stream/".$site_lang.".php");
+include "shared/lang/control/stream/".$site_lang.".php";
 
 $sql = $current_sql; // swtich back to r7
 

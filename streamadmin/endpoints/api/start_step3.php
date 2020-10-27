@@ -35,7 +35,7 @@ if($hashcheck == $hash)
                     if($get_object_status == true)
                     {
                         $object = $object_helper->get_object();
-                        include("endpoints/api/start_final.php");
+                        include "endpoints/api/start_final.php";
                     }
                     else
                     {

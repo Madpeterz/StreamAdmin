@@ -19,7 +19,7 @@ else
 {
     if(file_exists("shared/config/db_installed.php") == true)
     {
-        include("shared/config/db_installed.php");
+        include "shared/config/db_installed.php";
     }
 }
 ?>

@@ -22,7 +22,7 @@ function load_module_view() : array
     }
     return $target_files;
 }
-include("shared/framework/loader_light.php");
+include "shared/framework/loader_light.php";
 add_vendor("website");
 if($session->get_logged_in() == false)
 {
@@ -30,18 +30,18 @@ if($session->get_logged_in() == false)
 }
 if($module != "login")
 {
-    include("theme/".$site_theme."/layout/sidemenu/template.php");
+    include "theme/".$site_theme."/layout/sidemenu/template.php";
     if($area == "") $area = "default";
     require_once("webpanel/view/shared/menu.php");
 }
 else
 {
-    include("theme/".$site_theme."/layout/full/template.php");
+    include "theme/".$site_theme."/layout/full/template.php";
 }
 $load_files = load_module_view();
 foreach($load_files as $file)
 {
-    include($file);
+    include $file;
 }
 $view_reply->render_page();
 ?>

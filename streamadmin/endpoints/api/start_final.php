@@ -7,9 +7,9 @@ if(file_exists($checkfile) == true)
     $lang_file = "shared/lang/api/".$required_sl_values["method"]."/".$site_lang.".php";
     if(file_exists($lang_file) == true)
     {
-        include($lang_file);
+        include $lang_file;
     }
-    include($checkfile);
+    include $checkfile;
 }
 else
 {

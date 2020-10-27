@@ -10,7 +10,7 @@ $r4_users_set->loadAll();
 
 $sql = $current_sql; // swtich back to r7
 
-include("shared/lang/control/avatar/".$site_lang.".php");
+include "shared/lang/control/avatar/".$site_lang.".php";
 
 $all_ok = true;
 $avatars_created = 0;

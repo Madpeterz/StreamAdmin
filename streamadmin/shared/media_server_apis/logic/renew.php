@@ -2,5 +2,5 @@
 $steps = array(
     "" => "event_enable_renew"
 );
-include("shared/media_server_apislogic/process.php");
+include "shared/media_server_apislogic/process.php";
 ?>

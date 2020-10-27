@@ -1,6 +1,6 @@
 <?php
-include("shared/framework/loader_light.php");
-include("shared/lang/control/".$site_lang.".php");
+include "shared/framework/loader_light.php";
+include "shared/lang/control/".$site_lang.".php";
 $status = true;
 $reply = array();
 $soft_fail = false;
@@ -10,9 +10,9 @@ if($session->get_logged_in() == true)
     {
         if(file_exists("shared/lang/control/".$module."/".$site_lang.".php") == true)
         {
-            include("shared/lang/control/".$module."/".$site_lang.".php");
+            include "shared/lang/control/".$module."/".$site_lang.".php";
         }
-        include("webpanel/control/".$module."/".$area.".php");
+        include "webpanel/control/".$module."/".$area.".php";
     }
     else
     {
@@ -24,8 +24,8 @@ else
 {
     if(file_exists("webpanel/control/login/".$area.".php") == true)
     {
-        include("shared/lang/control/login/".$site_lang.".php");
-        include("webpanel/control/login/".$area.".php");
+        include "shared/lang/control/login/".$site_lang.".php";
+        include "webpanel/control/login/".$area.".php";
     }
     else
     {

@@ -10,7 +10,7 @@ else
 {
     if(file_exists("shared/config/site_installed.php") == true)
     {
-        include("shared/config/site_installed.php");
+        include "shared/config/site_installed.php";
     }
 	else
 	{

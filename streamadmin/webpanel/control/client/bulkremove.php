@@ -89,7 +89,7 @@ foreach($rental_set->get_all_ids() as $rental_id)
                             if($all_ok == true)
                             {
                                 $rental = null;
-                                include("shared/media_server_apis/logic/revoke.php");
+                                include "shared/media_server_apis/logic/revoke.php";
                                 $all_ok = $api_serverlogic_reply;
                                 if($status != true)
                                 {

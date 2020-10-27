@@ -46,7 +46,7 @@ if($notice->load($page) == true)
             }
             $form->select("notice_notecardlink"," ",$use_notecard_link,$notice_notecard_set->get_linked_array("id","name"));
         $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
-        include("webpanel/view/shared/swaps_table.php");
+        include "webpanel/view/shared/swaps_table.php";
     }
     else
     {

@@ -10,5 +10,5 @@ $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
 $notice = new notice();
 $notice->load($page);
 $view_reply->add_swap_tag_string("page_title"," By notice level: ".$notice->get_name());
-include("webpanel/view/client/render_list.php");
+include "webpanel/view/client/render_list.php";
 ?>

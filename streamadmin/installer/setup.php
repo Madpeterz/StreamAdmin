@@ -4,7 +4,7 @@ if(defined("correct") == false) {die("Error");}
     $load_ok = false;
     if($av_uuid != null)
     {
-        include("shared/config/db.php");
+        include "shared/config/db.php";
         require_once("shared/framework/mysqli/src/loader.php"); // sql_driver
         $sql = new mysqli_controler();
         $staff = new staff();

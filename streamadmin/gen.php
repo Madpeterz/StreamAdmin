@@ -16,12 +16,12 @@ define("source_databases",array("streamadmin"));
 
 // load framework
 require_once("".framework_location."db_objects/src/loader.php"); // db_objects
-include("../gen/src/create_db_class.php");
+include "../gen/src/create_db_class.php";
 require_once("".framework_location."mysqli/src/loader.php"); // sql_driver
 
 // connect to SQL
 $sql = new mysqli_controler();
 
 // lets rock
-include("../gen/src/gen.php");
+include "../gen/src/gen.php";
 ?>
