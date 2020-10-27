@@ -1,7 +1,7 @@
 <?php
 $input = new inputFilter();
-$month = $input->postFilter("month","integer");
-$year = $input->postFilter("year","integer");
+$month = $input->getFilter("month","integer");
+$year = $input->getFilter("year","integer");
 
 if($month < 1) $month = 1;
 else if($month > 12) $month = 12;
