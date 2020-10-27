@@ -23,7 +23,7 @@
 			"smtp_accesscode" => array("type"=>"str","value"=>null),
 			"smtp_from" => array("type"=>"str","value"=>null),
 			"smtp_replyto" => array("type"=>"str","value"=>null),
-			"displaytimezonelink" => array("type"=>"int","value"=>1),
+			"displaytimezonelink" => array("type"=>"int","value"=>11),
 			"api_default_email" => array("type"=>"str","value"=>null),
 		);
 		public function get_db_version() : ?string {  return $this->get_field("db_version");  } 

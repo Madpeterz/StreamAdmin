@@ -23,6 +23,8 @@
 			"event_reset_password_revoke" => array("type"=>"bool","value"=>0),
 			"event_clear_djs" => array("type"=>"bool","value"=>0),
 			"event_recreate_revoke" => array("type"=>"bool","value"=>0),
+			"event_create_stream" => array("type"=>"bool","value"=>0),
+			"event_update_stream" => array("type"=>"bool","value"=>0),
 		);
 		public function get_name() : ?string {  return $this->get_field("name");  } 
 		public function get_api_serverstatus() : ?bool {  return $this->get_field("api_serverstatus");  } 
@@ -40,6 +42,8 @@
 		public function get_event_reset_password_revoke() : ?bool {  return $this->get_field("event_reset_password_revoke");  } 
 		public function get_event_clear_djs() : ?bool {  return $this->get_field("event_clear_djs");  } 
 		public function get_event_recreate_revoke() : ?bool {  return $this->get_field("event_recreate_revoke");  } 
+		public function get_event_create_stream() : ?bool {  return $this->get_field("event_create_stream");  } 
+		public function get_event_update_stream() : ?bool {  return $this->get_field("event_update_stream");  } 
 		public function set_name(?string $newvalue) : array {  return $this->update_field("name",$newvalue);  } 
 		public function set_api_serverstatus(?bool $newvalue) : array {  return $this->update_field("api_serverstatus",$newvalue);  } 
 		public function set_api_sync_accounts(?bool $newvalue) : array {  return $this->update_field("api_sync_accounts",$newvalue);  } 
@@ -56,5 +60,7 @@
 		public function set_event_reset_password_revoke(?bool $newvalue) : array {  return $this->update_field("event_reset_password_revoke",$newvalue);  } 
 		public function set_event_clear_djs(?bool $newvalue) : array {  return $this->update_field("event_clear_djs",$newvalue);  } 
 		public function set_event_recreate_revoke(?bool $newvalue) : array {  return $this->update_field("event_recreate_revoke",$newvalue);  } 
+		public function set_event_create_stream(?bool $newvalue) : array {  return $this->update_field("event_create_stream",$newvalue);  } 
+		public function set_event_update_stream(?bool $newvalue) : array {  return $this->update_field("event_update_stream",$newvalue);  } 
 	}
 ?>
