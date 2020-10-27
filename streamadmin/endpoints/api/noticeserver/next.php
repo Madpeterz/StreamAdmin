@@ -51,7 +51,7 @@ function process_notice_change(notice $notice)
                 }
                 if($all_ok == true)
                 {
-                    include("shared/api_serverlogic/expire.php");
+                    include("shared/media_server_apis/logic/expire.php");
                     $all_ok = $api_serverlogic_reply;
                 }
             }
