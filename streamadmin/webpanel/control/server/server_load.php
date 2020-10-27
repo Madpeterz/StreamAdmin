@@ -69,7 +69,19 @@ if($server->load($page) == true)
                 }
                 $ajax_reply->add_swap_tag_string("message","Str: <span class=\"".$text_color."\">".$percent." %</span>");
             }
+            if($ajax_reply->get_swap_tag_string("message") == "")
+            {
+                $ajax_reply->add_swap_tag_string("message","<span class=\"text-info\">Online</span>");
+            }
         }
+        else
+        {
+            $ajax_reply->add_swap_tag_string("message","<span class=\"text-danger\">Offline</span>");
+        }
+    }
+    else
+    {
+        $ajax_reply->add_swap_tag_string("message","<span class=\"text-warning\">Not supported</span>");
     }
 }
 else
