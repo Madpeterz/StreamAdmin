@@ -1,30 +1,30 @@
 <?php
 abstract class server_public_api extends server_public_api_basic
 {
-    public function event_start_sync_username(stream $stream,server $server,string $old_username) : bool
+    public function event_start_sync_username(string $old_username) : bool
     {
-        return $this->sync_username($stream,$server,$old_username);
+        return $this->sync_username($old_username);
     }
-    public function opt_autodj_next(stream $stream,server $server) : bool
+    public function opt_autodj_next() : bool
     {
-        return $this->autodj_next($stream,$server);
+        return $this->autodj_next();
     }
-    public function opt_toggle_autodj(stream $stream,server $server) : bool
+    public function opt_toggle_autodj() : bool
     {
-        return $this->toggle_autodj($stream,$server);
+        return $this->toggle_autodj();
     }
-    public function opt_toggle_status(stream $stream,server $server,bool $status=false) : bool
+    public function opt_toggle_status(bool $status=false) : bool
     {
-        if($status == true) return $this->start_server($stream,$server);
-        else return $this->stop_server($stream,$server);
+        if($status == true) return $this->start_server();
+        else return $this->stop_server();
     }
-    public function opt_password_reset(stream $stream,server $server)
+    public function opt_password_reset()
     {
-        return $this->change_password($stream,$server);
+        return $this->change_password();
     }
-    public function change_tile(stream $stream,server $server,string $newtitle="New title")
+    public function change_tile(string $newtitle="New title")
     {
-        return $this->change_title_now($stream,$server,$newtitle);
+        return $this->change_title_now($newtitle);
     }
 }
 ?>

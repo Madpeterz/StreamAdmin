@@ -10,43 +10,50 @@ abstract class server_public_api_basic extends server_api_protected
     {
         return $this->needs_retry;
     }
-    public function get_account_name_list(server $server,bool $include_passwords=false,stream_set $stream_set=null) : array
+    public function get_account_name_list(bool $include_passwords=false,stream_set $stream_set=null) : array
     {
-        return $this->account_name_list($server,$include_passwords,$stream_set);
+        return $this->account_name_list($include_passwords,$stream_set);
     }
-    public function get_server_status(server $server) : array
+    public function get_server_status() : array
     {
-        return $this->server_status($server);
+        return $this->server_status();
     }
-    public function get_stream_state(stream $stream,server $server) : array
+    public function get_stream_state() : array
     {
-        return $this->stream_state($stream,$server);
+        return $this->stream_state();
     }
-    public function get_dj_list(stream $stream,server $server) : array
+    public function get_dj_list() : array
     {
-        return $this->dj_list($stream,$server);
+        return $this->dj_list();
     }
-    public function purge_dj_account(stream $stream,server $server,string $djaccount) : bool
+    public function purge_dj_account(string $djaccount) : bool
     {
-        return $this->remove_dj($stream,$server,$djaccount);
+        return $this->remove_dj($djaccount);
     }
-    public function set_account_state(stream $stream,server $server,bool $state) : bool
+    public function set_account_state(bool $state) : bool
     {
-        $package = new package();
-        if($package->load($stream->get_packagelink()) == true)
+        if($this->package == null)
         {
-            $account_state = $this->account_state($stream,$server);
+            $this->package = new package();
+            if($this->package->load($this->stream->get_packagelink()) == false)
+            {
+                $this->package = null;
+            }
+        }
+        if($this->package != null)
+        {
+            $account_state = $this->account_state($this->stream,$this->server);
             if($account_state["status"] == true)
             {
                 if($account_state["state"] != $state)
                 {
                     if($state == true)
                     {
-                        if($this->un_susspend_server($stream,$server) == true)
+                        if($this->un_susspend_server() == true)
                         {
-                            if($package->get_autodj() == false)
+                            if($this->package->get_autodj() == false)
                             {
-                                return $this->start_server($stream,$server);
+                                return $this->start_server();
                             }
                             else
                             {
@@ -56,7 +63,7 @@ abstract class server_public_api_basic extends server_api_protected
                     }
                     else
                     {
-                        return $this->susspend_server($stream,$server);
+                        return $this->susspend_server();
                     }
                 }
                 else
@@ -76,13 +83,13 @@ abstract class server_public_api_basic extends server_api_protected
         }
         return false;
     }
-    public function remove_account(stream $stream,server $server,string $old_username) : bool
+    public function remove_account(string $old_username) : bool
     {
-        return $this->terminate_account($stream,$server,$old_username);
+        return $this->terminate_account($old_username);
     }
-    public function recreate_account(stream $stream,server $server,package $package) : bool
+    public function recreate_account() : bool
     {
-        return $this->create_account($stream,$server,$package);
+        return $this->create_account();
     }
 }
 ?>

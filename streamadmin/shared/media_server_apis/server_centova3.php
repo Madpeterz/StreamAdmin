@@ -1,15 +1,15 @@
 <?php
 class server_centova3_only extends server_public_api
 {
-    protected function process_centova_api_call(server $server,array $post_data,array $args) : array
+    protected function process_centova_api_call(array $post_data,array $args) : array
     {
         $post_data["f"] = "json";
-        $post_data["a[password]"] = "".$server->get_api_username()."|".$server->get_api_password()."";
+        $post_data["a[password]"] = "".$this->server->get_api_username()."|".$this->server->get_api_password()."";
         foreach($args as $key => $value)
         {
             $post_data["a[".$key."]"] = $value;
         }
-        $reply = $this->curl_request($server->get_api_url(),$post_data);
+        $reply = $this->curl_request($this->server->get_api_url(),$post_data);
         if($reply["status"] == true)
         {
             $this->last_api_message = "curl ok";
@@ -21,15 +21,15 @@ class server_centova3_only extends server_public_api
             return array("status"=>false,"data"=>array());
         }
     }
-    protected function centova_serverclass_api_call(server $server,stream $stream,string $method,array $args=array(),$post_data=array()) : array
+    protected function centova_serverclass_api_call(string $method,array $args=array(),$post_data=array()) : array
     {
         $post_data["xm"]="server.".$method."";
-        $post_data["a[username]"]=$stream->get_adminusername();
-        return $this->process_centova_api_call($server,$post_data,$args);
+        $post_data["a[username]"]=$this->stream->get_adminusername();
+        return $this->process_centova_api_call($post_data,$args);
     }
-    protected function centova_systemclass_api_call(server $server,string $method,array $args=array()) : array
+    protected function centova_systemclass_api_call(string $method,array $args=array()) : array
     {
-        return $this->process_centova_api_call($server,array("xm"=>"system.".$method.""),$args);
+        return $this->process_centova_api_call(array("xm"=>"system.".$method.""),$args);
     }
     protected function simple_reply_ok(array $reply,bool $debug=false) : bool
     {
@@ -71,17 +71,17 @@ class server_centova3_only extends server_public_api
 }
 class server_centova3 extends server_centova3_only
 {
-    protected function terminate_account(stream $stream,server $server,string $old_username)  : bool
+    protected function terminate_account(string $old_username)  : bool
     {
-        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"terminate",array("username"=>$old_username)));
+        return $this->simple_reply_ok($this->centova_systemclass_api_call("terminate",array("username"=>$old_username)));
     }
-    protected function create_account(stream $stream,server $server,package $package) : bool
+    protected function create_account() : bool
     {
         global $slconfig;
-        if($package->get_api_template() != null)
+        if($this->package->get_api_template() != null)
         {
             $servertype = new servertypes();
-            if($servertype->load($package->get_servertypelink()) == true)
+            if($servertype->load($this->package->get_servertypelink()) == true)
             {
                 $post_data = array(
                     "port" => $stream->get_port(),
@@ -109,16 +109,16 @@ class server_centova3 extends server_centova3_only
                     $post_data["servertype"] = "IceCast";
                 }
                 */
-                if($package->get_autodj() == true)
+                if($this->package->get_autodj() == true)
                 {
                     $post_data["autostart"] = 0;
                     $post_data["usesource"] = 1;
-                    $post_data["diskquota"] = $package->get_autodj_size()*1000;
+                    $post_data["diskquota"] = $this->package->get_autodj_size()*1000;
                 }
-                $reply = $this->centova_systemclass_api_call($server,"provision",$post_data);
+                $reply = $this->centova_systemclass_api_call("provision",$post_data);
                 if($this->simple_reply_ok($reply) == true)
                 {
-                    return $this->susspend_server($stream,$server);
+                    return $this->susspend_server();
                 }
             }
             else
@@ -132,14 +132,14 @@ class server_centova3 extends server_centova3_only
         }
         return false;
     }
-    protected function remove_dj(stream $stream,server $server,string $djaccount) : bool
+    protected function remove_dj(string $djaccount) : bool
     {
-        $reply = $this->centova_serverclass_api_call($server,$stream,"managedj",array("action"=>"terminate","djusername"=>$djaccount));
+        $reply = $this->centova_serverclass_api_call("managedj",array("action"=>"terminate","djusername"=>$djaccount));
         return $this->simple_reply_ok($reply);
     }
-    protected function dj_list(stream $stream,server $server) : array
+    protected function dj_list() : array
     {
-        $reply = $this->centova_serverclass_api_call($server,$stream,"managedj",array("action"=>"list"));
+        $reply = $this->centova_serverclass_api_call("managedj",array("action"=>"list"));
         $status = false;
         $list = array();
         if($this->simple_reply_ok($reply) == true)
@@ -177,14 +177,14 @@ class server_centova3 extends server_centova3_only
         }
         return array("status"=>$status,"list"=>$list);
     }
-    protected function server_status(server $server) : array
+    protected function server_status() : array
     {
         $status = false;
         $loads = array("1"=>0,"5"=>0,"15"=>0);
         $ram = array("free"=>0,"max"=>0);
         $streams = array("total"=>0,"active"=>0);
         $message = "Unable to fetch status";
-        $reply = $this->centova_systemclass_api_call($server,"version");
+        $reply = $this->centova_systemclass_api_call("version");
         if($this->simple_reply_ok($reply) == true)
         {
             $server_status = $reply["data"]["response"]["data"]["web"];
@@ -196,19 +196,18 @@ class server_centova3 extends server_centova3_only
         }
         return array("status"=>$status,"loads"=>$loads,"ram"=>$ram,"streams"=>$streams,"message"=>$message);
     }
-    protected function account_data(stream $stream,server $server)
+    protected function account_data()
     {
-        $reply = $this->centova_serverclass_api_call($server,$stream,"getaccount");
-        $this->simple_reply_ok($reply);
+        $reply = $this->centova_serverclass_api_call("getaccount");
         if($this->simple_reply_ok($reply) == true)
         {
             return array("status"=>true,"data"=>$reply["data"]["response"]["data"]["account"]);
         }
         return array("status"=>false,"data"=>array());
     }
-    protected function account_state(stream $stream,server $server) : array
+    protected function account_state() : array
     {
-        $reply = $this->account_data($stream,$server);
+        $reply = $this->account_data();
         $status = $reply["status"];
         $state = false;
         if($status == true)
@@ -220,9 +219,9 @@ class server_centova3 extends server_centova3_only
         }
         return array("status"=>$status,"state"=>$state);
     }
-    protected function stream_state(stream $stream,server $server) : array
+    protected function stream_state() : array
     {
-        $reply = $this->centova_serverclass_api_call($server,$stream,"getstatus");
+        $reply = $this->centova_serverclass_api_call("getstatus");
         if($this->simple_reply_ok($reply) == true)
         {
             $server_status = $reply["data"]["response"]["data"]["status"];
@@ -230,7 +229,7 @@ class server_centova3 extends server_centova3_only
         }
         return array("status"=>false,"state"=>false,"source"=>false);
     }
-    protected function account_name_list(server $server,bool $include_passwords=false,stream_set $stream_set=null) : array
+    protected function account_name_list(bool $include_passwords=false,stream_set $stream_set=null) : array
     {
         $current_usernames = array();
         $current_passwords = array();
@@ -240,7 +239,7 @@ class server_centova3 extends server_centova3_only
             if($stream_set == null)
             {
                 $stream_set = new stream_set();
-                $stream_set->load_by_field("serverlink",$server->get_id());
+                $stream_set->load_by_field("serverlink",$this->server->get_id());
                 if($stream_set->get_count() == 0)
                 {
                     $all_ok = false;
@@ -250,7 +249,7 @@ class server_centova3 extends server_centova3_only
         }
         if($all_ok == true)
         {
-            $reply = $this->centova_systemclass_api_call($server,"listaccounts",array("start"=>0,"limit"=>1000));
+            $reply = $this->centova_systemclass_api_call("listaccounts",array("start"=>0,"limit"=>1000));
             if($this->simple_reply_ok($reply) == true)
             {
                 $server_accounts = $reply["data"]["response"]["data"];
@@ -263,7 +262,7 @@ class server_centova3 extends server_centova3_only
                     foreach($stream_set->get_all_ids() as $streamid)
                     {
                         $stream = $stream_set->get_object_by_id($streamid);
-                        $reply = $this->centova_serverclass_api_call($server,$stream,"getaccount");
+                        $reply = $this->centova_serverclass_api_call("getaccount");
                         if($this->simple_reply_ok($reply) == true)
                         {
                             $accountinfo = $reply["data"]["response"]["data"]["account"];
@@ -276,18 +275,18 @@ class server_centova3 extends server_centova3_only
         return array("status"=>$all_ok,"usernames"=>$current_usernames,"passwords"=>$current_passwords);
     }
 
-    protected function sync_username(stream $stream,server $server,string $old_username) : bool
+    protected function sync_username(string $old_username) : bool
     {
-        $reply = $this->centova_systemclass_api_call($server,"rename",array("username"=>$old_username,"newusername"=>$stream->get_adminusername()));
+        $reply = $this->centova_systemclass_api_call("rename",array("username"=>$old_username,"newusername"=>$this->stream->get_adminusername()));
         if($this->simple_reply_ok($reply) == true)
         {
             return true;
         }
         return false;
     }
-    protected function toggle_autodj(stream $stream,server $server) : bool
+    protected function toggle_autodj() : bool
     {
-        $reply = $this->centova_serverclass_api_call($server,$stream,"getstatus",array("mountpoints"=>"all"));
+        $reply = $this->centova_serverclass_api_call("getstatus",array("mountpoints"=>"all"));
         if($this->simple_reply_ok($reply) == true)
         {
             $server_status = $reply["data"]["response"]["data"]["status"];
@@ -297,7 +296,7 @@ class server_centova3 extends server_centova3_only
                 if($server_status["sourcestate"] == 0)
                 {
                     // Nothing connected start autoDJ
-                    return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"switchsource",array("state"=>"up")));
+                    return $this->simple_reply_ok($this->centova_serverclass_api_call("switchsource",array("state"=>"up")));
                 }
                 else
                 {
@@ -306,7 +305,7 @@ class server_centova3 extends server_centova3_only
                     if(in_array($server_status["sourcetype"],$autodj_source_types) == true)
                     {
                         // autoDJ connected stop it
-                        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"switchsource",array("state"=>"down")));
+                        return $this->simple_reply_ok($this->centova_serverclass_api_call("switchsource",array("state"=>"down")));
                     }
                     else
                     {
@@ -318,21 +317,21 @@ class server_centova3 extends server_centova3_only
             else
             {
                 // server down
-                return $this->start_server($stream,$server);
+                return $this->start_server();
             }
         }
         return false;
     }
-    protected function autodj_next(stream $stream,server $server) : bool
+    protected function autodj_next() : bool
     {
-        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"nextsong"));
+        return $this->simple_reply_ok($this->centova_serverclass_api_call("nextsong"));
     }
-    protected function stop_server(stream $stream,server $server) : bool
+    protected function stop_server() : bool
     {
-        $streamstate = $this->stream_state($stream,$server);
+        $streamstate = $this->stream_state();
         if(($streamstate["status"] == true) && ($streamstate["state"] == true))
         {
-            return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"stop"));
+            return $this->simple_reply_ok($this->centova_serverclass_api_call("stop"));
         }
         else
         {
@@ -340,12 +339,12 @@ class server_centova3 extends server_centova3_only
             return true;
         }
     }
-    protected function start_server(stream $stream,server $server,int $skip_auto_dj=0) : bool
+    protected function start_server(int $skip_auto_dj=0) : bool
     {
-        $streamstate = $this->stream_state($stream,$server);
+        $streamstate = $this->stream_state();
         if(($streamstate["status"] == true) && ($streamstate["state"] == false))
         {
-            return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"start",array("noapps"=>$skip_auto_dj)));
+            return $this->simple_reply_ok($this->centova_serverclass_api_call("start",array("noapps"=>$skip_auto_dj)));
         }
         else
         {
@@ -353,21 +352,21 @@ class server_centova3 extends server_centova3_only
             return true;
         }
     }
-    protected function susspend_server(stream $stream,server $server) : bool
+    protected function susspend_server() : bool
     {
-        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"setstatus",array("username"=>$stream->get_adminusername(),"status"=>"disabled")));
+        return $this->simple_reply_ok($this->centova_systemclass_api_call("setstatus",array("username"=>$this->stream->get_adminusername(),"status"=>"disabled")));
     }
-    protected function un_susspend_server(stream $stream,server $server) : bool
+    protected function un_susspend_server() : bool
     {
-        return $this->simple_reply_ok($this->centova_systemclass_api_call($server,"setstatus",array("username"=>$stream->get_adminusername(),"status"=>"enabled")));
+        return $this->simple_reply_ok($this->centova_systemclass_api_call("setstatus",array("username"=>$this->stream->get_adminusername(),"status"=>"enabled")));
     }
-    protected function change_password(stream $stream,server $server) : bool
+    protected function change_password() : bool
     {
-        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"reconfigure",array("adminpassword"=>$stream->get_adminpassword(),"sourcepassword"=>$stream->get_djpassword())));
+        return $this->simple_reply_ok($this->centova_serverclass_api_call("reconfigure",array("adminpassword"=>$this->stream->get_adminpassword(),"sourcepassword"=>$this->stream->get_djpassword())));
     }
-    protected function change_title_now(stream $stream,server $server,string $newtitle="Not set") : bool
+    protected function change_title_now(string $newtitle="Not set") : bool
     {
-        return $this->simple_reply_ok($this->centova_serverclass_api_call($server,$stream,"reconfigure",array("title"=>$newtitle)));
+        return $this->simple_reply_ok($this->centova_serverclass_api_call("reconfigure",array("title"=>$newtitle)));
     }
 }
 ?>
