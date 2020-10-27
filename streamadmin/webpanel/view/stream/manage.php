@@ -28,7 +28,16 @@ if($stream->load_by_field("stream_uid",$page) == true)
         $form->text_input("adminusername","Admin Usr",5,$stream->get_adminusername(),"Admin username");
         $form->text_input("adminpassword","Admin PW",3,$stream->get_adminpassword(),"Admin password");
         $form->text_input("djpassword","Encoder/Stream password",3,$stream->get_djpassword(),"Encoder/Stream password");
+    $form->direct_add("<br/>");
+    $form->col(6);
+        $form->group("API");
+        $form->text_input("api_uid_1","API UID 1",10,$stream->get_api_uid_1(),"API id 1");
+        $form->text_input("api_uid_2","API UID 2",10,$stream->get_api_uid_2(),"API id 2");
+    $form->col(6);
+        $form->group("Magic");
+        $form->select("api_update","Update on server",0,array(0=>"No",1=>"Yes"));
     $view_reply->set_swap_tag_string("page_content",$form->render("Update","primary"));
+    include "webpanel/view/stream/api_linking.php";
 }
 else
 {

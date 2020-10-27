@@ -24,5 +24,14 @@ $form->col(6);
     $form->text_input("adminpassword","Admin PW",3,null,"Admin password");
     $form->text_input("djpassword","Encoder/Stream password",3,null,"Encoder/Stream password");
     $form->select("needswork","Needs work",false,array(false=>"No",true=>"Yes"));
+$form->direct_add("<br/>");
+$form->col(6);
+    $form->group("API");
+    $form->text_input("api_uid_1","API UID 1",10,null,"API id 1");
+    $form->text_input("api_uid_2","API UID 2",10,null,"API id 2");
+$form->col(6);
+    $form->group("Magic");
+    $form->select("api_create","Create on server",0,array(0=>"No",1=>"Yes"));
 $view_reply->set_swap_tag_string("page_content",$form->render("Create","primary"));
+include "webpanel/view/stream/api_linking.php";
 ?>

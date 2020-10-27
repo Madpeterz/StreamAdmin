@@ -10,6 +10,9 @@ $adminusername = $input->postFilter("adminusername");
 $adminpassword = $input->postFilter("adminpassword");
 $djpassword = $input->postFilter("djpassword");
 $original_adminusername = $input->postFilter("original_adminusername");
+$api_uid_1 = $input->postFilter("api_uid_1");
+$api_uid_2 = $input->postFilter("api_uid_2");
+
 $failed_on = "";
 if($port < 1) $failed_on .= $lang["stream.up.error.1"];
 else if($port > 99999) $failed_on .= $lang["stream.up.error.2"];
@@ -54,12 +57,23 @@ if($failed_on == "")
                 $stream->set_djpassword($djpassword);
                 $stream->set_mountpoint($mountpoint);
                 $stream->set_original_adminusername($original_adminusername);
+                $stream->set_api_uid_1($api_uid_1);
+                $stream->set_api_uid_2($api_uid_2);
                 $update_status = $stream->save_changes();
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    $ajax_reply->set_swap_tag_string("message",$lang["stream.up.info.1"]);
-                    $ajax_reply->set_swap_tag_string("redirect","stream");
+                    include "shared/media_server_apis/logic/update.php";
+                    $all_ok = $api_serverlogic_reply;
+                    if($status != true)
+                    {
+                        $ajax_reply->set_swap_tag_string("message",$why_failed);
+                    }
+                    else
+                    {
+                        $ajax_reply->set_swap_tag_string("message",$lang["stream.up.info.1"]);
+                        $ajax_reply->set_swap_tag_string("redirect","stream");
+                    }
                 }
                 else
                 {

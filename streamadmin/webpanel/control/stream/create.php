@@ -11,6 +11,9 @@ $adminusername = $input->postFilter("adminusername");
 $adminpassword = $input->postFilter("adminpassword");
 $djpassword = $input->postFilter("djpassword");
 $needswork = $input->postFilter("needswork","bool");
+$api_uid_1 = $input->postFilter("api_uid_1");
+$api_uid_2 = $input->postFilter("api_uid_2");
+
 $failed_on = "";
 if($port < 1) $failed_on .= $lang["stream.cr.error.1"];
 else if($port > 99999) $failed_on .= $lang["stream.cr.error.2"];
@@ -29,7 +32,7 @@ if($failed_on == "")
     $uid = $stream->create_uid("stream_uid",8,10);
     if($uid["status"] == true)
     {
-        $where_fields = array(array("port"=>"="),array("serverlink"=>"="));
+        $where_fields = array(array("port"=>">="),array("serverlink"=>"="));
         $where_values = array(array($port=>"i"),array($serverlink=>"i"));
         $count_check = $sql->basic_count($stream->get_table(),$where_fields,$where_values);
         if($count_check["status"] == true)
@@ -46,12 +49,23 @@ if($failed_on == "")
                 $stream->set_original_adminusername($adminusername);
                 $stream->set_djpassword($djpassword);
                 $stream->set_mountpoint($mountpoint);
+                $stream->set_api_uid_1($api_uid_1);
+                $stream->set_api_uid_2($api_uid_2);
                 $create_status = $stream->create_entry();
                 if($create_status["status"] == true)
                 {
                     $status = true;
-                    $ajax_reply->set_swap_tag_string("message",$lang["stream.cr.info.1"]);
-                    $ajax_reply->set_swap_tag_string("redirect","stream");
+                    include "shared/media_server_apis/logic/create.php";
+                    $all_ok = $api_serverlogic_reply;
+                    if($status != true)
+                    {
+                        $ajax_reply->set_swap_tag_string("message",$why_failed);
+                    }
+                    else
+                    {
+                        $ajax_reply->set_swap_tag_string("message",$lang["stream.cr.info.1"]);
+                        $ajax_reply->set_swap_tag_string("redirect","stream");
+                    }
                 }
                 else
                 {
