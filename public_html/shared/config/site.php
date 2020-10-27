@@ -8,9 +8,9 @@ if(getenv('DB_HOST') !== false)
 }
 else
 {
-    if(file_exists("site/config/site_installed.php") == true)
+    if(file_exists("shared/config/site_installed.php") == true)
     {
-        include("site/config/site_installed.php");
+        include("shared/config/site_installed.php");
     }
 	else
 	{
