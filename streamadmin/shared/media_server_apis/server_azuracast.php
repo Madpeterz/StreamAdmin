@@ -7,6 +7,10 @@ class server_azuracast extends server_public_api
     {
         $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_api_password();
     }
+    protected function get_post_formated(array $postdata=array()) : array
+    {
+        return array('json' => $postdata);
+    }
     protected function terminate_account(string $old_username)  : bool
     {
 
@@ -81,14 +85,24 @@ class server_azuracast extends server_public_api
             return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"Limited reply");
         }
     }
-    protected function account_data()
-    {
-
-    }
     protected function account_state() : array
     {
         //array("status"=>$status,"state"=>$state);
-        return array("status"=>true,"state"=>true);
+        $status = false;
+        $state = false;
+        $this->last_api_message = "fetching account state";
+        $reply = $this->rest_get("admin/user/".$this->stream->get_api_uid_3()."");
+        $status = $reply["status"];
+        if($status == true)
+        {
+            $this->last_api_message = "got account state";
+            $json = json_decode($reply["message"]);
+            if(count($json->roles) >= 1)
+            {
+                $state = true;
+            }
+        }
+        return array("status"=>$status,"state"=>$state);
     }
     protected function stream_state() : array
     {
@@ -119,7 +133,23 @@ class server_azuracast extends server_public_api
     protected function account_name_list(bool $include_passwords=false,stream_set $stream_set=null) : array
     {
         //array("status"=>$all_ok,"usernames"=>$current_usernames,"passwords"=>$current_passwords);
-
+        $reply = $this->rest_get("​admin​/users");
+        $usernames = array();
+        $passwords = array();
+        $status = $reply["status"] ;
+        if($status == true)
+        {
+            $json = json_decode($reply["message"]);
+            foreach($json as $index => $entry)
+            {
+                $usernames[] = $entry->email;
+                if($include_passwords == true)
+                {
+                    $passwords[] = $entry->new_password; /// ?
+                }
+            }
+        }
+        return array("status"=>$status,"usernames"=>$usernames,"passwords"=>$passwords);
     }
 
     protected function toggle_autodj() : bool
@@ -176,9 +206,18 @@ class server_azuracast extends server_public_api
     }
     protected function stop_server() : bool
     {
-        $stopped_auto_dj = true;
-        $this->last_api_message = "Package does not support auto DJ";
-        if($this->package->get_autodj() == true)
+        $status_state = $this->stream_state();
+        if($status_state["status"] == false )
+        {
+            return false;
+        }
+        if($status_state["state"] == false)
+        {
+            $this->last_api_message = "server already stopped";
+            return true;
+        }
+        $stopped_auto_dj = !$status_state["autodj"];
+        if($stopped_auto_dj == false)
         {
             $this->last_api_message = "Unable to stop autoDJ";
             $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/stop");
@@ -239,14 +278,60 @@ class server_azuracast extends server_public_api
     }
     protected function susspend_server() : bool
     {
-        if($this->stop_server() == true)
+        $reply = $this->account_state();
+        $status = false;
+        if($reply["status"] == true)
         {
-
+            if($reply["state"] == false)
+            {
+                $this->last_api_message = "Account allready susspended";
+                return false;
+            }
+            if($this->stop_server() == false)
+            {
+                return false;
+            }
+            $this->last_api_message = "Attempting to remove access to server";
+            $post_fields = array("roles"=>array());
+            $reply = $this->rest_put("admin/user/".$this->stream->get_api_uid_3()."",$post_fields);
+            error_log(print_r($reply,true));
+            if($reply["status"] == true)
+            {
+                $json = json_decode($reply["message"]);
+                if($json->success == true)
+                {
+                    $this->last_api_message = "Account: susspended";
+                }
+                return $json->success;
+            }
         }
+        return false;
     }
     protected function un_susspend_server() : bool
     {
-
+        $reply = $this->account_state();
+        $status = false;
+        if($reply["status"] == true)
+        {
+            if($reply["state"] == true)
+            {
+                $this->last_api_message = "Account allready active";
+                return false;
+            }
+            $this->last_api_message = "Sending request to un_susspend to server";
+            $post_fields = array("roles"=>array($this->stream->get_api_uid_2()));
+            $reply = $this->rest_put("admin/user/".$this->stream->get_api_uid_3()."",$post_fields);
+            if($reply["status"] == true)
+            {
+                $this->last_api_message = "Request failed";
+                $json = json_decode($reply["message"]);
+                if($json->success == true)
+                {
+                    $this->last_api_message = "Account: active";
+                }
+                return $json->success;
+            }
+        }
     }
     protected function change_password() : bool
     {
