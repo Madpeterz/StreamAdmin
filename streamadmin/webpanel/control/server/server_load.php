@@ -12,10 +12,31 @@ if($server->load($page) == true)
         if($apireply["status"] == true)
         {
             $addon = "";
+            if($apireply["streams"]["total"] > 0)
+            {
+                $ajax_reply->add_swap_tag_string("message",$addon);
+                $percent = 100 - round((($apireply["streams"]["total"]-$apireply["streams"]["active"])/$apireply["streams"]["total"])*100,2);
+                $text_color = "text-light";
+                if($percent < 40)
+                {
+                    $text_color = "text-danger";
+                }
+                else if($percent < 60)
+                {
+                    $text_color = "text-warning";
+                }
+                else if($percent < 80)
+                {
+                    $text_color = "text-info";
+                }
+                $ajax_reply->add_swap_tag_string("message","Str: <span class=\"".$text_color."\">".$percent." %</span>");
+                $addon = " &nbsp;&nbsp;";
+            }
             if($apireply["loads"]["1"] > 0.0)
             {
+                $ajax_reply->add_swap_tag_string("message",$addon);
                 $ajax_reply->add_swap_tag_string("message","CPU: <span class=\"text-light\">".$apireply["loads"]["5"]."</span>");
-                $addon = " | ";
+                $addon = " <br/>";
             }
             if($apireply["ram"]["max"] > 0)
             {
@@ -48,26 +69,7 @@ if($server->load($page) == true)
                     $text_color = "text-info";
                 }
                 $ajax_reply->add_swap_tag_string("message","Ram: <span class=\"".$text_color."\">".$used."/".$max." [".$pcents." %]</span>");
-                $addon = " | ";
-            }
-            if($apireply["streams"]["total"] > 0)
-            {
-                $ajax_reply->add_swap_tag_string("message",$addon);
-                $percent = 100 - round((($apireply["streams"]["total"]-$apireply["streams"]["active"])/$apireply["streams"]["total"])*100,2);
-                $text_color = "text-light";
-                if($percent < 40)
-                {
-                    $text_color = "text-danger";
-                }
-                else if($percent < 60)
-                {
-                    $text_color = "text-warning";
-                }
-                else if($percent < 80)
-                {
-                    $text_color = "text-info";
-                }
-                $ajax_reply->add_swap_tag_string("message","Str: <span class=\"".$text_color."\">".$percent." %</span>");
+                $addon = " <br/>";
             }
             if($ajax_reply->get_swap_tag_string("message") == "")
             {
