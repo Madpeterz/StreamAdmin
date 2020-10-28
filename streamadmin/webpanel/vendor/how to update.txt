@@ -1,0 +1,2 @@
+composer update
+composer dump-autoload --classmap-authoritative
