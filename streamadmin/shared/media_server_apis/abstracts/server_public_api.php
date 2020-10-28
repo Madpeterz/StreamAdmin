@@ -22,7 +22,7 @@ abstract class server_public_api extends server_public_api_basic
     {
         return $this->change_password();
     }
-    public function change_tile(string $newtitle="New title")
+    public function change_title(string $newtitle="New title")
     {
         return $this->change_title_now($newtitle);
     }
