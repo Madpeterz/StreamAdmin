@@ -90,6 +90,10 @@ abstract class server_rest_api extends error_logging
     {
         return $this->rest_process("DELETE",$endpoint,$args);
     }
+    protected function rest_put(string $endpoint,array $args=array()) : array
+    {
+        return $this->rest_process("PUT",$endpoint,$args);
+    }
 
 }
 abstract class server_api_protected extends server_rest_api
