@@ -19,7 +19,7 @@ foreach($objects_set->get_all_ids() as $object_id)
     {
         $seen_objects[] = $object->get_objectmode();
     }
-    $entry[] = '<span class="'.$color.'">'.$object->get_objectmode().'</span>';
+    $entry[] = '<span class="'.$color.'">'.str_replace("server","",$object->get_objectmode()).'</span>';
     $color = "text-success";
     $dif = time() - $object->get_lastseen();
     if($dif > 240)
