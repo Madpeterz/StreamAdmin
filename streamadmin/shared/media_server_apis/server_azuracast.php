@@ -3,6 +3,10 @@ class server_azuracast extends server_public_api
 {
     // $this->last_api_message
     protected $station_djs_map = null;
+    protected function get_client_auth()
+    {
+        $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_api_password();
+    }
     protected function terminate_account(string $old_username)  : bool
     {
 
