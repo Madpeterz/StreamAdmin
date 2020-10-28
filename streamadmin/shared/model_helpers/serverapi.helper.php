@@ -9,30 +9,31 @@ class serverapi_helper
     protected $message = "No actions taken";
     protected $server_api = null;
     protected $api_config = null;
+
+    protected $callable_actions = array(
+        "api_enable_account" => array("event_enable_start"),
+        "api_list_djs" => array("event_clear_djs"),
+        "api_change_title" => array("event_enable_start"),
+        "api_purge_djs" => array("event_clear_djs"),
+        "api_disable_account" => array("event_disable_revoke"),
+        "api_serverstatus" => array("api_serverstatus"),
+        "api_start" => array("opt_toggle_status","event_enable_start"),
+        "api_stop" => array("opt_toggle_status","event_enable_start"),
+        "api_autodj_toggle" => array("opt_toggle_autodj"),
+        "api_autodj_next" => array("opt_autodj_next"),
+        "api_customize_username" => array("event_start_sync_username"),
+        "api_recreate_account" => array(),
+        "api_reset_passwords" => array("opt_password_reset"),
+        "api_set_passwords" => array("opt_password_reset","event_reset_password_revoke")
+    );
+
     public function get_message()
     {
         return $this->message;
     }
-    function __construct(stream $stream = null)
+    function __construct(stream $stream = null,bool $auto_load=true)
     {
-        if($stream != null)
-        {
-            $this->stream = $stream;
-            if($this->load_server() == true)
-            {
-                if($this->load_api() == true)
-                {
-                    if($this->load_package() == true)
-                    {
-                        $this->server_api->update_package($this->package);
-                        if($this->load_rental() == true)
-                        {
-                            $this->load_avatar();
-                        }
-                    }
-                }
-            }
-        }
+        $this->force_set_stream($stream,$auto_load);
     }
     public function event_recreate_revoke() : bool
     {
@@ -82,7 +83,31 @@ class serverapi_helper
     {
         return $this->api_autodj_toggle();
     }
-
+    public function force_set_stream(stream $stream=null,bool $auto_load = false)
+    {
+        $this->stream = $stream;
+        if($stream != null)
+        {
+            $this->stream = $stream;
+            if($auto_load == true)
+            {
+                if($this->load_server() == true)
+                {
+                    if($this->load_api() == true)
+                    {
+                        if($this->load_package() == true)
+                        {
+                            $this->server_api->update_package($this->package);
+                            if($this->load_rental() == true)
+                            {
+                                $this->load_avatar();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     public function force_set_server(server $server) : bool
     {
         $this->server = $server;
@@ -96,6 +121,7 @@ class serverapi_helper
     public function force_set_package(package $package) : bool
     {
         $this->package = $package;
+        return true;
     }
     protected function load_api() : bool
     {
@@ -185,9 +211,6 @@ class serverapi_helper
             $this->message = "API flag ".$flagname." allowed";
             return true;
         }
-        if($this->message == "") $this->message = "Server or API does not allow ";
-        else $this->message .= " OR ";
-        $this->message .= $flagname;
         return false;
     }
     protected function check_flags(array $flags) : bool
@@ -223,63 +246,72 @@ class serverapi_helper
         }
         return $update_status;
     }
-    public function api_recreate_account() : bool
+    public function callable_action(string $action) : bool
     {
-        global $sql;
+        $this->message = "no server api setup";
         if($this->server_api != null)
         {
-            if($this->check_flags(array("event_recreate_revoke")) == true)
+            $this->message = "Not a known callable action";
+            if(array_key_exists($action,$this->callable_actions) == true)
             {
-                $old_username = $this->stream->get_adminusername();
-                $this->stream->set_adminusername($this->stream->get_original_adminusername());
-                $this->stream->set_adminpassword($this->rand_string(7+rand(1,6)));
-                $this->stream->set_djpassword($this->rand_string(5+rand(1,3)));
-                $this->stream->set_needwork(false);
-                $update_status = $this->stream->save_changes();
-                if($update_status["status"] == true)
+                $this->message = $action." is not callable on this server/api";
+                if($this->check_flags($this->callable_actions[$action]) == true)
                 {
-                    $status = $this->server_api->remove_account($old_username);
-                    if($status == true)
-                    {
-                        $status = $this->server_api->recreate_account();
-                    }
-                    $this->message = $this->server_api->get_last_api_message();
-                    if($status == false)
-                    {
-                        $sql->flagError();
-                    }
-                    return $status;
+                    $this->message = "Passed callable action checks";
+                    return true;
                 }
-                else
-                {
-                    $sql->flagError();
-                    $this->message = "Unable to update password in db: ".$update_status["message"];
-                }
-            }
-            else
-            {
-                global $current_step;
-                $current_step = "recreate_not_enabled";
-                return true;
             }
         }
         return false;
     }
-    public function api_enable_account() : bool
+    public function api_recreate_account() : bool
     {
-        if($this->server_api != null)
+        global $sql;
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->check_flags(array("event_enable_start")) == true)
+            $old_username = $this->stream->get_adminusername();
+            $this->stream->set_adminusername($this->stream->get_original_adminusername());
+            $this->stream->set_adminpassword($this->rand_string(7+rand(1,6)));
+            $this->stream->set_djpassword($this->rand_string(5+rand(1,3)));
+            $this->stream->set_needwork(false);
+            $update_status = $this->stream->save_changes();
+            if($update_status["status"] == true)
             {
-                $status = $this->api_change_title();
-                $this->message = $this->server_api->get_last_api_message();
+                $status = $this->server_api->remove_account($old_username);
                 if($status == true)
                 {
-                    $status = $this->update_account_state(true);
-                    $this->message = $this->server_api->get_last_api_message();
+                    $status = $this->server_api->recreate_account();
+                }
+                $this->message = $this->server_api->get_last_api_message();
+                if($status == false)
+                {
+                    $sql->flagError();
                 }
                 return $status;
             }
+            $sql->flagError();
+            $this->message = "Unable to update password in db: ".$update_status["message"];
+            return false;
+        }
+        else
+        {
+            global $current_step;
+            $current_step = "recreate_not_enabled";
+            return true;
+        }
+    }
+    public function api_enable_account() : bool
+    {
+        if($this->callable_action(__FUNCTION__) == true)
+        {
+            $status = $this->api_change_title();
+            $this->message = $this->server_api->get_last_api_message();
+            if($status == true)
+            {
+                $status = $this->update_account_state(true);
+                $this->message = $this->server_api->get_last_api_message();
+            }
+            return $status;
         }
         return false;
     }
@@ -296,28 +328,25 @@ class serverapi_helper
     public function api_list_djs() : bool
     {
         $this->dj_list = array();
-        if($this->server_api != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->check_flags(array("event_clear_djs")) == true)
+            $reply = $this->server_api->get_dj_list();
+            $this->dj_list = $reply["list"];
+            if(count($this->loaded_djs()) > 0)
             {
-                $reply = $this->server_api->get_dj_list();
-                $this->dj_list = $reply["list"];
-                if(count($this->loaded_djs()) > 0)
-                {
-                    $this->message = implode(",",$this->loaded_djs());
-                }
-                else
-                {
-                    $this->message = $this->server_api->get_last_api_message();
-                }
-                return $reply["status"];
+                $this->message = implode(",",$this->loaded_djs());
             }
+            else
+            {
+                $this->message = $this->server_api->get_last_api_message();
+            }
+            return $reply["status"];
         }
         return false;
     }
     public function api_change_title() : bool
     {
-        if($this->check_flags(array("event_enable_start")) == true)
+        if($this->callable_action(__FUNCTION__) == true)
         {
             if($this->avatar != null)
             {
@@ -330,77 +359,60 @@ class serverapi_helper
     }
     public function api_purge_djs() : bool
     {
-        $function_statue = "start";
-        if($this->server_api != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            $function_statue = "hasapi";
-            if($this->check_flags(array("event_clear_djs")) == true)
+            if($this->api_enable_account() == true)
             {
-                $function_statue = "hasflag";
-                if($this->api_enable_account() == true)
+                if($this->api_list_djs() == true)
                 {
-                    $function_statue = "accountenabled";
-                    if($this->api_list_djs() == true)
+                    $all_ok = true;
+                    $this->removed_dj_counter = 0;
+                    foreach($this->loaded_djs() as $djaccount)
                     {
-                        $function_statue = "hasdjs";
-                        $all_ok = true;
-                        $this->removed_dj_counter = 0;
-                        foreach($this->loaded_djs() as $djaccount)
+                        $status = $this->server_api->purge_dj_account($djaccount);
+                        if($status == true)
                         {
-                            $status = $this->server_api->purge_dj_account($djaccount);
-                            if($status == true)
-                            {
-                                $this->removed_dj_counter++;
-                            }
-                            else
-                            {
-                                $all_ok = false;
-                                break;
-                            }
-                        }
-                        if($all_ok == true)
-                        {
-                            $this->message = "Removed ".$this->get_removed_dj_counter()." dj accounts";
+                            $this->removed_dj_counter++;
                         }
                         else
                         {
-                            $this->message = $this->server_api->get_last_api_message();
+                            $all_ok = false;
+                            break;
                         }
-                        $this->message .= " function: ".$function_statue."";
-                        return $all_ok;
                     }
+                    if($all_ok == true)
+                    {
+                        $this->message = "Removed ".$this->get_removed_dj_counter()." dj accounts";
+                    }
+                    else
+                    {
+                        $this->message = $this->server_api->get_last_api_message();
+                    }
+                    return $all_ok;
                 }
             }
         }
-        $this->message .= " function: ".$function_statue."";
         return false;
     }
     public function api_disable_account() : bool
     {
-        if($this->server_api != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->check_flags(array("event_disable_revoke")) == true)
-            {
-                return $this->update_account_state(false);
-            }
+            return $this->update_account_state(false);
         }
         return false;
     }
     public function api_serverstatus() : array
     {
-        $status = false;
-        $this->message = "started api_serverstatus";
-        if($this->server_api != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->check_flags(array("api_serverstatus")) == true)
-            {
-                return $this->server_api->get_server_status();
-            }
-            return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"API not enabled on server/api");
+            return $this->server_api->get_server_status();
         }
         return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"No api");
     }
-    public function api_set_passwords(string $new_dj_password=null,string $new_admin_password=null)
+
+
+    public function api_set_passwords(string $new_dj_password=null,string $new_admin_password=null) : bool
     {
         global $sql;
         $this->message = "started";
@@ -466,75 +478,73 @@ class serverapi_helper
         }
         return $status;
     }
-    public function api_reset_passwords()
+    public function api_reset_passwords() : bool
     {
         return $this->api_set_passwords($this->rand_string(5+rand(1,3)),$this->rand_string(7+rand(1,6)));
     }
-    public function api_start()
+    public function api_start() : bool
     {
-        $status = false;
-        if($this->server_api != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->check_flags(array("opt_toggle_status","event_enable_start")) == true)
-            {
-                $status = $this->server_api->opt_toggle_status(true);
-                $this->message = $this->server_api->get_last_api_message();
-            }
+            $status = $this->server_api->opt_toggle_status(true);
+            $this->message = $this->server_api->get_last_api_message();
+            return $status;
         }
-        return $status;
+        return false;
     }
-    public function api_stop()
+    public function api_stop() : bool
     {
-        $status = false;
-        if($this->server_api != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->check_flags(array("opt_toggle_status","event_enable_start")) == true)
-            {
-                $status = $this->server_api->opt_toggle_status(false);
-                $this->message = $this->server_api->get_last_api_message();
-            }
+            $status = $this->server_api->opt_toggle_status(false);
+            $this->message = $this->server_api->get_last_api_message();
+            return $status;
         }
-        return $status;
+        return false;
     }
-    public function api_autodj_toggle()
+    public function api_autodj_toggle() : bool
     {
-        $status = false;
-        if($this->avatar != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->package->get_autodj() == true)
+            $this->message = "No avatar setup";
+            if($this->avatar != null)
             {
-                if($this->check_flags(array("opt_toggle_autodj")) == true)
+                $this->message = "No package selected";
+                if($this->package != null)
                 {
-                    $status = $this->server_api->opt_toggle_autodj();
-                    $this->message = $this->server_api->get_last_api_message();
+                    $this->message = "This package does not support autoDJ";
+                    if($this->package->get_autodj() == true)
+                    {
+                        $status = $this->server_api->opt_toggle_autodj();
+                        $this->message = $this->server_api->get_last_api_message();
+                        return $status;
+                    }
                 }
             }
-            else
-            {
-                $this->message = "This package does not support autoDJ";
-            }
         }
-        return $status;
+        return false;
     }
-    public function api_autodj_next()
+    public function api_autodj_next() : bool
     {
-        $status = false;
-        if($this->avatar != null)
+        if($this->callable_action(__FUNCTION__) == true)
         {
-            if($this->package->get_autodj() == true)
+            $this->message = "No avatar setup";
+            if($this->avatar != null)
             {
-                if($this->check_flags(array("opt_autodj_next")) == true)
+                $this->message = "No package selected";
+                if($this->package != null)
                 {
-                    $status = $this->server_api->opt_autodj_next();
-                    $this->message = $this->server_api->get_last_api_message();
+                    $this->message = "This package does not support autoDJ";
+                    if($this->package->get_autodj() == true)
+                    {
+                        $status = $this->server_api->opt_autodj_next();
+                        $this->message = $this->server_api->get_last_api_message();
+                        return $status;
+                    }
                 }
             }
-            else
-            {
-                $this->message = "This package does not support autoDJ";
-            }
         }
-        return $status;
+        return false;
     }
     public function get_all_accounts(bool $include_passwords=false,stream_set $stream_set=null) : array
     {
@@ -547,15 +557,57 @@ class serverapi_helper
         return array("status"=>false,"usernames"=>array(),"passwords"=>array());
 
     }
-    public function api_customize_username()
+    protected function get_stream_customized_username() : string
     {
-        global $sql, $retry;
-        $status = false;
-
-        $all_ok = false;
-        $retry = false;
-        if($this->check_flags(array("event_start_sync_username")) == true)
+        $new_username = "";
+        if($this->avatar == null)
         {
+            // reset username
+            $new_username = $this->stream->get_original_adminusername();
+        }
+        else
+        {
+            // customize username
+            $server_accounts = $this->server_api->get_account_name_list();
+            $this->message = $this->server_api->get_last_api_message();
+            if($server_accounts["status"] == true)
+            {
+                if(in_array($this->stream->get_adminusername(),$server_accounts["usernames"]) == true)
+                {
+                    $acceptable_names = array();
+                    $avname = explode(" ",strtolower($this->avatar->get_avatarname()));
+                    $acceptable_names[] = $avname[0]; // Firstname
+                    $acceptable_names[] = $avname[0]."_".substr($avname[1],0,2); // Firstname 2 letters of last name
+                    $acceptable_names[] = $avname[0]."_".$this->stream->get_port(); // Firstname Port
+                    $acceptable_names[] = $avname[0]."_".$this->stream->get_port()."_".$this->package->get_bitrate(); // Firstname Port Bitrate
+                    $acceptable_names[] = $avname[0]."_".$this->stream->get_port()."_".$this->server->get_id(); // Firstname Port ServerID
+                    $acceptable_names[] = $avname[0]."_".$this->rental->get_rental_uid(); // Firstname RentalUID
+                    $accepted_name = "";
+                    foreach($acceptable_names as $testname)
+                    {
+                        if(in_array($testname,$server_accounts["usernames"]) == false)
+                        {
+                            $accepted_name = $testname;
+                            break;
+                        }
+                    }
+                    if(in_array($accepted_name,$acceptable_names) == true)
+                    {
+                        $new_username = $accepted_name;
+                    }
+                }
+            }
+        }
+        return $new_username;
+    }
+    public function api_customize_username() : bool
+    {
+        global $retry;
+        $retry = false;
+        $status = false;
+        if($this->callable_action(__FUNCTION__) == true)
+        {
+            $all_ok = true;
             $stream_state_check = $this->server_api->get_stream_state();
             $this->message = $this->server_api->get_last_api_message();
             if($stream_state_check["status"] == true)
@@ -573,92 +625,53 @@ class serverapi_helper
             {
                 $all_ok = false;
             }
-        }
-        if($all_ok == true)
-        {
-            $new_username = "";
-            if($this->avatar == null)
+            if(($retry == false) && ($all_ok == true))
             {
-                // reset username
-                $new_username = $this->stream->get_original_adminusername();
-            }
-            else
-            {
-                // customize username
-                $server_accounts = $this->server_api->get_account_name_list();
-                $this->message = $this->server_api->get_last_api_message();
-                if($server_accounts["status"] == true)
+                $new_username = $this->get_stream_customized_username();
+                if($new_username != "")
                 {
-                    if(in_array($this->stream->get_adminusername(),$server_accounts["usernames"]) == true)
+                    $old_username = $this->stream->get_adminusername();
+                    if($old_username != $new_username)
                     {
-                        $acceptable_names = array();
-                        $avname = explode(" ",strtolower($this->avatar->get_avatarname()));
-                        $acceptable_names[] = $avname[0]; // Firstname
-                        $acceptable_names[] = $avname[0]."_".substr($avname[1],0,2); // Firstname 2 letters of last name
-                        $acceptable_names[] = $avname[0]."_".$this->stream->get_port(); // Firstname Port
-                        $acceptable_names[] = $avname[0]."_".$this->stream->get_port()."_".$this->package->get_bitrate(); // Firstname Port Bitrate
-                        $acceptable_names[] = $avname[0]."_".$this->stream->get_port()."_".$this->server->get_id(); // Firstname Port ServerID
-                        $acceptable_names[] = $avname[0]."_".$this->rental->get_rental_uid(); // Firstname RentalUID
-                        $accepted_name = "";
-                        foreach($acceptable_names as $testname)
+                        $this->stream->set_adminusername($new_username);
+                        $update_status = $this->stream->save_changes();
+                        if($update_status["status"] == true)
                         {
-                            if(in_array($testname,$server_accounts["usernames"]) == false)
+                            $status = $this->server_api->event_start_sync_username($old_username);
+                            $this->message = $this->server_api->get_last_api_message();
+                            if($status == false)
                             {
-                                $accepted_name = $testname;
-                                break;
+                                $sql->flagError();
                             }
                         }
-                        if(in_array($accepted_name,$acceptable_names) == true)
-                        {
-                            $new_username = $accepted_name;
-                        }
-                    }
-                }
-            }
-            if($new_username != "")
-            {
-                $old_username = $this->stream->get_adminusername();
-                if($old_username != $new_username)
-                {
-                    $this->stream->set_adminusername($new_username);
-                    $update_status = $this->stream->save_changes();
-                    if($update_status["status"] == true)
-                    {
-                        $status = $this->server_api->event_start_sync_username($old_username);
-                        $this->message = $this->server_api->get_last_api_message();
-                        if($status == false)
+                        else
                         {
                             $sql->flagError();
+                            $this->message = "failed to save changes to DB";
                         }
                     }
                     else
                     {
-                        $sql->flagError();
-                        $this->message = "failed to save changes to DB";
+                        $status = true;
+                        $this->message = "No change needed";
                     }
                 }
                 else
                 {
-                    $status = true;
-                    $this->message = "No change needed";
+                    $status = false;
+                    $this->message = "No new username found";
                 }
             }
-            else
-            {
-                $status = false;
-                $this->message = "No new username found";
-            }
-        }
-        else
-        {
-            if($retry == true)
+            else if(($retry == true) && ($all_ok == true))
             {
                 $status = $this->server_api->opt_toggle_status(false);
+                $this->message = $this->server_api->get_last_api_message();
                 if($status == true)
                 {
                     $this->message = "Unable to update username right now stopping server!";
                 }
             }
+
         }
         return $status;
     }
