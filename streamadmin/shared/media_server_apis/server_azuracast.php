@@ -38,56 +38,99 @@ class server_azuracast extends server_public_api
     protected function account_state() : array
     {
         //array("status"=>$status,"state"=>$state);
+
         return array("status"=>true,"state"=>true);
     }
     protected function stream_state() : array
     {
-        //array("status"=>false,"state"=>false,"source"=>false);
-
+        $this->last_api_message = "unable to get station status";
+        $reply = $this->rest_get("station/".$this->stream->get_api_uid_1()."/status");
+        $state = false;
+        $source = false;
+        $autodj = false;
+        if($reply["status"] == true)
+        {
+            $this->last_api_message = "stream appears to be down";
+            $json = json_decode($reply["message"]);
+            if($json->frontend_running == true)
+            {
+                $this->last_api_message = "stream up";
+                $state = true;
+                $source = true;
+                if($json->backend_running == true)
+                {
+                    $this->last_api_message = "stream up/auto dj up";
+                    $autodj = true;
+                }
+            }
+        }
+        return array("status"=>$reply["status"],"state"=>$state,"source"=>$source,"autodj"=>$autodj);
     }
+
     protected function account_name_list(bool $include_passwords=false,stream_set $stream_set=null) : array
     {
         //array("status"=>$all_ok,"usernames"=>$current_usernames,"passwords"=>$current_passwords);
-    }
-
-    protected function sync_username(string $old_username) : bool
-    {
 
     }
 
     protected function toggle_autodj() : bool
     {
-
+        $this->last_api_message = "Package does not support auto DJ";
+        if($this->package->get_autodj() == true)
+        {
+            $status_state = $this->stream_state();
+            if($status_state["status"] == true)
+            {
+                $this->last_api_message = "server appears to be down (needs to be started before you can toggle)";
+                if($status_state["state"] == true)
+                {
+                    $options = array(true=>"stop",false=>"start");
+                    $this->last_api_message = "Attempting to toggle auto dj";
+                    $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/".$options[$status_state["autodj"]]);
+                    if($reply["status"] == true)
+                    {
+                        $json = json_decode($reply["message"]);
+                        if($json->success == true)
+                        {
+                            $this->last_api_message = "Toggled auto DJ to: ".$options[$status_state["autodj"]]."";
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
     protected function autodj_next() : bool
     {
+        $this->last_api_message = "No auto DJ";
         if($this->package->get_autodj() == true)
         {
-            $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/skip");
-            if($reply["status"] == true)
+            $status_state = $this->stream_state();
+            if($status_state["status"] == true)
             {
-                $json = json_decode($reply["message"]);
-                $this->last_api_message = "Skip accepted";
-                return $json->success;
+                $this->last_api_message = "AutoDJ not running";
+                if($status_state["autodj"] == true)
+                {
+                    $this->last_api_message = "Failed to skip track";
+                    $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/skip");
+                    if($reply["status"] == true)
+                    {
+                        $json = json_decode($reply["message"]);
+                        $this->last_api_message = "Skip accepted";
+                        return $json->success;
+                    }
+                }
             }
-            else
-            {
-                $this->last_api_message = "Failed to skip track";
-            }
-        }
-        else
-        {
-            $this->last_api_message = "No auto DJ";
         }
         return false;
     }
     protected function stop_server() : bool
     {
         $stopped_auto_dj = true;
-        $this->last_api_message = "";
+        $this->last_api_message = "Package does not support auto DJ";
         if($this->package->get_autodj() == true)
         {
-            // stop auto DJ
             $this->last_api_message = "Unable to stop autoDJ";
             $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/stop");
             if($reply["status"] == true)
@@ -99,7 +142,6 @@ class server_azuracast extends server_public_api
         if($stopped_auto_dj == true)
         {
             $this->last_api_message = "Unable to stop stream";
-            // stop stream
             $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/frontend/stop");
             if($reply["status"] == true)
             {
@@ -117,7 +159,6 @@ class server_azuracast extends server_public_api
     protected function start_server(int $skip_auto_dj=0) : bool
     {
         $this->last_api_message = "Unable to start stream";
-        // stop stream
         $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/frontend/start");
         if($reply["status"] == true)
         {
