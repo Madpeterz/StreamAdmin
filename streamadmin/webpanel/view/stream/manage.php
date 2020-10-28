@@ -33,6 +33,7 @@ if($stream->load_by_field("stream_uid",$page) == true)
         $form->group("API");
         $form->text_input("api_uid_1","API UID 1",10,$stream->get_api_uid_1(),"API id 1");
         $form->text_input("api_uid_2","API UID 2",10,$stream->get_api_uid_2(),"API id 2");
+        $form->text_input("api_uid_3","API UID 3",10,$stream->get_api_uid_3(),"API id 3");
     $form->col(6);
         $form->group("Magic");
         $form->select("api_update","Update on server",0,array(0=>"No",1=>"Yes"));

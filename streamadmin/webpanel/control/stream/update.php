@@ -12,6 +12,8 @@ $djpassword = $input->postFilter("djpassword");
 $original_adminusername = $input->postFilter("original_adminusername");
 $api_uid_1 = $input->postFilter("api_uid_1");
 $api_uid_2 = $input->postFilter("api_uid_2");
+$api_uid_3 = $input->postFilter("api_uid_3");
+$api_update = $input->postFilter("api_update","integer");
 
 $failed_on = "";
 if($port < 1) $failed_on .= $lang["stream.up.error.1"];
@@ -25,7 +27,7 @@ else if(strlen($adminpassword) > 20) $failed_on .= $lang["stream.up.error.8"];
 else if(strlen($djpassword) < 4) $failed_on .= $lang["stream.up.error.9"];
 else if(strlen($djpassword) > 20) $failed_on .= $lang["stream.up.error.10"];
 else if(strlen($original_adminusername) < 3) $failed_on .= $lang["stream.up.error.5"];
-else if(strlen($original_adminusername) > 20) $failed_on .= $lang["stream.up.error.6"];
+else if(strlen($original_adminusername) >= 50) $failed_on .= $lang["stream.up.error.6"];
 
 $status = false;
 if($failed_on == "")
@@ -59,12 +61,16 @@ if($failed_on == "")
                 $stream->set_original_adminusername($original_adminusername);
                 $stream->set_api_uid_1($api_uid_1);
                 $stream->set_api_uid_2($api_uid_2);
+                $stream->set_api_uid_3($api_uid_3);
                 $update_status = $stream->save_changes();
                 if($update_status["status"] == true)
                 {
                     $status = true;
-                    include "shared/media_server_apis/logic/update.php";
-                    $all_ok = $api_serverlogic_reply;
+                    if($api_update == 1)
+                    {
+                        include "shared/media_server_apis/logic/update.php";
+                        $all_ok = $api_serverlogic_reply;
+                    }
                     if($status != true)
                     {
                         $ajax_reply->set_swap_tag_string("message",$why_failed);

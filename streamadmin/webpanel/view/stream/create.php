@@ -29,6 +29,7 @@ $form->col(6);
     $form->group("API");
     $form->text_input("api_uid_1","API UID 1",10,null,"API id 1");
     $form->text_input("api_uid_2","API UID 2",10,null,"API id 2");
+    $form->text_input("api_uid_3","API UID 3",10,null,"API id 3");
 $form->col(6);
     $form->group("Magic");
     $form->select("api_create","Create on server",0,array(0=>"No",1=>"Yes"));

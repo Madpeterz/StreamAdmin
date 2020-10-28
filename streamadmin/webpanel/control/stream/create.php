@@ -13,6 +13,8 @@ $djpassword = $input->postFilter("djpassword");
 $needswork = $input->postFilter("needswork","bool");
 $api_uid_1 = $input->postFilter("api_uid_1");
 $api_uid_2 = $input->postFilter("api_uid_2");
+$api_uid_3 = $input->postFilter("api_uid_3");
+$api_create = $input->postFilter("api_create","integer");
 
 $failed_on = "";
 if($port < 1) $failed_on .= $lang["stream.cr.error.1"];
@@ -51,12 +53,16 @@ if($failed_on == "")
                 $stream->set_mountpoint($mountpoint);
                 $stream->set_api_uid_1($api_uid_1);
                 $stream->set_api_uid_2($api_uid_2);
+                $stream->set_api_uid_3($api_uid_3);
                 $create_status = $stream->create_entry();
                 if($create_status["status"] == true)
                 {
                     $status = true;
-                    include "shared/media_server_apis/logic/create.php";
-                    $all_ok = $api_serverlogic_reply;
+                    if($api_create == 1)
+                    {
+                        include "shared/media_server_apis/logic/create.php";
+                        $all_ok = $api_serverlogic_reply;
+                    }
                     if($status != true)
                     {
                         $ajax_reply->set_swap_tag_string("message",$why_failed);
