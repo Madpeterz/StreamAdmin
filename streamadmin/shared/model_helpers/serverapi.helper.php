@@ -24,6 +24,7 @@ class serverapi_helper
                 {
                     if($this->load_package() == true)
                     {
+                        $this->server_api->update_package($this->package);
                         if($this->load_rental() == true)
                         {
                             $this->load_avatar();
@@ -214,7 +215,7 @@ class serverapi_helper
         {
             // flag to set rental to $state
         }
-        $update_status = $this->server_api->set_account_state($this->stream,$this->server,$state);
+        $update_status = $this->server_api->set_account_state($state);
         $this->message = $this->server_api->get_last_api_message();
         if($update_status == false)
         {
@@ -237,11 +238,10 @@ class serverapi_helper
                 $update_status = $this->stream->save_changes();
                 if($update_status["status"] == true)
                 {
-                    $status = $this->server_api->remove_account($this->stream,$this->server,$old_username);
+                    $status = $this->server_api->remove_account($old_username);
                     if($status == true)
                     {
-
-                        $status = $this->server_api->recreate_account($this->stream,$this->server,$this->package);
+                        $status = $this->server_api->recreate_account();
                     }
                     $this->message = $this->server_api->get_last_api_message();
                     if($status == false)
@@ -300,7 +300,7 @@ class serverapi_helper
         {
             if($this->check_flags(array("event_clear_djs")) == true)
             {
-                $reply = $this->server_api->get_dj_list($this->stream,$this->server);
+                $reply = $this->server_api->get_dj_list();
                 $this->dj_list = $reply["list"];
                 if(count($this->loaded_djs()) > 0)
                 {
@@ -321,7 +321,7 @@ class serverapi_helper
         {
             if($this->avatar != null)
             {
-                $reply = $this->server_api->change_tile($this->stream,$this->server,"".$this->avatar->get_avatarname()." stream");
+                $reply = $this->server_api->change_title($this->avatar->get_avatarname()." stream");
                 return $reply;
             }
             return true;
@@ -347,7 +347,7 @@ class serverapi_helper
                         $this->removed_dj_counter = 0;
                         foreach($this->loaded_djs() as $djaccount)
                         {
-                            $status = $this->server_api->purge_dj_account($this->stream,$this->server,$djaccount);
+                            $status = $this->server_api->purge_dj_account($djaccount);
                             if($status == true)
                             {
                                 $this->removed_dj_counter++;
@@ -394,7 +394,7 @@ class serverapi_helper
         {
             if($this->check_flags(array("api_serverstatus")) == true)
             {
-                return $this->server_api->get_server_status($this->server);
+                return $this->server_api->get_server_status();
             }
             return array("status"=>false,"loads"=>array("1"=>0,"5"=>0,"15"=>0),"ram"=>array("free"=>0,"max"=>0),"streams"=>array("total"=>0,"active"=>0),"message"=>"API not enabled on server/api");
         }
@@ -440,7 +440,7 @@ class serverapi_helper
                         if($update_status["status"] == true)
                         {
                             $this->message = "calling api";
-                            $status = $this->server_api->opt_password_reset($this->stream,$this->server);
+                            $status = $this->server_api->opt_password_reset();
                             $this->message = $this->server_api->get_last_api_message();
                             if($status == false)
                             {
@@ -477,7 +477,7 @@ class serverapi_helper
         {
             if($this->check_flags(array("opt_toggle_status","event_enable_start")) == true)
             {
-                $status = $this->server_api->opt_toggle_status($this->stream,$this->server,true);
+                $status = $this->server_api->opt_toggle_status(true);
                 $this->message = $this->server_api->get_last_api_message();
             }
         }
@@ -490,7 +490,7 @@ class serverapi_helper
         {
             if($this->check_flags(array("opt_toggle_status","event_enable_start")) == true)
             {
-                $status = $this->server_api->opt_toggle_status($this->stream,$this->server,false);
+                $status = $this->server_api->opt_toggle_status(false);
                 $this->message = $this->server_api->get_last_api_message();
             }
         }
@@ -505,7 +505,7 @@ class serverapi_helper
             {
                 if($this->check_flags(array("opt_toggle_autodj")) == true)
                 {
-                    $status = $this->server_api->opt_toggle_autodj($this->stream,$this->server);
+                    $status = $this->server_api->opt_toggle_autodj();
                     $this->message = $this->server_api->get_last_api_message();
                 }
             }
@@ -525,7 +525,7 @@ class serverapi_helper
             {
                 if($this->check_flags(array("opt_autodj_next")) == true)
                 {
-                    $status = $this->server_api->opt_autodj_next($this->stream,$this->server);
+                    $status = $this->server_api->opt_autodj_next();
                     $this->message = $this->server_api->get_last_api_message();
                 }
             }
@@ -540,7 +540,7 @@ class serverapi_helper
     {
         if($this->server_api != null)
         {
-            $status = $this->server_api->get_account_name_list($this->server,$include_passwords,$stream_set);
+            $status = $this->server_api->get_account_name_list($include_passwords,$stream_set);
             $this->message = $this->server_api->get_last_api_message();
             return $status;
         }
@@ -556,7 +556,7 @@ class serverapi_helper
         $retry = false;
         if($this->check_flags(array("event_start_sync_username")) == true)
         {
-            $stream_state_check = $this->server_api->get_stream_state($this->stream,$this->server);
+            $stream_state_check = $this->server_api->get_stream_state();
             $this->message = $this->server_api->get_last_api_message();
             if($stream_state_check["status"] == true)
             {
@@ -585,7 +585,7 @@ class serverapi_helper
             else
             {
                 // customize username
-                $server_accounts = $this->server_api->get_account_name_list($this->server);
+                $server_accounts = $this->server_api->get_account_name_list();
                 $this->message = $this->server_api->get_last_api_message();
                 if($server_accounts["status"] == true)
                 {
@@ -624,7 +624,7 @@ class serverapi_helper
                     $update_status = $this->stream->save_changes();
                     if($update_status["status"] == true)
                     {
-                        $status = $this->server_api->event_start_sync_username($this->stream,$this->server,$old_username);
+                        $status = $this->server_api->event_start_sync_username($old_username);
                         $this->message = $this->server_api->get_last_api_message();
                         if($status == false)
                         {
@@ -653,7 +653,7 @@ class serverapi_helper
         {
             if($retry == true)
             {
-                $status = $this->server_api->opt_toggle_status($this->stream,$this->server,false);
+                $status = $this->server_api->opt_toggle_status(false);
                 if($status == true)
                 {
                     $this->message = "Unable to update username right now stopping server!";
