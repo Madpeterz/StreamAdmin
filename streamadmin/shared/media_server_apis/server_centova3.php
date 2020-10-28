@@ -1,6 +1,7 @@
 <?php
 class server_centova3_only extends server_public_api
 {
+
     protected function process_centova_api_call(array $post_data,array $args) : array
     {
         $post_data["f"] = "json";
@@ -9,7 +10,7 @@ class server_centova3_only extends server_public_api
         {
             $post_data["a[".$key."]"] = $value;
         }
-        $reply = $this->curl_request($this->server->get_api_url(),$post_data);
+        $reply = $this->rest_post("",$post_data);
         if($reply["status"] == true)
         {
             $this->last_api_message = "curl ok";

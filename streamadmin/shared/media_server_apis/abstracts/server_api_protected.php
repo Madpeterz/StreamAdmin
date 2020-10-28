@@ -6,7 +6,9 @@ abstract class server_rest_api extends error_logging
     protected $server = null;
     protected $package = null;
     protected $client = null;
+
     protected $options = array();
+
 
     function __construct(?stream $stream,?server $server,?package $package)
     {
@@ -30,6 +32,14 @@ abstract class server_rest_api extends error_logging
         $this->stream = $stream;
         $this->client = null;
     }
+    protected function get_client_auth()
+    {
+
+    }
+    protected function get_post_formated(array $postdata=array()) : array
+    {
+        return array('form_params' => $postdata);
+    }
     protected function make_guzzle()
     {
         if($this->client == null)
@@ -39,7 +49,7 @@ abstract class server_rest_api extends error_logging
             $this->options['allow_redirects'] = true;
             $this->options['timeout'] = 15;
             $this->options['http_errors'] = false;
-            $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_api_password();
+            $this->get_client_auth();
             $this->client = new \GuzzleHttp\Client($this->options);
         }
     }
@@ -48,7 +58,12 @@ abstract class server_rest_api extends error_logging
         $this->make_guzzle();
         try
         {
-            $res = $this->client->request($method,$endpoint,$postdata);
+            $body = array();
+            if(count($postdata) > 0)
+            {
+                $body = $this->get_post_formated($postdata);
+            }
+            $res = $this->client->request($method,$endpoint,$body);
             if($res->getStatusCode() == 200)
             {
                 return array("status"=>true,"message"=>$res->getBody()->getContents());
@@ -163,49 +178,6 @@ abstract class server_api_protected extends server_rest_api
     {
         $this->last_api_message = "Skipped not supported on this api";
         return true;
-    }
-
-    protected function curl_request(string $url,array $post_data) : array
-    {
-        if(extension_loaded('curl') == true)
-        {
-            $post_dataset = "";
-            $addon = "";
-            foreach($post_data as $key => $value)
-            {
-                $post_dataset .= $addon;
-                $post_dataset .= $key."=".$value;
-                $addon = "&";
-            }
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,$url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS,$post_dataset);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-            $reply  = curl_exec($ch);
-            $curl_error  = curl_error($ch);
-            $curl_errno  = curl_errno($ch);
-            if (is_resource($ch))
-            {
-                curl_close ($ch);
-            }
-            if ($curl_errno === 0)
-            {
-                return array("status"=>true,"message"=>$reply);
-            }
-            else
-            {
-                return array("status"=>false,"message"=>$curl_error);
-            }
-        }
-        else
-        {
-            return array("status"=>false,"message"=>"Curl not enabled");
-        }
     }
 }
 ?>
