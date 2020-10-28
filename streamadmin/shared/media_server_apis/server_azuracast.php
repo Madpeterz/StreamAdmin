@@ -2,6 +2,7 @@
 class server_azuracast extends server_public_api
 {
     // $this->last_api_message
+    protected $station_djs_map = null;
     protected function terminate_account(string $old_username)  : bool
     {
 
@@ -12,11 +13,56 @@ class server_azuracast extends server_public_api
     }
     protected function remove_dj(string $djaccount) : bool
     {
-
+        $this->last_api_message = "unable to get list of djs";
+        $has_dj_list = true;
+        if($this->station_djs_map == null)
+        {
+            $reply = $this->get_dj_list();
+            $has_dj_list = $reply["status"];
+        }
+        if($has_dj_list == true)
+        {
+            $this->last_api_message = "unable to find DJ";
+            $removed = false;
+            foreach($this->station_djs_map as $key => $value)
+            {
+                if($value == $djaccount)
+                {
+                    $this->last_api_message = "unable to remove DJ";
+                    $reply = $this->rest_delete("station/".$this->stream->get_api_uid_1()."/streamer/".$key."");
+                    if($reply["status"] == true)
+                    {
+                        $json = json_decode($reply["message"]);
+                        $removed = $json->success;
+                        $this->last_api_message = "DJ removed";
+                        if($json->success == false)
+                        {
+                            $this->last_api_message = "Failed to remove DJ account";
+                        }
+                    }
+                    break;
+                }
+            }
+            return $removed;
+        }
+        return false;
     }
     protected function dj_list() : array
     {
-
+        $this->last_api_message = "unable to get list of djs";
+        $reply = $this->rest_get("station/".$this->stream->get_api_uid_1()."/streamers");
+        if($reply["status"] == true)
+        {
+            $this->last_api_message = "fetched DJ list";
+            $json = json_decode($reply["message"]);
+            $this->station_djs_map = array();
+            foreach($json as $index => $entry)
+            {
+                $this->station_djs_map[$entry->id] = $entry->streamer_username;
+            }
+            return array("status"=>true,"list"=>array_values($this->station_djs_map));
+        }
+        return array("status"=>false,"list"=>array());
     }
     protected function server_status() : array
     {
@@ -38,7 +84,6 @@ class server_azuracast extends server_public_api
     protected function account_state() : array
     {
         //array("status"=>$status,"state"=>$state);
-
         return array("status"=>true,"state"=>true);
     }
     protected function stream_state() : array
