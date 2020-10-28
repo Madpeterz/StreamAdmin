@@ -658,4 +658,7 @@ ALTER TABLE `stream` ADD `api_uid_2` TEXT NULL AFTER `api_uid_1`;
 
 INSERT INTO `apis` (`id`, `name`, `api_serverstatus`, `api_sync_accounts`, `opt_toggle_status`, `opt_password_reset`, `opt_autodj_next`, `opt_toggle_autodj`, `event_enable_start`, `event_start_sync_username`, `event_enable_renew`, `event_disable_expire`, `event_disable_revoke`, `event_revoke_reset_username`, `event_reset_password_revoke`, `event_clear_djs`, `event_recreate_revoke`, `event_create_stream`, `event_update_stream`) VALUES (NULL, 'AzureCast', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1');
 
-UPDATE `apis` SET `name` = 'azuracast' WHERE `apis`.`id` = 6; 
+UPDATE `apis` SET `name` = 'azuracast' WHERE `apis`.`id` = 6;
+
+UPDATE `apis` SET `event_start_sync_username` = '0' WHERE `apis`.`id` = 6;
+UPDATE `apis` SET `event_revoke_reset_username` = '0' WHERE `apis`.`id` = 6; 
