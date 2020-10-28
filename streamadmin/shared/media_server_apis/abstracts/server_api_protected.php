@@ -37,7 +37,7 @@ abstract class server_rest_api extends error_logging
             $this->options = array();
             $this->options['base_uri'] = $this->server->get_api_url();
             $this->options['allow_redirects'] = true;
-            $this->options['timeout'] = 10;
+            $this->options['timeout'] = 15;
             $this->options['http_errors'] = false;
             $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_api_password();
             $this->client = new \GuzzleHttp\Client($this->options);
