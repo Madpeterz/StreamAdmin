@@ -77,56 +77,59 @@ if($rental->load_by_field("rental_uid",$page) == true)
                 $package = new package();
                 if($package->load($stream->get_packagelink()) == true)
                 {
+                    $serverapi_helper = new serverapi_helper();
+                    $serverapi_helper->force_set_rental($rental);
+                    $serverapi_helper->force_set_server($server);
+                    $serverapi_helper->force_set_package($package);
+                    $serverapi_helper->force_set_stream($steram,false);
                     $mygrid = new grid();
-                    $form = new form();
-                    $form->target("client/api/".$page."/stop");
-                    $mygrid->add_content($form->render("Stop","danger",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/start");
-                    $mygrid->add_content($form->render("Start","success",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/autodj_next");
-                    $mygrid->add_content($form->render("AutoDJ next","info",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/autodj_toggle");
-                    $mygrid->add_content($form->render("AutoDJ toggle","secondary",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/customize_username");
-                    $mygrid->add_content($form->render("customize username","warning",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/reset_passwords");
-                    $mygrid->add_content($form->render("Reset passwords","warning",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/enable_account");
-                    $mygrid->add_content($form->render("Enable account","success",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/disable_account");
-                    $mygrid->add_content($form->render("Disable account","danger",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/list_djs");
-                    $mygrid->add_content($form->render("List DJ accounts","info",true),4);
-                    $form = new form();
-                    $form->target("client/api/".$page."/purge_djs");
-                    $mygrid->add_content($form->render("purge DJ accounts","danger",true),4);
+
+                    $api_actions = array(
+                        "stop" => "danger",
+                        "start" => "success",
+                        "autodj_next" => "info",
+                        "autodj_toggle" => "secondary",
+                        "customize_username" => "warning",
+                        "reset_passwords" => "warning",
+                        "enable_account" => "success",
+                        "disable_account" => "danger",
+                        "list_djs" => "info",
+                        "purge_djs" => "danger",
+                    );
+                    foreach($api_actions as $key => $value)
+                    {
+                        if($serverapi_helper->callable_action("api_".$key) == true)
+                        {
+                            $form = new form();
+                            $form->target("client/api/".$page."/".$key);
+                            $buttontext = str_replace("_"," ",ucfirst($key));
+                            $mygrid->add_content($form->render($buttontext,$value,true),4);
+                        }
+                    }
                     $mygrid->add_content("<hr/>",12);
-                    $form = new form();
-                    $form->target("client/api/".$page."/set_passwords");
-                    $form->group("API force set passwords");
-                    $form->text_input("set_dj_password","Set DJ password",6,$stream->get_djpassword(),"DJ/Stream password");
-                    $form->text_input("set_admin_password","Set Admin password",6,$stream->get_adminpassword(),"Admin password");
-                    $mygrid->add_content($form->render("Set passwords","warning",true),6);
+                    if($serverapi_helper->callable_action("api_set_passwords") == true)
+                    {
+                        $form = new form();
+                        $form->target("client/api/".$page."/set_passwords");
+                        $form->group("API force set passwords");
+                        $form->text_input("set_dj_password","Set DJ password",6,$stream->get_djpassword(),"DJ/Stream password");
+                        $form->text_input("set_admin_password","Set Admin password",6,$stream->get_adminpassword(),"Admin password");
+                        $mygrid->add_content($form->render("Set passwords","warning",true),6);
+                    }
                     $pages["API"] = $mygrid->get_output();
                     $avname = explode(" ",strtolower($avatar->get_avatarname()));
                     $syncname = "".$avname[0]."_".$package->get_bitrate()."_".$stream->get_port()."";
-                    $pages["API"] .= "<br/>customize username changes the admin username for the stream following this ruleset<br/><ol>
-                    <li>Firstname eg:\"".$avname[0]."\"</li>
-                    <li>Firstname 2 letters of last name:\"".$avname[0]."_".substr($avname[1],0,2)."\"</li>
-                    <li>Firstname Port: \"".$avname[0]."_".$stream->get_port()."\"</li>
-                    <li>Firstname Port Bitrate: \"".$avname[0]."_".$stream->get_port()."_".$package->get_bitrate()."\"</li>
-                    <li>Firstname Port ServerID: \"".$avname[0]."_".$stream->get_port()."_".$server->get_id()."\"</li>
-                    <li>Firstname RentalUID: \"".$avname[0]."_".$rental->get_rental_uid()."\"</li>
-                    </ol>";
-                    $pages["API"] .= "<br/>Reset passwords: create new admin and source passwords (Not DJ account passwords).";
+                    if($serverapi_helper->callable_action("api_customize_username") == true)
+                    {
+                        $pages["API"] .= "<br/>customize username changes the admin username for the stream following this ruleset<br/><ol>
+                        <li>Firstname eg:\"".$avname[0]."\"</li>
+                        <li>Firstname 2 letters of last name:\"".$avname[0]."_".substr($avname[1],0,2)."\"</li>
+                        <li>Firstname Port: \"".$avname[0]."_".$stream->get_port()."\"</li>
+                        <li>Firstname Port Bitrate: \"".$avname[0]."_".$stream->get_port()."_".$package->get_bitrate()."\"</li>
+                        <li>Firstname Port ServerID: \"".$avname[0]."_".$stream->get_port()."_".$server->get_id()."\"</li>
+                        <li>Firstname RentalUID: \"".$avname[0]."_".$rental->get_rental_uid()."\"</li>
+                        </ol>";
+                    }
                 }
             }
         }
