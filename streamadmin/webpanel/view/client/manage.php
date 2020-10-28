@@ -81,7 +81,7 @@ if($rental->load_by_field("rental_uid",$page) == true)
                     $serverapi_helper->force_set_rental($rental);
                     $serverapi_helper->force_set_server($server);
                     $serverapi_helper->force_set_package($package);
-                    $serverapi_helper->force_set_stream($steram,false);
+                    $serverapi_helper->force_set_stream($stream,false);
                     $mygrid = new grid();
 
                     $api_actions = array(
