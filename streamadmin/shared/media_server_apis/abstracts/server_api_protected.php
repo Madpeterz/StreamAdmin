@@ -5,6 +5,8 @@ abstract class server_rest_api extends error_logging
     protected $stream = null;
     protected $server = null;
     protected $package = null;
+    protected $client = null;
+    protected $options = array();
 
     function __construct(?stream $stream,?server $server,?package $package)
     {
@@ -12,34 +14,62 @@ abstract class server_rest_api extends error_logging
         $this->server = $server;
         $this->package = $package;
     }
-    protected function rest_request(string $method,string $endpoint,array $args=array()) : array
+
+    public function update_package(package $package)
     {
-        $client = new GuzzleHttp\Client();
-        $headers = array(
-            'Authorization' => 'Bearer ' . $this->server->get_api_password(),
-            'Accept'        => 'application/json',
-        );
-        if(count($args) > 0)
+        $this->package = $package;
+        $this->client = null;
+    }
+    public function update_server(server $server)
+    {
+        $this->server = $server;
+        $this->client = null;
+    }
+    public function update_stream(stream $stream)
+    {
+        $this->stream = $stream;
+        $this->client = null;
+    }
+    protected function make_guzzle()
+    {
+        if($this->client == null)
         {
-            $headers['form_params'] = array($args);
-        }
-        $res = $client->request($method,$this->server->get_api_url()."".$endpoint,$headers);
-        if($res->getStatusCode() == 200)
-        {
-            return array("status"=>true,"message"=>$res->getBody()->getContents());
-        }
-        else
-        {
-            return array("status"=>false,"message"=>"Http error: ".$res->getStatusCode());
+            $this->options = array();
+            $this->options['base_uri'] = $this->server->get_api_url();
+            $this->options['allow_redirects'] = true;
+            $this->options['timeout'] = 10;
+            $this->options['http_errors'] = false;
+            $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_api_password();
+            $this->client = new \GuzzleHttp\Client($this->options);
         }
     }
-    protected function rest_get(string $endpoint,array $args=array()) : array
+    protected function rest_process(string $method,string $endpoint,array $postdata=array())
     {
-        return $this->rest_request("GET",$endpoint,$args);
+        $this->make_guzzle();
+        try
+        {
+            $res = $this->client->request($method,$endpoint,$postdata);
+            if($res->getStatusCode() == 200)
+            {
+                return array("status"=>true,"message"=>$res->getBody()->getContents());
+            }
+            else
+            {
+                return array("status"=>false,"message"=>"http error:".$res->getStatusCode());
+            }
+        }
+        catch (Exception $e)
+        {
+            return array("status"=>false,"message"=>"Request failed in a fireball");
+        }
+    }
+    protected function rest_get(string $endpoint) : array
+    {
+        return $this->rest_process('GET',$endpoint);
     }
     protected function rest_post(string $endpoint,array $args=array()) : array
     {
-        return $this->rest_request("POST",$endpoint,$args);
+        return $this->rest_process('POST',$endpoint,$args);
     }
     protected function rest_delete(string $endpoint,array $args=array()) : array
     {

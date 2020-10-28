@@ -20,7 +20,7 @@ class server_azuracast extends server_public_api
     }
     protected function server_status() : array
     {
-        $reply = $this->rest_get("/status");
+        $reply = $this->rest_get("status");
         if($reply["status"] == true)
         {
             $json = json_decode($reply["message"]);
@@ -63,33 +63,89 @@ class server_azuracast extends server_public_api
     {
         if($this->package->get_autodj() == true)
         {
-            $reply = $this->rest_post("/station/".$this->stream->set_api_uid_1()."/backend/skip");
+            $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/skip");
+            if($reply["status"] == true)
+            {
+                $json = json_decode($reply["message"]);
+                $this->last_api_message = "Skip accepted";
+                return $json->success;
+            }
+            else
+            {
+                $this->last_api_message = "Failed to skip track";
+            }
         }
+        else
+        {
+            $this->last_api_message = "No auto DJ";
+        }
+        return false;
     }
     protected function stop_server() : bool
     {
+        $stopped_auto_dj = true;
+        $this->last_api_message = "";
         if($this->package->get_autodj() == true)
         {
             // stop auto DJ
-            $reply = $this->rest_post("/station/".$this->stream->set_api_uid_1()."/backend/stop");
+            $this->last_api_message = "Unable to stop autoDJ";
+            $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/stop");
+            if($reply["status"] == true)
+            {
+                $json = json_decode($reply["message"]);
+                $stopped_auto_dj = $json->success;
+            }
         }
-        // stop stream
-        $reply = $this->rest_post("/station/".$this->stream->set_api_uid_1()."/frontend/stop");
+        if($stopped_auto_dj == true)
+        {
+            $this->last_api_message = "Unable to stop stream";
+            // stop stream
+            $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/frontend/stop");
+            if($reply["status"] == true)
+            {
+                $json = json_decode($reply["message"]);
+                if($json->success == true)
+                {
+                    $this->last_api_message = "server stopped";
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
     protected function start_server(int $skip_auto_dj=0) : bool
     {
-        // start stream
-        $reply = $this->rest_post("/station/".$this->stream->set_api_uid_1()."/frontend/start");
-
-        if($skip_auto_dj == 0)
+        $this->last_api_message = "Unable to start stream";
+        // stop stream
+        $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/frontend/start");
+        if($reply["status"] == true)
         {
-            // also start autoDJ if enabled
-            if($this->package->get_autodj() == true)
+            $json = json_decode($reply["message"]);
+            if($json->success == true)
             {
-                // start auto DJ
-                $reply = $this->rest_post("/station/".$this->stream->set_api_uid_1()."/backend/start");
+                if($skip_auto_dj == 1)
+                {
+                    $this->last_api_message = "Server started";
+                    return true;
+                }
+                if($this->package->get_autodj() == true)
+                {
+                    $this->last_api_message = "Server started / Unable to start AutoDJ";
+                    $reply = $this->rest_post("station/".$this->stream->get_api_uid_1()."/backend/start");
+                    if($reply["status"] == true)
+                    {
+                        $json = json_decode($reply["message"]);
+                        if($json->success == true)
+                        {
+                            $this->last_api_message = "Server+AutoDJ started";
+                            return true;
+                        }
+                    }
+                }
             }
         }
+        return false;
     }
     protected function susspend_server() : bool
     {
