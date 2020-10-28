@@ -304,13 +304,8 @@ class serverapi_helper
     {
         if($this->callable_action(__FUNCTION__) == true)
         {
-            $status = $this->api_change_title();
+            $status = $this->update_account_state(true);
             $this->message = $this->server_api->get_last_api_message();
-            if($status == true)
-            {
-                $status = $this->update_account_state(true);
-                $this->message = $this->server_api->get_last_api_message();
-            }
             return $status;
         }
         return false;
