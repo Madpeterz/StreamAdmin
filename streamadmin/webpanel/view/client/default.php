@@ -1,4 +1,5 @@
 <?php
+$view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]client/create'><button type='button' class='btn btn-success'>Create</button></a>");
 if($slconfig->get_clients_list_mode() == true)
 {
     include "webpanel/view/client/list.php";
@@ -6,7 +7,6 @@ if($slconfig->get_clients_list_mode() == true)
 else
 {
     $view_reply->add_swap_tag_string("page_title","Select a notice level");
-    $view_reply->set_swap_tag_string("page_actions","");
     $notice_set = new notice_set();
     $notice_set->loadAll();
     $rental = new rental();
