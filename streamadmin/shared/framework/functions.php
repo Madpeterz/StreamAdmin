@@ -119,7 +119,7 @@ function timeleft_hours_and_days($unixtime=0,bool $use_secs=false)
         }
 
     }
-    else return "0 days, 0 hours";
+    else return "now";
 }
 function load_template_file($selected_layout="",$layer="",$allow_downgrade=true)
 {
