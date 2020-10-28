@@ -19,7 +19,7 @@ else if($port > 99999) $failed_on .= $lang["stream.up.error.2"];
 else if($package->load($packagelink) == false) $failed_on .= $lang["stream.up.error.3"];
 else if($server->load($serverlink) == false) $failed_on .= $lang["stream.up.error.4"];
 else if(strlen($adminusername) < 3) $failed_on .= $lang["stream.up.error.5"];
-else if(strlen($adminusername) > 20) $failed_on .= $lang["stream.up.error.6"];
+else if(strlen($adminusername) >= 50) $failed_on .= $lang["stream.up.error.6"];
 else if(strlen($adminpassword) < 4) $failed_on .= $lang["stream.up.error.7"];
 else if(strlen($adminpassword) > 20) $failed_on .= $lang["stream.up.error.8"];
 else if(strlen($djpassword) < 4) $failed_on .= $lang["stream.up.error.9"];
