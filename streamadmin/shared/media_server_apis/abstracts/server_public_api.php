@@ -1,6 +1,10 @@
 <?php
 abstract class server_public_api extends server_public_api_basic
 {
+    public function get_account_state()
+    {
+        return $this->account_state();
+    }
     public function event_start_sync_username(string $old_username) : bool
     {
         return $this->sync_username($old_username);
