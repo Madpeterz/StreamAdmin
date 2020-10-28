@@ -3,15 +3,42 @@ $view_reply->add_swap_tag_string("html_title"," ~ Manage");
 $view_reply->add_swap_tag_string("page_title"," Editing stream");
 $view_reply->set_swap_tag_string("page_actions","<a href='[[url_base]]stream/remove/".$page."'><button type='button' class='btn btn-danger'>Remove</button></a>");
 
-$template_set = new template_set();
-$template_set->loadAll();
 $stream = new stream();
 if($stream->load_by_field("stream_uid",$page) == true)
 {
     $server_set = new server_set();
     $server_set->loadAll();
+
     $package_set = new package_set();
     $package_set->loadAll();
+
+    $api_set = new apis_set();
+    $api_set->loadAll();
+
+    $improved_serverlinker = array();
+    foreach($server_set->get_all_ids() as $server_id)
+    {
+        $server = $server_set->get_object_by_id($server_id);
+        $api = $api_set->get_object_by_id($server->get_apilink());
+        $improved_serverlinker[$server->get_id()] = $server->get_domain()." {".$api->get_name()."}";
+    }
+
+    $servertypes_set = new servertypes_set();
+    $servertypes_set->loadAll();
+
+    $autodjflag = array(true=>"{AutoDJ}",false=>"{StreamOnly}");
+    $improved_packagelinker = array();
+    foreach($package_set->get_all_ids() as $package_id)
+    {
+        $package = $package_set->get_object_by_id($package_id);
+        $servertype = $servertypes_set->get_object_by_id($package->get_servertypelink());
+        $saddon = "";
+        if($package->get_days() > 1)
+        {
+            $saddon = "'s";
+        }
+        $improved_packagelinker[$package->get_id()] = "".$package->get_name()." @ ".$package->get_days()."day".$saddon." - ".$autodjflag[$package->get_autodj()]." - ".$servertype->get_name()." - ".$package->get_bitrate()."kbs - ".$package->get_listeners()." listeners";
+    }
 
     $form = new form();
     $form->target("stream/update/".$page."");
@@ -19,8 +46,8 @@ if($stream->load_by_field("stream_uid",$page) == true)
     $form->col(6);
         $form->group("Basics");
         $form->number_input("port","port",$stream->get_port(),5,"Max 99999");
-        $form->select("packagelink","Package",$stream->get_packagelink(),$package_set->get_linked_array("id","name"));
-        $form->select("serverlink","Server",$stream->get_serverlink(),$server_set->get_linked_array("id","domain"));
+        $form->select("packagelink","Package",$stream->get_packagelink(),$improved_packagelinker);
+        $form->select("serverlink","Server",$stream->get_serverlink(),$improved_serverlinker);
         $form->text_input("mountpoint","Mountpoint",999,$stream->get_mountpoint(),"Stream mount point");
     $form->col(6);
         $form->group("Config");

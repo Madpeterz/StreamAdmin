@@ -5,8 +5,37 @@ $view_reply->set_swap_tag_string("page_actions","");
 
 $server_set = new server_set();
 $server_set->loadAll();
+
 $package_set = new package_set();
 $package_set->loadAll();
+
+$api_set = new apis_set();
+$api_set->loadAll();
+
+$improved_serverlinker = array();
+foreach($server_set->get_all_ids() as $server_id)
+{
+    $server = $server_set->get_object_by_id($server_id);
+    $api = $api_set->get_object_by_id($server->get_apilink());
+    $improved_serverlinker[$server->get_id()] = $server->get_domain()." {".$api->get_name()."}";
+}
+
+$servertypes_set = new servertypes_set();
+$servertypes_set->loadAll();
+
+$autodjflag = array(true=>"{AutoDJ}",false=>"{StreamOnly}");
+$improved_packagelinker = array();
+foreach($package_set->get_all_ids() as $package_id)
+{
+    $package = $package_set->get_object_by_id($package_id);
+    $servertype = $servertypes_set->get_object_by_id($package->get_servertypelink());
+    $saddon = "";
+    if($package->get_days() > 1)
+    {
+        $saddon = "'s";
+    }
+    $improved_packagelinker[$package->get_id()] = "".$package->get_name()." @ ".$package->get_days()."day".$saddon." - ".$autodjflag[$package->get_autodj()]." - ".$servertype->get_name()." - ".$package->get_bitrate()."kbs - ".$package->get_listeners()." listeners";
+}
 
 
 $form = new form();
@@ -15,8 +44,8 @@ $form->required(true);
 $form->col(6);
     $form->group("Basics");
     $form->number_input("port","port",null,5,"Max 99999");
-    $form->select("packagelink","Package",0,$package_set->get_linked_array("id","name"));
-    $form->select("serverlink","Server",0,$server_set->get_linked_array("id","domain"));
+    $form->select("packagelink","Package",0,$improved_packagelinker);
+    $form->select("serverlink","Server",0,$improved_serverlinker);
     $form->text_input("mountpoint","Mountpoint",999,"/live","Stream mount point");
 $form->col(6);
     $form->group("Config");
