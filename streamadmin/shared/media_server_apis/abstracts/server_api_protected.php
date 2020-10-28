@@ -73,7 +73,7 @@ abstract class server_rest_api extends error_logging
     }
     protected function rest_delete(string $endpoint,array $args=array()) : array
     {
-        return $this->rest_request("DELETE",$endpoint,$args);
+        return $this->rest_process("DELETE",$endpoint,$args);
     }
 
 }
