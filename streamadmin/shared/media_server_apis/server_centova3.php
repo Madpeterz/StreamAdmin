@@ -221,13 +221,37 @@ class server_centova3 extends server_centova3_only
     }
     protected function stream_state() : array
     {
-        $reply = $this->centova_serverclass_api_call("getstatus");
+        $this->last_api_message = "Unable to fetch stream state";
+        $reply = $this->centova_serverclass_api_call("getstatus",array("mountpoints"=>"all"));
+        $status = false;
+        $server_status = false;
+        $stream_connected = false;
+        $auto_dj = false;
         if($this->simple_reply_ok($reply) == true)
         {
+            $status = true;
             $server_status = $reply["data"]["response"]["data"]["status"];
-            return array("status"=>true,"state"=>$server_status["serverstate"],"source"=>$server_status["sourcestate"]);
+            $this->last_api_message = "Server appears to be down";
+            if($server_status["serverstate"] == 1)
+            {
+                // server up
+                $server_status = true;
+                $this->last_api_message = "Source/AutoDJ appears to be down";
+                if($server_status["sourcestate"] == 1)
+                {
+                    $stream_connected = true;
+                    $this->last_api_message = "Stream open";
+                    $autodj_source_types = array("liquidsoap","icescc");
+                    if(in_array($server_status["sourcetype"],$autodj_source_types) == true)
+                    {
+                        $this->last_api_message = "DJ connected";
+                        $auto_dj = true;
+                        $stream_connected = false;
+                    }
+                }
+            }
         }
-        return array("status"=>false,"state"=>false,"source"=>false);
+        return array("status"=>$status,"state"=>$server_status,"source"=>$stream_connected,"autodj"=>$auto_dj);
     }
     protected function account_name_list(bool $include_passwords=false,stream_set $stream_set=null) : array
     {
