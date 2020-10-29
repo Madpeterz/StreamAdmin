@@ -1,12 +1,7 @@
 .ftpconfig
-example2.php
-public_html/site/config/db_installed.php
-public_html/ready.txt
-public_html/site/config/r4.php
-public_html/site/config/site.php
-public_html/gen.php
+shared/config/db_installed.php
+shared/config/site_installed.php
+shared/config/ready.txt
+webpanel/gen.php
 gen
-public_html/site/config/site_installed.php
-public_html/gen_r7.php
-public_html/gen_r7.php
 catche
