@@ -252,6 +252,15 @@ class templated
         }
         return $this->swaptags["META_TAGS"];
     }
+    protected function keypair_replace(string $output,array $oldpairs) : string
+    {
+        $keypairs = array();
+        foreach($oldpairs as $key => $value)
+        {
+            $keypairs["[[".$key."]]"] = $value;
+        }
+        return strtr($output,$keypairs);
+    }
     public function render_page()
     {
         global $page,$module,$area;
@@ -276,19 +285,10 @@ class templated
         else
         {
             $output = trim($this->render_layout);
-            foreach($this->tempalte_parts as $key => $value)
-            {
-                $output = str_replace("[[".$key."]]",$value,$output);
-            }
-            foreach($this->swaptags as $key => $value)
-            {
-                $output = str_replace("[[".$key."]]",$value,$output);
-            }
-            foreach($this->swaptags as $key => $value)
-            {
-                $output = str_replace("[[".$key."]]",$value,$output);
-            }
-            $output = str_replace("@NL@","\n\r",$output);
+            $output = $this->keypair_replace($output,$this->tempalte_parts);
+            $output = $this->keypair_replace($output,$this->swaptags);
+            $output = $this->keypair_replace($output,$this->swaptags);
+            $output = strtr($output,array("@NL@"=>"\n\r"));
             print $output;
         }
     }
