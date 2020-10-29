@@ -1,0 +1,13 @@
+<div class="col-10">
+    <div class="card">
+        <div class="card-header">
+            <div class="row mt-1 justify-content-between">
+                <div class="col-5">[[page_title]]</div>
+                <div class="col-1 justify-content-end">[[page_actions]]</div>
+            </div>
+        </div>
+        <div class="card-body">
+            [[page_content]]
+        </div>
+    </div>
+</div>
