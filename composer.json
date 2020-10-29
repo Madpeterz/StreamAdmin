@@ -1,0 +1,26 @@
+{
+    "name": "madpeterz/streamadmin",
+    "description": "Audio stream control panel linked to secondlife",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "phpmailer/phpmailer": "^6.1",
+        "guzzlehttp/guzzle": "^7.2"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "authors": [
+        {
+            "name": "Madpeter",
+            "email": "madpeter@gmail.com"
+        }
+    ],
+    "scripts": {
+        "dev-test": [
+          "@phpcs"
+        ],
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf"
+    }
+}
