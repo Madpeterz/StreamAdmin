@@ -5,3 +5,5 @@ shared/config/ready.txt
 webpanel/gen.php
 gen
 catche
+vendor/squizlabs
+vendor/bin
