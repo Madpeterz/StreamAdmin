@@ -1,0 +1,1 @@
+Adds datatable custom amount per page support
