@@ -75,5 +75,5 @@ interface CookieJarInterface extends \Countable, \IteratorAggregate
     /**
      * Converts the cookie jar to an array.
      */
-    public function toArray(): array;
+    public function to[]: array;
 }

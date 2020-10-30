@@ -60,7 +60,7 @@ class FileCookieJar extends CookieJar
         /** @var SetCookie $cookie */
         foreach ($this as $cookie) {
             if (CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
-                $json[] = $cookie->toArray();
+                $json[] = $cookie->to[];
             }
         }
 
