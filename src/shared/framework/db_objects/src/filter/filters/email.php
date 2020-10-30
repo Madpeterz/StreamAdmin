@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_email extends inputFilter_filter_http
 {
-    protected function filter_email(string $value,array $args=array()) : ?string
+    protected function filter_email(string $value,array $args=[]) : ?string
 	{
 		$this->failure = FALSE;
 		$this->testOK = TRUE;

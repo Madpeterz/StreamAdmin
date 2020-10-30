@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_http extends inputFilter_filter_json
 {
-    protected function filter_url(string $value,array $args=array()) : ?string
+    protected function filter_url(string $value,array $args=[]) : ?string
 	{
 		$this->failure = FALSE;
 		$this->testOK = TRUE;

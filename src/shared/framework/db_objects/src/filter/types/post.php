@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_postFilter extends inputFilter_getFilter
 {
-    public function postFilter(string $inputName,string $filter="string",array $args = array(), $default = null)
+    public function postFilter(string $inputName,string $filter="string",array $args = [], $default = null)
 	{
 		$this->failure = false;
 		$this->whyfailed = "";

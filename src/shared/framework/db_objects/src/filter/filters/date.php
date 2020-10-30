@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_date extends inputFilter_filter_email
 {
-    protected function filter_date(string $value,array $args=array())
+    protected function filter_date(string $value,array $args=[])
 	{
 		// Expected format MM/DD/YYYY
 		$this->failure = FALSE;

@@ -1,7 +1,7 @@
 <?php
 abstract class genClass_collectionSet extends error_logging
 {
-    protected $collected = array();
+    protected $collected = [];
     protected $sql = null;
     protected $worker_class = null;
     protected $worker = null;
@@ -21,7 +21,7 @@ abstract class genClass_collectionSet extends error_logging
         $hash_builder = "";
         foreach($this->collected as $entry)
         {
-            $hash_builder .= $entry->get_hash();
+            $hash_builder .= $entry->getHash();
         }
         return hash("sha256",$hash_builder);
     }
@@ -47,7 +47,7 @@ abstract class genClass_collectionSet extends error_logging
         }
         return $found_entry;
     }
-    protected function process_load($load_data = array())
+    protected function process_load($load_data = [])
     {
         if($this->worker == null) $this->worker = new $this->worker_class();
         $use_field = "id";

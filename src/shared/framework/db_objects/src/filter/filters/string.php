@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_string extends inputFilter_filter_array
 {
-    protected function filter_string(string $value,array $args=array()) : ?string
+    protected function filter_string(string $value,array $args=[]) : ?string
 	{
 		$this->failure = FALSE;
 		$this->testOK = TRUE;

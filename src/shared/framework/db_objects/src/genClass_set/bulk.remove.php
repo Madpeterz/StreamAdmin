@@ -13,8 +13,8 @@ abstract class genClass_collection_removebulk  extends genClass_collection_updat
         }
 
 		$test_object = new $this->worker_class();
-		$wherefields = array();
-		$werevalues = array();
+		$wherefields = [];
+		$werevalues = [];
 		foreach($this->get_all_ids() as $object_id)
 		{
 			$wherefields[] = array("id"=>"=");

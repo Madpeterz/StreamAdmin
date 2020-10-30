@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_color extends inputFilter_filter_checkbox
 {
-    protected function filter_color(string $value,array $args=array()) : ?string
+    protected function filter_color(string $value,array $args=[]) : ?string
 	{
 		$this->failure = FALSE;
 		$this->testOK = TRUE;

@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_valueFilter extends inputFilter_filter_color
 {
-    public function valueFilter($value=null,string $filter,array $args = array())
+    public function valueFilter($value=null,string $filter,array $args = [])
 	{
 		$this->failure = false;
 		if($value != null)
@@ -49,7 +49,7 @@ abstract class inputFilter_valueFilter extends inputFilter_filter_color
 		}
 		return null;
 	}
-    public function varFilter($currentvalue, string $filter="string", array $args = array())
+    public function varFilter($currentvalue, string $filter="string", array $args = [])
     {
         return $this->valueFilter($currentvalue, $filter, $args);
     }

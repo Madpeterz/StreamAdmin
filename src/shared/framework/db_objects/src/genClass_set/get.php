@@ -14,7 +14,7 @@ abstract class genClass_collection_get extends genClass_collectionSet
     }
     public function get_linked_array($left_side_field="",$right_side_field="") : array
     {
-        $return_array = array();
+        $return_array = [];
         $left_side_field = "get_".$left_side_field."";
         $right_side_field = "get_".$right_side_field."";
         $worker = new $this->worker_class();
@@ -43,7 +43,7 @@ abstract class genClass_collection_get extends genClass_collectionSet
     }
     public function get_unique_array($field_name="") : array
     {
-        $found_values = array();
+        $found_values = [];
         $function = "get_".$field_name."";
         foreach($this->collected as $key => $object)
         {
@@ -82,8 +82,8 @@ abstract class genClass_collection_get extends genClass_collectionSet
         return $return_obj;
     }
 
-    protected $fast_get_object_array_indexs = array();
-    protected $fast_get_object_array_dataset = array();
+    protected $fast_get_object_array_indexs = [];
+    protected $fast_get_object_array_dataset = [];
 
     public function build_object_get_index(string $fieldname="",bool $force_rebuild=false)
     {
@@ -94,7 +94,7 @@ abstract class genClass_collection_get extends genClass_collectionSet
             if(method_exists($this->worker,$loadstring))
             {
                 $this->fast_get_object_array_indexs[] = $fieldname;
-                $index = array();
+                $index = [];
                 foreach($this->collected as $key => $object)
                 {
                     $index[$object->$loadstring()] = $object->get_id();
@@ -104,13 +104,13 @@ abstract class genClass_collection_get extends genClass_collectionSet
         }
     }
     protected $shit_index = "";
-    protected $shit_index_dataset = array();
+    protected $shit_index_dataset = [];
     protected function build_shit_index(string $fieldname,$value)
     {
         if($this->shit_index != $fieldname)
         {
             if($this->worker == null) $this->worker = new $this->worker_class();
-            $this->shit_index_dataset = array();
+            $this->shit_index_dataset = [];
             $this->shit_index = $fieldname;
             $loadstring = "get_".$fieldname."";
             if(method_exists($this->worker,$loadstring))

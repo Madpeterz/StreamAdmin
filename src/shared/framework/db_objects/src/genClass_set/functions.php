@@ -7,7 +7,7 @@ abstract class genClass_collection_functions  extends genClass_collection_load
         {
             $this->create_fast_index($fieldname);
         }
-        $results = array();
+        $results = [];
         if(in_array($fieldvalue,array_values($this->built_search_index)) == true)
         {
             foreach($this->built_search_index as $object_id => $value)
@@ -22,7 +22,7 @@ abstract class genClass_collection_functions  extends genClass_collection_load
 
     }
     protected $built_search_index_level_1 = "";
-    protected $built_search_index = array(); // objectid => value
+    protected $built_search_index = []; // objectid => value
     protected function indexed_search($target_value)
     {
         $matched_object = null;
@@ -41,7 +41,7 @@ abstract class genClass_collection_functions  extends genClass_collection_load
     }
     protected function create_fast_index(string $target_field)
     {
-        $this->built_search_index = array(); // reset the index
+        $this->built_search_index = []; // reset the index
         foreach($this->collected as $obj)
         {
             $function = "get_".$target_field."";
@@ -50,7 +50,7 @@ abstract class genClass_collection_functions  extends genClass_collection_load
         $this->built_search_index_level_1 = $target_field;
     }
 
-    public function search($search_settings=array())
+    public function search($search_settings=[])
     {
         // array("wp_parent_id" => $wp_post->get_id(),...)
         $matched_object = null;

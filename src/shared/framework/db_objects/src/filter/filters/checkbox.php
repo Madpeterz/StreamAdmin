@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_checkbox extends inputFilter_filter_vector
 {
-    protected function filter_checkbox(string $value,array $args=array())
+    protected function filter_checkbox(string $value,array $args=[])
     {
         $filter_as = "integer";
         $this->failure=TRUE;

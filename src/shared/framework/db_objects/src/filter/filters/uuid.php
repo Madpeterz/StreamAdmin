@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_uuid extends inputFilter_filter_bool
 {
-    protected function filter_uuid(string $value,array $args=array()) : ?string
+    protected function filter_uuid(string $value,array $args=[]) : ?string
 	{
         $this->failure = FALSE;
         $this->testOK = TRUE;

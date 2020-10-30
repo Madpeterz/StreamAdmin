@@ -1,7 +1,7 @@
 <?php
 abstract class inputFilter_filter_vector extends inputFilter_filter_date
 {
-    protected function filter_vector(string $value,array $args=array())
+    protected function filter_vector(string $value,array $args=[])
 	{
 		$this->failure = FALSE;
 		$this->testOK = FALSE;

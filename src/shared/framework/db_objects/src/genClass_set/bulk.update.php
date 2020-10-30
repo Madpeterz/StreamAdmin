@@ -9,9 +9,9 @@ abstract class genClass_collection_updatebulk extends genClass_collection_get
     {
         $worker = new $this->worker_class();
         $update_config = array(
-            "fields" => array(),
-            "values" => array(),
-            "types" => array(),
+            "fields" => [],
+            "values" => [],
+            "types" => [],
         );
         $all_ok = true;
         $loop = 0;
@@ -45,7 +45,7 @@ abstract class genClass_collection_updatebulk extends genClass_collection_get
     protected function update_multiple_get_updated_ids(array $update_fields,array $new_values) : array
     {
         $expected_changes = 0;
-        $changed_ids = array();
+        $changed_ids = [];
         foreach($this->get_all_ids() as $entry_id)
         {
             $localworker = $this->collected[$entry_id];
@@ -91,7 +91,7 @@ abstract class genClass_collection_updatebulk extends genClass_collection_get
                     $where_config = array(
                         "fields"=>array("id"),
                         "matches"=>array("IN"),
-                        "values"=>array(),
+                        "values"=>[],
                         "types"=>array("i"),
                     );
                     $ready_update_config = $this->update_multiple_make_update_config($update_fields,$new_values);

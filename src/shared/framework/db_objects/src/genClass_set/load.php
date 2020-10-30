@@ -10,8 +10,8 @@ abstract class genClass_collection_load extends genClass_collection_removebulk
 		if($this->worker_class != null)
 		{
         	$worker = new $this->worker_class();
-			$wherefields = array();
-			$wherevalues = array();
+			$wherefields = [];
+			$wherevalues = [];
 			$unpack_ok = true;
 			$unpack_error = "";
 			$loop = 0;
@@ -93,19 +93,19 @@ abstract class genClass_collection_load extends genClass_collection_removebulk
 			return array("status"=>false,"count"=>0,"message"=>"worker not setup");
 		}
     }
-	public function load_limited($limit=12,$by_field="id",$by_direction="ASC",$wherefields=array(),$wherevalues=array(),$merge_word="AND",$page=0)
+	public function load_limited($limit=12,$by_field="id",$by_direction="ASC",$wherefields=[],$wherevalues=[],$merge_word="AND",$page=0)
 	{
 		return $this->loadData($wherefields,$wherevalues,$merge_word,$by_field,$by_direction,$limit,$page);
 	}
-	public function load_newest($limit=12,$wherefields=array(),$wherevalues=array(),$by_field="id",$by_direction="DESC",$page=0)
+	public function load_newest($limit=12,$wherefields=[],$wherevalues=[],$by_field="id",$by_direction="DESC",$page=0)
 	{
 		return $this->load_limited($limit,$by_field,$by_direction,$wherefields,$wherevalues,"AND",$page);
 	}
     public function loadAll($limit=0,$order_by="id",$by_direction="ASC")
     {
-        return $this->loadData(array(),array(),"AND",$order_by,$by_direction,$limit,0);
+        return $this->loadData([],[],"AND",$order_by,$by_direction,$limit,0);
     }
-    public function load_with_config(?array $where_config=array(),?array $order_config=null,?array $options_config=null,?array $join_tables=null)
+    public function load_with_config(?array $where_config=[],?array $order_config=null,?array $options_config=null,?array $join_tables=null)
     {
         if($this->worker_class != null)
         {
@@ -136,7 +136,7 @@ abstract class genClass_collection_load extends genClass_collection_removebulk
             return array("status"=>false,"count"=>0,"message"=>"Required worker_class not set!");
         }
     }
-    protected function loadData($wherefields=array(), $wherevalues=array(), $joinword="AND", $orderBy="", $orderDir="DESC", $limit=0, $page=0)
+    protected function loadData($wherefields=[], $wherevalues=[], $joinword="AND", $orderBy="", $orderDir="DESC", $limit=0, $page=0)
     {
         if($this->worker_class != null)
         {
@@ -159,11 +159,11 @@ abstract class genClass_collection_load extends genClass_collection_removebulk
             return array("status"=>false,"count"=>0,"message"=>"Required worker_class not set!");
         }
     }
-    protected function loadDataFromList(string $fieldname="id",array $ids=array(),$ids_clean=true) : array
+    protected function loadDataFromList(string $fieldname="id",array $ids=[],$ids_clean=true) : array
     {
         if($this->worker_class != null)
         {
-            $uids = array();
+            $uids = [];
             // do we trust the list of ids to be clean
             if($ids_clean == false)
             {
@@ -179,7 +179,7 @@ abstract class genClass_collection_load extends genClass_collection_removebulk
             {
                 $uids = $ids;
             }
-            $ids = array();
+            $ids = [];
             $worker = new $this->worker_class();
             $read_from_table = $worker->get_table();
             $new_object = new $this->worker_class();
