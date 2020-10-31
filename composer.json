@@ -5,10 +5,10 @@
     "require": {
         "php": ">=7.4",
         "phpmailer/phpmailer": "^6.1",
-        "guzzlehttp/guzzle": "^7.2"
+        "guzzlehttp/guzzle": "^7.2",
+        "squizlabs/php_codesniffer": "*"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.5",
         "slevomat/coding-standard": "^6.4"
     },
     "authors": [
