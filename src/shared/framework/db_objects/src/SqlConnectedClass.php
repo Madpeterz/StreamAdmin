@@ -1,6 +1,6 @@
 <?php
 
-namespace Madpeterz\YAPF;
+namespace YAPF;
 
 abstract class SqlConnectedClass extends ErrorLogging
 {

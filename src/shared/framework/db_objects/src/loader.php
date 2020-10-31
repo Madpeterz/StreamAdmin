@@ -18,12 +18,13 @@ include $dbObjectsLoadPath . "genClass/Load.php";
 include $dbObjectsLoadPath . "genClass/DB.php";
 include $dbObjectsLoadPath . "genClass/GenClass.php";
 
-include $dbObjectsLoadPath . "genClass_set/core.php";
-include $dbObjectsLoadPath . "genClass_set/get.php";
-include $dbObjectsLoadPath . "genClass_set/bulk.update.php";
-include $dbObjectsLoadPath . "genClass_set/bulk.remove.php";
-include $dbObjectsLoadPath . "genClass_set/load.php";
-include $dbObjectsLoadPath . "genClass_set/functions.php";
-include $dbObjectsLoadPath . "genClass_set/final.php";
+include $dbObjectsLoadPath . "CollectionSet/Core.php";
+include $dbObjectsLoadPath . "CollectionSet/Indexer.php";
+include $dbObjectsLoadPath . "CollectionSet/Get.php";
+include $dbObjectsLoadPath . "CollectionSet/BulkUpdate.php";
+include $dbObjectsLoadPath . "CollectionSet/BulkRemove.php";
+include $dbObjectsLoadPath . "CollectionSet/Load.php";
+include $dbObjectsLoadPath . "CollectionSet/functions.php";
+include $dbObjectsLoadPath . "CollectionSet/final.php";
 
 include $dbObjectsLoadPath . "filter/loader.php";
