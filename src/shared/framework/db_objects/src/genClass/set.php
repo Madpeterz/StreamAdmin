@@ -1,6 +1,6 @@
 <?php
 
-namespace Madpeterz\YAPF\DB_OBJECTS;
+namespace YAPF\DB_OBJECTS;
 
 abstract class GenClassSet extends GenClassGet
 {
@@ -58,7 +58,7 @@ abstract class GenClassSet extends GenClassGet
      * Note: Setting the ID can lead to weird side effects!
      * @return mixed[] [status =>  bool, message =>  string]
      */
-    public function setID(?int $newvalue): array
+    public function setID(int $newvalue): array
     {
         if ($this->bad_id == false) {
             return $this->updateField("id", $newvalue, true);

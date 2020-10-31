@@ -1,8 +1,8 @@
 <?php
 
-namespace Madpeterz\YAPF\DB_OBJECTS;
+namespace YAPF\DB_OBJECTS;
 
-use Madpeterz\YAPF\SqlConnectedClass as SqlConnectedClass;
+use YAPF\SqlConnectedClass as SqlConnectedClass;
 
 abstract class GenClassCore extends SqlConnectedClass
 {

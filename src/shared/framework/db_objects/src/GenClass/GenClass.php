@@ -1,6 +1,6 @@
 <?php
 
-namespace Madpeterz\YAPF\DB_OBJECTS;
+namespace YAPF\DB_OBJECTS;
 
 abstract class GenClass extends GenClassDB
 {

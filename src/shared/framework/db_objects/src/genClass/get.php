@@ -1,6 +1,6 @@
 <?php
 
-namespace Madpeterz\YAPF\DB_OBJECTS;
+namespace YAPF\DB_OBJECTS;
 
 abstract class GenClassGet extends GenClassCore
 {
@@ -44,11 +44,13 @@ abstract class GenClassGet extends GenClassCore
     /**
      * getHash
      * creates a sha256 hash imploded by || of the value of all fields
+     * that are not in exclude_fields
      */
     public function getHash(array $exclude_fields = ["id"]): string
     {
         $bits = [];
-        foreach ($this->get_fields() as $fieldname) {
+        $fields = $this->get_fields();
+        foreach ($fields as $fieldname) {
             if (in_array($fieldname, $exclude_fields) == false) {
                 $bits[] = $this->get_field($fieldname);
             }
@@ -63,7 +65,8 @@ abstract class GenClassGet extends GenClassCore
     public function objectToMappedArray(): array
     {
         $reply = [];
-        foreach (array_keys($this->dataset) as $fieldname) {
+        $keys = array_keys($this->dataset);
+        foreach ($keys as $fieldname) {
             $reply[$fieldname] = $this->get_field($fieldname);
         }
         return $reply;
@@ -132,7 +135,7 @@ abstract class GenClassGet extends GenClassCore
     /**
      * isLoaded
      * returns a bool if the object is loaded from DB
-     * Notes: Does not support custom IDs
+     * Notes: Does not support custom Ids
      */
     public function isLoaded(): bool
     {
