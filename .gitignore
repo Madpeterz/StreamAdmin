@@ -7,3 +7,4 @@ gen
 catche
 vendor/squizlabs
 vendor/bin
+composer.lock
