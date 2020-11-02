@@ -21,7 +21,7 @@ Slevomat Coding Standard for [PHP_CodeSniffer](https://github.com/squizlabs/PHP_
 2. [Installation](#installation)
 3. [How to run the sniffs](#how-to-run-the-sniffs)
   - [Choose which sniffs to run](#choose-which-sniffs-to-run)
-  - [Using all sniffs from the standard](#using-all-sniffs-from-the-standard)
+  - [Exclude sniffs you don't want to run](#exclude-sniffs-you-dont-want-to-run)
 4. [Fixing errors automatically](#fixing-errors-automatically)
 5. [Suppressing sniffs locally](#suppressing-sniffs-locally)
 6. [Contributing](#contributing)
@@ -145,6 +145,10 @@ constants, properties, static properties, methods, all public methods, all prote
 
 Disallows late static binding for constants.
 
+#### SlevomatCodingStandard.Classes.ForbiddenPublicProperty
+
+Disallows using public properties.
+
 #### SlevomatCodingStandard.Classes.UselessLateStaticBinding 🔧
 
 Reports useless late static binding.
@@ -241,6 +245,12 @@ Some functions have `$strict` parameter. This sniff reports calls to these funct
 #### SlevomatCodingStandard.Functions.StaticClosure 🔧
 
 Reports closures not using `$this` that are not declared `static`.
+
+#### SlevomatCodingStandard.Functions.FunctionLength 🔧
+
+Disallows long functions. This sniff provides the following setting:
+
+* `maxLinesLength`: specifies max allowed function lines length (default value is 20).
 
 #### SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall 🔧
 

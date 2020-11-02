@@ -3,7 +3,7 @@
 if (defined("correct") == false) {
     die("Error");
 }
-include "shared/config/load.php";
+include "../shared/config/load.php";
 require_once("shared/framework/mysqli/src/loader.php"); // sql_driver
 $sql = new mysqli_controler();
 $slconfig = new slconfig();

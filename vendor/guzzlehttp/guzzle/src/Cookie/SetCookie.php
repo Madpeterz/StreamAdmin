@@ -106,7 +106,7 @@ class SetCookie
         return \rtrim($str, '; ');
     }
 
-    public function to[]: array
+    public function toArray(): array
     {
         return $this->data;
     }

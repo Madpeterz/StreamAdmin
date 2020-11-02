@@ -263,7 +263,7 @@ written to.
 
 Removed the `asArray` parameter from
 `GuzzleHttp\Message\MessageInterface::getHeader`. If you want to get a header
-value as an array, then use the newly added `getHeaderAs[]` method of
+value as an array, then use the newly added `getHeaderAsArray()` method of
 `MessageInterface`. This change makes the Guzzle interfaces compatible with
 the PSR-7 interfaces.
 
@@ -776,10 +776,10 @@ Additions and changes (you will need to update any implementations or subclasses
 - Added an `$options` argument to the end of `Guzzle\Http\Message\Request\RequestFactoryInterface::createRequest()`
 - Added an `applyOptions()` method to `Guzzle\Http\Message\Request\RequestFactoryInterface`
 - Changed `Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $body = null)` to
-  `Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $options = [])`. You can still pass in a
+  `Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $options = array())`. You can still pass in a
   resource, string, or EntityBody into the $options parameter to specify the download location of the response.
 - Changed `Guzzle\Common\Collection::__construct($data)` to no longer accepts a null value for `$data` but a
-  default `[]`
+  default `array()`
 - Added `Guzzle\Stream\StreamInterface::isRepeatable`
 - Made `Guzzle\Http\Client::expandTemplate` and `getUriTemplate` protected methods.
 
@@ -829,7 +829,7 @@ that implement them, but you should update your code to use alternative methods:
 * Moved getLinks() from Response to just be used on a Link header object.
 
 If you previously relied on Guzzle\Http\Message\Header::raw(), then you will need to update your code to use the
-HeaderInterface (e.g. to[], getAll(), etc.).
+HeaderInterface (e.g. toArray(), getAll(), etc.).
 
 ### Interface changes
 
@@ -959,9 +959,9 @@ use Guzzle\Service\Inspector;
 
 class YourClient extends \Guzzle\Service\Client
 {
-    public static function factory($config = [])
+    public static function factory($config = array())
     {
-        $default = [];
+        $default = array();
         $required = array('base_url', 'username', 'api_key');
         $config = Inspector::fromConfig($config, $default, $required);
 
@@ -985,9 +985,9 @@ use Guzzle\Common\Collection;
 
 class YourClient extends \Guzzle\Service\Client
 {
-    public static function factory($config = [])
+    public static function factory($config = array())
     {
-        $default = [];
+        $default = array();
         $required = array('base_url', 'username', 'api_key');
         $config = Collection::fromConfig($config, $default, $required);
 

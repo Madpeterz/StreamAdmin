@@ -27,8 +27,8 @@ if ($session->get_ownerlevel() == 1) {
         }
     }
     spl_autoload_register('auto_load_r4_model');
-    if (file_exists("shared/config/r4.php") == true) {
-        include "shared/config/r4.php";
+    if (file_exists("../shared/config/r4.php") == true) {
+        include "../shared/config/r4.php";
     } else {
         $area = "setup";
     }

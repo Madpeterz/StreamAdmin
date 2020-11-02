@@ -544,7 +544,7 @@ interfaces.
   written to.
 * Removed the `asArray` parameter from
   `GuzzleHttp\Message\MessageInterface::getHeader`. If you want to get a header
-  value as an array, then use the newly added `getHeaderAs[]` method of
+  value as an array, then use the newly added `getHeaderAsArray()` method of
   `MessageInterface`. This change makes the Guzzle interfaces compatible with
   the PSR-7 interfaces.
 * `GuzzleHttp\Message\MessageFactory` no longer allows subclasses to add
@@ -696,7 +696,7 @@ interfaces.
 * 303 redirects will now correctly switch from POST to GET requests.
 * The default parallel adapter of a client now correctly uses the MultiAdapter.
 * HasDataTrait now initializes the internal data array as an empty array so
-  that the to[] method always returns an array.
+  that the toArray() method always returns an array.
 
 ## 4.0.0 - 2014-03-29
 
@@ -864,10 +864,10 @@ interfaces.
 * Added an `$options` argument to the end of `Guzzle\Http\Message\Request\RequestFactoryInterface::createRequest()`
 * Added an `applyOptions()` method to `Guzzle\Http\Message\Request\RequestFactoryInterface`
 * Changed `Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $body = null)` to
-  `Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $options = [])`. You can still pass in a
+  `Guzzle\Http\ClientInterface::get($uri = null, $headers = null, $options = array())`. You can still pass in a
   resource, string, or EntityBody into the $options parameter to specify the download location of the response.
 * Changed `Guzzle\Common\Collection::__construct($data)` to no longer accepts a null value for `$data` but a
-  default `[]`
+  default `array()`
 * Added `Guzzle\Stream\StreamInterface::isRepeatable`
 * Removed `Guzzle\Http\ClientInterface::setDefaultHeaders(). Use
   $client->getConfig()->setPath('request.options/headers/{header_name}', 'value')`. or

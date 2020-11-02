@@ -148,10 +148,6 @@
             "rest",
             "web service"
         ],
-        "support": {
-            "issues": "https://github.com/guzzle/guzzle/issues",
-            "source": "https://github.com/guzzle/guzzle/tree/7.2.0"
-        },
         "funding": [
             {
                 "url": "https://github.com/GrahamCampbell",
@@ -173,17 +169,17 @@
     },
     {
         "name": "guzzlehttp/promises",
-        "version": "1.4.0",
-        "version_normalized": "1.4.0.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/promises.git",
-            "reference": "60d379c243457e073cff02bc323a2a86cb355631"
+            "reference": "ddfeedfff2a52661429437da0702979f708e6ac6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/promises/zipball/60d379c243457e073cff02bc323a2a86cb355631",
-            "reference": "60d379c243457e073cff02bc323a2a86cb355631",
+            "url": "https://api.github.com/repos/guzzle/promises/zipball/ddfeedfff2a52661429437da0702979f708e6ac6",
+            "reference": "ddfeedfff2a52661429437da0702979f708e6ac6",
             "shasum": ""
         },
         "require": {
@@ -192,7 +188,7 @@
         "require-dev": {
             "symfony/phpunit-bridge": "^4.4 || ^5.1"
         },
-        "time": "2020-09-30T07:37:28+00:00",
+        "time": "2020-10-19T16:50:15+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -222,25 +218,21 @@
         "description": "Guzzle promises library",
         "keywords": [
             "promise"
-        ],
-        "support": {
-            "issues": "https://github.com/guzzle/promises/issues",
-            "source": "https://github.com/guzzle/promises/tree/1.4.0"
-        }
+        ]
     },
     {
         "name": "guzzlehttp/psr7",
-        "version": "1.7.0",
-        "version_normalized": "1.7.0.0",
+        "version": "1.x-dev",
+        "version_normalized": "1.9999999.9999999.9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/psr7.git",
-            "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3"
+            "reference": "25f7f893f0b52b7b14e244a16679d72b1f0088de"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/psr7/zipball/53330f47520498c0ae1f61f7e2c90f55690c06a3",
-            "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/25f7f893f0b52b7b14e244a16679d72b1f0088de",
+            "reference": "25f7f893f0b52b7b14e244a16679d72b1f0088de",
             "shasum": ""
         },
         "require": {
@@ -258,7 +250,7 @@
         "suggest": {
             "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
         },
-        "time": "2020-09-30T07:37:11+00:00",
+        "time": "2020-10-22T07:42:05+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -299,16 +291,12 @@
             "stream",
             "uri",
             "url"
-        ],
-        "support": {
-            "issues": "https://github.com/guzzle/psr7/issues",
-            "source": "https://github.com/guzzle/psr7/tree/1.7.0"
-        }
+        ]
     },
     {
         "name": "madpeterz/yetonemorephpframework",
-        "version": "dev-main",
-        "version_normalized": "dev-main",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
@@ -331,7 +319,7 @@
         },
         "time": "2020-11-02T09:01:42+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "YAPF\\": "src/"
@@ -413,10 +401,6 @@
             }
         ],
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-        "support": {
-            "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-            "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.1.8"
-        },
         "funding": [
             {
                 "url": "https://github.com/synchro",
@@ -477,24 +461,24 @@
     },
     {
         "name": "psr/http-client",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/php-fig/http-client.git",
-            "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
+            "reference": "22b2ef5687f43679481615605d7a15c557ce85b1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/http-client/zipball/2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
-            "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+            "url": "https://api.github.com/repos/php-fig/http-client/zipball/22b2ef5687f43679481615605d7a15c557ce85b1",
+            "reference": "22b2ef5687f43679481615605d7a15c557ce85b1",
             "shasum": ""
         },
         "require": {
             "php": "^7.0 || ^8.0",
             "psr/http-message": "^1.0"
         },
-        "time": "2020-06-29T06:28:15+00:00",
+        "time": "2020-09-19T09:12:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -514,7 +498,7 @@
         "authors": [
             {
                 "name": "PHP-FIG",
-                "homepage": "http://www.php-fig.org/"
+                "homepage": "https://www.php-fig.org/"
             }
         ],
         "description": "Common interface for HTTP clients",
@@ -524,30 +508,27 @@
             "http-client",
             "psr",
             "psr-18"
-        ],
-        "support": {
-            "source": "https://github.com/php-fig/http-client/tree/master"
-        }
+        ]
     },
     {
         "name": "psr/http-message",
-        "version": "1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/php-fig/http-message.git",
-            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            "reference": "efd67d1dc14a7ef4fc4e518e7dee91c271d524e4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
-            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "url": "https://api.github.com/repos/php-fig/http-message/zipball/efd67d1dc14a7ef4fc4e518e7dee91c271d524e4",
+            "reference": "efd67d1dc14a7ef4fc4e518e7dee91c271d524e4",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06T14:39:51+00:00",
+        "time": "2019-08-29T13:16:46+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -579,10 +560,7 @@
             "psr-7",
             "request",
             "response"
-        ],
-        "support": {
-            "source": "https://github.com/php-fig/http-message/tree/master"
-        }
+        ]
     },
     {
         "name": "ralouphie/getallheaders",
@@ -628,17 +606,17 @@
     },
     {
         "name": "slevomat/coding-standard",
-        "version": "6.4.1",
-        "version_normalized": "6.4.1.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/slevomat/coding-standard.git",
-            "reference": "696dcca217d0c9da2c40d02731526c1e25b65346"
+            "reference": "88111bdbc2d0111033bbc67a3190ef8907a1abee"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/696dcca217d0c9da2c40d02731526c1e25b65346",
-            "reference": "696dcca217d0c9da2c40d02731526c1e25b65346",
+            "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/88111bdbc2d0111033bbc67a3190ef8907a1abee",
+            "reference": "88111bdbc2d0111033bbc67a3190ef8907a1abee",
             "shasum": ""
         },
         "require": {
@@ -656,7 +634,7 @@
             "phpstan/phpstan-strict-rules": "0.12.5",
             "phpunit/phpunit": "7.5.20|8.5.5|9.4.0"
         },
-        "time": "2020-10-05T12:39:37+00:00",
+        "time": "2020-10-20T13:42:55+00:00",
         "type": "phpcodesniffer-standard",
         "extra": {
             "branch-alias": {
@@ -687,17 +665,17 @@
     },
     {
         "name": "squizlabs/php_codesniffer",
-        "version": "3.5.8",
-        "version_normalized": "3.5.8.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-            "reference": "9d583721a7157ee997f235f327de038e7ea6dac4"
+            "reference": "38c8ae6b788cd9f94c809210f3dd7af16c73bb56"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/9d583721a7157ee997f235f327de038e7ea6dac4",
-            "reference": "9d583721a7157ee997f235f327de038e7ea6dac4",
+            "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/38c8ae6b788cd9f94c809210f3dd7af16c73bb56",
+            "reference": "38c8ae6b788cd9f94c809210f3dd7af16c73bb56",
             "shasum": ""
         },
         "require": {
@@ -709,7 +687,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
         },
-        "time": "2020-10-23T02:01:07+00:00",
+        "time": "2020-11-02T05:37:53+00:00",
         "bin": [
             "bin/phpcs",
             "bin/phpcbf"

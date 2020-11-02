@@ -1,0 +1,4 @@
+define("REQUIRE_ID_ON_LOAD", false);
+
+Sets if the id field is used on this project, or if your working with something very broken
+like wordpress and you need custom ids you poor soul.

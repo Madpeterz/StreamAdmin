@@ -1,22 +1,26 @@
 <?php
 
-if (defined("correct") == true) {
-    include "shared/framework/load.php";
+namespace App;
+
+use YAPF\InputFilter\InputFilter as InputFilter;
+
+if (defined("CORRECT") == true) {
+    include "../shared/framework/load.php";
     add_vendor("website");
     include "theme/streamadminr5/layout/install/template.php";
-    $input = new inputFilter();
+    $input = new InputFilter();
     if ($module == "owner") {
-        include "installer/owner.php";
+        include "../shared/installer/owner.php";
     } elseif ($module == "test") {
-        include "installer/test.php";
+        include "../shared/installer/test.php";
     } elseif ($module == "install") {
-        include "installer/install.php";
+        include "../shared/installer/install.php";
     } elseif ($module == "setup") {
-        include "installer/setup.php";
+        include "../shared/installer/setup.php";
     } elseif ($module == "final") {
-        include "installer/final.php";
+        include "../shared/installer/final.php";
     } else {
-        include "installer/dbconfig.php";
+        include "../shared/installer/dbconfig.php";
     }
     $view_reply->render_page();
 } else {

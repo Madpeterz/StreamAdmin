@@ -1,9 +1,9 @@
 <?php
 
-if (defined("correct") == false) {
+if (defined("CORRECT") == false) {
     die("Error");
 }
-if (file_exists("shared/config/db_installed.php") == true) {
+if (file_exists("../shared/config/db_installed.php") == true) {
     $view_reply->set_swap_tag_string("page_content", '<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
 } else {
     if (getenv('DB_HOST') !== false) {
@@ -21,7 +21,7 @@ if (file_exists("shared/config/db_installed.php") == true) {
             foreach ($keys as $key => $value) {
                 $db_config = str_replace("[[" . $key . "]]", $value, $db_config);
             }
-            file_put_contents("shared/config/db_installed.php", $db_config);
+            file_put_contents("../shared/config/db_installed.php", $db_config);
             $view_reply->set_swap_tag_string("page_content", '<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
         } else {
             $view_reply->set_swap_tag_string("page_content", '
