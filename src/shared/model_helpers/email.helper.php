@@ -1,15 +1,16 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 require_once("webpanel/vendor/autoload.php");
 class email_helper
 {
-    public function send_email($to="",$subject="",$message="")
+    public function send_email($to = "", $subject = "", $message = "")
     {
-        $to_name = explode("@",$to)[0];
+        $to_name = explode("@", $to)[0];
         $slconfig = new slconfig();
-        if($slconfig->load(1) == true)
-        {
+        if ($slconfig->load(1) == true) {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = $slconfig->get_smtp_host();
@@ -23,19 +24,13 @@ class email_helper
             $mail->Subject = $subject;
             $mail->IsHTML(true);
             $mail->msgHTML($message);
-            if ($mail->send())
-            {
-                return array("status"=>true,"message"=>"Sent");
+            if ($mail->send()) {
+                return array("status" => true,"message" => "Sent");
+            } else {
+                return array("status" => false,"message" => "Not sent");
             }
-            else
-            {
-                return array("status"=>false,"message"=>"Not sent");
-            }
-        }
-        else
-        {
-            return array("status"=>false,"message"=>"Unable to load SMTP settings");
+        } else {
+            return array("status" => false,"message" => "Unable to load SMTP settings");
         }
     }
 }
-?>

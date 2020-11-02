@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "reseller.rm.error.1" => "Did not Accept",
     "reseller.rm.error.2" => "Unable to find Reseller",
@@ -11,4 +12,3 @@ $lang = array(
     "reseller.up.error.4" => "Unable to update reseller: %1\$s",
     "reseller.up.info.1" => "Reseller updated"
 );
-?>

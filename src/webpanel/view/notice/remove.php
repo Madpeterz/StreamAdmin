@@ -1,11 +1,11 @@
 <?php
-$view_reply->add_swap_tag_string("html_title"," ~ Remove");
-$view_reply->add_swap_tag_string("page_title"," Remove notice:".$page);
-$view_reply->set_swap_tag_string("page_actions","");
-if(in_array($page,array(6,10)) == false)
-{
+
+$view_reply->add_swap_tag_string("html_title", " ~ Remove");
+$view_reply->add_swap_tag_string("page_title", " Remove notice:" . $page);
+$view_reply->set_swap_tag_string("page_actions", "");
+if (in_array($page, array(6,10)) == false) {
     $form = new form();
-    $form->target("notice/remove/".$page."");
+    $form->target("notice/remove/" . $page . "");
     $form->required(true);
     $form->col(6);
     $form->group("Warning</h4><p>If the notice currenly in use this will fail</p><h4>");
@@ -19,10 +19,7 @@ if(in_array($page,array(6,10)) == false)
       </label>
     </div>';
     $form->direct_add($action);
-    $view_reply->set_swap_tag_string("page_content",$form->render("Remove","danger"));
-}
-else
-{
+    $view_reply->set_swap_tag_string("page_content", $form->render("Remove", "danger"));
+} else {
     $view_reply->redirect("notice?bubblemessage=This notice is protected&bubbletype=warning");
 }
-?>

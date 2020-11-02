@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "ld.error.1" => "Unknown module/area selected please check and try again",
     "ld.error.2" => "Unknown module/area selected please check and try again",
@@ -12,4 +13,3 @@ $lang = array(
     "ss3.error.6" => "unable to vaildate request",
     "final_not_supported" => "Unable to call api %1\$s %2\$s",
 );
-?>

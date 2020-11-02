@@ -1,38 +1,24 @@
 <?php
-if(defined("correct") == true)
-{
+
+if (defined("correct") == true) {
     include "shared/framework/load.php";
     add_vendor("website");
     include "theme/streamadminr5/layout/install/template.php";
     $input = new inputFilter();
-    if($module == "owner")
-    {
+    if ($module == "owner") {
         include "installer/owner.php";
-    }
-    else if($module == "test")
-    {
+    } elseif ($module == "test") {
         include "installer/test.php";
-    }
-    else if($module == "install")
-    {
+    } elseif ($module == "install") {
         include "installer/install.php";
-    }
-    else if($module == "setup")
-    {
+    } elseif ($module == "setup") {
         include "installer/setup.php";
-    }
-    else if($module == "final")
-    {
+    } elseif ($module == "final") {
         include "installer/final.php";
-    }
-    else
-    {
+    } else {
         include "installer/dbconfig.php";
     }
     $view_reply->render_page();
-}
-else
-{
+} else {
     die("Please do not attempt to run installer directly it will break something!");
 }
-?>

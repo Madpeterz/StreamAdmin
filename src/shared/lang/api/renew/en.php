@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "renew.cat.error.1" => "Unable to find client",
     "renew.cat.error.2" => "Unable to find client rental",
@@ -30,4 +31,3 @@ $lang = array(
     "renew.rn.info.2" => "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
 
 );
-?>

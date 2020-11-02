@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "server.cr.error.1" => "Domain length can not be more than 200",
     "server.cr.error.2" => "Domain length can not be less than 5",
@@ -64,4 +65,3 @@ $lang = array(
 
     "server.up.info.1" => "Server updated"
 );
-?>

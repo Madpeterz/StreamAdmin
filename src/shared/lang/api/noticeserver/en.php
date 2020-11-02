@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "noticeserver.n.error.1" => "Sorry only the system owner can process notices",
     "noticeserver.n.error.2" => "Unable to load bot config",
@@ -15,4 +16,3 @@ $lang = array(
     "noticeserver.up.error.4" => "Unable to remove dead notecard",
     "noticeserver.up.error.5" => "Unable to mark all notecards as missing",
 );
-?>

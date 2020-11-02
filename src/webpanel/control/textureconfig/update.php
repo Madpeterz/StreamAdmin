@@ -1,4 +1,5 @@
 <?php
+
 $package = new package();
 $server = new server();
 $input = new inputFilter();
@@ -15,24 +16,35 @@ $renew_here = $input->postFilter("renew_here");
 $proxyrenew = $input->postFilter("proxyrenew");
 $treevend_waiting = $input->postFilter("treevend_waiting");
 $failed_on = "";
-if(strlen($name) < 4) $failed_on .= $lang["textureconfig.up.error.1"];
-else if(strlen($name) > 30) $failed_on .= $lang["textureconfig.up.error.2"];
-else if(strlen($getting_details) != 36) $failed_on .= $lang["textureconfig.up.error.3"];
-else if(strlen($request_details) != 36) $failed_on .= $lang["textureconfig.up.error.4"];
-else if(strlen($offline) != 36) $failed_on .= $lang["textureconfig.up.error.5"];
-else if(strlen($wait_owner) != 36) $failed_on .= $lang["textureconfig.up.error.6"];
-else if(strlen($inuse) != 36) $failed_on .= $lang["textureconfig.up.error.7"];
-else if(strlen($make_payment) != 36) $failed_on .= $lang["textureconfig.up.error.8"];
-else if(strlen($stock_levels) != 36) $failed_on .= $lang["textureconfig.up.error.9"];
-else if(strlen($renew_here) != 36) $failed_on .= $lang["textureconfig.up.error.10"];
-else if(strlen($proxyrenew) != 36) $failed_on .= $lang["textureconfig.up.error.11"];
-else if(strlen($treevend_waiting) != 36) $failed_on .= $lang["textureconfig.up.error.12"];
+if (strlen($name) < 4) {
+    $failed_on .= $lang["textureconfig.up.error.1"];
+} elseif (strlen($name) > 30) {
+    $failed_on .= $lang["textureconfig.up.error.2"];
+} elseif (strlen($getting_details) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.3"];
+} elseif (strlen($request_details) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.4"];
+} elseif (strlen($offline) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.5"];
+} elseif (strlen($wait_owner) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.6"];
+} elseif (strlen($inuse) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.7"];
+} elseif (strlen($make_payment) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.8"];
+} elseif (strlen($stock_levels) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.9"];
+} elseif (strlen($renew_here) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.10"];
+} elseif (strlen($proxyrenew) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.11"];
+} elseif (strlen($treevend_waiting) != 36) {
+    $failed_on .= $lang["textureconfig.up.error.12"];
+}
 $status = false;
-if($failed_on == "")
-{
+if ($failed_on == "") {
     $textureconfig = new textureconfig();
-    if($textureconfig->load($page) == true)
-    {
+    if ($textureconfig->load($page) == true) {
         $textureconfig->set_name($name);
         $textureconfig->set_offline($offline);
         $textureconfig->set_wait_owner($wait_owner);
@@ -45,25 +57,17 @@ if($failed_on == "")
         $textureconfig->set_proxyrenew($proxyrenew);
         $textureconfig->set_treevend_waiting($treevend_waiting);
         $update_status = $textureconfig->save_changes();
-        if($update_status["status"] == true)
-        {
+        if ($update_status["status"] == true) {
             $status = true;
-            $ajax_reply->set_swap_tag_string("message",$lang["textureconfig.up.info.1"]);
-            $ajax_reply->set_swap_tag_string("redirect","textureconfig");
+            $ajax_reply->set_swap_tag_string("message", $lang["textureconfig.up.info.1"]);
+            $ajax_reply->set_swap_tag_string("redirect", "textureconfig");
+        } else {
+            $ajax_reply->set_swap_tag_string("message", sprintf($lang["textureconfig.up.error.14"], $update_status["message"]));
         }
-        else
-        {
-            $ajax_reply->set_swap_tag_string("message",sprintf($lang["textureconfig.up.error.14"],$update_status["message"]));
-        }
+    } else {
+        $ajax_reply->set_swap_tag_string("message", $lang["textureconfig.up.error.13"]);
+        $ajax_reply->set_swap_tag_string("redirect", "textureconfig");
     }
-    else
-    {
-        $ajax_reply->set_swap_tag_string("message",$lang["textureconfig.up.error.13"]);
-        $ajax_reply->set_swap_tag_string("redirect","textureconfig");
-    }
+} else {
+    $ajax_reply->set_swap_tag_string("message", $failed_on);
 }
-else
-{
-    $ajax_reply->set_swap_tag_string("message",$failed_on);
-}
-?>

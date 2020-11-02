@@ -1,5 +1,6 @@
 <?php
-$view_reply->add_swap_tag_string("page_content","<hr/>
+
+$view_reply->add_swap_tag_string("page_content", "<hr/>
 <h3>Api notes</h3>
 <ul>
     <li>
@@ -13,4 +14,3 @@ $view_reply->add_swap_tag_string("page_content","<hr/>
         default url: https://[domain]/api
     </li>
 </ul>");
-?>

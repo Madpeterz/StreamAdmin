@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "tree.ap.error.1" => "Unable to find tree vender",
     "tree.ap.error.2" => "Unable to find package",
@@ -32,4 +33,3 @@ $lang = array(
     "tree.up.error.6" => "Unable to update tree vender: %",
     "tree.up.info.1" => "Treevender updated",
 );
-?>

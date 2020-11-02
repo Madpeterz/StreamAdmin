@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "stream.bu.error.1" => "Unable to update stream %1\$s",
     "stream.bu.info.1" => "%1\$s streams updated",
@@ -42,4 +43,3 @@ $lang = array(
     "stream.up.error.14" => "Unable to update stream: %1\$s",
     "stream.up.info.1" => "Stream updated"
 );
-?>

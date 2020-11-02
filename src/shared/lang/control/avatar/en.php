@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "av.cr.error.1" => "avatarname length must be 5 or longer",
     "av.cr.error.2" => "avatarname length must be 125 or less",
@@ -21,4 +22,3 @@ $lang = array(
     "av.ud.error.7" => "Unable to update avatar: %1\$s",
     "av.ud.info.1" => "Avatar updated"
     );
-?>

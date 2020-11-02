@@ -1,69 +1,49 @@
 <?php
+
 $status = false;
-if($owner_override == true)
-{
-    $order_config = array("ordering_enabled"=>true,"order_field"=>"last_attempt","order_dir"=>"DESC");
+if ($owner_override == true) {
+    $order_config = array("ordering_enabled" => true,"order_field" => "last_attempt","order_dir" => "DESC");
     $limits_config = array("page_number" => 0,"max_entrys" => 1);
     $api_requests_set = new api_requests_set();
     $message = "not set";
-    if($api_requests_set->load_with_config(null,$order_config,$limits_config)["status"] == true)
-    {
-        if($api_requests_set->get_count() > 0)
-        {
+    if ($api_requests_set->load_with_config(null, $order_config, $limits_config)["status"] == true) {
+        if ($api_requests_set->get_count() > 0) {
             $api_request = $api_requests_set->get_first();
-            $load_path = "endpoints/api/apirequests/".$api_request->get_eventname().".php";
-            $api_request->set_attempts($api_request->get_attempts()+1);
+            $load_path = "endpoints/api/apirequests/" . $api_request->get_eventname() . ".php";
+            $api_request->set_attempts($api_request->get_attempts() + 1);
             $api_request->set_last_attempt(time());
             $api_request->set_message("started processing");
             $save_status = $api_request->save_changes();
-            if($save_status["status"] == true)
-            {
-                if(file_exists($load_path) == true)
-                {
-                    if($sql->sqlSave(false) == true)
-                    {
+            if ($save_status["status"] == true) {
+                if (file_exists($load_path) == true) {
+                    if ($sql->sqlSave(false) == true) {
                         include $load_path;
-                    }
-                    else
-                    {
+                    } else {
                         $message = "Unable to mark event as processing DB issue";
                     }
-                }
-                else
-                {
+                } else {
                     $soft_fail = true;
-                    $message = "Unable to find event: ".$api_request->get_eventname();
+                    $message = "Unable to find event: " . $api_request->get_eventname();
                 }
-            }
-            else
-            {
+            } else {
                 $message = "Unable to mark event as processing Obj issue";
             }
-            if($soft_fail == true)
-            {
+            if ($soft_fail == true) {
                 $api_request->set_message($message);
                 $save_status = $api_request->save_changes();
-                if($save_status["status"] == false)
-                {
+                if ($save_status["status"] == false) {
                     $soft_fail = false;
                     $message = "Failed to update api request attempt details";
                 }
             }
-        }
-        else
-        {
+        } else {
             $status = true;
             $message = "nowork";
         }
-    }
-    else
-    {
-        $message= "Unable to load next api request";
+    } else {
+        $message = "Unable to load next api request";
     }
     echo $message;
-}
-else
-{
+} else {
     echo "This API is owner only";
 }
-?>

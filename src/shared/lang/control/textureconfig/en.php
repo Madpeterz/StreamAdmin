@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "textureconfig.cr.error.1" => "name length must be 4 or more",
     "textureconfig.cr.error.2" => "name length must be 30 or less",
@@ -36,4 +37,3 @@ $lang = array(
     "textureconfig.up.error.14" => "Unable to update Texture pack: %1\$s",
     "textureconfig.up.info.1" => "Texture pack updated"
 );
-?>

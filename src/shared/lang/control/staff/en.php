@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "staff.cr.error.1" => "username length must be 5 or longer",
     "staff.cr.error.2" => "username length must be 40 or less",
@@ -27,4 +28,3 @@ $lang = array(
     "staff.up.error.7" => "Unable to load staff member",
     "staff.up.error.8" => "Unable to update staff member: %1\$s",
 );
-?>

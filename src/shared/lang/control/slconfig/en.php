@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "slconfig.up.error.1" => "sllinkcode length must be 5 or longer",
     "slconfig.up.error.2" => "sllinkcode length must be 10 or less",
@@ -17,4 +18,3 @@ $lang = array(
     "slconfig.up.error.14" => "Public link code min length is 6",
     "slconfig.up.error.15" => "Public link code max length is 12",
 );
-?>

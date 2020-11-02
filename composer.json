@@ -2,11 +2,13 @@
     "name": "madpeterz/streamadmin",
     "description": "Audio stream control panel linked to secondlife",
     "type": "project",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
         "phpmailer/phpmailer": "^6.1",
         "guzzlehttp/guzzle": "^7.2",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "madpeterz/yetonemorephpframework": "dev-main"
     },
     "require-dev": {
         "slevomat/coding-standard": "^6.4"

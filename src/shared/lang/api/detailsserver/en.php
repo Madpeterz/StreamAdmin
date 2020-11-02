@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "detailsserver.n.error.1" => "Sorry only the system owner can run a details server!",
     "detailsserver.n.error.2" => "Unable to load botconfig",
@@ -12,4 +13,3 @@ $lang = array(
     "detailsserver.n.error.10" => "Unable to remove pending detail request",
     "detailsserver.n.error.11" => "Unablet to send details",
 );
-?>

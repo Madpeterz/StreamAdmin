@@ -1,10 +1,11 @@
 <?php
-$view_reply->add_swap_tag_string("html_title"," ~ Remove");
-$view_reply->add_swap_tag_string("page_title"," Remove stream:".$page);
-$view_reply->set_swap_tag_string("page_actions","");
+
+$view_reply->add_swap_tag_string("html_title", " ~ Remove");
+$view_reply->add_swap_tag_string("page_title", " Remove stream:" . $page);
+$view_reply->set_swap_tag_string("page_actions", "");
 
 $form = new form();
-$form->target("stream/remove/".$page."");
+$form->target("stream/remove/" . $page . "");
 $form->required(true);
 $form->col(6);
 $form->group("Warning</h4><p>If the stream is currenly in use this will fail</p><h4>");
@@ -18,5 +19,4 @@ $action = '
   </label>
 </div>';
 $form->direct_add($action);
-$view_reply->set_swap_tag_string("page_content",$form->render("Remove","danger"));
-?>
+$view_reply->set_swap_tag_string("page_content", $form->render("Remove", "danger"));

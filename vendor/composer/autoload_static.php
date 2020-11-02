@@ -14,6 +14,10 @@ class ComposerStaticInit52aad46185d513f9b06d2530f6d45cac
     );
 
     public static $prefixLengthsPsr4 = array (
+        'Y' => 
+        array (
+            'YAPF\\' => 5,
+        ),
         'S' => 
         array (
             'SlevomatCodingStandard\\' => 23,
@@ -38,6 +42,10 @@ class ComposerStaticInit52aad46185d513f9b06d2530f6d45cac
     );
 
     public static $prefixDirsPsr4 = array (
+        'YAPF\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/madpeterz/yetonemorephpframework/src',
+        ),
         'SlevomatCodingStandard\\' => 
         array (
             0 => __DIR__ . '/..' . '/slevomat/coding-standard/SlevomatCodingStandard',

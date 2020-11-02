@@ -1,11 +1,12 @@
 <?php
+
 $example_time = time();
-$example_time += $unixtime_week + rand(1000,5000);
+$example_time += $unixtime_week + rand(1000, 5000);
 $swaps = array(
     "AVATAR_FIRSTNAME" => "Madpeter",
     "AVATAR_LASTNAME" => "Zond",
     "AVATAR_FULLNAME" => "Madpeter Zond",
-    "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A',$example_time),
+    "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A', $example_time),
     "RENTAL_TIMELEFT" => timeleft_hours_and_days($example_time),
     "STREAM_PORT" => 4000,
     "STREAM_ADMINUSERNAME" => "SuperAdmin",
@@ -29,30 +30,23 @@ $table_head = array("Tag","Example","Tag","Example");
 $table_body = [];
 $loop = 0;
 $current = [];
-foreach($swaps as $key => $value)
-{
-    $current[] = "[[".$key."]]";
+foreach ($swaps as $key => $value) {
+    $current[] = "[[" . $key . "]]";
     $current[] = $value;
-    if(count($current) == 4)
-    {
+    if (count($current) == 4) {
         $table_body[] = $current;
         $current = [];
     }
     $loop++;
 }
-if(count($current) != 0)
-{
+if (count($current) != 0) {
     $current[] = " ";
     $current[] = " ";
     $table_body[] = $current;
 }
-$tableout = render_table($table_head,$table_body);
-if(defined("swaps_table_paged") == true)
-{
+$tableout = render_table($table_head, $table_body);
+if (defined("swaps_table_paged") == true) {
     $pages["Swaps"] = $tableout;
+} else {
+    $view_reply->add_swap_tag_string("page_content", $tableout);
 }
-else
-{
-    $view_reply->add_swap_tag_string("page_content",$tableout);
-}
-?>

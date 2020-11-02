@@ -1,19 +1,16 @@
 <?php
+
 $input = new inputFilter();
 $rental_uid = $input->postFilter("uid");
 $rental = new rental();
 $status = false;
-if($rental->load_by_field("rental_uid",$rental_uid) == true)
-{
+if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
     $stream = new stream();
-    if($stream->load($rental->get_streamlink()) == true)
-    {
+    if ($stream->load($rental->get_streamlink()) == true) {
         $server = new server();
-        if($server->load($stream->get_serverlink()) == true)
-        {
+        if ($server->load($stream->get_serverlink()) == true) {
             $serverapi = new apis();
-            if($serverapi->load($server->get_apilink()) == true)
-            {
+            if ($serverapi->load($server->get_apilink()) == true) {
                 $flags = array(
                     "autodjnext" => "opt_autodj_next",
                     "toggleautodj" => "opt_toggle_autodj",
@@ -22,14 +19,11 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
                 );
                 $status = true;
                 echo "seeflags";
-                foreach($flags as $key => $dataset)
-                {
+                foreach ($flags as $key => $dataset) {
                     $state = 0;
-                    $code = "get_".$dataset;
-                    if($server->$code() == true)
-                    {
-                        if($serverapi->$code() == true)
-                        {
+                    $code = "get_" . $dataset;
+                    if ($server->$code() == true) {
+                        if ($serverapi->$code() == true) {
                             $state = 1;
                         }
                     }
@@ -39,8 +33,6 @@ if($rental->load_by_field("rental_uid",$rental_uid) == true)
         }
     }
 }
-if($status == false)
-{
+if ($status == false) {
     echo "none";
 }
-?>

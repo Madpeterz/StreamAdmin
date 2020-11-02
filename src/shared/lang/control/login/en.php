@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "login.rs.error.1" => "Unable to reset account",
     "login.rs.info.1" => "reset started via SL",
@@ -27,4 +28,3 @@ $lang = array(
     "login.st.error.2" => "Incorrect Username/Password or the account is locked",
     "login.st.info.1" => "logged in ^+^"
 );
-?>

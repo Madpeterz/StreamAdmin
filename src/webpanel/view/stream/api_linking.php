@@ -1,6 +1,8 @@
 <?php
-$view_reply->add_swap_tag_string("page_content",
-"<hr/>
+
+$view_reply->add_swap_tag_string(
+    "page_content",
+    "<hr/>
 <h4>API UID 1 & 2</h4>
 <ul>
 <li>Azuracast: 1=station id, 2=role id, 3=user id</li>
@@ -15,4 +17,3 @@ to have the system create it for you :P
 </p>
 "
 );
-?>

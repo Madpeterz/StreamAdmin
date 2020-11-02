@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
 
     "client.api.error.1" => "Unable to load rental",
@@ -64,4 +65,3 @@ $lang = array(
     "client.up.info.5" => "\n Message Updated",
     "client.up.info.6" => "Updated ok",
 );
-?>

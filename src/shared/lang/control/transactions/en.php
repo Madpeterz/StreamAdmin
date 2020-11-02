@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "tr.rm.error.1" => "Did not Accept",
     "tr.rm.error.2" => "Unable to find transaction",
@@ -7,4 +8,3 @@ $lang = array(
     "tr.rm.info.1" => "Transaction removed",
 
     );
-?>

@@ -1,5 +1,6 @@
 <?php
-$view_reply->add_swap_tag_string("page_title"," Pending api calls");
+
+$view_reply->add_swap_tag_string("page_title", " Pending api calls");
 $table_head = array("id","Event","Port","Last tryed","Attempts","message");
 $table_body = [];
 $api_requests_set = new api_requests_set();
@@ -23,13 +24,11 @@ $event_names = array(
     "event_create_stream" => "Create stream on server",
     "event_update_stream" => "Update stream on server",
 );
-foreach($api_requests_set->get_all_ids() as $request_id)
-{
+foreach ($api_requests_set->get_all_ids() as $request_id) {
     $request = $api_requests_set->get_object_by_id($request_id);
     $stream = $stream_set->get_object_by_id($request->get_streamlink());
     $table_body[] = array($request->get_id(),$event_names[$request->get_eventname()],
     $stream->get_port(),expired_ago($request->get_last_attempt()),
     $request->get_attempts(),$request->get_message());
 }
-$view_reply->set_swap_tag_string("page_content",render_datatable($table_head,$table_body));
-?>
+$view_reply->set_swap_tag_string("page_content", render_datatable($table_head, $table_body));

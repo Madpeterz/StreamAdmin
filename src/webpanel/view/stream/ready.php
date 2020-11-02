@@ -1,5 +1,6 @@
 <?php
-$view_reply->set_swap_tag_string("page_title"," With status: Ready");
+
+$view_reply->set_swap_tag_string("page_title", " With status: Ready");
 $server_set = new server_set();
 $server_set->loadAll();
 $whereconfig = array(
@@ -9,4 +10,3 @@ $whereconfig = array(
     "matches" => array("IS","="),
 );
 include "webpanel/view/stream/with_status.php";
-?>

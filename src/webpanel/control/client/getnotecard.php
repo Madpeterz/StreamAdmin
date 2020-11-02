@@ -1,7 +1,7 @@
 <?php
+
 $rental = new rental();
-if($rental->load_by_field("rental_uid",$page) == true)
-{
+if ($rental->load_by_field("rental_uid", $page) == true) {
     $avatar = new avatar();
     $avatar->load($rental->get_avatarlink());
 
@@ -33,12 +33,8 @@ if($rental->load_by_field("rental_uid",$page) == true)
     Expires: [[RENTAL_EXPIRES_DATETIME]]
     ";
     $swapables_helper = new swapables_helper();
-    $ajax_reply->set_swap_tag_string("message",$swapables_helper->get_swapped_text($viewnotecard,$avatar,$rental,$package,$server,$stream));
-}
-else
-{
+    $ajax_reply->set_swap_tag_string("message", $swapables_helper->get_swapped_text($viewnotecard, $avatar, $rental, $package, $server, $stream));
+} else {
     $status = false;
-    $ajax_reply->set_swap_tag_string("message","Unable to load rental");
+    $ajax_reply->set_swap_tag_string("message", "Unable to load rental");
 }
-
-?>

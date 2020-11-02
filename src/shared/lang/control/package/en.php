@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "package.cr.error.1" => "Name length must be 5 or longer",
     "package.cr.error.2" => "Name must be 30 or less",
@@ -20,7 +21,7 @@ $lang = array(
     "package.cr.info.1" => "Package created",
     "package.cr.error.18" => "API template name can not be longer than 50",
     "package.cr.error.19" => "API template name can not be shorter than 3",
-    "package.cr.error.20"=> "Unable to find server type",
+    "package.cr.error.20" => "Unable to find server type",
 
     "package.rm.error.1" => "Did not Accept",
     "package.rm.error.2" => "Unable to find package",
@@ -55,6 +56,5 @@ $lang = array(
     "package.up.info.1" => "Package updated",
     "package.up.error.18" => "API template name can not be longer than 50",
     "package.up.error.19" => "API template name can not be shorter than 3",
-    "package.up.error.20"=> "Unable to find server type",
+    "package.up.error.20" => "Unable to find server type",
 );
-?>

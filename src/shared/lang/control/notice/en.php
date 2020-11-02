@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "notice.cr.error.1" => "Name length must be 5 or longer",
     "notice.cr.error.2" => "Name length must be 100 or less",
@@ -33,4 +34,3 @@ $lang = array(
     "notice.up.info.1" => "Notice updated"
 
 );
-?>

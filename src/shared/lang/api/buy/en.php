@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     // buy/checkstock
     "buy.cs.error.1" => "Unable to find package with matching uid",
@@ -33,4 +34,3 @@ $lang = array(
     "buy.sr.info.1" => "Transaction processed ok - your details will be sent shortly!",
 
 );
-?>

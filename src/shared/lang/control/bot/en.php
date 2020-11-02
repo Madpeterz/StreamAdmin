@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "bot.up.error.1" => "avataruid length must be 8",
     "bot.up.error.2" => "secret length can not be less than 8",
@@ -8,4 +9,3 @@ $lang = array(
     "bot.up.error.6" => "Unable to save changes because: %1\$s",
     "bot.up.info.1" => "Changes saved",
 );
-?>

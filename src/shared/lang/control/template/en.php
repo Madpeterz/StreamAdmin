@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "template.cr.error.1" => "Name length must be 5 or longer",
     "template.cr.error.2" => "Name length must be 30 or less",
@@ -22,4 +23,3 @@ $lang = array(
     "template.up.error.7" => "Unable to update Template: %1\$s",
     "template.up.info.1" => "Template updated"
 );
-?>

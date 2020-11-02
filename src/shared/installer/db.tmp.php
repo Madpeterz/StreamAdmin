@@ -1,4 +1,5 @@
 <?php
+
 class db extends error_logging
 {
     protected $dbHost = "[[DB_HOST_HERE]]";
@@ -6,4 +7,3 @@ class db extends error_logging
     protected $dbUser = "[[DB_USER_HERE]]";
     protected $dbPass = "[[DB_PASSWORD_HERE]]";
 }
-?>

@@ -1,4 +1,5 @@
 <?php
+
 $lang = array(
     "proxyrenew.dt.error.1" => "Target client is empty or invaild how did you manage that",
     "proxyrenew.dt.error.2" => "Unable to find client account please try again later or contact support",
@@ -7,4 +8,3 @@ $lang = array(
     "proxyrenew.dt.error.5" => "There does not seem to be any rentals attached to this client right now",
     "proxyrenew.dt.info.1" => "Cleint account: %1\$s"
 );
-?>

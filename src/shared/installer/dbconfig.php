@@ -1,20 +1,16 @@
 <?php
-if(defined("correct") == false) {die("Error");}
-if(file_exists("shared/config/db_installed.php") == true)
-{
-    $view_reply->set_swap_tag_string("page_content",'<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
+
+if (defined("correct") == false) {
+    die("Error");
 }
-else
-{
-    if(getenv('DB_HOST') !== false)
-    {
-        $view_reply->set_swap_tag_string("page_content",'<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
-    }
-    else
-    {
+if (file_exists("shared/config/db_installed.php") == true) {
+    $view_reply->set_swap_tag_string("page_content", '<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
+} else {
+    if (getenv('DB_HOST') !== false) {
+        $view_reply->set_swap_tag_string("page_content", '<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
+    } else {
         $db_user = $input->postFilter("db_user");
-        if($db_user != null)
-        {
+        if ($db_user != null) {
             $keys = array(
                 "DB_HOST_HERE" => $input->postFilter("db_host"),
                 "DB_NAME_HERE" => $input->postFilter("db_name"),
@@ -22,16 +18,13 @@ else
                 "DB_PASSWORD_HERE" => $input->postFilter("db_pass"),
             );
             $db_config = file_get_contents("installer/db.tmp.php");
-            foreach($keys as $key => $value)
-            {
-                $db_config = str_replace("[[".$key."]]",$value,$db_config);
+            foreach ($keys as $key => $value) {
+                $db_config = str_replace("[[" . $key . "]]", $value, $db_config);
             }
-            file_put_contents("shared/config/db_installed.php",$db_config);
-            $view_reply->set_swap_tag_string("page_content",'<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
-        }
-        else
-        {
-            $view_reply->set_swap_tag_string("page_content",'
+            file_put_contents("shared/config/db_installed.php", $db_config);
+            $view_reply->set_swap_tag_string("page_content", '<a href="test"><button class="btn btn-primary btn-block" type="button">Test</button></a>');
+        } else {
+            $view_reply->set_swap_tag_string("page_content", '
             <div class="card border border-success rounded">
               <div class="card-body">
                 <h5 class="card-title">DB config<br/>
@@ -57,4 +50,3 @@ else
         }
     }
 }
-?>
