@@ -2,7 +2,7 @@
 
 namespace YAPF\Generator;
 
-use YAPF\SqlConnectedClass as SqlConnectedClass;
+use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
 
 abstract class GeneratorTypes extends SqlConnectedClass
 {
@@ -16,21 +16,20 @@ abstract class GeneratorTypes extends SqlConnectedClass
         string $table,
         string $colname
     ): string {
-        global $string_types, $int_types, $float_types, $known_types;
-        if (in_array($known_types, $target_type) == false) {
+        if (in_array($target_type, $this->known_types) == false) {
             $error_msg = "Table: " . $table . " Column: " . $colname . " unknown type: ";
             $error_msg .= $target_type . " defaulting to string!<br/>";
             echo $error_msg;
             echo "<br/>";
             return "str";
         }
-        if (in_array($target_type, $int_types)) {
+        if (in_array($target_type, $this->int_types)) {
             if (strpos($col_type, 'tinyint(1)') !== false) {
                 return "bool";
             }
             return "int";
         }
-        if (in_array($target_type, $float_types)) {
+        if (in_array($target_type, $this->float_types)) {
             return "float";
         }
         return "str";

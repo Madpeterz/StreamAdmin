@@ -1,23 +1,16 @@
 <?php
 
-/*
-    Please move this file up a level out of the gen folder before running ^+^
-*/
-// setup workarea
-define("gen_database_host", "localhost");
-define("gen_database_username", "root");
-define("gen_database_password", "");
-define("save_models_to_folder", "shared/model/");
-//define("add_db_to_table",true); // add the database name before the table name
-//define("source_databases",array("streamadmin","secondbothost"));
+namespace App;
 
-define("add_db_to_table", false); // add the database name before the table name
-define("source_databases", array("streamadmin"));
+use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
+use YAPF\Generator\DbObjectsFactory as DbObjectsFactory;
 
-// load framework
-include "../gen/src/create_db_class.php";
+include "../shared/gen/gen.config.php"; // set config flags
+include "../../vendor/autoload.php"; // enable auto load
+include "../shared/gen/gen_models_db.php"; // set DB object
+
 // connect to SQL
-$sql = new mysqli_controler();
+$sql = new MysqliConnector();
 
 // lets rock
-include "../gen/src/gen.php";
+$db_objects_factory = new DbObjectsFactory();

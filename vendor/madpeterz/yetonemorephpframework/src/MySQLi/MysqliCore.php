@@ -14,7 +14,7 @@ abstract class MysqliCore extends Db
     protected $track_select_from_tables = [];
     protected $last_error = "No error logged";
 
-    protected function __destruct()
+    public function __destruct()
     {
         if ($this->sqlConnection != null) {
             if (($this->hadErrors == false) && ($this->needToSave == true)) {

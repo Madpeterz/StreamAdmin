@@ -15,7 +15,7 @@ class GeneratorDefaults extends GeneratorTypes
     public function __construct(array $defaults = [])
     {
         $this->known_types = array_merge($this->string_types, $this->int_types, $this->float_types);
-        if ($use_spaces_not_tabs == false) {
+        if ($this->use_spaces_not_tabs == false) {
             $this->tab_lookup = [0 => "",1 => "\t",2 => "\t\t",3 => "\t\t\t"];
         }
         parent::__construct();

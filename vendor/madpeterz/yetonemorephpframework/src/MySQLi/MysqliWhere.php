@@ -174,11 +174,11 @@ abstract class MysqliWhere extends MysqliFunctions
         $close_then_reopen = ["(AND)", "(OR)"];
         $open_group = false;
         $close_group = false;
-        if (in_array($join_with, $open_only) == false) {
+        if (in_array($join_with, $open_only) == true) {
             $open_group = true;
-        } elseif (in_array($join_with, $close_only) == false) {
+        } elseif (in_array($join_with, $close_only) == true) {
             $close_group = true;
-        } elseif (in_array($join_with, $close_then_reopen) == false) {
+        } elseif (in_array($join_with, $close_then_reopen) == true) {
             $close_group = true;
             $open_group = true;
         }
@@ -210,9 +210,10 @@ abstract class MysqliWhere extends MysqliFunctions
         string $main_table_id,
         $value,
         string $type,
-        string &$sql
+        string &$sql,
+        bool $auto_ids
     ): void {
-        $field = $this->auto_id_where($field, $main_table_id, $auto_ids);
+        $field = $this->autoIdWhere($field, $main_table_id, $auto_ids);
         if (in_array($match, ["IS","IS NOT"]) == true) {
             $this->buildWhereCaseIs($current_where_code, $field, $match);
         } elseif (in_array($match, ["% LIKE","LIKE %","% LIKE %"]) == true) {
@@ -259,7 +260,8 @@ abstract class MysqliWhere extends MysqliFunctions
                 $main_table_id,
                 $value,
                 $type,
-                $sql
+                $sql,
+                $auto_ids
             );
             if ($sql == "empty_in_array") {
                 break;
