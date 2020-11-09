@@ -42,10 +42,11 @@ abstract class MysqliSearch extends MysqliCount
             }
         }
         if ($this->sqlStart() == false) {
-            $error_msg = "Unable to start SQL";
+            $error_msg = $this->getLastErrorBasic();
             return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
         }
-        $bind_values = [];
+        $bind_args = [];
+        $bind_text = "";
         $sql = "";
         $addon = "";
         $table_id = 1;
@@ -60,23 +61,24 @@ abstract class MysqliSearch extends MysqliCount
             $sql .= ")";
             $addon = " UNION ALL ";
             if ($match_symbol == "?") {
-                $bind_values[] = [$match_value => $match_type];
+                $bind_args[] = $match_value;
+                $bind_text .= $match_type;
             }
             $table_id++;
         }
         $sql .= " ORDER BY id DESC";
-        $JustDoIt = $this->SQLprepairBindExecute($sql, $bind_args, $bind_text);
+        $JustDoIt = $this->SQLprepairBindExecute($error_addon, $sql, $bind_args, $bind_text);
         if ($JustDoIt["status"] == false) {
-            return $this->addError(__FILE__, __FUNCTION__, $JustDoIt["message"], $error_addon);
+            return $JustDoIt;
         }
         $stmt = $JustDoIt["stmt"];
         $result = $stmt->get_result();
-        $dataSet = [];
+        $dataset = [];
         $loop = 0;
         while ($entry = $result->fetch_assoc()) {
-            $dataSet[$loop] = $entry;
+            $dataset[$loop] = $entry;
             $loop++;
         }
-        return ["status" => true, "dataSet" => $dataSet ,"message" => "ok"];
+        return ["status" => true, "dataset" => $dataset ,"message" => "ok"];
     }
 }

@@ -14,7 +14,7 @@ abstract class InputFilterTypeDate extends InputFilterTypeEmail
     {
         $this->failure = false;
         $this->testOK = true;
-        $timeTest = explode("/", stl_replace(" ", "", $value));
+        $timeTest = explode("/", str_replace(" ", "", $value));
         if (count($timeTest) == 3) {
             if (($timeTest[0] < 1) || ($timeTest[0] > 12)) {
                 $this->whyfailed = "Month out of range";

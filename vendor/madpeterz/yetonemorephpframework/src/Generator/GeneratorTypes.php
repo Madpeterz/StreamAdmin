@@ -6,11 +6,26 @@ use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
 
 abstract class GeneratorTypes extends SqlConnectedClass
 {
+    protected $counter_models_created = 0;
+    protected $counter_models_failed = 0;
+    protected $use_output = true;
+    public function noOutput(): void
+    {
+        $this->use_output = false;
+    }
+    public function getModelsCreated(): int
+    {
+        return $this->counter_models_created;
+    }
+    public function getModelsFailed(): int
+    {
+        return $this->counter_models_failed;
+    }
     /**
      * getColType
      * returns the col type for the selected target_table
      */
-    public function getColType(
+    protected function getColType(
         string $target_type,
         string $col_type,
         string $table,
@@ -19,8 +34,10 @@ abstract class GeneratorTypes extends SqlConnectedClass
         if (in_array($target_type, $this->known_types) == false) {
             $error_msg = "Table: " . $table . " Column: " . $colname . " unknown type: ";
             $error_msg .= $target_type . " defaulting to string!<br/>";
-            echo $error_msg;
-            echo "<br/>";
+            if ($this->use_output == true) {
+                echo $error_msg;
+                echo "<br/>";
+            }
             return "str";
         }
         if (in_array($target_type, $this->int_types)) {

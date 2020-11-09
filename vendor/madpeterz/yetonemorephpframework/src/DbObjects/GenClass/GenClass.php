@@ -12,7 +12,7 @@ abstract class GenClass extends GenClassDB
      */
     public function hasAny(): bool
     {
-        $reply = $this->sql->basic_count($this->get_table(), [["id" => ">"]], [[0 => "i"]]);
+        $reply = $this->sql->basic_count($this->getTable(), [["id" => ">"]], [[0 => "i"]]);
         if ($reply["status"] == true) {
             if ($reply["count"] > 0) {
                 return true;

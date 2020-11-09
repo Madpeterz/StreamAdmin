@@ -19,9 +19,9 @@ abstract class InputFilterTypeBool extends InputFilterTypeFloat
      * filterTrueFalse
      * uses FilterBool but converts to 1 or 0
      */
-    protected function filterTrueFalse(string $value, array $args = []): int
+    protected function filterTruefalse(string $value, array $args = []): int
     {
-        $value = filter_bool($value);
+        $value = filterBool($value);
         if ($value === true) {
             return 1;
         }

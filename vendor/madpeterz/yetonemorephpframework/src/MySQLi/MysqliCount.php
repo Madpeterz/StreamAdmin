@@ -11,7 +11,7 @@ abstract class MysqliCount extends MysqliSelect
      * this function will not give the results you expect
      * @return mixed[] [count => int, status => bool, message => string]
      */
-    public function basicCountV2(string $table, array $whereconfig = []): array
+    public function basicCountV2(string $table, array $whereconfig = null): array
     {
         $error_addon = ["count" => 0];
         if (strlen($table) == 0) {
@@ -24,14 +24,8 @@ abstract class MysqliCount extends MysqliSelect
         ];
         $load_data = $this->selectV2($basic_config, null, $whereconfig);
         if ($load_data["status"] == false) {
-            $error_msg = "No table given";
-            return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
+            return $this->addError(__FILE__, __FUNCTION__, $load_data["message"], $error_addon);
         }
-        if (count($load_data["dataSet"]) == 0) {
-            $error_msg = "No results from SQL given";
-            return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
-        }
-        $countData = $load_data["dataSet"][0];
-        return ["status" => true, "count" => $countData["sqlCount"],"message" => "ok"];
+        return ["status" => true, "count" => $load_data["dataset"][0]["sqlCount"] ,"message" => "ok"];
     }
 }

@@ -17,7 +17,7 @@ abstract class InputFilterTypeArray extends InputFilterWorkerBase
         if (is_array($value) == true) {
             return $value;
         } else {
-            $this->whyfailed = "not an array";
+            $this->whyfailed = "Not an array";
             return null;
         }
     }

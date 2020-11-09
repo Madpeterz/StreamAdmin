@@ -73,6 +73,7 @@ abstract class GenClassSet extends GenClassGet
      */
     public function setTable(string $tablename = ""): void
     {
+        $this->addError(__FILE__, __FUNCTION__, "Warning: setTable called. if you expected this please ignore");
         $this->use_table = $tablename;
     }
     /**
@@ -123,14 +124,17 @@ abstract class GenClassSet extends GenClassGet
             return $this->addError(__FILE__, __FUNCTION__, $errored_on);
         }
         $this->dataset[$fieldname]["value"] = $value;
-        if ($this->get_field_type($fieldname) == "bool") {
+        if ($this->getFieldType($fieldname) == "bool") {
             $this->dataset[$fieldname]["value"] = 0;
             if (in_array($value, [1, "1", "true", true, "yes"], true) == true) {
                 $this->dataset[$fieldname]["value"] = 1;
             }
         }
+
         if (($fieldname == "id") && ($ignore_set_id_warning == true)) {
             $this->save_dataset["id"]["value"] = $value;
+        } elseif (($fieldname == "id") && ($ignore_set_id_warning == false)) {
+            return ["status" => false, "message" => "Setting ID is blocked for this object"];
         }
         return ["status" => true, "message" => "value set"];
     }

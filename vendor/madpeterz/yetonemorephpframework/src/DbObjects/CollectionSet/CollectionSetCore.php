@@ -1,6 +1,6 @@
 <?php
 
-namespace YAPF\DB_OBJECTS\CollectionSet;
+namespace YAPF\DbObjects\CollectionSet;
 
 use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
 
@@ -17,9 +17,9 @@ abstract class CollectionSetCore extends SqlConnectedClass
      * removing: CollectionSet
      * to get: Tree as the base class for this collection
      */
-    protected function __construct()
+    public function __construct()
     {
-        $this->worker_class = strtr(get_class($this), "CollectionSet", "");
+        $this->worker_class = strtr(get_class($this), ["Set" => ""]);
         parent::__construct();
     }
     /**
@@ -40,6 +40,6 @@ abstract class CollectionSetCore extends SqlConnectedClass
      */
     public function addToCollected(genClass $object): void
     {
-        $this->collected[$object->getID()] = $object;
+        $this->collected[$object->getId()] = $object;
     }
 }

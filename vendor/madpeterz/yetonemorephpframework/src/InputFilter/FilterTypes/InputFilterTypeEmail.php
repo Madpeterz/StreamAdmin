@@ -16,12 +16,11 @@ abstract class InputFilterTypeEmail extends InputFilterTypeHttp
         $this->testOK = true;
         if (in_array("no_mailboxs", $args) == true) {
         // fails on ALOT of vaild email addresses. but much faster
-            if (filter_var($value, FILTER_VALIDATE_EMAIL) !== false) {
-                return $value;
-            } else {
-                $this->whyfailed = "Does not appeat to be a vaild EMAIL (No mailboxs supported)";
+            if (strpos($value, "+") !== false) {
+                $this->whyfailed = "no_mailboxs";
+                return null;
             }
-            return null;
+            return $this->filterEmail($value);
         } else {
             $allowed = true;
             $local_value = "";

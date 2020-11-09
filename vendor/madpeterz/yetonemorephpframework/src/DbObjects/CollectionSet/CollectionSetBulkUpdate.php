@@ -21,7 +21,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
      * updateFieldInCollection
      * Updates all objects in the collection's value
      * for the selected field
-     * @return mixed[] [status =>  bool, message =>  string]
+     * @return mixed[] [status =>  bool, changes => int, message =>  string]
      */
     public function updateFieldInCollection(string $update_field, $new_value): array
     {
@@ -32,7 +32,8 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
      * processes the update_fields and new_values arrays into
      * a update config
      * used by: updateMultipleFieldsForCollection
-     * @return mixed[] [status => bool, dataset => mixed[] [fields => string[],values => mixed[], types => string[]]]
+     * @return mixed[] [status => bool, message => string, dataset => mixed[]
+     * [fields => string[],values => mixed[], types => string[]]]
      */
     protected function updateMultipleMakeUpdateConfig(array $update_fields, array $new_values): array
     {
@@ -42,17 +43,20 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
             "values" => [],
             "types" => [],
         ];
+        $message = "ok";
         $all_ok = true;
         $loop = 0;
         while ($loop < count($update_fields)) {
-            $lookup = "get_" . $update_fields[$loop];
-            if (method_exists($worker, $lookup) == false) {
+            $lookup = "get" . ucfirst($update_fields[$loop]);
+            if (method_exists($this->worker, $lookup) == false) {
                 $all_ok = false;
+                $message = "Unable to find getter: " . $lookup;
                 break;
             }
-            $field_type = $worker->getFieldType($update_fields[$loop], true);
+            $field_type = $this->worker->getFieldType($update_fields[$loop], true);
             if ($field_type == null) {
                 $all_ok = false;
+                $message = "Unable to find fieldtype: " . $update_fields[$loop];
                 break;
             }
             $update_config["fields"][] = $update_fields[$loop];
@@ -60,7 +64,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
             $update_config["types"][] = $field_type;
             $loop++;
         }
-        return ["status" => $all_ok, "dataset" => $update_config];
+        return ["status" => $all_ok, "dataset" => $update_config, "message" => $message];
     }
     /**
      * updateMultipleGetUpdatedIds
@@ -80,7 +84,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
             $localworker = $this->collected[$entry_id];
             $loop2 = 0;
             while ($loop2 < $total_update_fields) {
-                $lookup = "get_" . $update_fields[$loop2];
+                $lookup = "get" . ucfirst($update_fields[$loop2]);
                 if ($localworker->$lookup() != $new_values[$loop2]) {
                     $expected_changes++;
                     $changed_ids[] = $entry_id;
@@ -103,7 +107,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
             $localworker = $this->collected[$entry_id];
             $loop2 = 0;
             while ($loop2 < $total_update_fields) {
-                $applyer = "set_" . $update_fields[$loop2];
+                $applyer = "set" . ucfirst($update_fields[$loop2]);
                 $localworker->$applyer($new_values[$loop2]);
                 $loop2++;
             }
@@ -113,7 +117,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
      * updateMultipleFieldsForCollection
      * using the fields and values updates the collection
      * and applys the changes to the database.
-     * @return mixed[] [status =>  bool, message =>  string]
+     * @return mixed[] [status =>  bool, changes => int, message =>  string]
      */
     public function updateMultipleFieldsForCollection(array $update_fields, array $new_values): array
     {
@@ -128,7 +132,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
         }
         $ready_update_config = $this->updateMultipleMakeUpdateConfig($update_fields, $new_values);
         if ($ready_update_config["status"] == false) {
-            $error_msg = "Unable to create update config";
+            $error_msg = $ready_update_config["message"];
             return ["status" => false, "changes" => 0, "message" => $error_msg];
         }
         $change_config = $this->updateMultipleGetUpdatedIds($update_fields, $new_values);
@@ -140,7 +144,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
         $where_config = [
             "fields" => ["id"],
             "matches" => ["IN"],
-            "values" => $change_config["changed_ids"],
+            "values" => [$change_config["changed_ids"]],
             "types" => ["i"],
         ];
         $table = $this->worker->getTable();

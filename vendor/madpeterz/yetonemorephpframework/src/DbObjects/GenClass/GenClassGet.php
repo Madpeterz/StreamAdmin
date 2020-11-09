@@ -26,14 +26,14 @@ abstract class GenClassGet extends GenClassCore
         $testuid = substr(md5(implode(".", $feedValues)), 0, $length);
         $wherefields = [[$onfield => "="]];
         $wherevalues = [[$testuid => "s"]];
-        $count_check = $this->sql->basic_count($this->get_table(), $wherefields, $wherevalues, "AND");
+        $count_check = $this->sql->basic_count($this->getTable(), $wherefields, $wherevalues, "AND");
         if ($count_check["status"] == true) {
             if ($count_check["count"] == 0) {
                 return ["status" => true, "uid" => $testuid];
             } else {
                 if ($attempts < $limit) {
                     $attempts++;
-                    return $this->overloadCreateUID($onfield, $attempts, $limit, $testuid);
+                    return $this->overloadCreateUID($onfield, $length, $limit, $attempts, $testuid);
                 } else {
                     return ["status" => false, "message" => "Attempt to create a uid timed out or failed"];
                 }
@@ -49,10 +49,10 @@ abstract class GenClassGet extends GenClassCore
     public function getHash(array $exclude_fields = ["id"]): string
     {
         $bits = [];
-        $fields = $this->get_fields();
+        $fields = $this->getFields();
         foreach ($fields as $fieldname) {
             if (in_array($fieldname, $exclude_fields) == false) {
-                $bits[] = $this->get_field($fieldname);
+                $bits[] = $this->getField($fieldname);
             }
         }
         return hash("sha256", implode("||", $bits));
@@ -67,7 +67,7 @@ abstract class GenClassGet extends GenClassCore
         $reply = [];
         $keys = array_keys($this->dataset);
         foreach ($keys as $fieldname) {
-            $reply[$fieldname] = $this->get_field($fieldname);
+            $reply[$fieldname] = $this->getField($fieldname);
         }
         return $reply;
     }
@@ -113,15 +113,28 @@ abstract class GenClassGet extends GenClassCore
         return null;
     }
     /**
-     * getID
+     * getId
      * returns the ID for the object
      */
-    public function getID(): string
+    public function getId(): ?int
     {
         if ($this->bad_id == false) {
-            return $this->get_field("id");
+            return $this->getField("id");
         }
-        return $this->get_field($this->use_id_field);
+        return $this->getField($this->use_id_field);
+    }
+
+    /**
+     * getBadID
+     * returns the ID for the object
+     * as a string
+     */
+    public function getBadID(): string
+    {
+        if ($this->bad_id == false) {
+            return $this->getField("id");
+        }
+        return $this->getField($this->use_id_field);
     }
     /**
      * getFields
@@ -170,13 +183,13 @@ abstract class GenClassGet extends GenClassCore
                 return $value;
             }
             $error_message = "Attempting to read a field [" . $fieldname . "]";
-            $error_meesage .= " from a unloaded object, please check the code";
-            $this->addError(__FILE__, __FUNCTION__, get_class($this) . " " . $error_meesage);
+            $error_message .= " from a unloaded object, please check the code";
+            $this->addError(__FILE__, __FUNCTION__, get_class($this) . " " . $error_message);
             return null;
         }
         $error_message = "Sorry this collection does not allow you to use the get_field";
         $error_message .= " function please call the direct object only!";
-        $this->addError(__FILE__, __FUNCTION__, get_class($this) . " " . $error_meesage);
+        $this->addError(__FILE__, __FUNCTION__, get_class($this) . " " . $error_message);
         return null;
     }
     /**

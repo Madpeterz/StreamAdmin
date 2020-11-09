@@ -10,35 +10,30 @@ abstract class InputFilterTypeVector extends InputFilterTypeDate
      * args ->
      * strict: enforces starting < and ending >
      */
-    protected function filterVector(string $value, array $args = []): ?string
+    protected function filterVector(string $inputvalue, array $args = []): ?string
     {
-        $this->failure = false;
-        $this->testOK = false;
-        $vectorTest = explode(",", str_replace(["<", " ", ">", "(", ")"], "", $value));
-        if (count($vectorTest) == 3) {
-            if (
-                ($this->filter_float($vectorTest[0]) != null) &&
-                ($this->filter_float($vectorTest[1]) != null) &&
-                ($this->filter_float($vectorTest[2]) != null)
-            ) {
-                if (array_key_exists("strict", $args)) {
-                    if ((substr_count($value, '<') != 1) || (substr_count($value, '>') != 1)) {
-                        $this->whyfailed = "Strict mode: Required <  & > Missing";
-                    } else {
-                        $this->testOK = true;
-                    }
-                } else {
-                    $this->testOK = true;
-                }
-            } else {
-                $this->whyfailed = "the 3 Parts required to be floats or integers. example: 42.4,33,415.11";
-            }
-        } else {
+        $vectorTest = explode(",", str_replace(["<", " ", ">", "(", ")"], "", $inputvalue));
+        if (count($vectorTest) != 3) {
             $this->whyfailed = "Require 3 parts split with , example: 23,42,55";
+            return null;
         }
-        if ($this->testOK) {
-            return $value;
+
+        $tests = [];
+        $tests[] = $this->isNotEmpty($vectorTest[0]); // R
+        $tests[] = $this->isNotEmpty($vectorTest[1]); // G
+        $tests[] = $this->isNotEmpty($vectorTest[2]); // B
+        if (in_array(false, $tests) == true) {
+            $this->whyfailed = "nulls not allowed for values";
+            return null;
         }
-        return null;
+
+        if (array_key_exists("strict", $args) == true) {
+            if ((substr_count($inputvalue, '<') != 1) || (substr_count($inputvalue, '>') != 1)) {
+                $this->whyfailed = "Strict mode: Required <  & > Missing";
+                return null;
+            }
+        }
+
+        return $inputvalue;
     }
 }

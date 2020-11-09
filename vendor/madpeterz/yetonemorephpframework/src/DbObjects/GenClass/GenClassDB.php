@@ -25,10 +25,14 @@ abstract class GenClassDB extends GenClassLoad
     public function removeEntry(): array
     {
         if ($this->disabled == false) {
-            if ($this->get_id() > 0) {
-                $wherefields = [["id" => "="]];
-                $wherevalues = [[$this->get_id() => "i"]];
-                $remove_status = $this->sql->remove($this->get_table(), $wherefields, $wherevalues);
+            if ($this->getId() > 0) {
+                $where_config = [
+                    "fields" => ["id"],
+                    "values" => [$this->getId()],
+                    "types" => ["i"],
+                    "matches" => ["="],
+                ];
+                $remove_status = $this->sql->removeV2($this->getTable(), $where_config);
                 if ($remove_status["status"] == true) {
                     $this->dataset["id"]["value"] = -1;
                 }
@@ -47,10 +51,11 @@ abstract class GenClassDB extends GenClassLoad
     public function createEntry(): array
     {
         if ($this->disabled == false) {
-            if (array_key_exists("id", $this->save_dataset) == true) {
+            if (array_key_exists("id", $this->dataset) == true) {
                 if ($this->save_dataset["id"]["value"] == null) {
                     $fields = [];
-                    $setto = [];
+                    $values = [];
+                    $types = [];
                     foreach ($this->dataset as $key => $value) {
                         if ($key != "id") {
                             $value = $this->dataset[$key]["value"];
@@ -61,11 +66,18 @@ abstract class GenClassDB extends GenClassLoad
                             } elseif ($this->dataset[$key]["type"] == "float") {
                                 $update_code = "d";
                             }
-                            $setto[] = [$value => $update_code];
+                            $values[] = $value;
+                            $types[] = $update_code;
                         }
                     }
                     if (count($fields) > 0) {
-                        $add_status = $this->sql->add($this->get_table(), $fields, $setto);
+                        $config = [
+                            "table" => $this->getTable(),
+                            "fields" => $fields,
+                            "values" => $values,
+                            "types" => $types,
+                        ];
+                        $add_status = $this->sql->addV2($config);
                         if ($add_status["status"] == true) {
                             $this->dataset["id"]["value"] = $add_status["newID"];
                             $this->save_dataset["id"]["value"] = $add_status["newID"];
@@ -77,7 +89,7 @@ abstract class GenClassDB extends GenClassLoad
                 $error_msg = "attempting to create a object with a set id, this is not allowed!";
                 return ["status" => false, "message" => $error_msg];
             }
-            return ["status" => false, "message" => "All objects must have a id field!"];
+            return ["status" => false, "message" => "id field is required on the class to support create"];
         }
         return ["status" => false, "message" => "this class is disabled."];
     }
@@ -153,7 +165,7 @@ abstract class GenClassDB extends GenClassLoad
         if ($had_error == false) {
             $expected_changes = count($update_config["fields"]);
             if ($expected_changes > 0) {
-                return $this->sql->updateV2($this->get_table(), $update_config, $where_config, 1);
+                return $this->sql->updateV2($this->getTable(), $update_config, $where_config, 1);
             }
             $error_msg = "No changes made";
             return ["status" => false, "changes" => 0, "message" => $error_msg];

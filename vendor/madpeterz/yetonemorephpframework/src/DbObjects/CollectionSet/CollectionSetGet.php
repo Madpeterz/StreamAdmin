@@ -60,7 +60,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
     public function getUniqueArray(string $field_name): array
     {
         $found_values = [];
-        $function = "get_" . $field_name;
+        $function = "get" . ucfirst($field_name);
         foreach ($this->collected as $key => $object) {
             if (is_object($object) == true) {
                 $value = $object->$function();
@@ -78,7 +78,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
     public function getTable(): string
     {
         $this->makeWorker();
-        return $worker->getTable();
+        return $this->worker->getTable();
     }
     /**
      * getIdsMatchingField
@@ -106,8 +106,9 @@ abstract class CollectionSetGet extends CollectionSetIndex
      * getFirst
      * returns the first object found in the collection
      * if none are found it returns null
+     * @return object or null, object will be of the worker type of the set.
      */
-    public function getFirst(): ?genClass
+    public function getFirst(): ?object
     {
         $return_obj = null;
         foreach ($this->collected as $key => $value) {
@@ -173,7 +174,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
                 if ($this->worker->bad_id == true) {
                     $object = $entry;
                 } else {
-                    $object = $this->getObjectByID($id);
+                    $object = $this->getObjectByID($value);
                 }
                 break;
             }

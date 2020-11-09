@@ -34,10 +34,17 @@ class GeneratorWriter extends GeneratorDefaults
                 usleep((30 * 0.001) * 1000); // wait for 30ms and retry
                 $this->writeModelFile($create_file, $retrys, $file_content);
             } else {
-                echo " <font color=\"#FF0000\">Failed</font>";
+                if ($this->use_output == true) {
+                    echo " <font color=\"#FF0000\">Failed</font>";
+                }
+
+                $this->counter_models_failed++;
             }
         } else {
-            echo " <font color=\"#00FF00\">Ok</font>";
+            $this->counter_models_created++;
+            if ($this->use_output == true) {
+                echo " <font color=\"#00FF00\">Ok</font>";
+            }
         }
     }
 }

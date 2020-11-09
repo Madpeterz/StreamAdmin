@@ -28,36 +28,44 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
         array $fieldvalues,
         array $matchtypes,
         string $word = "AND",
-        string $order = "id",
-        string $order_dir = "DESC",
+        string $order_by = "id",
+        string $by_direction = "DESC",
         int $limit = 0
     ): array {
         $this->makeWorker();
-        $wherefields = [];
-        $wherevalues = [];
+        $where_config = [
+            "join_with" => $word,
+            "fields" => $fields,
+            "values" => $fieldvalues,
+            "types" => [],
+            "matches" => $matchtypes,
+        ];
         $unpack_ok = true;
         $unpack_error = "";
         $loop = 0;
         $total = count($fields);
         while ($loop < $total) {
             $fieldname = $fields[$loop];
-            if (method_exists($this->worker, "get_" . $fieldname) == false) {
+            if (method_exists($this->worker, "get" . ucfirst($fieldname)) == false) {
                 $unpack_ok = false;
-                $unpack_error = "get_" . $fieldname . " is not supported on worker";
+                $unpack_error = "get" . ucfirst($fieldname) . " is not supported on worker";
                 break;
             }
             $field_type = $this->worker->getFieldType($fieldname, true);
             if ($field_type == null) {
                 $unpack_ok = false;
-                $unpack_error = "get_" . $fieldname . " fieldtype is not supported!";
+                $unpack_error = "getFieldType for " . $fieldname . " is not supported!";
                 break;
             }
-            $wherefields[] = [$fieldname => $matchtypes[$loop]];
-            $wherevalues[] = [$fieldvalues[$loop] => $field_type];
+            $where_config["types"][] = $field_type;
             $loop++;
         }
         if ($unpack_ok == true) {
-            return $this->loadData($wherefields, $wherevalues, $word);
+            return $this->loadWithConfig(
+                $where_config,
+                ["ordering_enabled" => true,"order_field" => $order_by,"order_dir" => $by_direction],
+                ["page_number" => 0,"max_entrys" => $limit]
+            );
         }
         return $this->addError(__FILE__, __FUNCTION__, $unpack_error, ["count" => 0]);
     }
@@ -90,7 +98,7 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
         string $order = "id",
         string $order_dir = "DESC"
     ): array {
-        return $this->loadOnFields([$field], [$value], ["="], "AND", $order_by, $order_dir, $limit);
+        return $this->loadOnFields([$field], [$value], ["="], "AND", $order, $order_dir, $limit);
     }
    /**
      * loadLimited
@@ -107,7 +115,7 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
         string $word = "AND",
         int $page = 0
     ): array {
-        return $this->loadData($wherefields, $wherevalues, $word, $by_field, $by_direction, $limit, $page);
+        return $this->loadNewest($limit, $wherefields, $wherevalues, $by_field, $by_direction, $page, $word);
     }
    /**
      * loadNewest
@@ -120,12 +128,23 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
         int $limit = 12,
         array $wherefields = [],
         array $wherevalues = [],
-        string $by_field = "id",
+        string $order_by = "id",
         string $by_direction = "DESC",
         int $page = 0,
-        string $word = "AND"
+        string $joinword = "AND"
     ): array {
-        return $this->loadData($wherefields, $wherevalues, $word, $by_field, $by_direction, $limit, $page);
+        $where_config = [
+            "join_with" => $joinword,
+             "fields" => array_keys($wherefields),
+             "matches" => array_values($wherefields),
+             "values" => array_keys($wherevalues),
+             "types" => array_values($wherevalues),
+        ];
+        return $this->loadWithConfig(
+            $where_config,
+            ["ordering_enabled" => true,"order_field" => $order_by,"order_dir" => $by_direction],
+            ["page_number" => $page,"max_entrys" => $limit]
+        );
     }
    /**
      * loadAll
@@ -136,7 +155,10 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
      */
     public function loadAll(string $order_by = "id", string $by_direction = "ASC"): array
     {
-        return $this->loadData([], [], "AND", $order_by, $by_direction, 0, 0);
+        return $this->loadWithConfig(
+            null,
+            ["ordering_enabled" => true,"order_field" => $order_by,"order_dir" => $by_direction]
+        );
     }
    /**
      * loadWithConfig
@@ -165,34 +187,6 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
         }
         return $this->processLoad($load_data);
     }
-   /**
-     * loadData
-     * takes the other load requests repacks it into V2 and passes it over
-     * to loadWithConfig
-     * @return mixed[] [status =>  bool, count => integer, message =>  string]
-     */
-    protected function loadData(
-        array $wherefields,
-        array $wherevalues,
-        string $joinword = "AND",
-        string $orderBy = "",
-        string $orderDir = "DESC",
-        int $limit = 0,
-        int $page = 0
-    ): array {
-        $whereconfig = [
-            "join_with" => $joinword,
-             "fields" => array_keys($wherefields),
-             "matches" => array_values($wherefields),
-             "values" => array_keys($wherevalues),
-             "type" => array_values($wherevalues),
-        ];
-        $options_config = [
-            "page_number" => $limit,
-            "max_entrys" => $page,
-        ];
-        return $this->loadWithConfig($whereconfig, order, $options_config);
-    }
     /**
      * loadDataFromList
      * using the magic of IN we load all objects
@@ -202,6 +196,7 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
      */
     protected function loadDataFromList(string $fieldname = "id", array $values = []): array
     {
+        $this->makeWorker();
         $uids = [];
         foreach ($values as $id) {
             if (in_array($id, $uids) == false) {
@@ -211,11 +206,11 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
         if (count($uids) == 0) {
             return $this->addError(__FILE__, __FUNCTION__, "No ids sent!", ["count" => 0]);
         }
-        return $this->load_with_config([
+        return $this->loadWithConfig([
             "fields" => [$fieldname],
             "matches" => ["IN"],
             "values" => [$uids],
-            "types" => [$new_object->getFieldType($fieldname, true)],
+            "types" => [$this->worker->getFieldType($fieldname, true)],
         ]);
     }
     /**
@@ -230,12 +225,12 @@ abstract class CollectionSetLoad extends CollectionSetBulkRemove
         if ($this->worker->bad_id == true) {
             $use_field = $this->worker->use_id_field;
         }
-        foreach ($load_data["dataSet"] as $entry) {
-            $new_object = new $this->worker_class();
-            if ($new_object->setup($entry) == true) {
+        foreach ($load_data["dataset"] as $entry) {
+            $new_object = new $this->worker_class($entry);
+            if ($new_object->isLoaded() == true) {
                 $id_check_passed = true;
-                if (require_id_on_load == true) {
-                    if ($new_object->getID() <= 0) {
+                if (REQUIRE_ID_ON_LOAD == true) {
+                    if ($new_object->getId() <= 0) {
                         $id_check_passed = false;
                     }
                 }

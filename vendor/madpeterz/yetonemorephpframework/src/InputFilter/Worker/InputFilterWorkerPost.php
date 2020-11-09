@@ -23,6 +23,6 @@ abstract class InputFilterWorkerPost extends InputFilterWorkerGet
                 $this->addError(__FILE__, __FUNCTION__, $this->whyfailed);
             }
         }
-        return $value;
+        return $this->failureExpectedReplyValue($value, $filter);
     }
 }

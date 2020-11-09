@@ -5,11 +5,11 @@ namespace YAPF\InputFilter\FilterTypes;
 abstract class InputFilterTypeUUID extends InputFilterTypeBool
 {
     /**
-     * filterUUID
+     * filterUuid
      * checks to see if the input is a vaild UUID
      * note: supports multiple specs.
      */
-    protected function filterUUID(string $value, array $args = []): ?string
+    protected function filterUuid(string $value, array $args = []): ?string
     {
         $this->failure = false;
         $this->testOK = true;
@@ -22,6 +22,7 @@ abstract class InputFilterTypeUUID extends InputFilterTypeBool
                 return $value;
             }
         }
+        $this->whyfailed = "Not a vaild v1 or v4 uuid";
         return null;
     }
 }

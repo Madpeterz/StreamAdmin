@@ -32,7 +32,7 @@ abstract class CollectionSetIndex extends CollectionSetCore
                 $index = [];
                 foreach ($this->collected as $key => $object) {
                     if ($this->worker->bad_id == false) {
-                        $index[$object->$loadstring()] = $object->getID();
+                        $index[$object->$loadstring()] = $object->getId();
                     } else {
                         $index[$object->$loadstring()] = $object;
                     }

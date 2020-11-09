@@ -11,20 +11,13 @@ abstract class MysqliOptions extends MysqliWhere
      */
     protected function buildOrderby(
         string &$sql,
-        array $order,
-        string $tableid = "",
-        bool $auto_ids = false
+        array $order
     ): void {
         if (array_key_exists("ordering_enabled", $order) == true) {
             if (array_key_exists("order_field", $order) == false) {
                 $order["order_field"] = "id";
                 $order["order_dir"] = "DESC";
                 $order["ordering_enabled"] = true;
-            }
-        }
-        if ($auto_ids == true) {
-            if (strpos($order["order_field"], ".") === false) {
-                    $order["order_field"] = "" . $tableid . "." . $order["order_field"];
             }
         }
         if ($order["ordering_enabled"] == true) {
@@ -45,14 +38,14 @@ abstract class MysqliOptions extends MysqliWhere
         if (array_key_exists("max_entrys", $options) == true) {
             if (array_key_exists("page_number", $options) == true) {
                 if ($options["page_number"] > 0) {
-                    $sql .= " LIMIT " . ($options["page_number"] * $options["max_entrys"]) . ", ";
-                    $sql .= $options["max_entrys"] . " ";
+                    $offset = $options["page_number"] * $options["max_entrys"];
+                    $sql .= " LIMIT " . $options["max_entrys"] . " OFFSET " . $offset;
                 } elseif ($options["max_entrys"] > 0) {
-                    $sql .= " LIMIT " . $options["max_entrys"] . " ";
+                    $sql .= " LIMIT " . $options["max_entrys"];
                 }
             } else {
                 if ($options["max_entrys"] > 0) {
-                    $sql .= " LIMIT " . $options["max_entrys"] . " ";
+                    $sql .= " LIMIT " . $options["max_entrys"];
                 }
             }
         }
