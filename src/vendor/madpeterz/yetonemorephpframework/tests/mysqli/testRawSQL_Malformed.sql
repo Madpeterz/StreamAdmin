@@ -1,0 +1,1 @@
+SELECT * FROM WHERE id != 4

@@ -1,0 +1,1 @@
+SELECT * FROM counttoonehundo WHERE id != 4

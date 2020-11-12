@@ -1,0 +1,48 @@
+<?php
+exit("this is a read me not a php file how is this even running....");
+
+$basic_config = array(
+        "table" => X,           // any vaild table
+        ["fields"] => array(),    // the fields you would like back in your reply, note: repeated fields removed.
+                                 // if no fields are given a wildcard is used, note: if you dont define the fields on a join_table only the main table fields will be returned! (Optional)
+);
+
+$order_config = array(
+        "ordering_enabled" => false,
+        "order_field" => "id",    // any vaild field if as_string is set to true this is ignored.
+        "order_dir" => "DESC", // DESC or ASC as a string if as_string is set to true this is ignored.
+        ["as_string" => false], //  (Optional)
+        ["order_string" => ""], // if as_string is true you can set this to the order by value good if you want to order on multiple fields  (Optional)
+);
+
+$where_config = array(
+        ["join_with" => "AND"], // AND|OR  or array of values: "AND","OR","(AND)","(OR)", "AND(", "OR(", defaults to AND if not sent  (Optional)
+        "fields" => array(),  // any vaild fields
+        "values" => array(),  // value or array
+        "types" => array(),   // s,i,d,b, note: if the values entry is an array what ever type you pick is used for all entrys.
+        "matches" = array()    // =, !=, IS, IS NOT, IN, NOT IN, >, <, <=, >=
+);
+
+$options = array(
+       "page_number" => null,
+       "max_entrys" => null
+);
+
+$join_tables = array(
+    "types" => array(), // "LEFT JOIN", "JOIN", "RIGHT JOIN" ect
+    "tables" => array(), // "tablename x"   example  people pl
+    "onfield_left" => array(), // "pl.id"
+    "onfield_match" => array(), // "=" "!=" ">" ect
+    "onfield_right" => array(), // "mtb.id"
+    ["main_table_id" => "mtb"], //"mtb" adds id to the main FROM table in this case mtb
+    ["cleanids" => true],
+    // removes the . and left hand table id from the results indexs
+    // having to clean the ids is slower than just getting the results and should be avoided if you can. (Optional)
+
+    ["autoids" => true]
+    // adds the . and the left hand main table id to the fields in basic_config,
+    // also adds them to the where_fields and order_by_fields if no . is found
+    // set to to false if you are sending custom fields with the correct ids.  (Optional)
+);
+
+?>

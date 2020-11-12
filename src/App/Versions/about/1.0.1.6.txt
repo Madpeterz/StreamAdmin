@@ -1,0 +1,4 @@
+Massive changes to the core of streamadmin<br/>
+Code is now PSR-12 targeting php 7.4<br/>
+Code is now in a namespace OMFG!<br/>
+Code is now PSR-4 autoloader mostly<br/>
