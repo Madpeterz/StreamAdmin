@@ -1,5 +1,10 @@
 <?php
 
+use App\Package;
+use App\Rental;
+use App\Server;
+use App\Stream;
+
 class serverapi_helper
 {
     protected $server = null;
@@ -84,7 +89,7 @@ class serverapi_helper
     {
         return $this->api_autodj_toggle();
     }
-    public function force_set_stream(stream $stream = null, bool $auto_load = false)
+    public function force_set_stream(Stream $stream = null, bool $auto_load = false)
     {
         $this->stream = $stream;
         if ($stream != null) {
@@ -103,17 +108,17 @@ class serverapi_helper
             }
         }
     }
-    public function force_set_server(server $server): bool
+    public function force_set_server(Server $server): bool
     {
         $this->server = $server;
         return $this->load_api();
     }
-    public function force_set_rental(rental $rental): bool
+    public function force_set_rental(Rental $rental): bool
     {
         $this->rental = $rental;
         return $this->load_avatar();
     }
-    public function force_set_package(package $package): bool
+    public function force_set_package(Package $package): bool
     {
         $this->package = $package;
         return true;

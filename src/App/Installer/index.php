@@ -22,7 +22,7 @@ if (defined("CORRECT") == true) {
     } else {
         include "../shared/installer/dbconfig.php";
     }
-    $view_reply->render_page();
+    $this->output->render_page();
 } else {
     die("Please do not attempt to run installer directly it will break something!");
 }

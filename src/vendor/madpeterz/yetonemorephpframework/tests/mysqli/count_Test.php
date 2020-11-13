@@ -64,6 +64,15 @@ class MysqliCountTest extends TestCase
         $this->assertSame($results["message"], "ok");
     }
 
+    public function testCountGroupped()
+    {
+        $results = $this->sql->groupCountV2("counttoonehundo", "cvalue");
+        $this->assertSame($results["status"], true);
+        $this->assertSame(count($results["dataset"]), 10);
+        $this->assertSame($results["message"], "ok");
+        $this->assertSame($results["dataset"][0]["Entrys"], 10);
+    }
+
     public function testCountOnehundoOnlyIdsGtr60()
     {
         $where_config = [

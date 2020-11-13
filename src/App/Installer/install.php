@@ -12,13 +12,13 @@ if ($status["status"] == true) {
     if ($avatar->load(1) == true) {
         if ($avatar->get_avatar_uid() == "system") {
             $sql->sqlSave(true);
-            $view_reply->set_swap_tag_string("page_content", '<a href="setup"><button class="btn btn-primary btn-block" type="button">Setup</button></a>');
+            $this->output->setSwapTagString("page_content", '<a href="setup"><button class="btn btn-primary btn-block" type="button">Setup</button></a>');
         } else {
-            $view_reply->set_swap_tag_string("page_content", 'Error: Expected install config db value is invaild');
+            $this->output->setSwapTagString("page_content", 'Error: Expected install config db value is invaild');
         }
     } else {
-        $view_reply->set_swap_tag_string("page_content", 'Error: reading from datatabase');
+        $this->output->setSwapTagString("page_content", 'Error: reading from datatabase');
     }
 } else {
-    $view_reply->set_swap_tag_string("page_content", 'Error: installing db file: ' . $status["message"]);
+    $this->output->setSwapTagString("page_content", 'Error: installing db file: ' . $status["message"]);
 }

@@ -195,7 +195,7 @@
                 "dev-master": "1.4-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "GuzzleHttp\\Promise\\": "src/"
@@ -257,7 +257,7 @@
                 "dev-master": "1.7-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "GuzzleHttp\\Psr7\\": "src/"
@@ -295,17 +295,17 @@
     },
     {
         "name": "madpeterz/yetonemorephpframework",
-        "version": "v1.0.2-stable",
-        "version_normalized": "1.0.2.0",
+        "version": "v1.0.4-stable",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-            "reference": "ff56afe3de70f90dc5ce5f4f6f388a8a866d90d6"
+            "reference": "9eaca834f17d9b174e337f3eb02575daf3d6fb3e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/ff56afe3de70f90dc5ce5f4f6f388a8a866d90d6",
-            "reference": "ff56afe3de70f90dc5ce5f4f6f388a8a866d90d6",
+            "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/9eaca834f17d9b174e337f3eb02575daf3d6fb3e",
+            "reference": "9eaca834f17d9b174e337f3eb02575daf3d6fb3e",
             "shasum": ""
         },
         "require": {
@@ -317,7 +317,7 @@
             "slevomat/coding-standard": "^6.4",
             "squizlabs/php_codesniffer": "*"
         },
-        "time": "2020-11-11T17:19:33+00:00",
+        "time": "2020-11-13T11:41:45+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -485,7 +485,7 @@
                 "dev-master": "1.0.x-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "Psr\\Http\\Client\\": "src/"
@@ -535,7 +535,7 @@
                 "dev-master": "1.0.x-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "Psr\\Http\\Message\\": "src/"
@@ -641,7 +641,7 @@
                 "dev-master": "6.x-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "SlevomatCodingStandard\\": "SlevomatCodingStandard"

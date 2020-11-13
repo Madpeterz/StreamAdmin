@@ -46,44 +46,44 @@ $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
                             }
                             if ($siteconfigok == true) {
                                 $sql->sqlSave(true);
-                                $view_reply->set_swap_tag_string("page_content", '<a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>');
+                                $this->output->setSwapTagString("page_content", '<a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>');
                             } else {
                                 $sql->sqlRollBack(true);
-                                $view_reply->set_swap_tag_string("page_content", "Site config not vaild");
+                                $this->output->setSwapTagString("page_content", "Site config not vaild");
                             }
                         } else {
                             $sql->sqlRollBack(true);
-                            $view_reply->set_swap_tag_string("page_content", "Unable to update config entry");
+                            $this->output->setSwapTagString("page_content", "Unable to update config entry");
                         }
                     } else {
                         $sql->sqlRollBack(true);
-                        $view_reply->set_swap_tag_string("page_content", "Unable to load config entry");
+                        $this->output->setSwapTagString("page_content", "Unable to load config entry");
                     }
                 } else {
                     $sql->sqlRollBack(true);
-                    $view_reply->set_swap_tag_string("page_content", "Unable to update avatar entry");
+                    $this->output->setSwapTagString("page_content", "Unable to update avatar entry");
                 }
             } else {
                 $sql->sqlRollBack(true);
-                $view_reply->set_swap_tag_string("page_content", "Unable to load avatar entry");
+                $this->output->setSwapTagString("page_content", "Unable to load avatar entry");
             }
         } else {
             $sql->sqlRollBack(true);
-            $view_reply->set_swap_tag_string("page_content", "unable to update staff entry");
+            $this->output->setSwapTagString("page_content", "unable to update staff entry");
         }
     } else {
         $sql->sqlRollBack(true);
-        $view_reply->set_swap_tag_string("page_content", "unable to load staff entry");
+        $this->output->setSwapTagString("page_content", "unable to load staff entry");
     }
 }
 if ($load_ok == false) {
-    $view_reply->add_swap_tag_string("page_content", '
+    $this->output->addSwapTagString("page_content", '
     <div class="card border border-success rounded">
       <div class="card-body">
         <h5 class="card-title">Final setup<br/>
             <form action="setup" method="post">');
     if (getenv('DB_HOST') === false) {
-        $view_reply->add_swap_tag_string("page_content", '
+        $this->output->addSwapTagString("page_content", '
                 <div class="row mt-4">
                     <div class="col-8 offset-2"><input name="domain" class="form-control" type="text" placeholder="Site URL (Dont forget the ending /)" value="http://' . $_SERVER['HTTP_HOST'] . '/"></div>
                 </div>
@@ -92,7 +92,7 @@ if ($load_ok == false) {
                 </div>
                 ');
     } else {
-        $view_reply->add_swap_tag_string("page_content", '
+        $this->output->addSwapTagString("page_content", '
                 <div class="row mt-4">
                     <div class="col-8 offset-2"><input name="domain" class="form-control" type="hidden" placeholder="" value="skip"></div>
                 </div>
@@ -101,7 +101,7 @@ if ($load_ok == false) {
                 </div>
                 ');
     }
-        $view_reply->add_swap_tag_string("page_content", '
+        $this->output->addSwapTagString("page_content", '
             <div class="row mt-4">
                 <div class="col-8 offset-2"><input name="av_username" class="form-control" type="text" placeholder="Username (Does not have to match SL name)" value=""></div>
             </div>

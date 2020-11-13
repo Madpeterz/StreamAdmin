@@ -35,6 +35,9 @@ abstract class MysqliOptions extends MysqliWhere
      */
     protected function buildOption(string &$sql, array $options): void
     {
+        if (array_key_exists("groupby", $options) == true) {
+            $sql .= " GROUP BY " . $options["groupby"];
+        }
         if (array_key_exists("max_entrys", $options) == true) {
             if (array_key_exists("page_number", $options) == true) {
                 if ($options["page_number"] > 0) {

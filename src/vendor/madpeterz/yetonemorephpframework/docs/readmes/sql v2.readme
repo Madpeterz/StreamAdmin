@@ -24,8 +24,9 @@ $where_config = array(
 );
 
 $options = array(
-       "page_number" => null,
-       "max_entrys" => null
+       "page_number" => int or index not set
+       "max_entrys" => int or index not set
+       "groupby" => string or index not set
 );
 
 $join_tables = array(

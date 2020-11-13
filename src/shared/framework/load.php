@@ -35,14 +35,14 @@ if (class_exists("Db", false) == true) {
             die("Unable to load system config [PANIC]");
         }
         if ($slconfig != null) {
-            $timezone_config_from_cache = $view_reply->get_cache_file("current_timezone", false);
+            $timezone_config_from_cache = $this->output->get_cache_file("current_timezone", false);
             if ($timezone_config_from_cache == null) {
                 $timezone = new timezones();
                 if ($timezone->load($slconfig->get_displaytimezonelink()) == true) {
                     $cooked = $timezone_name . "###" . $timezone->get_code();
-                    $view_reply->set_cache_file($cooked, "current_timezone", false);
+                    $this->output->set_cache_file($cooked, "current_timezone", false);
                 }
-                $timezone_config_from_cache = $view_reply->get_cache_file("current_timezone", false);
+                $timezone_config_from_cache = $this->output->get_cache_file("current_timezone", false);
             }
             if ($timezone_config_from_cache != null) {
                 $bits = explode("###", $timezone_config_from_cache);
