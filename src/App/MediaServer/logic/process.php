@@ -1,10 +1,10 @@
 <?php
 
-$api_logiclang = array(
+$api_logiclang = [
     "failed.create" => "Unable to create event",
     "failed.noapi" => "Unable to find API config",
-    "failed.noserver" => "Unable to find server"
-);
+    "failed.noserver" => "Unable to find server",
+];
 $api_serverlogic_reply = true;
 if (isset($site_lang) == false) {
     $site_lang = "en";
@@ -32,7 +32,7 @@ if (isset($current_step) == false) {
 if ($server->is_loaded() == true) {
     $api = new apis();
     if ($api->load($server->get_apilink()) == true) {
-        if ($api->get_id() != 1) {
+        if ($api->getId() != 1) {
             $exit = false;
             while ($exit == false) {
                 if (array_key_exists($current_step, $steps) == true) {
@@ -55,7 +55,7 @@ if ($server->is_loaded() == true) {
                         if ($current_step == "core_send_details") {
                             if ($rental == null) {
                                 $rental = new rental();
-                                $all_ok = $rental->load_by_field("streamlink", $stream->get_id());
+                                $all_ok = $rental->load_by_field("streamlink", $stream->getId());
                             }
                         }
                         if ($all_ok == true) {

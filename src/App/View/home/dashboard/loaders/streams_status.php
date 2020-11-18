@@ -1,23 +1,25 @@
 <?php
 
+use App\StreamSet;
+
 $stream_total_sold = 0;
 $stream_total_ready = 0;
 $stream_total_needwork = 0;
-$stream_set = new stream_set();
+$stream_set = new StreamSet();
 $stream_set->loadAll();
-foreach ($stream_set->get_all_ids() as $stream_id) {
-    $stream = $stream_set->get_object_by_id($stream_id);
-    $server = $server_set->get_object_by_id($stream->get_serverlink());
-    if ($stream->get_rentallink() == null) {
-        if ($stream->get_needwork() == false) {
+foreach ($stream_set->getAllIds() as $stream_id) {
+    $stream = $stream_set->getObjectByID($stream_id);
+    $server = $server_set->getObjectByID($stream->getServerlink());
+    if ($stream->getRentallink() == null) {
+        if ($stream->getNeedwork() == false) {
             $stream_total_ready++;
-            $server_loads[$server->get_id()]["ready"]++;
+            $server_loads[$server->getId()]["ready"]++;
         } else {
             $stream_total_needwork++;
-            $server_loads[$server->get_id()]["needwork"]++;
+            $server_loads[$server->getId()]["needwork"]++;
         }
     } else {
         $stream_total_sold++;
-        $server_loads[$server->get_id()]["sold"]++;
+        $server_loads[$server->getId()]["sold"]++;
     }
 }

@@ -1,18 +1,30 @@
 <?php
 
-$this->output->addSwapTagString("page_title", " Unsent details");
-$table_head = array("id","Rental UID","Avatar name");
-$table_body = [];
-$detail_set = new detail_set();
-$detail_set->loadAll();
-$rental_set = new rental_set();
-$rental_set->load_ids($detail_set->get_all_by_field("rentallink"));
-$avatar_set = new avatar_set();
-$avatar_set->load_ids($rental_set->get_all_by_field("avatarlink"));
-foreach ($detail_set->get_all_ids() as $detail_id) {
-    $detail = $detail_set->get_object_by_id($detail_id);
-    $rental = $rental_set->get_object_by_id($detail->get_rentallink());
-    $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
-    $table_body[] = array($detail->get_id(),$rental->get_rental_uid(),$avatar->get_avatarname());
+namespace App\View\Outbox;
+
+use App\AvatarSet;
+use App\DetailSet;
+use App\RentalSet;
+
+class Details extends View
+{
+    public function process(): void
+    {
+        $this->output->addSwapTagString("page_title", " Unsent details");
+        $table_head = ["id","Rental UID","Avatar name"];
+        $table_body = [];
+        $detail_set = new DetailSet();
+        $detail_set->loadAll();
+        $rental_set = new RentalSet();
+        $rental_set->loadIds($detail_set->getAllByField("rentallink"));
+        $avatar_set = new AvatarSet();
+        $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
+        foreach ($detail_set->getAllIds() as $detail_id) {
+            $detail = $detail_set->getObjectByID($detail_id);
+            $rental = $rental_set->getObjectByID($detail->getRentallink());
+            $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
+            $table_body[] = [$detail->getId(),$rental->getRental_uid(),$avatar->getAvatarname()];
+        }
+        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+    }
 }
-$this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));

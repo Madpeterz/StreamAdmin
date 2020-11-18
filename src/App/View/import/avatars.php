@@ -17,8 +17,8 @@ $all_ok = true;
 $avatars_created = 0;
 
 $seen_avatar_uuids = [];
-foreach ($r4_users_set->get_all_ids() as $r4_user_id) {
-    $r4_user = $r4_users_set->get_object_by_id($r4_user_id);
+foreach ($r4_users_set->getAllIds() as $r4_user_id) {
+    $r4_user = $r4_users_set->getObjectByID($r4_user_id);
     if (in_array($r4_user->get_slkey(), $seen_avatar_uuids) == false) {
         $seen_avatar_uuids[] = $r4_user->get_slkey();
         $avatar_helper = new avatar_helper();

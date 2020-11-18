@@ -6,7 +6,7 @@ use App\Template\Form as Form;
 
 class Create extends View
 {
-    public function process()
+    public function process(): void
     {
         $this->output->addSwapTagString("html_title", "~ Create");
         $this->output->setSwapTagString("page_title", "Create new avatar");

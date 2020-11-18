@@ -15,7 +15,7 @@ if (count($avatarids) <= $max_avatars) {
     } elseif ($source == "server") {
         $stream_set = new stream_set();
         $stream_set->load_on_field("serverlink", $source_id);
-        $rental_set->load_ids($stream_set->get_all_ids(), "streamlink");
+        $rental_set->loadIds($stream_set->getAllIds(), "streamlink");
         $ok = true;
     } elseif ($source == "package") {
         $rental_set->load_on_field("packagelink", $source_id);
@@ -23,15 +23,15 @@ if (count($avatarids) <= $max_avatars) {
     }
     $status = false;
     if ($ok == true) {
-        if ($rental_set->get_count() > 0) {
+        if ($rental_set->getCount() > 0) {
             $stream_set = new stream_set();
-            $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
+            $stream_set->loadIds($rental_set->getAllByField("streamlink"));
             $avatar_set = new avatar_set();
-            $avatar_set->load_ids($rental_set->get_unique_array("avatarlink"));
+            $avatar_set->loadIds($rental_set->get_unique_array("avatarlink"));
             $banlist_set = new banlist_set();
-            $banlist_set->load_ids($rental_set->get_unique_array("avatarlink"), "avatar_link");
-            $banned_ids = $banlist_set->get_all_by_field("avatarlink");
-            $max_avatar_count = $avatar_set->get_count() - $banlist_set->get_count();
+            $banlist_set->loadIds($rental_set->get_unique_array("avatarlink"), "avatar_link");
+            $banned_ids = $banlist_set->getAllByField("avatarlink");
+            $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
             if ($max_avatar_count > 0) {
                 $package_set = new package_set();
                 $package_set->loadAll();
@@ -47,20 +47,20 @@ if (count($avatarids) <= $max_avatars) {
                 $botconfig->load(1);
 
                 $botavatar = new avatar();
-                $botavatar->load($botconfig->get_avatarlink());
+                $botavatar->load($botconfig->getAvatarlink());
 
                 $sent_counter = 0;
                 $seen_avatars = [];
-                foreach ($rental_set->get_all_ids() as $rental_id) {
-                    $rental = $rental_set->get_object_by_id($rental_id);
-                    if (in_array($rental->get_avatarlink(), $avatarids) == true) {
-                        if (in_array($rental->get_avatarlink(), $seen_avatars) == false) {
-                            $seen_avatars[] = $rental->get_avatarlink();
-                            $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
-                            if (in_array($avatar->get_id(), $banned_ids) == false) {
-                                $stream = $stream_set->get_object_by_id($rental->get_streamlink());
-                                $package = $package_set->get_object_by_id($stream->get_packagelink());
-                                $server = $server_set->get_object_by_id($stream->get_serverlink());
+                foreach ($rental_set->getAllIds() as $rental_id) {
+                    $rental = $rental_set->getObjectByID($rental_id);
+                    if (in_array($rental->getAvatarlink(), $avatarids) == true) {
+                        if (in_array($rental->getAvatarlink(), $seen_avatars) == false) {
+                            $seen_avatars[] = $rental->getAvatarlink();
+                            $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
+                            if (in_array($avatar->getId(), $banned_ids) == false) {
+                                $stream = $stream_set->getObjectByID($rental->get_streamlink());
+                                $package = $package_set->getObjectByID($stream->get_packagelink());
+                                $server = $server_set->getObjectByID($stream->get_serverlink());
 
                                 $sendmessage = $swapables_helper->get_swapped_text($message, $avatar, $rental, $package, $server, $stream);
                                 $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar, $sendmessage, true);

@@ -5,18 +5,18 @@ $reseller_set = new reseller_set();
 $reseller_set->loadAll();
 
 $avatar_set = new avatar_set();
-$avatar_set->load_ids($reseller_set->get_all_by_field("avatarlink"));
+$avatar_set->loadIds($reseller_set->getAllByField("avatarlink"));
 
-$table_head = array("id","Name","Allow","Rate");
+$table_head = ["id","Name","Allow","Rate"];
 $table_body = [];
 
-foreach ($reseller_set->get_all_ids() as $reseller_id) {
-    $reseller = $reseller_set->get_object_by_id($reseller_id);
-    $avatar = $avatar_set->get_object_by_id($reseller->get_avatarlink());
+foreach ($reseller_set->getAllIds() as $reseller_id) {
+    $reseller = $reseller_set->getObjectByID($reseller_id);
+    $avatar = $avatar_set->getObjectByID($reseller->getAvatarlink());
     $entry = [];
-    $entry[] = $reseller->get_id();
-    $entry[] = '<a href="[[url_base]]reseller/manage/' . $reseller->get_id() . '">' . $avatar->get_avatarname() . '</a>';
-    $entry[] = array(false => "No",true => "Yes")[$reseller->get_allowed()];
+    $entry[] = $reseller->getId();
+    $entry[] = '<a href="[[url_base]]reseller/manage/' . $reseller->getId() . '">' . $avatar->getAvatarname() . '</a>';
+    $entry[] = [false => "No",true => "Yes"][$reseller->get_allowed()];
     $entry[] = $reseller->get_rate();
     $table_body[] = $entry;
 }

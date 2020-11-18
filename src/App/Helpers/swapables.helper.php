@@ -5,17 +5,17 @@ class swapables_helper
     function get_swapped_text(string $template, avatar $avatar, rental $rental, package $package, server $server, stream $stream): string
     {
         global $timezone_name;
-          $av_split = explode(" ", $avatar->get_avatarname());
+          $av_split = explode(" ", $avatar->getAvatarname());
         if (count($av_split) == 1) {
               $av_split[] = "Resident";
         }
-          $true_false = array(false => "Disabled",true => "Enabled")[$package->get_autodj()];
+          $true_false = [false => "Disabled",true => "Enabled"][$package->get_autodj()];
           $template = str_replace("\n", "", $template);
           $template = str_replace("\r", "", $template); // Normalise the template
-          $swaps = array(
+          $swaps = [
               "AVATAR_FIRSTNAME" => $av_split[0],
               "AVATAR_LASTNAME" => $av_split[1],
-              "AVATAR_FULLNAME" => $avatar->get_avatarname(),
+              "AVATAR_FULLNAME" => $avatar->getAvatarname(),
               "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A', $rental->get_expireunixtime()),
               "RENTAL_TIMELEFT" => timeleft_hours_and_days($rental->get_expireunixtime()),
               "STREAM_PORT" => $stream->get_port(),
@@ -32,9 +32,9 @@ class swapables_helper
               "PACKAGE_AUTODJ_SIZE" => $package->get_autodj_size(),
               "NL" => "\n",
               "PACKAGE_UID" => $package->get_package_uid(),
-              "RENTAL_UID" => $rental->get_rental_uid(),
-              "TIMEZONE" => $timezone_name
-          );
+              "RENTAL_UID" => $rental->getRental_uid(),
+              "TIMEZONE" => $timezone_name,
+          ];
           foreach ($swaps as $key => $value) {
                 $template = str_replace("[[" . $key . "]]", $value, $template);
           }

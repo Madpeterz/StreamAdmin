@@ -1,4 +1,6 @@
 <?php
 
-$server_set = new server_set();
+use App\ServerSet;
+
+$server_set = new ServerSet();
 $server_set->loadAll();

@@ -48,7 +48,7 @@ if ($failed_on == "") {
     $notice->set_hoursremaining($hoursremaining);
     $notice->set_send_notecard($send_notecard);
     $notice->set_notecarddetail($notecarddetail);
-    $notice->set_notice_notecardlink($static_notecard->get_id());
+    $notice->set_notice_notecardlink($static_notecard->getId());
     $create_status = $notice->create_entry();
     if ($create_status["status"] == true) {
         $status = true;

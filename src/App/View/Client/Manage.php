@@ -21,7 +21,7 @@ class Manage extends View
     protected array $pages = [];
     protected Rental $rental;
     protected Avatar $avatar;
-    protected function clientManageForm()
+    protected function clientManageForm(): void
     {
         $this->avatar = new Avatar();
         $this->avatar->loadID($this->rental->getAvatarlink());
@@ -36,12 +36,13 @@ class Manage extends View
             . "<br/><br/>");
             $form->numberInput("adjustment_days", "Adjustment [Days]", 0, 3, "Max 999");
             $form->numberInput("adjustment_hours", "Adjustment [Hours]", 0, 2, "Max 23");
-            $form->select("adjustment_dir", "Adjustment (Type)", false, array(false => "Remove",true => "Add"));
+            $form->select("adjustment_dir", "Adjustment (Type)", false, [false => "Remove",true => "Add"]);
         $form->col(6);
             $form->group("Transfer");
             $form->textInput(
                 "transfer_avataruid",
-                "Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>",
+                "Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" "
+                . "href=\"#\" target=\"_blank\">Find</a>",
                 8,
                 "",
                 "Avatar UID (Not SL UUID)"
@@ -58,15 +59,15 @@ class Manage extends View
             );
         $this->pages["Config"] = $form->render("Update", "primary");
     }
-    protected function clientTransactions()
+    protected function clientTransactions(): void
     {
-        $where_config = array(
-            "fields" => array("streamlink","unixtime"),
-            "values" => array($this->rental->getStreamlink(),$this->rental->getStartunixtime()),
-            "types" => array("i","i"),
-            "matches" => array("=",">="),
-        );
-        $order_by = array("ordering_enabled" => true,"order_field" => "unixtime","order_dir" => "DESC");
+        $where_config = [
+            "fields" => ["streamlink","unixtime"],
+            "values" => [$this->rental->getStreamlink(),$this->rental->getStartunixtime()],
+            "types" => ["i","i"],
+            "matches" => ["=",">="],
+        ];
+        $order_by = ["ordering_enabled" => true,"order_field" => "unixtime","order_dir" => "DESC"];
         $transactions_set = new TransactionsSet();
         $transactions_set->loadWithConfig($where_config, $order_by);
 
@@ -84,7 +85,7 @@ class Manage extends View
             "i",
             false
         );
-        $table_head = array("id","Transaction UID","Avatar","Reseller","Region","Amount","Datetime");
+        $table_head = ["id","Transaction UID","Avatar","Reseller","Region","Amount","Datetime"];
         $table_body = [];
         foreach ($transactions_set->getAllIds() as $transaction_id) {
             $transaction = $transactions_set->getObjectByID($transaction_id);
@@ -105,7 +106,7 @@ class Manage extends View
         $this->output->addSwapTagString("page_content", "<br/><h4>Transactions</h4>");
         $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));
     }
-    protected function clientApiActions()
+    protected function clientApiActions(): void
     {
         $stream = new Stream();
         $server = new Server();
@@ -129,7 +130,7 @@ class Manage extends View
         $serverapi_helper->force_set_stream($stream, false);
         $mygrid = new Grid();
 
-        $api_actions = array(
+        $api_actions = [
             "stop" => "danger",
             "start" => "success",
             "autodj_next" => "info",
@@ -140,10 +141,10 @@ class Manage extends View
             "disable_account" => "danger",
             "list_djs" => "info",
             "purge_djs" => "danger",
-        );
+        ];
         foreach ($api_actions as $key => $value) {
             if ($serverapi_helper->callable_action("api_" . $key) == true) {
-                $form = new form();
+                $form = new Form();
                 $form->target("client/api/" . $this->page . "/" . $key);
                 $buttontext = str_replace("_", " ", ucfirst($key));
                 $mygrid->addContent($form->render($buttontext, $value, true), 4);
@@ -151,29 +152,41 @@ class Manage extends View
         }
         $mygrid->addContent("<hr/>", 12);
         if ($serverapi_helper->callable_action("api_set_passwords") == true) {
-            $form = new form();
+            $form = new Form();
             $form->target("client/api/" . $this->page . "/set_passwords");
             $form->group("API force set passwords");
-            $form->textInput("set_dj_password", "Set DJ password", 6, $stream->getDjpassword(), "DJ/Stream password");
-            $form->textInput("set_admin_password", "Set Admin password", 6, $stream->getAdminpassword(), "Admin password");
+            $form->textInput(
+                "set_dj_password",
+                "Set DJ password",
+                6,
+                $stream->getDjpassword(),
+                "DJ/Stream password"
+            );
+            $form->textInput(
+                "set_admin_password",
+                "Set Admin password",
+                6,
+                $stream->getAdminpassword(),
+                "Admin password"
+            );
             $mygrid->addContent($form->render("Set passwords", "warning", true), 6);
         }
-        $pages["API"] = $mygrid->getOutput();
+        $this->pages["API"] = $mygrid->getOutput();
         $avname = explode(" ", strtolower($this->avatar->getAvatarname()));
-        $syncname = "" . $avname[0] . "_" . $package->getBitrate() . "_" . $stream->getPort() . "";
         if ($serverapi_helper->callable_action("api_customize_username") == true) {
-            $pages["API"] .= "<br/>customize username changes the admin username for the stream following"
+            $this->pages["API"] .= "<br/>customize username changes the admin username for the stream following"
             . " this ruleset<br/><ol>
             <li>Firstname eg:\"" . $avname[0] . "\"</li>
             <li>Firstname 2 letters of last name:\"" . $avname[0] . "_" . substr($avname[1], 0, 2) . "\"</li>
             <li>Firstname Port: \"" . $avname[0] . "_" . $stream->getPort() . "\"</li>
-            <li>Firstname Port Bitrate: \"" . $avname[0] . "_" . $stream->getPort() . "_" . $package->getBitrate() . "\"</li>
+            <li>Firstname Port Bitrate: \"" . $avname[0] . "_" . $stream->getPort() . "_"
+            . $package->getBitrate() . "\"</li>
             <li>Firstname Port ServerID: \"" . $avname[0] . "_" . $stream->getPort() . "_" . $server->getId() . "\"</li>
             <li>Firstname RentalUID: \"" . $avname[0] . "_" . $this->rental->getRental_uid() . "\"</li>
             </ol>";
         }
     }
-    public function process()
+    public function process(): void
     {
         $this->output->addSwapTagString("html_title", "~ Manage");
         $this->output->addSwapTagString("page_title", "Editing client");

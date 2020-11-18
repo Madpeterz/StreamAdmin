@@ -1,7 +1,0 @@
-<?php
-
-while (
-	doSomething('short')
-) {
-
-}

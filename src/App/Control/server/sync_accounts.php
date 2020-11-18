@@ -9,19 +9,19 @@ if ($server->load($page) == true) {
             $serverapi_helper = new serverapi_helper();
             if ($serverapi_helper->force_set_server($server) == true) {
                 $oneday_ago = time() - ((60 * 60) * 24);
-                $where_config = array(
-                    "fields" => array("serverlink","last_api_sync"),
-                    "matches" => array("=","<="),
-                    "values" => array($server->get_id(),$oneday_ago),
-                    "types" => array("i","i"),
-                );
-                $limits = array(
+                $where_config = [
+                    "fields" => ["serverlink","last_api_sync"],
+                    "matches" => ["=","<="],
+                    "values" => [$server->getId(),$oneday_ago],
+                    "types" => ["i","i"],
+                ];
+                $limits = [
                              "page_number" => 0,
-                             "max_entrys" => 10
-                );
+                             "max_entrys" => 10,
+                ];
                 $stream_set = new stream_set();
                 $stream_set->load_with_config($where_config, null, $limits);
-                if ($stream_set->get_count() > 0) {
+                if ($stream_set->getCount() > 0) {
                     $accounts_found = $serverapi_helper->get_all_accounts(true, $stream_set);
                     if ($accounts_found["status"] == true) {
                         $accounts_updated = 0;
@@ -29,8 +29,8 @@ if ($server->load($page) == true) {
                         $accounts_missing_global = 0;
                         $accounts_missing_passwords = 0;
                         $all_ok = true;
-                        foreach ($stream_set->get_all_ids() as $streamid) {
-                            $stream = $stream_set->get_object_by_id($streamid);
+                        foreach ($stream_set->getAllIds() as $streamid) {
+                            $stream = $stream_set->getObjectByID($streamid);
                             if (in_array($stream->get_adminusername(), $accounts_found["usernames"]) == true) {
                                 if (array_key_exists($stream->get_adminusername(), $accounts_found["passwords"]) == true) {
                                     $has_update = false;
@@ -86,7 +86,7 @@ if ($server->load($page) == true) {
                             }
                         }
                     } else {
-                        $ajax_reply->set_swap_tag_string("message", $server_api_helper->get_message());
+                        $ajax_reply->set_swap_tag_string("message", $server_api_helper->getMessage());
                     }
                 } else {
                     $ajax_reply->set_swap_tag_string("message", "Unable to find any streams attached to server or all streamed sync'd in the last 24 hours");

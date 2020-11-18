@@ -6,10 +6,10 @@ $request_code = $input->postFilter("apiid");
 $rental = new rental();
 $status = false;
 $why_failed = "not processed";
-$accepted_api_calls = array("opt_toggle_autodj","opt_password_reset","opt_autodj_next");
+$accepted_api_calls = ["opt_toggle_autodj","opt_password_reset","opt_autodj_next"];
 if (in_array($request_code, $accepted_api_calls) == true) {
     if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
-        if ($rental->get_avatarlink() == $object_owner_avatar->get_id()) {
+        if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
             if ($rental->get_expireunixtime() > time()) {
                 $stream = new stream();
                 if ($stream->load($rental->get_streamlink()) == true) {
@@ -17,7 +17,7 @@ if (in_array($request_code, $accepted_api_calls) == true) {
                     if ($server->load($stream->get_serverlink()) == true) {
                         $pendingapi = new api_requests_set();
                         $pendingapi->load_by_field("streamlink", $rental->get_streamlink());
-                        if ($pendingapi->get_count() == 0) {
+                        if ($pendingapi->getCount() == 0) {
                             $status = create_pending_api_request($server, $stream, $rental, $request_code, "Unable to create event %1\$s because: %2\$s", true);
                             if ($status == false) {
                                 $why_failed = "Unable to save pending api request";

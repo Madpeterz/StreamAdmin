@@ -17,7 +17,7 @@ class bot_helper
         $why_failed = "No idea";
         if ($allow_bot == true) {
             if ($botconfig->get_ims() == true) {
-                $bot_send_message = $this->send_bot_command($botconfig, "im", array($avatar->get_avataruuid(),$message));
+                $bot_send_message = $this->send_bot_command($botconfig, "im", [$avatar->get_avataruuid(),$message]);
                 $status = $this->send_message_to_avatar($botavatar, $bot_send_message);
                 if ($status["status"] == false) {
                     $reply_status = false;
@@ -28,13 +28,13 @@ class bot_helper
         if ($reply_status == true) {
             return $this->send_message_to_avatar($avatar, $message);
         } else {
-            return array("status" => false,"message" => $why_failed);
+            return ["status" => false,"message" => $why_failed];
         }
     }
     function send_message_to_avatar(avatar $avatar, string $sendmessage): array
     {
         $message = new message();
-        $message->set_avatarlink($avatar->get_id());
+        $message->set_avatarlink($avatar->getId());
         $message->set_message($sendmessage);
         return $message->create_entry();
     }

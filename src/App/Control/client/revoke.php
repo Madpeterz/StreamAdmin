@@ -10,10 +10,10 @@ if ($accept == "Accept") {
     if ($rental->load_by_field("rental_uid", $page) == true) {
         $api_requests = new api_requests_set();
         $all_ok = true;
-        if ($api_requests->load_by_field("rentallink", $rental->get_id()) == true) {
-            if ($api_requests->get_count() > 0) {
+        if ($api_requests->load_by_field("rentallink", $rental->getId()) == true) {
+            if ($api_requests->getCount() > 0) {
                 $all_ok = false;
-                echo  sprintf($lang["client.rm.error.13"], $api_requests->get_count());
+                echo  sprintf($lang["client.rm.error.13"], $api_requests->getCount());
             }
         } else {
             $all_ok = false;
@@ -31,15 +31,15 @@ if ($accept == "Accept") {
                         $package = new package();
                         if ($package->load($rental->get_packagelink()) == true) {
                             $avatar = new avatar();
-                            if ($avatar->load($rental->get_avatarlink()) == true) {
+                            if ($avatar->load($rental->getAvatarlink()) == true) {
                                 $all_ok = true;
                                 $message = "";
                                 // Event storage engine
                                 if ($slconfig->get_eventstorage() == true) {
                                     $event = new event();
                                     $event->set_avatar_uuid($avatar->get_avataruuid());
-                                    $event->set_avatar_name($avatar->get_avatarname());
-                                    $event->set_rental_uid($rental->get_rental_uid());
+                                    $event->set_avatar_name($avatar->getAvatarname());
+                                    $event->set_rental_uid($rental->getRental_uid());
                                     $event->set_package_uid($package->get_package_uid());
                                     $event->set_event_remove(true);
                                     $event->set_unixtime(time());

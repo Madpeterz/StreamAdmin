@@ -7,9 +7,9 @@ $package_set = new package_set();
 $region_set = new region_set();
 $avatar_set = new avatar_set();
 
-$package_set->load_ids($transaction_set->get_all_by_field("packagelink"));
-$region_set->load_ids($transaction_set->get_all_by_field("regionlink"));
-$avatar_set->load_ids($transaction_set->get_all_by_field("avatarlink"));
+$package_set->loadIds($transaction_set->getAllByField("packagelink"));
+$region_set->loadIds($transaction_set->getAllByField("regionlink"));
+$avatar_set->loadIds($transaction_set->getAllByField("avatarlink"));
 
 $this->output->addSwapTagString("page_title", " Newest 30");
 include "webpanel/view/transactions/render_list.php";

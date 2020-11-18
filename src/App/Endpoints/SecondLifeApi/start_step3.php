@@ -12,18 +12,18 @@ if ($hashcheck == $hash) {
         if ($get_region_status == true) {
             $region = $region_helper->get_region();
             $reseller_helper = new reseller_helper();
-            $get_reseller_status = $reseller_helper->load_or_create($object_owner_avatar->get_id(), $slconfig->get_new_resellers(), $slconfig->get_new_resellers_rate());
+            $get_reseller_status = $reseller_helper->load_or_create($object_owner_avatar->getId(), $slconfig->get_new_resellers(), $slconfig->get_new_resellers_rate());
             if ($get_reseller_status == true) {
                 $reseller = $reseller_helper->get_reseller();
                 $owner_override = false;
-                if ($slconfig->get_owner_av() == $object_owner_avatar->get_id()) {
+                if ($slconfig->get_owner_av() == $object_owner_avatar->getId()) {
                     $owner_override = true;
                 }
                 if (($reseller->get_allowed() == true) || ($owner_override == true)) {
                     $object_helper = new object_helper();
                     $get_object_status = $object_helper->load_or_create(
-                        $object_owner_avatar->get_id(),
-                        $region->get_id(),
+                        $object_owner_avatar->getId(),
+                        $region->getId(),
                         $required_sl_values["objectuuid"],
                         $required_sl_values["objectname"],
                         $required_sl_values["objecttype"],

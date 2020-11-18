@@ -9,7 +9,7 @@ use App\StreamSet;
 
 class Bynoticelevel extends RenderList
 {
-    public function process()
+    public function process(): void
     {
         $notice = new Notice();
         $notice->loadID($this->page);

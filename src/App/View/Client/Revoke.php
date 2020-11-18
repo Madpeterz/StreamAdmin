@@ -6,7 +6,7 @@ use App\Template\Form;
 
 class Create extends View
 {
-    public function process()
+    public function process(): void
     {
         $this->output->addSwapTagString("html_title", " ~ Revoke");
         $this->output->addSwapTagString("page_title", "revoke client rental:" . $this->page);

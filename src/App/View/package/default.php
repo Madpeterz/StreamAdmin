@@ -4,13 +4,13 @@ $this->output->addSwapTagString("page_title", " All");
 $package_set = new package_set();
 $package_set->loadAll();
 
-$table_head = array("id","UID","Name","Listeners","Days","Kbps","Cost");
+$table_head = ["id","UID","Name","Listeners","Days","Kbps","Cost"];
 $table_body = [];
 
-foreach ($package_set->get_all_ids() as $package_id) {
-    $package = $package_set->get_object_by_id($package_id);
+foreach ($package_set->getAllIds() as $package_id) {
+    $package = $package_set->getObjectByID($package_id);
     $entry = [];
-    $entry[] = $package->get_id();
+    $entry[] = $package->getId();
     $entry[] = '<a href="[[url_base]]package/manage/' . $package->get_package_uid() . '">' . $package->get_package_uid() . '</a>';
     $entry[] = $package->get_name();
     $entry[] = $package->get_listeners();

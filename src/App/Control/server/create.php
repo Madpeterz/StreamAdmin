@@ -30,7 +30,7 @@ $event_update_stream = $input->postFilter("event_update_stream", "integer");
 
 $failed_on = "";
 $ajax_reply->set_swap_tag_string("redirect", "");
-$yesno_array = array(0,1);
+$yesno_array = [0,1];
 if (strlen($domain) > 100) {
     $failed_on .= $lang["server.cr.error.1"];
 } elseif (strlen($domain) < 5) {
@@ -39,7 +39,7 @@ if (strlen($domain) > 100) {
     $failed_on .= $lang["server.cr.error.3"];
 } elseif ($server->load_by_field("domain", $domain) == true) {
     $failed_on .= $lang["server.cr.error.4"];
-} elseif (in_array($apilink, $apis->get_all_ids()) == false) {
+} elseif (in_array($apilink, $apis->getAllIds()) == false) {
     $failed_on .= $lang["server.cr.error.6"];
 } elseif (in_array($opt_password_reset, $yesno_array) == false) {
     $failed_on .= $lang["server.cr.error.7"];

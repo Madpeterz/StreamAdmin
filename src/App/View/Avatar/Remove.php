@@ -6,7 +6,7 @@ use App\Template\Form as Form;
 
 class Remove extends View
 {
-    public function process()
+    public function process(): void
     {
         $this->output->addSwapTagString("html_title", "~ Remove");
         $this->output->setSwapTagString("page_title", "Remove avatar");

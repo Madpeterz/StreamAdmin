@@ -3,7 +3,7 @@
 function not_banned(avatar $avatar): bool
 {
     $banlist = new banlist();
-    $banlist->load_by_field("avatar_link", $avatar->get_id());
+    $banlist->load_by_field("avatar_link", $avatar->getId());
     if ($banlist->is_loaded() == true) {
         return false;
     } else {
@@ -24,11 +24,11 @@ function create_transaction(avatar $avatar, package $package, stream $stream, re
     $transaction = new transactions();
     $uid_transaction = $transaction->create_uid("transaction_uid", 8, 10);
     if ($uid_transaction["status"] == true) {
-        $transaction->set_avatarlink($avatar->get_id());
-        $transaction->set_packagelink($package->get_id());
-        $transaction->set_streamlink($stream->get_id());
-        $transaction->set_resellerlink($reseller->get_id());
-        $transaction->set_regionlink($region->get_id());
+        $transaction->set_avatarlink($avatar->getId());
+        $transaction->set_packagelink($package->getId());
+        $transaction->set_streamlink($stream->getId());
+        $transaction->set_resellerlink($reseller->getId());
+        $transaction->set_regionlink($region->getId());
         $transaction->set_amount($amountpaid);
         $transaction->set_unixtime(time());
         $transaction->set_transaction_uid($uid_transaction["uid"]);
@@ -51,12 +51,12 @@ function get_unassigned_stream_on_package(package $package): ?stream
     $apirequests_set = new api_requests_set();
     $apirequests_set->loadAll();
     $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
-    $where_config = array(
-        "fields" => array("rentallink","packagelink","needwork"),
-        "values" => array(null,$package->get_id(),0),
-        "types" => array("i","i","i"),
-        "matches" => array("IS","=","=")
-    );
+    $where_config = [
+        "fields" => ["rentallink","packagelink","needwork"],
+        "values" => [null,$package->getId(),0],
+        "types" => ["i","i","i"],
+        "matches" => ["IS","=","="],
+    ];
     if (count($used_stream_ids) > 0) {
         $whereconfig["fields"][] = "id";
         $whereconfig["matches"][] = "NOT IN";
@@ -65,9 +65,9 @@ function get_unassigned_stream_on_package(package $package): ?stream
     }
     $stream_set = new stream_set();
     $stream_set->load_with_config($where_config);
-    if ($stream_set->get_count() > 0) {
-        $stream_id = $stream_set->get_all_ids()[rand(0, $stream_set->get_count() - 1)];
-        $streamfinder = $stream_set->get_object_by_id($stream_id);
+    if ($stream_set->getCount() > 0) {
+        $stream_id = $stream_set->getAllIds()[rand(0, $stream_set->getCount() - 1)];
+        $streamfinder = $stream_set->getObjectByID($stream_id);
         return $streamfinder;
     }
     return null;
@@ -110,17 +110,17 @@ if ($status == true) { // find stream
 }
 if ($status == true) { // check payment amount
     $amountpaid = $input->postFilter("amountpaid", "integer");
-    $accepted_payment_amounts = array(
+    $accepted_payment_amounts = [
         $package->get_cost() => 1,
         ($package->get_cost() * 2) => 2,
         ($package->get_cost() * 3) => 3,
-        ($package->get_cost() * 4) => 4
-    );
+        ($package->get_cost() * 4) => 4,
+    ];
     if (array_key_exists($amountpaid, $accepted_payment_amounts) == true) {
         // get expire unixtime and notice index
         $notice_set = new notice_set();
         $notice_set->loadAll();
-        $sorted_linked = $notice_set->get_linked_array("hoursremaining", "id");
+        $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
         $multipler = $accepted_payment_amounts[$amountpaid];
         $hours_remain = ($package->get_days() * 24) * $multipler;
@@ -144,9 +144,9 @@ if ($status == true) { // create rental
     $status = $uid_rental["status"];
     if ($status == true) {
         $rental->set_rental_uid($uid_rental["uid"]);
-        $rental->set_avatarlink($avatar->get_id());
+        $rental->set_avatarlink($avatar->getId());
         $rental->set_packagelink($stream->get_packagelink());
-        $rental->set_streamlink($stream->get_id());
+        $rental->set_streamlink($stream->getId());
         $rental->set_startunixtime(time());
         $rental->set_expireunixtime($unixtime);
         $rental->set_noticelink($use_notice_index);
@@ -160,7 +160,7 @@ if ($status == true) { // create rental
     }
 }
 if ($status == true) { // link rental to stream
-    $stream->set_rentallink($rental->get_id());
+    $stream->set_rentallink($rental->getId());
     $status = $stream->save_changes()["status"];
     if ($status != true) {
         $why_failed = $lang["buy.sr.error.8"];
@@ -203,8 +203,8 @@ if ($status == true) {  // event storage engine (to be phased out)
     if ($slconfig->get_eventstorage() == true) {
         $event = new event();
         $event->set_avatar_uuid($avatar->get_avataruuid());
-        $event->set_avatar_name($avatar->get_avatarname());
-        $event->set_rental_uid($rental->get_rental_uid());
+        $event->set_avatar_name($avatar->getAvatarname());
+        $event->set_rental_uid($rental->getRental_uid());
         $event->set_package_uid($package->get_package_uid());
         $event->set_event_new(true);
         $event->set_unixtime(time());

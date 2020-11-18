@@ -5,15 +5,15 @@ if ($owner_override == true) {
     $botconfig = new botconfig();
     if ($botconfig->load(1) == 1) {
         $botavatar = new avatar();
-        if ($botavatar->load($botconfig->get_avatarlink()) == true) {
+        if ($botavatar->load($botconfig->getAvatarlink()) == true) {
             $detail_set = new detail_set();
-            $detail_set->load_newest(1, array(), array(), "id", "ASC"); // lol loading oldest with newest command ^+^ hax
-            if ($detail_set->get_count() > 0) {
+            $detail_set->load_newest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
+            if ($detail_set->getCount() > 0) {
                 $detail = $detail_set->get_first();
                 $rental = new rental();
-                if ($rental->load($detail->get_rentallink()) == true) {
+                if ($rental->load($detail->getRentallink()) == true) {
                     $avatar = new avatar();
-                    if ($avatar->load($rental->get_avatarlink()) == true) {
+                    if ($avatar->load($rental->getAvatarlink()) == true) {
                         $stream = new stream();
                         if ($stream->load($rental->get_streamlink()) == true) {
                             $server = new server();
@@ -31,7 +31,7 @@ if ($owner_override == true) {
                                             if ($send_message_status["status"] == true) {
                                                 if ($botconfig->get_notecards() == true) {
                                                      $notecard = new notecard();
-                                                     $notecard->set_rentallink($rental->get_id());
+                                                     $notecard->set_rentallink($rental->getId());
                                                      $create_status = $notecard->create_entry();
                                                 }
                                                 $status = true;

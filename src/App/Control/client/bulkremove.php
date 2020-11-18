@@ -1,11 +1,11 @@
 <?php
 
-$whereconfig = array(
-    "fields" => array("expireunixtime"),
-    "values" => array(time()),
-    "types" => array("i"),
-    "matches" => array("<="),
-);
+$whereconfig = [
+    "fields" => ["expireunixtime"],
+    "values" => [time()],
+    "types" => ["i"],
+    "matches" => ["<="],
+];
 $input = new inputFilter();
 $template_parts["page_actions"] = "";
 $rental_set = new rental_set();
@@ -16,10 +16,10 @@ $server_set = new server_set();
 $api_requests_set = new api_requests_set();
 $apis_set = new apis_set();
 $rental_set->load_with_config($whereconfig);
-$avatar_set->load_ids($rental_set->get_all_by_field("avatarlink"));
-$package_set->load_ids($rental_set->get_all_by_field("packagelink"));
-$stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
-$api_requests_set->load_ids($rental_set->get_all_by_field("id"), "rentallink");
+$avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
+$package_set->loadIds($rental_set->getAllByField("packagelink"));
+$stream_set->loadIds($rental_set->getAllByField("streamlink"));
+$api_requests_set->loadIds($rental_set->getAllByField("id"), "rentallink");
 $apis_set->loadAll();
 $server_set->loadAll();
 $removed_counter = 0;
@@ -28,13 +28,13 @@ $status = true;
 $ajax_reply->set_swap_tag_string("redirect", "client/bulkremove");
 $rental_ids_removed = [];
 $status = true;
-foreach ($rental_set->get_all_ids() as $rental_id) {
-    $rental = $rental_set->get_object_by_id($rental_id);
-    if (strlen($rental->get_message()) == 0) {
+foreach ($rental_set->getAllIds() as $rental_id) {
+    $rental = $rental_set->getObjectByID($rental_id);
+    if (strlen($rental->getMessage()) == 0) {
         if ($api_requests_set->get_object_by_field("rentallink", $rental_id) == null) {
-            $accept = $input->postFilter("rental" . $rental->get_rental_uid() . "");
+            $accept = $input->postFilter("rental" . $rental->getRental_uid() . "");
             if ($accept == "purge") {
-                $stream = $stream_set->get_object_by_id($rental->get_streamlink());
+                $stream = $stream_set->getObjectByID($rental->get_streamlink());
                 if ($stream != null) {
                     $server = new server();
                     if ($server->load($stream->get_serverlink()) == true) {
@@ -45,12 +45,12 @@ foreach ($rental_set->get_all_ids() as $rental_id) {
                             $all_ok = true;
                             $message = "";
                             if ($slconfig->get_eventstorage() == true) {
-                                $package = $package_set->get_object_by_id($rental->get_packagelink());
-                                $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
+                                $package = $package_set->getObjectByID($rental->get_packagelink());
+                                $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
                                 $event = new event();
                                 $event->set_avatar_uuid($avatar->get_avataruuid());
-                                $event->set_avatar_name($avatar->get_avatarname());
-                                $event->set_rental_uid($rental->get_rental_uid());
+                                $event->set_avatar_name($avatar->getAvatarname());
+                                $event->set_rental_uid($rental->getRental_uid());
                                 $event->set_package_uid($package->get_package_uid());
                                 $event->set_event_remove(true);
                                 $event->set_unixtime(time());
@@ -96,12 +96,12 @@ foreach ($rental_set->get_all_ids() as $rental_id) {
                         }
                     } else {
                         $status = false;
-                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.br.error.5"], $rental->get_rental_uid()));
+                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.br.error.5"], $rental->getRental_uid()));
                         break;
                     }
                 } else {
                     $status = false;
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.br.error.4"], $rental->get_rental_uid()));
+                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.br.error.4"], $rental->getRental_uid()));
                     break;
                 }
             }

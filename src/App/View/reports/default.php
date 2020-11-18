@@ -31,7 +31,7 @@ $form = new form();
 $form->target("reports/breakdown-month");
 $form->mode("get");
 $form->required(true);
-$form->select("month", "Month", $month, array(1 => "Jan",2 => "Feb",3 => "Mar",4 => "Apr",5 => "May",6 => "June",7 => "July",8 => "Aug",9 => "Sep",10 => "Oct",11 => "Nov",12 => "Dec"));
+$form->select("month", "Month", $month, [1 => "Jan",2 => "Feb",3 => "Mar",4 => "Apr",5 => "May",6 => "June",7 => "July",8 => "Aug",9 => "Sep",10 => "Oct",11 => "Nov",12 => "Dec"]);
 $start_year = 2013;
 $end_year = date("Y");
 $year_select = [];
@@ -79,16 +79,16 @@ $amount_new = 0;
 $amount_renew = 0;
 
 $transactions_set = new transactions_set();
-$whereconfig = array(
-    "fields" => array("unixtime","unixtime"),
-    "values" => array(time() - $unixtime_week,time()),
-    "types" => array("i","i"),
-    "matches" => array(">=","<="),
-);
+$whereconfig = [
+    "fields" => ["unixtime","unixtime"],
+    "values" => [time() - $unixtime_week,time()],
+    "types" => ["i","i"],
+    "matches" => [">=","<="],
+];
 
 $transactions_set->load_with_config($whereconfig);
-foreach ($transactions_set->get_all_ids() as $transaction_id) {
-    $transaction = $transactions_set->get_object_by_id($transaction_id);
+foreach ($transactions_set->getAllIds() as $transaction_id) {
+    $transaction = $transactions_set->getObjectByID($transaction_id);
     if ($transaction->get_renew() == 1) {
         $renewed_rentals++;
         $amount_renew += $transaction->get_amount();
@@ -98,7 +98,7 @@ foreach ($transactions_set->get_all_ids() as $transaction_id) {
     }
 }
 $mygrid = new grid();
-$mygrid->add_content("<h3>This week</h3>" . render_table(array("New","Renews","L$ total [New]","L$ total [Rewew]"), array(array($new_rentals,$renewed_rentals,$amount_new,$amount_renew))), 12);
+$mygrid->add_content("<h3>This week</h3>" . render_table(["New","Renews","L$ total [New]","L$ total [Rewew]"], [[$new_rentals,$renewed_rentals,$amount_new,$amount_renew]]), 12);
 $mygrid->add_content("<hr/><h3>Toolbox</h3><br/>", 12);
 $mygrid->add_content("<h4>Month breakdown</h4>" . $flow_form_month, 6);
 $mygrid->add_content("<h4>Year breakdown</h4>" . $flow_form_year, 6);

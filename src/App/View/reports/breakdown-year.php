@@ -11,12 +11,12 @@ if ($year < 2013) {
 $this->output->addSwapTagString("page_title", "Year breakdown: " . $year);
 
 $transactions_set = new transactions_set();
-$whereconfig = array(
-    "fields" => array("unixtime","unixtime"),
-    "values" => array(mktime(0, 0, 1, 1, 1, $year),mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year)),
-    "types" => array("i","i"),
-    "matches" => array(">=","<="),
-);
+$whereconfig = [
+    "fields" => ["unixtime","unixtime"],
+    "values" => [mktime(0, 0, 1, 1, 1, $year),mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year)],
+    "types" => ["i","i"],
+    "matches" => [">=","<="],
+];
 $transactions_set->load_with_config($whereconfig);
 
 // totals
@@ -25,7 +25,7 @@ $renewed_rentals = 0;
 $amount_new = 0;
 $amount_renew = 0;
 
-$lookups = array(
+$lookups = [
     mktime(23, 59, 59, 1, cal_days_in_month(CAL_GREGORIAN, 1, $year), $year) => 1,
     mktime(23, 59, 59, 2, cal_days_in_month(CAL_GREGORIAN, 2, $year), $year) => 2,
     mktime(23, 59, 59, 3, cal_days_in_month(CAL_GREGORIAN, 3, $year), $year) => 3,
@@ -38,26 +38,26 @@ $lookups = array(
     mktime(23, 59, 59, 10, cal_days_in_month(CAL_GREGORIAN, 10, $year), $year) => 10,
     mktime(23, 59, 59, 11, cal_days_in_month(CAL_GREGORIAN, 11, $year), $year) => 11,
     mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year) => 12,
-);
+];
 
-$month_datasets = array(
-    1 => array("title" => "Jan","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    2 => array("title" => "Feb","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    3 => array("title" => "Mar","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    4 => array("title" => "Apr","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    5 => array("title" => "May","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    6 => array("title" => "June","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    7 => array("title" => "July","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    8 => array("title" => "Aug","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    9 => array("title" => "Sep","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    10 => array("title" => "Oct","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    11 => array("title" => "Nov","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    12 => array("title" => "Dec","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-);
+$month_datasets = [
+    1 => ["title" => "Jan","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    2 => ["title" => "Feb","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    3 => ["title" => "Mar","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    4 => ["title" => "Apr","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    5 => ["title" => "May","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    6 => ["title" => "June","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    7 => ["title" => "July","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    8 => ["title" => "Aug","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    9 => ["title" => "Sep","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    10 => ["title" => "Oct","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    11 => ["title" => "Nov","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    12 => ["title" => "Dec","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+];
 
 
-foreach ($transactions_set->get_all_ids() as $transaction_id) {
-    $transaction = $transactions_set->get_object_by_id($transaction_id);
+foreach ($transactions_set->getAllIds() as $transaction_id) {
+    $transaction = $transactions_set->getObjectByID($transaction_id);
     $month_id = 1;
     foreach ($lookups as $max_unixtime => $month_num) {
         if ($transaction->get_unixtime() < $max_unixtime) {
@@ -81,8 +81,8 @@ foreach ($transactions_set->get_all_ids() as $transaction_id) {
 }
 
 
-$last_month = array("title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0);
-$best_month = array("title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0);
+$last_month = ["title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0];
+$best_month = ["title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0];
 
 $best_month_total = 0;
 foreach ($month_datasets as $index => $dataset) {
@@ -113,7 +113,7 @@ function amount_changed($old, $new)
         }
     }
 }
-$table_head = array("Month","L$ total","Transactions total","Count / New","Count / Renew","L$ / total new","L$ total renew","Change from last month","Change from best month");
+$table_head = ["Month","L$ total","Transactions total","Count / New","Count / Renew","L$ / total new","L$ total renew","Change from last month","Change from best month"];
 $table_body = [];
 foreach ($month_datasets as $index => $dataset) {
     $entry = [];
@@ -153,7 +153,7 @@ foreach ($month_datasets as $index => $dataset) {
     }
 }
 $pages = [];
-$pages["Fast report"] = render_table(array("New","Renews","L$ total [New]","L$ total [Rewew]"), array(array($new_rentals,$renewed_rentals,$amount_new,$amount_renew)));
+$pages["Fast report"] = render_table(["New","Renews","L$ total [New]","L$ total [Rewew]"], [[$new_rentals,$renewed_rentals,$amount_new,$amount_renew]]);
 $pages["Month breakdown"] = render_table($table_head, $table_body);
 $paged_info = new paged_info();
 $this->output->setSwapTagString("page_content", $paged_info->render($pages));

@@ -34,7 +34,7 @@ if ($session->get_ownerlevel() == true) {
     if ($failed_on == "") {
         $staff = new staff();
         $staff->set_username($username);
-        $staff->set_avatarlink($avatar->get_id());
+        $staff->set_avatarlink($avatar->getId());
         $staff->set_email($email);
         $staff->set_phash(sha1("phash install" . microtime() . "" . $username));
         $staff->set_lhash(sha1("lhash install" . microtime() . "" . $username));

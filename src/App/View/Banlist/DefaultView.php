@@ -10,9 +10,9 @@ use YAPF\InputFilter\InputFilter as InputFilter;
 
 class DefaultView extends View
 {
-    public function process()
+    public function process(): void
     {
-        if ($this->session->get_ownerlevel() != 1) {
+        if ($this->session->getOwnerLevel() != 1) {
             $this->output->redirect("?bubblemessage=sorry owner only&bubbletype=warning");
             return;
         }
@@ -26,16 +26,16 @@ class DefaultView extends View
         $wherematchs = [];
         if (strlen($uuid) == 36) {
             $match_with = "uuid";
-            $wherefields = array("avataruuid");
-            $wherevalues = array($uuid);
-            $wheretypes = array("s");
-            $wherematchs = array("=");
+            $wherefields = ["avataruuid"];
+            $wherevalues = [$uuid];
+            $wheretypes = ["s"];
+            $wherematchs = ["="];
         } elseif (strlen($name) >= 2) {
             $match_with = "name";
-            $wherefields = array("avatarname");
-            $wherevalues = array($name);
-            $wheretypes = array("s");
-            $wherematchs = array("% LIKE %");
+            $wherefields = ["avatarname"];
+            $wherevalues = [$name];
+            $wheretypes = ["s"];
+            $wherematchs = ["% LIKE %"];
         }
         $banlist_set = new BanlistSet();
         $avatar_set = new AvatarSet();
@@ -44,12 +44,12 @@ class DefaultView extends View
             $avatar_set->loadIds($banlist_set->getUniqueArray("avatar_link"));
             $this->output->addSwapTagString("page_title", " Newest 30 avatars banned");
         } else {
-            $where_config = array(
+            $where_config = [
                 "fields" => $wherefields,
                 "values" => $wherevalues,
                 "types" => $wheretypes,
-                "matches" => $wherematchs
-            );
+                "matches" => $wherematchs,
+            ];
             $avatar_set->loadWithConfig($where_config);
             if ($match_with == "name") {
                 $this->output->addSwapTagString("page_title", "Names containing: " . $name);
@@ -59,7 +59,7 @@ class DefaultView extends View
             $banlist_set->loadIds($avatar_set->getAllIds(), "avatar_link");
         }
 
-        $table_head = array("id","Name","Remove");
+        $table_head = ["id","Name","Remove"];
         $table_body = [];
 
         foreach ($banlist_set->getAllIds() as $ban_id) {

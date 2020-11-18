@@ -3,16 +3,17 @@
 namespace App;
 
 use App\Template\Template as Templated;
+use YAPF\MySQLi\MysqliEnabled;
 
 abstract class View
 {
     protected Templated $output;
-    protected $page;
-    protected $module;
-    protected $option;
-    protected $session;
-    protected $slconfig;
-    protected $sql;
+    protected string $page;
+    protected string $module;
+    protected string $option;
+    protected SessionControl $session;
+    protected Slconfig $slconfig;
+    protected MysqliEnabled $sql;
     public function __construct()
     {
         global $slconfig, $page, $module, $option, $session, $sql;

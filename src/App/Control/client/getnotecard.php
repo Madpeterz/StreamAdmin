@@ -3,7 +3,7 @@
 $rental = new rental();
 if ($rental->load_by_field("rental_uid", $page) == true) {
     $avatar = new avatar();
-    $avatar->load($rental->get_avatarlink());
+    $avatar->load($rental->getAvatarlink());
 
     $stream = new stream();
     $stream->load($rental->get_streamlink());

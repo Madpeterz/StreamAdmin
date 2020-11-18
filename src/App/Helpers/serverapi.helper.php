@@ -16,24 +16,24 @@ class serverapi_helper
     protected $server_api = null;
     protected $api_config = null;
 
-    protected $callable_actions = array(
-        "api_enable_account" => array("event_enable_start"),
-        "api_list_djs" => array("event_clear_djs"),
-        "api_change_title" => array("event_enable_start"),
-        "api_purge_djs" => array("event_clear_djs"),
-        "api_disable_account" => array("event_disable_revoke"),
-        "api_serverstatus" => array("api_serverstatus"),
-        "api_start" => array("opt_toggle_status","event_enable_start"),
-        "api_stop" => array("opt_toggle_status","event_enable_start"),
-        "api_autodj_toggle" => array("opt_toggle_autodj"),
-        "api_autodj_next" => array("opt_autodj_next"),
-        "api_customize_username" => array("event_start_sync_username"),
+    protected $callable_actions = [
+        "api_enable_account" => ["event_enable_start"],
+        "api_list_djs" => ["event_clear_djs"],
+        "api_change_title" => ["event_enable_start"],
+        "api_purge_djs" => ["event_clear_djs"],
+        "api_disable_account" => ["event_disable_revoke"],
+        "api_serverstatus" => ["api_serverstatus"],
+        "api_start" => ["opt_toggle_status","event_enable_start"],
+        "api_stop" => ["opt_toggle_status","event_enable_start"],
+        "api_autodj_toggle" => ["opt_toggle_autodj"],
+        "api_autodj_next" => ["opt_autodj_next"],
+        "api_customize_username" => ["event_start_sync_username"],
         "api_recreate_account" => [],
-        "api_reset_passwords" => array("opt_password_reset"),
-        "api_set_passwords" => array("opt_password_reset","event_reset_password_revoke")
-    );
+        "api_reset_passwords" => ["opt_password_reset"],
+        "api_set_passwords" => ["opt_password_reset","event_reset_password_revoke"],
+    ];
 
-    public function get_message()
+    public function getMessage()
     {
         return $this->message;
     }
@@ -89,7 +89,7 @@ class serverapi_helper
     {
         return $this->api_autodj_toggle();
     }
-    public function force_set_stream(Stream $stream = null, bool $auto_load = false)
+    public function force_set_stream(Stream $stream = null, bool $auto_load = false): void
     {
         $this->stream = $stream;
         if ($stream != null) {
@@ -128,7 +128,7 @@ class serverapi_helper
         $api = new apis();
         $processed = false;
         if ($api->load($this->server->get_apilink()) == true) {
-            if ($api->get_id() > 1) {
+            if ($api->getId() > 1) {
                 $this->api_config = $api;
                 $server_api_name = "server_" . $api->get_name() . "";
                 if (class_exists($server_api_name) == true) {
@@ -149,7 +149,7 @@ class serverapi_helper
     protected function load_rental(): bool
     {
         $rental = new rental();
-        if ($rental->load_by_field("streamlink", $this->stream->get_id()) == true) {
+        if ($rental->load_by_field("streamlink", $this->stream->getId()) == true) {
             $this->rental = $rental;
             $this->message = "Rental loaded";
             return true;
@@ -182,7 +182,7 @@ class serverapi_helper
     protected function load_avatar(): bool
     {
         $avatar = new avatar();
-        if ($avatar->load($this->rental->get_avatarlink()) == true) {
+        if ($avatar->load($this->rental->getAvatarlink()) == true) {
             $this->message = "Avatar loaded";
             $this->avatar = $avatar;
             return true;
@@ -320,7 +320,7 @@ class serverapi_helper
     {
         if ($this->callable_action(__FUNCTION__) == true) {
             if ($this->avatar != null) {
-                $reply = $this->server_api->change_title($this->avatar->get_avatarname() . " stream");
+                $reply = $this->server_api->change_title($this->avatar->getAvatarname() . " stream");
                 return $reply;
             }
             return true;
@@ -371,7 +371,7 @@ class serverapi_helper
         if ($this->callable_action(__FUNCTION__) == true) {
             return $this->server_api->get_server_status();
         }
-        return array("status" => false,"loads" => array("1" => 0,"5" => 0,"15" => 0),"ram" => array("free" => 0,"max" => 0),"streams" => array("total" => 0,"active" => 0),"message" => "No api");
+        return ["status" => false,"loads" => ["1" => 0,"5" => 0,"15" => 0],"ram" => ["free" => 0,"max" => 0],"streams" => ["total" => 0,"active" => 0],"message" => "No api"];
     }
 
 
@@ -382,8 +382,8 @@ class serverapi_helper
         if (($new_dj_password == null) || ($new_admin_password == null)) {
             $this->message = "no passwords sent";
             $input = new inputFilter();
-            $set_dj_password = $input->postFilter("set_dj_password", "string", array("minLength" => 5,"maxLength" => 12));
-            $set_admin_password = $input->postFilter("set_admin_password", "string", array("minLength" => 5,"maxLength" => 12));
+            $set_dj_password = $input->postFilter("set_dj_password", "string", ["minLength" => 5,"maxLength" => 12]);
+            $set_admin_password = $input->postFilter("set_admin_password", "string", ["minLength" => 5,"maxLength" => 12]);
             if (($set_dj_password != null) && ($set_admin_password != null)) {
                 $new_dj_password = $set_dj_password;
                 $new_admin_password = $set_admin_password;
@@ -398,7 +398,7 @@ class serverapi_helper
                 $status = false;
                 $this->message = "started api_reset_passwords";
                 if ($this->server_api != null) {
-                    if ($this->check_flags(array("opt_password_reset","event_reset_password_revoke")) == true) {
+                    if ($this->check_flags(["opt_password_reset","event_reset_password_revoke"]) == true) {
                         $this->message = "passed flag check";
                         $this->stream->set_adminpassword($new_admin_password);
                         $this->stream->set_djpassword($new_dj_password);
@@ -490,7 +490,7 @@ class serverapi_helper
             $this->message = $this->server_api->get_last_api_message();
             return $status;
         }
-        return array("status" => false,"usernames" => [],"passwords" => []);
+        return ["status" => false,"usernames" => [],"passwords" => []];
     }
     protected function get_stream_customized_username(): string
     {
@@ -505,13 +505,13 @@ class serverapi_helper
             if ($server_accounts["status"] == true) {
                 if (in_array($this->stream->get_adminusername(), $server_accounts["usernames"]) == true) {
                     $acceptable_names = [];
-                    $avname = explode(" ", strtolower($this->avatar->get_avatarname()));
+                    $avname = explode(" ", strtolower($this->avatar->getAvatarname()));
                     $acceptable_names[] = $avname[0]; // Firstname
                     $acceptable_names[] = $avname[0] . "_" . substr($avname[1], 0, 2); // Firstname 2 letters of last name
                     $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port(); // Firstname Port
                     $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->package->get_bitrate(); // Firstname Port Bitrate
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->server->get_id(); // Firstname Port ServerID
-                    $acceptable_names[] = $avname[0] . "_" . $this->rental->get_rental_uid(); // Firstname RentalUID
+                    $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->server->getId(); // Firstname Port ServerID
+                    $acceptable_names[] = $avname[0] . "_" . $this->rental->getRental_uid(); // Firstname RentalUID
                     $accepted_name = "";
                     foreach ($acceptable_names as $testname) {
                         if (in_array($testname, $server_accounts["usernames"]) == false) {

@@ -8,7 +8,7 @@ if ($year < 2013) {
     $year = date("Y");
 }
 
-$months = array(1 => "Jan",2 => "Feb",3 => "Mar",4 => "Apr",5 => "May",6 => "June",7 => "July",8 => "Aug",9 => "Sep",10 => "Oct",11 => "Nov",12 => "Dec");
+$months = [1 => "Jan",2 => "Feb",3 => "Mar",4 => "Apr",5 => "May",6 => "June",7 => "July",8 => "Aug",9 => "Sep",10 => "Oct",11 => "Nov",12 => "Dec"];
 $month = $input->getFilter("month", "integer");
 if ($month < 1) {
     $month = 1;
@@ -19,12 +19,12 @@ if ($month < 1) {
 $this->output->addSwapTagString("page_title", "Month breakdown: " . $months[$month] . " / " . $year);
 
 $transactions_set = new transactions_set();
-$whereconfig = array(
-    "fields" => array("unixtime","unixtime"),
-    "values" => array(mktime(0, 0, 1, $month, 1, $year),mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year)),
-    "types" => array("i","i"),
-    "matches" => array(">=","<="),
-);
+$whereconfig = [
+    "fields" => ["unixtime","unixtime"],
+    "values" => [mktime(0, 0, 1, $month, 1, $year),mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year)],
+    "types" => ["i","i"],
+    "matches" => [">=","<="],
+];
 $transactions_set->load_with_config($whereconfig);
 
 // totals
@@ -33,25 +33,25 @@ $renewed_rentals = 0;
 $amount_new = 0;
 $amount_renew = 0;
 
-$lookups = array(
+$lookups = [
     mktime(23, 59, 59, $month, 7, $year) => 1,
     mktime(23, 59, 59, $month, 14, $year) => 2,
     mktime(23, 59, 59, $month, 21, $year) => 3,
     mktime(23, 59, 59, $month, 28, $year) => 4,
     mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year) => 5,
-);
+];
 
-$month_datasets = array(
-    1 => array("title" => "Week 1","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    2 => array("title" => "Week 2","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    3 => array("title" => "Week 3","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    4 => array("title" => "Week 4","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-    5 => array("title" => "Week 5","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0),
-);
+$month_datasets = [
+    1 => ["title" => "Week 1","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    2 => ["title" => "Week 2","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    3 => ["title" => "Week 3","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    4 => ["title" => "Week 4","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+    5 => ["title" => "Week 5","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0],
+];
 
 
-foreach ($transactions_set->get_all_ids() as $transaction_id) {
-    $transaction = $transactions_set->get_object_by_id($transaction_id);
+foreach ($transactions_set->getAllIds() as $transaction_id) {
+    $transaction = $transactions_set->getObjectByID($transaction_id);
     $month_id = 1;
     foreach ($lookups as $max_unixtime => $month_num) {
         if ($transaction->get_unixtime() < $max_unixtime) {
@@ -75,8 +75,8 @@ foreach ($transactions_set->get_all_ids() as $transaction_id) {
 }
 
 
-$last_month = array("title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0);
-$best_month = array("title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0);
+$last_month = ["title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0];
+$best_month = ["title" => "None","new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0];
 
 $best_month_total = 0;
 foreach ($month_datasets as $index => $dataset) {
@@ -107,7 +107,7 @@ function amount_changed($old, $new)
         }
     }
 }
-$table_head = array("Month","L$ total","Transactions total","Count / New","Count / Renew","L$ / total new","L$ total renew","Change from last week","Change from best week");
+$table_head = ["Month","L$ total","Transactions total","Count / New","Count / Renew","L$ / total new","L$ total renew","Change from last week","Change from best week"];
 $table_body = [];
 foreach ($month_datasets as $index => $dataset) {
     $entry = [];
@@ -147,7 +147,7 @@ foreach ($month_datasets as $index => $dataset) {
     }
 }
 $pages = [];
-$pages["Fast report"] = render_table(array("New","Renews","L$ total [New]","L$ total [Rewew]"), array(array($new_rentals,$renewed_rentals,$amount_new,$amount_renew)));
+$pages["Fast report"] = render_table(["New","Renews","L$ total [New]","L$ total [Rewew]"], [[$new_rentals,$renewed_rentals,$amount_new,$amount_renew]]);
 $pages["Month breakdown"] = render_table($table_head, $table_body);
 $paged_info = new paged_info();
 $this->output->setSwapTagString("page_content", $paged_info->render($pages));

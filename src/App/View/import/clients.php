@@ -17,8 +17,8 @@ $avatar_set->loadAll();
 $stream_set = new stream_set();
 $stream_set->loadAll();
 
-$stream_set_oldid_to_id = $stream_set->get_linked_array("mountpoint", "id");
-$avatar_set_uuid_to_id = $avatar_set->get_linked_array("avataruuid", "id");
+$stream_set_oldid_to_id = $stream_set->getLinkedArray("mountpoint", "id");
+$avatar_set_uuid_to_id = $avatar_set->getLinkedArray("avataruuid", "id");
 
 $clients_created = 0;
 $clients_skipped_no_stream = 0;
@@ -30,11 +30,11 @@ include "shared/lang/control/client/" . $site_lang . ".php";
 
 $notice_set = new notice_set();
 $notice_set->loadAll();
-$sorted_linked = $notice_set->get_linked_array("hoursremaining", "id");
+$sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
 ksort($sorted_linked, SORT_NUMERIC);
 
-foreach ($r4_users_set->get_all_ids() as $r4_user_id) {
-    $r4_user = $r4_users_set->get_object_by_id($r4_user_id);
+foreach ($r4_users_set->getAllIds() as $r4_user_id) {
+    $r4_user = $r4_users_set->getObjectByID($r4_user_id);
     $find_stream = "r4|" . $r4_user->get_itemid() . "";
     if (array_key_exists($find_stream, $stream_set_oldid_to_id) == true) {
         if (array_key_exists($r4_user->get_slkey(), $avatar_set_uuid_to_id) == true) {
@@ -54,23 +54,23 @@ foreach ($r4_users_set->get_all_ids() as $r4_user_id) {
                 $use_notice_index = 6;
             }
             if ($use_notice_index > 0) {
-                $stream = $stream_set->get_object_by_id($stream_set_oldid_to_id[$find_stream]);
-                $avatar = $avatar_set->get_object_by_id($avatar_set_uuid_to_id[$r4_user->get_slkey()]);
+                $stream = $stream_set->getObjectByID($stream_set_oldid_to_id[$find_stream]);
+                $avatar = $avatar_set->getObjectByID($avatar_set_uuid_to_id[$r4_user->get_slkey()]);
                 $rental = new rental();
                 $uid = $rental->create_uid("rental_uid", 8, 10);
                 if ($uid["status"] == true) {
                     $rental->set_rental_uid($uid["uid"]);
-                    $rental->set_avatarlink($avatar->get_id());
+                    $rental->set_avatarlink($avatar->getId());
                     $rental->set_packagelink($stream->get_packagelink());
-                    $rental->set_streamlink($stream->get_id());
+                    $rental->set_streamlink($stream->getId());
                     $rental->set_startunixtime(time());
                     $rental->set_expireunixtime($r4_user->get_expireunix());
-                    $rental->set_avatarlink($avatar->get_id());
+                    $rental->set_avatarlink($avatar->getId());
                     $rental->set_noticelink($use_notice_index);
                     $rental->set_message($r4_user->get_notes());
                     $create_status = $rental->create_entry();
                     if ($create_status["status"] == true) {
-                        $stream->set_rentallink($rental->get_id());
+                        $stream->set_rentallink($rental->getId());
                         $stream->set_needwork(0);
                         $update_status = $stream->save_changes();
                         if ($update_status["status"] == true) {

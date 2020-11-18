@@ -28,14 +28,14 @@ $api_sync_accounts = $input->postFilter("api_sync_accounts", "integer");
 $event_create_stream = $input->postFilter("event_create_stream", "integer");
 $event_update_stream = $input->postFilter("event_update_stream", "integer");
 
-$yesno_array = array(0,1);
+$yesno_array = [0,1];
 if (strlen($domain) > 100) {
     $failed_on .= $lang["server.up.error.1"];
 } elseif (strlen($domain) < 5) {
     $failed_on .= $lang["server.up.error.2"];
 } elseif (strlen($controlpanel_url) < 5) {
     $failed_on .= $lang["server.up.error.3"];
-} elseif (in_array($apilink, $apis->get_all_ids()) == false) {
+} elseif (in_array($apilink, $apis->getAllIds()) == false) {
     $failed_on .= $lang["server.up.error.8"];
 } elseif (in_array($opt_password_reset, $yesno_array) == false) {
     $failed_on .= $lang["server.up.error.9"];
@@ -77,8 +77,8 @@ $status = false;
 if ($failed_on == "") {
     $server = new server();
     if ($server->load($page) == true) {
-        $where_fields = array(array("domain" => "="));
-        $where_values = array(array($domain => "s"));
+        $where_fields = [["domain" => "="]];
+        $where_values = [[$domain => "s"]];
         $count_check = $sql->basic_count($server->get_table(), $where_fields, $where_values);
         $expected_count = 0;
         if ($server->get_domain() == $domain) {

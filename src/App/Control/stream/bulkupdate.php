@@ -1,11 +1,11 @@
 <?php
 
-$whereconfig = array(
-    "fields" => array("needwork","rentallink"),
-    "values" => array(1,null),
-    "types" => array("i","i"),
-    "matches" => array("=","IS"),
-);
+$whereconfig = [
+    "fields" => ["needwork","rentallink"],
+    "values" => [1,null],
+    "types" => ["i","i"],
+    "matches" => ["=","IS"],
+];
 $stream_set = new stream_set();
 $stream_set->load_with_config($whereconfig);
 $status = true;
@@ -13,8 +13,8 @@ $ajax_reply->set_swap_tag_string("redirect", "stream/bulkupdate");
 $input = new inputFilter();
 $streams_updated = 0;
 $streams_skipped_original_adminusername = 0;
-foreach ($stream_set->get_all_ids() as $stream_id) {
-    $stream = $stream_set->get_object_by_id($stream_id);
+foreach ($stream_set->getAllIds() as $stream_id) {
+    $stream = $stream_set->getObjectByID($stream_id);
     if ($stream->get_original_adminusername() == $stream->get_adminusername()) {
         $accept = $input->postFilter("stream" . $stream->get_stream_uid() . "");
         if ($accept == "update") {

@@ -8,11 +8,11 @@ if ($accept == "Accept") {
     $stream = new stream();
     if ($stream->load_by_field("stream_uid", $page) == true) {
         $transaction_set = new transactions_set();
-        $load_status = $transaction_set->load_on_field("streamlink", $stream->get_id());
+        $load_status = $transaction_set->load_on_field("streamlink", $stream->getId());
         if ($load_status["status"] == true) {
             $unlink_ok = true;
-            $bulkupdate_status = array("status" => false,"message" => "not run");
-            if ($transaction_set->get_count() > 0) {
+            $bulkupdate_status = ["status" => false,"message" => "not run"];
+            if ($transaction_set->getCount() > 0) {
                 $unlink_ok = false;
                 $bulkupdate_status = $transaction_set->update_single_field_for_collection("streamlink", null);
                 if ($bulkupdate_status["status"] == true) {

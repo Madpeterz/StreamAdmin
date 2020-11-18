@@ -22,25 +22,25 @@ if ($targetuid != null) {
     $reply["dataset_count"] = 0;
     if ($load_status == true) {
         $rental_set = new rental_set();
-        $rental_set->load_on_field("avatarlink", $avatar->get_id());
-        if ($rental_set->get_count() > 0) {
+        $rental_set->load_on_field("avatarlink", $avatar->getId());
+        if ($rental_set->getCount() > 0) {
             $status = false;
             $stream_set = new stream_set();
-            $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
-            if ($stream_set->get_count() > 0) {
-                $reply_dataset = array();
-                foreach ($rental_set->get_all_ids() as $rental_id) {
-                    $rental = $rental_set->get_object_by_id($rental_id);
-                    $stream = $stream_set->get_object_by_id($rental->get_streamlink());
+            $stream_set->loadIds($rental_set->getAllByField("streamlink"));
+            if ($stream_set->getCount() > 0) {
+                $reply_dataset = [];
+                foreach ($rental_set->getAllIds() as $rental_id) {
+                    $rental = $rental_set->getObjectByID($rental_id);
+                    $stream = $stream_set->getObjectByID($rental->get_streamlink());
                     if ($stream != null) {
-                        $reply_dataset[] = "" . $rental->get_rental_uid() . "|||" . $stream->get_port() . "";
+                        $reply_dataset[] = "" . $rental->getRental_uid() . "|||" . $stream->get_port() . "";
                     }
                 }
                 if (count($reply_dataset) > 0) {
                     $status = true;
                     $reply["dataset_count"] = count($reply_dataset);
                     $reply["dataset"] = $reply_dataset;
-                    echo sprintf($lang["proxyrenew.dt.info.1"], $avatar->get_avatarname());
+                    echo sprintf($lang["proxyrenew.dt.info.1"], $avatar->getAvatarname());
                 } else {
                     echo $lang["proxyrenew.dt.error.5"];
                 }

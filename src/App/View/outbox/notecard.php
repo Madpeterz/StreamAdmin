@@ -1,18 +1,30 @@
 <?php
 
-$this->output->addSwapTagString("page_title", " Unsent notecards");
-$table_head = array("id","Rental UID","Avatar name");
-$table_body = [];
-$notecard_set = new notecard_set();
-$notecard_set->loadAll();
-$rental_set = new rental_set();
-$rental_set->load_ids($notecard_set->get_all_by_field("rentallink"));
-$avatar_set = new avatar_set();
-$avatar_set->load_ids($rental_set->get_all_by_field("avatarlink"));
-foreach ($notecard_set->get_all_ids() as $notecard_id) {
-    $notecard = $notecard_set->get_object_by_id($notecard_id);
-    $rental = $rental_set->get_object_by_id($notecard->get_rentallink());
-    $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
-    $table_body[] = array($notecard->get_id(),$rental->get_rental_uid(),$avatar->get_avatarname());
+namespace App\View\Outbox;
+
+use App\AvatarSet;
+use App\NotecardSet;
+use App\RentalSet;
+
+class Notecard extends View
+{
+    public function process(): void
+    {
+        $this->output->addSwapTagString("page_title", " Unsent notecards");
+        $table_head = ["id","Rental UID","Avatar name"];
+        $table_body = [];
+        $notecard_set = new NotecardSet();
+        $notecard_set->loadAll();
+        $rental_set = new RentalSet();
+        $rental_set->loadIds($notecard_set->getAllByField("rentallink"));
+        $avatar_set = new AvatarSet();
+        $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
+        foreach ($notecard_set->getAllIds() as $notecard_id) {
+            $notecard = $notecard_set->getObjectByID($notecard_id);
+            $rental = $rental_set->getObjectByID($notecard->getRentallink());
+            $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
+            $table_body[] = [$notecard->getId(),$rental->getRental_uid(),$avatar->getAvatarname()];
+        }
+        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+    }
 }
-$this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));

@@ -1,96 +1,137 @@
 <?php
 
-$this->output->setSwapTagString("html_title", "Clients");
-$this->output->addSwapTagString("page_title", "Bulk remove");
-$this->output->setSwapTagString("page_actions", "");
+namespace App\View\Client;
 
-$table_head = array("id","Action","Avatar","Server","Port","NoticeLevel","Expired");
-$table_body = [];
-$whereconfig = array(
-    "fields" => array("expireunixtime"),
-    "values" => array(time()),
-    "types" => array("i"),
-    "matches" => array("<="),
-);
-$rental_set = new rental_set();
-$rental_set->load_with_config($whereconfig);
-$server_set = new server_set();
-$server_set->loadAll();
-$avatar_set = new avatar_set();
-$avatar_set->load_ids($rental_set->get_all_by_field("avatarlink"));
-$stream_set = new stream_set();
-$stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
-$notice_set = new notice_set();
-$notice_set->load_ids($rental_set->get_all_by_field("noticelink"));
-$apirequests_set = new api_requests_set();
-$apirequests_set->loadAll();
-$used_stream_ids = $apirequests_set->get_unique_array("streamlink");
-$unixtime_oneday_ago = time() - $unixtime_day;
-$hidden_clients = [];
-foreach ($rental_set->get_all_ids() as $rental_id) {
-    $rental = $rental_set->get_object_by_id($rental_id);
-    $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
-    $stream = $stream_set->get_object_by_id($rental->get_streamlink());
-    $server = $server_set->get_object_by_id($stream->get_serverlink());
-    $notice = $notice_set->get_object_by_id($rental->get_noticelink());
-    if (strlen($rental->get_message()) == 0) {
-        if (in_array($stream->get_id(), $used_stream_ids) == false) {
-            $entry = [];
-            $entry[] = $rental->get_id();
-            $action = '
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-outline-danger">
-                <input type="radio" value="purge" name="rental' . $rental->get_rental_uid() . '" autocomplete="off"> Remove
-              </label>
-              <label class="btn btn-outline-secondary active">
-                <input type="radio" value="keep" name="rental' . $rental->get_rental_uid() . '" autocomplete="off" checked> Skip
-              </label>
-            </div>';
-            if (($notice->get_id() == 6) && ($rental->get_expireunixtime() < $unixtime_oneday_ago)) {
-                $action = '
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-outline-danger active">
-                    <input type="radio" value="purge" name="rental' . $rental->get_rental_uid() . '" autocomplete="off" checked> Remove
-                  </label>
-                  <label class="btn btn-outline-secondary">
-                    <input type="radio" value="keep" name="rental' . $rental->get_rental_uid() . '" autocomplete="off"> Skip
-                  </label>
-                </div>';
+use App\ApirequestsSet;
+use App\AvatarSet;
+use App\Notice;
+use App\NoticeSet;
+use App\RentalSet;
+use App\Server;
+use App\ServerSet;
+use App\StreamSet;
+use App\Template\Form;
+
+class BulkRemove extends RenderList
+{
+    protected array $hidden_clients = [];
+    protected function loader(): void
+    {
+        $whereconfig = [
+        "fields" => ["expireunixtime"],
+        "values" => [time()],
+        "types" => ["i"],
+        "matches" => ["<="],
+         ];
+        $whereconfig = [];
+        $this->rentalSet = new RentalSet();
+        $this->rentalSet->loadWithConfig($whereconfig);
+        $this->serverSet = new ServerSet();
+        $this->serverSet->loadAll();
+        $this->avatarSet = new AvatarSet();
+        $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarlink"));
+        $this->streamSet = new StreamSet();
+        $this->streamSet->loadIds($this->rentalSet->getAllByField("streamlink"));
+        $this->noticeSet = new NoticeSet();
+        $this->noticeSet->loadIds($this->rentalSet->getAllByField("noticelink"));
+        $this->apiRequestsSet = new ApirequestsSet();
+        $this->apiRequestsSet->loadAll();
+    }
+    public function process(): void
+    {
+        global $unixtime_day;
+        $this->output->setSwapTagString("html_title", "Clients");
+        $this->output->addSwapTagString("page_title", "Bulk remove");
+        $this->output->setSwapTagString("page_actions", "");
+
+        $table_head = ["id","Action","Avatar","Server","Port","NoticeLevel","Expired"];
+        $table_body = [];
+
+        $this->loader();
+
+        $used_stream_ids = $this->apiRequestsSet->getUniqueArray("streamlink");
+
+        $unixtime_oneday_ago = time() - $unixtime_day;
+
+        foreach ($this->rentalSet->getAllIds() as $rental_id) {
+            $rental = $this->rentalSet->getObjectByID($rental_id);
+            $avatar = $this->avatarSet->getObjectByID($rental->getAvatarlink());
+            $stream = $this->streamSet->getObjectByID($rental->getStreamlink());
+            $server = $this->serverSet->getObjectByID($stream->getServerlink());
+            $notice = $this->noticeSet->getObjectByID($rental->getNoticelink());
+            if (strlen($rental->getMessage()) != 0) {
+                $this->hidden_clients[] = [
+                  "why" => "Message on account",
+                  "rentaluid" => $rental->getRental_uid(),
+                  "avatar" => $avatar->getAvatarname(),
+                  "port" => $stream->getPort(),
+                ];
+            } elseif (in_array($stream->getId(), $used_stream_ids) == true) {
+                $this->hidden_clients[] = [
+                "why" => "Pend ing api request",
+                "rentaluid" => $rental->getRental_uid(),
+                "avatar" => $avatar->getAvatarname(),
+                "port" => $stream->getPort(),
+                ];
+            } else {
+                $entry = [];
+                $entry[] = $rental->getId();
+                $action = $this->makeButton($rental->getRental_uid(), "", "checked");
+                if (($notice->getId() == 6) && ($rental->getExpireunixtime() < $unixtime_oneday_ago)) {
+                    $action = $this->makeButton($rental->getRental_uid());
+                }
+                $entry[] = $action;
+                $entry[] = $avatar->getAvatarname();
+                $entry[] = $server->getDomain();
+                $entry[] = $stream->getPort();
+                $entry[] = $notice->getName();
+                $entry[] = expired_ago($rental->getExpireunixtime());
+                $table_body[] = $entry;
             }
-            $entry[] = $action;
-            $entry[] = $avatar->get_avatarname();
-            $entry[] = $server->get_domain();
-            $entry[] = $stream->get_port();
-            $entry[] = $notice->get_name();
-            $entry[] = expired_ago($rental->get_expireunixtime());
-            $table_body[] = $entry;
-        } else {
-            $hidden_clients[] = array("why" => "Pending api request","rentaluid" => $rental->get_rental_uid(),"avatar" => $avatar->get_avatarname(),"port" => $stream->get_port());
         }
-    } else {
-        $hidden_clients[] = array("why" => "Message on account","rentaluid" => $rental->get_rental_uid(),"avatar" => $avatar->get_avatarname(),"port" => $stream->get_port());
+
+        $this->output->setSwapTagString("page_content", "No clients to remove right now");
+        if (count($table_body) > 0) {
+            $form = new Form();
+            $form->target("client/bulkremove");
+            $form->col(12);
+              $form->directAdd(render_datatable($table_head, $table_body));
+            $this->output->setSwapTagString("page_content", $form->render("Process", "outline-danger"));
+        }
     }
-}
-if (count($table_body) > 0) {
-    $form = new form();
-    $form->target("client/bulkremove");
-    $form->col(12);
-        $form->directAdd(render_datatable($table_head, $table_body));
-    $this->output->setSwapTagString("page_content", $form->render("Process", "outline-danger"));
-} else {
-    $this->output->setSwapTagString("page_content", "No clients to remove right now");
-}
-if (count($hidden_clients) > 0) {
-    $this->output->addSwapTagString("page_content", "<hr/><h4>Unlisted clients</h4>");
-    $table_head = array("Why","Rental UID","Avatar","Port");
-    $table_body = [];
-    foreach ($hidden_clients as $hclient) {
-        $entry = [];
-        $entry[] = $hclient["why"];
-        $entry[] = $hclient["rentaluid"];
-        $entry[] = $hclient["avatar"];
-        $entry[] = $hclient["port"];
-        $table_body[] = $entry;
+
+
+    protected function makeButton(
+        string $name = "",
+        string $removechecked = "checked",
+        string $skipchecked = ""
+    ): string {
+        return '
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-outline-danger active">
+    <input type="radio" value="purge" name="rental' . $name . '" autocomplete="off" ' . $removechecked . '> Remove
+  </label>
+  <label class="btn btn-outline-secondary">
+    <input type="radio" value="keep" name="rental' . $name . '" autocomplete="off" ' . $skipchecked . '> Skip
+  </label>
+</div>';
     }
-    $this->output->addSwapTagString("page_content", render_table($table_head, $table_body));
+
+    protected function hiddeenClients(): void
+    {
+        if (count($this->hidden_clients) > 0) {
+            $this->output->addSwapTagString("page_content", "<hr/><h4>Unlisted clients</h4>");
+            $table_head = ["Why","Rental UID","Avatar","Port"];
+            $table_body = [];
+            foreach ($this->hidden_clients as $hclient) {
+                $entry = [];
+                $entry[] = $hclient["why"];
+                $entry[] = $hclient["rentaluid"];
+                $entry[] = $hclient["avatar"];
+                $entry[] = $hclient["port"];
+                $table_body[] = $entry;
+            }
+            $this->output->addSwapTagString("page_content", render_table($table_head, $table_body));
+        }
+    }
 }

@@ -16,23 +16,23 @@ if ($treevender->load($page) == true) {
     $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
     $this->output->addSwapTagString("page_content", "<br/><hr/><br/>");
     $treevender_packages_set = new treevender_packages_set();
-    $treevender_packages_set->load_on_field("treevenderlink", $treevender->get_id());
-    $table_head = array("ID","Name","Action");
+    $treevender_packages_set->load_on_field("treevenderlink", $treevender->getId());
+    $table_head = ["ID","Name","Action"];
     $table_body = [];
     $used_package_ids = [];
-    foreach ($treevender_packages_set->get_all_ids() as $treevender_packages_id) {
-        $treevender_packages = $treevender_packages_set->get_object_by_id($treevender_packages_id);
+    foreach ($treevender_packages_set->getAllIds() as $treevender_packages_id) {
+        $treevender_packages = $treevender_packages_set->getObjectByID($treevender_packages_id);
         $entry = [];
-        $package = $package_set->get_object_by_id($treevender_packages->get_packagelink());
-        $used_package_ids[] = $package->get_id();
-        $entry[] = $treevender_packages->get_id();
+        $package = $package_set->getObjectByID($treevender_packages->get_packagelink());
+        $used_package_ids[] = $package->getId();
+        $entry[] = $treevender_packages->getId();
         $entry[] = $package->get_name();
-        $entry[] = "<a href='[[url_base]]tree/removepackage/" . $treevender_packages->get_id() . "'><button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
+        $entry[] = "<a href='[[url_base]]tree/removepackage/" . $treevender_packages->getId() . "'><button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
         $table_body[] = $entry;
     }
     $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));
     $unused_index = [];
-    foreach ($package_set->get_linked_array("id", "name") as $id => $name) {
+    foreach ($package_set->getLinkedArray("id", "name") as $id => $name) {
         if (in_array($id, $used_package_ids) == false) {
             $unused_index[$id] = $name;
         }

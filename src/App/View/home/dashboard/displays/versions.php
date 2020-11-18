@@ -1,7 +1,8 @@
 <?php
 
 if (file_exists("shared/versions/sql/" . $slconfig->get_db_version() . ".sql") == true) {
-    $main_grid->add_content("<div class=\"alert alert-warning\" role=\"alert\">DB update required <br/> please run \"shared/versions/sql/" . $slconfig->get_db_version() . ".sql\"</div>", 12);
+    $main_grid->add_content("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
+    . "<br/> please run \"shared/versions/sql/" . $slconfig->get_db_version() . ".sql\"</div>", 12);
 }
 if (file_exists("shared/versions/about/" . $slconfig->get_db_version() . ".txt") == true) {
     $main_grid->close_row();

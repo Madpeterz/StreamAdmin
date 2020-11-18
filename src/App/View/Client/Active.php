@@ -4,7 +4,7 @@ namespace App\View\Client;
 
 abstract class Active extends Withstatus
 {
-    public function process()
+    public function process(): void
     {
         global $unixtime_day;
         $this->whereconfig = [

@@ -14,13 +14,13 @@ $sql = $current_sql; // swtich back to r7
 $avatars = new avatar_set();
 $avatars->loadAll();
 
-$avatar_name_to_id = $avatars->get_linked_array("avatarname", "id");
+$avatar_name_to_id = $avatars->getLinkedArray("avatarname", "id");
 
 $all_ok = true;
 $transactions_created = 0;
 
-foreach ($r4_sales_tracking_set->get_all_ids() as $r4_sales_tracking_id) {
-    $r4_sales_tracking = $r4_sales_tracking_set->get_object_by_id($r4_sales_tracking_id);
+foreach ($r4_sales_tracking_set->getAllIds() as $r4_sales_tracking_id) {
+    $r4_sales_tracking = $r4_sales_tracking_set->getObjectByID($r4_sales_tracking_id);
 
     $avatar_id = 1;
     if (array_key_exists($r4_sales_tracking->get_SLname(), $avatar_name_to_id) == true) {
@@ -35,7 +35,7 @@ foreach ($r4_sales_tracking_set->get_all_ids() as $r4_sales_tracking_id) {
         $unixtime = time();
         if (count($date) == 3) {
             if (count($time) != 3) {
-                $time = array(0,0,1);
+                $time = [0,0,1];
             }
             $unixtime = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
         }

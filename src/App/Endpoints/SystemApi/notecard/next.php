@@ -9,21 +9,21 @@ $template = new template();
 $stream = new stream();
 $server = new server();
 $notice = new notice();
-$load_by = array(
-    "rental" => array("notecard" => "rentallink"),
-    "avatar" => array("rental" => "avatarlink"),
-    "stream" => array("rental" => "streamlink"),
-    "server" => array("stream" => "serverlink"),
-    "package" => array("stream" => "packagelink"),
-);
+$load_by = [
+    "rental" => ["notecard" => "rentallink"],
+    "avatar" => ["rental" => "avatarlink"],
+    "stream" => ["rental" => "streamlink"],
+    "server" => ["stream" => "serverlink"],
+    "package" => ["stream" => "packagelink"],
+];
 if ($notecard->get_as_notice() == false) {
-    $load_by["template"] = array("package" => "templatelink");
+    $load_by["template"] = ["package" => "templatelink"];
 } else {
-    $load_by["notice"] = array("rental" => "noticelink");
+    $load_by["notice"] = ["rental" => "noticelink"];
 }
 $notecard_set = new notecard_set();
-$notecard_set->load_newest(1, array(), array(), "id", "ASC"); // lol loading oldest with newest command ^+^ hax
-if ($notecard_set->get_count() > 0) {
+$notecard_set->load_newest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
+if ($notecard_set->getCount() > 0) {
     $notecard = $notecard_set->get_first();
     $load_ok = true;
     foreach ($load_by as $objectname => $value) {
@@ -43,24 +43,24 @@ if ($load_ok == true) {
     $notecard_content = "";
     $swap_helper = new swapables_helper();
     if ($notecard->get_as_notice() == false) {
-        $notecard_title = "Streamdetails for " . $avatar->get_avatarname() . " port: " . $stream->get_port() . "";
+        $notecard_title = "Streamdetails for " . $avatar->getAvatarname() . " port: " . $stream->get_port() . "";
         $notecard_content = $swap_helper->get_swapped_text($template->get_notecarddetail(), $avatar, $rental, $package, $server, $stream);
     } else {
-        $notecard_title = "Reminder for " . $avatar->get_avatarname() . " port: " . $stream->get_port() . "";
+        $notecard_title = "Reminder for " . $avatar->getAvatarname() . " port: " . $stream->get_port() . "";
         $notecard_content = $swap_helper->get_swapped_text($notice->get_notecarddetail(), $avatar, $rental, $package, $server, $stream);
     }
     $remove_status = $notecard->remove_me();
     if ($remove_status["status"] == true) {
-        $reply = array(
+        $reply = [
             "status" => true,
             "message" => "ok",
             "AvatarUUID" => $avatar->get_avataruuid(),
             "NotecardTitle" => $notecard_title,
-            "NotecardContent" => $notecard_content
-        );
+            "NotecardContent" => $notecard_content,
+        ];
     } else {
-        $reply = array("status" => false,"message" => "Unable to load notecard right now");
+        $reply = ["status" => false,"message" => "Unable to load notecard right now"];
     }
 } else {
-    $reply = array("status" => false,"message" => "Unable to load notecard right now");
+    $reply = ["status" => false,"message" => "Unable to load notecard right now"];
 }

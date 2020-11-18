@@ -18,10 +18,10 @@ if (count($bits) == 2) {
     $avatar = new avatar();
     $status = false;
     if ($avatar->load_by_field("avatarname", $slusername) == true) {
-        $staff->load_by_field("avatarlink", $avatar->get_id());
+        $staff->load_by_field("avatarlink", $avatar->getId());
     }
 }
-if ($staff->get_id() > 0) {
+if ($staff->getId() > 0) {
     $uid = $staff->create_uid("email_reset_code", 8, 10);
     if ($uid["status"] == true) {
         $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $uid["uid"];
@@ -40,7 +40,7 @@ if ($staff->get_id() > 0) {
                 }
             } else {
                 $message = new message();
-                $message->set_avatarlink($avatar->get_id());
+                $message->set_avatarlink($avatar->getId());
                 $message->set_message(sprintf($lang["login.rs.sl.message"], $reset_url));
                 $add_status = $message->create_entry();
                 if ($add_status["status"] == true) {

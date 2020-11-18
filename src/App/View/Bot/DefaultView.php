@@ -8,9 +8,9 @@ use App\Template\Form as Form;
 
 class DefaultView extends View
 {
-    public function process()
+    public function process(): void
     {
-        if ($this->session->get_ownerlevel() == false) {
+        if ($this->session->getOwnerLevel() == false) {
             $this->output->redirect("config?bubblemessage=Owner level access needed&bubbletype=warning");
         }
         $botconfig = new Botconfig();
@@ -32,11 +32,17 @@ class DefaultView extends View
             $avatar->getAvatar_uid(),
             "Avatar uid [Not the same as a SL UUID!]"
         );
-        $form->textInput("secret", "Secret SL->Bot", 36, $botconfig->getSecret(), "Bot secret [Found in ***.json or env value]");
+        $form->textInput(
+            "secret",
+            "Secret SL->Bot",
+            36,
+            $botconfig->getSecret(),
+            "Bot secret [Found in ***.json or env value]"
+        );
         $form->col(6);
         $form->group("Actions");
-        $form->select("notecards", "Create notecards", $botconfig->getNotecards(), array(false => "No",true => "Yes"));
-        $form->select("ims", "Send ims", $botconfig->getIms(), array(false => "No",true => "Yes"));
+        $form->select("notecards", "Create notecards", $botconfig->getNotecards(), [false => "No",true => "Yes"]);
+        $form->select("ims", "Send ims", $botconfig->getIms(), [false => "No",true => "Yes"]);
         $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
     }
 }

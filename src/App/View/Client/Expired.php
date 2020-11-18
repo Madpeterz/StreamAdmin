@@ -4,7 +4,7 @@ namespace App\View\Client;
 
 abstract class Expired extends Withstatus
 {
-    public function process()
+    public function process(): void
     {
         $this->whereconfig = [
             "fields" => ["expireunixtime"],

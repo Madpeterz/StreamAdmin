@@ -24,10 +24,10 @@ if ($rental->load_by_field("rental_uid", $page) == true) {
         $avatar = new avatar();
         if ($avatar->load_by_field("avatar_uid", $transfer_avataruid) == true) {
             $avatar_from = new avatar();
-            if ($avatar_from->load($rental->get_avatarlink()) == true) {
-                $rental->set_avatarlink($avatar->get_id());
+            if ($avatar_from->load($rental->getAvatarlink()) == true) {
+                $rental->set_avatarlink($avatar->getId());
                 $actions_taken .= $lang["client.up.info.2"];
-                $message .= sprintf($lang["client.up.info.1"], date($lang["client.up.datetime.format"], time()), $avatar->get_avatarname(), $avatar->get_avatar_uid(), $avatar_from->get_avatarname(), $avatar_from->get_avatar_uid());
+                $message .= sprintf($lang["client.up.info.1"], date($lang["client.up.datetime.format"], time()), $avatar->getAvatarname(), $avatar->get_avatar_uid(), $avatar_from->getAvatarname(), $avatar_from->get_avatar_uid());
             } else {
                 $issues .= $lang["client.up.error.5"];
             }
@@ -83,10 +83,10 @@ if ($rental->load_by_field("rental_uid", $page) == true) {
             $notice_set = new notice_set();
             $notice_set->loadAll();
             $dif_array = [];
-            foreach ($notice_set->get_all_ids() as $notice_id) {
-                $notice = $notice_set->get_object_by_id($notice_id);
+            foreach ($notice_set->getAllIds() as $notice_id) {
+                $notice = $notice_set->getObjectByID($notice_id);
                 if ($notice->get_hoursremaining() > 0) {
-                    $dif_array[$notice->get_id()] = (time() + ($notice->get_hoursremaining() * $unixtime_hour));
+                    $dif_array[$notice->getId()] = (time() + ($notice->get_hoursremaining() * $unixtime_hour));
                 }
             }
             $closest_diff = null;
@@ -113,7 +113,7 @@ if ($rental->load_by_field("rental_uid", $page) == true) {
             $issues .= $lang["client.up.error.4"];
         }
     }
-    if ($message != $rental->get_message()) {
+    if ($message != $rental->getMessage()) {
         $rental->set_message($message);
         $actions_taken .= $lang["client.up.info.5"];
     }

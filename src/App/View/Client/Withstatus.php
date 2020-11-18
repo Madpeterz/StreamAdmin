@@ -9,7 +9,7 @@ use App\StreamSet;
 abstract class Withstatus extends RenderList
 {
     protected array $whereconfig = [];
-    public function process()
+    public function process(): void
     {
         if (count($this->whereconfig) > 0) {
             $this->rentalSet = new RentalSet();

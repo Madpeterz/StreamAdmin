@@ -20,7 +20,7 @@ if ($newpw1 == $newpw2) {
         $status = false;
         if ($avatar->load_by_field("avatarname", $slusername) == true) {
             $staff = new staff();
-            if ($staff->load_by_field("avatarlink", $avatar->get_id()) == true) {
+            if ($staff->load_by_field("avatarlink", $avatar->getId()) == true) {
                 if ($staff->get_email_reset_code() == $token) {
                     if ($staff->get_email_reset_expires() > time()) {
                         $session_helper = new session_control();

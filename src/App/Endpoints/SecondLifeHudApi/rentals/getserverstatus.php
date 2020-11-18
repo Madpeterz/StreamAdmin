@@ -5,7 +5,7 @@ $rental_uid = $input->postFilter("uid");
 $rental = new rental();
 $status = false;
 if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
-    if ($rental->get_avatarlink() == $object_owner_avatar->get_id()) {
+    if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
         if ($rental->get_expireunixtime() > time()) {
             $reply["timeleft"] = "Timeleft: " . timeleft_hours_and_days($rental->get_expireunixtime());
             $reply["expires"] = "Renewal due by: " . date('l jS \of F Y h:i:s A', $rental->get_expireunixtime());

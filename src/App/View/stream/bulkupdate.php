@@ -3,23 +3,23 @@
 $this->output->setSwapTagString("html_title", "Streams");
 $this->output->addSwapTagString("page_title", " Bulk update");
 $this->output->setSwapTagString("page_actions", "");
-$whereconfig = array(
-    "fields" => array("needwork","rentallink"),
-    "values" => array(1,null),
-    "types" => array("i","i"),
-    "matches" => array("=","IS"),
-);
+$whereconfig = [
+    "fields" => ["needwork","rentallink"],
+    "values" => [1,null],
+    "types" => ["i","i"],
+    "matches" => ["=","IS"],
+];
 $stream_set = new stream_set();
 $stream_set->load_with_config($whereconfig);
 $server_set = new server_set();
 $server_set->loadAll();
 
-$table_head = array("id","Action","Server","Port","Encoder/Stream password","Admin Password");
+$table_head = ["id","Action","Server","Port","Encoder/Stream password","Admin Password"];
 $table_body = [];
 
-foreach ($stream_set->get_all_ids() as $streamid) {
-    $stream = $stream_set->get_object_by_id($streamid);
-    $server = $server_set->get_object_by_id($stream->get_serverlink());
+foreach ($stream_set->getAllIds() as $streamid) {
+    $stream = $stream_set->getObjectByID($streamid);
+    $server = $server_set->getObjectByID($stream->get_serverlink());
     if ($stream->get_original_adminusername() == $stream->get_adminusername()) {
         $action = '
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -31,7 +31,7 @@ foreach ($stream_set->get_all_ids() as $streamid) {
           </label>
         </div>';
         $entry = [];
-        $entry[] = $stream->get_id();
+        $entry[] = $stream->getId();
         $entry[] = $action;
         $entry[] = $server->get_domain();
         $entry[] = $stream->get_port();

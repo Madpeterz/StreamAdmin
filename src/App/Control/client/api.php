@@ -9,11 +9,11 @@ if ($rental->load_by_field("rental_uid", $page) == true) {
         $functionname = "api_" . $optional . "";
         if (method_exists($server_api_helper, $functionname) == true) {
             $status = $server_api_helper->$functionname();
-            if (is_string($server_api_helper->get_message()) == true) {
+            if (is_string($server_api_helper->getMessage()) == true) {
                 if ($status == true) {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.passed"], $server_api_helper->get_message()));
+                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.passed"], $server_api_helper->getMessage()));
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.failed"], $server_api_helper->get_message()));
+                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.failed"], $server_api_helper->getMessage()));
                 }
             } else {
                 if ($status == true) {

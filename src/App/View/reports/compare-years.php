@@ -23,24 +23,24 @@ if ($yearb < $yeara) {
 $this->output->addSwapTagString("page_title", "Year vs Year: " . $yeara . " vs " . $yearb);
 
 $transactions_set_a = new transactions_set();
-$whereconfig = array(
-    "fields" => array("unixtime","unixtime"),
-    "values" => array(mktime(0, 0, 1, 1, 1, $yeara),mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $yeara), $yeara)),
-    "types" => array("i","i"),
-    "matches" => array(">=","<="),
-);
+$whereconfig = [
+    "fields" => ["unixtime","unixtime"],
+    "values" => [mktime(0, 0, 1, 1, 1, $yeara),mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $yeara), $yeara)],
+    "types" => ["i","i"],
+    "matches" => [">=","<="],
+];
 $transactions_set_a->load_with_config($whereconfig);
 
 $transactions_set_b = new transactions_set();
-$whereconfig = array(
-    "fields" => array("unixtime","unixtime"),
-    "values" => array(mktime(0, 0, 1, 1, 1, $yearb),mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $yearb), $yearb)),
-    "types" => array("i","i"),
-    "matches" => array(">=","<="),
-);
+$whereconfig = [
+    "fields" => ["unixtime","unixtime"],
+    "values" => [mktime(0, 0, 1, 1, 1, $yearb),mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $yearb), $yearb)],
+    "types" => ["i","i"],
+    "matches" => [">=","<="],
+];
 $transactions_set_b->load_with_config($whereconfig);
 
-$lookups_yeara = array(
+$lookups_yeara = [
     mktime(23, 59, 59, 1, cal_days_in_month(CAL_GREGORIAN, 1, $yeara), $yeara) => 1,
     mktime(23, 59, 59, 2, cal_days_in_month(CAL_GREGORIAN, 2, $yeara), $yeara) => 2,
     mktime(23, 59, 59, 3, cal_days_in_month(CAL_GREGORIAN, 3, $yeara), $yeara) => 3,
@@ -53,8 +53,8 @@ $lookups_yeara = array(
     mktime(23, 59, 59, 10, cal_days_in_month(CAL_GREGORIAN, 10, $yeara), $yeara) => 10,
     mktime(23, 59, 59, 11, cal_days_in_month(CAL_GREGORIAN, 11, $yeara), $yeara) => 11,
     mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $yeara), $yeara) => 12,
-);
-$lookups_yearb = array(
+];
+$lookups_yearb = [
     mktime(23, 59, 59, 1, cal_days_in_month(CAL_GREGORIAN, 1, $yearb), $yearb) => 1,
     mktime(23, 59, 59, 2, cal_days_in_month(CAL_GREGORIAN, 2, $yearb), $yearb) => 2,
     mktime(23, 59, 59, 3, cal_days_in_month(CAL_GREGORIAN, 3, $yearb), $yearb) => 3,
@@ -67,43 +67,43 @@ $lookups_yearb = array(
     mktime(23, 59, 59, 10, cal_days_in_month(CAL_GREGORIAN, 10, $yearb), $yearb) => 10,
     mktime(23, 59, 59, 11, cal_days_in_month(CAL_GREGORIAN, 11, $yearb), $yearb) => 11,
     mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $yearb), $yearb) => 12,
-);
+];
 
-$yeara_month_datasets = array(
-    1 => array("title" => "Jan","sum" => 0,"counted" => 0),
-    2 => array("title" => "Feb","sum" => 0,"counted" => 0),
-    3 => array("title" => "Mar","sum" => 0,"counted" => 0),
-    4 => array("title" => "Apr","sum" => 0,"counted" => 0),
-    5 => array("title" => "May","sum" => 0,"counted" => 0),
-    6 => array("title" => "June","sum" => 0,"counted" => 0),
-    7 => array("title" => "July","sum" => 0,"counted" => 0),
-    8 => array("title" => "Aug","sum" => 0,"counted" => 0),
-    9 => array("title" => "Sep","sum" => 0,"counted" => 0),
-    10 => array("title" => "Oct","sum" => 0,"counted" => 0),
-    11 => array("title" => "Nov","sum" => 0,"counted" => 0),
-    12 => array("title" => "Dec","sum" => 0,"counted" => 0),
-);
-$yearb_month_datasets = array(
-    1 => array("title" => "Jan","sum" => 0,"counted" => 0),
-    2 => array("title" => "Feb","sum" => 0,"counted" => 0),
-    3 => array("title" => "Mar","sum" => 0,"counted" => 0),
-    4 => array("title" => "Apr","sum" => 0,"counted" => 0),
-    5 => array("title" => "May","sum" => 0,"counted" => 0),
-    6 => array("title" => "June","sum" => 0,"counted" => 0),
-    7 => array("title" => "July","sum" => 0,"counted" => 0),
-    8 => array("title" => "Aug","sum" => 0,"counted" => 0),
-    9 => array("title" => "Sep","sum" => 0,"counted" => 0),
-    10 => array("title" => "Oct","sum" => 0,"counted" => 0),
-    11 => array("title" => "Nov","sum" => 0,"counted" => 0),
-    12 => array("title" => "Dec","sum" => 0,"counted" => 0),
-);
+$yeara_month_datasets = [
+    1 => ["title" => "Jan","sum" => 0,"counted" => 0],
+    2 => ["title" => "Feb","sum" => 0,"counted" => 0],
+    3 => ["title" => "Mar","sum" => 0,"counted" => 0],
+    4 => ["title" => "Apr","sum" => 0,"counted" => 0],
+    5 => ["title" => "May","sum" => 0,"counted" => 0],
+    6 => ["title" => "June","sum" => 0,"counted" => 0],
+    7 => ["title" => "July","sum" => 0,"counted" => 0],
+    8 => ["title" => "Aug","sum" => 0,"counted" => 0],
+    9 => ["title" => "Sep","sum" => 0,"counted" => 0],
+    10 => ["title" => "Oct","sum" => 0,"counted" => 0],
+    11 => ["title" => "Nov","sum" => 0,"counted" => 0],
+    12 => ["title" => "Dec","sum" => 0,"counted" => 0],
+];
+$yearb_month_datasets = [
+    1 => ["title" => "Jan","sum" => 0,"counted" => 0],
+    2 => ["title" => "Feb","sum" => 0,"counted" => 0],
+    3 => ["title" => "Mar","sum" => 0,"counted" => 0],
+    4 => ["title" => "Apr","sum" => 0,"counted" => 0],
+    5 => ["title" => "May","sum" => 0,"counted" => 0],
+    6 => ["title" => "June","sum" => 0,"counted" => 0],
+    7 => ["title" => "July","sum" => 0,"counted" => 0],
+    8 => ["title" => "Aug","sum" => 0,"counted" => 0],
+    9 => ["title" => "Sep","sum" => 0,"counted" => 0],
+    10 => ["title" => "Oct","sum" => 0,"counted" => 0],
+    11 => ["title" => "Nov","sum" => 0,"counted" => 0],
+    12 => ["title" => "Dec","sum" => 0,"counted" => 0],
+];
 
 $year_a_total = 0;
 $year_a_count = 0;
 $year_b_total = 0;
 $year_b_count = 0;
-foreach ($transactions_set_a->get_all_ids() as $transaction_id) {
-    $transaction = $transactions_set_a->get_object_by_id($transaction_id);
+foreach ($transactions_set_a->getAllIds() as $transaction_id) {
+    $transaction = $transactions_set_a->getObjectByID($transaction_id);
     $month_id = 1;
     foreach ($lookups_yeara as $max_unixtime => $month_num) {
         if ($transaction->get_unixtime() < $max_unixtime) {
@@ -116,10 +116,10 @@ foreach ($transactions_set_a->get_all_ids() as $transaction_id) {
     $year_a_total += $transaction->get_amount();
     $year_a_count += 1;
 }
-$yeara_month_datasets[13] = array("title" => "Total","sum" => $year_a_total,"counted" => $year_a_count);
+$yeara_month_datasets[13] = ["title" => "Total","sum" => $year_a_total,"counted" => $year_a_count];
 
-foreach ($transactions_set_b->get_all_ids() as $transaction_id) {
-    $transaction = $transactions_set_b->get_object_by_id($transaction_id);
+foreach ($transactions_set_b->getAllIds() as $transaction_id) {
+    $transaction = $transactions_set_b->getObjectByID($transaction_id);
     $month_id = 1;
     foreach ($lookups_yearb as $max_unixtime => $month_num) {
         if ($transaction->get_unixtime() < $max_unixtime) {
@@ -132,7 +132,7 @@ foreach ($transactions_set_b->get_all_ids() as $transaction_id) {
     $year_b_total += $transaction->get_amount();
     $year_b_count += 1;
 }
-$yearb_month_datasets[13] = array("title" => "Total","sum" => $year_b_total,"counted" => $year_b_count);
+$yearb_month_datasets[13] = ["title" => "Total","sum" => $year_b_total,"counted" => $year_b_count];
 
 function amount_changed($old, $new)
 {
@@ -156,7 +156,7 @@ function amount_changed($old, $new)
         }
     }
 }
-$table_head = array($yeara,"L$ total","Transactions",$yearb,"Transactions","L$ total","Change L$","Change Transactions");
+$table_head = [$yeara,"L$ total","Transactions",$yearb,"Transactions","L$ total","Change L$","Change Transactions"];
 
 $table_body = [];
 foreach ($yeara_month_datasets as $index => $dataset) {

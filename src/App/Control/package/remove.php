@@ -8,21 +8,21 @@ if ($accept == "Accept") {
     $package = new package();
     if ($package->load_by_field("package_uid", $page) == true) {
         $stream_set = new stream_set();
-        $load_status = $stream_set->load_on_field("packagelink", $package->get_id());
+        $load_status = $stream_set->load_on_field("packagelink", $package->getId());
         if ($load_status["status"] == true) {
-            if ($stream_set->get_count() == 0) {
+            if ($stream_set->getCount() == 0) {
                 $transaction_set = new transactions_set();
-                $load_status = $transaction_set->load_on_field("packagelink", $package->get_id());
+                $load_status = $transaction_set->load_on_field("packagelink", $package->getId());
                 if ($load_status["status"] == true) {
-                    if ($transaction_set->get_count() == 0) {
+                    if ($transaction_set->getCount() == 0) {
                         $rental_set = new rental_set();
-                        $load_status = $rental_set->load_on_field("packagelink", $package->get_id());
+                        $load_status = $rental_set->load_on_field("packagelink", $package->getId());
                         if ($load_status["status"] == true) {
-                            if ($rental_set->get_count() == 0) {
+                            if ($rental_set->getCount() == 0) {
                                 $treevender_packages_set = new treevender_packages_set();
-                                $load_status = $treevender_packages_set->load_on_field("packagelink", $package->get_id());
+                                $load_status = $treevender_packages_set->load_on_field("packagelink", $package->getId());
                                 if ($load_status["status"] == true) {
-                                    if ($treevender_packages_set->get_count() == 0) {
+                                    if ($treevender_packages_set->getCount() == 0) {
                                         $remove_status = $package->remove_me();
                                         if ($remove_status["status"] == true) {
                                             $status = true;
@@ -31,25 +31,25 @@ if ($accept == "Accept") {
                                             $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.3"], $remove_status["message"]));
                                         }
                                     } else {
-                                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.11"], $treevender_packages_set->get_count()));
+                                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.11"], $treevender_packages_set->getCount()));
                                     }
                                 } else {
                                     $ajax_reply->set_swap_tag_string("message", $lang["package.rm.error.10"]);
                                 }
                             } else {
-                                $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.9"], $rental_set->get_count()));
+                                $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.9"], $rental_set->getCount()));
                             }
                         } else {
                             $ajax_reply->set_swap_tag_string("message", $lang["package.rm.error.8"]);
                         }
                     } else {
-                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.7"], $transaction_set->get_count()));
+                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.7"], $transaction_set->getCount()));
                     }
                 } else {
                     $ajax_reply->set_swap_tag_string("message", $lang["package.rm.error.6"]);
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.5"], $stream_set->get_count()));
+                $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.rm.error.5"], $stream_set->getCount()));
             }
         } else {
             $ajax_reply->set_swap_tag_string("message", $lang["package.rm.error.4"]);

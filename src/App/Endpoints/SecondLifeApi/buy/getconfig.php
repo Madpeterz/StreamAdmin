@@ -15,12 +15,12 @@ if ($texturepack > 0) {
             $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
             // package_instock,
             $stream = new stream();
-            $whereconfig = array(
-                        "fields" => array("rentallink","packagelink","needwork"),
-                        "matches" => array("IS","=","="),
-                        "values" => array(null,$package->get_id(),0),
-                        "types" => array("i","i","i"),
-            );
+            $whereconfig = [
+                        "fields" => ["rentallink","packagelink","needwork"],
+                        "matches" => ["IS","=","="],
+                        "values" => [null,$package->getId(),0],
+                        "types" => ["i","i","i"],
+            ];
             if (count($used_stream_ids) > 0) {
                 $whereconfig["fields"][] = "id";
                 $whereconfig["matches"][] = "NOT IN";

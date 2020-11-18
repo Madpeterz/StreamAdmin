@@ -55,8 +55,8 @@ if (strlen($httpcode) < 5) {
 $ajax_reply->set_swap_tag_string("redirect", "slconfig");
 $status = false;
 if ($failed_on == "") {
-    if ($avatar->get_id() != $slconfig->get_owner_av()) {
-        $slconfig->set_owner_av($avatar->get_id());
+    if ($avatar->getId() != $slconfig->get_owner_av()) {
+        $slconfig->set_owner_av($avatar->getId());
     }
     $slconfig->set_sllinkcode($sllinkcode);
     $slconfig->set_publiclinkcode($publiclinkcode);

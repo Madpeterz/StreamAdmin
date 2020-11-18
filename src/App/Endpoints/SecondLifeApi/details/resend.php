@@ -6,13 +6,13 @@ $rental = new rental();
 $status = true;
 if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
     $detail = new detail();
-    $where_fields = array(array("rentallink" => "="));
-    $where_values = array(array($rental->get_id() => "i"));
+    $where_fields = [["rentallink" => "="]];
+    $where_values = [[$rental->getId() => "i"]];
     $count_data = $sql->basic_count($detail->get_table(), $where_fields, $where_values);
     if ($count_data["status"] == true) {
         if ($count_data["count"] == 0) {
             $detail = new detail();
-            $detail->set_rentallink($rental->get_id());
+            $detail->set_rentallink($rental->getId());
             $create_status = $detail->create_entry();
             if ($create_status["status"] == true) {
                 $status = true;

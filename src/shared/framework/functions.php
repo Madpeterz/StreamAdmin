@@ -5,7 +5,7 @@ function create_pending_api_request(server $server, stream $stream, ?rental $ren
     global $why_failed, $no_api_action;
     if ($eventname == "core_send_details") {
         $detail = new detail();
-        $detail->set_rentallink($rental->get_id());
+        $detail->set_rentallink($rental->getId());
         $create_status = $detail->create_entry();
         $status = $create_status["status"];
         if ($status == false) {
@@ -15,11 +15,11 @@ function create_pending_api_request(server $server, stream $stream, ?rental $ren
     } else {
         $no_api_action = false;
         $api_request = new api_requests();
-        $api_request->set_serverlink($server->get_id());
+        $api_request->set_serverlink($server->getId());
         if ($rental != null) {
-            $api_request->set_rentallink($rental->get_id());
+            $api_request->set_rentallink($rental->getId());
         }
-        $api_request->set_streamlink($stream->get_id());
+        $api_request->set_streamlink($stream->getId());
         $api_request->set_eventname($eventname);
         $api_request->set_message("in Q");
         $api_request->set_last_attempt(time());
@@ -99,7 +99,7 @@ function timeleft_hours_and_days($unixtime = 0, bool $use_secs = false)
         return "now";
     }
 }
-function load_template_file($selected_layout = "", $layer = "", $allow_downgrade = true)
+function load_template_file($selected_layout = "", $layer = "", $allow_downgrade = true): void
 {
     global $site_theme;
     $template_file = "theme/" . $site_theme . "/" . $layer . "/" . $selected_layout . ".layout";
@@ -127,7 +127,7 @@ function is_checked(bool $input_value): string
         return "";
     }
 }
-function load_template($selected_layout = "", $allow_downgrade = true)
+function load_template($selected_layout = "", $allow_downgrade = true): void
 {
     global $section;
     load_template_file($selected_layout, $section, $allow_downgrade);

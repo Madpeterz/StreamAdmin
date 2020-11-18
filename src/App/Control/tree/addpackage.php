@@ -11,16 +11,16 @@ if ($treevender->load($page) == true) {
         $package = new package();
         if ($package->load($package_id) == true) {
             $treevender_package = new treevender_packages();
-            $where_fields = array(
-                "fields" => array("packagelink","treevenderlink"),
-                "values" => array($package->get_id(),$treevender->get_id()),
-                "types" => array("i","i"),
-                "matches" => array("=","=")
-            );
+            $where_fields = [
+                "fields" => ["packagelink","treevenderlink"],
+                "values" => [$package->getId(),$treevender->getId()],
+                "types" => ["i","i"],
+                "matches" => ["=","="],
+            ];
             if ($treevender_package->load_with_config($where_fields) == false) {
                 $treevender_package = new treevender_packages();
-                $treevender_package->set_packagelink($package->get_id());
-                $treevender_package->set_treevenderlink($treevender->get_id());
+                $treevender_package->set_packagelink($package->getId());
+                $treevender_package->set_treevenderlink($treevender->getId());
                 $create_status = $treevender_package->create_entry();
                 if ($create_status["status"] == true) {
                     $ajax_reply->set_swap_tag_string("redirect", "tree/manage/" . $page . "");

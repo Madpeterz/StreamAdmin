@@ -21,18 +21,18 @@ include "shared/lang/control/package/" . $site_lang . ".php";
 
 $all_ok = true;
 $packages_created = 0;
-foreach ($r4_packages_set->get_all_ids() as $r4_package_id) {
-    $r4_package = $r4_packages_set->get_object_by_id($r4_package_id);
+foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
+    $r4_package = $r4_packages_set->getObjectByID($r4_package_id);
     $package = new package();
     $uid = $package->create_uid("package_uid", 8, 10);
     if ($uid["status"] == true) {
         $package->set_package_uid($uid["uid"]);
-        $package->set_name("R4|" . $r4_package->get_id() . "|" . $r4_package->get_name());
+        $package->set_name("R4|" . $r4_package->getId() . "|" . $r4_package->get_name());
         $package->set_autodj($r4_package->get_autoDJ());
         $package->set_audodj_size(0);
         $package->set_listeners($r4_package->get_users());
         $package->set_bitrate($r4_package->get_streamrate());
-        $package->set_templatelink($template->get_id());
+        $package->set_templatelink($template->getId());
         $package->set_cost($r4_package->get_Lcost());
         $package->set_days($r4_package->get_sublength());
         if ($r4_package->get_soldouttexture() == null) {

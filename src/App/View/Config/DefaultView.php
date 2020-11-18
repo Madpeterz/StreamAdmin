@@ -2,11 +2,9 @@
 
 namespace App\View\Config;
 
-use App\Config\View;
-
 class DefaultView extends View
 {
-    public function process()
+    public function process(): void
     {
         $check_objects = ["App\Server","App\Template","App\Package","App\Stream","App\Slconfig","App\Textureconfig"];
         $all_ok = true;
@@ -19,7 +17,7 @@ class DefaultView extends View
             }
         }
         if ($all_ok == true) {
-            $config_areas = array(
+            $config_areas = [
                 "Avatars" => "avatar",
                 "Template" => "template",
                 "System config" => "slconfig",
@@ -28,14 +26,14 @@ class DefaultView extends View
                 "Notices" => "notice",
                 "Objects" => "objects",
                 "Servers" => "server",
-            );
-            if ($this->session->get_ownerlevel() == 1) {
+            ];
+            if ($this->session->getOwnerLevel() == 1) {
                 $config_areas["R4 import"] = "import";
                 $config_areas["Bot"] = "bot";
                 $config_areas["Staff"] = "staff";
                 $config_areas["Banlist"] = "banlist";
             }
-            $table_head = array("Name");
+            $table_head = ["Name"];
             $table_body = [];
             $loop = 0;
             foreach ($config_areas as $key => $value) {

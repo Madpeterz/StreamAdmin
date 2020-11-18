@@ -16,25 +16,25 @@ if ($stream->load_by_field("stream_uid", $page) == true) {
     $api_set->loadAll();
 
     $improved_serverlinker = [];
-    foreach ($server_set->get_all_ids() as $server_id) {
-        $server = $server_set->get_object_by_id($server_id);
-        $api = $api_set->get_object_by_id($server->get_apilink());
-        $improved_serverlinker[$server->get_id()] = $server->get_domain() . " {" . $api->get_name() . "}";
+    foreach ($server_set->getAllIds() as $server_id) {
+        $server = $server_set->getObjectByID($server_id);
+        $api = $api_set->getObjectByID($server->get_apilink());
+        $improved_serverlinker[$server->getId()] = $server->get_domain() . " {" . $api->get_name() . "}";
     }
 
     $servertypes_set = new servertypes_set();
     $servertypes_set->loadAll();
 
-    $autodjflag = array(true => "{AutoDJ}",false => "{StreamOnly}");
+    $autodjflag = [true => "{AutoDJ}",false => "{StreamOnly}"];
     $improved_packagelinker = [];
-    foreach ($package_set->get_all_ids() as $package_id) {
-        $package = $package_set->get_object_by_id($package_id);
-        $servertype = $servertypes_set->get_object_by_id($package->get_servertypelink());
+    foreach ($package_set->getAllIds() as $package_id) {
+        $package = $package_set->getObjectByID($package_id);
+        $servertype = $servertypes_set->getObjectByID($package->get_servertypelink());
         $saddon = "";
         if ($package->get_days() > 1) {
             $saddon = "'s";
         }
-        $improved_packagelinker[$package->get_id()] = "" . $package->get_name() . " @ " . $package->get_days() . "day" . $saddon . " - " . $autodjflag[$package->get_autodj()] . " - " . $servertype->get_name() . " - " . $package->get_bitrate() . "kbs - " . $package->get_listeners() . " listeners";
+        $improved_packagelinker[$package->getId()] = "" . $package->get_name() . " @ " . $package->get_days() . "day" . $saddon . " - " . $autodjflag[$package->get_autodj()] . " - " . $servertype->get_name() . " - " . $package->get_bitrate() . "kbs - " . $package->get_listeners() . " listeners";
     }
 
     $form = new form();
@@ -60,7 +60,7 @@ if ($stream->load_by_field("stream_uid", $page) == true) {
         $form->textInput("api_uid_3", "API UID 3", 10, $stream->get_api_uid_3(), "API id 3");
     $form->col(6);
         $form->group("Magic");
-        $form->select("api_update", "Update on server", 0, array(0 => "No",1 => "Yes"));
+        $form->select("api_update", "Update on server", 0, [0 => "No",1 => "Yes"]);
     $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
     include "webpanel/view/stream/api_linking.php";
 } else {

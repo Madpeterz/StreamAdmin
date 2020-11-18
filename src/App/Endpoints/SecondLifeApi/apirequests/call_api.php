@@ -10,7 +10,7 @@ if ($stream->load($api_request->get_streamlink()) == true) {
     $server_api_helper = new serverapi_helper($stream);
     if (method_exists($server_api_helper, $current_step) == true) {
         $status = $server_api_helper->$functionname();
-        $message = $server_api_helper->get_message();
+        $message = $server_api_helper->getMessage();
         if ($status == true) {
             if ($retry == false) {
                 $remove_status = $api_request->remove_me();

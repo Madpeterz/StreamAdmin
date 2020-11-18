@@ -18,8 +18,8 @@ if ($package->load_by_field("package_uid", $page) == true) {
     $form->col(6);
         $form->group("Basics");
         $form->textInput("name", "Name", 30, $package->get_name(), "Package name [60 chars]");
-        $form->select("templatelink", "Template", $package->get_templatelink(), $template_set->get_linked_array("id", "name"));
-        $form->select("servertypelink", "Server type", $package->get_servertypelink(), $servertypes_set->get_linked_array("id", "name"));
+        $form->select("templatelink", "Template", $package->get_templatelink(), $template_set->getLinkedArray("id", "name"));
+        $form->select("servertypelink", "Server type", $package->get_servertypelink(), $servertypes_set->getLinkedArray("id", "name"));
         $form->textInput("api_template", "API template", 50, $package->get_api_template(), "API template name");
     $form->col(6);
         $form->group("Terms");
@@ -35,7 +35,7 @@ if ($package->load_by_field("package_uid", $page) == true) {
         $form->texture_input("texture_uuid_instock_selected", "In stock [Selected]", 36, $package->get_texture_uuid_instock_selected(), "UUID of texture");
     $form->col(6);
         $form->group("Auto DJ");
-        $form->select("autodj", "Enabled", $package->get_autodj(), array(false => "No",true => "Yes"));
+        $form->select("autodj", "Enabled", $package->get_autodj(), [false => "No",true => "Yes"]);
         $form->numberInput("autodj_size", "Storage GB", $package->get_autodj_size(), 3, "Max GB storage 9999");
     $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
 } else {

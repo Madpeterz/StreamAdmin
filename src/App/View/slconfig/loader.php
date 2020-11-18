@@ -15,7 +15,7 @@ $form->target("slconfig/update/" . $page . "");
 $form->required(true);
 $form->col(6);
     $form->group("Core");
-    $form->directAdd("Current owner: " . $avatar->get_avatarname() . "<br/>");
+    $form->directAdd("Current owner: " . $avatar->getAvatarname() . "<br/>");
     $form->textInput("owneravuid", "Owner avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>", 8, $avatar->get_avatar_uid(), "Not a SL uuid!");
     $form->textInput("sllinkcode", "Link code [SL->Server]", 30, $slconfig->get_sllinkcode(), "The code shared by your vendors to connet");
     $form->textInput("publiclinkcode", "Public Link code [SL->Server]", 30, $slconfig->get_publiclinkcode(), "The code shared by your user hud");
@@ -33,19 +33,19 @@ if ($session->get_ownerlevel() == 1) {
 $form->col(6);
     $form->group("Resellers");
     $form->directAdd("<br/>");
-    $form->select("new_resellers", "Auto accept resellers", $slconfig->get_new_resellers(), array(false => "No",true => "Yes"));
+    $form->select("new_resellers", "Auto accept resellers", $slconfig->get_new_resellers(), [false => "No",true => "Yes"]);
     $form->textInput("new_resellers_rate", "Auto accepted resellers rate (As a %)", 36, $slconfig->get_new_resellers_rate(), "1 to 100");
 $form->col(6);
     $form->directAdd("<br/>");
     $form->group("Feature packs");
-    $form->select("event_storage", "Event storage", $slconfig->get_eventstorage(), array(false => "Disabled",true => "Enabled"));
+    $form->select("event_storage", "Event storage", $slconfig->get_eventstorage(), [false => "Disabled",true => "Enabled"]);
 $form->col(6);
     $form->directAdd("<br/>");
     $form->group("Misc settings");
-    $form->select("ui_tweaks_clients_fulllist", "Clients [Full list]", $slconfig->get_clients_list_mode(), array(false => "Disabled",true => "Enabled"));
+    $form->select("ui_tweaks_clients_fulllist", "Clients [Full list]", $slconfig->get_clients_list_mode(), [false => "Disabled",true => "Enabled"]);
     $form->textInput("ui_tweaks_datatable_itemsperpage", "Datatables items per page", 3, $slconfig->get_datatable_itemsperpage(), "10 to 200");
     $form->textInput("api_default_email", "API default email", 3, $slconfig->get_api_default_email(), "Required to be a vaild email");
-    $form->select("displaytimezonelink", "Default timezone", $slconfig->get_displaytimezonelink(), $timezones_set->get_linked_array("id", "name"));
+    $form->select("displaytimezonelink", "Default timezone", $slconfig->get_displaytimezonelink(), $timezones_set->getLinkedArray("id", "name"));
 $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
 $this->output->addSwapTagString("page_content", "<hr/>
 Feature packs<br/>

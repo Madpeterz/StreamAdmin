@@ -7,7 +7,7 @@ use App\Template\Form as Form;
 
 class Manage extends View
 {
-    public function process()
+    public function process(): void
     {
         $this->output->addSwapTagString("html_title", "~ Manage");
         $this->output->setSwapTagString("page_title", "Editing avatar");

@@ -8,12 +8,12 @@ $amountpaid = $input->postFilter("amountpaid", "integer");
 $status = false;
 $rental = new rental();
 if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
-    $rental_id = $rental->get_id();
+    $rental_id = $rental->getId();
     $stream = new stream();
     if ($stream->load($rental->get_streamlink()) == true) {
         $package = new package();
         if ($package->load($stream->get_packagelink()) == true) {
-            $accepted_payment_amounts = array(($package->get_cost()) => 1,($package->get_cost() * 2) => 2,($package->get_cost() * 3) => 3,($package->get_cost() * 4) => 4);
+            $accepted_payment_amounts = [($package->get_cost()) => 1,($package->get_cost() * 2) => 2,($package->get_cost() * 3) => 3,($package->get_cost() * 4) => 4];
             if (array_key_exists($amountpaid, $accepted_payment_amounts) == true) {
                 $multipler = $accepted_payment_amounts[$amountpaid];
                 $transaction = new transactions();
@@ -31,7 +31,7 @@ if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
 
                         $notice_set = new notice_set();
                         $notice_set->loadAll();
-                        $sorted_linked = $notice_set->get_linked_array("hoursremaining", "id");
+                        $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
                         ksort($sorted_linked, SORT_NUMERIC);
                         $use_notice_index = 0;
                         $break_next = false;
@@ -58,12 +58,12 @@ if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
                         if ($get_av_status == true) {
                             $avatar = $avatar_helper->get_avatar();
                             $banlist = new banlist();
-                            if ($banlist->load_by_field("avatar_link", $avatar->get_id()) == false) {
-                                $transaction->set_avatarlink($avatar->get_id());
-                                $transaction->set_packagelink($package->get_id());
-                                $transaction->set_streamlink($stream->get_id());
-                                $transaction->set_resellerlink($reseller->get_id());
-                                $transaction->set_regionlink($region->get_id());
+                            if ($banlist->load_by_field("avatar_link", $avatar->getId()) == false) {
+                                $transaction->set_avatarlink($avatar->getId());
+                                $transaction->set_packagelink($package->getId());
+                                $transaction->set_streamlink($stream->getId());
+                                $transaction->set_resellerlink($reseller->getId());
+                                $transaction->set_regionlink($region->getId());
                                 $transaction->set_amount($amountpaid);
                                 $transaction->set_unixtime(time());
                                 $transaction->set_transaction_uid($uid_transaction["uid"]);
@@ -103,8 +103,8 @@ if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
                                             if ($slconfig->get_eventstorage() == true) {
                                                 $event = new event();
                                                 $event->set_avatar_uuid($avatar->get_avataruuid());
-                                                $event->set_avatar_name($avatar->get_avatarname());
-                                                $event->set_rental_uid($rental->get_rental_uid());
+                                                $event->set_avatar_name($avatar->getAvatarname());
+                                                $event->set_rental_uid($rental->getRental_uid());
                                                 $event->set_package_uid($package->get_package_uid());
                                                 $event->set_event_renew(true);
                                                 $event->set_unixtime(time());

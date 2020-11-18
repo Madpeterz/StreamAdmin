@@ -4,20 +4,20 @@ $server_set = new server_set();
 $server_set->loadAll();
 $apis_set = new apis_set();
 $apis_set->loadAll();
-function process_notice_change(notice $notice)
+function process_notice_change(notice $notice): void
 {
     global $site_lang, $reply, $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
-    $avatar = $avatar_set->get_object_by_id($rental->get_avatarlink());
-    $stream = $stream_set->get_object_by_id($rental->get_streamlink());
-    $package = $package_set->get_object_by_id($stream->get_packagelink());
-    $server = $server_set->get_object_by_id($stream->get_serverlink());
+    $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
+    $stream = $stream_set->getObjectByID($rental->get_streamlink());
+    $package = $package_set->getObjectByID($stream->get_packagelink());
+    $server = $server_set->getObjectByID($stream->get_serverlink());
     $sendmessage = $swapables_helper->get_swapped_text($notice->get_immessage(), $avatar, $rental, $package, $server, $stream);
     $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar, $sendmessage, $notice->get_usebot());
     if ($send_message_status["status"] == false) {
         $all_ok = false;
         $why_failed = $send_message_status["message"];
     } else {
-        $rental->set_noticelink($notice->get_id());
+        $rental->set_noticelink($notice->getId());
         $save_status = $rental->save_changes();
         if ($save_status["status"] == false) {
             $all_ok = false;
@@ -28,8 +28,8 @@ function process_notice_change(notice $notice)
                 if ($slconfig->get_eventstorage() == true) {
                     $event = new event();
                     $event->set_avatar_uuid($avatar->get_avataruuid());
-                    $event->set_avatar_name($avatar->get_avatarname());
-                    $event->set_rental_uid($rental->get_rental_uid());
+                    $event->set_avatar_name($avatar->getAvatarname());
+                    $event->set_rental_uid($rental->getRental_uid());
                     $event->set_package_uid($package->get_package_uid());
                     $event->set_event_expire(true);
                     $event->set_unixtime(time());
@@ -50,9 +50,9 @@ function process_notice_change(notice $notice)
                 if ($notice->get_send_notecard() == true) {
                     if ($botconfig->get_notecards() == true) {
                         $notecard = new notecard();
-                        $notecard->set_rentallink($rental->get_id());
+                        $notecard->set_rentallink($rental->getId());
                         $notecard->set_as_notice(1);
-                        $notecard->set_noticelink($notice->get_id());
+                        $notecard->set_noticelink($notice->getId());
                         $create_status = $notecard->create_entry();
                         if ($create_status["status"] == false) {
                             $all_ok = false;
@@ -82,7 +82,7 @@ function process_notice_change(notice $notice)
     }
 }
 
-$rental_ids_expired = array();
+$rental_ids_expired = [];
 
 $status = true;
 $why_failed = "";
@@ -94,43 +94,43 @@ if ($owner_override == true) {
 
     $notice_set = new notice_set();
     $notice_set->loadAll();
-    $sorted_linked = $notice_set->get_linked_array("hoursremaining", "id");
+    $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
     ksort($sorted_linked, SORT_NUMERIC);
     $max_hours = array_keys($sorted_linked)[count($sorted_linked) - 2]; // ignore 999 hours at the end for active
     $unixtime = $max_hours * $unixtime_hour;
     $expired_notice = $notice_set->get_object_by_field("hoursremaining", 0);
 
-    $where_config = array(
-        "fields" => array("expireunixtime","noticelink"),
-        "values" => array((time() + $unixtime),$expired_notice->get_id()),
-        "types" => array("i","i"),
-        "matches" => array("<=","!=")
-    );
+    $where_config = [
+        "fields" => ["expireunixtime","noticelink"],
+        "values" => [(time() + $unixtime),$expired_notice->getId()],
+        "types" => ["i","i"],
+        "matches" => ["<=","!="],
+    ];
 
     $rental_set = new rental_set();
     $rental_set->load_with_config($where_config);
     $avatar_set = new avatar_set();
-    $avatar_set->load_ids($rental_set->get_all_by_field("avatarlink"));
+    $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
     $botconfig = new botconfig();
 
     if ($botconfig->load(1) == true) {
         $botavatar = null;
-        if ($botconfig->get_avatarlink() > 0) {
+        if ($botconfig->getAvatarlink() > 0) {
             $botavatar = new avatar();
-            if ($botavatar->load($botconfig->get_avatarlink()) == true) {
+            if ($botavatar->load($botconfig->getAvatarlink()) == true) {
                 $stream_set = new stream_set();
-                $stream_set->load_ids($rental_set->get_all_by_field("streamlink"));
+                $stream_set->loadIds($rental_set->getAllByField("streamlink"));
                 $server_set = new server_set();
-                $server_set->load_ids($stream_set->get_all_by_field("serverlink"));
+                $server_set->loadIds($stream_set->getAllByField("serverlink"));
                 $package_set = new package_set();
-                $package_set->load_ids($stream_set->get_all_by_field("packagelink"));
+                $package_set->loadIds($stream_set->getAllByField("packagelink"));
                 $rental = null;
-                foreach ($rental_set->get_all_ids() as $rental_id) {
-                    $rental = $rental_set->get_object_by_id($rental_id);
+                foreach ($rental_set->getAllIds() as $rental_id) {
+                    $rental = $rental_set->getObjectByID($rental_id);
                     if ($rental->get_expireunixtime() > time()) {
                         $hours_remain = ceil(($rental->get_expireunixtime() - time()) / $unixtime_hour);
                         if ($hours_remain > 0) {
-                            $current_notice_level = $notice_set->get_object_by_id($rental->get_noticelink());
+                            $current_notice_level = $notice_set->getObjectByID($rental->get_noticelink());
                             $current_hold_hours = $current_notice_level->get_hoursremaining();
                             $use_notice_index = 0;
                             foreach ($sorted_linked as $hours => $index) {
@@ -145,8 +145,8 @@ if ($owner_override == true) {
                             }
 
                             if ($use_notice_index != 0) {
-                                if ($use_notice_index != $current_notice_level->get_id()) {
-                                    $notice = $notice_set->get_object_by_id($use_notice_index);
+                                if ($use_notice_index != $current_notice_level->getId()) {
+                                    $notice = $notice_set->getObjectByID($use_notice_index);
                                     process_notice_change($notice);
                                     break;
                                 }

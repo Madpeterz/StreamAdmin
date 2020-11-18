@@ -8,11 +8,11 @@ if ($owner_override == true) {
     $botconfig = new botconfig();
     if ($botconfig->load(1) == true) {
         $botavatar = new avatar();
-        if ($botavatar->load($botconfig->get_avatarlink()) == true) {
+        if ($botavatar->load($botconfig->getAvatarlink()) == true) {
             if ($botconfig->get_notecards() == true) {
                 $notecard = new notecard();
-                $where_fields = array(array("id" => ">"));
-                $where_values = array(array(0 => "i"));
+                $where_fields = [["id" => ">"]];
+                $where_values = [[0 => "i"]];
                 $count_data = $sql->basic_count($notecard->get_table(), $where_fields, $where_values);
                 if ($count_data["status"] == true) {
                     $status = true;

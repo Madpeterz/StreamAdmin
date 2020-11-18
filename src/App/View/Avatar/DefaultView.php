@@ -8,7 +8,7 @@ use YAPF\InputFilter\InputFilter as InputFilter;
 
 class DefaultView extends View
 {
-    public function process()
+    public function process(): void
     {
         $input = new InputFilter();
         $match_with = "newest";
@@ -20,28 +20,28 @@ class DefaultView extends View
         $wherematchs = [];
         if (strlen($uuid) == 36) {
             $match_with = "uuid";
-            $wherefields = array("avataruuid");
-            $wherevalues = array($uuid);
-            $wheretypes = array("s");
-            $wherematchs = array("=");
+            $wherefields = ["avataruuid"];
+            $wherevalues = [$uuid];
+            $wheretypes = ["s"];
+            $wherematchs = ["="];
         } elseif (strlen($name) >= 2) {
             $match_with = "name";
-            $wherefields = array("avatarname");
-            $wherevalues = array($name);
-            $wheretypes = array("s");
-            $wherematchs = array("% LIKE %");
+            $wherefields = ["avatarname"];
+            $wherevalues = [$name];
+            $wheretypes = ["s"];
+            $wherematchs = ["% LIKE %"];
         }
         $avatarSet = new AvatarSet();
         if ($match_with == "newest") {
             $avatarSet->loadNewest(30);
             $this->output->setSwapTagString("page_title", "Newest 30 avatars");
         } else {
-            $where_config = array(
+            $where_config = [
                 "fields" => $wherefields,
                 "values" => $wherevalues,
                 "types" => $wheretypes,
-                "matches" => $wherematchs
-            );
+                "matches" => $wherematchs,
+            ];
             $avatarSet->loadWithConfig($where_config);
             if ($match_with == "name") {
                 $this->output->setSwapTagString("page_title", "Names containing: " . $name);
@@ -49,7 +49,7 @@ class DefaultView extends View
                 $this->output->setSwapTagString("page_title", "UUID: " . $uuid);
             }
         }
-        $table_head = array("id","UID","Name");
+        $table_head = ["id","UID","Name"];
         $table_body = [];
         foreach ($avatarSet->getAllIds() as $avatar_id) {
             $avatar = $avatarSet->getObjectByID($avatar_id);

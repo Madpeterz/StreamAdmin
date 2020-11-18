@@ -9,7 +9,7 @@ use App\StreamSet;
 
 class ListMode extends RenderList
 {
-    public function process()
+    public function process(): void
     {
         $this->rentalSet = new RentalSet();
         $this->rentalSet->loadAll("id", "DESC");

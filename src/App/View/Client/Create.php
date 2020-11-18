@@ -8,7 +8,7 @@ use App\Template\Form;
 
 class Create extends View
 {
-    public function process()
+    public function process(): void
     {
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", "Create new client");

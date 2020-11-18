@@ -38,8 +38,8 @@ $status = false;
 if ($failed_on == "") {
     $notice = new notice();
     if ($notice->load($page) == true) {
-        $where_fields = array(array("hoursremaining" => "="));
-        $where_values = array(array($hoursremaining => "i"));
+        $where_fields = [["hoursremaining" => "="]];
+        $where_values = [[$hoursremaining => "i"]];
         $count_check = $sql->basic_count($notice->get_table(), $where_fields, $where_values);
         $expected_count = 0;
         if ($notice->get_hoursremaining() == $hoursremaining) {
@@ -52,8 +52,8 @@ if ($failed_on == "") {
                 $notice->set_usebot($usebot);
                 $notice->set_send_notecard($send_notecard);
                 $notice->set_notecarddetail($notecarddetail);
-                $notice->set_notice_notecardlink($static_notecard->get_id());
-                if (in_array($page, array(6,10)) == false) {
+                $notice->set_notice_notecardlink($static_notecard->getId());
+                if (in_array($page, [6,10]) == false) {
                     $notice->set_hoursremaining($hoursremaining);
                 }
                 $update_status = $notice->save_changes();

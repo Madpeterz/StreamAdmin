@@ -1,21 +1,25 @@
 <?php
 
-$objects = new objects();
-$owner_objects_list = array(
+use App\Objects;
+use App\ObjectsSet;
+use App\RegionSet;
+
+$objects = new Objects();
+$owner_objects_list = [
     "apirequests",
     "mailserver",
     "noticeserver",
     "detailsserver",
-    "notecardsserver"
-);
+    "notecardsserver",
+];
 $one_hour_ago = (time() - $unixtime_hour);
-$objects_set = new objects_set();
-$where_config = array(
-     "fields" => array("avatarlink","lastseen","objectmode"),
-     "matches" => array("=",">=","IN"),
-     "values" => array($slconfig->get_owner_av(),$one_hour_ago,$owner_objects_list),
-     "types" => array("i","i","s"),
-);
-$objects_set->load_with_config($where_config);
-$region_set = new region_set();
-$region_set->load_ids($objects_set->get_all_by_field("regionlink"));
+$objects_set = new ObjectsSet();
+$where_config = [
+     "fields" => ["avatarlink","lastseen","objectmode"],
+     "matches" => ["=",">=","IN"],
+     "values" => [$slconfig->get_owner_av(),$one_hour_ago,$owner_objects_list],
+     "types" => ["i","i","s"],
+];
+$objects_set->loadWithConfig($where_config);
+$region_set = new RegionSet();
+$region_set->loadIds($objects_set->getAllByField("regionlink"));
