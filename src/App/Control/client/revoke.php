@@ -21,17 +21,17 @@ if ($accept == "Accept") {
         }
         if ($all_ok == true) {
             $stream = new stream();
-            if ($stream->load($rental->get_streamlink()) == true) {
+            if ($stream->loadID($rental->get_streamlink()) == true) {
                 $stream->set_rentallink(null);
                 $stream->set_needwork(1);
                 $update_status = $stream->save_changes();
                 $server = new server();
-                if ($server->load($stream->get_serverlink()) == true) {
+                if ($server->loadID($stream->get_serverlink()) == true) {
                     if ($update_status["status"] == true) {
                         $package = new package();
-                        if ($package->load($rental->get_packagelink()) == true) {
+                        if ($package->loadID($rental->get_packagelink()) == true) {
                             $avatar = new avatar();
-                            if ($avatar->load($rental->getAvatarlink()) == true) {
+                            if ($avatar->loadID($rental->getAvatarlink()) == true) {
                                 $all_ok = true;
                                 $message = "";
                                 // Event storage engine

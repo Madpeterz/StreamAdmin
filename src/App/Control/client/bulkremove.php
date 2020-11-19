@@ -37,7 +37,7 @@ foreach ($rental_set->getAllIds() as $rental_id) {
                 $stream = $stream_set->getObjectByID($rental->get_streamlink());
                 if ($stream != null) {
                     $server = new server();
-                    if ($server->load($stream->get_serverlink()) == true) {
+                    if ($server->loadID($stream->get_serverlink()) == true) {
                         $stream->set_rentallink(null);
                         $stream->set_needwork(1);
                         $update_status = $stream->save_changes();

@@ -21,9 +21,9 @@ if ($port < 1) {
     $failed_on .= $lang["stream.up.error.1"];
 } elseif ($port > 99999) {
     $failed_on .= $lang["stream.up.error.2"];
-} elseif ($package->load($packagelink) == false) {
+} elseif ($package->loadID($packagelink) == false) {
     $failed_on .= $lang["stream.up.error.3"];
-} elseif ($server->load($serverlink) == false) {
+} elseif ($server->loadID($serverlink) == false) {
     $failed_on .= $lang["stream.up.error.4"];
 } elseif (strlen($adminusername) < 3) {
     $failed_on .= $lang["stream.up.error.5"];

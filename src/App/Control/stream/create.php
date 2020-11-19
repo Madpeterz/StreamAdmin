@@ -22,9 +22,9 @@ if ($port < 1) {
     $failed_on .= $lang["stream.cr.error.1"];
 } elseif ($port > 99999) {
     $failed_on .= $lang["stream.cr.error.2"];
-} elseif ($package->load($packagelink) == false) {
+} elseif ($package->loadID($packagelink) == false) {
     $failed_on .= $lang["stream.cr.error.3"];
-} elseif ($server->load($serverlink) == false) {
+} elseif ($server->loadID($serverlink) == false) {
     $failed_on .= $lang["stream.cr.error.4"];
 } elseif (strlen($adminusername) < 3) {
     $failed_on .= $lang["stream.cr.error.5"];
@@ -44,8 +44,8 @@ if ($failed_on == "") {
     $stream = new stream();
     $uid = $stream->create_uid("stream_uid", 8, 10);
     if ($uid["status"] == true) {
-        $where_fields = array(array("port" => ">="),array("serverlink" => "="));
-        $where_values = array(array($port => "i"),array($serverlink => "i"));
+        $where_fields = [["port" => ">="],["serverlink" => "="]];
+        $where_values = [[$port => "i"],[$serverlink => "i"]];
         $count_check = $sql->basic_count($stream->get_table(), $where_fields, $where_values);
         if ($count_check["status"] == true) {
             if ($count_check["count"] == 0) {

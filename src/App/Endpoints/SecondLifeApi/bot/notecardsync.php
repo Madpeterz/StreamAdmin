@@ -6,9 +6,9 @@ $all_ok = true;
 $changes = 0;
 if ($owner_override == true) {
     $botconfig = new botconfig();
-    if ($botconfig->load(1) == true) {
+    if ($botconfig->loadID(1) == true) {
         $botavatar = new avatar();
-        if ($botavatar->load($botconfig->getAvatarlink()) == true) {
+        if ($botavatar->loadID($botconfig->getAvatarlink()) == true) {
             if ($botconfig->get_notecards() == true) {
                 $notecard = new notecard();
                 $where_fields = [["id" => ">"]];

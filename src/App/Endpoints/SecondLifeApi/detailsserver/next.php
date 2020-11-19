@@ -3,25 +3,25 @@
 $status = false;
 if ($owner_override == true) {
     $botconfig = new botconfig();
-    if ($botconfig->load(1) == 1) {
+    if ($botconfig->loadID(1) == 1) {
         $botavatar = new avatar();
-        if ($botavatar->load($botconfig->getAvatarlink()) == true) {
+        if ($botavatar->loadID($botconfig->getAvatarlink()) == true) {
             $detail_set = new detail_set();
             $detail_set->load_newest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
             if ($detail_set->getCount() > 0) {
                 $detail = $detail_set->get_first();
                 $rental = new rental();
-                if ($rental->load($detail->getRentallink()) == true) {
+                if ($rental->loadID($detail->getRentallink()) == true) {
                     $avatar = new avatar();
-                    if ($avatar->load($rental->getAvatarlink()) == true) {
+                    if ($avatar->loadID($rental->getAvatarlink()) == true) {
                         $stream = new stream();
-                        if ($stream->load($rental->get_streamlink()) == true) {
+                        if ($stream->loadID($rental->get_streamlink()) == true) {
                             $server = new server();
-                            if ($server->load($stream->get_serverlink()) == true) {
+                            if ($server->loadID($stream->get_serverlink()) == true) {
                                 $package = new package();
-                                if ($package->load($stream->get_packagelink()) == true) {
+                                if ($package->loadID($stream->get_packagelink()) == true) {
                                     $template = new template();
-                                    if ($template->load($package->getTemplatelink()) == true) {
+                                    if ($template->loadID($package->getTemplatelink()) == true) {
                                         $remove_status = $detail->remove_me();
                                         if ($remove_status["status"] == true) {
                                             $bot_helper = new bot_helper();

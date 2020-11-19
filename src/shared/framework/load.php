@@ -29,7 +29,7 @@ if (class_exists("Db", false) == true) {
         // lets get some work done
         $session = new session_control();
         $slconfig = new slconfig();
-        if ($slconfig->load(1) == true) {
+        if ($slconfig->loadID(1) == true) {
             $session->load_from_session();
         } else {
             die("Unable to load system config [PANIC]");
@@ -38,7 +38,7 @@ if (class_exists("Db", false) == true) {
             $timezone_config_from_cache = $this->output->get_cache_file("current_timezone", false);
             if ($timezone_config_from_cache == null) {
                 $timezone = new timezones();
-                if ($timezone->load($slconfig->get_displaytimezonelink()) == true) {
+                if ($timezone->loadID($slconfig->get_displaytimezonelink()) == true) {
                     $cooked = $timezone_name . "###" . $timezone->get_code();
                     $this->output->set_cache_file($cooked, "current_timezone", false);
                 }

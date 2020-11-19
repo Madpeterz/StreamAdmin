@@ -6,10 +6,10 @@ $package_id = $input->postFilter("package", "integer");
 $status = false;
 $treevender = new treevender();
 $ajax_reply->set_swap_tag_string("redirect", "tree");
-if ($treevender->load($this->page) == true) {
+if ($treevender->loadID($this->page) == true) {
     if ($package_id > 0) {
         $package = new package();
-        if ($package->load($package_id) == true) {
+        if ($package->loadID($package_id) == true) {
             $treevender_package = new treevender_packages();
             $where_fields = [
                 "fields" => ["packagelink","treevenderlink"],

@@ -12,7 +12,7 @@ function value_or_zero($value)
 }
 if ($tree_vender_id > 0) {
     $treevender = new treevender();
-    if ($treevender->load($tree_vender_id) == true) {
+    if ($treevender->loadID($tree_vender_id) == true) {
         $treevender_packages_set = new treevender_packages_set();
         $load_status = $treevender_packages_set->load_on_field("treevenderlink", $treevender->getId());
         if ($load_status["status"] == true) {

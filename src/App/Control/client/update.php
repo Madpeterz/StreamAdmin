@@ -24,7 +24,7 @@ if ($rental->loadByField("rental_uid", $this->page) == true) {
         $avatar = new avatar();
         if ($avatar->loadByField("avatar_uid", $transfer_avataruid) == true) {
             $avatar_from = new avatar();
-            if ($avatar_from->load($rental->getAvatarlink()) == true) {
+            if ($avatar_from->loadID($rental->getAvatarlink()) == true) {
                 $rental->set_avatarlink($avatar->getId());
                 $actions_taken .= $lang["client.up.info.2"];
                 $message .= sprintf($lang["client.up.info.1"], date($lang["client.up.datetime.format"], time()), $avatar->getAvatarname(), $avatar->get_avatar_uid(), $avatar_from->getAvatarname(), $avatar_from->get_avatar_uid());

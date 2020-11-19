@@ -28,7 +28,7 @@ if (strlen($name) < 5) {
     $failed_on .= $lang["notice.up.error.5"];
 } elseif (strlen($hoursremaining) > 999) {
     $failed_on .= $lang["notice.up.error.6"];
-} elseif ($static_notecard->load($notice_notecardlink) == false) {
+} elseif ($static_notecard->loadID($notice_notecardlink) == false) {
     $failed_on .= $lang["notice.up.error.11"];
 } elseif ($static_notecard->get_missing() == true) {
     $failed_on .= $lang["notice.up.error.11"];
@@ -37,7 +37,7 @@ if (strlen($name) < 5) {
 $status = false;
 if ($failed_on == "") {
     $notice = new notice();
-    if ($notice->load($this->page) == true) {
+    if ($notice->loadID($this->page) == true) {
         $where_fields = [["hoursremaining" => "="]];
         $where_values = [[$hoursremaining => "i"]];
         $count_check = $sql->basic_count($notice->get_table(), $where_fields, $where_values);

@@ -10,9 +10,9 @@ $rental = new rental();
 if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $rental_id = $rental->getId();
     $stream = new stream();
-    if ($stream->load($rental->get_streamlink()) == true) {
+    if ($stream->loadID($rental->get_streamlink()) == true) {
         $package = new package();
-        if ($package->load($stream->get_packagelink()) == true) {
+        if ($package->loadID($stream->get_packagelink()) == true) {
             $accepted_payment_amounts = [($package->getCost()) => 1,($package->getCost() * 2) => 2,($package->getCost() * 3) => 3,($package->getCost() * 4) => 4];
             if (array_key_exists($amountpaid, $accepted_payment_amounts) == true) {
                 $multipler = $accepted_payment_amounts[$amountpaid];
@@ -72,12 +72,12 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                 if ($create_status["status"] == true) {
                                     if ($owner_override == false) {
                                         $avatar_system = new avatar();
-                                        if ($avatar_system->load($slconfig->get_owner_av()) == true) {
+                                        if ($avatar_system->loadID($slconfig->get_owner_av()) == true) {
                                             $status = true;
                                             $left_over = $amountpaid;
-                                            if ($reseller->get_rate() > 0) {
+                                            if ($reseller->getRate() > 0) {
                                                 $one_p = $amountpaid / 100;
-                                                $reseller_cut = floor($one_p * $reseller->get_rate());
+                                                $reseller_cut = floor($one_p * $reseller->getRate());
                                                 $left_over = $amountpaid - $reseller_cut;
                                                 if ($reseller_cut < 1) {
                                                     if ($left_over >= 2) {

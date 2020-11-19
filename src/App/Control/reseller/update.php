@@ -13,7 +13,7 @@ $status = false;
 $ajax_reply->set_swap_tag_string("redirect", "reseller");
 if ($failed_on == "") {
     $reseller = new reseller();
-    if ($reseller->load($this->page) == true) {
+    if ($reseller->loadID($this->page) == true) {
         $reseller->set_rate($rate);
         $reseller->set_allowed($allowed);
         $update_status = $reseller->save_changes();

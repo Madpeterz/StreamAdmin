@@ -44,7 +44,7 @@ if (strlen($name) < 4) {
 $status = false;
 if ($failed_on == "") {
     $textureconfig = new textureconfig();
-    if ($textureconfig->load($this->page) == true) {
+    if ($textureconfig->loadID($this->page) == true) {
         $textureconfig->set_name($name);
         $textureconfig->set_offline($offline);
         $textureconfig->set_wait_owner($wait_owner);

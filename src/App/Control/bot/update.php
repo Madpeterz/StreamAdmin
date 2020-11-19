@@ -19,7 +19,7 @@ if ($session->get_ownerlevel() == true) {
     $status = false;
     if ($failed_on == "") {
         $botconfig = new botconfig();
-        if ($botconfig->load(1) == true) {
+        if ($botconfig->loadID(1) == true) {
             $avatar = new avatar();
             if ($avatar->loadByField("avatar_uid", $avataruid) == true) {
                 $botconfig->set_avatarlink($avatar->getId());

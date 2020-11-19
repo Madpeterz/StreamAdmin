@@ -4,7 +4,7 @@ $status = false;
 $rental = new rental();
 if ($rental->loadByField("rental_uid", $this->page) == true) {
     $stream = new stream();
-    if ($stream->load($rental->get_streamlink()) == true) {
+    if ($stream->loadID($rental->get_streamlink()) == true) {
         $server_api_helper = new serverapi_helper($stream);
         $functionname = "api_" . $optional . "";
         if (method_exists($server_api_helper, $functionname) == true) {

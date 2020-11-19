@@ -46,13 +46,13 @@ if (strlen($name) < 5) {
     $failed_on .= $lang["package.cr.error.13"];
 } elseif ($autodj_size > 9999) {
     $failed_on .= $lang["package.cr.error.14"];
-} elseif ($template->load($templatelink) == false) {
+} elseif ($template->loadID($templatelink) == false) {
     $failed_on .= $lang["package.cr.error.15"];
 } elseif (strlen($api_template) > 50) {
     $failed_on .= $lang["package.cr.error.18"];
 } elseif (strlen($api_template) < 3) {
     $failed_on .= $lang["package.cr.error.19"];
-} elseif ($servertype->load($servertypelink) == false) {
+} elseif ($servertype->loadID($servertypelink) == false) {
     $failed_on .= $lang["package.cr.error.20"];
 }
 

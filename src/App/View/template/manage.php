@@ -4,7 +4,7 @@ $this->output->addSwapTagString("html_title", " ~ Manage");
 $this->output->addSwapTagString("page_title", " Manage");
 $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]template/remove/" . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $template = new template();
-if ($template->load($this->page) == true) {
+if ($template->loadID($this->page) == true) {
     $this->output->addSwapTagString("page_title", ":" . $template->getName());
     $form = new form();
     $form->target("template/update/" . $this->page . "");

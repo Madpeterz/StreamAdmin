@@ -10,20 +10,20 @@ if ($av_uuid != null) {
     require_once("shared/framework/mysqli/src/loader.php"); // sql_driver
     $sql = new mysqli_controler();
     $staff = new staff();
-    if ($staff->load(1) == true) {
+    if ($staff->loadID(1) == true) {
         $staff->set_username($input->postFilter("av_username"));
         $staff->set_email($input->postFilter("av_email"));
         $update_status = $staff->save_changes();
         if ($update_status["status"] == true) {
             $avatar = new avatar();
-            if ($avatar->load(1) == true) {
+            if ($avatar->loadID(1) == true) {
                 $avatar->set_avataruuid($av_uuid);
                 $avatar->set_avatarname($input->postFilter("av_name"));
                 $avatar->set_avatar_uid($avatar->create_uid("avatar_uid", 8, 10)["uid"]);
                 $update_status = $avatar->save_changes();
                 if ($update_status["status"] == true) {
                     $slconfig = new slconfig();
-                    if ($slconfig->load(1) == true) {
+                    if ($slconfig->loadID(1) == true) {
                         $slconfig->set_sllinkcode($slconfig->create_uid("sllinkcode", 10, 10)["uid"]);
                         $update_status = $slconfig->save_changes();
                         if ($update_status["status"] == true) {

@@ -8,7 +8,7 @@ if ($owner_override == true) {
     if ($message_set->getCount() > 0) {
         $message = $message_set->get_first();
         $avatar = new avatar();
-        if ($avatar->load($message->getAvatarlink()) == true) {
+        if ($avatar->loadID($message->getAvatarlink()) == true) {
             $remove_status = $message->remove_me();
             if ($remove_status["status"] == true) {
                 $reply["hasmessage"] = 1;

@@ -21,14 +21,14 @@ if (in_array(null, $fasttest) == false) {
         if ($rental->loadByField("rental_uid", $rental_uid) == true) {
             if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
                 $package = new package();
-                if ($package->load($rental->get_packagelink()) == true) {
+                if ($package->loadID($rental->get_packagelink()) == true) {
                     if ($amount == $package->getCost()) {
                         $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->get_avataruuid(),$slconfig->get_publiclinkcode(),$rental->get_expireunixtime()];
                         $raw = implode("", $bits);
                         $tidhashcheck = sha1($raw);
                         if ($tidhashcheck == $tidhash) {
                             $avatar_system = new avatar();
-                            if ($avatar_system->load($slconfig->get_owner_av()) == true) {
+                            if ($avatar_system->loadID($slconfig->get_owner_av()) == true) {
                                 $reseller = $avatar_system;
                                 $localstatus = true;
                                 $_POST["rental_uid"] = $rental_uid;
@@ -47,10 +47,10 @@ if (in_array(null, $fasttest) == false) {
                                     $swapables_helper = new swapables_helper();
 
                                     $botconfig = new botconfig();
-                                    $botconfig->load(1);
+                                    $botconfig->loadID(1);
 
                                     $botavatar = new avatar();
-                                    $botavatar->load($botconfig->getAvatarlink());
+                                    $botavatar->loadID($botconfig->getAvatarlink());
 
                                     $sendmessage = $swapables_helper->get_swapped_text("= Remote transaction notice =[[NL]] User: [[AVATAR_FULLNAME]] has topped up L$" . $amount . " [[NL]] Rental: " . $rental->getRental_uid() . " on port: " . $stream->get_port() . " [[NL]] transaction ID:" . $transactionid . "", $object_owner_avatar, $rental, $package, $server, $stream);
                                     $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar_system, $sendmessage, true);

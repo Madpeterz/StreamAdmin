@@ -68,7 +68,7 @@ class server_centova3 extends server_centova3_only
         global $slconfig;
         if ($this->package->getApi_template() != null) {
             $servertype = new servertypes();
-            if ($servertype->load($this->package->getServertypelink()) == true) {
+            if ($servertype->loadID($this->package->getServertypelink()) == true) {
                 $post_data = [
                     "port" => $this->stream->get_port(),
                     "maxclients" => $this->package->getListeners(),

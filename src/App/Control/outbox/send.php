@@ -44,10 +44,10 @@ if (count($avatarids) <= $max_avatars) {
                 $swapables_helper = new swapables_helper();
 
                 $botconfig = new botconfig();
-                $botconfig->load(1);
+                $botconfig->loadID(1);
 
                 $botavatar = new avatar();
-                $botavatar->load($botconfig->getAvatarlink());
+                $botavatar->loadID($botconfig->getAvatarlink());
 
                 $sent_counter = 0;
                 $seen_avatars = [];

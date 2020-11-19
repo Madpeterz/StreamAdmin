@@ -64,7 +64,7 @@ function process_notice_change(notice $notice): void
             if ($all_ok == true) {
                 if ($notice->get_notice_notecardlink() > 1) {
                     $notice_notecard = new notice_notecard();
-                    if ($notice_notecard->load($notice->get_notice_notecardlink()) == true) {
+                    if ($notice_notecard->loadID($notice->get_notice_notecardlink()) == true) {
                         if ($notice_notecard->get_missing() == false) {
                             $reply["send_static_notecard"] = $notice_notecard->getName();
                             $reply["send_static_notecard_to"] = $avatar->get_avataruuid();
@@ -113,11 +113,11 @@ if ($owner_override == true) {
     $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
     $botconfig = new botconfig();
 
-    if ($botconfig->load(1) == true) {
+    if ($botconfig->loadID(1) == true) {
         $botavatar = null;
         if ($botconfig->getAvatarlink() > 0) {
             $botavatar = new avatar();
-            if ($botavatar->load($botconfig->getAvatarlink()) == true) {
+            if ($botavatar->loadID($botconfig->getAvatarlink()) == true) {
                 $stream_set = new stream_set();
                 $stream_set->loadIds($rental_set->getAllByField("streamlink"));
                 $server_set = new server_set();

@@ -175,11 +175,11 @@ if ($status == true) {
 if ($status == true) { // process reseller cut / owner cut
     if ($owner_override == false) {
         $avatar_system = new avatar();
-        if ($avatar_system->load($slconfig->get_owner_av()) == true) {
+        if ($avatar_system->loadID($slconfig->get_owner_av()) == true) {
             $left_over = $amountpaid;
-            if ($reseller->get_rate() > 0) {
+            if ($reseller->getRate() > 0) {
                 $one_p = $amountpaid / 100;
-                $reseller_cut = floor($one_p * $reseller->get_rate());
+                $reseller_cut = floor($one_p * $reseller->getRate());
                 $left_over = $amountpaid - $reseller_cut;
                 if ($reseller_cut < 1) {
                     if ($left_over >= 2) {

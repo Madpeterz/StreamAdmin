@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "template");
 $status = false;
 if ($accept == "Accept") {
     $template = new template();
-    if ($template->load($this->page) == true) {
+    if ($template->loadID($this->page) == true) {
         $remove_status = $template->remove_me();
         if ($remove_status["status"] == true) {
             $status = true;

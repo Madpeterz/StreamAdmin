@@ -6,11 +6,11 @@ $rental = new rental();
 $status = false;
 if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $stream = new stream();
-    if ($stream->load($rental->get_streamlink()) == true) {
+    if ($stream->loadID($rental->get_streamlink()) == true) {
         $server = new server();
-        if ($server->load($stream->get_serverlink()) == true) {
+        if ($server->loadID($stream->get_serverlink()) == true) {
             $serverapi = new apis();
-            if ($serverapi->load($server->get_apilink()) == true) {
+            if ($serverapi->loadID($server->get_apilink()) == true) {
                 $flags = [
                     "autodjnext" => "opt_autodj_next",
                     "toggleautodj" => "opt_toggle_autodj",

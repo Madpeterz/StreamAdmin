@@ -12,7 +12,7 @@ if (strlen($name) < 5) {
 $status = false;
 if ($failed_on == "") {
     $treevender = new treevender();
-    if ($treevender->load($this->page) == true) {
+    if ($treevender->loadID($this->page) == true) {
         $where_fields = [["name" => "="]];
         $where_values = [[$name => "s"]];
         $count_check = $sql->basic_count($treevender->get_table(), $where_fields, $where_values);

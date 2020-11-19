@@ -4,7 +4,7 @@ $this->output->addSwapTagString("html_title", " ~ Manage");
 $this->output->addSwapTagString("page_title", " Editing");
 $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]tree/remove/" . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $treevender = new treevender();
-if ($treevender->load($this->page) == true) {
+if ($treevender->loadID($this->page) == true) {
     $package_set = new package_set();
     $package_set->loadAll();
     $this->output->addSwapTagString("page_title", ":" . $treevender->getName());

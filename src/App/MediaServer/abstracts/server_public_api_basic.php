@@ -37,7 +37,7 @@ abstract class server_public_api_basic extends server_api_protected
     {
         if ($this->package == null) {
             $this->package = new package();
-            if ($this->package->load($this->stream->get_packagelink()) == false) {
+            if ($this->package->loadID($this->stream->get_packagelink()) == false) {
                 $this->package = null;
             }
         }

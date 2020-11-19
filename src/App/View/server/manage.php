@@ -6,7 +6,7 @@ $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]server/rem
 $server = new server();
 $apis = new apis_set();
 $apis->loadAll();
-if ($server->load($this->page) == true) {
+if ($server->loadID($this->page) == true) {
     $this->output->addSwapTagString("page_title", " :" . $server->get_domain());
     $form = new form();
     $form->target("server/update/" . $this->page . "");

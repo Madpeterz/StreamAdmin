@@ -4,7 +4,7 @@ $this->output->addSwapTagString("html_title", " ~ Manage");
 $this->output->addSwapTagString("page_title", " Editing texture pack");
 $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]textureconfig/remove/" . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $textureconfig = new textureconfig();
-if ($textureconfig->load($this->page) == true) {
+if ($textureconfig->loadID($this->page) == true) {
     $this->output->addSwapTagString("page_title", ":" . $textureconfig->getName());
     $form = new form();
     $form->target("textureconfig/update/" . $this->page . "");

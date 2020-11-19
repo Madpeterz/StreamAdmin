@@ -12,9 +12,9 @@ if (in_array($request_code, $accepted_api_calls) == true) {
         if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
             if ($rental->get_expireunixtime() > time()) {
                 $stream = new stream();
-                if ($stream->load($rental->get_streamlink()) == true) {
+                if ($stream->loadID($rental->get_streamlink()) == true) {
                     $server = new server();
-                    if ($server->load($stream->get_serverlink()) == true) {
+                    if ($server->loadID($stream->get_serverlink()) == true) {
                         $pendingapi = new api_requests_set();
                         $pendingapi->loadByField("streamlink", $rental->get_streamlink());
                         if ($pendingapi->getCount() == 0) {

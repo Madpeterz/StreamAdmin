@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "textureconfig");
 $status = false;
 if ($accept == "Accept") {
     $textureconfig = new textureconfig();
-    if ($textureconfig->load($this->page) == true) {
+    if ($textureconfig->loadID($this->page) == true) {
         $remove_status = $textureconfig->remove_me();
         if ($remove_status["status"] == true) {
             $status = true;

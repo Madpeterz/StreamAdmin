@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "staff");
 $status = false;
 if ($accept == "Accept") {
     $staff = new staff();
-    if ($staff->load($this->page) == true) {
+    if ($staff->loadID($this->page) == true) {
         if ($staff->get_ownerlevel() == false) {
             $remove_status = $staff->remove_me();
             if ($remove_status["status"] == true) {

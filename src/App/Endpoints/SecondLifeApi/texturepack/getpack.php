@@ -4,7 +4,7 @@ $input = new inputFilter();
 $texturepack = $input->postFilter("texturepack", "integer");
 if ($texturepack > 0) {
     $textureconfig = new textureconfig();
-    if ($textureconfig->load($texturepack) == true) {
+    if ($textureconfig->loadID($texturepack) == true) {
         $status = true;
         $reply["texture_offline"] = $textureconfig->get_offline();
         $reply["texture_waitingforowner"] = $textureconfig->get_wait_owner();
@@ -19,7 +19,7 @@ if ($texturepack > 0) {
 
         // reseller config (send anyway even if not wanted)
         if ($owner_override == false) {
-            $reply["reseller_rate"] = $reseller->get_rate();
+            $reply["reseller_rate"] = $reseller->getRate();
             $reply["reseller_mode"] = $lang["texturepack.gp.info.1"];
         } else {
             $reply["reseller_rate"] = 100;

@@ -41,7 +41,7 @@ if (strlen($httpcode) < 5) {
     $failed_on .= $lang["slconfig.up.error.7"];
 } elseif ($avatar->loadByField("avatar_uid", $owneravuid) == false) {
     $failed_on .= $lang["slconfig.up.error.8"];
-} elseif ($timezone->load($displaytimezonelink) == false) {
+} elseif ($timezone->loadID($displaytimezonelink) == false) {
     $failed_on .= $lang["slconfig.up.error.12"];
 } elseif (strlen($api_default_email) < 7) {
     $failed_on .= $lang["slconfig.up.error.13"];

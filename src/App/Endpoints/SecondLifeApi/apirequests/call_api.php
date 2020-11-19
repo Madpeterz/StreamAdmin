@@ -6,7 +6,7 @@ $status = false;
 $message = "Started call_api";
 $current_step = $functionname;
 $retry = false;
-if ($stream->load($api_request->get_streamlink()) == true) {
+if ($stream->loadID($api_request->get_streamlink()) == true) {
     $server_api_helper = new serverapi_helper($stream);
     if (method_exists($server_api_helper, $current_step) == true) {
         $status = $server_api_helper->$functionname();

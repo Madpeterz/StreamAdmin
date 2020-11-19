@@ -1,11 +1,11 @@
 <?php
 
 $treevender_packages = new treevender_packages();
-if ($treevender_packages->load($this->page) == true) {
+if ($treevender_packages->loadID($this->page) == true) {
     $treevender = new treevender();
-    if ($treevender->load($treevender_packages->get_treevenderlink()) == true) {
+    if ($treevender->loadID($treevender_packages->get_treevenderlink()) == true) {
         $package = new package();
-        if ($package->load($treevender_packages->get_packagelink()) == true) {
+        if ($package->loadID($treevender_packages->get_packagelink()) == true) {
             $this->output->addSwapTagString("html_title", " ~ Remove");
             $this->output->addSwapTagString("page_title", " Remove linked package:" . $package->getName() . " from tree vender:" . $treevender->getName());
             $this->output->setSwapTagString("page_actions", "");

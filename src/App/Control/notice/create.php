@@ -34,7 +34,7 @@ if (strlen($name) < 5) {
     $failed_on .= $lang["notice.cr.error.6"];
 } elseif ($notice->loadByField("hoursremaining", $hoursremaining) == true) {
     $failed_on .= $lang["notice.cr.error.7"];
-} elseif ($static_notecard->load($notice_notecardlink) == false) {
+} elseif ($static_notecard->loadID($notice_notecardlink) == false) {
     $failed_on .= $lang["notice.cr.error.9"];
 } elseif ($static_notecard->get_missing() == true) {
     $failed_on .= $lang["notice.cr.error.9"];

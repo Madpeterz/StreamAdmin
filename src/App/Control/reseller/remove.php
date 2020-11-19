@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "reseller");
 $status = false;
 if ($accept == "Accept") {
     $reseller = new reseller();
-    if ($reseller->load($this->page) == true) {
+    if ($reseller->loadID($this->page) == true) {
         $remove_status = $reseller->remove_me();
         if ($remove_status["status"] == true) {
             $status = true;

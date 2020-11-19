@@ -6,7 +6,7 @@ $texturepack = $input->postFilter("texturepack", "integer");
 $status = false;
 if ($texturepack > 0) {
     $textureconfig = new textureconfig();
-    if ($textureconfig->load($texturepack) == true) {
+    if ($textureconfig->loadID($texturepack) == true) {
         $package = new package();
         if ($package->loadByField("package_uid", $packageuid) == true) {
             // $reseller, $object_owner_avatar, $owner_override, $region, $object
@@ -45,7 +45,7 @@ if ($texturepack > 0) {
                 $reply["texture_package_big"] = $package->getTexture_uuid_instock_selected();
                 $reply["texture_package_soldout"] = $package->getTexture_uuid_soldout();
                 if ($owner_override == false) {
-                    $reply["reseller_rate"] = $reseller->get_rate();
+                    $reply["reseller_rate"] = $reseller->getRate();
                     $reply["reseller_mode"] = $lang["buy.gc.info.1"];
                 } else {
                     $reply["reseller_rate"] = 100;

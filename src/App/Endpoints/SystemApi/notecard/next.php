@@ -31,7 +31,7 @@ if ($notecard_set->getCount() > 0) {
             $object = $$objectname;
             $loadfromobject = $$source;
             $loadfromfunction = "get_" . $linkon . "";
-            if ($object->load($loadfromobject->$loadfromfunction()) == false) {
+            if ($object->loadID($loadfromobject->$loadfromfunction()) == false) {
                 $load_ok = false;
                 break;
             }

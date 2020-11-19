@@ -76,7 +76,7 @@ if (strlen($domain) > 100) {
 $status = false;
 if ($failed_on == "") {
     $server = new server();
-    if ($server->load($this->page) == true) {
+    if ($server->loadID($this->page) == true) {
         $where_fields = [["domain" => "="]];
         $where_values = [[$domain => "s"]];
         $count_check = $sql->basic_count($server->get_table(), $where_fields, $where_values);

@@ -3,16 +3,16 @@
 $rental = new rental();
 if ($rental->loadByField("rental_uid", $this->page) == true) {
     $avatar = new avatar();
-    $avatar->load($rental->getAvatarlink());
+    $avatar->loadID($rental->getAvatarlink());
 
     $stream = new stream();
-    $stream->load($rental->get_streamlink());
+    $stream->loadID($rental->get_streamlink());
 
     $package = new package();
-    $package->load($stream->get_packagelink());
+    $package->loadID($stream->get_packagelink());
 
     $server = new server();
-    $server->load($stream->get_serverlink());
+    $server->loadID($stream->get_serverlink());
 
     $status = true;
     $viewnotecard = "

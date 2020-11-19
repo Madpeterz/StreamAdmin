@@ -24,7 +24,7 @@ if ($session->get_ownerlevel() == true) {
     }
     if ($failed_on == "") {
         $staff = new staff();
-        if ($staff->load($this->page) == true) {
+        if ($staff->loadID($this->page) == true) {
             $where_fields = [["avataruuid" => "="]];
             $where_values = [[$avataruuid => "s"]];
             $count_check = $sql->basic_count($avatar->get_table(), $where_fields, $where_values);

@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "server");
 $status = false;
 if ($accept == "Accept") {
     $server = new server();
-    if ($server->load($this->page) == true) {
+    if ($server->loadID($this->page) == true) {
         $stream_set = new stream_set();
         $load_status = $stream_set->load_on_field("serverlink", $server->getId());
         if ($load_status["status"] == true) {

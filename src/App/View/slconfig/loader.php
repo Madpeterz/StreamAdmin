@@ -4,9 +4,9 @@ $this->output->setSwapTagString("html_title", " System setup");
 $this->output->setSwapTagString("page_title", " Editing system setup");
 $this->output->setSwapTagString("page_actions", "");
 $slconfig = new slconfig();
-$slconfig->load(1);
+$slconfig->loadID(1);
 $avatar = new avatar();
-$avatar->load($slconfig->get_owner_av());
+$avatar->loadID($slconfig->get_owner_av());
 $timezones_set = new timezones_set();
 $timezones_set->loadAll();
 

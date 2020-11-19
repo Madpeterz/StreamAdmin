@@ -7,7 +7,7 @@ $status = false;
 if ($accept == "Accept") {
     if (in_array($this->page, [6,10]) == false) {
         $notice = new notice();
-        if ($notice->load($this->page) == true) {
+        if ($notice->loadID($this->page) == true) {
             $notecard_set = new notecard_set();
             $load_status = $notecard_set->load_on_field("noticelink", $notice->getId());
             if ($load_status["status"] == true) {

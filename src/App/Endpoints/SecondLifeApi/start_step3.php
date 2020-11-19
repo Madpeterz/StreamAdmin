@@ -19,7 +19,7 @@ if ($hashcheck == $hash) {
                 if ($slconfig->get_owner_av() == $object_owner_avatar->getId()) {
                     $owner_override = true;
                 }
-                if (($reseller->get_allowed() == true) || ($owner_override == true)) {
+                if (($reseller->getAllowed() == true) || ($owner_override == true)) {
                     $object_helper = new object_helper();
                     $get_object_status = $object_helper->load_or_create(
                         $object_owner_avatar->getId(),

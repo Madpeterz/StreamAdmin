@@ -2,9 +2,9 @@
 
 $status = false;
 $server = new server();
-if ($server->load($this->page) == true) {
+if ($server->loadID($this->page) == true) {
     $api = new apis();
-    if ($api->load($server->get_apilink()) == true) {
+    if ($api->loadID($server->get_apilink()) == true) {
         if (($server->get_api_sync_accounts() == true) && ($api->get_api_sync_accounts() == true)) {
             $serverapi_helper = new serverapi_helper();
             if ($serverapi_helper->force_set_server($server) == true) {

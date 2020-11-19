@@ -127,7 +127,7 @@ class serverapi_helper
     {
         $api = new apis();
         $processed = false;
-        if ($api->load($this->server->get_apilink()) == true) {
+        if ($api->loadID($this->server->get_apilink()) == true) {
             if ($api->getId() > 1) {
                 $this->api_config = $api;
                 $server_api_name = "server_" . $api->getName() . "";
@@ -160,7 +160,7 @@ class serverapi_helper
     protected function load_package(): bool
     {
         $package = new package();
-        if ($package->load($this->stream->get_packagelink()) == true) {
+        if ($package->loadID($this->stream->get_packagelink()) == true) {
             $this->package = $package;
             $this->message = "Package loaded";
             return true;
@@ -171,7 +171,7 @@ class serverapi_helper
     protected function load_server(): bool
     {
         $server = new server();
-        if ($server->load($this->stream->get_serverlink()) == true) {
+        if ($server->loadID($this->stream->get_serverlink()) == true) {
             $this->message = "Server loaded";
             $this->server = $server;
             return true;
@@ -182,7 +182,7 @@ class serverapi_helper
     protected function load_avatar(): bool
     {
         $avatar = new avatar();
-        if ($avatar->load($this->rental->getAvatarlink()) == true) {
+        if ($avatar->loadID($this->rental->getAvatarlink()) == true) {
             $this->message = "Avatar loaded";
             $this->avatar = $avatar;
             return true;

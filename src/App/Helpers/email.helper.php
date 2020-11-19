@@ -10,7 +10,7 @@ class email_helper
     {
         $to_name = explode("@", $to)[0];
         $slconfig = new slconfig();
-        if ($slconfig->load(1) == true) {
+        if ($slconfig->loadID(1) == true) {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = $slconfig->get_smtp_host();
@@ -25,12 +25,12 @@ class email_helper
             $mail->IsHTML(true);
             $mail->msgHTML($message);
             if ($mail->send()) {
-                return array("status" => true,"message" => "Sent");
+                return ["status" => true,"message" => "Sent"];
             } else {
-                return array("status" => false,"message" => "Not sent");
+                return ["status" => false,"message" => "Not sent"];
             }
         } else {
-            return array("status" => false,"message" => "Unable to load SMTP settings");
+            return ["status" => false,"message" => "Unable to load SMTP settings"];
         }
     }
 }
