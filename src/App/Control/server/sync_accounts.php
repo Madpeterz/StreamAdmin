@@ -2,7 +2,7 @@
 
 $status = false;
 $server = new server();
-if ($server->load($page) == true) {
+if ($server->load($this->page) == true) {
     $api = new apis();
     if ($api->load($server->get_apilink()) == true) {
         if (($server->get_api_sync_accounts() == true) && ($api->get_api_sync_accounts() == true)) {
@@ -20,7 +20,7 @@ if ($server->load($page) == true) {
                              "max_entrys" => 10,
                 ];
                 $stream_set = new stream_set();
-                $stream_set->load_with_config($where_config, null, $limits);
+                $stream_set->loadWithConfig($where_config, null, $limits);
                 if ($stream_set->getCount() > 0) {
                     $accounts_found = $serverapi_helper->get_all_accounts(true, $stream_set);
                     if ($accounts_found["status"] == true) {

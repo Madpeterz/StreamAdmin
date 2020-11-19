@@ -4,7 +4,7 @@ $input = new inputFilter();
 $rental_uid = $input->postFilter("rental_uid");
 $rental = new rental();
 $status = true;
-if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
+if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $detail = new detail();
     $where_fields = [["rentallink" => "="]];
     $where_values = [[$rental->getId() => "i"]];

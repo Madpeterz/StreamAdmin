@@ -32,7 +32,7 @@ if (strlen($name) < 5) {
     $failed_on .= $lang["notice.cr.error.5"];
 } elseif (strlen($hoursremaining) > 999) {
     $failed_on .= $lang["notice.cr.error.6"];
-} elseif ($notice->load_by_field("hoursremaining", $hoursremaining) == true) {
+} elseif ($notice->loadByField("hoursremaining", $hoursremaining) == true) {
     $failed_on .= $lang["notice.cr.error.7"];
 } elseif ($static_notecard->load($notice_notecardlink) == false) {
     $failed_on .= $lang["notice.cr.error.9"];

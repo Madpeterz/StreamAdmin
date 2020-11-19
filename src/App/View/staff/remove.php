@@ -2,11 +2,11 @@
 
 if ($session->get_ownerlevel() == true) {
     $this->output->addSwapTagString("html_title", " ~ Remove");
-    $this->output->addSwapTagString("page_title", " Remove staff member:" . $page);
+    $this->output->addSwapTagString("page_title", " Remove staff member:" . $this->page);
     $this->output->setSwapTagString("page_actions", "");
 
     $form = new form();
-    $form->target("staff/remove/" . $page . "");
+    $form->target("staff/remove/" . $this->page . "");
     $form->required(true);
     $form->col(6);
     $form->group("Warning</h4><p>The web interface will not allow you to remove owner level accounts!</p><h4>");

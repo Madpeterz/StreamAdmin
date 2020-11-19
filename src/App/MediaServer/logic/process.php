@@ -44,8 +44,8 @@ if ($server->is_loaded() == true) {
                     $has_api_step = true;
                     if ($current_step != "core_send_details") {
                         $has_api_step = false;
-                        $get_name = "get_" . $current_step . "";
-                        if (($api->$get_name() == 1) && ($server->$get_name() == 1)) {
+                        $getName = "get_" . $current_step . "";
+                        if (($api->$getName() == 1) && ($server->$getName() == 1)) {
                             $has_api_step = true;
                         }
                     }
@@ -55,7 +55,7 @@ if ($server->is_loaded() == true) {
                         if ($current_step == "core_send_details") {
                             if ($rental == null) {
                                 $rental = new rental();
-                                $all_ok = $rental->load_by_field("streamlink", $stream->getId());
+                                $all_ok = $rental->loadByField("streamlink", $stream->getId());
                             }
                         }
                         if ($all_ok == true) {

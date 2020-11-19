@@ -55,7 +55,7 @@ class Template
             }
         }
     }
-    public function setCacheFile(string $content, string $name, bool $with_module_tag = true)
+    public function setCacheFile(string $content, string $name, bool $with_module_tag = true): void
     {
         global $module;
         $this->getCatcheVersion();
@@ -98,7 +98,7 @@ class Template
             return null;
         }
     }
-    protected function createCacheVersionFile()
+    protected function createCacheVersionFile(): void
     {
         global $slconfig;
         if (is_dir("catche") == false) {
@@ -119,7 +119,7 @@ class Template
         $this->purgeCache();
         return $this->catche_version;
     }
-    public function purgeCache()
+    public function purgeCache(): void
     {
         global $slconfig;
         if ($this->catche_version != null) {
@@ -135,12 +135,15 @@ class Template
         }
     }
 
-    protected function delTree($dir)
+    protected function delTree($dir): bool
     {
-        $files = array_diff(scandir($dir), array('.','..'));
+        $files = array_diff(scandir($dir), ['.','..']);
         foreach ($files as $file) {
             if (is_dir($dir . "/" . $file) == true) {
-                $this->delTree($dir . "/" . $file);
+                $result = $this->delTree($dir . "/" . $file);
+                if ($result == false) {
+                    return false;
+                }
             } else {
                 unlink($dir . "/" . $file);
             }
@@ -148,13 +151,13 @@ class Template
         return rmdir($dir);
     }
 
-    public function redirect(string $to, bool $offsite = false)
+    public function redirect(string $to, bool $offsite = false): void
     {
         $this->redirect_enabled = true;
         $this->redirect_offsite = $offsite;
         $this->redirect_to = $to;
     }
-    public function loadTemplate(string $layout, string $theme, array $layout_entrys)
+    public function loadTemplate(string $layout, string $theme, array $layout_entrys): void
     {
         $this->render_layout = "";
         foreach ($layout_entrys as $entry) {
@@ -170,7 +173,7 @@ class Template
         }
         return false;
     }
-    protected function loadTemplateFile(string $layout, string $theme, string $bit)
+    protected function loadTemplateFile(string $layout, string $theme, string $bit): void
     {
         if ($this->loadTemplatePart("theme/" . $theme . "/layout/" . $layout . "/" . $bit . ".layout", $bit) == false) {
             if ($this->loadTemplatePart("theme/shared/layout/" . $bit . ".layout", $bit) == false) {
@@ -214,6 +217,11 @@ class Template
     {
         return $this->setSwapTagString("SITE_NAME", $newvalue);
     }
+    /**
+     * metaTags
+     * Creates a new metatag
+     * @return mixed[]
+     */
     public function metaTags(string $add_tag = null): array
     {
         if (array_key_exists("META_TAGS", $this->swaptags) == false) {
@@ -230,12 +238,12 @@ class Template
         }
         return strtr($output, $keypairs);
     }
-    public function renderPage()
+    public function renderPage(): void
     {
         global $page,$module,$area;
         $this->setSwapTagString("MODULE", $module);
         $this->setSwapTagString("AREA", $area);
-        $this->setSwapTagString("PAGE", $page);
+        $this->setSwapTagString("PAGE", $this->page);
 
         if ($this->redirect_enabled == true) {
             if ($this->redirect_offsite == true) {
@@ -260,7 +268,7 @@ class Template
             $output = $this->keypairReplace($output, $this->tempalte_parts);
             $output = $this->keypairReplace($output, $this->swaptags);
             $output = $this->keypairReplace($output, $this->swaptags);
-            $output = strtr($output, array("@NL@" => "\n\r"));
+            $output = strtr($output, ["@NL@" => "\n\r"]);
             print $output;
         }
     }

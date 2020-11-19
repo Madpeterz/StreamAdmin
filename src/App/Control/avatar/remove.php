@@ -7,7 +7,7 @@ $status = false;
 $ajax_reply->set_swap_tag_string("message", $lang["av.cr.info.1"]);
 if ($accept == "Accept") {
     $avatar = new avatar();
-    if ($avatar->load_by_field("avatar_uid", $page) == true) {
+    if ($avatar->loadByField("avatar_uid", $this->page) == true) {
         $remove_status = $avatar->remove_me();
         if ($remove_status["status"] == true) {
             $status = true;
@@ -20,5 +20,5 @@ if ($accept == "Accept") {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $lang["av.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "avatar/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "avatar/manage/" . $this->page . "");
 }

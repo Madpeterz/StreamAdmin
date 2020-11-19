@@ -11,7 +11,7 @@ $timezones_set = new timezones_set();
 $timezones_set->loadAll();
 
 $form = new form();
-$form->target("slconfig/update/" . $page . "");
+$form->target("slconfig/update/" . $this->page . "");
 $form->required(true);
 $form->col(6);
     $form->group("Core");

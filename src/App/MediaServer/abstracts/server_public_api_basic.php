@@ -47,7 +47,7 @@ abstract class server_public_api_basic extends server_api_protected
                 if ($account_state["state"] != $state) {
                     if ($state == true) {
                         if ($this->un_susspend_server() == true) {
-                            if ($this->package->get_autodj() == false) {
+                            if ($this->package->getAutodj() == false) {
                                 return $this->start_server();
                             } else {
                                 return true;

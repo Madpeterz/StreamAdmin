@@ -19,13 +19,13 @@ if ($session->get_ownerlevel() == true) {
         $failed_on .= $lang["staff.cr.error.2"];
     } elseif (strlen($avataruid) != 8) {
         $failed_on .= $lang["staff.cr.error.3"];
-    } elseif ($staff->load_by_field("username", $username) == true) {
+    } elseif ($staff->loadByField("username", $username) == true) {
         $failed_on .= $lang["staff.cr.error.4"];
-    } elseif ($avatar->load_by_field("avatar_uid", $avataruid) == false) {
+    } elseif ($avatar->loadByField("avatar_uid", $avataruid) == false) {
         $failed_on .= $lang["staff.cr.error.5"];
     } elseif (count($bits) != 2) {
         $failed_on .= $lang["staff.cr.error.8"];
-    } elseif ($staff->load_by_field("email", $email) == true) {
+    } elseif ($staff->loadByField("email", $email) == true) {
         $failed_on .= $lang["staff.cr.error.6"];
     } elseif (strlen($email) > 100) {
         $failed_on .= $lang["staff.cr.error.7"];

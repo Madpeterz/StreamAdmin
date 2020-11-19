@@ -30,7 +30,7 @@ function process_notice_change(notice $notice): void
                     $event->set_avatar_uuid($avatar->get_avataruuid());
                     $event->set_avatar_name($avatar->getAvatarname());
                     $event->set_rental_uid($rental->getRental_uid());
-                    $event->set_package_uid($package->get_package_uid());
+                    $event->set_package_uid($package->getPackage_uid());
                     $event->set_event_expire(true);
                     $event->set_unixtime(time());
                     $event->set_expire_unixtime($rental->get_expireunixtime());
@@ -66,7 +66,7 @@ function process_notice_change(notice $notice): void
                     $notice_notecard = new notice_notecard();
                     if ($notice_notecard->load($notice->get_notice_notecardlink()) == true) {
                         if ($notice_notecard->get_missing() == false) {
-                            $reply["send_static_notecard"] = $notice_notecard->get_name();
+                            $reply["send_static_notecard"] = $notice_notecard->getName();
                             $reply["send_static_notecard_to"] = $avatar->get_avataruuid();
                         }
                     } else {
@@ -108,7 +108,7 @@ if ($owner_override == true) {
     ];
 
     $rental_set = new rental_set();
-    $rental_set->load_with_config($where_config);
+    $rental_set->loadWithConfig($where_config);
     $avatar_set = new avatar_set();
     $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
     $botconfig = new botconfig();

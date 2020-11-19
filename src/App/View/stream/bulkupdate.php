@@ -10,7 +10,7 @@ $whereconfig = [
     "matches" => ["=","IS"],
 ];
 $stream_set = new stream_set();
-$stream_set->load_with_config($whereconfig);
+$stream_set->loadWithConfig($whereconfig);
 $server_set = new server_set();
 $server_set->loadAll();
 

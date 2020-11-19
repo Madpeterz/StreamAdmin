@@ -2,7 +2,7 @@
 
 $status = false;
 $rental = new rental();
-if ($rental->load_by_field("rental_uid", $page) == true) {
+if ($rental->loadByField("rental_uid", $this->page) == true) {
     $stream = new stream();
     if ($stream->load($rental->get_streamlink()) == true) {
         $server_api_helper = new serverapi_helper($stream);

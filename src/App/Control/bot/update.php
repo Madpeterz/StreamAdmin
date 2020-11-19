@@ -21,7 +21,7 @@ if ($session->get_ownerlevel() == true) {
         $botconfig = new botconfig();
         if ($botconfig->load(1) == true) {
             $avatar = new avatar();
-            if ($avatar->load_by_field("avatar_uid", $avataruid) == true) {
+            if ($avatar->loadByField("avatar_uid", $avataruid) == true) {
                 $botconfig->set_avatarlink($avatar->getId());
                 $botconfig->set_secret($secret);
                 $botconfig->set_notecards($notecards);

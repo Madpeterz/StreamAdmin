@@ -11,7 +11,7 @@ class avatar_helper
     {
         $this->avatar = new avatar();
         if (strlen($avatar_uuid) == 36) {
-            if ($this->avatar->load_by_field("avataruuid", $avatar_uuid) == true) {
+            if ($this->avatar->loadByField("avataruuid", $avatar_uuid) == true) {
                 return true;
             } else {
                 $this->avatar = new avatar();

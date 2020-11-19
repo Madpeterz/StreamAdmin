@@ -4,7 +4,7 @@ $input = new inputFilter();
 $rental_uid = $input->postFilter("uid");
 $rental = new rental();
 $status = false;
-if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
+if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
         if ($rental->get_expireunixtime() > time()) {
             $reply["timeleft"] = "Timeleft: " . timeleft_hours_and_days($rental->get_expireunixtime());

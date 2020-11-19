@@ -4,7 +4,7 @@ $input = new inputFilter();
 $rental_uid = $input->postFilter("uid");
 $rental = new rental();
 $status = false;
-if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
+if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
         $package = new package();
         if ($package->load($rental->get_packagelink()) == true) {
@@ -13,10 +13,10 @@ if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
                 $server = new server();
                 if ($server->load($stream->get_serverlink()) == true) {
                     $servertypes = new servertypes();
-                    if ($servertypes->load($package->get_servertypelink()) == true) {
+                    if ($servertypes->load($package->getServertypelink()) == true) {
                         $status = true;
                         $reply["serverurl"] = "http://" . $server->get_domain() . ":" . $stream->get_port() . "";
-                        $reply["servertype"] = $servertypes->get_name();
+                        $reply["servertype"] = $servertypes->getName();
                         echo "ok";
                     }
                 }

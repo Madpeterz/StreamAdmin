@@ -5,9 +5,9 @@ $avataruuid = $input->postFilter("avataruuid");
 $avatar = new avatar();
 $status = false;
 $reply["dataset_count"] = 0;
-if ($avatar->load_by_field("avataruuid", $avataruuid) == true) {
+if ($avatar->loadByField("avataruuid", $avataruuid) == true) {
     $banlist = new banlist();
-    if ($banlist->load_by_field("avatar_link", $avatar->getId()) == false) {
+    if ($banlist->loadByField("avatar_link", $avatar->getId()) == false) {
         $rental_set = new rental_set();
         $rental_set->load_on_field("avatarlink", $avatar->getId());
         if ($rental_set->getCount() > 0) {

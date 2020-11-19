@@ -46,9 +46,9 @@ if ($port < 1) {
 $status = false;
 if ($failed_on == "") {
     $stream = new stream();
-    if ($stream->load_by_field("stream_uid", $page) == true) {
-        $where_fields = array(array("port" => "="),array("serverlink" => "="));
-        $where_values = array(array($port => "i"),array($serverlink => "i"));
+    if ($stream->loadByField("stream_uid", $this->page) == true) {
+        $where_fields = [["port" => "="],["serverlink" => "="]];
+        $where_values = [[$port => "i"],[$serverlink => "i"]];
         $count_check = $sql->basic_count($stream->get_table(), $where_fields, $where_values);
         $expected_count = 0;
         if ($stream->get_port() == $port) {

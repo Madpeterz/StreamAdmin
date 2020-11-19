@@ -30,7 +30,7 @@ foreach ($package_set->getAllIds() as $package_id) {
     $package = $package_set->getObjectByID($package_id);
     $entry = [];
     $entry[] = $package->getId();
-    $entry[] = '<a href="[[url_base]]stream/inpackage/' . $package->get_package_uid() . '">' . $package->get_name() . '</a>';
+    $entry[] = '<a href="[[url_base]]stream/inpackage/' . $package->getPackage_uid() . '">' . $package->getName() . '</a>';
     $entry[] = $streams_in_package[$package_id]["sold"];
     $entry[] = $streams_in_package[$package_id]["work"];
     $entry[] = $streams_in_package[$package_id]["ready"];

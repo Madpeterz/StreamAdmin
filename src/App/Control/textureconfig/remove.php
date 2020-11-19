@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "textureconfig");
 $status = false;
 if ($accept == "Accept") {
     $textureconfig = new textureconfig();
-    if ($textureconfig->load($page) == true) {
+    if ($textureconfig->load($this->page) == true) {
         $remove_status = $textureconfig->remove_me();
         if ($remove_status["status"] == true) {
             $status = true;
@@ -19,5 +19,5 @@ if ($accept == "Accept") {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $lang["textureconfig.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "textureconfig/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "textureconfig/manage/" . $this->page . "");
 }

@@ -11,7 +11,7 @@ foreach ($textureconfig_set->getAllIds() as $textureconfig_id) {
     $entry = [];
     $entry[] = $textureconfig->getId();
     $entry[] = $textureconfig->getId();
-    $entry[] = '<a href="[[url_base]]textureconfig/manage/' . $textureconfig->getId() . '">' . $textureconfig->get_name() . '</a>';
+    $entry[] = '<a href="[[url_base]]textureconfig/manage/' . $textureconfig->getId() . '">' . $textureconfig->getName() . '</a>';
     $table_body[] = $entry;
 }
 $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));

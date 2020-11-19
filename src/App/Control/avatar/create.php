@@ -14,7 +14,7 @@ if (strlen($avatarname) < 5) {
     $failed_on .= $lang["av.cr.error.2"];
 } elseif (strlen($avataruuid) != 36) {
     $failed_on .= $lang["av.cr.error.3"];
-} elseif ($avatar->load_by_field("avataruuid", $avataruuid) == true) {
+} elseif ($avatar->loadByField("avataruuid", $avataruuid) == true) {
     $failed_on .= $lang["av.cr.error.4"];
 }
 $status = false;

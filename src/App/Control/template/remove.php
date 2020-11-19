@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "template");
 $status = false;
 if ($accept == "Accept") {
     $template = new template();
-    if ($template->load($page) == true) {
+    if ($template->load($this->page) == true) {
         $remove_status = $template->remove_me();
         if ($remove_status["status"] == true) {
             $status = true;
@@ -19,5 +19,5 @@ if ($accept == "Accept") {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $lang["tempalte.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "template/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "template/manage/" . $this->page . "");
 }

@@ -5,9 +5,9 @@ $accept = $input->postFilter("accept");
 $ajax_reply->set_swap_tag_string("redirect", "notice");
 $status = false;
 if ($accept == "Accept") {
-    if (in_array($page, [6,10]) == false) {
+    if (in_array($this->page, [6,10]) == false) {
         $notice = new notice();
-        if ($notice->load($page) == true) {
+        if ($notice->load($this->page) == true) {
             $notecard_set = new notecard_set();
             $load_status = $notecard_set->load_on_field("noticelink", $notice->getId());
             if ($load_status["status"] == true) {
@@ -33,5 +33,5 @@ if ($accept == "Accept") {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $lang["notice.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "notice/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "notice/manage/" . $this->page . "");
 }

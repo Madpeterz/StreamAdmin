@@ -17,14 +17,14 @@ abstract class View
     public function __construct()
     {
         global $slconfig, $page, $module, $option, $session, $sql;
-        $this->page = &$page;
+        $this->page = &$this->page;
         $this->module = &$module;
         $this->option = &$option;
         $this->session = &$session;
         $this->slconfig = &$slconfig;
         $this->sql = &$sql;
     }
-    public function process()
+    public function process(): void
     {
         $this->output->addSwapTagString("html_title", "");
         $this->output->setSwapTagString("page_title", " not set");

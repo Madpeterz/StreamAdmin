@@ -11,7 +11,7 @@ $where_config = [
     "join_with" => ["OR","OR"],
 ];
 $search_avatar_set = new avatar_set();
-$search_avatar_set->load_with_config($where_config);
+$search_avatar_set->loadWithConfig($where_config);
 
 $scored_results = [];
 $status = true;

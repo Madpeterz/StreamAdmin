@@ -1,11 +1,11 @@
 <?php
 
 $this->output->addSwapTagString("html_title", " ~ Remove");
-$this->output->addSwapTagString("page_title", " Remove stream:" . $page);
+$this->output->addSwapTagString("page_title", " Remove stream:" . $this->page);
 $this->output->setSwapTagString("page_actions", "");
 
 $form = new form();
-$form->target("stream/remove/" . $page . "");
+$form->target("stream/remove/" . $this->page . "");
 $form->required(true);
 $form->col(6);
 $form->group("Warning</h4><p>If the stream is currenly in use this will fail</p><h4>");

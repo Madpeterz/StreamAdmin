@@ -44,7 +44,7 @@ foreach ($r4_sales_tracking_set->getAllIds() as $r4_sales_tracking_id) {
         $transaction->set_streamlink(null);
         $transaction->set_resellerlink(null);
         $transaction->set_regionlink(null);
-        $transaction->set_amount($r4_sales_tracking->get_amount());
+        $transaction->set_amount($r4_sales_tracking->getAmount());
         $transaction->set_unixtime($unixtime);
         $transaction->set_transaction_uid($uid_transaction["uid"]);
         $transaction->set_renew($r4_sales_tracking->get_salemode());

@@ -39,7 +39,7 @@ if (strlen($httpcode) < 5) {
     $failed_on .= $lang["slconfig.up.error.11"];
 } elseif (strlen($owneravuid) != 8) {
     $failed_on .= $lang["slconfig.up.error.7"];
-} elseif ($avatar->load_by_field("avatar_uid", $owneravuid) == false) {
+} elseif ($avatar->loadByField("avatar_uid", $owneravuid) == false) {
     $failed_on .= $lang["slconfig.up.error.8"];
 } elseif ($timezone->load($displaytimezonelink) == false) {
     $failed_on .= $lang["slconfig.up.error.12"];

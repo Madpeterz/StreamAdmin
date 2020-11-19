@@ -3,14 +3,14 @@
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
 $status = false;
-$redirect = "client/manage/" . $page . "";
+$redirect = "client/manage/" . $this->page . "";
 $ajax_reply->set_swap_tag_string("redirect", null);
 if ($accept == "Accept") {
     $rental = new rental();
-    if ($rental->load_by_field("rental_uid", $page) == true) {
+    if ($rental->loadByField("rental_uid", $this->page) == true) {
         $api_requests = new api_requests_set();
         $all_ok = true;
-        if ($api_requests->load_by_field("rentallink", $rental->getId()) == true) {
+        if ($api_requests->loadByField("rentallink", $rental->getId()) == true) {
             if ($api_requests->getCount() > 0) {
                 $all_ok = false;
                 echo  sprintf($lang["client.rm.error.13"], $api_requests->getCount());
@@ -40,7 +40,7 @@ if ($accept == "Accept") {
                                     $event->set_avatar_uuid($avatar->get_avataruuid());
                                     $event->set_avatar_name($avatar->getAvatarname());
                                     $event->set_rental_uid($rental->getRental_uid());
-                                    $event->set_package_uid($package->get_package_uid());
+                                    $event->set_package_uid($package->getPackage_uid());
                                     $event->set_event_remove(true);
                                     $event->set_unixtime(time());
                                     $event->set_expire_unixtime($rental->get_expireunixtime());

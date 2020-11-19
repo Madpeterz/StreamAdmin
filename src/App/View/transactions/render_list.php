@@ -10,12 +10,12 @@ foreach ($transaction_set->getAllIds() as $transaction_id) {
     $packagename = "";
     if ($transaction->get_packagelink() != null) {
         $package = $package_set->getObjectByID($transaction->get_packagelink());
-        $packagename = $package->get_name();
+        $packagename = $package->getName();
     }
     $regionname = "";
     if ($transaction->get_regionlink() != null) {
         $region = $region_set->getObjectByID($transaction->get_regionlink());
-        $regionname = $region->get_name();
+        $regionname = $region->getName();
     }
 
 
@@ -26,9 +26,9 @@ foreach ($transaction_set->getAllIds() as $transaction_id) {
     $entry[] = $avatar->getAvatarname();
     $entry[] = $packagename;
     $entry[] = $regionname;
-    $entry[] = $transaction->get_amount();
-    $entry[] = date('l jS \of F Y h:i:s A', $transaction->get_unixtime());
-    if ($transaction->get_renew() == 1) {
+    $entry[] = $transaction->getAmount();
+    $entry[] = date('l jS \of F Y h:i:s A', $transaction->getUnixtime());
+    if ($transaction->getRenew() == 1) {
         $entry[] = "Renew";
     } else {
         $entry[] = "New";

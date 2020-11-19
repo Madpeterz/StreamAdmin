@@ -1,11 +1,11 @@
 <?php
 
 $this->output->addSwapTagString("html_title", " ~ Remove");
-$this->output->addSwapTagString("page_title", " Remove tree:" . $page);
+$this->output->addSwapTagString("page_title", " Remove tree:" . $this->page);
 $this->output->setSwapTagString("page_actions", "");
-if (in_array($page, array(6,10)) == false) {
+if (in_array($this->page, [6,10]) == false) {
     $form = new form();
-    $form->target("tree/remove/" . $page . "");
+    $form->target("tree/remove/" . $this->page . "");
     $form->required(true);
     $form->col(6);
     $form->group("Warning");

@@ -4,7 +4,7 @@ $input = new inputFilter();
 $rental_uid = $input->postFilter("uid");
 $rental = new rental();
 $localstatus = false;
-if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
+if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
         $localstatus = true;
         $_POST["rental_uid"] = $rental_uid;

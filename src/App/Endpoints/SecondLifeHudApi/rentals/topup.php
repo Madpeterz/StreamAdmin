@@ -18,11 +18,11 @@ if (in_array(null, $fasttest) == false) {
         $region = $region_helper->get_region();
         $rental = new rental();
         $status = false;
-        if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
+        if ($rental->loadByField("rental_uid", $rental_uid) == true) {
             if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
                 $package = new package();
                 if ($package->load($rental->get_packagelink()) == true) {
-                    if ($amount == $package->get_cost()) {
+                    if ($amount == $package->getCost()) {
                         $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->get_avataruuid(),$slconfig->get_publiclinkcode(),$rental->get_expireunixtime()];
                         $raw = implode("", $bits);
                         $tidhashcheck = sha1($raw);

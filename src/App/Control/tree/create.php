@@ -8,7 +8,7 @@ if (strlen($name) < 5) {
     $failed_on .= $lang["tree.cr.error.1"];
 } elseif (strlen($name) > 100) {
     $failed_on .= $lang["tree.cr.error.2"];
-} elseif ($treevender->load_by_field("name", $name) == true) {
+} elseif ($treevender->loadByField("name", $name) == true) {
     $failed_on .= $lang["tree.cr.error.3"];
 }
 $status = false;

@@ -19,7 +19,7 @@ if (strlen($name) < 5) {
 $status = false;
 if ($failed_on == "") {
     $template = new template();
-    if ($template->load($page) == true) {
+    if ($template->load($this->page) == true) {
         $template->set_name($name);
         $template->set_detail($detail);
         $template->set_notecarddetail($notecarddetail);

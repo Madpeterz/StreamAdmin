@@ -17,16 +17,16 @@ if ($session->get_ownerlevel() == true) {
         $failed_on .= $lang["staff.up.error.2"];
     } elseif (count($bits) != 2) {
         $failed_on .= $lang["staff.up.error.3"];
-    } elseif ($staff->load_by_field("username", $username) == true) {
+    } elseif ($staff->loadByField("username", $username) == true) {
         $failed_on = $lang["staff.up.error.4"];
     } elseif (strlen($email) > 100) {
         $failed_on .= $lang["staff.up.error.5"];
     }
     if ($failed_on == "") {
         $staff = new staff();
-        if ($staff->load($page) == true) {
-            $where_fields = array(array("avataruuid" => "="));
-            $where_values = array(array($avataruuid => "s"));
+        if ($staff->load($this->page) == true) {
+            $where_fields = [["avataruuid" => "="]];
+            $where_values = [[$avataruuid => "s"]];
             $count_check = $sql->basic_count($avatar->get_table(), $where_fields, $where_values);
             $expected_count = 0;
             if ($staff->get_email() == $email) {
@@ -56,5 +56,5 @@ if ($session->get_ownerlevel() == true) {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $lang["staff.up.error.6"]);
-    $ajax_reply->set_swap_tag_string("redirect", "staff/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "staff/manage/" . $this->page . "");
 }

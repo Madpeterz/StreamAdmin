@@ -1,7 +1,7 @@
 <?php
 
 $rental = new rental();
-if ($rental->load_by_field("rental_uid", $page) == true) {
+if ($rental->loadByField("rental_uid", $this->page) == true) {
     $avatar = new avatar();
     $avatar->load($rental->getAvatarlink());
 

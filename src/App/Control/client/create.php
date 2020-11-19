@@ -18,7 +18,7 @@ $avatar_where_config = [
     "join_with" => ["(OR)","(OR)"],
 ];
 $avatar_set = new avatar_set();
-$avatar_set->load_with_config($avatar_where_config);
+$avatar_set->loadWithConfig($avatar_where_config);
 
 $stream_where_config = [
     "fields" => ["port","stream_uid"],
@@ -28,7 +28,7 @@ $stream_where_config = [
     "join_with" => ["(OR)"],
 ];
 $stream_set = new stream_set();
-$stream_set->load_with_config($stream_where_config);
+$stream_set->loadWithConfig($stream_where_config);
 if ($stream_set->getCount() == 1) {
     $stream = $stream_set->get_first();
 }

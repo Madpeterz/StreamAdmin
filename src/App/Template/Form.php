@@ -11,18 +11,18 @@ class Form
     protected $add_required = false;
     protected $mode = "post";
     protected $mygrid = null;
-    protected function enablegridRender()
+    protected function enablegridRender(): void
     {
         if ($this->mygrid == null) {
             $this->mygrid = new Grid();
         }
     }
-    public function col(int $size = 12)
+    public function col(int $size = 12): void
     {
         $this->enableGridRender();
         $this->mygrid->col($size);
     }
-    public function mode(string $newmode)
+    public function mode(string $newmode): void
     {
         if ($newmode == "get") {
             $this->mode = "get";
@@ -30,7 +30,7 @@ class Form
             $this->mode = "post";
         }
     }
-    public function split()
+    public function split(): void
     {
         $this->enableGridRender();
         $this->mygrid->closeRow();
@@ -63,7 +63,7 @@ class Form
         . 'class="btn btn-' . $buttonclass . '">' . $buttontext . '</button></div></div></form>');
         return $this->mygrid->getOutput();
     }
-    public function required(bool $status)
+    public function required(bool $status): void
     {
         $add_required = $status;
     }
@@ -75,37 +75,37 @@ class Form
             return "";
         }
     }
-    public function target(string $target)
+    public function target(string $target): void
     {
         $this->enableGridRender();
         $this->targeturl = $target;
     }
-    public function group($groupname)
+    public function group($groupname): void
     {
         $this->enableGridRender();
         $this->mygrid->addContent('<h4>' . $groupname . '</h4>@NL@');
     }
-    public function directAdd(string $content)
+    public function directAdd(string $content): void
     {
         $this->enableGridRender();
         $this->mygrid->addContent($content);
     }
-    protected function startField()
+    protected function startField(): void
     {
         $this->enableGridRender();
-        $this->mygrid->add_content('<div class="input-group">@NL@');
+        $this->mygrid->addContent('<div class="input-group">@NL@');
     }
-    protected function endField()
+    protected function endField(): void
     {
         $this->enableGridRender();
         $this->mygrid->addContent('</div>@NL@');
     }
-    protected function addLabel(string $label, string $name)
+    protected function addLabel(string $label, string $name): void
     {
         $this->enableGridRender();
         $this->mygrid->addContent('<label for="' . $name . '" class="col-6 col-form-label">' . $label . '</label>@NL@');
     }
-    public function textarea(string $name, string $label, int $max_length, ?string $value, string $placeholder)
+    public function textarea(string $name, string $label, int $max_length, ?string $value, string $placeholder): void
     {
         $this->enableGridRender();
         $this->addLabel($label, $name);
@@ -123,7 +123,7 @@ class Form
         string $placeholder,
         string $mask = "",
         string $mode = "text"
-    ) {
+    ): void {
         if ($mode != "hidden") {
             $this->enableGridRender();
             $this->addLabel($label, $name);
@@ -145,7 +145,7 @@ class Form
         string $placeholder,
         string $mask = "",
         string $mode = "text"
-    ) {
+    ): void {
         if ($mode != "hidden") {
             $this->enableGridRender();
             $this->addLabel($label, $name);
@@ -160,19 +160,19 @@ class Form
             $this->endField();
         }
     }
-    public function uuidInput(string $name, string $label, ?string $value, string $placeholder)
+    public function uuidInput(string $name, string $label, ?string $value, string $placeholder): void
     {
         $this->textInput($name, $label, 36, $value, $placeholder, "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
     }
-    public function hiddenInput(string $name, ?string $value)
+    public function hiddenInput(string $name, ?string $value): void
     {
         $this->textInput($name, $name, strlen($value), $value, "", "", "hidden");
     }
-    public function numberInput(string $name, string $label, ?int $value, int $max_length, string $placeholder)
+    public function numberInput(string $name, string $label, ?int $value, int $max_length, string $placeholder): void
     {
         $this->textInput($name, $label, $max_length, "" . $value . "", $placeholder);
     }
-    public function select(string $name, string $label, $value, $options)
+    public function select(string $name, string $label, $value, $options): void
     {
         $this->enableGridRender();
         $this->addLabel($label, $name);

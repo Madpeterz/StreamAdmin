@@ -76,7 +76,7 @@ if (strlen($domain) > 100) {
 $status = false;
 if ($failed_on == "") {
     $server = new server();
-    if ($server->load($page) == true) {
+    if ($server->load($this->page) == true) {
         $where_fields = [["domain" => "="]];
         $where_values = [[$domain => "s"]];
         $count_check = $sql->basic_count($server->get_table(), $where_fields, $where_values);
@@ -132,5 +132,5 @@ if ($failed_on == "") {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $failed_on);
-    $ajax_reply->set_swap_tag_string("redirect", "server/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "server/manage/" . $this->page . "");
 }

@@ -27,7 +27,7 @@ foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
     $uid = $package->create_uid("package_uid", 8, 10);
     if ($uid["status"] == true) {
         $package->set_package_uid($uid["uid"]);
-        $package->set_name("R4|" . $r4_package->getId() . "|" . $r4_package->get_name());
+        $package->set_name("R4|" . $r4_package->getId() . "|" . $r4_package->getName());
         $package->set_autodj($r4_package->get_autoDJ());
         $package->set_audodj_size(0);
         $package->set_listeners($r4_package->get_users());

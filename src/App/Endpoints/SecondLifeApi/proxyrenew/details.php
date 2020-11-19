@@ -14,9 +14,9 @@ if ($targetuid != null) {
         $lastname = strtolower($bits[1]);
         $lastname = ucfirst($lastname);
         $targetuid = "" . $firstname . " " . $lastname . "";
-        $load_status = $avatar->load_by_field("avatarname", $targetuid);
+        $load_status = $avatar->loadByField("avatarname", $targetuid);
     } elseif (strlen($targetuid) == 36) {
-        $load_status = $avatar->load_by_field("avataruuid", $targetuid);
+        $load_status = $avatar->loadByField("avataruuid", $targetuid);
     }
     $status = true;
     $reply["dataset_count"] = 0;

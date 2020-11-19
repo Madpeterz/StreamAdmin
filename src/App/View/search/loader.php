@@ -20,7 +20,7 @@ if (strlen($search) >= 3) {
         "join_with" => ["OR","OR"],
     ];
     $search_avatar_set = new avatar_set();
-    $search_avatar_set->load_with_config($where_config);
+    $search_avatar_set->loadWithConfig($where_config);
 
     // clients
     $where_config = [
@@ -38,7 +38,7 @@ if (strlen($search) >= 3) {
         $where_config["join_with"][] = "OR";
     }
     $search_rental_set = new rental_set();
-    $search_rental_set->load_with_config($where_config);
+    $search_rental_set->loadWithConfig($where_config);
 
     // streams
     $where_config = [
@@ -56,7 +56,7 @@ if (strlen($search) >= 3) {
         $where_config["join_with"][] = "OR";
     }
     $search_stream_set = new stream_set();
-    $search_stream_set->load_with_config($where_config);
+    $search_stream_set->loadWithConfig($where_config);
 
     // servers
     $where_config = [
@@ -74,7 +74,7 @@ if (strlen($search) >= 3) {
         $where_config["join_with"][] = "OR";
     }
     $search_server_set = new server_set();
-    $search_server_set->load_with_config($where_config);
+    $search_server_set->loadWithConfig($where_config);
 
     $search_rental_set_again = new rental_set();
     $entry = $search_stream_set->get_unique_array("rentallink");
@@ -93,7 +93,7 @@ if (strlen($search) >= 3) {
             "values" => [$repeat_search_entrys],
             "types" => ["i"],
         ];
-        $search_rental_set_again->load_with_config($where_config);
+        $search_rental_set_again->loadWithConfig($where_config);
     }
 
     /*

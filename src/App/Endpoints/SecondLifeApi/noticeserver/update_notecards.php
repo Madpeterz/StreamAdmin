@@ -8,7 +8,7 @@ $where_config = [
 ];
 $status = true;
 $notice_notecard_set = new notice_notecard_set();
-$notice_notecard_set->load_with_config($where_config);
+$notice_notecard_set->loadWithConfig($where_config);
 $notecards = $input->postFilter("notecards");
 $notecards_list = [];
 if ($notecards != "none") {
@@ -17,7 +17,7 @@ if ($notecards != "none") {
         // mark alive notecards / missing
         foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
             $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);
-            $notecards_list_index = array_search($notice_notecard->get_name(), $notecards_list);
+            $notecards_list_index = array_search($notice_notecard->getName(), $notecards_list);
             if ($notecards_list_index !== false) {
                 unset($notecards_list[$notecards_list_index]);
             }

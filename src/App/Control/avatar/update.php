@@ -18,9 +18,9 @@ $ajax_reply->set_swap_tag_string("redirect", "avatar");
 $status = false;
 if ($failed_on == "") {
     $avatar = new avatar();
-    if ($avatar->load_by_field("avatar_uid", $page) == true) {
-        $where_fields = array(array("avataruuid" => "="));
-        $where_values = array(array($avataruuid => "s"));
+    if ($avatar->loadByField("avatar_uid", $this->page) == true) {
+        $where_fields = [["avataruuid" => "="]];
+        $where_values = [[$avataruuid => "s"]];
         $count_check = $sql->basic_count($avatar->get_table(), $where_fields, $where_values);
         $expected_count = 0;
         if ($avatar->get_avataruuid() == $avataruuid) {

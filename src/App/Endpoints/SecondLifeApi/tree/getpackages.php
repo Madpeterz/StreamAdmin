@@ -31,16 +31,16 @@ if ($tree_vender_id > 0) {
                 foreach ($treevender_packages_set->getAllIds() as $treevender_package_id) {
                     $treevender_package = $treevender_packages_set->getObjectByID($treevender_package_id);
                     $package = $package_set->getObjectByID($treevender_package->get_packagelink());
-                    $hash = sha1(implode(" ", [$package->get_autodj(),$package->get_autodj_size(),$package->get_listeners(),$package->get_bitrate(),$package->get_days(),$package->get_cost()]));
+                    $hash = sha1(implode(" ", [$package->getAutodj(),$package->getAutodj_size(),$package->getListeners(),$package->getBitrate(),$package->getDays(),$package->getCost()]));
                     if (in_array($hash, $package_hashs) == false) {
                         $package_hashs[] = $hash;
-                        $reply["package_uid"][] = $package->get_package_uid();
-                        $reply["package_autodj"][] = [true => "Yes",false => "No"][$package->get_autodj()];
-                        $reply["package_autodjsize"][] = value_or_zero($package->get_autodj_size());
-                        $reply["package_listeners"][] = $package->get_listeners();
-                        $reply["package_bitrate"][] = $package->get_bitrate();
-                        $reply["package_days"][] = $package->get_days();
-                        $reply["package_cost"][] = $package->get_cost();
+                        $reply["package_uid"][] = $package->getPackage_uid();
+                        $reply["package_autodj"][] = [true => "Yes",false => "No"][$package->getAutodj()];
+                        $reply["package_autodjsize"][] = value_or_zero($package->getAutodj_size());
+                        $reply["package_listeners"][] = $package->getListeners();
+                        $reply["package_bitrate"][] = $package->getBitrate();
+                        $reply["package_days"][] = $package->getDays();
+                        $reply["package_cost"][] = $package->getCost();
                     }
                 }
                 echo $lang["tree.gp.info.1"];

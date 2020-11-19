@@ -1,7 +1,7 @@
 <?php
 
 $uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
-$bits = array_values(array_diff(explode("/", $uri_parts[0]), array("")));
+$bits = array_values(array_diff(explode("/", $uri_parts[0]), [""]));
 if (count($bits) > 0) {
     if (strpos($bits[0], "php") !== false) {
         array_shift($bits);
@@ -27,7 +27,7 @@ if (count($bits) == 1) {
         $area = $bits[1 + $shift_bits];
     }
     if (count($bits) >= (3 + $shift_bits)) {
-        $page = $bits[2 + $shift_bits];
+        $this->page = $bits[2 + $shift_bits];
     }
     if (count($bits) >= (4 + $shift_bits)) {
         $optional = $bits[3 + $shift_bits];

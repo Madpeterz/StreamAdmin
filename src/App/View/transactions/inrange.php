@@ -34,7 +34,7 @@ $whereconfig = [
 ];
 
 $transaction_set = new transactions_set();
-$transaction_set->load_with_config($whereconfig);
+$transaction_set->loadWithConfig($whereconfig);
 
 $package_set = new package_set();
 $region_set = new region_set();

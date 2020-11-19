@@ -9,7 +9,7 @@ foreach ($treevender_set->getAllIds() as $treevender_id) {
     $treevender = $treevender_set->getObjectByID($treevender_id);
     $entry = [];
     $entry[] = $treevender->getId();
-    $entry[] = '' . $treevender->getId() . ' - <a href="[[url_base]]tree/manage/' . $treevender->getId() . '">' . $treevender->get_name() . '</a>';
+    $entry[] = '' . $treevender->getId() . ' - <a href="[[url_base]]tree/manage/' . $treevender->getId() . '">' . $treevender->getName() . '</a>';
     $table_body[] = $entry;
 }
 $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));

@@ -4,13 +4,13 @@ class server_azuracast extends server_public_api
 {
     // $this->last_api_message
     protected $station_djs_map = null;
-    protected function get_client_auth()
+    protected function get_client_auth(): void
     {
         $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_api_password();
     }
     protected function get_post_formated(array $postdata = []): array
     {
-        return array('json' => $postdata);
+        return ['json' => $postdata];
     }
     protected function terminate_account(string $old_username): bool
     {
@@ -59,18 +59,18 @@ class server_azuracast extends server_public_api
             foreach ($json as $index => $entry) {
                 $this->station_djs_map[$entry->id] = $entry->streamer_username;
             }
-            return array("status" => true,"list" => array_values($this->station_djs_map));
+            return ["status" => true,"list" => array_values($this->station_djs_map)];
         }
-        return array("status" => false,"list" => []);
+        return ["status" => false,"list" => []];
     }
     protected function server_status(): array
     {
         $reply = $this->rest_get("status");
         if ($reply["status"] == true) {
             $json = json_decode($reply["message"]);
-            return array("status" => $json->online,"loads" => array("1" => 0,"5" => 0,"15" => 0),"ram" => array("free" => 0,"max" => 0),"streams" => array("total" => 0,"active" => 0),"message" => "Limited reply");
+            return ["status" => $json->online,"loads" => ["1" => 0,"5" => 0,"15" => 0],"ram" => ["free" => 0,"max" => 0],"streams" => ["total" => 0,"active" => 0],"message" => "Limited reply"];
         } else {
-            return array("status" => false,"loads" => array("1" => 0,"5" => 0,"15" => 0),"ram" => array("free" => 0,"max" => 0),"streams" => array("total" => 0,"active" => 0),"message" => "Limited reply");
+            return ["status" => false,"loads" => ["1" => 0,"5" => 0,"15" => 0],"ram" => ["free" => 0,"max" => 0],"streams" => ["total" => 0,"active" => 0],"message" => "Limited reply"];
         }
     }
     protected function account_state(): array
@@ -88,7 +88,7 @@ class server_azuracast extends server_public_api
                 $state = true;
             }
         }
-        return array("status" => $status,"state" => $state);
+        return ["status" => $status,"state" => $state];
     }
     protected function stream_state(): array
     {
@@ -110,7 +110,7 @@ class server_azuracast extends server_public_api
                 }
             }
         }
-        return array("status" => $reply["status"],"state" => $state,"source" => $source,"autodj" => $autodj);
+        return ["status" => $reply["status"],"state" => $state,"source" => $source,"autodj" => $autodj];
     }
 
     protected function account_name_list(bool $include_passwords = false, stream_set $stream_set = null): array
@@ -129,18 +129,18 @@ class server_azuracast extends server_public_api
                 }
             }
         }
-        return array("status" => $status,"usernames" => $usernames,"passwords" => $passwords);
+        return ["status" => $status,"usernames" => $usernames,"passwords" => $passwords];
     }
 
     protected function toggle_autodj(): bool
     {
         $this->last_api_message = "Package does not support auto DJ";
-        if ($this->package->get_autodj() == true) {
+        if ($this->package->getAutodj() == true) {
             $status_state = $this->stream_state();
             if ($status_state["status"] == true) {
                 $this->last_api_message = "server appears to be down (needs to be started before you can toggle)";
                 if ($status_state["state"] == true) {
-                    $options = array(true => "stop",false => "start");
+                    $options = [true => "stop",false => "start"];
                     $this->last_api_message = "Attempting to toggle auto dj";
                     $reply = $this->rest_post("station/" . $this->stream->get_api_uid_1() . "/backend/" . $options[$status_state["autodj"]]);
                     if ($reply["status"] == true) {
@@ -158,7 +158,7 @@ class server_azuracast extends server_public_api
     protected function autodj_next(): bool
     {
         $this->last_api_message = "No auto DJ";
-        if ($this->package->get_autodj() == true) {
+        if ($this->package->getAutodj() == true) {
             $status_state = $this->stream_state();
             if ($status_state["status"] == true) {
                 $this->last_api_message = "AutoDJ not running";
@@ -218,7 +218,7 @@ class server_azuracast extends server_public_api
                     $this->last_api_message = "Server started";
                     return true;
                 }
-                if ($this->package->get_autodj() == true) {
+                if ($this->package->getAutodj() == true) {
                     $this->last_api_message = "Server started / Unable to start AutoDJ";
                     $reply = $this->rest_post("station/" . $this->stream->get_api_uid_1() . "/backend/start");
                     if ($reply["status"] == true) {
@@ -246,7 +246,7 @@ class server_azuracast extends server_public_api
                 return false;
             }
             $this->last_api_message = "Attempting to remove access to server";
-            $post_fields = array("roles" => []);
+            $post_fields = ["roles" => []];
             $reply = $this->rest_put("admin/user/" . $this->stream->get_api_uid_3() . "", $post_fields);
             error_log(print_r($reply, true));
             if ($reply["status"] == true) {
@@ -269,7 +269,7 @@ class server_azuracast extends server_public_api
                 return false;
             }
             $this->last_api_message = "Sending request to un_susspend to server";
-            $post_fields = array("roles" => array($this->stream->get_api_uid_2()));
+            $post_fields = ["roles" => [$this->stream->get_api_uid_2()]];
             $reply = $this->rest_put("admin/user/" . $this->stream->get_api_uid_3() . "", $post_fields);
             if ($reply["status"] == true) {
                 $this->last_api_message = "Request failed";

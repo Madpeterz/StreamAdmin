@@ -18,11 +18,11 @@ $status = false;
 
 $rental = new rental();
 $issues = "";
-if ($rental->load_by_field("rental_uid", $page) == true) {
+if ($rental->loadByField("rental_uid", $this->page) == true) {
     if (strlen($transfer_avataruid) == 8) {
         // Transfer
         $avatar = new avatar();
-        if ($avatar->load_by_field("avatar_uid", $transfer_avataruid) == true) {
+        if ($avatar->loadByField("avatar_uid", $transfer_avataruid) == true) {
             $avatar_from = new avatar();
             if ($avatar_from->load($rental->getAvatarlink()) == true) {
                 $rental->set_avatarlink($avatar->getId());
@@ -122,7 +122,7 @@ if ($rental->load_by_field("rental_uid", $page) == true) {
             $change_status = $rental->save_changes();
             if ($change_status["status"] == true) {
                 $status = true;
-                $ajax_reply->set_swap_tag_string("redirect", "client/manage/" . $page);
+                $ajax_reply->set_swap_tag_string("redirect", "client/manage/" . $this->page);
                 $ajax_reply->set_swap_tag_string("message", $lang["client.up.info.6"]);
             } else {
                 $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.up.error.3"], $change_status["message"]));

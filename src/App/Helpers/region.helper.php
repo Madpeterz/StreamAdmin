@@ -11,7 +11,7 @@ class region_helper
     {
         $this->region = new region();
         if (strlen($regionname) > 3) {
-            if ($this->region->load_by_field("name", $regionname) == true) {
+            if ($this->region->loadByField("name", $regionname) == true) {
                 return true;
             } else {
                 $this->region = new region();

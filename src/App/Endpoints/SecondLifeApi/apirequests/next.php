@@ -6,7 +6,7 @@ if ($owner_override == true) {
     $limits_config = ["page_number" => 0,"max_entrys" => 1];
     $api_requests_set = new api_requests_set();
     $message = "not set";
-    if ($api_requests_set->load_with_config(null, $order_config, $limits_config)["status"] == true) {
+    if ($api_requests_set->loadWithConfig(null, $order_config, $limits_config)["status"] == true) {
         if ($api_requests_set->getCount() > 0) {
             $api_request = $api_requests_set->get_first();
             $load_path = "endpoints/api/apirequests/" . $api_request->get_eventname() . ".php";

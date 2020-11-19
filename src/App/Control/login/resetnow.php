@@ -18,9 +18,9 @@ if ($newpw1 == $newpw2) {
         $slusername = implode(" ", $username_bits);
         $avatar = new avatar();
         $status = false;
-        if ($avatar->load_by_field("avatarname", $slusername) == true) {
+        if ($avatar->loadByField("avatarname", $slusername) == true) {
             $staff = new staff();
-            if ($staff->load_by_field("avatarlink", $avatar->getId()) == true) {
+            if ($staff->loadByField("avatarlink", $avatar->getId()) == true) {
                 if ($staff->get_email_reset_code() == $token) {
                     if ($staff->get_email_reset_expires() > time()) {
                         $session_helper = new session_control();

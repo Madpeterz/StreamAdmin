@@ -4,9 +4,9 @@ $this->output->addSwapTagString("page_title", " In package:");
 $package = new package();
 $server_set = new server_set();
 $server_set->loadAll();
-if ($package->load_by_field("package_uid", $page) == true) {
-    $this->output->addSwapTagString("page_title", " " . $package->get_name());
-    $this->output->addSwapTagString("page_title", " (" . $package->get_package_uid() . ")");
+if ($package->loadByField("package_uid", $this->page) == true) {
+    $this->output->addSwapTagString("page_title", " " . $package->getName());
+    $this->output->addSwapTagString("page_title", " (" . $package->getPackage_uid() . ")");
     $stream_set = new stream_set();
     $stream_set->load_on_field("packagelink", $package->getId());
 

@@ -66,20 +66,20 @@ class server_centova3 extends server_centova3_only
     protected function create_account(): bool
     {
         global $slconfig;
-        if ($this->package->get_api_template() != null) {
+        if ($this->package->getApi_template() != null) {
             $servertype = new servertypes();
-            if ($servertype->load($this->package->get_servertypelink()) == true) {
+            if ($servertype->load($this->package->getServertypelink()) == true) {
                 $post_data = [
                     "port" => $this->stream->get_port(),
-                    "maxclients" => $this->package->get_listeners(),
+                    "maxclients" => $this->package->getListeners(),
                     "adminpassword" => $this->stream->get_adminpassword(),
                     "sourcepassword" => $this->stream->get_djpassword(),
-                    "maxbitrate" => $this->package->get_bitrate(),
+                    "maxbitrate" => $this->package->getBitrate(),
                     "username" => $this->stream->get_adminusername(),
                     "email" => $slconfig->get_api_default_email(),
                     "usesource" => 2,
                     "autostart" => 1,
-                    "template" => $this->package->get_api_template(),
+                    "template" => $this->package->getApi_template(),
                 ];
                 /*
                 if($servertype->getId() == 1)
@@ -95,10 +95,10 @@ class server_centova3 extends server_centova3_only
                     $post_data["servertype"] = "IceCast";
                 }
                 */
-                if ($this->package->get_autodj() == true) {
+                if ($this->package->getAutodj() == true) {
                     $post_data["autostart"] = 0;
                     $post_data["usesource"] = 1;
-                    $post_data["diskquota"] = $this->package->get_autodj_size() * 1000;
+                    $post_data["diskquota"] = $this->package->getAutodj_size() * 1000;
                 }
                 $reply = $this->centova_systemclass_api_call("provision", $post_data);
                 if ($this->simple_reply_ok($reply) == true) {
@@ -224,7 +224,7 @@ class server_centova3 extends server_centova3_only
         if ($include_passwords == true) {
             if ($stream_set == null) {
                 $stream_set = new stream_set();
-                $stream_set->load_by_field("serverlink", $this->server->getId());
+                $stream_set->loadByField("serverlink", $this->server->getId());
                 if ($stream_set->getCount() == 0) {
                     $all_ok = false;
                     $this->last_api_message = "Unable to find streams attached to server";

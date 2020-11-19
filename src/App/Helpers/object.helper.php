@@ -11,7 +11,7 @@ class object_helper
     {
         $this->object = new objects();
         if (strlen($objectuuid) == 36) {
-            if ($this->object->load_by_field("objectuuid", $objectuuid) == true) {
+            if ($this->object->loadByField("objectuuid", $objectuuid) == true) {
                 $this->object->set_lastseen(time());
                 if ($objectname != $this->object->get_objectname()) {
                     $this->object->set_objectname($objectname);

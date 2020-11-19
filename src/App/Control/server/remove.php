@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "server");
 $status = false;
 if ($accept == "Accept") {
     $server = new server();
-    if ($server->load($page) == true) {
+    if ($server->load($this->page) == true) {
         $stream_set = new stream_set();
         $load_status = $stream_set->load_on_field("serverlink", $server->getId());
         if ($load_status["status"] == true) {
@@ -39,5 +39,5 @@ if ($accept == "Accept") {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $lang["server.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "server/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "server/manage/" . $this->page . "");
 }

@@ -9,7 +9,7 @@ class swapables_helper
         if (count($av_split) == 1) {
               $av_split[] = "Resident";
         }
-          $true_false = [false => "Disabled",true => "Enabled"][$package->get_autodj()];
+          $true_false = [false => "Disabled",true => "Enabled"][$package->getAutodj()];
           $template = str_replace("\n", "", $template);
           $template = str_replace("\r", "", $template); // Normalise the template
           $swaps = [
@@ -25,13 +25,13 @@ class swapables_helper
               "STREAM_MOUNTPOINT" => $stream->get_mountpoint(),
               "SERVER_DOMAIN" => $server->get_domain(),
               "SERVER_CONTROLPANEL" => $server->get_controlpanel_url(),
-              "PACKAGE_NAME" => $package->get_name(),
-              "PACKAGE_LISTENERS" => $package->get_listeners(),
-              "PACKAGE_BITRATE" => $package->get_bitrate(),
+              "PACKAGE_NAME" => $package->getName(),
+              "PACKAGE_LISTENERS" => $package->getListeners(),
+              "PACKAGE_BITRATE" => $package->getBitrate(),
               "PACKAGE_AUTODJ" => $true_false,
-              "PACKAGE_AUTODJ_SIZE" => $package->get_autodj_size(),
+              "PACKAGE_AUTODJ_SIZE" => $package->getAutodj_size(),
               "NL" => "\n",
-              "PACKAGE_UID" => $package->get_package_uid(),
+              "PACKAGE_UID" => $package->getPackage_uid(),
               "RENTAL_UID" => $rental->getRental_uid(),
               "TIMEZONE" => $timezone_name,
           ];

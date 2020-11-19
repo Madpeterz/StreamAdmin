@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "tree");
 $status = false;
 if ($accept == "Accept") {
     $treevender_packages = new treevender_packages();
-    if ($treevender_packages->load($page) == true) {
+    if ($treevender_packages->load($this->page) == true) {
         $redirect_to = $treevender_packages->get_treevenderlink();
         $remove_status = $treevender_packages->remove_me();
         if ($remove_status["status"] == true) {

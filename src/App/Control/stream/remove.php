@@ -6,7 +6,7 @@ $ajax_reply->set_swap_tag_string("redirect", "stream");
 $status = false;
 if ($accept == "Accept") {
     $stream = new stream();
-    if ($stream->load_by_field("stream_uid", $page) == true) {
+    if ($stream->loadByField("stream_uid", $this->page) == true) {
         $transaction_set = new transactions_set();
         $load_status = $transaction_set->load_on_field("streamlink", $stream->getId());
         if ($load_status["status"] == true) {
@@ -39,5 +39,5 @@ if ($accept == "Accept") {
 } else {
     $status = false;
     $ajax_reply->set_swap_tag_string("message", $lang["stream.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "stream/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "stream/manage/" . $this->page . "");
 }

@@ -4,7 +4,7 @@ $input = new inputFilter();
 $rental_uid = $input->postFilter("uid");
 $rental = new rental();
 $status = false;
-if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
+if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
         $package = new package();
         if ($package->load($rental->get_packagelink()) == true) {
@@ -12,7 +12,7 @@ if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
             if ($avatar_system->load($slconfig->get_owner_av()) == true) {
                 $status = true;
                 $reply["systemowner"] = $avatar_system->get_avataruuid();
-                $reply["cost"] = $package->get_cost();
+                $reply["cost"] = $package->getCost();
                 $reply["old_expire_time"] = $rental->get_expireunixtime();
             }
         }

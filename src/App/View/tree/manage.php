@@ -2,17 +2,17 @@
 
 $this->output->addSwapTagString("html_title", " ~ Manage");
 $this->output->addSwapTagString("page_title", " Editing");
-$this->output->setSwapTagString("page_actions", "<a href='[[url_base]]tree/remove/" . $page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
+$this->output->setSwapTagString("page_actions", "<a href='[[url_base]]tree/remove/" . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $treevender = new treevender();
-if ($treevender->load($page) == true) {
+if ($treevender->load($this->page) == true) {
     $package_set = new package_set();
     $package_set->loadAll();
-    $this->output->addSwapTagString("page_title", ":" . $treevender->get_name());
+    $this->output->addSwapTagString("page_title", ":" . $treevender->getName());
     $form = new form();
-    $form->target("tree/update/" . $page . "");
+    $form->target("tree/update/" . $this->page . "");
     $form->required(true);
     $form->col(6);
-        $form->textInput("name", "Name", 30, $treevender->get_name(), "Name");
+        $form->textInput("name", "Name", 30, $treevender->getName(), "Name");
     $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
     $this->output->addSwapTagString("page_content", "<br/><hr/><br/>");
     $treevender_packages_set = new treevender_packages_set();
@@ -26,7 +26,7 @@ if ($treevender->load($page) == true) {
         $package = $package_set->getObjectByID($treevender_packages->get_packagelink());
         $used_package_ids[] = $package->getId();
         $entry[] = $treevender_packages->getId();
-        $entry[] = $package->get_name();
+        $entry[] = $package->getName();
         $entry[] = "<a href='[[url_base]]tree/removepackage/" . $treevender_packages->getId() . "'><button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
         $table_body[] = $entry;
     }
@@ -39,7 +39,7 @@ if ($treevender->load($page) == true) {
     }
     if (count($unused_index) > 0) {
         $form = new form();
-        $form->target("tree/addpackage/" . $page . "");
+        $form->target("tree/addpackage/" . $this->page . "");
         $form->select("package", "Package", "", $unused_index);
         $this->output->addSwapTagString("page_content", $form->render("Add package", "success"));
     }

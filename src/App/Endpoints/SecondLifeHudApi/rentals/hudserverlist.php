@@ -2,7 +2,7 @@
 
 $status = true;
 $rentals_set = new rental_set();
-$rentals_set->load_by_field("avatarlink", $object_owner_avatar->getId());
+$rentals_set->loadByField("avatarlink", $object_owner_avatar->getId());
 if ($rentals_set->getCount() > 0) {
     $reply["ports"] = [];
     $reply["uids"] = [];

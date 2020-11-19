@@ -2,14 +2,14 @@
 
 $this->output->addSwapTagString("html_title", " ~ Manage");
 $this->output->addSwapTagString("page_title", " Editing");
-$this->output->setSwapTagString("page_actions", "<a href='[[url_base]]server/remove/" . $page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
+$this->output->setSwapTagString("page_actions", "<a href='[[url_base]]server/remove/" . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 $server = new server();
 $apis = new apis_set();
 $apis->loadAll();
-if ($server->load($page) == true) {
+if ($server->load($this->page) == true) {
     $this->output->addSwapTagString("page_title", " :" . $server->get_domain());
     $form = new form();
-    $form->target("server/update/" . $page . "");
+    $form->target("server/update/" . $this->page . "");
     $form->required(true);
     $form->col(6);
         $form->textInput("domain", "Domain", 30, $server->get_domain(), "ip or uncloudflared proxyed domain/subdomain");

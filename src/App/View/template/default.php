@@ -10,7 +10,7 @@ foreach ($template_set->getAllIds() as $template_id) {
     $tempalte = $template_set->getObjectByID($template_id);
     $entry = [];
     $entry[] = $tempalte->getId();
-    $entry[] = '<a href="[[url_base]]template/manage/' . $tempalte->getId() . '">' . $tempalte->get_name() . '</a>';
+    $entry[] = '<a href="[[url_base]]template/manage/' . $tempalte->getId() . '">' . $tempalte->getName() . '</a>';
     $table_body[] = $entry;
 }
 $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));

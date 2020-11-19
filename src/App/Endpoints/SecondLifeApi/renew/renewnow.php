@@ -7,19 +7,19 @@ $avatarname = $input->postFilter("avatarname");
 $amountpaid = $input->postFilter("amountpaid", "integer");
 $status = false;
 $rental = new rental();
-if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
+if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $rental_id = $rental->getId();
     $stream = new stream();
     if ($stream->load($rental->get_streamlink()) == true) {
         $package = new package();
         if ($package->load($stream->get_packagelink()) == true) {
-            $accepted_payment_amounts = [($package->get_cost()) => 1,($package->get_cost() * 2) => 2,($package->get_cost() * 3) => 3,($package->get_cost() * 4) => 4];
+            $accepted_payment_amounts = [($package->getCost()) => 1,($package->getCost() * 2) => 2,($package->getCost() * 3) => 3,($package->getCost() * 4) => 4];
             if (array_key_exists($amountpaid, $accepted_payment_amounts) == true) {
                 $multipler = $accepted_payment_amounts[$amountpaid];
                 $transaction = new transactions();
                 $uid_transaction = $transaction->create_uid("transaction_uid", 8, 10);
                 if ($uid_transaction["status"] == true) {
-                    $unixtime_to_add = (($package->get_days() * $unixtime_day) * $multipler);
+                    $unixtime_to_add = (($package->getDays() * $unixtime_day) * $multipler);
                     $new_expires_time = $rental->get_expireunixtime() + $unixtime_to_add;
                     $rental->set_expireunixtime($new_expires_time);
                     $rental->set_renewals(($rental->get_renewals() + $multipler));
@@ -58,7 +58,7 @@ if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
                         if ($get_av_status == true) {
                             $avatar = $avatar_helper->get_avatar();
                             $banlist = new banlist();
-                            if ($banlist->load_by_field("avatar_link", $avatar->getId()) == false) {
+                            if ($banlist->loadByField("avatar_link", $avatar->getId()) == false) {
                                 $transaction->set_avatarlink($avatar->getId());
                                 $transaction->set_packagelink($package->getId());
                                 $transaction->set_streamlink($stream->getId());
@@ -105,7 +105,7 @@ if ($rental->load_by_field("rental_uid", $rental_uid) == true) {
                                                 $event->set_avatar_uuid($avatar->get_avataruuid());
                                                 $event->set_avatar_name($avatar->getAvatarname());
                                                 $event->set_rental_uid($rental->getRental_uid());
-                                                $event->set_package_uid($package->get_package_uid());
+                                                $event->set_package_uid($package->getPackage_uid());
                                                 $event->set_event_renew(true);
                                                 $event->set_unixtime(time());
                                                 $event->set_expire_unixtime($rental->get_expireunixtime());

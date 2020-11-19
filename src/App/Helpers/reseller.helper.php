@@ -11,7 +11,7 @@ class reseller_helper
     {
         $this->reseller = new reseller();
         if ($avatarlinkid > 0) {
-            if ($this->reseller->load_by_field("avatarlink", $avatarlinkid) == true) {
+            if ($this->reseller->loadByField("avatarlink", $avatarlinkid) == true) {
                 return true;
             } else {
                 $this->reseller = new reseller();

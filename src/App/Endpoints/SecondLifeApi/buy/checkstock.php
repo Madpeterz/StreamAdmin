@@ -4,7 +4,7 @@ $input = new inputFilter();
 $packageuid = $input->postFilter("packageuid");
 $status = false;
 $package = new package();
-if ($package->load_by_field("package_uid", $packageuid) == true) {
+if ($package->loadByField("package_uid", $packageuid) == true) {
     $apirequests_set = new api_requests_set();
     $apirequests_set->loadAll();
     $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
@@ -28,10 +28,10 @@ if ($package->load_by_field("package_uid", $packageuid) == true) {
         if ($count_data["count"] > 0) {
             $reply["package_instock"] = 1;
         }
-        $reply["package_cost"] = $package->get_cost();
-        $reply["texture_package_small"] = $package->get_texture_uuid_instock_small();
-        $reply["texture_package_big"] = $package->get_texture_uuid_instock_selected();
-        $reply["texture_package_soldout"] = $package->get_texture_uuid_soldout();
+        $reply["package_cost"] = $package->getCost();
+        $reply["texture_package_small"] = $package->getTexture_uuid_instock_small();
+        $reply["texture_package_big"] = $package->getTexture_uuid_instock_selected();
+        $reply["texture_package_soldout"] = $package->getTexture_uuid_soldout();
     } else {
         echo $lang["buy.cs.error.2"];
     }

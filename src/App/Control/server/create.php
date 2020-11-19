@@ -37,7 +37,7 @@ if (strlen($domain) > 100) {
     $failed_on .= $lang["server.cr.error.2"];
 } elseif (strlen($controlpanel_url) < 5) {
     $failed_on .= $lang["server.cr.error.3"];
-} elseif ($server->load_by_field("domain", $domain) == true) {
+} elseif ($server->loadByField("domain", $domain) == true) {
     $failed_on .= $lang["server.cr.error.4"];
 } elseif (in_array($apilink, $apis->getAllIds()) == false) {
     $failed_on .= $lang["server.cr.error.6"];

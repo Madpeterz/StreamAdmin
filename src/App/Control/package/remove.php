@@ -6,7 +6,7 @@ $status = false;
 $ajax_reply->set_swap_tag_string("redirect", "package");
 if ($accept == "Accept") {
     $package = new package();
-    if ($package->load_by_field("package_uid", $page) == true) {
+    if ($package->loadByField("package_uid", $this->page) == true) {
         $stream_set = new stream_set();
         $load_status = $stream_set->load_on_field("packagelink", $package->getId());
         if ($load_status["status"] == true) {
@@ -59,5 +59,5 @@ if ($accept == "Accept") {
     }
 } else {
     $ajax_reply->set_swap_tag_string("message", $lang["package.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "package/manage/" . $page . "");
+    $ajax_reply->set_swap_tag_string("redirect", "package/manage/" . $this->page . "");
 }

@@ -12,12 +12,12 @@ $avatar_where_config = [
     "join_with" => ["(OR)","(OR)"],
 ];
 $avatar_set = new avatar_set();
-$avatar_set->load_with_config($avatar_where_config);
+$avatar_set->loadWithConfig($avatar_where_config);
 
 if ($avatar_set->getCount() == 1) {
     $avatar = $avatar_set->get_first();
     $banlist = new banlist();
-    if ($banlist->load_by_field("avatar_link", $avatar->getId()) == false) {
+    if ($banlist->loadByField("avatar_link", $avatar->getId()) == false) {
         $banlist = new banlist();
         $banlist->set_avatar_link($avatar->getId());
         $create_status = $banlist->create_entry();

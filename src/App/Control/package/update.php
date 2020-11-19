@@ -60,7 +60,7 @@ $status = false;
 $ajax_reply->set_swap_tag_string("redirect", "package");
 if ($failed_on == "") {
     $package = new package();
-    if ($package->load_by_field("package_uid", $page) == true) {
+    if ($package->loadByField("package_uid", $this->page) == true) {
         $package->set_name($name);
         $package->set_autodj($autodj);
         $package->set_autodj_size($autodj_size);

@@ -15,7 +15,7 @@ $avatar_set = new avatar_set();
 $server_set = new server_set();
 $api_requests_set = new api_requests_set();
 $apis_set = new apis_set();
-$rental_set->load_with_config($whereconfig);
+$rental_set->loadWithConfig($whereconfig);
 $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
 $package_set->loadIds($rental_set->getAllByField("packagelink"));
 $stream_set->loadIds($rental_set->getAllByField("streamlink"));
@@ -51,7 +51,7 @@ foreach ($rental_set->getAllIds() as $rental_id) {
                                 $event->set_avatar_uuid($avatar->get_avataruuid());
                                 $event->set_avatar_name($avatar->getAvatarname());
                                 $event->set_rental_uid($rental->getRental_uid());
-                                $event->set_package_uid($package->get_package_uid());
+                                $event->set_package_uid($package->getPackage_uid());
                                 $event->set_event_remove(true);
                                 $event->set_unixtime(time());
                                 $event->set_expire_unixtime($rental->get_expireunixtime());

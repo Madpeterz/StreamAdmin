@@ -21,7 +21,7 @@ if ($owner_override == true) {
                                 $package = new package();
                                 if ($package->load($stream->get_packagelink()) == true) {
                                     $template = new template();
-                                    if ($template->load($package->get_templatelink()) == true) {
+                                    if ($template->load($package->getTemplatelink()) == true) {
                                         $remove_status = $detail->remove_me();
                                         if ($remove_status["status"] == true) {
                                             $bot_helper = new bot_helper();

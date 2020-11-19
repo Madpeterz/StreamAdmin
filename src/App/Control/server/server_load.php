@@ -2,7 +2,7 @@
 
 $status = true;
 $server = new server();
-if ($server->load($page) == true) {
+if ($server->load($this->page) == true) {
     if ($server->get_api_serverstatus() == 1) {
         $serverapi_helper = new serverapi_helper();
         $serverapi_helper->force_set_server($server);

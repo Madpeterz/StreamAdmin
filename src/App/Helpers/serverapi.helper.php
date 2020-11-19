@@ -130,7 +130,7 @@ class serverapi_helper
         if ($api->load($this->server->get_apilink()) == true) {
             if ($api->getId() > 1) {
                 $this->api_config = $api;
-                $server_api_name = "server_" . $api->get_name() . "";
+                $server_api_name = "server_" . $api->getName() . "";
                 if (class_exists($server_api_name) == true) {
                     $this->server_api = new $server_api_name($this->stream, $this->server, $this->package);
                     $this->message = "server API loaded";
@@ -149,7 +149,7 @@ class serverapi_helper
     protected function load_rental(): bool
     {
         $rental = new rental();
-        if ($rental->load_by_field("streamlink", $this->stream->getId()) == true) {
+        if ($rental->loadByField("streamlink", $this->stream->getId()) == true) {
             $this->rental = $rental;
             $this->message = "Rental loaded";
             return true;
@@ -455,7 +455,7 @@ class serverapi_helper
                 $this->message = "No package selected";
                 if ($this->package != null) {
                     $this->message = "This package does not support autoDJ";
-                    if ($this->package->get_autodj() == true) {
+                    if ($this->package->getAutodj() == true) {
                         $status = $this->server_api->opt_toggle_autodj();
                         $this->message = $this->server_api->get_last_api_message();
                         return $status;
@@ -473,7 +473,7 @@ class serverapi_helper
                 $this->message = "No package selected";
                 if ($this->package != null) {
                     $this->message = "This package does not support autoDJ";
-                    if ($this->package->get_autodj() == true) {
+                    if ($this->package->getAutodj() == true) {
                         $status = $this->server_api->opt_autodj_next();
                         $this->message = $this->server_api->get_last_api_message();
                         return $status;
@@ -509,7 +509,7 @@ class serverapi_helper
                     $acceptable_names[] = $avname[0]; // Firstname
                     $acceptable_names[] = $avname[0] . "_" . substr($avname[1], 0, 2); // Firstname 2 letters of last name
                     $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port(); // Firstname Port
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->package->get_bitrate(); // Firstname Port Bitrate
+                    $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->package->getBitrate(); // Firstname Port Bitrate
                     $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->server->getId(); // Firstname Port ServerID
                     $acceptable_names[] = $avname[0] . "_" . $this->rental->getRental_uid(); // Firstname RentalUID
                     $accepted_name = "";

@@ -2,7 +2,7 @@
 
 $this->output->setSwapTagString("page_actions", "");
 $stream_set = new stream_set();
-$stream_set->load_with_config($whereconfig);
+$stream_set->loadWithConfig($whereconfig);
 
 $rental_set = new rental_set();
 $rental_set->loadIds($stream_set->getAllByField("rentallink"));

@@ -3,7 +3,7 @@
 function not_banned(avatar $avatar): bool
 {
     $banlist = new banlist();
-    $banlist->load_by_field("avatar_link", $avatar->getId());
+    $banlist->loadByField("avatar_link", $avatar->getId());
     if ($banlist->is_loaded() == true) {
         return false;
     } else {
@@ -41,7 +41,7 @@ function create_transaction(avatar $avatar, package $package, stream $stream, re
 function get_package(string $packageuid): ?package
 {
     $package = new package();
-    if ($package->load_by_field("package_uid", $packageuid) == true) {
+    if ($package->loadByField("package_uid", $packageuid) == true) {
         return $package;
     }
     return null;
@@ -64,7 +64,7 @@ function get_unassigned_stream_on_package(package $package): ?stream
         $whereconfig["types"][] = "i";
     }
     $stream_set = new stream_set();
-    $stream_set->load_with_config($where_config);
+    $stream_set->loadWithConfig($where_config);
     if ($stream_set->getCount() > 0) {
         $stream_id = $stream_set->getAllIds()[rand(0, $stream_set->getCount() - 1)];
         $streamfinder = $stream_set->getObjectByID($stream_id);
@@ -111,10 +111,10 @@ if ($status == true) { // find stream
 if ($status == true) { // check payment amount
     $amountpaid = $input->postFilter("amountpaid", "integer");
     $accepted_payment_amounts = [
-        $package->get_cost() => 1,
-        ($package->get_cost() * 2) => 2,
-        ($package->get_cost() * 3) => 3,
-        ($package->get_cost() * 4) => 4,
+        $package->getCost() => 1,
+        ($package->getCost() * 2) => 2,
+        ($package->getCost() * 3) => 3,
+        ($package->getCost() * 4) => 4,
     ];
     if (array_key_exists($amountpaid, $accepted_payment_amounts) == true) {
         // get expire unixtime and notice index
@@ -123,7 +123,7 @@ if ($status == true) { // check payment amount
         $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
         $multipler = $accepted_payment_amounts[$amountpaid];
-        $hours_remain = ($package->get_days() * 24) * $multipler;
+        $hours_remain = ($package->getDays() * 24) * $multipler;
         $use_notice_index = 0;
         foreach ($sorted_linked as $hours => $index) {
             if ($hours > $hours_remain) {
@@ -205,7 +205,7 @@ if ($status == true) {  // event storage engine (to be phased out)
         $event->set_avatar_uuid($avatar->get_avataruuid());
         $event->set_avatar_name($avatar->getAvatarname());
         $event->set_rental_uid($rental->getRental_uid());
-        $event->set_package_uid($package->get_package_uid());
+        $event->set_package_uid($package->getPackage_uid());
         $event->set_event_new(true);
         $event->set_unixtime(time());
         $event->set_expire_unixtime($rental->get_expireunixtime());

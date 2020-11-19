@@ -8,7 +8,7 @@ $contact_via = "sl";
 $staff = new staff();
 if (count($bits) == 2) {
     $contact_via = "email";
-    $staff->load_by_field("email", $slusername);
+    $staff->loadByField("email", $slusername);
 } else {
     $username_bits = explode(" ", $slusername);
     if (count($username_bits) == 1) {
@@ -17,8 +17,8 @@ if (count($bits) == 2) {
     $slusername = implode(" ", $username_bits);
     $avatar = new avatar();
     $status = false;
-    if ($avatar->load_by_field("avatarname", $slusername) == true) {
-        $staff->load_by_field("avatarlink", $avatar->getId());
+    if ($avatar->loadByField("avatarname", $slusername) == true) {
+        $staff->loadByField("avatarlink", $avatar->getId());
     }
 }
 if ($staff->getId() > 0) {

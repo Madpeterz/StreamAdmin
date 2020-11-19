@@ -8,7 +8,7 @@ if ($texturepack > 0) {
     $textureconfig = new textureconfig();
     if ($textureconfig->load($texturepack) == true) {
         $package = new package();
-        if ($package->load_by_field("package_uid", $packageuid) == true) {
+        if ($package->loadByField("package_uid", $packageuid) == true) {
             // $reseller, $object_owner_avatar, $owner_override, $region, $object
             $apirequests_set = new api_requests_set();
             $apirequests_set->loadAll();
@@ -40,10 +40,10 @@ if ($texturepack > 0) {
                 $reply["texture_fetchingdetails"] = $textureconfig->get_getting_details();
                 $reply["texture_request_payment"] = $textureconfig->get_make_payment();
 
-                $reply["package_cost"] = $package->get_cost();
-                $reply["texture_package_small"] = $package->get_texture_uuid_instock_small();
-                $reply["texture_package_big"] = $package->get_texture_uuid_instock_selected();
-                $reply["texture_package_soldout"] = $package->get_texture_uuid_soldout();
+                $reply["package_cost"] = $package->getCost();
+                $reply["texture_package_small"] = $package->getTexture_uuid_instock_small();
+                $reply["texture_package_big"] = $package->getTexture_uuid_instock_selected();
+                $reply["texture_package_soldout"] = $package->getTexture_uuid_soldout();
                 if ($owner_override == false) {
                     $reply["reseller_rate"] = $reseller->get_rate();
                     $reply["reseller_mode"] = $lang["buy.gc.info.1"];

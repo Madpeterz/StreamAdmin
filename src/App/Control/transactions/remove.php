@@ -7,7 +7,7 @@ if ($session->get_ownerlevel() == 1) {
     $status = false;
     if ($accept == "Accept") {
         $transaction = new transactions();
-        if ($transaction->load_by_field("transaction_uid", $page) == true) {
+        if ($transaction->loadByField("transaction_uid", $this->page) == true) {
             $remove_status = $transaction->remove_me();
             if ($remove_status["status"] == true) {
                 $status = true;

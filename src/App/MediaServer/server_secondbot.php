@@ -32,7 +32,7 @@ class server_secondbot extends server_secondbot_core
     {
         global $reply, $sql;
         $server = new server();
-        $server->load_by_field("apilink", 5);
+        $server->loadByField("apilink", 5);
         $event_set = new event_set();
         $event_set->load_newest(1, [], [], "id", "ASC");
         if ($event_set->getCount() == 1) {

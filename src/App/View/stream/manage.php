@@ -2,10 +2,10 @@
 
 $this->output->addSwapTagString("html_title", " ~ Manage");
 $this->output->addSwapTagString("page_title", " Editing stream");
-$this->output->setSwapTagString("page_actions", "<a href='[[url_base]]stream/remove/" . $page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
+$this->output->setSwapTagString("page_actions", "<a href='[[url_base]]stream/remove/" . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 
 $stream = new stream();
-if ($stream->load_by_field("stream_uid", $page) == true) {
+if ($stream->loadByField("stream_uid", $this->page) == true) {
     $server_set = new server_set();
     $server_set->loadAll();
 
@@ -19,7 +19,7 @@ if ($stream->load_by_field("stream_uid", $page) == true) {
     foreach ($server_set->getAllIds() as $server_id) {
         $server = $server_set->getObjectByID($server_id);
         $api = $api_set->getObjectByID($server->get_apilink());
-        $improved_serverlinker[$server->getId()] = $server->get_domain() . " {" . $api->get_name() . "}";
+        $improved_serverlinker[$server->getId()] = $server->get_domain() . " {" . $api->getName() . "}";
     }
 
     $servertypes_set = new servertypes_set();
@@ -29,16 +29,16 @@ if ($stream->load_by_field("stream_uid", $page) == true) {
     $improved_packagelinker = [];
     foreach ($package_set->getAllIds() as $package_id) {
         $package = $package_set->getObjectByID($package_id);
-        $servertype = $servertypes_set->getObjectByID($package->get_servertypelink());
+        $servertype = $servertypes_set->getObjectByID($package->getServertypelink());
         $saddon = "";
-        if ($package->get_days() > 1) {
+        if ($package->getDays() > 1) {
             $saddon = "'s";
         }
-        $improved_packagelinker[$package->getId()] = "" . $package->get_name() . " @ " . $package->get_days() . "day" . $saddon . " - " . $autodjflag[$package->get_autodj()] . " - " . $servertype->get_name() . " - " . $package->get_bitrate() . "kbs - " . $package->get_listeners() . " listeners";
+        $improved_packagelinker[$package->getId()] = "" . $package->getName() . " @ " . $package->getDays() . "day" . $saddon . " - " . $autodjflag[$package->getAutodj()] . " - " . $servertype->getName() . " - " . $package->getBitrate() . "kbs - " . $package->getListeners() . " listeners";
     }
 
     $form = new form();
-    $form->target("stream/update/" . $page . "");
+    $form->target("stream/update/" . $this->page . "");
     $form->required(true);
     $form->col(6);
         $form->group("Basics");
