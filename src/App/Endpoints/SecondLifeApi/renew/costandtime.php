@@ -6,12 +6,12 @@ $rental = new rental();
 $status = false;
 if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $stream = new stream();
-    if ($stream->loadID($rental->get_streamlink()) == true) {
+    if ($stream->loadID($rental->getStreamlink()) == true) {
         $package = new package();
         if ($package->loadID($stream->get_packagelink()) == true) {
             $status = true;
             $reply["cost"] = $package->getCost();
-            echo timeleft_hours_and_days($rental->get_expireunixtime());
+            echo timeleft_hours_and_days($rental->getExpireunixtime());
         } else {
             echo $lang["renew.cat.error.3"];
         }

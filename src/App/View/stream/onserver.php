@@ -3,7 +3,7 @@
 $server_set = new server_set();
 $server_set->loadAll();
 $server = $server_set->getObjectByID($this->page);
-$this->output->setSwapTagString("page_title", " On server: " . $server->get_domain() . "");
+$this->output->setSwapTagString("page_title", " On server: " . $server->getDomain() . "");
 $whereconfig = [
     "fields" => ["serverlink"],
     "values" => [$server->getId()],

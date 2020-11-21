@@ -7,12 +7,12 @@ $server = new server();
 $apis = new apis_set();
 $apis->loadAll();
 if ($server->loadID($this->page) == true) {
-    $this->output->addSwapTagString("page_title", " :" . $server->get_domain());
+    $this->output->addSwapTagString("page_title", " :" . $server->getDomain());
     $form = new form();
     $form->target("server/update/" . $this->page . "");
     $form->required(true);
     $form->col(6);
-        $form->textInput("domain", "Domain", 30, $server->get_domain(), "ip or uncloudflared proxyed domain/subdomain");
+        $form->textInput("domain", "Domain", 30, $server->getDomain(), "ip or uncloudflared proxyed domain/subdomain");
         $form->textInput("controlpanel_url", "Control panel", 200, $server->get_controlpanel_url(), "URL to the control panel");
     $form->col(6);
         $form->select("apilink", "API / type", $server->get_apilink(), $apis->getLinkedArray("id", "name"));

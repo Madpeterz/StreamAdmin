@@ -15,7 +15,7 @@ if (file_exists($lang_file) == true) {
 }
 if (isset($server) == false) {
     $server = new server();
-    $server->loadID($stream->get_serverlink());
+    $server->loadID($stream->getServerlink());
 }
 if (isset($no_api_action) == false) {
     $no_api_action = true;

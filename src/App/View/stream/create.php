@@ -17,7 +17,7 @@ $improved_serverlinker = [];
 foreach ($server_set->getAllIds() as $server_id) {
     $server = $server_set->getObjectByID($server_id);
     $api = $api_set->getObjectByID($server->get_apilink());
-    $improved_serverlinker[$server->getId()] = $server->get_domain() . " {" . $api->getName() . "}";
+    $improved_serverlinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
 }
 
 $servertypes_set = new servertypes_set();

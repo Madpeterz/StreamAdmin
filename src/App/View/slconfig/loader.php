@@ -16,7 +16,7 @@ $form->required(true);
 $form->col(6);
     $form->group("Core");
     $form->directAdd("Current owner: " . $avatar->getAvatarname() . "<br/>");
-    $form->textInput("owneravuid", "Owner avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>", 8, $avatar->get_avatar_uid(), "Not a SL uuid!");
+    $form->textInput("owneravuid", "Owner avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>", 8, $avatar->getAvatar_uid(), "Not a SL uuid!");
     $form->textInput("sllinkcode", "Link code [SL->Server]", 30, $slconfig->get_sllinkcode(), "The code shared by your vendors to connet");
     $form->textInput("publiclinkcode", "Public Link code [SL->Server]", 30, $slconfig->get_publiclinkcode(), "The code shared by your user hud");
     $form->textInput("httpcode", "HTTP code [Apps->Server]", 36, $slconfig->get_http_inbound_secret(), "Enter here");

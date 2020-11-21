@@ -15,9 +15,9 @@ if ($owner_override == true) {
                     $avatar = new avatar();
                     if ($avatar->loadID($rental->getAvatarlink()) == true) {
                         $stream = new stream();
-                        if ($stream->loadID($rental->get_streamlink()) == true) {
+                        if ($stream->loadID($rental->getStreamlink()) == true) {
                             $server = new server();
-                            if ($server->loadID($stream->get_serverlink()) == true) {
+                            if ($server->loadID($stream->getServerlink()) == true) {
                                 $package = new package();
                                 if ($package->loadID($stream->get_packagelink()) == true) {
                                     $template = new template();

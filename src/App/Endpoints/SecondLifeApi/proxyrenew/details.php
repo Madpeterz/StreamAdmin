@@ -31,9 +31,9 @@ if ($targetuid != null) {
                 $reply_dataset = [];
                 foreach ($rental_set->getAllIds() as $rental_id) {
                     $rental = $rental_set->getObjectByID($rental_id);
-                    $stream = $stream_set->getObjectByID($rental->get_streamlink());
+                    $stream = $stream_set->getObjectByID($rental->getStreamlink());
                     if ($stream != null) {
-                        $reply_dataset[] = "" . $rental->getRental_uid() . "|||" . $stream->get_port() . "";
+                        $reply_dataset[] = "" . $rental->getRental_uid() . "|||" . $stream->getPort() . "";
                     }
                 }
                 if (count($reply_dataset) > 0) {

@@ -51,8 +51,8 @@ if ($failed_on == "") {
         $where_values = [[$port => "i"],[$serverlink => "i"]];
         $count_check = $sql->basic_count($stream->get_table(), $where_fields, $where_values);
         $expected_count = 0;
-        if ($stream->get_port() == $port) {
-            if ($stream->get_serverlink() == $serverlink) {
+        if ($stream->getPort() == $port) {
+            if ($stream->getServerlink() == $serverlink) {
                 $expected_count = 1;
             }
         }

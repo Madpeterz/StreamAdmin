@@ -10,7 +10,7 @@ $status = $sql->RawSQL("installer/install.sql", true);
 if ($status["status"] == true) {
     $avatar = new avatar();
     if ($avatar->loadID(1) == true) {
-        if ($avatar->get_avatar_uid() == "system") {
+        if ($avatar->getAvatar_uid() == "system") {
             $sql->sqlSave(true);
             $this->output->setSwapTagString("page_content", '<a href="setup"><button class="btn btn-primary btn-block" type="button">Setup</button></a>');
         } else {

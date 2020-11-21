@@ -19,24 +19,24 @@ $table_body = [];
 
 foreach ($stream_set->getAllIds() as $streamid) {
     $stream = $stream_set->getObjectByID($streamid);
-    $server = $server_set->getObjectByID($stream->get_serverlink());
+    $server = $server_set->getObjectByID($stream->getServerlink());
     if ($stream->get_original_adminusername() == $stream->get_adminusername()) {
         $action = '
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-outline-success">
-            <input type="radio" value="update" name="stream' . $stream->get_stream_uid() . '" autocomplete="off"> Update
+            <input type="radio" value="update" name="stream' . $stream->getStream_uid() . '" autocomplete="off"> Update
           </label>
           <label class="btn btn-outline-secondary active">
-            <input type="radio" value="skip" name="stream' . $stream->get_stream_uid() . '" autocomplete="off" checked> Skip
+            <input type="radio" value="skip" name="stream' . $stream->getStream_uid() . '" autocomplete="off" checked> Skip
           </label>
         </div>';
         $entry = [];
         $entry[] = $stream->getId();
         $entry[] = $action;
-        $entry[] = $server->get_domain();
-        $entry[] = $stream->get_port();
-        $adminpassword = '<input type="text" class="form-control" name="stream' . $stream->get_stream_uid() . 'adminpw" value="' . $stream->get_adminpassword() . '" placeholder="Max 20 length">';
-        $djpassword = '<input type="text" class="form-control" name="stream' . $stream->get_stream_uid() . 'djpw" value="' . $stream->get_djpassword() . '" placeholder="Max 20 length">';
+        $entry[] = $server->getDomain();
+        $entry[] = $stream->getPort();
+        $adminpassword = '<input type="text" class="form-control" name="stream' . $stream->getStream_uid() . 'adminpw" value="' . $stream->get_adminpassword() . '" placeholder="Max 20 length">';
+        $djpassword = '<input type="text" class="form-control" name="stream' . $stream->getStream_uid() . 'djpw" value="' . $stream->get_djpassword() . '" placeholder="Max 20 length">';
         $entry[] = $adminpassword;
         $entry[] = $djpassword;
         $table_body[] = $entry;

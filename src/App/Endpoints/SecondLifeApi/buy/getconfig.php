@@ -12,7 +12,7 @@ if ($texturepack > 0) {
             // $reseller, $object_owner_avatar, $owner_override, $region, $object
             $apirequests_set = new api_requests_set();
             $apirequests_set->loadAll();
-            $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
+            $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
             // package_instock,
             $stream = new stream();
             $whereconfig = [

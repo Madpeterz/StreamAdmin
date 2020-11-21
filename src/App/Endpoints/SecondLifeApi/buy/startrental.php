@@ -50,7 +50,7 @@ function get_unassigned_stream_on_package(package $package): ?stream
 {
     $apirequests_set = new api_requests_set();
     $apirequests_set->loadAll();
-    $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
+    $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
     $where_config = [
         "fields" => ["rentallink","packagelink","needwork"],
         "values" => [null,$package->getId(),0],
@@ -208,8 +208,8 @@ if ($status == true) {  // event storage engine (to be phased out)
         $event->set_package_uid($package->getPackage_uid());
         $event->set_event_new(true);
         $event->set_unixtime(time());
-        $event->set_expire_unixtime($rental->get_expireunixtime());
-        $event->set_port($stream->get_port());
+        $event->set_expire_unixtime($rental->getExpireunixtime());
+        $event->set_port($stream->getPort());
         $status = $event->create_entry()["status"];
         if ($status == false) {
             $why_failed = $lang["buy.sr.error.11"];

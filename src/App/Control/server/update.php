@@ -81,7 +81,7 @@ if ($failed_on == "") {
         $where_values = [[$domain => "s"]];
         $count_check = $sql->basic_count($server->get_table(), $where_fields, $where_values);
         $expected_count = 0;
-        if ($server->get_domain() == $domain) {
+        if ($server->getDomain() == $domain) {
             $expected_count = 1;
         }
         if ($count_check["status"] == true) {

@@ -26,7 +26,7 @@ if ($search_avatar_set->getCount() > 0) {
         if ($percent_uuid > $percent_name) {
             $match_score = $percent_uuid;
         }
-        $scored_results[] = ["score" => round($match_score),"matchuid" => $avatar->get_avatar_uid(),"matchname" => $avatar->getAvatarname()];
+        $scored_results[] = ["score" => round($match_score),"matchuid" => $avatar->getAvatar_uid(),"matchname" => $avatar->getAvatarname()];
     }
     usort($scored_results, function ($a, $b) {
         return $a['score'] <=> $b['score'];

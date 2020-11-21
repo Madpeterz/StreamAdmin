@@ -27,9 +27,9 @@ if (count($avatarids) <= $max_avatars) {
             $stream_set = new stream_set();
             $stream_set->loadIds($rental_set->getAllByField("streamlink"));
             $avatar_set = new avatar_set();
-            $avatar_set->loadIds($rental_set->get_unique_array("avatarlink"));
+            $avatar_set->loadIds($rental_set->getUniqueArray("avatarlink"));
             $banlist_set = new banlist_set();
-            $banlist_set->loadIds($rental_set->get_unique_array("avatarlink"), "avatar_link");
+            $banlist_set->loadIds($rental_set->getUniqueArray("avatarlink"), "avatar_link");
             $banned_ids = $banlist_set->getAllByField("avatarlink");
             $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
             if ($max_avatar_count > 0) {
@@ -58,9 +58,9 @@ if (count($avatarids) <= $max_avatars) {
                             $seen_avatars[] = $rental->getAvatarlink();
                             $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
                             if (in_array($avatar->getId(), $banned_ids) == false) {
-                                $stream = $stream_set->getObjectByID($rental->get_streamlink());
+                                $stream = $stream_set->getObjectByID($rental->getStreamlink());
                                 $package = $package_set->getObjectByID($stream->get_packagelink());
-                                $server = $server_set->getObjectByID($stream->get_serverlink());
+                                $server = $server_set->getObjectByID($stream->getServerlink());
 
                                 $sendmessage = $swapables_helper->get_swapped_text($message, $avatar, $rental, $package, $server, $stream);
                                 $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar, $sendmessage, true);

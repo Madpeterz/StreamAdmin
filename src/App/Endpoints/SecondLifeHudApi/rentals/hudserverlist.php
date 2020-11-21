@@ -8,15 +8,15 @@ if ($rentals_set->getCount() > 0) {
     $reply["uids"] = [];
     $reply["states"] = [];
     $stream_set = new stream_set();
-    $stream_set->loadIds($rentals_set->get_unique_array("streamlink"));
+    $stream_set->loadIds($rentals_set->getUniqueArray("streamlink"));
     $oneday = time() + ((60 * 60) * 24);
     if ($stream_set->getCount() > 0) {
         foreach ($stream_set->getAllIds() as $streamid) {
             $stream = $stream_set->getObjectByID($streamid);
             $rental = $rentals_set->getObjectByID($stream->getRentallink());
-            $reply["ports"][] = $stream->get_port();
+            $reply["ports"][] = $stream->getPort();
             $reply["uids"][] = $rental->getRental_uid();
-            $timeleft = $rental->get_expireunixtime();
+            $timeleft = $rental->getExpireunixtime();
             if ($timeleft < time()) {
                 $reply["states"][] = 0;
             } elseif ($timeleft < $oneday) {

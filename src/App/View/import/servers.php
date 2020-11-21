@@ -9,7 +9,7 @@ $sql = $old_sql; // switch to r4
 $r4_items = new r4_items_set();
 $r4_items->loadAll();
 
-$r4_items_servers = $r4_items->get_unique_array("streamurl");
+$r4_items_servers = $r4_items->getUniqueArray("streamurl");
 
 $sql = $current_sql; // swtich back to r7
 

@@ -16,14 +16,14 @@ if ($avatar->loadByField("avataruuid", $avataruuid) == true) {
             if ($stream_set->getCount() > 0) {
                 $apirequests_set = new api_requests_set();
                 $apirequests_set->loadAll();
-                $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
+                $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
                 $reply_dataset = [];
                 foreach ($rental_set->getAllIds() as $rental_id) {
                     $rental = $rental_set->getObjectByID($rental_id);
-                    $stream = $stream_set->getObjectByID($rental->get_streamlink());
+                    $stream = $stream_set->getObjectByID($rental->getStreamlink());
                     if ($stream != null) {
                         if (in_array($stream->getId(), $used_stream_ids) == false) {
-                            $reply_dataset[] = "" . $rental->getRental_uid() . "|||" . $stream->get_port() . "";
+                            $reply_dataset[] = "" . $rental->getRental_uid() . "|||" . $stream->getPort() . "";
                         }
                     }
                 }

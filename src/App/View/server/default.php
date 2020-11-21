@@ -20,7 +20,7 @@ foreach ($server_set->getAllIds() as $server_id) {
     $api = $apis_set->getObjectByID($server->get_apilink());
     $entry = [];
     $entry[] = $server->getId();
-    $entry[] = '<a href="[[url_base]]server/manage/' . $server->getId() . '">' . $server->get_domain() . '</a>';
+    $entry[] = '<a href="[[url_base]]server/manage/' . $server->getId() . '">' . $server->getDomain() . '</a>';
     if ($has_api_sync == true) {
         if (($server->get_api_sync_accounts() == true) && ($api->get_api_sync_accounts() == true)) {
             $form = new form();

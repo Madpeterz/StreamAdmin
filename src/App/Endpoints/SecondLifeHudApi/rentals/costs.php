@@ -13,7 +13,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                 $status = true;
                 $reply["systemowner"] = $avatar_system->get_avataruuid();
                 $reply["cost"] = $package->getCost();
-                $reply["old_expire_time"] = $rental->get_expireunixtime();
+                $reply["old_expire_time"] = $rental->getExpireunixtime();
             }
         }
     }

@@ -13,7 +13,7 @@ foreach ($package_set->getAllIds() as $package_id) {
 foreach ($stream_set->getAllIds() as $stream_id) {
     $stream = $stream_set->getObjectByID($stream_id);
     if ($stream->getRentallink() == null) {
-        if ($stream->get_needwork() == false) {
+        if ($stream->getNeedwork() == false) {
             $streams_in_package[$stream->get_packagelink()]["ready"]++;
         } else {
             $streams_in_package[$stream->get_packagelink()]["work"]++;

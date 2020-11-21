@@ -6,13 +6,13 @@ if ($rental->loadByField("rental_uid", $this->page) == true) {
     $avatar->loadID($rental->getAvatarlink());
 
     $stream = new stream();
-    $stream->loadID($rental->get_streamlink());
+    $stream->loadID($rental->getStreamlink());
 
     $package = new package();
     $package->loadID($stream->get_packagelink());
 
     $server = new server();
-    $server->loadID($stream->get_serverlink());
+    $server->loadID($stream->getServerlink());
 
     $status = true;
     $viewnotecard = "

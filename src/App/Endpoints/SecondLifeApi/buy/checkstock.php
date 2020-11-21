@@ -7,7 +7,7 @@ $package = new package();
 if ($package->loadByField("package_uid", $packageuid) == true) {
     $apirequests_set = new api_requests_set();
     $apirequests_set->loadAll();
-    $used_stream_ids = $apirequests_set->get_unique_array("streamlink");
+    $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
     $stream = new stream();
     $whereconfig = [
                 "fields" => ["rentallink","packagelink","needwork"],

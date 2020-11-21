@@ -8,15 +8,15 @@ $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
 
 foreach ($stream_set->getAllIds() as $streamid) {
     $stream = $stream_set->getObjectByID($streamid);
-    $server = $server_set->getObjectByID($stream->get_serverlink());
+    $server = $server_set->getObjectByID($stream->getServerlink());
 
 
     $entry = [];
     $entry[] = $stream->getId();
-    $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->get_stream_uid() . '">' . $stream->get_stream_uid() . '</a>';
-    $entry[] = $server->get_domain();
-    $entry[] = $stream->get_port();
-    if ($stream->get_needwork() == false) {
+    $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStream_uid() . '">' . $stream->getStream_uid() . '</a>';
+    $entry[] = $server->getDomain();
+    $entry[] = $stream->getPort();
+    if ($stream->getNeedwork() == false) {
         if ($stream->getRentallink() != null) {
             if (in_array($stream->getRentallink(), $rental_set_ids) == true) {
                 $rental = $rental_set->getObjectByID($stream->getRentallink());

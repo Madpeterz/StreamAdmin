@@ -21,12 +21,12 @@ if ($accept == "Accept") {
         }
         if ($all_ok == true) {
             $stream = new stream();
-            if ($stream->loadID($rental->get_streamlink()) == true) {
+            if ($stream->loadID($rental->getStreamlink()) == true) {
                 $stream->set_rentallink(null);
                 $stream->set_needwork(1);
                 $update_status = $stream->save_changes();
                 $server = new server();
-                if ($server->loadID($stream->get_serverlink()) == true) {
+                if ($server->loadID($stream->getServerlink()) == true) {
                     if ($update_status["status"] == true) {
                         $package = new package();
                         if ($package->loadID($rental->get_packagelink()) == true) {
@@ -43,8 +43,8 @@ if ($accept == "Accept") {
                                     $event->set_package_uid($package->getPackage_uid());
                                     $event->set_event_remove(true);
                                     $event->set_unixtime(time());
-                                    $event->set_expire_unixtime($rental->get_expireunixtime());
-                                    $event->set_port($stream->get_port());
+                                    $event->set_expire_unixtime($rental->getExpireunixtime());
+                                    $event->set_port($stream->getPort());
                                     $create_status = $event->create_entry();
                                     if ($create_status["status"] == false) {
                                         $all_ok = false;

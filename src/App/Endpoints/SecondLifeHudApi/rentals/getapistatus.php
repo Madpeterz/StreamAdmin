@@ -6,9 +6,9 @@ $rental = new rental();
 $status = false;
 if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $stream = new stream();
-    if ($stream->loadID($rental->get_streamlink()) == true) {
+    if ($stream->loadID($rental->getStreamlink()) == true) {
         $server = new server();
-        if ($server->loadID($stream->get_serverlink()) == true) {
+        if ($server->loadID($stream->getServerlink()) == true) {
             $serverapi = new apis();
             if ($serverapi->loadID($server->get_apilink()) == true) {
                 $flags = [

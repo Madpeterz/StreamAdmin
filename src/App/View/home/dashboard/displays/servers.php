@@ -10,7 +10,7 @@ foreach ($server_set->getAllIds() as $server_id) {
     $server = $server_set->getObjectByID($server_id);
     $entry = [];
     $servername = '<a href="[[url_base]]stream/onserver/' . $server->getId() . '"><h5>'
-    . $server->get_domain() . '</h5></a>';
+    . $server->getDomain() . '</h5></a>';
     $servername .= '<h6><span class="badge badge-success">Ready <span class="badge badge-light">'
     . $server_loads[$server->getId()]["ready"] . '</span></span> ';
     $servername .= '<span class="badge badge-warning">Needwork <span class="badge badge-light">'

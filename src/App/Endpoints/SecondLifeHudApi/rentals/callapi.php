@@ -10,13 +10,13 @@ $accepted_api_calls = ["opt_toggle_autodj","opt_password_reset","opt_autodj_next
 if (in_array($request_code, $accepted_api_calls) == true) {
     if ($rental->loadByField("rental_uid", $rental_uid) == true) {
         if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
-            if ($rental->get_expireunixtime() > time()) {
+            if ($rental->getExpireunixtime() > time()) {
                 $stream = new stream();
-                if ($stream->loadID($rental->get_streamlink()) == true) {
+                if ($stream->loadID($rental->getStreamlink()) == true) {
                     $server = new server();
-                    if ($server->loadID($stream->get_serverlink()) == true) {
+                    if ($server->loadID($stream->getServerlink()) == true) {
                         $pendingapi = new api_requests_set();
-                        $pendingapi->loadByField("streamlink", $rental->get_streamlink());
+                        $pendingapi->loadByField("streamlink", $rental->getStreamlink());
                         if ($pendingapi->getCount() == 0) {
                             $status = create_pending_api_request($server, $stream, $rental, $request_code, "Unable to create event %1\$s because: %2\$s", true);
                             if ($status == false) {

@@ -43,10 +43,10 @@ if ($load_ok == true) {
     $notecard_content = "";
     $swap_helper = new swapables_helper();
     if ($notecard->get_as_notice() == false) {
-        $notecard_title = "Streamdetails for " . $avatar->getAvatarname() . " port: " . $stream->get_port() . "";
+        $notecard_title = "Streamdetails for " . $avatar->getAvatarname() . " port: " . $stream->getPort() . "";
         $notecard_content = $swap_helper->get_swapped_text($template->get_notecarddetail(), $avatar, $rental, $package, $server, $stream);
     } else {
-        $notecard_title = "Reminder for " . $avatar->getAvatarname() . " port: " . $stream->get_port() . "";
+        $notecard_title = "Reminder for " . $avatar->getAvatarname() . " port: " . $stream->getPort() . "";
         $notecard_content = $swap_helper->get_swapped_text($notice->get_notecarddetail(), $avatar, $rental, $package, $server, $stream);
     }
     $remove_status = $notecard->remove_me();

@@ -38,7 +38,7 @@ if ($notecards != "none") {
                 $notice_notecard->set_missing(false);
                 $status = $notice_notecard->create_entry();
                 if ($status == true) {
-                    $notice_notecard_set->add_to_collected($notice_notecard);
+                    $notice_notecard_set->addToCollected($notice_notecard);
                 } else {
                     echo $lang["noticeserver.up.error.2"];
                     break;
@@ -62,7 +62,7 @@ if ($status == true) {
     $notice_set = new notice_set();
     $notice_set->loadAll();
     if ($notice_set->getCount() > 0) {
-        $used_notecards = $notice_set->get_unique_array("notice_notecardlink");
+        $used_notecards = $notice_set->getUniqueArray("notice_notecardlink");
         foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
             if (in_array($notice_notecard_id, $used_notecards) == false) {
                 $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);

@@ -10,7 +10,7 @@ $rental = new rental();
 if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $rental_id = $rental->getId();
     $stream = new stream();
-    if ($stream->loadID($rental->get_streamlink()) == true) {
+    if ($stream->loadID($rental->getStreamlink()) == true) {
         $package = new package();
         if ($package->loadID($stream->get_packagelink()) == true) {
             $accepted_payment_amounts = [($package->getCost()) => 1,($package->getCost() * 2) => 2,($package->getCost() * 3) => 3,($package->getCost() * 4) => 4];
@@ -20,9 +20,9 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                 $uid_transaction = $transaction->create_uid("transaction_uid", 8, 10);
                 if ($uid_transaction["status"] == true) {
                     $unixtime_to_add = (($package->getDays() * $unixtime_day) * $multipler);
-                    $new_expires_time = $rental->get_expireunixtime() + $unixtime_to_add;
+                    $new_expires_time = $rental->getExpireunixtime() + $unixtime_to_add;
                     $rental->set_expireunixtime($new_expires_time);
-                    $rental->set_renewals(($rental->get_renewals() + $multipler));
+                    $rental->set_renewals(($rental->getRenewals() + $multipler));
                     $rental->set_totalamount(($rental->get_totalamount() + $amountpaid));
                     $unixtime_remain = $new_expires_time - time();
                     if ($unixtime_remain > 0) {
@@ -97,7 +97,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                         $reply["owner_payment"] = 0;
                                     }
                                     if ($status == true) {
-                                        if ($rental->get_expireunixtime() > time()) {
+                                        if ($rental->getExpireunixtime() > time()) {
                                             $all_ok = true;
                                             // Event storage engine
                                             if ($slconfig->get_eventstorage() == true) {
@@ -108,8 +108,8 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                                 $event->set_package_uid($package->getPackage_uid());
                                                 $event->set_event_renew(true);
                                                 $event->set_unixtime(time());
-                                                $event->set_expire_unixtime($rental->get_expireunixtime());
-                                                $event->set_port($stream->get_port());
+                                                $event->set_expire_unixtime($rental->getExpireunixtime());
+                                                $event->set_port($stream->getPort());
                                                 $create_status = $event->create_entry();
                                                 if ($create_status["status"] == false) {
                                                     $status = false;
@@ -123,7 +123,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                                 $all_ok = $api_serverlogic_reply;
                                             }
                                             if ($all_ok == true) {
-                                                echo sprintf($lang["renew.rn.info.2"], timeleft_hours_and_days($rental->get_expireunixtime()), date('l jS \of F Y h:i:s A', $rental->get_expireunixtime()));
+                                                echo sprintf($lang["renew.rn.info.2"], timeleft_hours_and_days($rental->getExpireunixtime()), date('l jS \of F Y h:i:s A', $rental->getExpireunixtime()));
                                             }
                                         } else {
                                             echo $lang["renew.rn.info.1"];

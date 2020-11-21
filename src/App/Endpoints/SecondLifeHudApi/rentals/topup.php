@@ -23,7 +23,7 @@ if (in_array(null, $fasttest) == false) {
                 $package = new package();
                 if ($package->loadID($rental->get_packagelink()) == true) {
                     if ($amount == $package->getCost()) {
-                        $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->get_avataruuid(),$slconfig->get_publiclinkcode(),$rental->get_expireunixtime()];
+                        $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->get_avataruuid(),$slconfig->get_publiclinkcode(),$rental->getExpireunixtime()];
                         $raw = implode("", $bits);
                         $tidhashcheck = sha1($raw);
                         if ($tidhashcheck == $tidhash) {
@@ -52,7 +52,7 @@ if (in_array(null, $fasttest) == false) {
                                     $botavatar = new avatar();
                                     $botavatar->loadID($botconfig->getAvatarlink());
 
-                                    $sendmessage = $swapables_helper->get_swapped_text("= Remote transaction notice =[[NL]] User: [[AVATAR_FULLNAME]] has topped up L$" . $amount . " [[NL]] Rental: " . $rental->getRental_uid() . " on port: " . $stream->get_port() . " [[NL]] transaction ID:" . $transactionid . "", $object_owner_avatar, $rental, $package, $server, $stream);
+                                    $sendmessage = $swapables_helper->get_swapped_text("= Remote transaction notice =[[NL]] User: [[AVATAR_FULLNAME]] has topped up L$" . $amount . " [[NL]] Rental: " . $rental->getRental_uid() . " on port: " . $stream->getPort() . " [[NL]] transaction ID:" . $transactionid . "", $object_owner_avatar, $rental, $package, $server, $stream);
                                     $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar_system, $sendmessage, true);
                                 }
                             } else {

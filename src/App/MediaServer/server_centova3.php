@@ -70,7 +70,7 @@ class server_centova3 extends server_centova3_only
             $servertype = new servertypes();
             if ($servertype->loadID($this->package->getServertypelink()) == true) {
                 $post_data = [
-                    "port" => $this->stream->get_port(),
+                    "port" => $this->stream->getPort(),
                     "maxclients" => $this->package->getListeners(),
                     "adminpassword" => $this->stream->get_adminpassword(),
                     "sourcepassword" => $this->stream->get_djpassword(),

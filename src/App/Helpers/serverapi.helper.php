@@ -171,7 +171,7 @@ class serverapi_helper
     protected function load_server(): bool
     {
         $server = new server();
-        if ($server->loadID($this->stream->get_serverlink()) == true) {
+        if ($server->loadID($this->stream->getServerlink()) == true) {
             $this->message = "Server loaded";
             $this->server = $server;
             return true;
@@ -508,9 +508,9 @@ class serverapi_helper
                     $avname = explode(" ", strtolower($this->avatar->getAvatarname()));
                     $acceptable_names[] = $avname[0]; // Firstname
                     $acceptable_names[] = $avname[0] . "_" . substr($avname[1], 0, 2); // Firstname 2 letters of last name
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port(); // Firstname Port
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->package->getBitrate(); // Firstname Port Bitrate
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->get_port() . "_" . $this->server->getId(); // Firstname Port ServerID
+                    $acceptable_names[] = $avname[0] . "_" . $this->stream->getPort(); // Firstname Port
+                    $acceptable_names[] = $avname[0] . "_" . $this->stream->getPort() . "_" . $this->package->getBitrate(); // Firstname Port Bitrate
+                    $acceptable_names[] = $avname[0] . "_" . $this->stream->getPort() . "_" . $this->server->getId(); // Firstname Port ServerID
                     $acceptable_names[] = $avname[0] . "_" . $this->rental->getRental_uid(); // Firstname RentalUID
                     $accepted_name = "";
                     foreach ($acceptable_names as $testname) {

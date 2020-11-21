@@ -17,7 +17,7 @@ if ($tree_vender_id > 0) {
         $load_status = $treevender_packages_set->load_on_field("treevenderlink", $treevender->getId());
         if ($load_status["status"] == true) {
             $package_set = new package_set();
-            $load_status = $package_set->loadIds($treevender_packages_set->get_unique_array("packagelink"));
+            $load_status = $package_set->loadIds($treevender_packages_set->getUniqueArray("packagelink"));
             if ($load_status["status"] == true) {
                 $status = true;
                 $reply["package_uid"] = [];

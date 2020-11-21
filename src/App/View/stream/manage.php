@@ -19,7 +19,7 @@ if ($stream->loadByField("stream_uid", $this->page) == true) {
     foreach ($server_set->getAllIds() as $server_id) {
         $server = $server_set->getObjectByID($server_id);
         $api = $api_set->getObjectByID($server->get_apilink());
-        $improved_serverlinker[$server->getId()] = $server->get_domain() . " {" . $api->getName() . "}";
+        $improved_serverlinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
     }
 
     $servertypes_set = new servertypes_set();
@@ -42,9 +42,9 @@ if ($stream->loadByField("stream_uid", $this->page) == true) {
     $form->required(true);
     $form->col(6);
         $form->group("Basics");
-        $form->numberInput("port", "port", $stream->get_port(), 5, "Max 99999");
+        $form->numberInput("port", "port", $stream->getPort(), 5, "Max 99999");
         $form->select("packagelink", "Package", $stream->get_packagelink(), $improved_packagelinker);
-        $form->select("serverlink", "Server", $stream->get_serverlink(), $improved_serverlinker);
+        $form->select("serverlink", "Server", $stream->getServerlink(), $improved_serverlinker);
         $form->textInput("mountpoint", "Mountpoint", 999, $stream->get_mountpoint(), "Stream mount point");
     $form->col(6);
         $form->group("Config");

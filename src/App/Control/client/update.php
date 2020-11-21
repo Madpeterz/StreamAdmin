@@ -27,7 +27,7 @@ if ($rental->loadByField("rental_uid", $this->page) == true) {
             if ($avatar_from->loadID($rental->getAvatarlink()) == true) {
                 $rental->set_avatarlink($avatar->getId());
                 $actions_taken .= $lang["client.up.info.2"];
-                $message .= sprintf($lang["client.up.info.1"], date($lang["client.up.datetime.format"], time()), $avatar->getAvatarname(), $avatar->get_avatar_uid(), $avatar_from->getAvatarname(), $avatar_from->get_avatar_uid());
+                $message .= sprintf($lang["client.up.info.1"], date($lang["client.up.datetime.format"], time()), $avatar->getAvatarname(), $avatar->getAvatar_uid(), $avatar_from->getAvatarname(), $avatar_from->getAvatar_uid());
             } else {
                 $issues .= $lang["client.up.error.5"];
             }
@@ -46,9 +46,9 @@ if ($rental->loadByField("rental_uid", $this->page) == true) {
             $adjustment_text = $lang["client.up.info.ad.text"];
             if ($adjustment_dir == false) {
                 $adjustment_text = $lang["client.up.info.rm.text"];
-                $new_unixtime = $rental->get_expireunixtime() - $adjustment_unixtime;
+                $new_unixtime = $rental->getExpireunixtime() - $adjustment_unixtime;
             } else {
-                $new_unixtime = $rental->get_expireunixtime() + $adjustment_unixtime;
+                $new_unixtime = $rental->getExpireunixtime() + $adjustment_unixtime;
             }
             $add_days = 0;
             while ($total_adjust_hours >= 24) {

@@ -8,9 +8,9 @@ function process_notice_change(notice $notice): void
 {
     global $site_lang, $reply, $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
     $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
-    $stream = $stream_set->getObjectByID($rental->get_streamlink());
+    $stream = $stream_set->getObjectByID($rental->getStreamlink());
     $package = $package_set->getObjectByID($stream->get_packagelink());
-    $server = $server_set->getObjectByID($stream->get_serverlink());
+    $server = $server_set->getObjectByID($stream->getServerlink());
     $sendmessage = $swapables_helper->get_swapped_text($notice->get_immessage(), $avatar, $rental, $package, $server, $stream);
     $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar, $sendmessage, $notice->get_usebot());
     if ($send_message_status["status"] == false) {
@@ -33,8 +33,8 @@ function process_notice_change(notice $notice): void
                     $event->set_package_uid($package->getPackage_uid());
                     $event->set_event_expire(true);
                     $event->set_unixtime(time());
-                    $event->set_expire_unixtime($rental->get_expireunixtime());
-                    $event->set_port($stream->get_port());
+                    $event->set_expire_unixtime($rental->getExpireunixtime());
+                    $event->set_port($stream->getPort());
                     $create_status = $event->create_entry();
                     if ($create_status["status"] == false) {
                         $all_ok = false;
@@ -127,8 +127,8 @@ if ($owner_override == true) {
                 $rental = null;
                 foreach ($rental_set->getAllIds() as $rental_id) {
                     $rental = $rental_set->getObjectByID($rental_id);
-                    if ($rental->get_expireunixtime() > time()) {
-                        $hours_remain = ceil(($rental->get_expireunixtime() - time()) / $unixtime_hour);
+                    if ($rental->getExpireunixtime() > time()) {
+                        $hours_remain = ceil(($rental->getExpireunixtime() - time()) / $unixtime_hour);
                         if ($hours_remain > 0) {
                             $current_notice_level = $notice_set->getObjectByID($rental->get_noticelink());
                             $current_hold_hours = $current_notice_level->get_hoursremaining();

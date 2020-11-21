@@ -34,10 +34,10 @@ foreach ($rental_set->getAllIds() as $rental_id) {
         if ($api_requests_set->get_object_by_field("rentallink", $rental_id) == null) {
             $accept = $input->postFilter("rental" . $rental->getRental_uid() . "");
             if ($accept == "purge") {
-                $stream = $stream_set->getObjectByID($rental->get_streamlink());
+                $stream = $stream_set->getObjectByID($rental->getStreamlink());
                 if ($stream != null) {
                     $server = new server();
-                    if ($server->loadID($stream->get_serverlink()) == true) {
+                    if ($server->loadID($stream->getServerlink()) == true) {
                         $stream->set_rentallink(null);
                         $stream->set_needwork(1);
                         $update_status = $stream->save_changes();
@@ -54,8 +54,8 @@ foreach ($rental_set->getAllIds() as $rental_id) {
                                 $event->set_package_uid($package->getPackage_uid());
                                 $event->set_event_remove(true);
                                 $event->set_unixtime(time());
-                                $event->set_expire_unixtime($rental->get_expireunixtime());
-                                $event->set_port($stream->get_port());
+                                $event->set_expire_unixtime($rental->getExpireunixtime());
+                                $event->set_port($stream->getPort());
                                 $create_status = $event->create_entry();
                                 if ($create_status["status"] == false) {
                                     $all_ok = false;
