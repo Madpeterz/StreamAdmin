@@ -24,7 +24,7 @@ class swapables_helper
               "STREAM_DJPASSWORD" => $stream->get_djpassword(),
               "STREAM_MOUNTPOINT" => $stream->get_mountpoint(),
               "SERVER_DOMAIN" => $server->getDomain(),
-              "SERVER_CONTROLPANEL" => $server->get_controlpanel_url(),
+              "SERVER_CONTROLPANEL" => $server->getControlpanel_url(),
               "PACKAGE_NAME" => $package->getName(),
               "PACKAGE_LISTENERS" => $package->getListeners(),
               "PACKAGE_BITRATE" => $package->getBitrate(),

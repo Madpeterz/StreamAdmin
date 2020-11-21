@@ -2,7 +2,7 @@
 
 $example_time = time();
 $example_time += $unixtime_week + rand(1000, 5000);
-$swaps = array(
+$swaps = [
     "AVATAR_FIRSTNAME" => "Madpeter",
     "AVATAR_LASTNAME" => "Zond",
     "AVATAR_FULLNAME" => "Madpeter Zond",
@@ -23,10 +23,10 @@ $swaps = array(
     "PACKAGE_UID" => "XXXXXXXX",
     "RENTAL_UID" => "XXXXXXXX",
     "NL" => "~ Creates a new line ~",
-    "TIMEZONE" => "Europe / London"
-);
+    "TIMEZONE" => "Europe / London",
+];
 
-$table_head = array("Tag","Example","Tag","Example");
+$table_head = ["Tag","Example","Tag","Example"];
 $table_body = [];
 $loop = 0;
 $current = [];

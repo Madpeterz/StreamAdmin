@@ -19,7 +19,7 @@ foreach ($server_set->getAllIds() as $server_id) {
     . $server_loads[$server->getId()]["sold"] . '</span></span></h6>';
     $entry[] = $servername;
     $serverstatus = '<div class="serverstatusdisplay">';
-    if ($server->get_api_serverstatus() == true) {
+    if ($server->getApi_serverstatus() == true) {
         $serverstatus .= '<div data-loading="<div class=\'spinner-border spinner-border-sm '
         . 'text-primary\' role=\'status\'>'
         . '<span class=\'sr-only\'>Loading...</span></div>" data-repeatingrate="7000" class="ajaxonpageload" '

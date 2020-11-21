@@ -10,7 +10,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
         $server = new server();
         if ($server->loadID($stream->getServerlink()) == true) {
             $serverapi = new apis();
-            if ($serverapi->loadID($server->get_apilink()) == true) {
+            if ($serverapi->loadID($server->getApilink()) == true) {
                 $flags = [
                     "autodjnext" => "opt_autodj_next",
                     "toggleautodj" => "opt_toggle_autodj",

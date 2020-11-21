@@ -6,7 +6,7 @@ class server_centova3_only extends server_public_api
     protected function process_centova_api_call(array $post_data, array $args): array
     {
         $post_data["f"] = "json";
-        $post_data["a[password]"] = "" . $this->server->get_api_username() . "|" . $this->server->get_api_password() . "";
+        $post_data["a[password]"] = "" . $this->server->getApi_username() . "|" . $this->server->get_api_password() . "";
         foreach ($args as $key => $value) {
             $post_data["a[" . $key . "]"] = $value;
         }

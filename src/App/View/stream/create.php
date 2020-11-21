@@ -16,7 +16,7 @@ $api_set->loadAll();
 $improved_serverlinker = [];
 foreach ($server_set->getAllIds() as $server_id) {
     $server = $server_set->getObjectByID($server_id);
-    $api = $api_set->getObjectByID($server->get_apilink());
+    $api = $api_set->getObjectByID($server->getApilink());
     $improved_serverlinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
 }
 
@@ -59,6 +59,6 @@ $form->col(6);
     $form->textInput("api_uid_3", "API UID 3", 10, null, "API id 3");
 $form->col(6);
     $form->group("Magic");
-    $form->select("api_create", "Create on server", 0, [0 => "No",1 => "Yes"]);
+    $form->select("api_create", "Create on server", 0, $this->yesNo);
 $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
 include "webpanel/view/stream/api_linking.php";

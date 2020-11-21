@@ -6,7 +6,7 @@ class server_secondbot extends server_secondbot_core
     {
         $post_data = [];
         $post_data["token"] = sha1(time() . "eventinbound" . $server->get_api_password() . "");
-        $url = $server->get_api_url() . "/event/inbound";
+        $url = $server->getApi_url() . "/event/inbound";
         foreach ($args as $key => $value) {
             $post_data[$key] = $value;
         }

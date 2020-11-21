@@ -127,7 +127,7 @@ class serverapi_helper
     {
         $api = new apis();
         $processed = false;
-        if ($api->loadID($this->server->get_apilink()) == true) {
+        if ($api->loadID($this->server->getApilink()) == true) {
             if ($api->getId() > 1) {
                 $this->api_config = $api;
                 $server_api_name = "server_" . $api->getName() . "";

@@ -31,7 +31,7 @@ if (isset($current_step) == false) {
 }
 if ($server->is_loaded() == true) {
     $api = new apis();
-    if ($api->loadID($server->get_apilink()) == true) {
+    if ($api->loadID($server->getApilink()) == true) {
         if ($api->getId() != 1) {
             $exit = false;
             while ($exit == false) {
