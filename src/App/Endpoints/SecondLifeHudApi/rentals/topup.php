@@ -21,14 +21,14 @@ if (in_array(null, $fasttest) == false) {
         if ($rental->loadByField("rental_uid", $rental_uid) == true) {
             if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
                 $package = new package();
-                if ($package->loadID($rental->get_packagelink()) == true) {
+                if ($package->loadID($rental->getPackagelink()) == true) {
                     if ($amount == $package->getCost()) {
-                        $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->get_avataruuid(),$slconfig->get_publiclinkcode(),$rental->getExpireunixtime()];
+                        $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->get_avataruuid(),$slconfig->getPubliclinkcode(),$rental->getExpireunixtime()];
                         $raw = implode("", $bits);
                         $tidhashcheck = sha1($raw);
                         if ($tidhashcheck == $tidhash) {
                             $avatar_system = new avatar();
-                            if ($avatar_system->loadID($slconfig->get_owner_av()) == true) {
+                            if ($avatar_system->loadID($slconfig->getOwner_av()) == true) {
                                 $reseller = $avatar_system;
                                 $localstatus = true;
                                 $_POST["rental_uid"] = $rental_uid;

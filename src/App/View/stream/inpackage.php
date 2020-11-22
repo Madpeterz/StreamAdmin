@@ -1,20 +1,25 @@
 <?php
 
-$this->output->addSwapTagString("page_title", " In package:");
-$package = new package();
-$server_set = new server_set();
-$server_set->loadAll();
-if ($package->loadByField("package_uid", $this->page) == true) {
-    $this->output->addSwapTagString("page_title", " " . $package->getName());
-    $this->output->addSwapTagString("page_title", " (" . $package->getPackage_uid() . ")");
-    $stream_set = new stream_set();
-    $stream_set->load_on_field("packagelink", $package->getId());
+namespace App\View\Stream;
 
-    $rental_set = new rental_set();
-    $rental_set->loadIds($stream_set->getAllByField("rentallink"));
-    $rental_set_ids = $rental_set->getAllIds();
+use App\Package;
 
-    include "webpanel/view/stream/render_list.php";
-} else {
-    $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
+class Inpackage extends Withstatus
+{
+    public function process(): void
+    {
+        $this->output->addSwapTagString("page_title", " In package:");
+        $package = new Package();
+        if ($package->loadByField("package_uid", $this->page) == false) {
+            $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
+            return;
+        }
+        $whereconfig = [
+            "fields" => ["packagelink"],
+            "values" => [$package->getId()],
+            "types" => ["i"],
+            "matches" => ["="],
+        ];
+        parent::process();
+    }
 }

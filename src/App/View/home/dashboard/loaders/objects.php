@@ -17,7 +17,7 @@ $objects_set = new ObjectsSet();
 $where_config = [
      "fields" => ["avatarlink","lastseen","objectmode"],
      "matches" => ["=",">=","IN"],
-     "values" => [$slconfig->get_owner_av(),$one_hour_ago,$owner_objects_list],
+     "values" => [$slconfig->getOwner_av(),$one_hour_ago,$owner_objects_list],
      "types" => ["i","i","s"],
 ];
 $objects_set->loadWithConfig($where_config);

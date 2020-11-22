@@ -19,7 +19,7 @@ if ($owner_override == true) {
                             $server = new server();
                             if ($server->loadID($stream->getServerlink()) == true) {
                                 $package = new package();
-                                if ($package->loadID($stream->get_packagelink()) == true) {
+                                if ($package->loadID($stream->getPackagelink()) == true) {
                                     $template = new template();
                                     if ($template->loadID($package->getTemplatelink()) == true) {
                                         $remove_status = $detail->remove_me();

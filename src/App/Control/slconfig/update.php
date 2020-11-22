@@ -55,7 +55,7 @@ if (strlen($httpcode) < 5) {
 $ajax_reply->set_swap_tag_string("redirect", "slconfig");
 $status = false;
 if ($failed_on == "") {
-    if ($avatar->getId() != $slconfig->get_owner_av()) {
+    if ($avatar->getId() != $slconfig->getOwner_av()) {
         $slconfig->set_owner_av($avatar->getId());
     }
     $slconfig->set_sllinkcode($sllinkcode);
@@ -68,7 +68,7 @@ if ($failed_on == "") {
     $slconfig->set_datatable_itemsperpage($ui_tweaks_datatable_itemsperpage);
     $slconfig->set_displaytimezonelink($displaytimezonelink);
     $slconfig->set_api_default_email($api_default_email);
-    if ($session->get_ownerlevel() == 1) {
+    if ($session->getOwnerLevel() == 1) {
         $smtp_from = $input->postFilter("smtp_from");
         $smtp_reply = $input->postFilter("smtp_reply");
         $smtp_host = $input->postFilter("smtp_host");

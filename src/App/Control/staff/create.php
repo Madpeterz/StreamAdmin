@@ -2,7 +2,7 @@
 
 $status = false;
 $ajax_reply->set_swap_tag_string("redirect", "staff");
-if ($session->get_ownerlevel() == true) {
+if ($session->getOwnerLevel() == true) {
     $staff = new staff();
     $avatar = new avatar();
 

@@ -1,6 +1,6 @@
 <?php
 
-if ($session->get_ownerlevel() == 1) {
+if ($session->getOwnerLevel() == 1) {
     $input = new inputFilter();
     $accept = $input->postFilter("accept");
     $ajax_reply->set_swap_tag_string("redirect", "transactions");

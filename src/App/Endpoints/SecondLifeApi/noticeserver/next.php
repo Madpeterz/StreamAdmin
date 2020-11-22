@@ -9,7 +9,7 @@ function process_notice_change(notice $notice): void
     global $site_lang, $reply, $apis_set, $server_set, $slconfig, $changes, $why_failed, $all_ok, $bot_helper, $swapables_helper, $rental, $botconfig, $botavatar, $avatar_set, $stream_set, $package_set, $server_set, $lang;
     $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
     $stream = $stream_set->getObjectByID($rental->getStreamlink());
-    $package = $package_set->getObjectByID($stream->get_packagelink());
+    $package = $package_set->getObjectByID($stream->getPackagelink());
     $server = $server_set->getObjectByID($stream->getServerlink());
     $sendmessage = $swapables_helper->get_swapped_text($notice->get_immessage(), $avatar, $rental, $package, $server, $stream);
     $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar, $sendmessage, $notice->get_usebot());

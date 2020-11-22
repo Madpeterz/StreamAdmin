@@ -15,12 +15,12 @@ $streams_updated = 0;
 $streams_skipped_original_adminusername = 0;
 foreach ($stream_set->getAllIds() as $stream_id) {
     $stream = $stream_set->getObjectByID($stream_id);
-    if ($stream->get_original_adminusername() == $stream->get_adminusername()) {
+    if ($stream->getOriginal_adminusername() == $stream->getAdminusername()) {
         $accept = $input->postFilter("stream" . $stream->getStream_uid() . "");
         if ($accept == "update") {
             $newadminpw = $input->postFilter('stream' . $stream->getStream_uid() . 'adminpw');
             $newdjpw = $input->postFilter('stream' . $stream->getStream_uid() . 'djpw');
-            if (($stream->get_adminpassword() != $newadminpw) && ($stream->get_djpassword() != $newdjpw)) {
+            if (($stream->getAdminpassword() != $newadminpw) && ($stream->getDjpassword() != $newdjpw)) {
                 $stream->set_adminpassword($newadminpw);
                 $stream->set_djpassword($newdjpw);
                 $stream->set_needwork(0);

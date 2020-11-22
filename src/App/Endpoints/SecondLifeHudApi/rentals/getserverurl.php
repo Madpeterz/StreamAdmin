@@ -7,7 +7,7 @@ $status = false;
 if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
         $package = new package();
-        if ($package->loadID($rental->get_packagelink()) == true) {
+        if ($package->loadID($rental->getPackagelink()) == true) {
             $stream = new stream();
             if ($stream->loadID($rental->getStreamlink()) == true) {
                 $server = new server();

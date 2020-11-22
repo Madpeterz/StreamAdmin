@@ -2,7 +2,7 @@
 
 $status = false;
 $ajax_reply->set_swap_tag_string("redirect", "config");
-if ($session->get_ownerlevel() == true) {
+if ($session->getOwnerLevel() == true) {
     $input = new inputFilter();
     $avataruid = $input->postFilter("avataruid");
     $secret = $input->postFilter("secret");

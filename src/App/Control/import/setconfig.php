@@ -1,6 +1,6 @@
 <?php
 
-if ($session->get_ownerlevel() == 1) {
+if ($session->getOwnerLevel() == 1) {
     $input = new inputFilter();
     $db_host = $input->postFilter("db_host");
     $db_name = $input->postFilter("db_name");

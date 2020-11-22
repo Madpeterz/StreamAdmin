@@ -160,7 +160,7 @@ class serverapi_helper
     protected function load_package(): bool
     {
         $package = new package();
-        if ($package->loadID($this->stream->get_packagelink()) == true) {
+        if ($package->loadID($this->stream->getPackagelink()) == true) {
             $this->package = $package;
             $this->message = "Package loaded";
             return true;
@@ -249,8 +249,8 @@ class serverapi_helper
     {
         global $sql;
         if ($this->callable_action(__FUNCTION__) == true) {
-            $old_username = $this->stream->get_adminusername();
-            $this->stream->set_adminusername($this->stream->get_original_adminusername());
+            $old_username = $this->stream->getAdminusername();
+            $this->stream->set_adminusername($this->stream->getOriginal_adminusername());
             $this->stream->set_adminpassword($this->rand_string(7 + rand(1, 6)));
             $this->stream->set_djpassword($this->rand_string(5 + rand(1, 3)));
             $this->stream->set_needwork(false);
@@ -497,13 +497,13 @@ class serverapi_helper
         $new_username = "";
         if ($this->avatar == null) {
             // reset username
-            $new_username = $this->stream->get_original_adminusername();
+            $new_username = $this->stream->getOriginal_adminusername();
         } else {
             // customize username
             $server_accounts = $this->server_api->get_account_name_list();
             $this->message = $this->server_api->get_last_api_message();
             if ($server_accounts["status"] == true) {
-                if (in_array($this->stream->get_adminusername(), $server_accounts["usernames"]) == true) {
+                if (in_array($this->stream->getAdminusername(), $server_accounts["usernames"]) == true) {
                     $acceptable_names = [];
                     $avname = explode(" ", strtolower($this->avatar->getAvatarname()));
                     $acceptable_names[] = $avname[0]; // Firstname
@@ -548,7 +548,7 @@ class serverapi_helper
             if (($retry == false) && ($all_ok == true)) {
                 $new_username = $this->get_stream_customized_username();
                 if ($new_username != "") {
-                    $old_username = $this->stream->get_adminusername();
+                    $old_username = $this->stream->getAdminusername();
                     if ($old_username != $new_username) {
                         $this->stream->set_adminusername($new_username);
                         $update_status = $this->stream->save_changes();

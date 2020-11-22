@@ -12,7 +12,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $stream = new stream();
     if ($stream->loadID($rental->getStreamlink()) == true) {
         $package = new package();
-        if ($package->loadID($stream->get_packagelink()) == true) {
+        if ($package->loadID($stream->getPackagelink()) == true) {
             $accepted_payment_amounts = [($package->getCost()) => 1,($package->getCost() * 2) => 2,($package->getCost() * 3) => 3,($package->getCost() * 4) => 4];
             if (array_key_exists($amountpaid, $accepted_payment_amounts) == true) {
                 $multipler = $accepted_payment_amounts[$amountpaid];
@@ -72,7 +72,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                 if ($create_status["status"] == true) {
                                     if ($owner_override == false) {
                                         $avatar_system = new avatar();
-                                        if ($avatar_system->loadID($slconfig->get_owner_av()) == true) {
+                                        if ($avatar_system->loadID($slconfig->getOwner_av()) == true) {
                                             $status = true;
                                             $left_over = $amountpaid;
                                             if ($reseller->getRate() > 0) {

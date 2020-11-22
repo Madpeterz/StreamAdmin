@@ -9,7 +9,7 @@ if ($rental->loadByField("rental_uid", $this->page) == true) {
     $stream->loadID($rental->getStreamlink());
 
     $package = new package();
-    $package->loadID($stream->get_packagelink());
+    $package->loadID($stream->getPackagelink());
 
     $server = new server();
     $server->loadID($stream->getServerlink());

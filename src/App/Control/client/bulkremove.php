@@ -45,7 +45,7 @@ foreach ($rental_set->getAllIds() as $rental_id) {
                             $all_ok = true;
                             $message = "";
                             if ($slconfig->get_eventstorage() == true) {
-                                $package = $package_set->getObjectByID($rental->get_packagelink());
+                                $package = $package_set->getObjectByID($rental->getPackagelink());
                                 $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
                                 $event = new event();
                                 $event->set_avatar_uuid($avatar->get_avataruuid());

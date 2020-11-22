@@ -145,7 +145,7 @@ if ($status == true) { // create rental
     if ($status == true) {
         $rental->set_rental_uid($uid_rental["uid"]);
         $rental->set_avatarlink($avatar->getId());
-        $rental->set_packagelink($stream->get_packagelink());
+        $rental->set_packagelink($stream->getPackagelink());
         $rental->set_streamlink($stream->getId());
         $rental->set_startunixtime(time());
         $rental->set_expireunixtime($unixtime);
@@ -175,7 +175,7 @@ if ($status == true) {
 if ($status == true) { // process reseller cut / owner cut
     if ($owner_override == false) {
         $avatar_system = new avatar();
-        if ($avatar_system->loadID($slconfig->get_owner_av()) == true) {
+        if ($avatar_system->loadID($slconfig->getOwner_av()) == true) {
             $left_over = $amountpaid;
             if ($reseller->getRate() > 0) {
                 $one_p = $amountpaid / 100;

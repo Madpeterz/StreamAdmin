@@ -26,8 +26,8 @@ class SessionControl extends SqlConnectedClass
         $this->lhash = $this->main_class_object->get_lhash();
         $this->autologout = time() + 600;
         $this->nextcheck = time() + 45;
-        $this->username = $this->main_class_object->get_username();
-        $this->ownerlevel = $this->main_class_object->get_ownerlevel();
+        $this->username = $this->main_class_object->getUsername();
+        $this->ownerlevel = $this->main_class_object->getOwnerLevel();
         $this->update_session();
         return true;
     }
@@ -156,13 +156,13 @@ class SessionControl extends SqlConnectedClass
                 time(),
                 $this->main_class_object->getId(),
                 $this->main_class_object->get_psalt(),
-                $this->main_class_object->get_ownerlevel()
+                $this->main_class_object->getOwnerLevel()
             );
             $phash = $this->hash_password(
                 $new_password,
                 $this->main_class_object->getId(),
                 $psalt,
-                $this->main_class_object->get_ownerlevel()
+                $this->main_class_object->getOwnerLevel()
             );
             $this->main_class_object->set_psalt($psalt);
             $this->main_class_object->set_phash($phash);
@@ -196,7 +196,7 @@ class SessionControl extends SqlConnectedClass
                     time(),
                     $this->main_class_object->getId(),
                     $this->main_class_object->get_psalt(),
-                    $this->main_class_object->get_ownerlevel()
+                    $this->main_class_object->getOwnerLevel()
                 );
             }
             return [
@@ -208,7 +208,7 @@ class SessionControl extends SqlConnectedClass
                 $input_password,
                 $this->main_class_object->getId(),
                 $p_salt,
-                $this->main_class_object->get_ownerlevel()
+                $this->main_class_object->getOwnerLevel()
             ),
             ];
         }

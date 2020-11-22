@@ -8,7 +8,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $stream = new stream();
     if ($stream->loadID($rental->getStreamlink()) == true) {
         $package = new package();
-        if ($package->loadID($stream->get_packagelink()) == true) {
+        if ($package->loadID($stream->getPackagelink()) == true) {
             $status = true;
             $reply["cost"] = $package->getCost();
             echo timeleft_hours_and_days($rental->getExpireunixtime());

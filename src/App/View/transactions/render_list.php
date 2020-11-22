@@ -1,15 +1,15 @@
 <?php
 
 $table_head = ["id","Transaction UID","Client","Package","Region","Amount","Datetime","Mode"];
-if ($session->get_ownerlevel() == 1) {
+if ($session->getOwnerLevel() == 1) {
     $table_head[] = "Remove";
 }
 $table_body = [];
 foreach ($transaction_set->getAllIds() as $transaction_id) {
     $transaction = $transaction_set->getObjectByID($transaction_id);
     $packagename = "";
-    if ($transaction->get_packagelink() != null) {
-        $package = $package_set->getObjectByID($transaction->get_packagelink());
+    if ($transaction->getPackagelink() != null) {
+        $package = $package_set->getObjectByID($transaction->getPackagelink());
         $packagename = $package->getName();
     }
     $regionname = "";
@@ -33,7 +33,7 @@ foreach ($transaction_set->getAllIds() as $transaction_id) {
     } else {
         $entry[] = "New";
     }
-    if ($session->get_ownerlevel() == 1) {
+    if ($session->getOwnerLevel() == 1) {
         $entry[] = "<a href=\"[[url_base]]transactions/remove/" . $transaction->get_transaction_uid() . "\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><i class=\"fas fa-minus-circle\"></i></button></a>";
     }
     $table_body[] = $entry;

@@ -31,16 +31,16 @@ if ($server->loadID($this->page) == true) {
                         $all_ok = true;
                         foreach ($stream_set->getAllIds() as $streamid) {
                             $stream = $stream_set->getObjectByID($streamid);
-                            if (in_array($stream->get_adminusername(), $accounts_found["usernames"]) == true) {
-                                if (array_key_exists($stream->get_adminusername(), $accounts_found["passwords"]) == true) {
+                            if (in_array($stream->getAdminusername(), $accounts_found["usernames"]) == true) {
+                                if (array_key_exists($stream->getAdminusername(), $accounts_found["passwords"]) == true) {
                                     $has_update = false;
-                                    if ($stream->get_adminpassword() != $accounts_found["passwords"][$stream->get_adminusername()]["admin"]) {
+                                    if ($stream->getAdminpassword() != $accounts_found["passwords"][$stream->getAdminusername()]["admin"]) {
                                         $has_update = true;
-                                        $stream->set_adminpassword($accounts_found["passwords"][$stream->get_adminusername()]["admin"]);
+                                        $stream->set_adminpassword($accounts_found["passwords"][$stream->getAdminusername()]["admin"]);
                                     }
-                                    if ($stream->get_djpassword() != $accounts_found["passwords"][$stream->get_adminusername()]["dj"]) {
+                                    if ($stream->getDjpassword() != $accounts_found["passwords"][$stream->getAdminusername()]["dj"]) {
                                         $has_update = true;
-                                        $stream->set_djpassword($accounts_found["passwords"][$stream->get_adminusername()]["dj"]);
+                                        $stream->set_djpassword($accounts_found["passwords"][$stream->getAdminusername()]["dj"]);
                                     }
                                     $stream->set_last_api_sync(time());
                                     if ($has_update == true) {

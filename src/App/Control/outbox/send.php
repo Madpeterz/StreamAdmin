@@ -59,7 +59,7 @@ if (count($avatarids) <= $max_avatars) {
                             $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
                             if (in_array($avatar->getId(), $banned_ids) == false) {
                                 $stream = $stream_set->getObjectByID($rental->getStreamlink());
-                                $package = $package_set->getObjectByID($stream->get_packagelink());
+                                $package = $package_set->getObjectByID($stream->getPackagelink());
                                 $server = $server_set->getObjectByID($stream->getServerlink());
 
                                 $sendmessage = $swapables_helper->get_swapped_text($message, $avatar, $rental, $package, $server, $stream);

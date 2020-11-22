@@ -30,7 +30,7 @@ if ($tree_vender_id > 0) {
                 $package_hashs = [];
                 foreach ($treevender_packages_set->getAllIds() as $treevender_package_id) {
                     $treevender_package = $treevender_packages_set->getObjectByID($treevender_package_id);
-                    $package = $package_set->getObjectByID($treevender_package->get_packagelink());
+                    $package = $package_set->getObjectByID($treevender_package->getPackagelink());
                     $hash = sha1(implode(" ", [$package->getAutodj(),$package->getAutodj_size(),$package->getListeners(),$package->getBitrate(),$package->getDays(),$package->getCost()]));
                     if (in_array($hash, $package_hashs) == false) {
                         $package_hashs[] = $hash;

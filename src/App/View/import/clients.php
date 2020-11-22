@@ -61,7 +61,7 @@ foreach ($r4_users_set->getAllIds() as $r4_user_id) {
                 if ($uid["status"] == true) {
                     $rental->set_rental_uid($uid["uid"]);
                     $rental->set_avatarlink($avatar->getId());
-                    $rental->set_packagelink($stream->get_packagelink());
+                    $rental->set_packagelink($stream->getPackagelink());
                     $rental->set_streamlink($stream->getId());
                     $rental->set_startunixtime(time());
                     $rental->set_expireunixtime($r4_user->get_expireunix());

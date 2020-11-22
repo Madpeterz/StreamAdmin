@@ -1,7 +1,7 @@
 <?php
 
 //test
-$hashcheck = sha1("" . $sentunixtime . "" . $staticpart . "" . $slconfig->get_sllinkcode() . "");
+$hashcheck = sha1("" . $sentunixtime . "" . $staticpart . "" . $slconfig->getSllinkcode() . "");
 if ($hashcheck == $hash) {
     $avatar_helper = new avatar_helper();
     $get_av_status = $avatar_helper->load_or_create($required_sl_values["ownerkey"], $required_sl_values["ownername"]);
@@ -16,7 +16,7 @@ if ($hashcheck == $hash) {
             if ($get_reseller_status == true) {
                 $reseller = $reseller_helper->get_reseller();
                 $owner_override = false;
-                if ($slconfig->get_owner_av() == $object_owner_avatar->getId()) {
+                if ($slconfig->getOwner_av() == $object_owner_avatar->getId()) {
                     $owner_override = true;
                 }
                 if (($reseller->getAllowed() == true) || ($owner_override == true)) {

@@ -7,9 +7,9 @@ $status = false;
 if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     if ($rental->getAvatarlink() == $object_owner_avatar->getId()) {
         $package = new package();
-        if ($package->loadID($rental->get_packagelink()) == true) {
+        if ($package->loadID($rental->getPackagelink()) == true) {
             $avatar_system = new avatar();
-            if ($avatar_system->loadID($slconfig->get_owner_av()) == true) {
+            if ($avatar_system->loadID($slconfig->getOwner_av()) == true) {
                 $status = true;
                 $reply["systemowner"] = $avatar_system->get_avataruuid();
                 $reply["cost"] = $package->getCost();

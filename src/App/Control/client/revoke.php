@@ -29,7 +29,7 @@ if ($accept == "Accept") {
                 if ($server->loadID($stream->getServerlink()) == true) {
                     if ($update_status["status"] == true) {
                         $package = new package();
-                        if ($package->loadID($rental->get_packagelink()) == true) {
+                        if ($package->loadID($rental->getPackagelink()) == true) {
                             $avatar = new avatar();
                             if ($avatar->loadID($rental->getAvatarlink()) == true) {
                                 $all_ok = true;

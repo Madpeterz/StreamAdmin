@@ -1,12 +1,18 @@
 <?php
 
-$this->output->setSwapTagString("page_title", " With status: Ready");
-$server_set = new server_set();
-$server_set->loadAll();
-$whereconfig = array(
-    "fields" => array("rentallink","needwork"),
-    "values" => array(null,0),
-    "types" => array("s","i"),
-    "matches" => array("IS","="),
-);
-include "webpanel/view/stream/with_status.php";
+namespace App\View\Stream;
+
+class Ready extends Withstatus
+{
+    public function process(): void
+    {
+        $this->output->setSwapTagString("page_title", " With status: Ready");
+        $whereconfig = [
+            "fields" => ["rentallink","needwork"],
+            "values" => [null,0],
+            "types" => ["s","i"],
+            "matches" => ["IS","="],
+        ];
+        parent::process();
+    }
+}

@@ -7,7 +7,7 @@ $status = false;
 if ($accept == "Accept") {
     $staff = new staff();
     if ($staff->loadID($this->page) == true) {
-        if ($staff->get_ownerlevel() == false) {
+        if ($staff->getOwnerLevel() == false) {
             $remove_status = $staff->remove_me();
             if ($remove_status["status"] == true) {
                 $status = true;

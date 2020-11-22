@@ -3,8 +3,8 @@
 $this->output->setSwapTagString("html_title", "R4 import");
 $this->output->setSwapTagString("page_title", "Import /");
 $this->output->setSwapTagString("page_actions", "");
-if ($session->get_ownerlevel() == 1) {
-    function auto_load_r4_model($class_name = "")
+if ($session->getOwnerLevel() == 1) {
+    function auto_load_r4_model($class_name = ""): void
     {
         $try_class_file = "";
         $bits = explode("_", $class_name);

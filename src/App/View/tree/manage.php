@@ -23,7 +23,7 @@ if ($treevender->loadID($this->page) == true) {
     foreach ($treevender_packages_set->getAllIds() as $treevender_packages_id) {
         $treevender_packages = $treevender_packages_set->getObjectByID($treevender_packages_id);
         $entry = [];
-        $package = $package_set->getObjectByID($treevender_packages->get_packagelink());
+        $package = $package_set->getObjectByID($treevender_packages->getPackagelink());
         $used_package_ids[] = $package->getId();
         $entry[] = $treevender_packages->getId();
         $entry[] = $package->getName();

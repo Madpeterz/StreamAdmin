@@ -2,7 +2,7 @@
 
 $status = false;
 $redirect = "staff";
-if ($session->get_ownerlevel() == true) {
+if ($session->getOwnerLevel() == true) {
     $staff = new staff();
     $avatar = new avatar();
 

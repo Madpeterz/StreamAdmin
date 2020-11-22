@@ -64,7 +64,7 @@ if ($failed_on == "") {
     if ($uid["status"] == true) {
         $rental->set_rental_uid($uid["uid"]);
         $rental->set_avatarlink($avatar->getId());
-        $rental->set_packagelink($stream->get_packagelink());
+        $rental->set_packagelink($stream->getPackagelink());
         $rental->set_streamlink($stream->getId());
         $rental->set_startunixtime(time());
         $rental->set_expireunixtime($unixtime);
