@@ -26,7 +26,7 @@ if ($owner_override == true) {
                                         if ($remove_status["status"] == true) {
                                             $bot_helper = new bot_helper();
                                             $swapables_helper = new swapables_helper();
-                                            $sendmessage = $swapables_helper->get_swapped_text($template->get_detail(), $avatar, $rental, $package, $server, $stream);
+                                            $sendmessage = $swapables_helper->get_swapped_text($template->getDetail(), $avatar, $rental, $package, $server, $stream);
                                             $send_message_status = $bot_helper->send_message($botconfig, $botavatar, $avatar, $sendmessage, true);
                                             if ($send_message_status["status"] == true) {
                                                 if ($botconfig->get_notecards() == true) {
