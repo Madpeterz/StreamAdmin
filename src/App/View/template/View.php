@@ -1,8 +1,8 @@
 <?php
 
-namespace App\View\Templates;
+namespace App\View\Template;
 
-use App\View as BasicView;
+use App\Template\View as BasicView;
 
 abstract class View extends BasicView
 {

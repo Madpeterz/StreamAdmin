@@ -55,10 +55,13 @@ class ComposerStaticInit0f5440464e99999f17535ddb885c07fa
         ),
         'A' => 
         array (
+            'App\\View\\' => 9,
+            'App\\Template\\' => 13,
             'App\\R4\\' => 7,
             'App\\MediaServer\\' => 16,
             'App\\Lang\\' => 9,
             'App\\Helpers\\' => 12,
+            'App\\Framework\\' => 14,
             'App\\Endpoints\\' => 14,
             'App\\' => 4,
         ),
@@ -127,6 +130,14 @@ class ComposerStaticInit0f5440464e99999f17535ddb885c07fa
         array (
             0 => __DIR__ . '/..' . '/dealerdirect/phpcodesniffer-composer-installer/src',
         ),
+        'App\\View\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/App/View',
+        ),
+        'App\\Template\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/App/Template',
+        ),
         'App\\R4\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/App/R4',
@@ -143,6 +154,10 @@ class ComposerStaticInit0f5440464e99999f17535ddb885c07fa
         array (
             0 => __DIR__ . '/../..' . '/src/App/Helpers',
         ),
+        'App\\Framework\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/App/Framework',
+        ),
         'App\\Endpoints\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/App/Endpoints',
@@ -154,6 +169,7 @@ class ComposerStaticInit0f5440464e99999f17535ddb885c07fa
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/AssertionFailedError.php',

@@ -9,7 +9,7 @@ if ($accept == "Accept") {
         $notice = new notice();
         if ($notice->loadID($this->page) == true) {
             $notecard_set = new notecard_set();
-            $load_status = $notecard_set->load_on_field("noticelink", $notice->getId());
+            $load_status = $notecard_set->loadOnField("noticelink", $notice->getId());
             if ($load_status["status"] == true) {
                 if ($notecard_set->getCount() == 0) {
                     $remove_status = $notice->remove_me();

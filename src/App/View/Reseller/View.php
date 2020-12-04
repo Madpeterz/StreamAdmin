@@ -2,7 +2,7 @@
 
 namespace App\View\Reseller;
 
-use App\View as BasicView;
+use App\Template\View as BasicView;
 
 abstract class View extends BasicView
 {

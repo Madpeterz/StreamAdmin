@@ -10,15 +10,15 @@ if (count($avatarids) <= $max_avatars) {
     $rental_set = new rental_set();
     $ok = false;
     if ($source == "notice") {
-        $rental_set->load_on_field("noticelink", $source_id);
+        $rental_set->loadOnField("noticelink", $source_id);
         $ok = true;
     } elseif ($source == "server") {
         $stream_set = new stream_set();
-        $stream_set->load_on_field("serverlink", $source_id);
+        $stream_set->loadOnField("serverlink", $source_id);
         $rental_set->loadIds($stream_set->getAllIds(), "streamlink");
         $ok = true;
     } elseif ($source == "package") {
-        $rental_set->load_on_field("packagelink", $source_id);
+        $rental_set->loadOnField("packagelink", $source_id);
         $ok = true;
     }
     $status = false;

@@ -8,11 +8,11 @@ if ($accept == "Accept") {
     $server = new server();
     if ($server->loadID($this->page) == true) {
         $stream_set = new stream_set();
-        $load_status = $stream_set->load_on_field("serverlink", $server->getId());
+        $load_status = $stream_set->loadOnField("serverlink", $server->getId());
         if ($load_status["status"] == true) {
             if ($stream_set->getCount() == 0) {
                 $api_requests_set = new api_requests_set();
-                $load_status = $api_requests_set->load_on_field("serverlink", $server->getId());
+                $load_status = $api_requests_set->loadOnField("serverlink", $server->getId());
                 if ($load_status["status"] == true) {
                     if ($api_requests_set->getCount() == 0) {
                         $remove_status = $server->remove_me();

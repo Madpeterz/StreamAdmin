@@ -8,7 +8,7 @@ if ($accept == "Accept") {
     $stream = new stream();
     if ($stream->loadByField("stream_uid", $this->page) == true) {
         $transaction_set = new transactions_set();
-        $load_status = $transaction_set->load_on_field("streamlink", $stream->getId());
+        $load_status = $transaction_set->loadOnField("streamlink", $stream->getId());
         if ($load_status["status"] == true) {
             $unlink_ok = true;
             $bulkupdate_status = ["status" => false,"message" => "not run"];

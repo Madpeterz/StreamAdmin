@@ -6,8 +6,8 @@ if (getenv('DB_HOST') !== false) {
     $template_parts["url_base"] = getenv('SITE_HOST');
     $site_lang = getenv('SITE_LANG');
 } else {
-    if (file_exists("../shared/config/site_installed.php") == true) {
-        include "../shared/config/site_installed.php";
+    if (file_exists("../App/Config/site_installed.php") == true) {
+        include "../App/Config/site_installed.php";
     } else {
         $site_theme = "streamadminr5";
         $site_lang = "en";
@@ -16,16 +16,3 @@ if (getenv('DB_HOST') !== false) {
         $template_parts["url_base"] = "http://localhost/";
     }
 }
-
-$ajax_reply->set_swap_tag_string("site_theme", $site_theme);
-$ajax_reply->set_swap_tag_string("site_lang", $site_lang);
-$ajax_reply->set_swap_tag_string("html_title_after", $template_parts["html_title_after"]);
-$ajax_reply->site_name($template_parts["html_title_after"]);
-$ajax_reply->set_swap_tag_string("url_base", $template_parts["url_base"]);
-$ajax_reply->url_base($template_parts["url_base"]);
-$this->output->setSwapTagString("site_theme", $site_theme);
-$this->output->setSwapTagString("site_lang", $site_lang);
-$this->output->setSwapTagString("html_title_after", $template_parts["html_title_after"]);
-$this->output->site_name($template_parts["html_title_after"]);
-$this->output->setSwapTagString("url_base", $template_parts["url_base"]);
-$this->output->url_base($template_parts["url_base"]);

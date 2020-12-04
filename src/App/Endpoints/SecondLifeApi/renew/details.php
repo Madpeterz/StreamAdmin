@@ -9,7 +9,7 @@ if ($avatar->loadByField("avataruuid", $avataruuid) == true) {
     $banlist = new banlist();
     if ($banlist->loadByField("avatar_link", $avatar->getId()) == false) {
         $rental_set = new rental_set();
-        $rental_set->load_on_field("avatarlink", $avatar->getId());
+        $rental_set->loadOnField("avatarlink", $avatar->getId());
         if ($rental_set->getCount() > 0) {
             $stream_set = new stream_set();
             $stream_set->loadIds($rental_set->getAllByField("streamlink"));

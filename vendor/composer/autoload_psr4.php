@@ -21,10 +21,13 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => array($vendorDir . '/dealerdirect/phpcodesniffer-composer-installer/src'),
+    'App\\View\\' => array($baseDir . '/src/App/View'),
+    'App\\Template\\' => array($baseDir . '/src/App/Template'),
     'App\\R4\\' => array($baseDir . '/src/App/R4'),
     'App\\MediaServer\\' => array($baseDir . '/src/App/MediaServer'),
     'App\\Lang\\' => array($baseDir . '/src/App/Lang'),
     'App\\Helpers\\' => array($baseDir . '/src/App/Helpers'),
+    'App\\Framework\\' => array($baseDir . '/src/App/Framework'),
     'App\\Endpoints\\' => array($baseDir . '/src/App/Endpoints'),
     'App\\' => array($baseDir . '/src/App/Models'),
 );

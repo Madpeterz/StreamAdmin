@@ -22,7 +22,7 @@ if ($targetuid != null) {
     $reply["dataset_count"] = 0;
     if ($load_status == true) {
         $rental_set = new rental_set();
-        $rental_set->load_on_field("avatarlink", $avatar->getId());
+        $rental_set->loadOnField("avatarlink", $avatar->getId());
         if ($rental_set->getCount() > 0) {
             $status = false;
             $stream_set = new stream_set();

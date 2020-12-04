@@ -35,10 +35,10 @@ if ($texturepack > 0) {
                 if ($count_data["count"] > 0) {
                     $reply["package_instock"] = 1;
                 }
-                $reply["texture_offline"] = $textureconfig->get_offline();
-                $reply["texture_waitingforowner"] = $textureconfig->get_wait_owner();
-                $reply["texture_fetchingdetails"] = $textureconfig->get_getting_details();
-                $reply["texture_request_payment"] = $textureconfig->get_make_payment();
+                $reply["texture_offline"] = $textureconfig->getOffline();
+                $reply["texture_waitingforowner"] = $textureconfig->getWait_owner();
+                $reply["texture_fetchingdetails"] = $textureconfig->getGetting_details();
+                $reply["texture_request_payment"] = $textureconfig->getMake_payment();
 
                 $reply["package_cost"] = $package->getCost();
                 $reply["texture_package_small"] = $package->getTexture_uuid_instock_small();

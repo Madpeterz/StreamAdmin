@@ -2,5 +2,5 @@
 
 namespace App;
 
-include "../shared/config/db.php";
-include "../shared/config/site.php";
+include "../App/Config/db.php";
+include "../App/Config/site.php";

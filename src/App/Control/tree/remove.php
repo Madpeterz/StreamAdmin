@@ -8,7 +8,7 @@ if ($accept == "Accept") {
     $treevender = new treevender();
     if ($treevender->loadID($this->page) == true) {
         $treevender_package_set = new treevender_packages_set();
-        $treevender_package_set->load_on_field("treevenderlink", $treevender->getId());
+        $treevender_package_set->loadOnField("treevenderlink", $treevender->getId());
         $purge_status = $treevender_package_set->purge_collection_set();
         if ($purge_status["status"] == true) {
             $remove_status = $treevender->remove_me();

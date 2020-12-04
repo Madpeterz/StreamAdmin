@@ -22,7 +22,7 @@ if ($notecard->get_as_notice() == false) {
     $load_by["notice"] = ["rental" => "noticelink"];
 }
 $notecard_set = new notecard_set();
-$notecard_set->load_newest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
+$notecard_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
 if ($notecard_set->getCount() > 0) {
     $notecard = $notecard_set->get_first();
     $load_ok = true;

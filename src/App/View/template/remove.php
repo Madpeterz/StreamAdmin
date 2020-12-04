@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Templates;
+namespace App\View\Template;
 
 use App\Template\Form;
 

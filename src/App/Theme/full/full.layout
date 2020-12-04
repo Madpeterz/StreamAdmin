@@ -2,8 +2,8 @@
 <head>
     <title>[[html_title]] - [[html_title_after]]</title>
     [[html_cs_top]]
-    <link rel="icon" type="image/png" href="[[url_base]]theme/streamadminr5/images/favicon-32x32.png">
-    <link rel="stylesheet" type="text/css" href="[[url_base]]theme/shared/site.css">
+    <link rel="icon" type="image/png" href="[[url_base]]images/favicon-32x32.png">
+    <link rel="stylesheet" type="text/css" href="[[url_base]]css/site.css">
 </head>
 <body>
     <div class="container">
@@ -11,7 +11,7 @@
             <div class="col-6">
                 <div class="row justify-content-center">
                     <div class="col-6">
-                        <a href="[[url_base]]"><img class="logo" src="[[url_base]]theme/streamadminr5/images/logo.png" alt="logo"/></a>
+                        <a href="[[url_base]]"><img class="logo" src="[[url_base]]images/logo.png" alt="logo"/></a>
                     </div>
                 </div>
                 <div class="row">
@@ -23,7 +23,7 @@
         </div>
     </div>
     [[html_js_bottom]]
-    <script type="text/javascript" src="[[url_base]]theme/shared/site.js"></script>
+    <script type="text/javascript" src="[[url_base]]js/site.js"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             [[html_js_onready]]

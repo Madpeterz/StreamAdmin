@@ -2,9 +2,9 @@
 
 namespace App\View\Home;
 
-use App\View as BasicView;
+use App\Template\View as TemplateView;
 
-abstract class View extends BasicView
+abstract class View extends TemplateView
 {
     public function __construct()
     {

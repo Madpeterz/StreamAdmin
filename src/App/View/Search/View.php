@@ -2,7 +2,7 @@
 
 namespace App\View\Search;
 
-use App\View as BasicView;
+use App\Template\View as BasicView;
 
 abstract class View extends BasicView
 {

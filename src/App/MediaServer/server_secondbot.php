@@ -34,7 +34,7 @@ class server_secondbot extends server_secondbot_core
         $server = new server();
         $server->loadByField("apilink", 5);
         $event_set = new event_set();
-        $event_set->load_newest(1, [], [], "id", "ASC");
+        $event_set->loadNewest(1, [], [], "id", "ASC");
         if ($event_set->getCount() == 1) {
             $event = $event_set->get_first();
             if ($event != null) {

@@ -7,7 +7,7 @@ if ($owner_override == true) {
         $botavatar = new avatar();
         if ($botavatar->loadID($botconfig->getAvatarlink()) == true) {
             $detail_set = new detail_set();
-            $detail_set->load_newest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
+            $detail_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
             if ($detail_set->getCount() > 0) {
                 $detail = $detail_set->get_first();
                 $rental = new rental();

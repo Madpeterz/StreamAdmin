@@ -1,11 +1,9 @@
 <?php
 
-namespace App;
-
 if (getenv('DB_HOST') !== false) {
-    include "../shared/config/default.db.php";
+    include "../App/Config/default.db.php";
 } else {
-    if (file_exists("../shared/config/db_installed.php") == true) {
-        include "../shared/config/db_installed.php";
+    if (file_exists("../App/Config/db_installed.php") == true) {
+        include "../App/Config/db_installed.php";
     }
 }

@@ -3,7 +3,7 @@
 namespace App\View\Notice;
 
 use App\Stream;
-use App\View as BasicView;
+use App\Template\View as BasicView;
 
 abstract class View extends BasicView
 {

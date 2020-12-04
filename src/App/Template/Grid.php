@@ -12,30 +12,27 @@ class Grid
     {
         $this->closeCol();
         $this->closeRow();
-        $sending = $this->output;
-        $this->output = "";
-        if ($sending == null) {
-            return "";
-        } else {
-            return $sending;
+        if ($this->output == null) {
+            $this->output = "";
         }
+        return $this->output;
     }
-    public function addBefore(string $content)
+    public function addBefore(string $content): void
     {
         $this->output = $content . "" . $this->output;
     }
-    public function addAfter(string $content)
+    public function addAfter(string $content): void
     {
         $this->output .= $content;
     }
-    public function addContent(string $content, int $size = 0)
+    public function addContent(string $content, int $size = 0): void
     {
         if ($size > 0) {
             $this->col($size);
         }
         $this->output .= $content;
     }
-    public function col(int $size)
+    public function col(int $size): void
     {
         $this->closeCol();
         if (($this->col_value + $size) > 12) {
@@ -48,7 +45,7 @@ class Grid
         $this->col_open = true;
         $this->output .= '<div class="col-sm-' . $size . ' col-md-' . $size . ' col-lg-' . $size . '">@NL@';
     }
-    public function closeRow()
+    public function closeRow(): void
     {
         $this->closeCol();
         if ($this->row_open == true) {
@@ -57,14 +54,14 @@ class Grid
             $this->output .= '</div>@NL@';
         }
     }
-    protected function closeCol()
+    protected function closeCol(): void
     {
         if ($this->col_open == true) {
             $this->col_open = false;
             $this->output .= '</div>@NL@';
         }
     }
-    protected function row()
+    protected function row(): void
     {
         $this->closeRow();
         $this->output .= '<div class="row">@NL@';

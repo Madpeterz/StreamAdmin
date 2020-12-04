@@ -16,7 +16,7 @@ class object_helper
                 if ($objectname != $this->object->get_objectname()) {
                     $this->object->set_objectname($objectname);
                 }
-                if ($this->object->get_regionlink() != $region_id) {
+                if ($this->object->getRegionlink() != $region_id) {
                     $this->object->set_regionlink($region_id);
                 }
                 $save_status = $this->object->save_changes();

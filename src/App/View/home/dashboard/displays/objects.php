@@ -9,7 +9,7 @@ $all_good = true;
 $issues = 0;
 foreach ($objects_set->getAllIds() as $object_id) {
     $object = $objects_set->getObjectByID($object_id);
-    $region = $region_set->getObjectByID($object->get_regionlink());
+    $region = $region_set->getObjectByID($object->getRegionlink());
     $entry = [];
     $color = "text-light";
     if (in_array($object->get_objectmode(), $seen_objects) == true) {

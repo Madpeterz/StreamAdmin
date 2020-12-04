@@ -7,7 +7,7 @@ $status = false;
 if ($accept == "Accept") {
     $treevender_packages = new treevender_packages();
     if ($treevender_packages->loadID($this->page) == true) {
-        $redirect_to = $treevender_packages->get_treevenderlink();
+        $redirect_to = $treevender_packages->getTreevenderlink();
         $remove_status = $treevender_packages->remove_me();
         if ($remove_status["status"] == true) {
             $status = true;

@@ -8,10 +8,10 @@ if ($session->getOwnerLevel() == 1) {
     $db_pass = $input->postFilter("db_pass");
 
     $saveconfig = '<?php $r4_db_host="' . $db_host . '"; $r4_db_name="' . $db_name . '"; $r4_db_username="' . $db_username . '"; $r4_db_pass="' . $db_pass . '";?>';
-    if (file_exists("../shared/config/r4.php") == true) {
-        unlink("../shared/config/r4.php");
+    if (file_exists("../App/Config/r4.php") == true) {
+        unlink("../App/Config/r4.php");
     }
-    file_put_contents("../shared/config/r4.php", $saveconfig);
+    file_put_contents("../App/Config/r4.php", $saveconfig);
     $status = true;
     $ajax_reply->set_swap_tag_string("message", "ok");
     $ajax_reply->set_swap_tag_string("redirect", "import");
