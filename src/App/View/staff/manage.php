@@ -2,7 +2,7 @@
 
 namespace App\View\Staff;
 
-use App\Staff;
+use App\Models\Staff;
 use App\Template\Form;
 
 class Manage extends View

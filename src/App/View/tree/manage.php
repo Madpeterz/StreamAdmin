@@ -2,10 +2,10 @@
 
 namespace App\View\Tree;
 
-use App\PackageSet;
+use App\Models\PackageSet;
 use App\Template\Form;
-use App\Treevender;
-use App\TreevenderpackagesSet;
+use App\Models\Treevender;
+use App\Models\TreevenderpackagesSet;
 
 class Manage extends View
 {

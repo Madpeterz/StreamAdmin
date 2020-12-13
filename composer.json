@@ -4,15 +4,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "App\\": "src/App/Models",
-            "App\\Helpers\\": "src/App/Helpers",
-            "App\\Endpoints\\": "src/App/Endpoints",
-            "App\\Lang\\": "src/App/Lang",
-            "App\\MediaServer\\": "src/App/MediaServer",
-            "App\\R4\\": "src/App/R4",
-            "App\\View\\": "src/App/View",
-            "App\\Framework\\": "src/App/Framework",
-            "App\\Template\\": "src/App/Template"
+            "App\\": "src/App"
         }
     },
     "require": {

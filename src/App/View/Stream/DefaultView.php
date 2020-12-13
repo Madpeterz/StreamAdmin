@@ -2,8 +2,8 @@
 
 namespace App\View\Stream;
 
-use App\PackageSet;
-use App\StreamSet;
+use App\Models\PackageSet;
+use App\Models\StreamSet;
 
 class DefaultView extends View
 {

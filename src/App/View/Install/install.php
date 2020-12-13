@@ -2,7 +2,7 @@
 
 namespace App\View\Install;
 
-use App\Avatar;
+use App\Models\Avatar;
 use YAPF\MySQLi\MysqliEnabled;
 
 class Install extends View

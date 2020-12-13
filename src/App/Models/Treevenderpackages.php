@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use YAPF\DbObjects\GenClass\GenClass as GenClass;
 

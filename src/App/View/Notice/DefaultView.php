@@ -2,7 +2,7 @@
 
 namespace App\View\Login;
 
-use App\NoticeSet;
+use App\Models\NoticeSet;
 
 class DefaultView extends View
 {

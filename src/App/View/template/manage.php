@@ -3,7 +3,7 @@
 namespace App\View\Template;
 
 use App\Template\Form;
-use App\Template;
+use App\Models\Template;
 
 class Manage extends View
 {

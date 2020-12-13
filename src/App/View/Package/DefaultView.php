@@ -2,7 +2,7 @@
 
 namespace App\View\Package;
 
-use App\PackageSet;
+use App\Models\PackageSet;
 
 class DefaultView extends View
 {

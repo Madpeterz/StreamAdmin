@@ -2,7 +2,7 @@
 
 namespace App\View\Textureconfig;
 
-use App\Stream;
+use App\Models\Stream;
 use App\Template\View as BasicView;
 
 abstract class View extends BasicView

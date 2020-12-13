@@ -1,6 +1,6 @@
 <?php
 
-use App\StreamSet;
+use App\Models\StreamSet;
 
 $stream_total_sold = 0;
 $stream_total_ready = 0;

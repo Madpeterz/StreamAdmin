@@ -2,7 +2,7 @@
 
 namespace App\View\Tree;
 
-use App\Stream;
+use App\Models\Stream;
 use App\Template\View as BasicView;
 
 abstract class View extends BasicView

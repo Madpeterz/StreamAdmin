@@ -2,8 +2,8 @@
 
 namespace App\View\Reseller;
 
-use App\Avatar;
-use App\Reseller;
+use App\Models\Avatar;
+use App\Models\Reseller;
 use App\Template\Form;
 
 class Manage extends View

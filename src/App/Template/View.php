@@ -3,7 +3,7 @@
 namespace App\Template;
 
 use App\Framework\SessionControl;
-use App\Slconfig;
+use App\Models\Slconfig;
 use YAPF\MySQLi\MysqliEnabled;
 
 abstract class View

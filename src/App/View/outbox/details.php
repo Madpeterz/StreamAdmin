@@ -2,9 +2,9 @@
 
 namespace App\View\Outbox;
 
-use App\AvatarSet;
-use App\DetailSet;
-use App\RentalSet;
+use App\Models\AvatarSet;
+use App\Models\DetailSet;
+use App\Models\RentalSet;
 
 class Details extends View
 {

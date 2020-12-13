@@ -2,10 +2,10 @@
 
 namespace App\View\Client;
 
-use App\AvatarSet;
-use App\Notice;
-use App\RentalSet;
-use App\StreamSet;
+use App\Models\AvatarSet;
+use App\Models\Notice;
+use App\Models\RentalSet;
+use App\Models\StreamSet;
 
 class Bynoticelevel extends RenderList
 {

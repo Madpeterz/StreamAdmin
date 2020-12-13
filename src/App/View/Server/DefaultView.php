@@ -2,8 +2,8 @@
 
 namespace App\View\Server;
 
-use App\ApisSet;
-use App\ServerSet;
+use App\Models\ApisSet;
+use App\Models\ServerSet;
 use App\Template\Form;
 
 class DefaultView extends View

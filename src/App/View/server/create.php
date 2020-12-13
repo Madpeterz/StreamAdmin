@@ -2,7 +2,7 @@
 
 namespace App\View\Server;
 
-use App\ApisSet;
+use App\Models\ApisSet;
 use App\Template\Form;
 
 class Create extends View

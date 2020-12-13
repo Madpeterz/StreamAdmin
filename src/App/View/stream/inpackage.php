@@ -2,7 +2,7 @@
 
 namespace App\View\Stream;
 
-use App\Package;
+use App\Models\Package;
 
 class Inpackage extends Withstatus
 {

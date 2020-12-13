@@ -2,7 +2,7 @@
 
 namespace App\View\Avatar;
 
-use App\AvatarSet;
+use App\Models\AvatarSet;
 use App\Template\Form as Form;
 use YAPF\InputFilter\InputFilter as InputFilter;
 

@@ -2,8 +2,8 @@
 
 namespace App\View\Server;
 
-use App\ApisSet;
-use App\Server;
+use App\Models\ApisSet;
+use App\Models\Server;
 use App\Template\Form;
 
 class Manage extends View

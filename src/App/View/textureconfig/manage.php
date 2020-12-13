@@ -3,7 +3,7 @@
 namespace App\View\Textureconfig;
 
 use App\Template\Form;
-use App\Textureconfig;
+use App\Models\Textureconfig;
 
 class Manage extends View
 {

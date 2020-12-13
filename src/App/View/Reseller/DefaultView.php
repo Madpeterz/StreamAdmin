@@ -2,8 +2,8 @@
 
 namespace App\View\Reseller;
 
-use App\AvatarSet;
-use App\ResellerSet;
+use App\Models\AvatarSet;
+use App\Models\ResellerSet;
 
 class DefaultView extends View
 {

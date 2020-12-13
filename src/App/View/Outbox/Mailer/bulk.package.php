@@ -2,7 +2,7 @@
 
 namespace App\View\Outbox;
 
-use App\PackageSet;
+use App\Models\PackageSet;
 use App\Template\Form;
 
 $package_set = new PackageSet();

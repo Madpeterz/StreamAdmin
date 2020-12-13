@@ -1,9 +1,9 @@
 <?php
 
-use App\Package;
-use App\Rental;
-use App\Server;
-use App\Stream;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
 
 class serverapi_helper
 {

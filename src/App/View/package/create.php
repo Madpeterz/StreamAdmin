@@ -2,9 +2,9 @@
 
 namespace App\View\Package;
 
-use App\ServertypesSet;
+use App\Models\ServertypesSet;
 use App\Template\Form;
-use App\TemplateSet;
+use App\Models\TemplateSet;
 
 class Create extends View
 {

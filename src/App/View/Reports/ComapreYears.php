@@ -2,7 +2,7 @@
 
 namespace App\View\Reports;
 
-use App\TransactionsSet;
+use App\Models\TransactionsSet;
 use YAPF\InputFilter\InputFilter;
 
 class ComapreYears extends View

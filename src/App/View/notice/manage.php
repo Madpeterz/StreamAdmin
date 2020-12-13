@@ -2,9 +2,9 @@
 
 namespace App\View\Notice;
 
-use App\Notice;
-use App\Noticenotecard;
-use App\NoticenotecardSet;
+use App\Models\Notice;
+use App\Models\Noticenotecard;
+use App\Models\NoticenotecardSet;
 use App\Template\Form as Form;
 
 class Manage extends View

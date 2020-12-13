@@ -2,8 +2,8 @@
 
 namespace App\View\Avatar;
 
-use App\NoticeSet;
-use App\Rental;
+use App\Models\NoticeSet;
+use App\Models\Rental;
 use App\View\Client\View as View;
 
 class SelectNoticeLevel extends View

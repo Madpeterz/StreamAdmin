@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Framework\SessionControl;
+use App\Models\Slconfig;
+use App\Models\Timezones;
 use YAPF\MySQLi\MysqliEnabled;
 
 ini_set('display_errors', 0);
@@ -31,7 +33,7 @@ if (install_ok() == true) {
             if ($slconfig != null) {
                 $timezone_config_from_cache = $this->output->get_cache_file("current_timezone", false);
                 if ($timezone_config_from_cache == null) {
-                    $timezone = new timezones();
+                    $timezone = new Timezones();
                     if ($timezone->loadID($slconfig->getDisplaytimezonelink()) == true) {
                         $cooked = $timezone_name . "###" . $timezone->getCode();
                         $this->output->set_cache_file($cooked, "current_timezone", false);

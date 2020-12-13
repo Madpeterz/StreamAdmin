@@ -2,9 +2,9 @@
 
 namespace App\View\Login;
 
-use App\AvatarSet;
-use App\ObjectsSet;
-use App\RegionSet;
+use App\Models\AvatarSet;
+use App\Models\ObjectsSet;
+use App\Models\RegionSet;
 
 class DefaultView extends View
 {

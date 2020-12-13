@@ -2,8 +2,8 @@
 
 namespace App\View\Banlist;
 
-use App\Avatar;
-use App\Botconfig;
+use App\Models\Avatar;
+use App\Models\Botconfig;
 use App\Template\Form as Form;
 
 class DefaultView extends View

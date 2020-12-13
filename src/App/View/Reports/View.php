@@ -2,7 +2,7 @@
 
 namespace App\View\Reports;
 
-use App\Template;
+use App\Models\Template;
 use App\Template\View as BasicView;
 
 abstract class View extends BasicView

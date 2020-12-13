@@ -3,9 +3,9 @@
 namespace App\View\Avatar;
 
 use App\View\Client\RenderList;
-use App\AvatarSet;
-use App\RentalSet;
-use App\StreamSet;
+use App\Models\AvatarSet;
+use App\Models\RentalSet;
+use App\Models\StreamSet;
 
 class ListMode extends RenderList
 {

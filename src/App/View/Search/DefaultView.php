@@ -2,11 +2,11 @@
 
 namespace App\View\Search;
 
-use App\AvatarSet;
-use App\PackageSet;
-use App\RentalSet;
-use App\ServerSet;
-use App\StreamSet;
+use App\Models\AvatarSet;
+use App\Models\PackageSet;
+use App\Models\RentalSet;
+use App\Models\ServerSet;
+use App\Models\StreamSet;
 use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View

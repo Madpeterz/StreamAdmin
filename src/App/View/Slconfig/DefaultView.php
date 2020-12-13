@@ -2,9 +2,9 @@
 
 namespace App\View\Slconfig;
 
-use App\Avatar;
+use App\Models\Avatar;
 use App\Template\Form;
-use App\TimezonesSet;
+use App\Models\TimezonesSet;
 
 class DefaultView extends View
 {

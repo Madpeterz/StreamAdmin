@@ -2,11 +2,11 @@
 
 namespace App\View\Stream;
 
-use App\ApisSet;
-use App\PackageSet;
-use App\ServerSet;
-use App\ServertypesSet;
-use App\Stream;
+use App\Models\ApisSet;
+use App\Models\PackageSet;
+use App\Models\ServerSet;
+use App\Models\ServertypesSet;
+use App\Models\Stream;
 use App\Template\Form;
 
 class Manage extends View

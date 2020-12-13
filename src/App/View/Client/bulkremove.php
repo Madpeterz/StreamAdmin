@@ -2,14 +2,12 @@
 
 namespace App\View\Client;
 
-use App\ApirequestsSet;
-use App\AvatarSet;
-use App\Notice;
-use App\NoticeSet;
-use App\RentalSet;
-use App\Server;
-use App\ServerSet;
-use App\StreamSet;
+use App\Models\ApirequestsSet;
+use App\Models\AvatarSet;
+use App\Models\NoticeSet;
+use App\Models\RentalSet;
+use App\Models\ServerSet;
+use App\Models\StreamSet;
 use App\Template\Form;
 
 class BulkRemove extends RenderList

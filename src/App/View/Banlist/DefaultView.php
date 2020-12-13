@@ -2,8 +2,8 @@
 
 namespace App\View\Banlist;
 
-use App\AvatarSet;
-use App\BanlistSet;
+use App\Models\AvatarSet;
+use App\Models\BanlistSet;
 use App\Template\Form as Form;
 use App\Template\Grid;
 use YAPF\InputFilter\InputFilter as InputFilter;

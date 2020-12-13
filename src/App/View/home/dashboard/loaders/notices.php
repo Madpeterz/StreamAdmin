@@ -1,7 +1,7 @@
 <?php
 
-use App\NoticeSet;
-use App\Rental;
+use App\Models\NoticeSet;
+use App\Models\Rental;
 
 $notice_set = new NoticeSet();
 $notice_set->loadAll();

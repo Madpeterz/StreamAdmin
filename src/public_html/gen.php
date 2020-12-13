@@ -2,5 +2,5 @@
 
 namespace App;
 
-include "../vendor/autoload.php";
+include "../../vendor/autoload.php";
 include "../Gen/gen_streamadmin.php";

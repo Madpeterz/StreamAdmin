@@ -2,8 +2,8 @@
 
 namespace App\View\Stream;
 
-use App\Package;
-use App\Server;
+use App\Models\Package;
+use App\Models\Server;
 use App\Template\View as BasicView;
 
 abstract class View extends BasicView

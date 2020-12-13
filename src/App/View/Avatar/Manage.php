@@ -2,7 +2,7 @@
 
 namespace App\View\Avatar;
 
-use App\Avatar;
+use App\Models\Avatar;
 use App\Template\Form as Form;
 
 class Manage extends View

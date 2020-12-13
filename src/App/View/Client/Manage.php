@@ -2,17 +2,17 @@
 
 namespace App\View\Client;
 
-use App\Avatar;
-use App\AvatarSet;
-use App\Package;
-use App\RegionSet;
-use App\Rental;
-use App\ResellerSet;
-use App\Server;
-use App\Stream;
+use App\Models\Avatar;
+use App\Models\AvatarSet;
+use App\Models\Package;
+use App\Models\RegionSet;
+use App\Models\Rental;
+use App\Models\ResellerSet;
+use App\Models\Server;
+use App\Models\Stream;
 use App\Template\Form;
 use App\Template\Grid;
-use App\TransactionsSet;
+use App\Models\TransactionsSet;
 use paged_info;
 use serverapi_helper;
 

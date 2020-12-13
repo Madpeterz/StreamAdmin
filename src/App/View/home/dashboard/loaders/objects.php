@@ -1,8 +1,8 @@
 <?php
 
-use App\Objects;
-use App\ObjectsSet;
-use App\RegionSet;
+use App\Models\Objects;
+use App\Models\ObjectsSet;
+use App\Models\RegionSet;
 
 $objects = new Objects();
 $owner_objects_list = [

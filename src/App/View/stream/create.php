@@ -2,10 +2,10 @@
 
 namespace App\View\Stream;
 
-use App\ApisSet;
-use App\PackageSet;
-use App\ServerSet;
-use App\ServertypesSet;
+use App\Models\ApisSet;
+use App\Models\PackageSet;
+use App\Models\ServerSet;
+use App\Models\ServertypesSet;
 use App\Template\Form;
 
 class Create extends View
