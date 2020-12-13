@@ -10,7 +10,7 @@ function install_ok(): bool
             }
         }
     }
-    if (file_exists("../App/Framework/ready.txt") == true) {
+    if (file_exists("../App/Config/ready.txt") == true) {
         include "../App/Framework/installed_flags.php";
         return true;
     }

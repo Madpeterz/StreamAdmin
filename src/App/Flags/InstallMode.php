@@ -1,0 +1,3 @@
+<?php
+
+define("INSTALLMODE", true);
