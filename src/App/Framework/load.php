@@ -5,6 +5,7 @@ namespace App;
 use App\Framework\SessionControl;
 use YAPF\MySQLi\MysqliEnabled;
 
+ini_set('display_errors', 0);
 session_start();
 include "../App/Framework/globals.php";
 include "../App/Framework/url_loading.php";
