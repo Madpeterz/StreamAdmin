@@ -50,7 +50,7 @@ class SessionControl extends SqlConnectedClass
         $new_lhash = $this->hash_password(time(), rand(1000, 4000), microtime(), $this->main_class_object->get_lhash());
         $this->main_class_object->setlhash($new_lhash);
         $this->nextcheck = time() + 120;
-        $save_status = $this->main_class_object->save_changes();
+        $save_status = $this->main_class_object->updateEntry();
         if ($save_status["status"] == true) {
             $this->lhash = $new_lhash;
             if ($update_session_after == true) {
@@ -166,7 +166,7 @@ class SessionControl extends SqlConnectedClass
             );
             $this->main_class_object->set_psalt($psalt);
             $this->main_class_object->set_phash($phash);
-            return $this->main_class_object->save_changes();
+            return $this->main_class_object->updateEntry();
         } else {
             return ["status" => false,"message" => "update_password requires the user object to be loaded!"];
         }
