@@ -57,7 +57,7 @@ foreach ($r4_users_set->getAllIds() as $r4_user_id) {
                 $stream = $stream_set->getObjectByID($stream_set_oldid_to_id[$find_stream]);
                 $avatar = $avatar_set->getObjectByID($avatar_set_uuid_to_id[$r4_user->get_slkey()]);
                 $rental = new rental();
-                $uid = $rental->create_uid("rental_uid", 8, 10);
+                $uid = $rental->createUID("rental_uid", 8, 10);
                 if ($uid["status"] == true) {
                     $rental->set_rental_uid($uid["uid"]);
                     $rental->set_avatarlink($avatar->getId());
@@ -72,7 +72,7 @@ foreach ($r4_users_set->getAllIds() as $r4_user_id) {
                     if ($create_status["status"] == true) {
                         $stream->set_rentallink($rental->getId());
                         $stream->set_needwork(0);
-                        $update_status = $stream->save_changes();
+                        $update_status = $stream->updateEntry();
                         if ($update_status["status"] == true) {
                             $clients_created++;
                         } else {

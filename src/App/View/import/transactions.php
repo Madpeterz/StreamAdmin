@@ -28,7 +28,7 @@ foreach ($r4_sales_tracking_set->getAllIds() as $r4_sales_tracking_id) {
     }
 
     $transaction = new transactions();
-    $uid_transaction = $transaction->create_uid("transaction_uid", 8, 10);
+    $uid_transaction = $transaction->createUID("transaction_uid", 8, 10);
     if ($uid_transaction["status"] == true) {
         $date = explode("/", $r4_sales_tracking->get_date());
         $time = explode(":", $r4_sales_tracking->get_time());

@@ -24,7 +24,7 @@ $packages_created = 0;
 foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
     $r4_package = $r4_packages_set->getObjectByID($r4_package_id);
     $package = new package();
-    $uid = $package->create_uid("package_uid", 8, 10);
+    $uid = $package->createUID("package_uid", 8, 10);
     if ($uid["status"] == true) {
         $package->set_package_uid($uid["uid"]);
         $package->set_name("R4|" . $r4_package->getId() . "|" . $r4_package->getName());

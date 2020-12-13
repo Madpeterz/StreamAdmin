@@ -39,7 +39,7 @@ foreach ($r4_items_set->getAllIds() as $r4_item_id) {
         if (array_key_exists($find_package, $package_name_to_id) == true) {
             if (array_key_exists($r4_item->get_streamurl(), $server_domain_to_id) == true) {
                 $stream = new stream();
-                $uid = $stream->create_uid("stream_uid", 8, 10);
+                $uid = $stream->createUID("stream_uid", 8, 10);
                 if ($uid["status"] == true) {
                     $stream->set_stream_uid($uid["uid"]);
                     $stream->set_packagelink($package_name_to_id[$find_package]);
