@@ -254,7 +254,7 @@ class serverapi_helper
             $this->stream->set_adminpassword($this->rand_string(7 + rand(1, 6)));
             $this->stream->set_djpassword($this->rand_string(5 + rand(1, 3)));
             $this->stream->set_needwork(false);
-            $update_status = $this->stream->save_changes();
+            $update_status = $this->stream->updateEntry();
             if ($update_status["status"] == true) {
                 $status = $this->server_api->remove_account($old_username);
                 if ($status == true) {
@@ -403,7 +403,7 @@ class serverapi_helper
                         $this->stream->set_adminpassword($new_admin_password);
                         $this->stream->set_djpassword($new_dj_password);
                         $this->stream->set_needwork(false);
-                        $update_status = $this->stream->save_changes();
+                        $update_status = $this->stream->updateEntry();
                         if ($update_status["status"] == true) {
                             $this->message = "calling api";
                             $status = $this->server_api->opt_password_reset();
@@ -551,7 +551,7 @@ class serverapi_helper
                     $old_username = $this->stream->getAdminusername();
                     if ($old_username != $new_username) {
                         $this->stream->set_adminusername($new_username);
-                        $update_status = $this->stream->save_changes();
+                        $update_status = $this->stream->updateEntry();
                         if ($update_status["status"] == true) {
                             $status = $this->server_api->event_start_sync_username($old_username);
                             $this->message = $this->server_api->get_last_api_message();

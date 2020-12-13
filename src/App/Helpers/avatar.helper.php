@@ -15,11 +15,11 @@ class avatar_helper
                 return true;
             } else {
                 $this->avatar = new avatar();
-                $uid = $this->avatar->create_uid("avatar_uid", 8, 10);
+                $uid = $this->avatar->createUID("avatar_uid", 8, 10);
                 if ($uid["status"] == true) {
-                    $this->avatar->set_avatar_uid($uid["uid"]);
-                    $this->avatar->set_avatarname($avatar_name);
-                    $this->avatar->set_avataruuid($avatar_uuid);
+                    $this->avatar->setAvatar_uid($uid["uid"]);
+                    $this->avatar->setAvatarname($avatar_name);
+                    $this->avatar->setAvataruuid($avatar_uuid);
                     $create_status = $this->avatar->create_entry();
                     if ($create_status["status"] == false) {
                         if ($show_errors == true) {

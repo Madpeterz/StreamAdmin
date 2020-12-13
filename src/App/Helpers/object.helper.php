@@ -19,7 +19,7 @@ class object_helper
                 if ($this->object->getRegionlink() != $region_id) {
                     $this->object->set_regionlink($region_id);
                 }
-                $save_status = $this->object->save_changes();
+                $save_status = $this->object->updateEntry();
                 if ($save_status["status"] == false) {
                     if ($show_errors == true) {
                         echo "[Objects helper] - " . $save_status["message"];
