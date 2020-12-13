@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View;
+namespace App\Framework;
 
 use App\Framework\SessionControl;
 
@@ -20,18 +20,24 @@ class Switchboard
 
     protected function loadPage(): void
     {
-        if ($this->session->getLoggedIn() == false) {
-            $this->module = "Login";
-        }
         $fallback = "Error";
-        if (install_ok() == false) {
-            $this->module = "Install";
-        } else {
+        $loadwith = "View";
+        if (install_ok() == true) {
             $fallback = "Home";
+            if ($this->session->getLoggedIn() == false) {
+                $this->module = "Login";
+            }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $loadwith = "Control";
+            }
+        } else {
+            $this->option = $this->module;
+            $this->module = "Install";
+            include "../App/Flags/InstallMode.php";
         }
-        $TargetView = '\\App\\View\\' . $this->module . '\\' . $this->option;
-        $DefaultView = "\\App\\View\\" . $this->module . "\\DefaultView";
-        $use_class = "\\App\\View\\" . $fallback . "\\DefaultView";
+        $TargetView = "\\App\\" . $loadwith . "\\" . $this->module . "\\" . $this->option;
+        $DefaultView = "\\App\\" . $loadwith . "\\" . $this->module . "\\DefaultView";
+        $use_class = "\\App\\" . $loadwith . "\\" . $fallback . "\\DefaultView";
         if (class_exists($DefaultView) == true) {
             $use_class = $DefaultView;
         }
