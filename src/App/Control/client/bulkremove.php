@@ -40,7 +40,7 @@ foreach ($rental_set->getAllIds() as $rental_id) {
                     if ($server->loadID($stream->getServerlink()) == true) {
                         $stream->set_rentallink(null);
                         $stream->set_needwork(1);
-                        $update_status = $stream->save_changes();
+                        $update_status = $stream->updateEntry();
                         if ($update_status["status"] == true) {
                             $all_ok = true;
                             $message = "";

@@ -56,7 +56,7 @@ if ($failed_on == "") {
         $textureconfig->set_request_details($request_details);
         $textureconfig->set_proxyrenew($proxyrenew);
         $textureconfig->set_treevend_waiting($treevend_waiting);
-        $update_status = $textureconfig->save_changes();
+        $update_status = $textureconfig->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
             $ajax_reply->set_swap_tag_string("message", $lang["textureconfig.up.info.1"]);

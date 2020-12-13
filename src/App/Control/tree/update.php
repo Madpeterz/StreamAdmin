@@ -23,7 +23,7 @@ if ($failed_on == "") {
         if ($count_check["status"] == true) {
             if ($count_check["count"] == $expected_count) {
                 $treevender->set_name($name);
-                $update_status = $treevender->save_changes();
+                $update_status = $treevender->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
                     $ajax_reply->set_swap_tag_string("redirect", "tree");

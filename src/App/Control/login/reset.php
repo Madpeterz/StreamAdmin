@@ -22,13 +22,13 @@ if (count($bits) == 2) {
     }
 }
 if ($staff->getId() > 0) {
-    $uid = $staff->create_uid("email_reset_code", 8, 10);
+    $uid = $staff->createUID("email_reset_code", 8, 10);
     if ($uid["status"] == true) {
         $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $uid["uid"];
-        $staff->set_email_reset_code($uid["uid"]);
-        $staff->set_email_reset_expires((time() + $unixtime_hour));
+        $staff->setEmail_reset_code($uid["uid"]);
+        $staff->setEmail_reset_expires((time() + $unixtime_hour));
 
-        $update_status = $staff->save_changes();
+        $update_status = $staff->updateEntry();
         if ($update_status["status"] == true) {
             if ($contact_via == "email") {
                 $email_helper = new email_helper();

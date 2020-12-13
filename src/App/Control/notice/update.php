@@ -56,7 +56,7 @@ if ($failed_on == "") {
                 if (in_array($this->page, [6,10]) == false) {
                     $notice->set_hoursremaining($hoursremaining);
                 }
-                $update_status = $notice->save_changes();
+                $update_status = $notice->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
                     $ajax_reply->set_swap_tag_string("message", $lang["notice.up.info.1"]);

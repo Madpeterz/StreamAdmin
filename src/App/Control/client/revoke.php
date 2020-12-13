@@ -24,7 +24,7 @@ if ($accept == "Accept") {
             if ($stream->loadID($rental->getStreamlink()) == true) {
                 $stream->set_rentallink(null);
                 $stream->set_needwork(1);
-                $update_status = $stream->save_changes();
+                $update_status = $stream->updateEntry();
                 $server = new server();
                 if ($server->loadID($stream->getServerlink()) == true) {
                     if ($update_status["status"] == true) {

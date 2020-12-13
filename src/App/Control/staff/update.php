@@ -34,12 +34,12 @@ if ($session->getOwnerLevel() == true) {
             }
             if ($count_check["status"] == true) {
                 if ($count_check["count"] == $expected_count) {
-                    $staff->set_username($username);
-                    $staff->set_email($email);
+                    $staff->setUsername($username);
+                    $staff->setEmail($email);
                     $staff->set_phash(sha1("phash install" . microtime() . "" . $username));
                     $staff->set_lhash(sha1("lhash install" . microtime() . "" . $username));
                     $staff->set_psalt(sha1("psalt install" . microtime() . "" . $username));
-                    $update_status = $staff->save_changes();
+                    $update_status = $staff->updateEntry();
                     if ($update_status["status"] == true) {
                         $status = true;
                         $ajax_reply->set_swap_tag_string("message", "staff member updated");

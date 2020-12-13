@@ -24,7 +24,7 @@ foreach ($stream_set->getAllIds() as $stream_id) {
                 $stream->set_adminpassword($newadminpw);
                 $stream->set_djpassword($newdjpw);
                 $stream->set_needwork(0);
-                $update_status = $stream->save_changes();
+                $update_status = $stream->updateEntry();
                 if ($update_status["status"] == false) {
                     echo sprintf($lang["stream.bu.error.1"], $update_status["message"]);
                     $status = false;

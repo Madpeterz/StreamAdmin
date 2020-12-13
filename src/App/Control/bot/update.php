@@ -26,7 +26,7 @@ if ($session->getOwnerLevel() == true) {
                 $botconfig->set_secret($secret);
                 $botconfig->set_notecards($notecards);
                 $botconfig->set_ims($ims);
-                $save_changes = $botconfig->save_changes();
+                $save_changes = $botconfig->updateEntry();
                 if ($save_changes["status"] == true) {
                     $status = true;
                     $ajax_reply->set_swap_tag_string("redirect", null);

@@ -44,7 +44,7 @@ if ($server->loadID($this->page) == true) {
                                     }
                                     $stream->set_last_api_sync(time());
                                     if ($has_update == true) {
-                                        $update_status = $stream->save_changes();
+                                        $update_status = $stream->updateEntry();
                                         if ($update_status["status"] == true) {
                                             $accounts_updated++;
                                         } else {
@@ -53,7 +53,7 @@ if ($server->loadID($this->page) == true) {
                                             break;
                                         }
                                     } else {
-                                        $update_status = $stream->save_changes();
+                                        $update_status = $stream->updateEntry();
                                         if ($update_status["status"] == true) {
                                             $accounts_insync++;
                                         } else {
@@ -71,7 +71,7 @@ if ($server->loadID($this->page) == true) {
                         }
                         if ($all_ok == true) {
                             $server->set_last_api_sync(time());
-                            $update_status = $server->save_changes();
+                            $update_status = $server->updateEntry();
                             if ($update_status["status"] == true) {
                                 $status = true;
                                 $ajax_reply->set_swap_tag_string("message", "Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");

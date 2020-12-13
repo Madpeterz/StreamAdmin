@@ -60,7 +60,7 @@ $ajax_reply->set_swap_tag_string("redirect", "package");
 $status = false;
 if ($failed_on == "") {
     $package = new package();
-    $uid = $package->create_uid("package_uid", 8, 10);
+    $uid = $package->createUID("package_uid", 8, 10);
     if ($uid["status"] == true) {
         $package->set_package_uid($uid["uid"]);
         $package->set_name($name);

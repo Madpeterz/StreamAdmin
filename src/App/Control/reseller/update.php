@@ -16,7 +16,7 @@ if ($failed_on == "") {
     if ($reseller->loadID($this->page) == true) {
         $reseller->set_rate($rate);
         $reseller->set_allowed($allowed);
-        $update_status = $reseller->save_changes();
+        $update_status = $reseller->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
             $ajax_reply->set_swap_tag_string("message", $lang["reseller.up.info.1"]);

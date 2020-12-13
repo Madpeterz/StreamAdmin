@@ -112,7 +112,7 @@ if ($failed_on == "") {
                 $server->set_event_create_stream($event_create_stream);
                 $server->set_event_update_stream($event_update_stream);
 
-                $update_status = $server->save_changes();
+                $update_status = $server->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
                     $ajax_reply->set_swap_tag_string("message", $lang["server.up.info.1"]);

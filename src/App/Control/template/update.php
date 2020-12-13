@@ -23,7 +23,7 @@ if ($failed_on == "") {
         $template->set_name($name);
         $template->set_detail($detail);
         $template->set_notecarddetail($notecarddetail);
-        $update_status = $template->save_changes();
+        $update_status = $template->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
             $ajax_reply->set_swap_tag_string("message", $lang["template.up.info.1"]);

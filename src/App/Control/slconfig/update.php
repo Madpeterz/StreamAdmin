@@ -58,7 +58,7 @@ if ($failed_on == "") {
     if ($avatar->getId() != $slconfig->getOwner_av()) {
         $slconfig->set_owner_av($avatar->getId());
     }
-    $slconfig->set_sllinkcode($sllinkcode);
+    $slconfig->setSllinkcode($sllinkcode);
     $slconfig->set_publiclinkcode($publiclinkcode);
     $slconfig->set_http_inbound_secret($httpcode);
     $slconfig->set_new_resellers($new_resellers);
@@ -87,7 +87,7 @@ if ($failed_on == "") {
         $slconfig->set_smtp_from($smtp_from);
         $slconfig->set_smtp_replyto($smtp_reply);
     }
-    $update_status = $slconfig->save_changes();
+    $update_status = $slconfig->updateEntry();
     if ($update_status["status"] == true) {
         $status = true;
         $ajax_reply->set_swap_tag_string("message", $lang["slconfig.up.info.1"]);

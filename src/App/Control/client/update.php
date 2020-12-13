@@ -119,7 +119,7 @@ if ($rental->loadByField("rental_uid", $this->page) == true) {
     }
     if ($actions_taken != "") {
         if ($issues == "") {
-            $change_status = $rental->save_changes();
+            $change_status = $rental->updateEntry();
             if ($change_status["status"] == true) {
                 $status = true;
                 $ajax_reply->set_swap_tag_string("redirect", "client/manage/" . $this->page);

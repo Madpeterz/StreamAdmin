@@ -70,7 +70,7 @@ if ($failed_on == "") {
                 $stream->set_api_uid_1($api_uid_1);
                 $stream->set_api_uid_2($api_uid_2);
                 $stream->set_api_uid_3($api_uid_3);
-                $update_status = $stream->save_changes();
+                $update_status = $stream->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
                     if ($api_update == 1) {

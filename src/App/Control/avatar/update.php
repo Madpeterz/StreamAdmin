@@ -28,9 +28,9 @@ if ($failed_on == "") {
         }
         if ($count_check["status"] == true) {
             if ($count_check["count"] == $expected_count) {
-                $avatar->set_avatarname($avatarname);
-                $avatar->set_avataruuid($avataruuid);
-                $update_status = $avatar->save_changes();
+                $avatar->setAvatarname($avatarname);
+                $avatar->setAvataruuid($avataruuid);
+                $update_status = $avatar->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
                     $ajax_reply->set_swap_tag_string("message", $lang["av.ud.info.1"]);

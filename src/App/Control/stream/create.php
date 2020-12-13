@@ -42,7 +42,7 @@ if ($port < 1) {
 $status = false;
 if ($failed_on == "") {
     $stream = new stream();
-    $uid = $stream->create_uid("stream_uid", 8, 10);
+    $uid = $stream->createUID("stream_uid", 8, 10);
     if ($uid["status"] == true) {
         $where_fields = [["port" => ">="],["serverlink" => "="]];
         $where_values = [[$port => "i"],[$serverlink => "i"]];

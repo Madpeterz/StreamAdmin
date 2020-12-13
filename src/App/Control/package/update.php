@@ -75,7 +75,7 @@ if ($failed_on == "") {
         $package->set_api_template($api_template);
         $package->set_servertypelink($servertypelink);
 
-        $update_status = $package->save_changes();
+        $update_status = $package->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
             $ajax_reply->set_swap_tag_string("message", $lang["package.up.info.1"]);
