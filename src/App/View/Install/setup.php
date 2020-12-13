@@ -1,126 +1,144 @@
 <?php
 
-if (defined("correct") == false) {
-    die("Error");
-}
-    $av_uuid = $input->postFilter("av_uuid", "uuid");
-    $load_ok = false;
-if ($av_uuid != null) {
-    include "../App/Config/db.php";
-    require_once("shared/framework/mysqli/src/loader.php"); // sql_driver
-    $sql = new mysqli_controler();
-    $staff = new staff();
-    if ($staff->loadID(1) == true) {
-        $staff->set_username($input->postFilter("av_username"));
-        $staff->set_email($input->postFilter("av_email"));
-        $update_status = $staff->save_changes();
-        if ($update_status["status"] == true) {
-            $avatar = new avatar();
-            if ($avatar->loadID(1) == true) {
-                $avatar->set_avataruuid($av_uuid);
-                $avatar->set_avatarname($input->postFilter("av_name"));
-                $avatar->set_avatar_uid($avatar->create_uid("avatar_uid", 8, 10)["uid"]);
-                $update_status = $avatar->save_changes();
-                if ($update_status["status"] == true) {
-                    $slconfig = new slconfig();
-                    if ($slconfig->loadID(1) == true) {
-                        $slconfig->set_sllinkcode($slconfig->create_uid("sllinkcode", 10, 10)["uid"]);
-                        $update_status = $slconfig->save_changes();
-                        if ($update_status["status"] == true) {
-                            $load_ok = true;
-                            $siteconfigok = true;
-                            if ($input->postFilter("domain") != "skip") {
-                                $content = '<?php
-$site_theme = "streamadminr5";
-$site_lang = "en";
-$template_parts["html_title"] = " Page ";
-$template_parts["html_title_after"] = "[[INSTALL_SITE_NAME]]";
-$template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
-?>';
-                                $content = str_replace("[[INSTALL_SITE_NAME]]", $input->postFilter("sitename"), $content);
-                                $content = str_replace("[[INSTALL_SITE_URI]]", $input->postFilter("domain"), $content);
-                                if (file_exists("../App/Config/site_installed.php") == true) {
-                                    unlink("../App/Config/site_installed.php");
-                                }
-                                file_put_contents("../App/Config/site_installed.php", $content);
-                            }
-                            if ($siteconfigok == true) {
-                                $sql->sqlSave(true);
-                                $this->output->setSwapTagString("page_content", '<a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>');
-                            } else {
-                                $sql->sqlRollBack(true);
-                                $this->output->setSwapTagString("page_content", "Site config not vaild");
-                            }
-                        } else {
-                            $sql->sqlRollBack(true);
-                            $this->output->setSwapTagString("page_content", "Unable to update config entry");
-                        }
-                    } else {
-                        $sql->sqlRollBack(true);
-                        $this->output->setSwapTagString("page_content", "Unable to load config entry");
-                    }
-                } else {
-                    $sql->sqlRollBack(true);
-                    $this->output->setSwapTagString("page_content", "Unable to update avatar entry");
-                }
-            } else {
-                $sql->sqlRollBack(true);
-                $this->output->setSwapTagString("page_content", "Unable to load avatar entry");
+namespace App\View\Install;
+
+use App\Avatar;
+use App\Slconfig;
+use App\Staff;
+use App\Template\Form;
+use YAPF\InputFilter\InputFilter;
+use YAPF\MySQLi\MysqliEnabled;
+
+class Setup extends View
+{
+    public function process(): void
+    {
+        parent::process();
+        $this->output->setSwapTagString("page_content", "");
+        $this->output->setSwapTagString("html_title", "Installer / Step 4 / System setup");
+        $this->output->setSwapTagString("page_title", "Installer / Step 4 / System setup");
+        $input = new InputFilter();
+        $form_ok = false;
+        if ($input->postFilter("av_uuid", "uuid") != null) {
+            $form_ok = $this->processForm();
+            if ($form_ok == true) {
+                $this->nextAction();
+                return;
             }
-        } else {
-            $sql->sqlRollBack(true);
-            $this->output->setSwapTagString("page_content", "unable to update staff entry");
+            $this->sql->sqlRollBack(true);
         }
-    } else {
-        $sql->sqlRollBack(true);
-        $this->output->setSwapTagString("page_content", "unable to load staff entry");
+        $this->setupForm();
     }
-}
-if ($load_ok == false) {
-    $this->output->addSwapTagString("page_content", '
-    <div class="card border border-success rounded">
-      <div class="card-body">
-        <h5 class="card-title">Final setup<br/>
-            <form action="setup" method="post">');
-    if (getenv('DB_HOST') === false) {
-        $this->output->addSwapTagString("page_content", '
-                <div class="row mt-4">
-                    <div class="col-8 offset-2"><input name="domain" class="form-control" type="text" placeholder="Site URL (Dont forget the ending /)" value="http://' . $_SERVER['HTTP_HOST'] . '/"></div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-8 offset-2"><input name="sitename" class="form-control" type="text" placeholder="Site name" value="Streamadmin R7"></div>
-                </div>
-                ');
-    } else {
-        $this->output->addSwapTagString("page_content", '
-                <div class="row mt-4">
-                    <div class="col-8 offset-2"><input name="domain" class="form-control" type="hidden" placeholder="" value="skip"></div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-8 offset-2"><input name="sitename" class="form-control" type="hidden" placeholder="" value="skip"></div>
-                </div>
-                ');
+
+    protected function nextAction(): void
+    {
+        $this->output->setSwapTagString(
+            "page_content",
+            '
+            <div class="alert alert-success" role="alert">User config applyed
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            </div><br/>
+            <a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>'
+        );
     }
-        $this->output->addSwapTagString("page_content", '
-            <div class="row mt-4">
-                <div class="col-8 offset-2"><input name="av_username" class="form-control" type="text" placeholder="Username (Does not have to match SL name)" value=""></div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-8 offset-2"><input name="av_uuid" class="form-control" type="text" placeholder="UUID" value=""></div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-8 offset-2"><input name="av_name" class="form-control" type="text" placeholder="Secondlife Resident" value=""></div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-8 offset-2"><input name="av_email" class="form-control" type="text" placeholder="recovery@email.address.com" value=""></div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-6"><button class="btn btn-primary btn-block" type="submit">Finalize</button></div>
-            </div>
-            </form>
+
+    protected function setupForm(): void
+    {
+        $form = new Form();
+        $form->noAjax();
+        $form->mode("post");
+        $form->target("setup");
+        $form->group("System setup");
+        if (getenv('DB_HOST') === false) {
+            $form->textInput("domain", "Domain", 120, "[[url_base]]", "Site URL (Dont forget the ending /)");
+            $form->textInput("sitename", "Site name", 120, "StreamAdmin R7", "StreamAdmin R7");
+        } else {
+            $form->hiddenInput("domain", "Domain", 120, "skip", "skip");
+            $form->hiddenInput("sitename", "Site name", 120, "skip", "skip");
+        }
+        $form->split();
+        $form->textInput("av_username", "Login username", 120, "", "Does not have to match SL name");
+        $form->uuidInput("av_uuid", "Avatar UUID", "", "Secondlife avatar UUID");
+        $form->textInput("av_name", "Avatar name", 120, "", "Secondlife Resident");
+        $form->split();
+        $form->textInput("av_email", "Email address", 120, "", "recovery@email.address.com");
+        $mainform = $form->render("Finalize", "primary");
+
+        $this->output->addSwapTagString("page_content", $mainform . '
             <br/>
             <br/><br/><br/><hr/><p>Do not use this option unless told to!</p>
-            <a href="final"><button class="btn btn-warning btn-block" type="button">Skip setup goto final</button></a><br/>
-        </div>
-    </div>');
+            <a href="finalstep">
+            <button class="btn btn-warning btn-block" type="button">Skip setup goto final</button></a><br/>');
+    }
+
+    protected function processForm(): bool
+    {
+        $this->sql = new MysqliEnabled();
+        $input = new InputFilter();
+        $av_uuid = $input->postFilter("av_uuid", "uuid");
+        $staff = new Staff();
+        if ($staff->loadID(1) == false) {
+            $this->output->setSwapTagString("page_content", "unable to load staff entry");
+            return false;
+        }
+        $staff->setUsername($input->postFilter("av_username"));
+        $staff->setEmail($input->postFilter("av_email"));
+        $update_status = $staff->updateEntry();
+        if ($update_status["status"] == false) {
+            $this->output->setSwapTagString("page_content", "unable to update staff entry");
+            return false;
+        }
+
+        $avatar = new Avatar();
+        if ($avatar->loadID(1) == false) {
+            $this->output->setSwapTagString("page_content", "Unable to load avatar entry");
+            return false;
+        }
+        $avatar->setAvataruuid($av_uuid);
+        $avatar->setAvatarname($input->postFilter("av_name"));
+        $avatar->setAvatar_uid($avatar->createUID("avatar_uid", 8)["uid"]);
+        $update_status = $avatar->updateEntry();
+        if ($update_status["status"] == false) {
+            $this->output->setSwapTagString("page_content", "Unable to update avatar entry");
+            return false;
+        }
+
+        $slconfig = new Slconfig();
+        if ($slconfig->loadID(1) == false) {
+            $this->output->setSwapTagString("page_content", "Unable to load config entry");
+            return false;
+        }
+        $slconfig->setSllinkcode($slconfig->createUID("sllinkcode", 10, 10)["uid"]);
+        $update_status = $slconfig->updateEntry();
+        if ($update_status["status"] == false) {
+            $this->output->setSwapTagString("page_content", "Unable to update config entry");
+            return false;
+        }
+
+        return $this->writeConfigFile();
+    }
+
+    protected function writeConfigFile(): bool
+    {
+        $input = new InputFilter();
+        if ($input->postFilter("domain") == "skip") {
+            return true;
+        }
+        $content = '<?php
+        $site_theme = "streamadminr5";
+        $site_lang = "en";
+        $template_parts["html_title"] = " Page ";
+        $template_parts["html_title_after"] = "[[INSTALL_SITE_NAME]]";
+        $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
+        ?>';
+        $content = str_replace("[[INSTALL_SITE_NAME]]", $input->postFilter("sitename"), $content);
+        $content = str_replace("[[INSTALL_SITE_URI]]", $input->postFilter("domain"), $content);
+        $config_file = "../App/Config/site_installed.php";
+        if (file_exists($config_file) == true) {
+            unlink($config_file);
+        }
+        return file_put_contents($config_file, $content);
+    }
 }
