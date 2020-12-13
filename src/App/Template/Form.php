@@ -11,11 +11,16 @@ class Form
     protected $add_required = false;
     protected $mode = "post";
     protected $mygrid = null;
+    protected $allowAjax = true;
     protected function enablegridRender(): void
     {
         if ($this->mygrid == null) {
             $this->mygrid = new Grid();
         }
+    }
+    public function noAjax(): void
+    {
+        $this->allowAjax = false;
     }
     public function col(int $size = 12): void
     {
@@ -24,6 +29,7 @@ class Form
     }
     public function mode(string $newmode): void
     {
+        $newmode = strtolower($newmode);
         if ($newmode == "get") {
             $this->mode = "get";
         } else {
@@ -47,11 +53,14 @@ class Form
         $this->mygrid->closeRow();
         $ajax_mode = "ajax";
         if ($slow_warning == true) {
-            $ajax_mode = "slow";
+            $ajax_mode = "ajax slow";
+        }
+        if ($this->allowAjax == false) {
+            $ajax_mode = "";
         }
         if ($this->mode == "post") {
-            $this->mygrid->addBefore('<form action="[[url_base]]' . $this->targeturl . '" 
-            ." method="POST" class="form ajax ' . $ajax_mode . '">');
+            $this->mygrid->addBefore('<form action="[[url_base]]' . $this->targeturl
+            . '" method="POST" class="form ' . $ajax_mode . '">');
         } else {
             $this->mygrid->addBefore('<form action="[[url_base]]' . $this->targeturl . '" method="GET" class="form">');
         }
