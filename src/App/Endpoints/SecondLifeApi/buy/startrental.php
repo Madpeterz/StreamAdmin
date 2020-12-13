@@ -22,7 +22,7 @@ function get_avatar(string $avataruuid, string $avatarname): ?avatar
 function create_transaction(avatar $avatar, package $package, stream $stream, reseller $reseller, region $region, int $amountpaid): bool
 {
     $transaction = new transactions();
-    $uid_transaction = $transaction->create_uid("transaction_uid", 8, 10);
+    $uid_transaction = $transaction->createUID("transaction_uid", 8, 10);
     if ($uid_transaction["status"] == true) {
         $transaction->set_avatarlink($avatar->getId());
         $transaction->set_packagelink($package->getId());
@@ -140,7 +140,7 @@ if ($status == true) { // check payment amount
 }
 if ($status == true) { // create rental
     $rental = new rental();
-    $uid_rental = $rental->create_uid("rental_uid", 8, 10);
+    $uid_rental = $rental->createUID("rental_uid", 8, 10);
     $status = $uid_rental["status"];
     if ($status == true) {
         $rental->set_rental_uid($uid_rental["uid"]);
@@ -161,7 +161,7 @@ if ($status == true) { // create rental
 }
 if ($status == true) { // link rental to stream
     $stream->set_rentallink($rental->getId());
-    $status = $stream->save_changes()["status"];
+    $status = $stream->updateEntry()["status"];
     if ($status != true) {
         $why_failed = $lang["buy.sr.error.8"];
     }

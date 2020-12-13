@@ -13,7 +13,7 @@ if ($owner_override == true) {
             $api_request->set_attempts($api_request->get_attempts() + 1);
             $api_request->set_last_attempt(time());
             $api_request->set_message("started processing");
-            $save_status = $api_request->save_changes();
+            $save_status = $api_request->updateEntry();
             if ($save_status["status"] == true) {
                 if (file_exists($load_path) == true) {
                     if ($sql->sqlSave(false) == true) {
@@ -30,7 +30,7 @@ if ($owner_override == true) {
             }
             if ($soft_fail == true) {
                 $api_request->set_message($message);
-                $save_status = $api_request->save_changes();
+                $save_status = $api_request->updateEntry();
                 if ($save_status["status"] == false) {
                     $soft_fail = false;
                     $message = "Failed to update api request attempt details";

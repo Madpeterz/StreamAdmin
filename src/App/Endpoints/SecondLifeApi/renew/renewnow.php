@@ -17,7 +17,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
             if (array_key_exists($amountpaid, $accepted_payment_amounts) == true) {
                 $multipler = $accepted_payment_amounts[$amountpaid];
                 $transaction = new transactions();
-                $uid_transaction = $transaction->create_uid("transaction_uid", 8, 10);
+                $uid_transaction = $transaction->createUID("transaction_uid", 8, 10);
                 if ($uid_transaction["status"] == true) {
                     $unixtime_to_add = (($package->getDays() * $unixtime_day) * $multipler);
                     $new_expires_time = $rental->getExpireunixtime() + $unixtime_to_add;
@@ -51,7 +51,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                             }
                         }
                     }
-                    $save_changes = $rental->save_changes();
+                    $save_changes = $rental->updateEntry();
                     if ($save_changes["status"] == true) {
                         $avatar_helper = new avatar_helper();
                         $get_av_status = $avatar_helper->load_or_create($avataruuid, $avatarname);

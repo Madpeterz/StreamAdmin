@@ -23,7 +23,7 @@ if ($notecards != "none") {
             }
             if ($notice_notecard->get_missing() == $notecards_list_index) {
                 $notice_notecard->set_missing($notecards_list_index);
-                $status = $notice_notecard->save_changes()["status"];
+                $status = $notice_notecard->updateEntry()["status"];
                 if ($status == false) {
                     echo $lang["noticeserver.up.error.1"];
                     break;

@@ -18,7 +18,7 @@ function process_notice_change(notice $notice): void
         $why_failed = $send_message_status["message"];
     } else {
         $rental->set_noticelink($notice->getId());
-        $save_status = $rental->save_changes();
+        $save_status = $rental->updateEntry();
         if ($save_status["status"] == false) {
             $all_ok = false;
             $why_failed = $save_status["message"];
