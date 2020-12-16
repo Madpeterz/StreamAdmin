@@ -2,7 +2,7 @@
 
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$ajax_reply->set_swap_tag_string("redirect", "server");
+$this->output->setSwapTagString("redirect", "server");
 $status = false;
 if ($accept == "Accept") {
     $server = new server();
@@ -15,29 +15,29 @@ if ($accept == "Accept") {
                 $load_status = $api_requests_set->loadOnField("serverlink", $server->getId());
                 if ($load_status["status"] == true) {
                     if ($api_requests_set->getCount() == 0) {
-                        $remove_status = $server->remove_me();
+                        $remove_status = $serverremoveEntry();
                         if ($remove_status["status"] == true) {
                             $status = true;
-                            $ajax_reply->set_swap_tag_string("message", $lang["server.rm.info.1"]);
+                            $this->output->setSwapTagString("message", $lang["server.rm.info.1"]);
                         } else {
-                            $ajax_reply->set_swap_tag_string("message", sprintf($lang["server.rm.error.3"], $remove_status["message"]));
+                            $this->output->setSwapTagString("message", sprintf($lang["server.rm.error.3"], $remove_status["message"]));
                         }
                     } else {
-                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["server.rm.error.6"], $api_requests_set->getCount()));
+                        $this->output->setSwapTagString("message", sprintf($lang["server.rm.error.6"], $api_requests_set->getCount()));
                     }
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", $lang["server.rm.error.7"]);
+                    $this->output->setSwapTagString("message", $lang["server.rm.error.7"]);
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", sprintf($lang["server.rm.error.5"], $stream_set->getCount()));
+                $this->output->setSwapTagString("message", sprintf($lang["server.rm.error.5"], $stream_set->getCount()));
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["server.rm.error.4"]);
+            $this->output->setSwapTagString("message", $lang["server.rm.error.4"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["server.rm.error.2"]);
+        $this->output->setSwapTagString("message", $lang["server.rm.error.2"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $lang["server.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "server/manage/" . $this->page . "");
+    $this->output->setSwapTagString("message", $lang["server.rm.error.1"]);
+    $this->output->setSwapTagString("redirect", "server/manage/" . $this->page . "");
 }

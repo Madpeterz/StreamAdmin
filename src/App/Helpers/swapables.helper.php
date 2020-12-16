@@ -1,8 +1,14 @@
 <?php
 
+use App\Models\Avatar;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+
 class swapables_helper
 {
-    function get_swapped_text(string $template, avatar $avatar, rental $rental, package $package, server $server, stream $stream): string
+    function get_swapped_text(string $template, Avatar $avatar, Rental $rental, Package $package, Server $server, Stream $stream): string
     {
         global $timezone_name;
           $av_split = explode(" ", $avatar->getAvatarname());

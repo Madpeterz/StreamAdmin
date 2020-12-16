@@ -70,17 +70,17 @@ if (count($avatarids) <= $max_avatars) {
                     }
                 }
                 $status = true;
-                $ajax_reply->set_swap_tag_string("message", sprintf($lang["outbox.send.ok"], $sent_counter));
-                $ajax_reply->set_swap_tag_string("redirect", "outbox");
+                $this->output->setSwapTagString("message", sprintf($lang["outbox.send.ok"], $sent_counter));
+                $this->output->setSwapTagString("redirect", "outbox");
             } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["outbox.send.error.4"]);
+                $this->output->setSwapTagString("message", $lang["outbox.send.error.4"]);
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["outbox.send.error.3"]);
+            $this->output->setSwapTagString("message", $lang["outbox.send.error.3"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["outbox.send.error.2"]);
+        $this->output->setSwapTagString("message", $lang["outbox.send.error.2"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $lang["outbox.send.error.1"]);
+    $this->output->setSwapTagString("message", $lang["outbox.send.error.1"]);
 }

@@ -3,24 +3,24 @@
 if ($session->getOwnerLevel() == 1) {
     $input = new inputFilter();
     $accept = $input->postFilter("accept");
-    $ajax_reply->set_swap_tag_string("redirect", "transactions");
+    $this->output->setSwapTagString("redirect", "transactions");
     $status = false;
     if ($accept == "Accept") {
         $transaction = new transactions();
         if ($transaction->loadByField("transaction_uid", $this->page) == true) {
-            $remove_status = $transaction->remove_me();
+            $remove_status = $transactionremoveEntry();
             if ($remove_status["status"] == true) {
                 $status = true;
-                $ajax_reply->set_swap_tag_string("message", $lang["tr.rm.info.1"]);
+                $this->output->setSwapTagString("message", $lang["tr.rm.info.1"]);
             } else {
-                $ajax_reply->set_swap_tag_string("message", sprintf($lang["tr.rm.error.3"], $remove_status["message"]));
+                $this->output->setSwapTagString("message", sprintf($lang["tr.rm.error.3"], $remove_status["message"]));
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["tr.rm.error.2"]);
+            $this->output->setSwapTagString("message", $lang["tr.rm.error.2"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["tr.rm.error.1"]);
+        $this->output->setSwapTagString("message", $lang["tr.rm.error.1"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $lang["tr.rm.error.4"]);
+    $this->output->setSwapTagString("message", $lang["tr.rm.error.4"]);
 }

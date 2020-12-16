@@ -1,49 +1,59 @@
 <?php
 
-$status = false;
-$ajax_reply->set_swap_tag_string("redirect", "config");
-if ($session->getOwnerLevel() == true) {
-    $input = new inputFilter();
-    $avataruid = $input->postFilter("avataruid");
-    $secret = $input->postFilter("secret");
-    $notecards = $input->postFilter("notecards", "bool");
-    $ims = $input->postFilter("ims", "bool");
+namespace App\Control\Bot;
 
-    $failed_on = "";
-    if (strlen($avataruid) != 8) {
-        $failed_on .= $lang["bot.up.error.1"];
-    } elseif (strlen($secret) < 8) {
-        $failed_on .= $lang["bot.up.error.2"];
-    }
+use App\Models\Avatar;
+use App\Models\Botconfig;
+use App\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
 
-    $status = false;
-    if ($failed_on == "") {
-        $botconfig = new botconfig();
-        if ($botconfig->loadID(1) == true) {
-            $avatar = new avatar();
-            if ($avatar->loadByField("avatar_uid", $avataruid) == true) {
-                $botconfig->set_avatarlink($avatar->getId());
-                $botconfig->set_secret($secret);
-                $botconfig->set_notecards($notecards);
-                $botconfig->set_ims($ims);
-                $save_changes = $botconfig->updateEntry();
-                if ($save_changes["status"] == true) {
-                    $status = true;
-                    $ajax_reply->set_swap_tag_string("redirect", null);
-                    $ajax_reply->set_swap_tag_string("message", $lang["bot.up.info.1"]);
-                } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["bot.up.error.6"], $save_changes["message"]));
-                }
-            } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["bot.up.error.5"]);
-            }
-        } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["bot.up.error.4"]);
+class Update extends ViewAjax
+{
+    public function process(): void
+    {
+        $this->output->setSwapTagString("redirect", "config");
+        if ($this->session->getOwnerLevel() == false) {
+            $this->output->setSwapTagString("message", "Sorry only owners can make changes to the bot config");
+            return;
         }
-    } else {
-        $ajax_reply->set_swap_tag_string("message", $failed_on);
-        $ajax_reply->set_swap_tag_string("redirect", null);
+        $input = new InputFilter();
+        $avataruid = $input->postFilter("avataruid");
+        $secret = $input->postFilter("secret");
+        $notecards = $input->postFilter("notecards", "bool");
+        $ims = $input->postFilter("ims", "bool");
+        $this->output->setSwapTagString("redirect", null);
+        if (strlen($avataruid) != 8) {
+            $this->output->setSwapTagString("message", "avataruid length must be 8");
+            return;
+        }
+        if (strlen($secret) < 8) {
+            $this->output->setSwapTagString("message", "secret length can not be less than 8");
+            return;
+        }
+        $botconfig = new Botconfig();
+        if ($botconfig->loadID(1) == false) {
+            $this->output->setSwapTagString("message", "Unable to find bot config");
+            return;
+        }
+        $avatar = new Avatar();
+        if ($avatar->loadByField("avatar_uid", $avataruid) == false) {
+            $this->output->setSwapTagString("message", "Unable to load avatar to attach bot to");
+            return;
+        }
+        $botconfig->setAvatarlink($avatar->getId());
+        $botconfig->setSecret($secret);
+        $botconfig->setNotecards($notecards);
+        $botconfig->setIms($ims);
+        $save_changes = $botconfig->updateEntry();
+        if ($save_changes["status"] == false) {
+            $this->output->setSwapTagString(
+                "message",
+                sprintf("Unable to save changes because: %1\$s", $save_changes["message"])
+            );
+            return;
+        }
+        $this->output->setSwapTagString("status", "true");
+        $this->output->setSwapTagString("redirect", null);
+        $this->output->setSwapTagString("message", "Changes saved");
     }
-} else {
-    $ajax_reply->set_swap_tag_string("message", $lang["bot.up.error.3"]);
 }

@@ -2,6 +2,7 @@
 
 namespace App\Framework;
 
+use App\Models\Staff;
 use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
 
 class SessionControl extends SqlConnectedClass
@@ -214,7 +215,7 @@ class SessionControl extends SqlConnectedClass
         }
         return ["status" => false,"message" => "hash_userpassword requires the user object to be loaded!"];
     }
-    public function attachStaffMember(staff $staff): void
+    public function attachStaffMember(Staff $staff): void
     {
         $this->main_class_object = $staff;
     }

@@ -10,7 +10,7 @@ if ($rate < 1) {
     $failed_on .= $lang["reseller.up.error.2"];
 }
 $status = false;
-$ajax_reply->set_swap_tag_string("redirect", "reseller");
+$this->output->setSwapTagString("redirect", "reseller");
 if ($failed_on == "") {
     $reseller = new reseller();
     if ($reseller->loadID($this->page) == true) {
@@ -19,15 +19,15 @@ if ($failed_on == "") {
         $update_status = $reseller->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
-            $ajax_reply->set_swap_tag_string("message", $lang["reseller.up.info.1"]);
+            $this->output->setSwapTagString("message", $lang["reseller.up.info.1"]);
         } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["reseller.up.error.4"], $update_status["message"]));
+            $this->output->setSwapTagString("message", sprintf($lang["reseller.up.error.4"], $update_status["message"]));
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["reseller.up.error.3"]);
+        $this->output->setSwapTagString("message", $lang["reseller.up.error.3"]);
     }
 } else {
     $status = false;
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
-    $ajax_reply->set_swap_tag_string("redirect", "");
+    $this->output->setSwapTagString("message", $failed_on);
+    $this->output->setSwapTagString("redirect", "");
 }

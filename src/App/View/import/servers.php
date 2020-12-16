@@ -19,7 +19,7 @@ foreach ($r4_items_servers as $serverurl) {
     $server = new server();
     $server->set_domain($serverurl);
     $server->set_controlpanel_url($serverurl);
-    $server_status = $server->create_entry();
+    $server_status = $server->createEntry();
     if ($server_status["status"] == true) {
         $created_servers++;
     } else {

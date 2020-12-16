@@ -1,53 +1,69 @@
 <?php
 
-$input = new inputFilter();
-$avatarname = $input->postFilter("avatarname");
-$avataruuid = $input->postFilter("avataruuid");
-$failed_on = "";
-if (count(explode(" ", $avatarname)) == 1) {
-    $avatarname .= " Resident";
-}
-if (strlen($avatarname) < 5) {
-    $failed_on .= $lang["av.ud.error.1"];
-} elseif (strlen($avatarname) > 125) {
-    $failed_on .= $lang["av.ud.error.2"];
-} elseif (strlen($avataruuid) != 36) {
-    $failed_on .= $lang["av.ud.error.3"];
-}
-$ajax_reply->set_swap_tag_string("redirect", "avatar");
-$status = false;
-if ($failed_on == "") {
-    $avatar = new avatar();
-    if ($avatar->loadByField("avatar_uid", $this->page) == true) {
-        $where_fields = [["avataruuid" => "="]];
-        $where_values = [[$avataruuid => "s"]];
-        $count_check = $sql->basic_count($avatar->get_table(), $where_fields, $where_values);
+namespace App\Control\Avatar;
+
+use App\Models\Avatar;
+use App\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
+
+class Update extends ViewAjax
+{
+    public function process(): void
+    {
+        $input = new inputFilter();
+        $avatarname = $input->postFilter("avatarname");
+        $avataruuid = $input->postFilter("avataruuid", "uuid");
+        if (count(explode(" ", $avatarname)) == 1) {
+            $avatarname .= " Resident";
+        }
+        if (strlen($avatarname) < 5) {
+            $this->output->setSwapTagString("message", "avatarname length must be 5 or longer");
+            return;
+        }
+        if (strlen($avatarname) > 125) {
+            $this->output->setSwapTagString("message", "avatarname length must be 125 or less");
+            return;
+        }
+        if (strlen($avataruuid) != 36) {
+            $this->output->setSwapTagString("message", "avataruuid must be a uuid");
+            return;
+        }
+        $this->output->setSwapTagString("redirect", "avatar");
+        $avatar = new Avatar();
+        if ($avatar->loadByField("avatar_uid", $this->page) == false) {
+            $this->output->setSwapTagString("message", "Unable to find the avatar");
+            return;
+        }
+        $whereConfig = [
+            "fields" => ["avataruuid"],
+            "values" => [$avataruuid],
+            "types" => ["s"],
+            "matches" => ["="],
+        ];
+        $count_check = $this->sql->basicCountV2($avatar->getTable(), $whereConfig);
         $expected_count = 0;
-        if ($avatar->get_avataruuid() == $avataruuid) {
+        if ($avatar->getAvataruuid() == $avataruuid) {
             $expected_count = 1;
         }
-        if ($count_check["status"] == true) {
-            if ($count_check["count"] == $expected_count) {
-                $avatar->setAvatarname($avatarname);
-                $avatar->setAvataruuid($avataruuid);
-                $update_status = $avatar->updateEntry();
-                if ($update_status["status"] == true) {
-                    $status = true;
-                    $ajax_reply->set_swap_tag_string("message", $lang["av.ud.info.1"]);
-                } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["av.ud.error.7"], $update_status["message"]));
-                }
-            } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["av.ud.error.6"]);
-            }
-        } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["av.ud.error.5"]);
+        if ($count_check["status"] == false) {
+            $this->output->setSwapTagString("message", "Unable to check if UUID in use");
+            return;
         }
-    } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["av.ud.error.4"]);
+        if ($count_check["count"] != $expected_count) {
+            $this->output->setSwapTagString("message", "Selected UUID is already in use");
+            return;
+        }
+        $avatar->setAvatarname($avatarname);
+        $avatar->setAvataruuid($avataruuid);
+        $update_status = $avatar->updateEntry();
+        if ($update_status["status"] == false) {
+            $this->output->setSwapTagString(
+                "message",
+                sprintf("Unable to update avatar: %1\$s", $update_status["message"])
+            );
+            return;
+        }
+        $this->output->setSwapTagString("status", "true");
+        $this->output->setSwapTagString("message", "Avatar updated");
     }
-} else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
-    $ajax_reply->set_swap_tag_string("redirect", null);
-    $status = false;
 }

@@ -20,7 +20,7 @@ class avatar_helper
                     $this->avatar->setAvatar_uid($uid["uid"]);
                     $this->avatar->setAvatarname($avatar_name);
                     $this->avatar->setAvataruuid($avatar_uuid);
-                    $create_status = $this->avatar->create_entry();
+                    $create_status = $this->avatar->createEntry();
                     if ($create_status["status"] == false) {
                         if ($show_errors == true) {
                             echo "[Avatar Helper] -> as unable to create avatar because:" . $create_status["message"];

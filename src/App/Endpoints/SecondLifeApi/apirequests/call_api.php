@@ -13,7 +13,7 @@ if ($stream->loadID($api_request->getStreamlink()) == true) {
         $message = $server_api_helper->getMessage();
         if ($status == true) {
             if ($retry == false) {
-                $remove_status = $api_request->remove_me();
+                $remove_status = $api_requestremoveEntry();
                 if ($remove_status["status"] == true) {
                     $why_failed = "";
                     if ($logic_step != "opt") {

@@ -12,8 +12,8 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     if ($count_data["status"] == true) {
         if ($count_data["count"] == 0) {
             $detail = new detail();
-            $detail->set_rentallink($rental->getId());
-            $create_status = $detail->create_entry();
+            $detail->setRentallink($rental->getId());
+            $create_status = $detail->createEntry();
             if ($create_status["status"] == true) {
                 $status = true;
                 echo $lang["details.rs.info.1"];

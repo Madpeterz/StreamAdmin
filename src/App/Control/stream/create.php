@@ -50,10 +50,10 @@ if ($failed_on == "") {
         if ($count_check["status"] == true) {
             if ($count_check["count"] == 0) {
                 $stream->set_stream_uid($uid["uid"]);
-                $stream->set_packagelink($packagelink);
+                $stream->setPackagelink($packagelink);
                 $stream->set_serverlink($serverlink);
                 $stream->set_port($port);
-                $stream->set_needwork($needswork);
+                $stream->setNeedwork($needswork);
                 $stream->set_adminusername($adminusername);
                 $stream->set_adminpassword($adminpassword);
                 $stream->set_original_adminusername($adminusername);
@@ -62,7 +62,7 @@ if ($failed_on == "") {
                 $stream->set_api_uid_1($api_uid_1);
                 $stream->set_api_uid_2($api_uid_2);
                 $stream->set_api_uid_3($api_uid_3);
-                $create_status = $stream->create_entry();
+                $create_status = $stream->createEntry();
                 if ($create_status["status"] == true) {
                     $status = true;
                     if ($api_create == 1) {
@@ -70,23 +70,23 @@ if ($failed_on == "") {
                         $all_ok = $api_serverlogic_reply;
                     }
                     if ($status != true) {
-                        $ajax_reply->set_swap_tag_string("message", $why_failed);
+                        $this->output->setSwapTagString("message", $why_failed);
                     } else {
-                        $ajax_reply->set_swap_tag_string("message", $lang["stream.cr.info.1"]);
-                        $ajax_reply->set_swap_tag_string("redirect", "stream");
+                        $this->output->setSwapTagString("message", $lang["stream.cr.info.1"]);
+                        $this->output->setSwapTagString("redirect", "stream");
                     }
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["stream.cr.error.14"], $create_status["message"]));
+                    $this->output->setSwapTagString("message", sprintf($lang["stream.cr.error.14"], $create_status["message"]));
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["stream.cr.error.13"]);
+                $this->output->setSwapTagString("message", $lang["stream.cr.error.13"]);
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["stream.cr.error.12"]);
+            $this->output->setSwapTagString("message", $lang["stream.cr.error.12"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["stream.cr.error.11"]);
+        $this->output->setSwapTagString("message", $lang["stream.cr.error.11"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

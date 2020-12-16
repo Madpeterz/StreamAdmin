@@ -26,14 +26,14 @@ if ($failed_on == "") {
         $update_status = $template->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
-            $ajax_reply->set_swap_tag_string("message", $lang["template.up.info.1"]);
-            $ajax_reply->set_swap_tag_string("redirect", "template");
+            $this->output->setSwapTagString("message", $lang["template.up.info.1"]);
+            $this->output->setSwapTagString("redirect", "template");
         } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["template.up.error.7"], $update_status["message"]));
+            $this->output->setSwapTagString("message", sprintf($lang["template.up.error.7"], $update_status["message"]));
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["template.up.error.6"]);
+        $this->output->setSwapTagString("message", $lang["template.up.error.6"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

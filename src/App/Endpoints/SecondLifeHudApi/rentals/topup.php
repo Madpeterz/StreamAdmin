@@ -23,7 +23,7 @@ if (in_array(null, $fasttest) == false) {
                 $package = new package();
                 if ($package->loadID($rental->getPackagelink()) == true) {
                     if ($amount == $package->getCost()) {
-                        $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->get_avataruuid(),$slconfig->getPubliclinkcode(),$rental->getExpireunixtime()];
+                        $bits = [$rental_uid,$amount,$transactionid,$tidtime,$object_owner_avatar->getAvataruuid(),$slconfig->getPubliclinkcode(),$rental->getExpireunixtime()];
                         $raw = implode("", $bits);
                         $tidhashcheck = sha1($raw);
                         if ($tidhashcheck == $tidhash) {
@@ -32,7 +32,7 @@ if (in_array(null, $fasttest) == false) {
                                 $reseller = $avatar_system;
                                 $localstatus = true;
                                 $_POST["rental_uid"] = $rental_uid;
-                                $_POST["avataruuid"] = $object_owner_avatar->get_avataruuid();
+                                $_POST["avataruuid"] = $object_owner_avatar->getAvataruuid();
                                 $_POST["avatarname"] = $object_owner_avatar->getAvatarname();
                                 $_POST["amountpaid"] = $amount;
                                 $owner_override = true;

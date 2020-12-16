@@ -1,7 +1,7 @@
 <div class="card border border-success rounded">
   <div class="card-body">
     <h5 class="card-title">Hi there please login</h5><sub>[[why_logged_out]]</sub><br/>
-        <form action="[[url_base]]ajax.php/login/start" method="post" class="ajax">
+        <form action="[[url_base]]index.php/login/start" method="post" class="ajax">
         <div class="row mt-4">
             <div class="col-8 offset-2"><input name="staffusername" class="form-control" type="text" placeholder="Who are you?"></div>
         </div>

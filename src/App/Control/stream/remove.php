@@ -2,7 +2,7 @@
 
 $input = new inputFilter();
 $accept = $input->postFilter("accept");
-$ajax_reply->set_swap_tag_string("redirect", "stream");
+$this->output->setSwapTagString("redirect", "stream");
 $status = false;
 if ($accept == "Accept") {
     $stream = new stream();
@@ -20,24 +20,24 @@ if ($accept == "Accept") {
                 }
             }
             if ($unlink_ok == true) {
-                $remove_status = $stream->remove_me();
+                $remove_status = $streamremoveEntry();
                 if ($remove_status["status"] == true) {
                     $status = true;
-                    $ajax_reply->set_swap_tag_string("message", $lang["stream.rm.info.1"]);
+                    $this->output->setSwapTagString("message", $lang["stream.rm.info.1"]);
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["stream.rm.error.3"], $remove_status["message"]));
+                    $this->output->setSwapTagString("message", sprintf($lang["stream.rm.error.3"], $remove_status["message"]));
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", sprintf($lang["stream.rm.error.5"], $bulkupdate_status["message"]));
+                $this->output->setSwapTagString("message", sprintf($lang["stream.rm.error.5"], $bulkupdate_status["message"]));
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["stream.rm.error.4"], $load_status["message"]));
+            $this->output->setSwapTagString("message", sprintf($lang["stream.rm.error.4"], $load_status["message"]));
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["stream.rm.error.2"]);
+        $this->output->setSwapTagString("message", $lang["stream.rm.error.2"]);
     }
 } else {
     $status = false;
-    $ajax_reply->set_swap_tag_string("message", $lang["stream.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "stream/manage/" . $this->page . "");
+    $this->output->setSwapTagString("message", $lang["stream.rm.error.1"]);
+    $this->output->setSwapTagString("redirect", "stream/manage/" . $this->page . "");
 }

@@ -52,7 +52,7 @@ abstract class AddonProvider extends SwapTags
           'order': [[ 0, 'desc' ]],
           responsive: true,
         ");
-            if (version_compare($slconfig->get_db_version(), "1.0.0.4", ">") == true) {
+            if (version_compare($slconfig->getDb_version(), "1.0.0.4", ">") == true) {
                 $this->output->addSwapTagString("html_js_onready", "
                 pageLength: " . $slconfig->get_datatable_itemsperpage() . ",
                 lengthMenu: [[" . $slconfig->get_datatable_itemsperpage() . ", "

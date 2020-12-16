@@ -14,7 +14,7 @@ $sql = $current_sql; // swtich back to r7
 $template_set = new template_set();
 $template_set->loadAll();
 
-$template = $template_set->get_first();
+$template = $template_set->getFirst();
 
 
 include "shared/lang/control/package/" . $site_lang . ".php";
@@ -53,7 +53,7 @@ foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
             $package->set_texture_uuid_instock_selected($r4_package->get_maintexture());
         }
 
-        $create_status = $package->create_entry();
+        $create_status = $package->createEntry();
         if ($create_status["status"] == true) {
             $packages_created++;
         } else {

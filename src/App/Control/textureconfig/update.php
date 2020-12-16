@@ -59,15 +59,15 @@ if ($failed_on == "") {
         $update_status = $textureconfig->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
-            $ajax_reply->set_swap_tag_string("message", $lang["textureconfig.up.info.1"]);
-            $ajax_reply->set_swap_tag_string("redirect", "textureconfig");
+            $this->output->setSwapTagString("message", $lang["textureconfig.up.info.1"]);
+            $this->output->setSwapTagString("redirect", "textureconfig");
         } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["textureconfig.up.error.14"], $update_status["message"]));
+            $this->output->setSwapTagString("message", sprintf($lang["textureconfig.up.error.14"], $update_status["message"]));
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["textureconfig.up.error.13"]);
-        $ajax_reply->set_swap_tag_string("redirect", "textureconfig");
+        $this->output->setSwapTagString("message", $lang["textureconfig.up.error.13"]);
+        $this->output->setSwapTagString("redirect", "textureconfig");
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

@@ -28,14 +28,14 @@ class object_helper
                 return $save_status["status"];
             } else {
                 $this->object = new objects();
-                $this->object->set_avatarlink($avatar_id);
+                $this->object->setAvatarlink($avatar_id);
                 $this->object->set_regionlink($region_id);
                 $this->object->set_objectuuid($objectuuid);
                 $this->object->set_objectname($objectname);
                 $this->object->set_objectmode($objectmode);
                 $this->object->set_objectxyz($pos);
                 $this->object->set_lastseen(time());
-                $save_status = $this->object->create_entry();
+                $save_status = $this->object->createEntry();
                 if ($save_status["status"] == false) {
                     if ($show_errors == true) {
                         echo "[Objects helper] - " . $save_status["message"];

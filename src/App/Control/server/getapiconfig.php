@@ -12,10 +12,10 @@ if ($apilink > 0) {
         }
         $status = true;
         $reply["update_api_flags"] = true;
-        $ajax_reply->set_swap_tag_string("message", "API config loaded");
+        $this->output->setSwapTagString("message", "API config loaded");
     } else {
-        $ajax_reply->set_swap_tag_string("message", "Unknown API selected");
+        $this->output->setSwapTagString("message", "Unknown API selected");
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", "Invaild API selected");
+    $this->output->setSwapTagString("message", "Invaild API selected");
 }

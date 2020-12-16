@@ -9,7 +9,6 @@ abstract class View extends BasicView
     public function __construct()
     {
         parent::__construct();
-        $this->tempateSidemenu();
         $this->output->setSwapTagString("html_title", "Avatars");
         $this->output->setSwapTagString("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / Avatars");
         $this->output->setSwapTagString(

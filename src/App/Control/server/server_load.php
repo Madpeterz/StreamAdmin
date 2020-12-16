@@ -11,7 +11,7 @@ if ($server->loadID($this->page) == true) {
         if ($apireply["status"] == true) {
             $addon = "";
             if ($apireply["streams"]["total"] > 0) {
-                $ajax_reply->addSwapTagString("message", $addon);
+                $this->output->addSwapTagString("message", $addon);
                 $percent = 100 - round((($apireply["streams"]["total"] - $apireply["streams"]["active"]) / $apireply["streams"]["total"]) * 100, 2);
                 $text_color = "text-light";
                 if ($percent < 40) {
@@ -21,16 +21,16 @@ if ($server->loadID($this->page) == true) {
                 } elseif ($percent < 80) {
                     $text_color = "text-info";
                 }
-                $ajax_reply->addSwapTagString("message", "Str: <span class=\"" . $text_color . "\">" . $percent . " %</span>");
+                $this->output->addSwapTagString("message", "Str: <span class=\"" . $text_color . "\">" . $percent . " %</span>");
                 $addon = " &nbsp;&nbsp;";
             }
             if ($apireply["loads"]["1"] > 0.0) {
-                $ajax_reply->addSwapTagString("message", $addon);
-                $ajax_reply->addSwapTagString("message", "CPU: <span class=\"text-light\">" . $apireply["loads"]["5"] . "</span>");
+                $this->output->addSwapTagString("message", $addon);
+                $this->output->addSwapTagString("message", "CPU: <span class=\"text-light\">" . $apireply["loads"]["5"] . "</span>");
                 $addon = " <br/>";
             }
             if ($apireply["ram"]["max"] > 0) {
-                $ajax_reply->addSwapTagString("message", $addon);
+                $this->output->addSwapTagString("message", $addon);
                 $pcent = $apireply["ram"]["max"] / 100;
                 $dif = $apireply["ram"]["max"] - $apireply["ram"]["free"];
                 $pcents = 0;
@@ -52,18 +52,18 @@ if ($server->loadID($this->page) == true) {
                 } elseif ($pcents > 40) {
                     $text_color = "text-info";
                 }
-                $ajax_reply->addSwapTagString("message", "Ram: <span class=\"" . $text_color . "\">" . $used . "/" . $max . " [" . $pcents . " %]</span>");
+                $this->output->addSwapTagString("message", "Ram: <span class=\"" . $text_color . "\">" . $used . "/" . $max . " [" . $pcents . " %]</span>");
                 $addon = " <br/>";
             }
-            if ($ajax_reply->get_swap_tag_string("message") == "") {
-                $ajax_reply->addSwapTagString("message", "<span class=\"text-info\">Online</span>");
+            if ($this->output->get_swap_tag_string("message") == "") {
+                $this->output->addSwapTagString("message", "<span class=\"text-info\">Online</span>");
             }
         } else {
-            $ajax_reply->addSwapTagString("message", "<span class=\"text-danger\">Offline</span>");
+            $this->output->addSwapTagString("message", "<span class=\"text-danger\">Offline</span>");
         }
     } else {
-        $ajax_reply->addSwapTagString("message", "<span class=\"text-warning\">Not supported</span>");
+        $this->output->addSwapTagString("message", "<span class=\"text-warning\">Not supported</span>");
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", "Unable to find server");
+    $this->output->setSwapTagString("message", "Unable to find server");
 }

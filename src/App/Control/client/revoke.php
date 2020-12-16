@@ -1,102 +1,104 @@
 <?php
 
-$input = new inputFilter();
-$accept = $input->postFilter("accept");
-$status = false;
-$redirect = "client/manage/" . $this->page . "";
-$ajax_reply->set_swap_tag_string("redirect", null);
-if ($accept == "Accept") {
-    $rental = new rental();
-    if ($rental->loadByField("rental_uid", $this->page) == true) {
-        $api_requests = new api_requests_set();
-        $all_ok = true;
-        if ($api_requests->loadByField("rentallink", $rental->getId()) == true) {
-            if ($api_requests->getCount() > 0) {
-                $all_ok = false;
-                echo  sprintf($lang["client.rm.error.13"], $api_requests->getCount());
-            }
-        } else {
-            $all_ok = false;
-            echo $lang["client.rm.error.12"];
+namespace App\Control\Client;
+
+use App\Models\ApirequestsSet;
+use App\Models\Avatar;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
+
+class Revoke extends ViewAjax
+{
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $rental = new Rental();
+        $api_requests = new ApirequestsSet();
+        $stream = new Stream();
+        $server = new Server();
+        $package = new Package();
+        $avatar = new Avatar();
+
+        $accept = $input->postFilter("accept");
+        $status = false;
+        $redirect = "client/manage/" . $this->page . "";
+        $this->output->setSwapTagString("redirect", null);
+        if ($accept != "Accept") {
+            $this->output->setSwapTagString("message", "Did not Accept");
+            return;
         }
-        if ($all_ok == true) {
-            $stream = new stream();
-            if ($stream->loadID($rental->getStreamlink()) == true) {
-                $stream->set_rentallink(null);
-                $stream->set_needwork(1);
-                $update_status = $stream->updateEntry();
-                $server = new server();
-                if ($server->loadID($stream->getServerlink()) == true) {
-                    if ($update_status["status"] == true) {
-                        $package = new package();
-                        if ($package->loadID($rental->getPackagelink()) == true) {
-                            $avatar = new avatar();
-                            if ($avatar->loadID($rental->getAvatarlink()) == true) {
-                                $all_ok = true;
-                                $message = "";
-                                // Event storage engine
-                                if ($slconfig->get_eventstorage() == true) {
-                                    $event = new event();
-                                    $event->set_avatar_uuid($avatar->get_avataruuid());
-                                    $event->set_avatar_name($avatar->getAvatarname());
-                                    $event->set_rental_uid($rental->getRental_uid());
-                                    $event->set_package_uid($package->getPackage_uid());
-                                    $event->set_event_remove(true);
-                                    $event->set_unixtime(time());
-                                    $event->set_expire_unixtime($rental->getExpireunixtime());
-                                    $event->set_port($stream->getPort());
-                                    $create_status = $event->create_entry();
-                                    if ($create_status["status"] == false) {
-                                        $all_ok = false;
-                                        $message = $lang["client.rm.error.8"];
-                                    }
-                                }
-                                if ($all_ok == true) {
-                                    $remove_status = $rental->remove_me();
-                                    $all_ok = $remove_status["status"];
-                                    if ($remove_status["status"] == true) {
-                                        $status = true;
-                                        $ajax_reply->set_swap_tag_string("redirect", "client");
-                                        $ajax_reply->set_swap_tag_string("message", $lang["client.rm.info.1"]);
-                                    } else {
-                                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.rm.error.7"], $remove_status["message"]));
-                                    }
-                                }
-                                if ($all_ok == true) {
-                                    $rental = null;
-                                    include "shared/media_server_apis/logic/revoke.php";
-                                    $all_ok = $api_serverlogic_reply;
-                                    if ($status != true) {
-                                        $ajax_reply->set_swap_tag_string("message", $why_failed);
-                                    }
-                                }
-                                if ($all_ok == true) {
-                                    $status = true;
-                                    $ajax_reply->set_swap_tag_string("redirect", "client");
-                                    $ajax_reply->set_swap_tag_string("message", $lang["client.rm.info.1"]);
-                                }
-                            } else {
-                                $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.6"]);
-                            }
-                        } else {
-                            $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.5"]);
-                        }
-                    } else {
-                        $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.4"]);
-                    }
-                } else {
-                    $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.9"]);
-                }
-            } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.3"]);
-            }
-        } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.3"]);
+
+        if ($rental->loadByField("rental_uid", $this->page) == false) {
+            $this->output->setSwapTagString("message", "Unable to find client");
+            return;
         }
-    } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.2"]);
+
+        if ($api_requests->loadByField("rentallink", $rental->getId()) == false) {
+            $this->output->setSwapTagString(
+                "message",
+                "Unable to check for pending api requests attached to the client"
+            );
+            return;
+        }
+
+        if ($api_requests->getCount() > 0) {
+            $this->output->setSwapTagString(
+                "message",
+                sprintf("There are %1\$s pending api requests attached to the client", $api_requests->getCount())
+            );
+            return;
+        }
+
+        if ($stream->loadID($rental->getStreamlink()) == true) {
+            $this->output->setSwapTagString("message", "Unable to find attached stream");
+            return;
+        }
+
+        if ($server->loadID($stream->getServerlink()) == false) {
+            $this->output->setSwapTagString("message", "Unable to load server");
+            return;
+        }
+
+        $stream->setRentallink(null);
+        $stream->setNeedwork(1);
+        $update_status = $stream->updateEntry();
+        if ($update_status["status"] == false) {
+            $this->output->setSwapTagString("message", "Unable to mark stream as needs work");
+            return;
+        }
+
+        if ($package->loadID($rental->getPackagelink()) == false) {
+            $this->output->setSwapTagString("message", "Unable to load package");
+            return;
+        }
+        if ($avatar->loadID($rental->getAvatarlink()) == false) {
+            $this->output->setSwapTagString("message", "Unable to load avatar");
+            return;
+        }
+
+        $remove_status = $rental->removeEntry();
+        $all_ok = $remove_status["status"];
+        if ($remove_status["status"] == false) {
+            $this->output->setSwapTagString(
+                "message",
+                sprintf("Unable to remove client: %1\$s", $remove_status["message"])
+            );
+            return;
+        }
+
+        $rental = null;
+        $api_serverlogic_reply = false;
+        include "shared/media_server_apis/logic/revoke.php";
+        if ($api_serverlogic_reply == false) {
+            $this->output->setSwapTagString("message", $why_failed);
+            return;
+        }
+        $this->output->setSwapTagString("status", "true");
+        $this->output->setSwapTagString("redirect", "client");
+        $this->output->setSwapTagString("message", "Client rental revoked");
     }
-} else {
-    $ajax_reply->set_swap_tag_string("message", $lang["client.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", null);
 }

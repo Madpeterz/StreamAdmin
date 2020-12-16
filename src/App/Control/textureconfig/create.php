@@ -55,14 +55,14 @@ if ($failed_on == "") {
     $textureconfig->set_request_details($request_details);
     $textureconfig->set_proxyrenew($proxyrenew);
     $textureconfig->set_treevend_waiting($treevend_waiting);
-    $create_status = $textureconfig->create_entry();
+    $create_status = $textureconfig->createEntry();
     if ($create_status["status"] == true) {
         $status = true;
-        $ajax_reply->set_swap_tag_string("message", $lang["textureconfig.cr.info.1"]);
-        $ajax_reply->set_swap_tag_string("redirect", "textureconfig");
+        $this->output->setSwapTagString("message", $lang["textureconfig.cr.info.1"]);
+        $this->output->setSwapTagString("redirect", "textureconfig");
     } else {
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["textureconfig.cr.error.13"], $create_status["message"]));
+        $this->output->setSwapTagString("message", sprintf($lang["textureconfig.cr.error.13"], $create_status["message"]));
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

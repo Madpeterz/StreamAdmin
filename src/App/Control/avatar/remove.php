@@ -1,24 +1,38 @@
 <?php
 
-$input = new inputFilter();
-$accept = $input->postFilter("accept");
-$ajax_reply->set_swap_tag_string("redirect", "avatar");
-$status = false;
-$ajax_reply->set_swap_tag_string("message", $lang["av.cr.info.1"]);
-if ($accept == "Accept") {
-    $avatar = new avatar();
-    if ($avatar->loadByField("avatar_uid", $this->page) == true) {
-        $remove_status = $avatar->remove_me();
-        if ($remove_status["status"] == true) {
-            $status = true;
-            $ajax_reply->set_swap_tag_string("message", $lang["av.rm.info.1"]);
-        } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["av.rm.error.3"], $remove_status["message"]));
+namespace App\Control\Avatar;
+
+use App\Models\Avatar;
+use App\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
+
+class Remove extends ViewAjax
+{
+    public function process(): void
+    {
+        $input = new inputFilter();
+        $accept = $input->postFilter("accept");
+        $this->output->setSwapTagString("redirect", "avatar");
+        $this->output->setSwapTagString("message", "Not processed");
+        if ($accept != "Accept") {
+            $this->output->setSwapTagString("message", "Did not Accept");
+            $this->output->setSwapTagString("redirect", "avatar/manage/" . $this->page . "");
+            return;
         }
-    } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["av.rm.error.2"]);
+        $avatar = new Avatar();
+        if ($avatar->loadByField("avatar_uid", $this->page) == false) {
+            $this->output->setSwapTagString("message", "Unable to find avatar");
+            return;
+        }
+        $remove_status = $avatar->removeEntry();
+        if ($remove_status["status"] == false) {
+            $this->output->setSwapTagString(
+                "message",
+                sprintf("Unable to remove avatar: %1\$s", $remove_status["message"])
+            );
+            return;
+        }
+        $this->output->setSwapTagString("status", "true");
+        $this->output->setSwapTagString("message", "Avatar removed");
     }
-} else {
-    $ajax_reply->set_swap_tag_string("message", $lang["av.rm.error.1"]);
-    $ajax_reply->set_swap_tag_string("redirect", "avatar/manage/" . $this->page . "");
 }

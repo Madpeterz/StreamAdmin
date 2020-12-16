@@ -1,33 +1,42 @@
 <?php
 
-$status = false;
-$rental = new rental();
-if ($rental->loadByField("rental_uid", $this->page) == true) {
-    $stream = new stream();
-    if ($stream->loadID($rental->getStreamlink()) == true) {
-        $server_api_helper = new serverapi_helper($stream);
-        $functionname = "api_" . $optional . "";
-        if (method_exists($server_api_helper, $functionname) == true) {
-            $status = $server_api_helper->$functionname();
-            if (is_string($server_api_helper->getMessage()) == true) {
-                if ($status == true) {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.passed"], $server_api_helper->getMessage()));
-                } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.failed"], $server_api_helper->getMessage()));
-                }
-            } else {
-                if ($status == true) {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.passed"], "No message from api helper"));
-                } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["client.api.failed"], "No message from api helper"));
-                }
-            }
-        } else {
-            $ajax_reply->set_swap_tag_string("message", "Unable to load api: " . $functionname);
+namespace App\Control\Client;
+
+use App\Models\Rental;
+use App\Models\Stream;
+use App\Template\ViewAjax;
+use serverapi_helper;
+
+class Api extends ViewAjax
+{
+    public function process(): void
+    {
+        $rental = new Rental();
+        if ($rental->loadByField("rental_uid", $this->page) == false) {
+            $this->output->setSwapTagString("message", "Unable to load rental");
+            return;
         }
-    } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["client.api.error.2"]);
+        $stream = new Stream();
+        if ($stream->loadID($rental->getStreamlink()) == false) {
+            $this->output->setSwapTagString("message", "Unable to load stream");
+            return;
+        }
+        $server_api_helper = new serverapi_helper($stream);
+        $functionname = "api_" . $this->option . "";
+        if (method_exists($server_api_helper, $functionname) == false) {
+            $this->output->setSwapTagString("message", "Unable to load api: " . $functionname);
+            return;
+        }
+        $status = $server_api_helper->$functionname();
+        $this->output->setSwapTagString("status", (string)$status);
+        $message = "No message from api helper";
+        if (is_string($server_api_helper->getMessage()) == true) {
+            $message = $server_api_helper->getMessage();
+        }
+        if ($status == false) {
+            $this->output->setSwapTagString("message", sprintf("API/Failed => %1\$s", $message));
+            return;
+        }
+        $this->output->setSwapTagString("message", sprintf("API/Ok => %1\$s", $message));
     }
-} else {
-    $ajax_reply->set_swap_tag_string("message", $lang["client.api.error.1"]);
 }

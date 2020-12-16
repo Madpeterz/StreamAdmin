@@ -22,14 +22,14 @@ if ($failed_on == "") {
     $template->set_name($name);
     $template->set_detail($detail);
     $template->set_notecarddetail($notecarddetail);
-    $create_status = $template->create_entry();
+    $create_status = $template->createEntry();
     if ($create_status["status"] == true) {
         $status = true;
-        $ajax_reply->set_swap_tag_string("message", $lang["template.cr.info.1"]);
-        $ajax_reply->set_swap_tag_string("redirect", "template");
+        $this->output->setSwapTagString("message", $lang["template.cr.info.1"]);
+        $this->output->setSwapTagString("redirect", "template");
     } else {
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["template.cr.error.6"], $create_status["message"]));
+        $this->output->setSwapTagString("message", sprintf($lang["template.cr.error.6"], $create_status["message"]));
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

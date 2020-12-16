@@ -115,22 +115,22 @@ if ($failed_on == "") {
                 $update_status = $server->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
-                    $ajax_reply->set_swap_tag_string("message", $lang["server.up.info.1"]);
-                    $ajax_reply->set_swap_tag_string("redirect", "server");
+                    $this->output->setSwapTagString("message", $lang["server.up.info.1"]);
+                    $this->output->setSwapTagString("redirect", "server");
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["server.up.error.7"], $update_status["message"]));
+                    $this->output->setSwapTagString("message", sprintf($lang["server.up.error.7"], $update_status["message"]));
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["server.up.error.6"]);
+                $this->output->setSwapTagString("message", $lang["server.up.error.6"]);
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["server.up.error.5"]);
+            $this->output->setSwapTagString("message", $lang["server.up.error.5"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["server.up.error.4"]);
-        $ajax_reply->set_swap_tag_string("redirect", "server");
+        $this->output->setSwapTagString("message", $lang["server.up.error.4"]);
+        $this->output->setSwapTagString("redirect", "server");
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
-    $ajax_reply->set_swap_tag_string("redirect", "server/manage/" . $this->page . "");
+    $this->output->setSwapTagString("message", $failed_on);
+    $this->output->setSwapTagString("redirect", "server/manage/" . $this->page . "");
 }

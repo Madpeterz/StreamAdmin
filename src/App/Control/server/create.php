@@ -29,7 +29,7 @@ $event_create_stream = $input->postFilter("event_create_stream", "integer");
 $event_update_stream = $input->postFilter("event_update_stream", "integer");
 
 $failed_on = "";
-$ajax_reply->set_swap_tag_string("redirect", "");
+$this->output->setSwapTagString("redirect", "");
 $yesno_array = [0,1];
 if (strlen($domain) > 100) {
     $failed_on .= $lang["server.cr.error.1"];
@@ -103,14 +103,14 @@ if ($failed_on == "") {
     $server->set_api_sync_accounts($api_sync_accounts);
     $server->set_event_create_stream($event_create_stream);
     $server->set_event_update_stream($event_update_stream);
-    $create_status = $server->create_entry();
+    $create_status = $server->createEntry();
     if ($create_status["status"] == true) {
         $status = true;
-        $ajax_reply->set_swap_tag_string("message", $lang["server.cr.info.1"]);
-        $ajax_reply->set_swap_tag_string("redirect", "server");
+        $this->output->setSwapTagString("message", $lang["server.cr.info.1"]);
+        $this->output->setSwapTagString("redirect", "server");
     } else {
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["server.cr.error.5"], $create_status["message"]));
+        $this->output->setSwapTagString("message", sprintf($lang["server.cr.error.5"], $create_status["message"]));
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

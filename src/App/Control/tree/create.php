@@ -15,14 +15,14 @@ $status = false;
 if ($failed_on == "") {
     $treevender = new treevender();
     $treevender->set_name($name);
-    $create_status = $treevender->create_entry();
+    $create_status = $treevender->createEntry();
     if ($create_status["status"] == true) {
         $status = true;
-        $ajax_reply->set_swap_tag_string("redirect", "tree");
-        $ajax_reply->set_swap_tag_string("message", $lang["tree.cr.info.1"]);
+        $this->output->setSwapTagString("redirect", "tree");
+        $this->output->setSwapTagString("message", $lang["tree.cr.info.1"]);
     } else {
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["tree.cr.error.4"], $create_status["message"]));
+        $this->output->setSwapTagString("message", sprintf($lang["tree.cr.error.4"], $create_status["message"]));
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

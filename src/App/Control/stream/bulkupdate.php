@@ -9,7 +9,7 @@ $whereconfig = [
 $stream_set = new stream_set();
 $stream_set->loadWithConfig($whereconfig);
 $status = true;
-$ajax_reply->set_swap_tag_string("redirect", "stream/bulkupdate");
+$this->output->setSwapTagString("redirect", "stream/bulkupdate");
 $input = new inputFilter();
 $streams_updated = 0;
 $streams_skipped_original_adminusername = 0;
@@ -23,7 +23,7 @@ foreach ($stream_set->getAllIds() as $stream_id) {
             if (($stream->getAdminpassword() != $newadminpw) && ($stream->getDjpassword() != $newdjpw)) {
                 $stream->set_adminpassword($newadminpw);
                 $stream->set_djpassword($newdjpw);
-                $stream->set_needwork(0);
+                $stream->setNeedwork(0);
                 $update_status = $stream->updateEntry();
                 if ($update_status["status"] == false) {
                     echo sprintf($lang["stream.bu.error.1"], $update_status["message"]);
@@ -40,8 +40,8 @@ foreach ($stream_set->getAllIds() as $stream_id) {
 }
 if ($status == true) {
     if ($streams_skipped_original_adminusername > 0) {
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["stream.bu.info.1"], $streams_updated, $streams_skipped_original_adminusername));
+        $this->output->setSwapTagString("message", sprintf($lang["stream.bu.info.1"], $streams_updated, $streams_skipped_original_adminusername));
     } else {
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["stream.bu.info.1"], $streams_updated));
+        $this->output->setSwapTagString("message", sprintf($lang["stream.bu.info.1"], $streams_updated));
     }
 }

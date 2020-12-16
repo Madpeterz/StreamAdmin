@@ -1,6 +1,6 @@
 <?php
 
-$ajax_reply->purge_cache_file("current_timezone", false);
+$this->output->purge_cache_file("current_timezone", false);
 
 $avatar = new avatar();
 $timezone = new timezones();
@@ -52,7 +52,7 @@ if (strlen($httpcode) < 5) {
 }
 
 
-$ajax_reply->set_swap_tag_string("redirect", "slconfig");
+$this->output->setSwapTagString("redirect", "slconfig");
 $status = false;
 if ($failed_on == "") {
     if ($avatar->getId() != $slconfig->getOwner_av()) {
@@ -90,12 +90,12 @@ if ($failed_on == "") {
     $update_status = $slconfig->updateEntry();
     if ($update_status["status"] == true) {
         $status = true;
-        $ajax_reply->set_swap_tag_string("message", $lang["slconfig.up.info.1"]);
+        $this->output->setSwapTagString("message", $lang["slconfig.up.info.1"]);
     } else {
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["slconfig.up.error.9"], $update_status["message"]));
+        $this->output->setSwapTagString("message", sprintf($lang["slconfig.up.error.9"], $update_status["message"]));
     }
 } else {
     $status = false;
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
-    $ajax_reply->set_swap_tag_string("redirect", "");
+    $this->output->setSwapTagString("message", $failed_on);
+    $this->output->setSwapTagString("redirect", "");
 }

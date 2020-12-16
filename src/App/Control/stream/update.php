@@ -58,10 +58,10 @@ if ($failed_on == "") {
         }
         if ($count_check["status"] == true) {
             if ($count_check["count"] == $expected_count) {
-                $stream->set_packagelink($packagelink);
+                $stream->setPackagelink($packagelink);
                 $stream->set_serverlink($serverlink);
                 $stream->set_port($port);
-                $stream->set_needwork(false);
+                $stream->setNeedwork(false);
                 $stream->set_adminusername($adminusername);
                 $stream->set_adminpassword($adminpassword);
                 $stream->set_djpassword($djpassword);
@@ -78,23 +78,23 @@ if ($failed_on == "") {
                         $all_ok = $api_serverlogic_reply;
                     }
                     if ($status != true) {
-                        $ajax_reply->set_swap_tag_string("message", $why_failed);
+                        $this->output->setSwapTagString("message", $why_failed);
                     } else {
-                        $ajax_reply->set_swap_tag_string("message", $lang["stream.up.info.1"]);
-                        $ajax_reply->set_swap_tag_string("redirect", "stream");
+                        $this->output->setSwapTagString("message", $lang["stream.up.info.1"]);
+                        $this->output->setSwapTagString("redirect", "stream");
                     }
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["stream.up.error.14"], $update_status["message"]));
+                    $this->output->setSwapTagString("message", sprintf($lang["stream.up.error.14"], $update_status["message"]));
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["stream.up.error.13"]);
+                $this->output->setSwapTagString("message", $lang["stream.up.error.13"]);
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["stream.up.error.12"]);
+            $this->output->setSwapTagString("message", $lang["stream.up.error.12"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["stream.up.error.11"]);
+        $this->output->setSwapTagString("message", $lang["stream.up.error.11"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

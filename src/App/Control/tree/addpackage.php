@@ -5,7 +5,7 @@ $package_id = $input->postFilter("package", "integer");
 
 $status = false;
 $treevender = new treevender();
-$ajax_reply->set_swap_tag_string("redirect", "tree");
+$this->output->setSwapTagString("redirect", "tree");
 if ($treevender->loadID($this->page) == true) {
     if ($package_id > 0) {
         $package = new package();
@@ -19,26 +19,26 @@ if ($treevender->loadID($this->page) == true) {
             ];
             if ($treevender_package->loadWithConfig($where_fields) == false) {
                 $treevender_package = new treevender_packages();
-                $treevender_package->set_packagelink($package->getId());
+                $treevender_package->setPackagelink($package->getId());
                 $treevender_package->set_treevenderlink($treevender->getId());
-                $create_status = $treevender_package->create_entry();
+                $create_status = $treevender_package->createEntry();
                 if ($create_status["status"] == true) {
-                    $ajax_reply->set_swap_tag_string("redirect", "tree/manage/" . $this->page . "");
-                    $ajax_reply->set_swap_tag_string("message", $lang["tree.ap.info.1"]);
+                    $this->output->setSwapTagString("redirect", "tree/manage/" . $this->page . "");
+                    $this->output->setSwapTagString("message", $lang["tree.ap.info.1"]);
                     $status = true;
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", $lang["tree.ap.error.5"]);
+                    $this->output->setSwapTagString("message", $lang["tree.ap.error.5"]);
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["tree.ap.error.4"]);
-                $ajax_reply->set_swap_tag_string("redirect", "");
+                $this->output->setSwapTagString("message", $lang["tree.ap.error.4"]);
+                $this->output->setSwapTagString("redirect", "");
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["tree.ap.error.3"]);
+            $this->output->setSwapTagString("message", $lang["tree.ap.error.3"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["tree.ap.error.2"]);
+        $this->output->setSwapTagString("message", $lang["tree.ap.error.2"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $lang["tree.ap.error.1"]);
+    $this->output->setSwapTagString("message", $lang["tree.ap.error.1"]);
 }

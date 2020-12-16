@@ -56,7 +56,7 @@ if (strlen($name) < 5) {
     $failed_on .= $lang["package.cr.error.20"];
 }
 
-$ajax_reply->set_swap_tag_string("redirect", "package");
+$this->output->setSwapTagString("redirect", "package");
 $status = false;
 if ($failed_on == "") {
     $package = new package();
@@ -76,17 +76,17 @@ if ($failed_on == "") {
         $package->set_texture_uuid_instock_selected($texture_uuid_instock_selected);
         $package->set_api_template($api_template);
         $package->set_servertypelink($servertypelink);
-        $create_status = $package->create_entry();
+        $create_status = $package->createEntry();
         if ($create_status["status"] == true) {
             $status = true;
-            $ajax_reply->set_swap_tag_string("message", $lang["package.cr.info.1"]);
+            $this->output->setSwapTagString("message", $lang["package.cr.info.1"]);
         } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.cr.error.17"], $create_status["message"]));
+            $this->output->setSwapTagString("message", sprintf($lang["package.cr.error.17"], $create_status["message"]));
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["package.cr.error.16"]);
+        $this->output->setSwapTagString("message", $lang["package.cr.error.16"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
-    $ajax_reply->set_swap_tag_string("redirect", "");
+    $this->output->setSwapTagString("message", $failed_on);
+    $this->output->setSwapTagString("redirect", "");
 }

@@ -17,25 +17,25 @@ function process_notice_change(notice $notice): void
         $all_ok = false;
         $why_failed = $send_message_status["message"];
     } else {
-        $rental->set_noticelink($notice->getId());
+        $rental->setNoticelink($notice->getId());
         $save_status = $rental->updateEntry();
         if ($save_status["status"] == false) {
             $all_ok = false;
             $why_failed = $save_status["message"];
         } else {
-            if ($notice->get_hoursremaining() == 0) {
+            if ($notice->getHoursremaining() == 0) {
                 // Event storage engine
                 if ($slconfig->get_eventstorage() == true) {
                     $event = new event();
-                    $event->set_avatar_uuid($avatar->get_avataruuid());
+                    $event->set_avatar_uuid($avatar->getAvataruuid());
                     $event->set_avatar_name($avatar->getAvatarname());
-                    $event->set_rental_uid($rental->getRental_uid());
+                    $event->setRental_uid($rental->getRental_uid());
                     $event->set_package_uid($package->getPackage_uid());
                     $event->set_event_expire(true);
                     $event->set_unixtime(time());
                     $event->set_expire_unixtime($rental->getExpireunixtime());
                     $event->set_port($stream->getPort());
-                    $create_status = $event->create_entry();
+                    $create_status = $event->createEntry();
                     if ($create_status["status"] == false) {
                         $all_ok = false;
                         $why_failed = $lang["noticeserver.n.error.5"];
@@ -50,10 +50,10 @@ function process_notice_change(notice $notice): void
                 if ($notice->get_send_notecard() == true) {
                     if ($botconfig->get_notecards() == true) {
                         $notecard = new notecard();
-                        $notecard->set_rentallink($rental->getId());
+                        $notecard->setRentallink($rental->getId());
                         $notecard->set_as_notice(1);
-                        $notecard->set_noticelink($notice->getId());
-                        $create_status = $notecard->create_entry();
+                        $notecard->setNoticelink($notice->getId());
+                        $create_status = $notecard->createEntry();
                         if ($create_status["status"] == false) {
                             $all_ok = false;
                             $why_failed = sprintf($lang["noticeserver.n.error.7"], $create_status["message"]);
@@ -67,7 +67,7 @@ function process_notice_change(notice $notice): void
                     if ($notice_notecard->loadID($notice->get_notice_notecardlink()) == true) {
                         if ($notice_notecard->get_missing() == false) {
                             $reply["send_static_notecard"] = $notice_notecard->getName();
-                            $reply["send_static_notecard_to"] = $avatar->get_avataruuid();
+                            $reply["send_static_notecard_to"] = $avatar->getAvataruuid();
                         }
                     } else {
                         $all_ok = false;
@@ -98,7 +98,7 @@ if ($owner_override == true) {
     ksort($sorted_linked, SORT_NUMERIC);
     $max_hours = array_keys($sorted_linked)[count($sorted_linked) - 2]; // ignore 999 hours at the end for active
     $unixtime = $max_hours * $unixtime_hour;
-    $expired_notice = $notice_set->get_object_by_field("hoursremaining", 0);
+    $expired_notice = $notice_set->getObjectByField("hoursremaining", 0);
 
     $where_config = [
         "fields" => ["expireunixtime","noticelink"],
@@ -130,8 +130,8 @@ if ($owner_override == true) {
                     if ($rental->getExpireunixtime() > time()) {
                         $hours_remain = ceil(($rental->getExpireunixtime() - time()) / $unixtime_hour);
                         if ($hours_remain > 0) {
-                            $current_notice_level = $notice_set->getObjectByID($rental->get_noticelink());
-                            $current_hold_hours = $current_notice_level->get_hoursremaining();
+                            $current_notice_level = $notice_set->getObjectByID($rental->getNoticelink());
+                            $current_hold_hours = $current_notice_level->getHoursremaining();
                             $use_notice_index = 0;
                             foreach ($sorted_linked as $hours => $index) {
                                 if (($hours > 0) && ($hours < 999)) {

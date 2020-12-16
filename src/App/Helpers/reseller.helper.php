@@ -15,10 +15,10 @@ class reseller_helper
                 return true;
             } else {
                 $this->reseller = new reseller();
-                $this->reseller->set_avatarlink($avatarlinkid);
+                $this->reseller->setAvatarlink($avatarlinkid);
                 $this->reseller->set_allowed($auto_accept);
                 $this->reseller->set_rate($auto_accept_rate);
-                $save_status = $this->reseller->create_entry();
+                $save_status = $this->reseller->createEntry();
                 if ($save_status["status"] == false) {
                     if ($show_errors == true) {
                         echo "[Reseller_helper] - Unable to create reseller entry because: " . $save_status["message"] . "";

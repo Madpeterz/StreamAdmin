@@ -42,16 +42,16 @@ foreach ($r4_items_set->getAllIds() as $r4_item_id) {
                 $uid = $stream->createUID("stream_uid", 8, 10);
                 if ($uid["status"] == true) {
                     $stream->set_stream_uid($uid["uid"]);
-                    $stream->set_packagelink($package_name_to_id[$find_package]);
+                    $stream->setPackagelink($package_name_to_id[$find_package]);
                     $stream->set_serverlink($server_domain_to_id[$r4_item->get_streamurl()]);
                     $stream->set_port($r4_item->get_streamport());
-                    $stream->set_needwork($r4_item->get_baditem());
+                    $stream->setNeedwork($r4_item->get_baditem());
                     $stream->set_adminpassword($r4_item->getAdminpassword());
                     $stream->set_adminusername($r4_item->getAdminusername());
                     $stream->set_original_adminusername($r4_item->getAdminusername());
                     $stream->set_djpassword($r4_item->get_streampassword());
                     $stream->set_mountpoint("r4|" . $r4_item->getId() . "");
-                    $create_status = $stream->create_entry();
+                    $create_status = $stream->createEntry();
                     if ($create_status["status"] == true) {
                         $stream_created++;
                     } else {

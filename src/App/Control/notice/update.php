@@ -15,7 +15,7 @@ if ($send_notecard == false) {
     }
 }
 $failed_on = "";
-$ajax_reply->set_swap_tag_string("redirect", null);
+$this->output->setSwapTagString("redirect", null);
 if (strlen($name) < 5) {
     $failed_on .= $lang["notice.up.error.1"];
 } elseif (strlen($name) > 100) {
@@ -42,7 +42,7 @@ if ($failed_on == "") {
         $where_values = [[$hoursremaining => "i"]];
         $count_check = $sql->basic_count($notice->get_table(), $where_fields, $where_values);
         $expected_count = 0;
-        if ($notice->get_hoursremaining() == $hoursremaining) {
+        if ($notice->getHoursremaining() == $hoursremaining) {
             $expected_count = 1;
         }
         if ($count_check["status"] == true) {
@@ -59,21 +59,21 @@ if ($failed_on == "") {
                 $update_status = $notice->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
-                    $ajax_reply->set_swap_tag_string("message", $lang["notice.up.info.1"]);
-                    $ajax_reply->set_swap_tag_string("redirect", "notice");
+                    $this->output->setSwapTagString("message", $lang["notice.up.info.1"]);
+                    $this->output->setSwapTagString("redirect", "notice");
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["notice.up.error.10"], $update_status["message"]));
+                    $this->output->setSwapTagString("message", sprintf($lang["notice.up.error.10"], $update_status["message"]));
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["notice.up.error.9"]);
+                $this->output->setSwapTagString("message", $lang["notice.up.error.9"]);
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["notice.up.error.8"]);
+            $this->output->setSwapTagString("message", $lang["notice.up.error.8"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["notice.up.error.7"]);
-        $ajax_reply->set_swap_tag_string("redirect", "notice");
+        $this->output->setSwapTagString("message", $lang["notice.up.error.7"]);
+        $this->output->setSwapTagString("redirect", "notice");
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

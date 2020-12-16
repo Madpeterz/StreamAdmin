@@ -24,7 +24,7 @@ if ($notecard->get_as_notice() == false) {
 $notecard_set = new notecard_set();
 $notecard_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
 if ($notecard_set->getCount() > 0) {
-    $notecard = $notecard_set->get_first();
+    $notecard = $notecard_set->getFirst();
     $load_ok = true;
     foreach ($load_by as $objectname => $value) {
         foreach ($value as $source => $linkon) {
@@ -49,12 +49,12 @@ if ($load_ok == true) {
         $notecard_title = "Reminder for " . $avatar->getAvatarname() . " port: " . $stream->getPort() . "";
         $notecard_content = $swap_helper->get_swapped_text($notice->getNotecarddetail(), $avatar, $rental, $package, $server, $stream);
     }
-    $remove_status = $notecard->remove_me();
+    $remove_status = $notecardremoveEntry();
     if ($remove_status["status"] == true) {
         $reply = [
             "status" => true,
             "message" => "ok",
-            "AvatarUUID" => $avatar->get_avataruuid(),
+            "AvatarUUID" => $avatar->getAvataruuid(),
             "NotecardTitle" => $notecard_title,
             "NotecardContent" => $notecard_content,
         ];

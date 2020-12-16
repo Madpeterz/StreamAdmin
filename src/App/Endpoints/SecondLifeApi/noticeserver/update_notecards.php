@@ -36,7 +36,7 @@ if ($notecards != "none") {
                 $notice_notecard = new notice_notecard();
                 $notice_notecard->set_name($notecardname);
                 $notice_notecard->set_missing(false);
-                $status = $notice_notecard->create_entry();
+                $status = $notice_notecard->createEntry();
                 if ($status == true) {
                     $notice_notecard_set->addToCollected($notice_notecard);
                 } else {
@@ -67,7 +67,7 @@ if ($status == true) {
             if (in_array($notice_notecard_id, $used_notecards) == false) {
                 $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);
                 if ($notice_notecard->get_missing() == true) {
-                    $status = $notice_notecard->remove_me()["status"];
+                    $status = $notice_notecardremoveEntry()["status"];
                     if ($status == false) {
                         echo $lang["noticeserver.up.error.4"];
                     }

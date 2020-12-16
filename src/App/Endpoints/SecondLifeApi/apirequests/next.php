@@ -8,11 +8,11 @@ if ($owner_override == true) {
     $message = "not set";
     if ($api_requests_set->loadWithConfig(null, $order_config, $limits_config)["status"] == true) {
         if ($api_requests_set->getCount() > 0) {
-            $api_request = $api_requests_set->get_first();
+            $api_request = $api_requests_set->getFirst();
             $load_path = "endpoints/api/apirequests/" . $api_request->get_eventname() . ".php";
             $api_request->set_attempts($api_request->get_attempts() + 1);
             $api_request->set_last_attempt(time());
-            $api_request->set_message("started processing");
+            $api_request->setMessage("started processing");
             $save_status = $api_request->updateEntry();
             if ($save_status["status"] == true) {
                 if (file_exists($load_path) == true) {
@@ -29,7 +29,7 @@ if ($owner_override == true) {
                 $message = "Unable to mark event as processing Obj issue";
             }
             if ($soft_fail == true) {
-                $api_request->set_message($message);
+                $api_request->setMessage($message);
                 $save_status = $api_request->updateEntry();
                 if ($save_status["status"] == false) {
                     $soft_fail = false;

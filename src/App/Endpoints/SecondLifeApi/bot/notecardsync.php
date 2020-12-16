@@ -18,7 +18,7 @@ if ($owner_override == true) {
                     $status = true;
                     if ($count_data["count"] > 0) {
                         $reply["hassyncmessage"] = 1;
-                        $reply["avataruuid"] = $botavatar->get_avataruuid();
+                        $reply["avataruuid"] = $botavatar->getAvataruuid();
                         $bot_helper = new bot_helper();
                         echo $bot_helper->send_bot_command($botconfig, "fetchnextnotecard", [$template_parts["url_base"],$slconfig->getHttp_inbound_secret()]);
                     } else {

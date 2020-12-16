@@ -3,7 +3,7 @@
 $input = new inputFilter();
 $name = $input->postFilter("name");
 $failed_on = "";
-$ajax_reply->set_swap_tag_string("redirect", "");
+$this->output->setSwapTagString("redirect", "");
 if (strlen($name) < 5) {
     $failed_on .= $lang["tree.up.error.1"];
 } elseif (strlen($name) > 100) {
@@ -26,21 +26,21 @@ if ($failed_on == "") {
                 $update_status = $treevender->updateEntry();
                 if ($update_status["status"] == true) {
                     $status = true;
-                    $ajax_reply->set_swap_tag_string("redirect", "tree");
-                    $ajax_reply->set_swap_tag_string("message", $lang["tree.up.info.1"]);
+                    $this->output->setSwapTagString("redirect", "tree");
+                    $this->output->setSwapTagString("message", $lang["tree.up.info.1"]);
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", sprintf($lang["tree.up.error.6"], $update_status["message"]));
+                    $this->output->setSwapTagString("message", sprintf($lang["tree.up.error.6"], $update_status["message"]));
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", $lang["tree.up.error.5"]);
+                $this->output->setSwapTagString("message", $lang["tree.up.error.5"]);
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["tree.up.error.4"]);
+            $this->output->setSwapTagString("message", $lang["tree.up.error.4"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("redirect", "tree");
-        $ajax_reply->set_swap_tag_string("message", $lang["tree.up.error.3"]);
+        $this->output->setSwapTagString("redirect", "tree");
+        $this->output->setSwapTagString("message", $lang["tree.up.error.3"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

@@ -21,7 +21,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                 if ($uid_transaction["status"] == true) {
                     $unixtime_to_add = (($package->getDays() * $unixtime_day) * $multipler);
                     $new_expires_time = $rental->getExpireunixtime() + $unixtime_to_add;
-                    $rental->set_expireunixtime($new_expires_time);
+                    $rental->setExpireunixtime($new_expires_time);
                     $rental->set_renewals(($rental->getRenewals() + $multipler));
                     $rental->set_totalamount(($rental->get_totalamount() + $amountpaid));
                     $unixtime_remain = $new_expires_time - time();
@@ -46,8 +46,8 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                             }
                         }
                         if ($use_notice_index != 0) {
-                            if ($rental->get_noticelink() != $use_notice_index) {
-                                $rental->set_noticelink($use_notice_index);
+                            if ($rental->getNoticelink() != $use_notice_index) {
+                                $rental->setNoticelink($use_notice_index);
                             }
                         }
                     }
@@ -59,16 +59,16 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                             $avatar = $avatar_helper->get_avatar();
                             $banlist = new banlist();
                             if ($banlist->loadByField("avatar_link", $avatar->getId()) == false) {
-                                $transaction->set_avatarlink($avatar->getId());
-                                $transaction->set_packagelink($package->getId());
-                                $transaction->set_streamlink($stream->getId());
+                                $transaction->setAvatarlink($avatar->getId());
+                                $transaction->setPackagelink($package->getId());
+                                $transaction->setStreamlink($stream->getId());
                                 $transaction->set_resellerlink($reseller->getId());
                                 $transaction->set_regionlink($region->getId());
                                 $transaction->set_amount($amountpaid);
                                 $transaction->set_unixtime(time());
                                 $transaction->set_transaction_uid($uid_transaction["uid"]);
                                 $transaction->set_renew(1);
-                                $create_status = $transaction->create_entry();
+                                $create_status = $transaction->createEntry();
                                 if ($create_status["status"] == true) {
                                     if ($owner_override == false) {
                                         $avatar_system = new avatar();
@@ -88,7 +88,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                             }
                                             $reply["owner_payment"] = 1;
                                             $reply["owner_payment_amount"] = $left_over;
-                                            $reply["owner_payment_uuid"] = $avatar_system->get_avataruuid();
+                                            $reply["owner_payment_uuid"] = $avatar_system->getAvataruuid();
                                         } else {
                                             echo $lang["renew.rn.error.10"];
                                         }
@@ -102,15 +102,15 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                             // Event storage engine
                                             if ($slconfig->get_eventstorage() == true) {
                                                 $event = new event();
-                                                $event->set_avatar_uuid($avatar->get_avataruuid());
+                                                $event->set_avatar_uuid($avatar->getAvataruuid());
                                                 $event->set_avatar_name($avatar->getAvatarname());
-                                                $event->set_rental_uid($rental->getRental_uid());
+                                                $event->setRental_uid($rental->getRental_uid());
                                                 $event->set_package_uid($package->getPackage_uid());
                                                 $event->set_event_renew(true);
                                                 $event->set_unixtime(time());
                                                 $event->set_expire_unixtime($rental->getExpireunixtime());
                                                 $event->set_port($stream->getPort());
-                                                $create_status = $event->create_entry();
+                                                $create_status = $event->createEntry();
                                                 if ($create_status["status"] == false) {
                                                     $status = false;
                                                     $all_ok = false;

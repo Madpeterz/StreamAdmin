@@ -19,7 +19,7 @@ if ($send_notecard == false) {
 
 
 $failed_on = "";
-$ajax_reply->set_swap_tag_string("redirect", null);
+$this->output->setSwapTagString("redirect", null);
 if (strlen($name) < 5) {
     $failed_on .= $lang["notice.cr.error.1"];
 } elseif (strlen($name) > 100) {
@@ -49,16 +49,16 @@ if ($failed_on == "") {
     $notice->set_send_notecard($send_notecard);
     $notice->set_notecarddetail($notecarddetail);
     $notice->set_notice_notecardlink($static_notecard->getId());
-    $create_status = $notice->create_entry();
+    $create_status = $notice->createEntry();
     if ($create_status["status"] == true) {
         $status = true;
-        $ajax_reply->set_swap_tag_string("message", $lang["notice.cr.info.1"]);
-        $ajax_reply->set_swap_tag_string("redirect", "notice");
+        $this->output->setSwapTagString("message", $lang["notice.cr.info.1"]);
+        $this->output->setSwapTagString("redirect", "notice");
     } else {
         $status = false;
-        $ajax_reply->set_swap_tag_string("message", sprintf($lang["notice.cr.error.8"], $create_status["message"]));
+        $this->output->setSwapTagString("message", sprintf($lang["notice.cr.error.8"], $create_status["message"]));
     }
 } else {
     $status = false;
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
+    $this->output->setSwapTagString("message", $failed_on);
 }

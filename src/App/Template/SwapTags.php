@@ -25,7 +25,7 @@ abstract class SwapTags
         $this->swaptags[$tagname] = $current;
         return $current;
     }
-    public function setSwapTagString(string $tagname, string $newvalue = null): ?string
+    public function setSwapTagString(string $tagname, ?string $newvalue): ?string
     {
         $current = $this->getSwapTagString($tagname);
         if ($current != $newvalue) {
@@ -33,6 +33,18 @@ abstract class SwapTags
                 $this->swaptags[$tagname] = $newvalue;
             }
         }
+        return $this->swaptags[$tagname];
+    }
+    /**
+     * setSwapTagArray
+     * sets a swaptag as an array
+     * good for ajax replys, knida pointless for everything
+     * else
+     * @return mixed[]
+     */
+    public function setSwapTagArray(string $tagname, array $newvalue): array
+    {
+        $this->swaptags[$tagname] = $newvalue;
         return $this->swaptags[$tagname];
     }
     public function urlBase(string $newvalue = null): ?string

@@ -101,8 +101,8 @@ class Template extends AddonProvider
             mkdir("catche");
         }
         if (file_exists("catche/version.info") == false) {
-            file_put_contents("catche/version.info", $slconfig->get_db_version());
-            $this->catche_version = $slconfig->get_db_version();
+            file_put_contents("catche/version.info", $slconfig->getDb_version());
+            $this->catche_version = $slconfig->getDb_version();
         } else {
             $this->catche_version = file_get_contents("catche/version.info");
         }
@@ -119,7 +119,7 @@ class Template extends AddonProvider
     {
         global $slconfig;
         if ($this->catche_version != null) {
-            if (version_compare($slconfig->get_db_version(), $this->catche_version) == 1) {
+            if (version_compare($slconfig->getDb_version(), $this->catche_version) == 1) {
                 // DB is newer force reload cache
                 $this->delTree("catche");
                 $this->createCacheVersionFile();
@@ -167,6 +167,14 @@ class Template extends AddonProvider
         if (file_exists($check_for_file) == true) {
             $this->tempalte_parts[$bit] = file_get_contents($check_for_file);
         }
+    }
+    public function renderAjax(): void
+    {
+        global $page,$module,$area;
+        $this->setSwapTagString("MODULE", $module);
+        $this->setSwapTagString("AREA", $area);
+        $this->setSwapTagString("PAGE", $page);
+        print json_encode($this->swaptags);
     }
     public function renderPage(): void
     {
@@ -223,6 +231,8 @@ class Template extends AddonProvider
     public function tempateAjax(): void
     {
         $this->loadTempate("ajax");
+        $this->output->setSwapTagString("status", "false");
+        $this->output->setSwapTagString("message", "Not processed");
     }
     public function tempateInstall(): void
     {

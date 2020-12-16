@@ -1,7 +1,7 @@
 <?php
 
 $status = false;
-$ajax_reply->set_swap_tag_string("redirect", "staff");
+$this->output->setSwapTagString("redirect", "staff");
 if ($session->getOwnerLevel() == true) {
     $staff = new staff();
     $avatar = new avatar();
@@ -34,23 +34,23 @@ if ($session->getOwnerLevel() == true) {
     if ($failed_on == "") {
         $staff = new staff();
         $staff->setUsername($username);
-        $staff->set_avatarlink($avatar->getId());
+        $staff->setAvatarlink($avatar->getId());
         $staff->setEmail($email);
         $staff->set_phash(sha1("phash install" . microtime() . "" . $username));
         $staff->set_lhash(sha1("lhash install" . microtime() . "" . $username));
         $staff->set_psalt(sha1("psalt install" . microtime() . "" . $username));
         $staff->set_ownerlevel(false);
-        $create_status = $staff->create_entry();
+        $create_status = $staff->createEntry();
         if ($create_status["status"] == true) {
             $status = true;
-            $ajax_reply->set_swap_tag_string("message", $lang["staff.cr.info.1"]);
+            $this->output->setSwapTagString("message", $lang["staff.cr.info.1"]);
         } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["staff.cr.error.10"], $create_status["message"]));
+            $this->output->setSwapTagString("message", sprintf($lang["staff.cr.error.10"], $create_status["message"]));
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $failed_on);
+        $this->output->setSwapTagString("message", $failed_on);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $lang["staff.cr.error.9"]);
-    $ajax_reply->set_swap_tag_string("redirect", "");
+    $this->output->setSwapTagString("message", $lang["staff.cr.error.9"]);
+    $this->output->setSwapTagString("redirect", "");
 }

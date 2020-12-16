@@ -21,7 +21,7 @@ class server_secondbot extends server_secondbot_core
     }
     protected function clear_event(event $event): void
     {
-        $remove_status = $event->remove_me();
+        $remove_status = $eventremoveEntry();
         if ($remove_status["status"] == true) {
             $reply = ["status" => true,"message" => "event_removed"];
         } else {
@@ -36,7 +36,7 @@ class server_secondbot extends server_secondbot_core
         $event_set = new event_set();
         $event_set->loadNewest(1, [], [], "id", "ASC");
         if ($event_set->getCount() == 1) {
-            $event = $event_set->get_first();
+            $event = $event_set->getFirst();
             if ($event != null) {
                 $postargs = [];
                 foreach ($event->get_fields() as $field) {

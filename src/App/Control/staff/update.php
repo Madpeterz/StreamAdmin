@@ -29,7 +29,7 @@ if ($session->getOwnerLevel() == true) {
             $where_values = [[$avataruuid => "s"]];
             $count_check = $sql->basic_count($avatar->get_table(), $where_fields, $where_values);
             $expected_count = 0;
-            if ($staff->get_email() == $email) {
+            if ($staff->getEmail() == $email) {
                 $expected_count = 1;
             }
             if ($count_check["status"] == true) {
@@ -42,19 +42,19 @@ if ($session->getOwnerLevel() == true) {
                     $update_status = $staff->updateEntry();
                     if ($update_status["status"] == true) {
                         $status = true;
-                        $ajax_reply->set_swap_tag_string("message", "staff member updated");
+                        $this->output->setSwapTagString("message", "staff member updated");
                     } else {
-                        $ajax_reply->set_swap_tag_string("message", sprintf($lang["staff.cr.error.10"], $update_status["message"]));
+                        $this->output->setSwapTagString("message", sprintf($lang["staff.cr.error.10"], $update_status["message"]));
                     }
                 }
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", $lang["staff.up.error.7"]);
+            $this->output->setSwapTagString("message", $lang["staff.up.error.7"]);
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $failed_on);
+        $this->output->setSwapTagString("message", $failed_on);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $lang["staff.up.error.6"]);
-    $ajax_reply->set_swap_tag_string("redirect", "staff/manage/" . $this->page . "");
+    $this->output->setSwapTagString("message", $lang["staff.up.error.6"]);
+    $this->output->setSwapTagString("redirect", "staff/manage/" . $this->page . "");
 }

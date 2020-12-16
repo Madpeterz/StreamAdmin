@@ -9,7 +9,7 @@ if ($owner_override == true) {
             $detail_set = new detail_set();
             $detail_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
             if ($detail_set->getCount() > 0) {
-                $detail = $detail_set->get_first();
+                $detail = $detail_set->getFirst();
                 $rental = new rental();
                 if ($rental->loadID($detail->getRentallink()) == true) {
                     $avatar = new avatar();
@@ -22,7 +22,7 @@ if ($owner_override == true) {
                                 if ($package->loadID($stream->getPackagelink()) == true) {
                                     $template = new template();
                                     if ($template->loadID($package->getTemplatelink()) == true) {
-                                        $remove_status = $detail->remove_me();
+                                        $remove_status = $detailremoveEntry();
                                         if ($remove_status["status"] == true) {
                                             $bot_helper = new bot_helper();
                                             $swapables_helper = new swapables_helper();
@@ -31,8 +31,8 @@ if ($owner_override == true) {
                                             if ($send_message_status["status"] == true) {
                                                 if ($botconfig->get_notecards() == true) {
                                                      $notecard = new notecard();
-                                                     $notecard->set_rentallink($rental->getId());
-                                                     $create_status = $notecard->create_entry();
+                                                     $notecard->setRentallink($rental->getId());
+                                                     $create_status = $notecard->createEntry();
                                                 }
                                                 $status = true;
                                                 echo "ok";

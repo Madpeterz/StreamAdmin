@@ -57,7 +57,7 @@ if (strlen($name) < 5) {
 }
 
 $status = false;
-$ajax_reply->set_swap_tag_string("redirect", "package");
+$this->output->setSwapTagString("redirect", "package");
 if ($failed_on == "") {
     $package = new package();
     if ($package->loadByField("package_uid", $this->page) == true) {
@@ -78,14 +78,14 @@ if ($failed_on == "") {
         $update_status = $package->updateEntry();
         if ($update_status["status"] == true) {
             $status = true;
-            $ajax_reply->set_swap_tag_string("message", $lang["package.up.info.1"]);
+            $this->output->setSwapTagString("message", $lang["package.up.info.1"]);
         } else {
-            $ajax_reply->set_swap_tag_string("message", sprintf($lang["package.up.error.17"], $update_status["message"]));
+            $this->output->setSwapTagString("message", sprintf($lang["package.up.error.17"], $update_status["message"]));
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", $lang["package.up.error.16"]);
+        $this->output->setSwapTagString("message", $lang["package.up.error.16"]);
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", $failed_on);
-    $ajax_reply->set_swap_tag_string("redirect", null);
+    $this->output->setSwapTagString("message", $failed_on);
+    $this->output->setSwapTagString("redirect", null);
 }

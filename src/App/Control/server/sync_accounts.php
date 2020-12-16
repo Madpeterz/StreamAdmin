@@ -49,7 +49,7 @@ if ($server->loadID($this->page) == true) {
                                             $accounts_updated++;
                                         } else {
                                             $all_ok = false;
-                                            $ajax_reply->set_swap_tag_string("message", "failed to sync password to db");
+                                            $this->output->setSwapTagString("message", "failed to sync password to db");
                                             break;
                                         }
                                     } else {
@@ -58,7 +58,7 @@ if ($server->loadID($this->page) == true) {
                                             $accounts_insync++;
                                         } else {
                                             $all_ok = false;
-                                            $ajax_reply->set_swap_tag_string("message", "Failed to mark stream as in sync");
+                                            $this->output->setSwapTagString("message", "Failed to mark stream as in sync");
                                             break;
                                         }
                                     }
@@ -74,32 +74,32 @@ if ($server->loadID($this->page) == true) {
                             $update_status = $server->updateEntry();
                             if ($update_status["status"] == true) {
                                 $status = true;
-                                $ajax_reply->set_swap_tag_string("message", "Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");
+                                $this->output->setSwapTagString("message", "Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");
                                 if ($accounts_missing_passwords > 0) {
-                                    $ajax_reply->addSwapTagString("message", " / Missing PW dataset: " . $accounts_missing_passwords);
+                                    $this->output->addSwapTagString("message", " / Missing PW dataset: " . $accounts_missing_passwords);
                                 }
                                 if ($accounts_missing_global > 0) {
-                                    $ajax_reply->addSwapTagString("message", " / Account missing: " . $accounts_missing_global);
+                                    $this->output->addSwapTagString("message", " / Account missing: " . $accounts_missing_global);
                                 }
                             } else {
-                                $ajax_reply->set_swap_tag_string("message", "Unable to update server last sync time");
+                                $this->output->setSwapTagString("message", "Unable to update server last sync time");
                             }
                         }
                     } else {
-                        $ajax_reply->set_swap_tag_string("message", $server_api_helper->getMessage());
+                        $this->output->setSwapTagString("message", $server_api_helper->getMessage());
                     }
                 } else {
-                    $ajax_reply->set_swap_tag_string("message", "Unable to find any streams attached to server or all streamed sync'd in the last 24 hours");
+                    $this->output->setSwapTagString("message", "Unable to find any streams attached to server or all streamed sync'd in the last 24 hours");
                 }
             } else {
-                $ajax_reply->set_swap_tag_string("message", "Unable to attach server to api helper");
+                $this->output->setSwapTagString("message", "Unable to attach server to api helper");
             }
         } else {
-            $ajax_reply->set_swap_tag_string("message", "Server or API have sync accounts disabled");
+            $this->output->setSwapTagString("message", "Server or API have sync accounts disabled");
         }
     } else {
-        $ajax_reply->set_swap_tag_string("message", "Unable to find api used by server");
+        $this->output->setSwapTagString("message", "Unable to find api used by server");
     }
 } else {
-    $ajax_reply->set_swap_tag_string("message", "Unable to find server");
+    $this->output->setSwapTagString("message", "Unable to find server");
 }

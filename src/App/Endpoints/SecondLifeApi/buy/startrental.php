@@ -24,16 +24,16 @@ function create_transaction(avatar $avatar, package $package, stream $stream, re
     $transaction = new transactions();
     $uid_transaction = $transaction->createUID("transaction_uid", 8, 10);
     if ($uid_transaction["status"] == true) {
-        $transaction->set_avatarlink($avatar->getId());
-        $transaction->set_packagelink($package->getId());
-        $transaction->set_streamlink($stream->getId());
+        $transaction->setAvatarlink($avatar->getId());
+        $transaction->setPackagelink($package->getId());
+        $transaction->setStreamlink($stream->getId());
         $transaction->set_resellerlink($reseller->getId());
         $transaction->set_regionlink($region->getId());
         $transaction->set_amount($amountpaid);
         $transaction->set_unixtime(time());
         $transaction->set_transaction_uid($uid_transaction["uid"]);
         $transaction->set_renew(false);
-        $create_status = $transaction->create_entry();
+        $create_status = $transaction->createEntry();
         return $create_status["status"];
     }
     return false;
@@ -143,15 +143,15 @@ if ($status == true) { // create rental
     $uid_rental = $rental->createUID("rental_uid", 8, 10);
     $status = $uid_rental["status"];
     if ($status == true) {
-        $rental->set_rental_uid($uid_rental["uid"]);
-        $rental->set_avatarlink($avatar->getId());
-        $rental->set_packagelink($stream->getPackagelink());
-        $rental->set_streamlink($stream->getId());
-        $rental->set_startunixtime(time());
-        $rental->set_expireunixtime($unixtime);
-        $rental->set_noticelink($use_notice_index);
+        $rental->setRental_uid($uid_rental["uid"]);
+        $rental->setAvatarlink($avatar->getId());
+        $rental->setPackagelink($stream->getPackagelink());
+        $rental->setStreamlink($stream->getId());
+        $rental->setStartunixtime(time());
+        $rental->setExpireunixtime($unixtime);
+        $rental->setNoticelink($use_notice_index);
         $rental->set_totalamount($amountpaid);
-        $status = $rental->create_entry()["status"];
+        $status = $rental->createEntry()["status"];
         if ($status != true) {
             $why_failed = $lang["buy.sr.error.7"];
         }
@@ -160,7 +160,7 @@ if ($status == true) { // create rental
     }
 }
 if ($status == true) { // link rental to stream
-    $stream->set_rentallink($rental->getId());
+    $stream->setRentallink($rental->getId());
     $status = $stream->updateEntry()["status"];
     if ($status != true) {
         $why_failed = $lang["buy.sr.error.8"];
@@ -190,7 +190,7 @@ if ($status == true) { // process reseller cut / owner cut
             }
             $reply["owner_payment"] = 1;
             $reply["owner_payment_amount"] = $left_over;
-            $reply["owner_payment_uuid"] = $avatar_system->get_avataruuid();
+            $reply["owner_payment_uuid"] = $avatar_system->getAvataruuid();
         } else {
             $status = false;
             $why_failed = $lang["buy.sr.error.12"];
@@ -202,15 +202,15 @@ if ($status == true) { // process reseller cut / owner cut
 if ($status == true) {  // event storage engine (to be phased out)
     if ($slconfig->get_eventstorage() == true) {
         $event = new event();
-        $event->set_avatar_uuid($avatar->get_avataruuid());
+        $event->set_avatar_uuid($avatar->getAvataruuid());
         $event->set_avatar_name($avatar->getAvatarname());
-        $event->set_rental_uid($rental->getRental_uid());
+        $event->setRental_uid($rental->getRental_uid());
         $event->set_package_uid($package->getPackage_uid());
         $event->set_event_new(true);
         $event->set_unixtime(time());
         $event->set_expire_unixtime($rental->getExpireunixtime());
         $event->set_port($stream->getPort());
-        $status = $event->create_entry()["status"];
+        $status = $event->createEntry()["status"];
         if ($status == false) {
             $why_failed = $lang["buy.sr.error.11"];
         }
