@@ -13,7 +13,7 @@ if ($owner_override == true) {
                 $notecard = new notecard();
                 $where_fields = [["id" => ">"]];
                 $where_values = [[0 => "i"]];
-                $count_data = $sql->basic_count($notecard->get_table(), $where_fields, $where_values);
+                $count_data = $sql->basic_count($notecard->getTable(), $where_fields, $where_values);
                 if ($count_data["status"] == true) {
                     $status = true;
                     if ($count_data["count"] > 0) {

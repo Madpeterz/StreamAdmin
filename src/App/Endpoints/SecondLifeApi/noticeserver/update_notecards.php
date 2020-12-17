@@ -21,7 +21,7 @@ if ($notecards != "none") {
             if ($notecards_list_index !== false) {
                 unset($notecards_list[$notecards_list_index]);
             }
-            if ($notice_notecard->get_missing() == $notecards_list_index) {
+            if ($notice_notecardgetMissing() == $notecards_list_index) {
                 $notice_notecard->set_missing($notecards_list_index);
                 $status = $notice_notecard->updateEntry()["status"];
                 if ($status == false) {
@@ -34,7 +34,7 @@ if ($notecards != "none") {
         if ($status == true) {
             foreach ($notecards_list as $notecardname) {
                 $notice_notecard = new notice_notecard();
-                $notice_notecard->set_name($notecardname);
+                $notice_notecard->setName($notecardname);
                 $notice_notecard->set_missing(false);
                 $status = $notice_notecard->createEntry();
                 if ($status == true) {
@@ -66,7 +66,7 @@ if ($status == true) {
         foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
             if (in_array($notice_notecard_id, $used_notecards) == false) {
                 $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);
-                if ($notice_notecard->get_missing() == true) {
+                if ($notice_notecardgetMissing() == true) {
                     $status = $notice_notecardremoveEntry()["status"];
                     if ($status == false) {
                         echo $lang["noticeserver.up.error.4"];

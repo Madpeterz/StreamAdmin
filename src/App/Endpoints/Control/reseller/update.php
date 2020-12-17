@@ -1,33 +1,44 @@
 <?php
 
-$input = new inputFilter();
-$rate = $input->postFilter("rate", "integer");
-$allowed = $input->postFilter("allowed", "bool");
-$failed_on = "";
-if ($rate < 1) {
-    $failed_on .= $lang["reseller.up.error.1"];
-} elseif ($rate > 100) {
-    $failed_on .= $lang["reseller.up.error.2"];
-}
-$status = false;
-$this->output->setSwapTagString("redirect", "reseller");
-if ($failed_on == "") {
-    $reseller = new reseller();
-    if ($reseller->loadID($this->page) == true) {
-        $reseller->set_rate($rate);
-        $reseller->set_allowed($allowed);
-        $update_status = $reseller->updateEntry();
-        if ($update_status["status"] == true) {
-            $status = true;
-            $this->output->setSwapTagString("message", $lang["reseller.up.info.1"]);
-        } else {
-            $this->output->setSwapTagString("message", sprintf($lang["reseller.up.error.4"], $update_status["message"]));
+namespace App\Endpoints\Control\Reseller;
+
+use App\Models\Reseller;
+use App\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
+
+class Update extends ViewAjax
+{
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $reseller = new Reseller();
+
+        $rate = $input->postFilter("rate", "integer");
+        $allowed = $input->postFilter("allowed", "bool");
+        if ($rate < 1) {
+            $this->output->setSwapTagString("message", "Rate must be 1 or more (use Allow to disable)");
+            return;
         }
-    } else {
-        $this->output->setSwapTagString("message", $lang["reseller.up.error.3"]);
+        if ($rate > 100) {
+            $this->output->setSwapTagString("message", "Rate must be 100 or less");
+            return;
+        }
+        $this->output->setSwapTagString("redirect", "reseller");
+        if ($reseller->loadID($this->page) == false) {
+            $this->output->setSwapTagString("message", "Unable to load reseller");
+            return;
+        }
+        $reseller->setRate($rate);
+        $reseller->setAllowed($allowed);
+        $update_status = $reseller->updateEntry();
+        if ($update_status["status"] == false) {
+            $this->output->setSwapTagString(
+                "message",
+                sprintf("Unable to update reseller: %1\$s", $update_status["message"])
+            );
+            return;
+        }
+        $this->output->setSwapTagString("status", "true");
+        $this->output->setSwapTagString("message", "Reseller updated");
     }
-} else {
-    $status = false;
-    $this->output->setSwapTagString("message", $failed_on);
-    $this->output->setSwapTagString("redirect", "");
 }

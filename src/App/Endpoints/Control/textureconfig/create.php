@@ -17,34 +17,34 @@ $proxyrenew = $input->postFilter("proxyrenew");
 $treevend_waiting = $input->postFilter("treevend_waiting");
 $failed_on = "";
 if (strlen($name) < 4) {
-    $failed_on .= $lang["textureconfig.cr.error.1"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.1"];
 } elseif (strlen($name) > 30) {
-    $failed_on .= $lang["textureconfig.cr.error.2"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.2"];
 } elseif (strlen($getting_details) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.3"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.3"];
 } elseif (strlen($request_details) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.4"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.4"];
 } elseif (strlen($offline) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.5"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.5"];
 } elseif (strlen($wait_owner) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.6"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.6"];
 } elseif (strlen($inuse) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.7"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.7"];
 } elseif (strlen($make_payment) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.8"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.8"];
 } elseif (strlen($stock_levels) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.9"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.9"];
 } elseif (strlen($renew_here) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.10"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.10"];
 } elseif (strlen($proxyrenew) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.11"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.11"];
 } elseif (strlen($treevend_waiting) != 36) {
-    $failed_on .= $lang["textureconfig.cr.error.12"];
+    $this->output->setSwapTagString("message", $lang["textureconfig.cr.error.12"];
 }
 $status = false;
 if ($failed_on == "") {
     $textureconfig = new textureconfig();
-    $textureconfig->set_name($name);
+    $textureconfig->setName($name);
     $textureconfig->set_offline($offline);
     $textureconfig->set_wait_owner($wait_owner);
     $textureconfig->set_stock_levels($stock_levels);

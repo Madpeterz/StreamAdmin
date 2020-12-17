@@ -4,6 +4,7 @@ use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
+use App\Models\StreamSet;
 
 class serverapi_helper
 {
@@ -251,8 +252,8 @@ class serverapi_helper
         if ($this->callable_action(__FUNCTION__) == true) {
             $old_username = $this->stream->getAdminusername();
             $this->stream->set_adminusername($this->stream->getOriginal_adminusername());
-            $this->stream->set_adminpassword($this->rand_string(7 + rand(1, 6)));
-            $this->stream->set_djpassword($this->rand_string(5 + rand(1, 3)));
+            $this->stream->setAdminpassword($this->rand_string(7 + rand(1, 6)));
+            $this->stream->setDjpassword($this->rand_string(5 + rand(1, 3)));
             $this->stream->setNeedwork(false);
             $update_status = $this->stream->updateEntry();
             if ($update_status["status"] == true) {
@@ -400,8 +401,8 @@ class serverapi_helper
                 if ($this->server_api != null) {
                     if ($this->check_flags(["opt_password_reset","event_reset_password_revoke"]) == true) {
                         $this->message = "passed flag check";
-                        $this->stream->set_adminpassword($new_admin_password);
-                        $this->stream->set_djpassword($new_dj_password);
+                        $this->stream->setAdminpassword($new_admin_password);
+                        $this->stream->setDjpassword($new_dj_password);
                         $this->stream->setNeedwork(false);
                         $update_status = $this->stream->updateEntry();
                         if ($update_status["status"] == true) {
@@ -483,7 +484,7 @@ class serverapi_helper
         }
         return false;
     }
-    public function get_all_accounts(bool $include_passwords = false, stream_set $stream_set = null): array
+    public function get_all_accounts(bool $include_passwords = false, StreamSet $stream_set = null): array
     {
         if ($this->server_api != null) {
             $status = $this->server_api->get_account_name_list($include_passwords, $stream_set);

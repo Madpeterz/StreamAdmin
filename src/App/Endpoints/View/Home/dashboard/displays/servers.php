@@ -23,7 +23,7 @@ foreach ($server_set->getAllIds() as $server_id) {
         $serverstatus .= '<div data-loading="<div class=\'spinner-border spinner-border-sm '
         . 'text-primary\' role=\'status\'>'
         . '<span class=\'sr-only\'>Loading...</span></div>" data-repeatingrate="7000" class="ajaxonpageload" '
-        . 'data-loadmethod="post" data-loadurl="[[url_base]]server/server_load/'
+        . 'data-loadmethod="post" data-loadurl="[[url_base]]server/Serverload/'
         . $server->getId() . '"></div>';
     } else {
         $serverstatus .= '<sub> </sub>';

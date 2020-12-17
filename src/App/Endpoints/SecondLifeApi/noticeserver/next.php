@@ -30,7 +30,7 @@ function process_notice_change(notice $notice): void
                     $event->set_avatar_uuid($avatar->getAvataruuid());
                     $event->set_avatar_name($avatar->getAvatarname());
                     $event->setRental_uid($rental->getRental_uid());
-                    $event->set_package_uid($package->getPackage_uid());
+                    $event->setPackage_uid($package->getPackage_uid());
                     $event->set_event_expire(true);
                     $event->set_unixtime(time());
                     $event->set_expire_unixtime($rental->getExpireunixtime());
@@ -65,7 +65,7 @@ function process_notice_change(notice $notice): void
                 if ($notice->get_notice_notecardlink() > 1) {
                     $notice_notecard = new notice_notecard();
                     if ($notice_notecard->loadID($notice->get_notice_notecardlink()) == true) {
-                        if ($notice_notecard->get_missing() == false) {
+                        if ($notice_notecardgetMissing() == false) {
                             $reply["send_static_notecard"] = $notice_notecard->getName();
                             $reply["send_static_notecard_to"] = $avatar->getAvataruuid();
                         }

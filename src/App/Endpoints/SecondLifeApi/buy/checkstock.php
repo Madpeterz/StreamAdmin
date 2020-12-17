@@ -21,7 +21,7 @@ if ($package->loadByField("package_uid", $packageuid) == true) {
         $whereconfig["values"][] = $used_stream_ids;
         $whereconfig["types"][] = "i";
     }
-    $count_data = $sql->basic_count_v2($stream->get_table(), $whereconfig);
+    $count_data = $sql->basic_count_v2($stream->getTable(), $whereconfig);
     if ($count_data["status"] == true) {
         $status = true;
         $reply["package_instock"] = 0;

@@ -27,7 +27,7 @@ if ($texturepack > 0) {
                 $whereconfig["values"][] = $used_stream_ids;
                 $whereconfig["types"][] = "i";
             }
-            $count_data = $sql->basic_count_v2($stream->get_table(), $whereconfig);
+            $count_data = $sql->basic_count_v2($stream->getTable(), $whereconfig);
             if ($count_data["status"] == true) {
                 // array("status"=>true, "count"=>$load_data["dataSet"][0]["sqlCount"]);
                 $reply["package_instock"] = 0;

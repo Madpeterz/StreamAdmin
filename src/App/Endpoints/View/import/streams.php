@@ -46,10 +46,10 @@ foreach ($r4_items_set->getAllIds() as $r4_item_id) {
                     $stream->set_serverlink($server_domain_to_id[$r4_item->get_streamurl()]);
                     $stream->set_port($r4_item->get_streamport());
                     $stream->setNeedwork($r4_item->get_baditem());
-                    $stream->set_adminpassword($r4_item->getAdminpassword());
+                    $stream->setAdminpassword($r4_item->getAdminpassword());
                     $stream->set_adminusername($r4_item->getAdminusername());
                     $stream->set_original_adminusername($r4_item->getAdminusername());
-                    $stream->set_djpassword($r4_item->get_streampassword());
+                    $stream->setDjpassword($r4_item->get_streampassword());
                     $stream->set_mountpoint("r4|" . $r4_item->getId() . "");
                     $create_status = $stream->createEntry();
                     if ($create_status["status"] == true) {

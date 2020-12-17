@@ -105,7 +105,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
                                                 $event->set_avatar_uuid($avatar->getAvataruuid());
                                                 $event->set_avatar_name($avatar->getAvatarname());
                                                 $event->setRental_uid($rental->getRental_uid());
-                                                $event->set_package_uid($package->getPackage_uid());
+                                                $event->setPackage_uid($package->getPackage_uid());
                                                 $event->set_event_renew(true);
                                                 $event->set_unixtime(time());
                                                 $event->set_expire_unixtime($rental->getExpireunixtime());

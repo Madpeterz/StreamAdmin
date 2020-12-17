@@ -18,29 +18,29 @@ $api_update = $input->postFilter("api_update", "integer");
 
 $failed_on = "";
 if ($port < 1) {
-    $failed_on .= $lang["stream.up.error.1"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.1"];
 } elseif ($port > 99999) {
-    $failed_on .= $lang["stream.up.error.2"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.2"];
 } elseif ($package->loadID($packagelink) == false) {
-    $failed_on .= $lang["stream.up.error.3"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.3"];
 } elseif ($server->loadID($serverlink) == false) {
-    $failed_on .= $lang["stream.up.error.4"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.4"];
 } elseif (strlen($adminusername) < 3) {
-    $failed_on .= $lang["stream.up.error.5"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.5"];
 } elseif (strlen($adminusername) >= 50) {
-    $failed_on .= $lang["stream.up.error.6"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.6"];
 } elseif (strlen($adminpassword) < 4) {
-    $failed_on .= $lang["stream.up.error.7"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.7"];
 } elseif (strlen($adminpassword) > 20) {
-    $failed_on .= $lang["stream.up.error.8"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.8"];
 } elseif (strlen($djpassword) < 4) {
-    $failed_on .= $lang["stream.up.error.9"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.9"];
 } elseif (strlen($djpassword) > 20) {
-    $failed_on .= $lang["stream.up.error.10"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.10"];
 } elseif (strlen($original_adminusername) < 3) {
-    $failed_on .= $lang["stream.up.error.5"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.5"];
 } elseif (strlen($original_adminusername) >= 50) {
-    $failed_on .= $lang["stream.up.error.6"];
+    $this->output->setSwapTagString("message", $lang["stream.up.error.6"];
 }
 
 $status = false;
@@ -49,7 +49,7 @@ if ($failed_on == "") {
     if ($stream->loadByField("stream_uid", $this->page) == true) {
         $where_fields = [["port" => "="],["serverlink" => "="]];
         $where_values = [[$port => "i"],[$serverlink => "i"]];
-        $count_check = $sql->basic_count($stream->get_table(), $where_fields, $where_values);
+        $count_check = $sql->basic_count($stream->getTable(), $where_fields, $where_values);
         $expected_count = 0;
         if ($stream->getPort() == $port) {
             if ($stream->getServerlink() == $serverlink) {
@@ -63,8 +63,8 @@ if ($failed_on == "") {
                 $stream->set_port($port);
                 $stream->setNeedwork(false);
                 $stream->set_adminusername($adminusername);
-                $stream->set_adminpassword($adminpassword);
-                $stream->set_djpassword($djpassword);
+                $stream->setAdminpassword($adminpassword);
+                $stream->setDjpassword($djpassword);
                 $stream->set_mountpoint($mountpoint);
                 $stream->set_original_adminusername($original_adminusername);
                 $stream->set_api_uid_1($api_uid_1);

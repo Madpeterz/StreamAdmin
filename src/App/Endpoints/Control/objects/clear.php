@@ -1,19 +1,33 @@
 <?php
 
-$input = new inputFilter();
-$accept = $input->postFilter("accept");
-$this->output->setSwapTagString("redirect", "objects");
-$status = false;
-if ($accept == "Accept") {
-    $objects_set = new objects_set();
-    $objects_set->loadAll();
-    $purge_status = $objects_set->purge_collection_set();
-    if ($purge_status["status"] == true) {
-        $status = true;
-        $this->output->setSwapTagString("message", $lang["objects.cl.info.1"]);
-    } else {
-        $this->output->setSwapTagString("message", sprintf($lang["objects.cl.error.2"], $purge_status["message"]));
+namespace App\Endpoints\Control\Objects;
+
+use App\Models\ObjectsSet;
+use App\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
+
+class Clear extends ViewAjax
+{
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $accept = $input->postFilter("accept");
+        $this->output->setSwapTagString("redirect", "objects");
+        if ($accept != "Accept") {
+            $this->output->setSwapTagString("message", "Did not Accept");
+            return;
+        }
+        $objects_set = new ObjectsSet();
+        $objects_set->loadAll();
+        $purge_status = $objects_set->purgeCollection();
+        if ($purge_status["status"] == false) {
+            $this->output->setSwapTagString(
+                "message",
+                sprintf("Unable to purge collection: %1\$s", $purge_status["message"])
+            );
+            return;
+        }
+        $this->output->setSwapTagString("status", "true");
+        $this->output->setSwapTagString("message", "Collection purged");
     }
-} else {
-    $this->output->setSwapTagString("message", $lang["objects.cl.error.1"]);
 }

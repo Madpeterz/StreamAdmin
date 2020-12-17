@@ -1,21 +1,33 @@
 <?php
 
-$input = new inputFilter();
-$apilink = $input->postFilter("apilink", "integer");
-$api = new apis();
-$status = false;
-if ($apilink > 0) {
-    if ($api->loadID($apilink) == true) {
-        foreach ($api->get_fields() as $apifield) {
-            $getter = "get_" . $apifield;
-            $reply[$apifield] = $api->$getter();
+namespace App\Endpoints\Control\Server;
+
+use App\Models\Apis;
+use App\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
+
+class Getapiconfig extends ViewAjax
+{
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $apilink = $input->postFilter("apilink", "integer");
+        $api = new Apis();
+        $status = false;
+        if ($apilink == 0) {
+            $this->output->setSwapTagString("message", "Invaild API selected");
+            return;
         }
-        $status = true;
-        $reply["update_api_flags"] = true;
+        if ($api->loadID($apilink) == false) {
+            $this->output->setSwapTagString("message", "Unknown API selected");
+            return;
+        }
+        foreach ($api->getFields() as $apifield) {
+            $getter = "get" . ucfirst($apifield);
+            $this->output->setSwapTagString($apifield, $api->$getter());
+        }
+        $this->output->setSwapTagString("update_api_flags", "true");
+        $this->output->setSwapTagString("status", "true");
         $this->output->setSwapTagString("message", "API config loaded");
-    } else {
-        $this->output->setSwapTagString("message", "Unknown API selected");
     }
-} else {
-    $this->output->setSwapTagString("message", "Invaild API selected");
 }

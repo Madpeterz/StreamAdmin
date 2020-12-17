@@ -34,7 +34,7 @@ class DefaultView extends View
             if ($has_api_sync == true) {
                 if (($server->getApi_sync_accounts() == true) && ($api->getApi_sync_accounts() == true)) {
                     $form = new Form();
-                    $form->target("server/sync_accounts/" . $server->getId() . "");
+                    $form->target("server/SyncAccounts/" . $server->getId() . "");
                     $entry[] = expired_ago($server->getLast_api_sync());
                     $entry[] = $form->render("Sync", "primary", true, true);
                 } else {

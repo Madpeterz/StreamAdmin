@@ -21,8 +21,8 @@ foreach ($stream_set->getAllIds() as $stream_id) {
             $newadminpw = $input->postFilter('stream' . $stream->getStream_uid() . 'adminpw');
             $newdjpw = $input->postFilter('stream' . $stream->getStream_uid() . 'djpw');
             if (($stream->getAdminpassword() != $newadminpw) && ($stream->getDjpassword() != $newdjpw)) {
-                $stream->set_adminpassword($newadminpw);
-                $stream->set_djpassword($newdjpw);
+                $stream->setAdminpassword($newadminpw);
+                $stream->setDjpassword($newdjpw);
                 $stream->setNeedwork(0);
                 $update_status = $stream->updateEntry();
                 if ($update_status["status"] == false) {

@@ -5,16 +5,16 @@ $input = new inputFilter();
 $name = $input->postFilter("name");
 $failed_on = "";
 if (strlen($name) < 5) {
-    $failed_on .= $lang["tree.cr.error.1"];
+    $this->output->setSwapTagString("message", $lang["tree.cr.error.1"];
 } elseif (strlen($name) > 100) {
-    $failed_on .= $lang["tree.cr.error.2"];
+    $this->output->setSwapTagString("message", $lang["tree.cr.error.2"];
 } elseif ($treevender->loadByField("name", $name) == true) {
-    $failed_on .= $lang["tree.cr.error.3"];
+    $this->output->setSwapTagString("message", $lang["tree.cr.error.3"];
 }
 $status = false;
 if ($failed_on == "") {
     $treevender = new treevender();
-    $treevender->set_name($name);
+    $treevender->setName($name);
     $create_status = $treevender->createEntry();
     if ($create_status["status"] == true) {
         $status = true;

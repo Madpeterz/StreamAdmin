@@ -19,25 +19,25 @@ $api_create = $input->postFilter("api_create", "integer");
 
 $failed_on = "";
 if ($port < 1) {
-    $failed_on .= $lang["stream.cr.error.1"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.1"];
 } elseif ($port > 99999) {
-    $failed_on .= $lang["stream.cr.error.2"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.2"];
 } elseif ($package->loadID($packagelink) == false) {
-    $failed_on .= $lang["stream.cr.error.3"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.3"];
 } elseif ($server->loadID($serverlink) == false) {
-    $failed_on .= $lang["stream.cr.error.4"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.4"];
 } elseif (strlen($adminusername) < 3) {
-    $failed_on .= $lang["stream.cr.error.5"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.5"];
 } elseif (strlen($adminusername) >= 50) {
-    $failed_on .= $lang["stream.cr.error.6"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.6"];
 } elseif (strlen($adminpassword) < 4) {
-    $failed_on .= $lang["stream.cr.error.7"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.7"];
 } elseif (strlen($adminpassword) > 20) {
-    $failed_on .= $lang["stream.cr.error.8"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.8"];
 } elseif (strlen($djpassword) < 4) {
-    $failed_on .= $lang["stream.cr.error.9"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.9"];
 } elseif (strlen($djpassword) > 20) {
-    $failed_on .= $lang["stream.cr.error.10"];
+    $this->output->setSwapTagString("message", $lang["stream.cr.error.10"];
 }
 $status = false;
 if ($failed_on == "") {
@@ -46,7 +46,7 @@ if ($failed_on == "") {
     if ($uid["status"] == true) {
         $where_fields = [["port" => ">="],["serverlink" => "="]];
         $where_values = [[$port => "i"],[$serverlink => "i"]];
-        $count_check = $sql->basic_count($stream->get_table(), $where_fields, $where_values);
+        $count_check = $sql->basic_count($stream->getTable(), $where_fields, $where_values);
         if ($count_check["status"] == true) {
             if ($count_check["count"] == 0) {
                 $stream->set_stream_uid($uid["uid"]);
@@ -55,9 +55,9 @@ if ($failed_on == "") {
                 $stream->set_port($port);
                 $stream->setNeedwork($needswork);
                 $stream->set_adminusername($adminusername);
-                $stream->set_adminpassword($adminpassword);
+                $stream->setAdminpassword($adminpassword);
                 $stream->set_original_adminusername($adminusername);
-                $stream->set_djpassword($djpassword);
+                $stream->setDjpassword($djpassword);
                 $stream->set_mountpoint($mountpoint);
                 $stream->set_api_uid_1($api_uid_1);
                 $stream->set_api_uid_2($api_uid_2);

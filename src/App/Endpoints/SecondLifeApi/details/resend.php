@@ -8,7 +8,7 @@ if ($rental->loadByField("rental_uid", $rental_uid) == true) {
     $detail = new detail();
     $where_fields = [["rentallink" => "="]];
     $where_values = [[$rental->getId() => "i"]];
-    $count_data = $sql->basic_count($detail->get_table(), $where_fields, $where_values);
+    $count_data = $sql->basic_count($detail->getTable(), $where_fields, $where_values);
     if ($count_data["status"] == true) {
         if ($count_data["count"] == 0) {
             $detail = new detail();

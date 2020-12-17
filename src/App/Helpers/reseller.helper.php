@@ -16,8 +16,8 @@ class reseller_helper
             } else {
                 $this->reseller = new reseller();
                 $this->reseller->setAvatarlink($avatarlinkid);
-                $this->reseller->set_allowed($auto_accept);
-                $this->reseller->set_rate($auto_accept_rate);
+                $this->reseller->setAllowed($auto_accept);
+                $this->reseller->setRate($auto_accept_rate);
                 $save_status = $this->reseller->createEntry();
                 if ($save_status["status"] == false) {
                     if ($show_errors == true) {

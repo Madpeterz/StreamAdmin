@@ -26,31 +26,31 @@ foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
     $package = new package();
     $uid = $package->createUID("package_uid", 8, 10);
     if ($uid["status"] == true) {
-        $package->set_package_uid($uid["uid"]);
-        $package->set_name("R4|" . $r4_package->getId() . "|" . $r4_package->getName());
-        $package->set_autodj($r4_package->get_autoDJ());
+        $package->setPackage_uid($uid["uid"]);
+        $package->setName("R4|" . $r4_package->getId() . "|" . $r4_package->getName());
+        $package->setAutodj($r4_package->get_autoDJ());
         $package->set_audodj_size(0);
-        $package->set_listeners($r4_package->get_users());
-        $package->set_bitrate($r4_package->get_streamrate());
-        $package->set_templatelink($template->getId());
-        $package->set_cost($r4_package->get_Lcost());
-        $package->set_days($r4_package->get_sublength());
+        $package->setListeners($r4_package->get_users());
+        $package->setBitrate($r4_package->get_streamrate());
+        $package->setTemplatelink($template->getId());
+        $package->setCost($r4_package->get_Lcost());
+        $package->setDays($r4_package->get_sublength());
         if ($r4_package->get_soldouttexture() == null) {
-            $package->set_texture_uuid_soldout("00000000-0000-0000-0000-000000000000");
+            $package->setTexture_uuid_soldout("00000000-0000-0000-0000-000000000000");
         } else {
-            $package->set_texture_uuid_soldout($r4_package->get_soldouttexture());
+            $package->setTexture_uuid_soldout($r4_package->get_soldouttexture());
         }
 
         if ($r4_package->get_infotexture() == null) {
-            $package->set_texture_uuid_instock_small("00000000-0000-0000-0000-000000000000");
+            $package->setTexture_uuid_instock_small("00000000-0000-0000-0000-000000000000");
         } else {
-            $package->set_texture_uuid_instock_small($r4_package->get_infotexture());
+            $package->setTexture_uuid_instock_small($r4_package->get_infotexture());
         }
 
         if ($r4_package->get_maintexture() == null) {
-            $package->set_texture_uuid_instock_selected("00000000-0000-0000-0000-000000000000");
+            $package->setTexture_uuid_instock_selected("00000000-0000-0000-0000-000000000000");
         } else {
-            $package->set_texture_uuid_instock_selected($r4_package->get_maintexture());
+            $package->setTexture_uuid_instock_selected($r4_package->get_maintexture());
         }
 
         $create_status = $package->createEntry();
