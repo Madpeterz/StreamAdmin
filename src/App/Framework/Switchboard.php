@@ -35,17 +35,19 @@ class Switchboard
             $this->module = "Install";
             include "../App/Flags/InstallMode.php";
         }
-        $TargetView = "\\App\\" . $loadwith . "\\" . $this->module . "\\" . $this->option;
-        $DefaultView = "\\App\\" . $loadwith . "\\" . $this->module . "\\DefaultView";
-        $use_class = "\\App\\" . $loadwith . "\\" . $fallback . "\\DefaultView";
+        $TargetView = "\\App\\Endpoints\\" . $loadwith . "\\" . $this->module . "\\" . $this->option;
+        $DefaultView = "\\App\\Endpoints" . $loadwith . "\\" . $this->module . "\\DefaultView";
+        $use_class = "\\App\\Endpoints\\" . $loadwith . "\\" . $fallback . "\\DefaultView";
         if (class_exists($DefaultView) == true) {
             $use_class = $DefaultView;
         }
         if (class_exists($TargetView) == true) {
             $use_class = $TargetView;
         }
-        $obj = new $use_class();
-        $obj->process();
-        $obj->getoutput();
+        if (class_exists($use_class) == true) {
+            $obj = new $use_class();
+            $obj->process();
+            $obj->getoutput();
+        }
     }
 }
