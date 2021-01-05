@@ -7,6 +7,10 @@ use App\Framework\SessionControl;
 class Switchboard
 {
     protected SessionControl $session;
+    protected $module = "";
+    protected $page = "";
+    protected $option = "";
+
     public function __construct()
     {
         global $page, $module, $option, $session, $sql;

@@ -1,0 +1,25 @@
+<phpunit
+    bootstrap="./tests/bootstrap.php"
+    convertWarningsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertErrorsToExceptions="true"
+    backupStaticAttributes="false"
+    processIsolation="false"
+    stopOnFailure="true"
+    backupGlobals="false"
+    colors="true"
+>
+  <testsuites>
+      <testsuite name="All">
+        <directory>tests</directory>
+      </testsuite>
+  </testsuites>
+  <filter>
+      <whitelist>
+          <directory>src</directory>
+          <exclude>
+              <directory>src/Junk</directory>
+          </exclude>
+      </whitelist>
+  </filter>
+</phpunit>

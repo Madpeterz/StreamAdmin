@@ -2,10 +2,6 @@
 
 namespace App\Template;
 
-use App\Framework\SessionControl;
-use App\Models\Slconfig;
-use YAPF\MySQLi\MysqliEnabled;
-
 abstract class ViewAjax extends View
 {
     public function __construct(bool $AutoLoadTemplate = false)

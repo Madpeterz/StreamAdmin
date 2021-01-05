@@ -176,6 +176,17 @@ class Template extends AddonProvider
         $this->setSwapTagString("PAGE", $page);
         print json_encode($this->swaptags);
     }
+    public function renderSecondlifeAjax(): void
+    {
+        foreach ($this->swaptags as $tag => $value) {
+            if ($value == "true") {
+                $value = 1;
+            } elseif ($value == "false") {
+                $value = 0;
+            }
+        }
+        $this->renderAjax();
+    }
     public function renderPage(): void
     {
         global $page,$module,$area;
@@ -233,6 +244,10 @@ class Template extends AddonProvider
         $this->loadTempate("ajax");
         $this->output->setSwapTagString("status", "false");
         $this->output->setSwapTagString("message", "Not processed");
+    }
+    public function tempateSecondLifeAjax(): void
+    {
+        $this->tempateAjax();
     }
     public function tempateInstall(): void
     {

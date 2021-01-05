@@ -209,7 +209,7 @@ if ($status == true) {  // event storage engine (to be phased out)
         $event->set_event_new(true);
         $event->set_unixtime(time());
         $event->set_expire_unixtime($rental->getExpireunixtime());
-        $event->set_port($stream->getPort());
+        $event->setPort($stream->getPort());
         $status = $event->createEntry()["status"];
         if ($status == false) {
             $why_failed = $lang["buy.sr.error.11"];

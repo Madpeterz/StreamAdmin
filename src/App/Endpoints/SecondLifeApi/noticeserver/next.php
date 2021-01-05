@@ -34,7 +34,7 @@ function process_notice_change(notice $notice): void
                     $event->set_event_expire(true);
                     $event->set_unixtime(time());
                     $event->set_expire_unixtime($rental->getExpireunixtime());
-                    $event->set_port($stream->getPort());
+                    $event->setPort($stream->getPort());
                     $create_status = $event->createEntry();
                     if ($create_status["status"] == false) {
                         $all_ok = false;

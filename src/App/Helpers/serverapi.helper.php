@@ -251,7 +251,7 @@ class serverapi_helper
         global $sql;
         if ($this->callable_action(__FUNCTION__) == true) {
             $old_username = $this->stream->getAdminusername();
-            $this->stream->set_adminusername($this->stream->getOriginal_adminusername());
+            $this->stream->setAdminusername($this->stream->getOriginal_adminusername());
             $this->stream->setAdminpassword($this->rand_string(7 + rand(1, 6)));
             $this->stream->setDjpassword($this->rand_string(5 + rand(1, 3)));
             $this->stream->setNeedwork(false);
@@ -551,7 +551,7 @@ class serverapi_helper
                 if ($new_username != "") {
                     $old_username = $this->stream->getAdminusername();
                     if ($old_username != $new_username) {
-                        $this->stream->set_adminusername($new_username);
+                        $this->stream->setAdminusername($new_username);
                         $update_status = $this->stream->updateEntry();
                         if ($update_status["status"] == true) {
                             $status = $this->server_api->event_start_sync_username($old_username);

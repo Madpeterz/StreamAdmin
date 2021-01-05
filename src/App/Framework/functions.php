@@ -15,7 +15,7 @@ function create_pending_api_request(server $server, stream $stream, ?rental $ren
     } else {
         $no_api_action = false;
         $api_request = new api_requests();
-        $api_request->set_serverlink($server->getId());
+        $api_request->setServerlink($server->getId());
         if ($rental != null) {
             $api_request->setRentallink($rental->getId());
         }
