@@ -17,4 +17,12 @@ class RegionSet extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Region
+    {
+        return parent::getFirst();
+    }
 }

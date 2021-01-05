@@ -17,4 +17,12 @@ class EventSet extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Event
+    {
+        return parent::getFirst();
+    }
 }

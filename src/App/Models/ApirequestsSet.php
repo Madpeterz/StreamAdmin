@@ -17,4 +17,12 @@ class ApirequestsSet extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Apirequests
+    {
+        return parent::getFirst();
+    }
 }

@@ -17,4 +17,12 @@ class ApisSet extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Apis
+    {
+        return parent::getFirst();
+    }
 }

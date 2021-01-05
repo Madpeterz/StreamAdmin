@@ -31,7 +31,12 @@ abstract class SecondlifeAjax extends View
     protected ?Reseller $reseller;
     protected bool $owner_override = false;
     protected ?Object $object;
+    protected bool $soft_fail = false;
 
+    public function getSoftFail(): bool
+    {
+        return $this->soft_fail;
+    }
     public function getLoadOk(): bool
     {
         return $this->load_ok;

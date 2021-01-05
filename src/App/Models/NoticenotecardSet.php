@@ -17,4 +17,12 @@ class NoticenotecardSet extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Noticenotecard
+    {
+        return parent::getFirst();
+    }
 }

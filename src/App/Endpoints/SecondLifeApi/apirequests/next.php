@@ -1,49 +1,59 @@
 <?php
 
-$status = false;
-if ($owner_override == true) {
-    $order_config = ["ordering_enabled" => true,"order_field" => "last_attempt","order_dir" => "DESC"];
-    $limits_config = ["page_number" => 0,"max_entrys" => 1];
-    $api_requests_set = new api_requests_set();
-    $message = "not set";
-    if ($api_requests_set->loadWithConfig(null, $order_config, $limits_config)["status"] == true) {
-        if ($api_requests_set->getCount() > 0) {
-            $api_request = $api_requests_set->getFirst();
-            $load_path = "endpoints/api/apirequests/" . $api_request->get_eventname() . ".php";
-            $api_request->set_attempts($api_request->get_attempts() + 1);
-            $api_request->set_last_attempt(time());
-            $api_request->setMessage("started processing");
-            $save_status = $api_request->updateEntry();
-            if ($save_status["status"] == true) {
-                if (file_exists($load_path) == true) {
-                    if ($sql->sqlSave(false) == true) {
-                        include $load_path;
-                    } else {
-                        $message = "Unable to mark event as processing DB issue";
-                    }
-                } else {
-                    $soft_fail = true;
-                    $message = "Unable to find event: " . $api_request->get_eventname();
-                }
-            } else {
-                $message = "Unable to mark event as processing Obj issue";
-            }
-            if ($soft_fail == true) {
-                $api_request->setMessage($message);
-                $save_status = $api_request->updateEntry();
-                if ($save_status["status"] == false) {
-                    $soft_fail = false;
-                    $message = "Failed to update api request attempt details";
-                }
-            }
-        } else {
-            $status = true;
-            $message = "nowork";
+namespace App\Endpoints\SecondLifeApi\Apirequests;
+
+use App\Models\ApirequestsSet;
+use App\Template\SecondlifeAjax;
+
+class Next extends SecondlifeAjax
+{
+    public function process(): void
+    {
+        if ($this->owner_override == false) {
+            $this->output->setSwapTagString("message", "This API is owner only");
+            return;
         }
-    } else {
-        $message = "Unable to load next api request";
+
+        $order_config = ["ordering_enabled" => true,"order_field" => "last_attempt","order_dir" => "DESC"];
+        $limits_config = ["page_number" => 0,"max_entrys" => 1];
+        $api_requests_set = new ApirequestsSet();
+
+        if ($api_requests_set->loadWithConfig(null, $order_config, $limits_config)["status"] == false) {
+            $this->output->setSwapTagString("message", "Unable to load next api request");
+            return;
+        }
+        if ($api_requests_set->getCount() == 0) {
+            $this->output->setSwapTagString("message", "nowork");
+            $this->output->setSwapTagString("status", "true");
+            return;
+        }
+
+        $api_request = $api_requests_set->getFirst();
+        $api_request->setAttempts($api_request->getAttempts() + 1);
+        $api_request->setLast_attempt(time());
+        $api_request->setMessage("started processing");
+        $save_status = $api_request->updateEntry();
+        if ($save_status["status"] == false) {
+            $this->output->setSwapTagString("message", "Unable to mark event as processing Obj issue");
+            return;
+        }
+        $targetclass = ucfirst($api_request->getEventname());
+        $targetclass = str_replace("_", "", $targetclass);
+        $namespace = "\\App\\Endpoints\\SecondLifeApi\\Apirequests\\Events\\";
+        $use_class = $namespace . $targetclass;
+        if (class_exists($use_class) == false) {
+            $this->soft_fail = true;
+            $this->output->setSwapTagString("message", "Unable to find event: " . $api_request->getEventname());
+            return;
+        }
+        if ($this->sql->sqlSave(false) == false) {
+            $this->output->setSwapTagString("message", "Unable to mark event as processing DB issue");
+            return;
+        }
+
+        $obj = new $use_class();
+        $obj->attachEvent($api_request);
+        $obj->process();
+        $obj->getoutput();
     }
-    echo $message;
-} else {
-    echo "This API is owner only";
 }

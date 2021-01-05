@@ -40,6 +40,7 @@ abstract class View
         $this->output->setSwapTagString("page_title", " not set");
         $this->output->setSwapTagString("page_actions", "");
         $this->output->addSwapTagString("page_content", "Not Loaded");
+        $this->output->setSwapTagString("status", "false");
     }
     public function getoutput(): void
     {
