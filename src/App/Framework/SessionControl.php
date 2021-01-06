@@ -29,7 +29,7 @@ class SessionControl extends SqlConnectedClass
         $this->nextcheck = time() + 45;
         $this->username = $this->main_class_object->getUsername();
         $this->ownerlevel = $this->main_class_object->getOwnerLevel();
-        $this->update_session();
+        $this->updateSession();
         return true;
     }
     public function endSession(): void
@@ -38,7 +38,7 @@ class SessionControl extends SqlConnectedClass
         session_destroy();
     }
     protected $why_logged_out = "Not logged in at all";
-    public function getWhyLoggedOut()
+    public function getWhyLoggedOut(): string
     {
         return $this->why_logged_out;
     }

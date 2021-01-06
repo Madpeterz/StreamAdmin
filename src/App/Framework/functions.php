@@ -1,10 +1,16 @@
 <?php
 
-function create_pending_api_request(server $server, stream $stream, ?rental $rental, string $eventname, string $errormessage = "error: %1\$s %2\$s", bool $save_to_why_failed = false): bool
+use App\Models\Apirequests;
+use App\Models\Detail;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+
+function create_pending_api_request(Server $server, Stream $stream, ?Rental $rental, string $eventname, string $errormessage = "error: %1\$s %2\$s", bool $save_to_why_failed = false): bool
 {
     global $why_failed, $no_api_action;
     if ($eventname == "core_send_details") {
-        $detail = new detail();
+        $detail = new Detail();
         $detail->setRentallink($rental->getId());
         $create_status = $detail->createEntry();
         $status = $create_status["status"];
@@ -14,15 +20,15 @@ function create_pending_api_request(server $server, stream $stream, ?rental $ren
         return $status;
     } else {
         $no_api_action = false;
-        $api_request = new api_requests();
+        $api_request = new Apirequests();
         $api_request->setServerlink($server->getId());
         if ($rental != null) {
             $api_request->setRentallink($rental->getId());
         }
         $api_request->setStreamlink($stream->getId());
-        $api_request->set_eventname($eventname);
+        $api_request->setEventname($eventname);
         $api_request->setMessage("in Q");
-        $api_request->set_last_attempt(time());
+        $api_request->setLast_attempt(time());
         $reply = $api_request->createEntry();
         if ($reply["status"] == false) {
             if ($save_to_why_failed == true) {
