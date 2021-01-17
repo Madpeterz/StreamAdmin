@@ -10,7 +10,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Remove");
         $this->output->addSwapTagString("page_title", " Remove notice:" . $this->page);
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
         if (in_array($this->page, [6,10]) == true) {
             $this->output->redirect("notice?bubblemessage=This notice is protected&bubbletype=warning");
             return;
@@ -31,6 +31,6 @@ class Manage extends View
 </label>
 </div>';
         $form->directAdd($action);
-        $this->output->setSwapTagString("page_content", $form->render("Remove", "danger"));
+        $this->setSwapTag("page_content", $form->render("Remove", "danger"));
     }
 }

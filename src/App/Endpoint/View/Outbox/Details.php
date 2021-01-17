@@ -25,6 +25,6 @@ class Details extends View
             $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
             $table_body[] = [$detail->getId(),$rental->getRental_uid(),$avatar->getAvatarname()];
         }
-        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
     }
 }

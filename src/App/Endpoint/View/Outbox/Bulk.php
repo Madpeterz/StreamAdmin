@@ -104,7 +104,7 @@ class Bulk extends View
         }
         $form->col(12);
             $form->directAdd(render_table($table_head, $table_body));
-        $this->output->setSwapTagString("page_content", $form->render("Send to selected", "success"));
+        $this->setSwapTag("page_content", $form->render("Send to selected", "success"));
         $this->output->addSwapTagString("page_content", "<br/><hr/>Note: If an avatar has multiple streams that "
         . "match the selected filter source the first rental will be used.");
     }

@@ -14,7 +14,7 @@ class ServerLoad extends ViewAjax
         $server = new Server();
         $serverapi_helper = new serverapi_helper();
         if ($server->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "<span class=\"text-danger\">Unable to find server</span>");
+            $this->setSwapTag("message", "<span class=\"text-danger\">Unable to find server</span>");
             return;
         }
         if ($server->getApi_serverstatus() == 0) {

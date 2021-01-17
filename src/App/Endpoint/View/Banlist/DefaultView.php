@@ -75,7 +75,7 @@ class DefaultView extends View
             $entry[] = $form->render("Remove", "danger");
             $table_body[] = $entry;
         }
-        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
         $this->output->addSwapTagString("page_content", "<br/><hr/>");
         $form = new form();
         $form->mode("get");

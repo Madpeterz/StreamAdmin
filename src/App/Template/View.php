@@ -37,13 +37,17 @@ abstract class View
     public function process(): void
     {
         $this->output->addSwapTagString("html_title", "");
-        $this->output->setSwapTagString("page_title", " not set");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_title", " not set");
+        $this->setSwapTag("page_actions", "");
         $this->output->addSwapTagString("page_content", "Not Loaded");
-        $this->output->setSwapTagString("status", "false");
+        $this->setSwapTag("status", "false");
     }
     public function getoutput(): void
     {
         $this->output->renderPage();
+    }
+    protected function setSwapTag(string $tag, $value): void
+    {
+        $this->setSwapTag($tag, $value);
     }
 }

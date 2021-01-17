@@ -21,6 +21,6 @@ class DefaultView extends View
             . $treevender->getId() . '">' . $treevender->getName() . '</a>';
             $table_body[] = $entry;
         }
-        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
     }
 }

@@ -15,23 +15,23 @@ class Create extends ViewAjax
         $detail = $input->postFilter("detail");
         $notecarddetail = $input->postFilter("notecarddetail");
         if (strlen($name) < 5) {
-            $this->output->setSwapTagString("message", "Name length must be 5 or longer");
+            $this->setSwapTag("message", "Name length must be 5 or longer");
             return;
         }
         if (strlen($name) > 30) {
-            $this->output->setSwapTagString("message", "Name length must be 30 or less");
+            $this->setSwapTag("message", "Name length must be 30 or less");
             return;
         }
         if (strlen($detail) < 5) {
-            $this->output->setSwapTagString("message", "template length must be 5 or more");
+            $this->setSwapTag("message", "template length must be 5 or more");
             return;
         }
         if (strlen($detail) > 800) {
-            $this->output->setSwapTagString("message", "template length must be 800 or less");
+            $this->setSwapTag("message", "template length must be 800 or less");
             return;
         }
         if (strlen($notecarddetail) < 5) {
-            $this->output->setSwapTagString("message", "Notecard template length must be 5 or more");
+            $this->setSwapTag("message", "Notecard template length must be 5 or more");
             return;
         }
         $template = new Template();
@@ -40,7 +40,7 @@ class Create extends ViewAjax
         $template->setNotecarddetail($notecarddetail);
         $create_status = $template->createEntry();
         if ($create_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to create Template: %1\$s",
@@ -49,8 +49,8 @@ class Create extends ViewAjax
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Template created");
-        $this->output->setSwapTagString("redirect", "template");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Template created");
+        $this->setSwapTag("redirect", "template");
     }
 }

@@ -15,7 +15,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing stream");
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_actions",
             "<a href='[[url_base]]stream/remove/" . $this->page . "'>"
             . "<button type='button' class='btn btn-danger'>Remove</button></a>"
@@ -113,7 +113,7 @@ class Manage extends View
         $form->col(6);
         $form->group("Magic");
         $form->select("api_update", "Update on server", 0, $this->yesNo);
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
         include "../App/View/Stream/api_linking.php";
     }
 }

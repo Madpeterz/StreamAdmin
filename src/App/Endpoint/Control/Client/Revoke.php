@@ -26,19 +26,19 @@ class Revoke extends ViewAjax
         $accept = $input->postFilter("accept");
         $status = false;
         $redirect = "client/manage/" . $this->page . "";
-        $this->output->setSwapTagString("redirect", null);
+        $this->setSwapTag("redirect", null);
         if ($accept != "Accept") {
-            $this->output->setSwapTagString("message", "Did not Accept");
+            $this->setSwapTag("message", "Did not Accept");
             return;
         }
 
         if ($rental->loadByField("rental_uid", $this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find client");
+            $this->setSwapTag("message", "Unable to find client");
             return;
         }
 
         if ($api_requests->loadByField("rentallink", $rental->getId()) == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 "Unable to check for pending api requests attached to the client"
             );
@@ -46,7 +46,7 @@ class Revoke extends ViewAjax
         }
 
         if ($api_requests->getCount() > 0) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("There are %1\$s pending api requests attached to the client", $api_requests->getCount())
             );
@@ -54,12 +54,12 @@ class Revoke extends ViewAjax
         }
 
         if ($stream->loadID($rental->getStreamlink()) == true) {
-            $this->output->setSwapTagString("message", "Unable to find attached stream");
+            $this->setSwapTag("message", "Unable to find attached stream");
             return;
         }
 
         if ($server->loadID($stream->getServerlink()) == false) {
-            $this->output->setSwapTagString("message", "Unable to load server");
+            $this->setSwapTag("message", "Unable to load server");
             return;
         }
 
@@ -67,23 +67,23 @@ class Revoke extends ViewAjax
         $stream->setNeedwork(1);
         $update_status = $stream->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to mark stream as needs work");
+            $this->setSwapTag("message", "Unable to mark stream as needs work");
             return;
         }
 
         if ($package->loadID($rental->getPackagelink()) == false) {
-            $this->output->setSwapTagString("message", "Unable to load package");
+            $this->setSwapTag("message", "Unable to load package");
             return;
         }
         if ($avatar->loadID($rental->getAvatarlink()) == false) {
-            $this->output->setSwapTagString("message", "Unable to load avatar");
+            $this->setSwapTag("message", "Unable to load avatar");
             return;
         }
 
         $remove_status = $rental->removeEntry();
         $all_ok = $remove_status["status"];
         if ($remove_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to remove client: %1\$s", $remove_status["message"])
             );
@@ -94,11 +94,11 @@ class Revoke extends ViewAjax
         $api_serverlogic_reply = false;
         include "shared/media_server_apis/logic/revoke.php";
         if ($api_serverlogic_reply == false) {
-            $this->output->setSwapTagString("message", $why_failed);
+            $this->setSwapTag("message", $why_failed);
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("redirect", "client");
-        $this->output->setSwapTagString("message", "Client rental revoked");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("redirect", "client");
+        $this->setSwapTag("message", "Client rental revoked");
     }
 }

@@ -30,63 +30,63 @@ class Update extends ViewAjax
         $displaytimezonelink = $input->postFilter("displaytimezonelink", "integer");
 
         if (strlen($sllinkcode) < 5) {
-            $this->output->setSwapTagString("message", "sllinkcode length must be 5 or longer");
+            $this->setSwapTag("message", "sllinkcode length must be 5 or longer");
             return;
         }
         if (strlen($sllinkcode) > 10) {
-            $this->output->setSwapTagString("message", "sllinkcode length must be 10 or less");
+            $this->setSwapTag("message", "sllinkcode length must be 10 or less");
             return;
         }
         if (strlen($httpcode) < 5) {
-            $this->output->setSwapTagString("message", "httpcode length must be 5 or longer");
+            $this->setSwapTag("message", "httpcode length must be 5 or longer");
             return;
         }
         if (strlen($httpcode) > 30) {
-            $this->output->setSwapTagString("message", "httpcode length must be 30 or less");
+            $this->setSwapTag("message", "httpcode length must be 30 or less");
             return;
         }
         if ($new_resellers_rate < 0) {
-            $this->output->setSwapTagString("message", "new_resellers_rate must be 1 or more");
+            $this->setSwapTag("message", "new_resellers_rate must be 1 or more");
             return;
         }
         if ($new_resellers_rate > 100) {
-            $this->output->setSwapTagString("message", "new_resellers_rate must be 100 or less");
+            $this->setSwapTag("message", "new_resellers_rate must be 100 or less");
             return;
         }
         if ($ui_tweaks_datatable_itemsperpage < 10) {
-            $this->output->setSwapTagString("message", "Datatable entrys per page length must be 10 or more");
+            $this->setSwapTag("message", "Datatable entrys per page length must be 10 or more");
             return;
         }
         if ($ui_tweaks_datatable_itemsperpage > 200) {
-            $this->output->setSwapTagString("message", "Datatable entrys per page must be 200 or less");
+            $this->setSwapTag("message", "Datatable entrys per page must be 200 or less");
             return;
         }
         if (strlen($owneravuid) != 8) {
-            $this->output->setSwapTagString("message", "Owner AV uid length must be 8");
+            $this->setSwapTag("message", "Owner AV uid length must be 8");
             return;
         }
         if ($avatar->loadByField("avatar_uid", $owneravuid) == false) {
-            $this->output->setSwapTagString("message", "Unable to load avatar from uid");
+            $this->setSwapTag("message", "Unable to load avatar from uid");
             return;
         }
         if ($timezone->loadID($displaytimezonelink) == false) {
-            $this->output->setSwapTagString("message", "Timezone selected not supported");
+            $this->setSwapTag("message", "Timezone selected not supported");
             return;
         }
         if (strlen($api_default_email) < 7) {
-            $this->output->setSwapTagString("message", "API default email address does not appear to be vaild");
+            $this->setSwapTag("message", "API default email address does not appear to be vaild");
             return;
         }
         if (strlen($publiclinkcode) < 6) {
-            $this->output->setSwapTagString("message", "Public link code min length is 6");
+            $this->setSwapTag("message", "Public link code min length is 6");
             return;
         }
         if (strlen($publiclinkcode) > 12) {
-            $this->output->setSwapTagString("message", "Public link code max length is 12");
+            $this->setSwapTag("message", "Public link code max length is 12");
             return;
         }
 
-        $this->output->setSwapTagString("redirect", "slconfig");
+        $this->setSwapTag("redirect", "slconfig");
         if ($avatar->getId() != $this->slconfig->getOwner_av()) {
             $this->slconfig->setOwner_av($avatar->getId());
         }
@@ -121,13 +121,13 @@ class Update extends ViewAjax
         }
             $update_status = $this->slconfig->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to update system config: %1\$s", $update_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "system config updated");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "system config updated");
     }
 }

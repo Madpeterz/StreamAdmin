@@ -12,7 +12,7 @@ abstract class Expired extends Withstatus
             "types" => ["i"],
             "matches" => ["<="],
         ];
-        $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]client/bulkremove'>"
+        $this->setSwapTag("page_actions", "<a href='[[url_base]]client/bulkremove'>"
         . "<button type='button' class='btn btn-outline-danger btn-sm'>Bulk remove</button></a>");
         $this->output->addSwapTagString("page_title", "With status: Expired");
         parent::process();

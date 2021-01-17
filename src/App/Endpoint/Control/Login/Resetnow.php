@@ -21,21 +21,21 @@ class Resetnow extends ViewAjax
 
         $status = false;
         if ($newpw1 != $newpw2) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 "New passwords do not match"
             );
             return;
         }
         if (strlen($newpw1) < 7) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 "New password is to short min length 7"
             );
             return;
         }
 
-        $this->output->setSwapTagString("message", "Something went wrong with your request");
+        $this->setSwapTag("message", "Something went wrong with your request");
         $username_bits = explode(" ", $slusername);
         if (count($username_bits) == 1) {
             $username_bits[] = "Resident";
@@ -48,7 +48,7 @@ class Resetnow extends ViewAjax
             if ($staff->loadByField("avatarlink", $avatar->getId()) == true) {
                 if ($staff->getEmail_reset_code() == $token) {
                     if ($staff->getEmail_reset_expires() <= time()) {
-                        $this->output->setSwapTagString(
+                        $this->setSwapTag(
                             "message",
                             "Your token has expired, please request a new one"
                         );
@@ -73,9 +73,9 @@ class Resetnow extends ViewAjax
         if ($update_status["status"] == false) {
             return "Unable to finalize changes to your account";
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Password updated please login");
-        $this->output->setSwapTagString("redirect", "login");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Password updated please login");
+        $this->setSwapTag("redirect", "login");
         return "";
     }
 }

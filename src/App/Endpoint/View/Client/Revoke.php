@@ -10,7 +10,7 @@ class Create extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Revoke");
         $this->output->addSwapTagString("page_title", "revoke client rental:" . $this->page);
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
 
         $form = new form();
         $form->target("client/revoke/" . $this->page . "");

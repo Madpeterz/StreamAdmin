@@ -169,6 +169,6 @@ class BreakdownMonth extends View
         );
         $pages["Month breakdown"] = render_table($table_head, $table_body);
         $paged_info = new paged_info();
-        $this->output->setSwapTagString("page_content", $paged_info->render($pages));
+        $this->setSwapTag("page_content", $paged_info->render($pages));
     }
 }

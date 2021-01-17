@@ -9,9 +9,9 @@ class Test extends View
     public function process(): void
     {
         parent::process();
-        $this->output->setSwapTagString("page_content", "");
-        $this->output->setSwapTagString("html_title", "Installer / Step 2 / Test DB config");
-        $this->output->setSwapTagString("page_title", "Installer / Step 2 / Test DB config");
+        $this->setSwapTag("page_content", "");
+        $this->setSwapTag("html_title", "Installer / Step 2 / Test DB config");
+        $this->setSwapTag("page_title", "Installer / Step 2 / Test DB config");
         if (defined("DBCONFIGFOUND") == false) {
             $this->noConfig();
             return;

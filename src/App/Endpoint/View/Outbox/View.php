@@ -15,8 +15,8 @@ abstract class View extends BasicView
             $this->output->redirect("stream?message=Please create a stream first");
             return;
         }
-        $this->output->setSwapTagString("html_title", "Outbox");
-        $this->output->setSwapTagString("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("html_title", "Outbox");
+        $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");
+        $this->setSwapTag("page_actions", "");
     }
 }

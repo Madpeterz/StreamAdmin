@@ -10,8 +10,8 @@ class DefaultView extends View
     public function process(): void
     {
         parent::process();
-        $this->output->setSwapTagString("html_title", "Installer / Step 1 / DB config");
-        $this->output->setSwapTagString("page_title", "Installer / Step 1 / DB config");
+        $this->setSwapTag("html_title", "Installer / Step 1 / DB config");
+        $this->setSwapTag("page_title", "Installer / Step 1 / DB config");
         $has_config = file_exists("../App/Config/db_installed.php");
         $has_env_config = (getenv('DB_HOST') !== false);
         if (($has_config == false) && ($has_env_config == false)) {
@@ -22,7 +22,7 @@ class DefaultView extends View
     }
     protected function getTestButton(): void
     {
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_content",
             '
             <div class="alert alert-success" role="alert">DB config ready
@@ -66,6 +66,6 @@ class DefaultView extends View
         $form->textInput("db_name", "Database", 200, "streamadmin", "the name of the database");
         $form->textInput("db_user", "User", 200, "", "the username for the database");
         $form->textInput("db_pass", "Password", 200, "", "Password", "", "password");
-        $this->output->setSwapTagString("page_content", $form->render("Continue", "primary"));
+        $this->setSwapTag("page_content", $form->render("Continue", "primary"));
     }
 }

@@ -12,7 +12,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing reseller");
-        $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]reseller/remove/"
+        $this->setSwapTag("page_actions", "<a href='[[url_base]]reseller/remove/"
         . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 
         $avatar = new Avatar();
@@ -28,6 +28,6 @@ class Manage extends View
             $form->col(6);
                 $form->select("allowed", "Allow", $reseller->getAllowed(), [false => "No",true => "Yes"]);
                 $form->numberInput("rate", "Rate (as %)", $reseller->getRate(), 3, "Max 100");
-            $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+            $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

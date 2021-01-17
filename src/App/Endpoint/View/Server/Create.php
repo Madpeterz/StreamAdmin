@@ -11,7 +11,7 @@ class Create extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " : New");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
         $apis = new ApisSet();
         $apis->loadAll();
 
@@ -55,7 +55,7 @@ class Create extends View
             $form->select("event_recreate_revoke", "Event / Recreate account on revoke", 0, $this->yesNo);
             $form->select("event_create_stream", "Event / Create stream on server", 0, $this->yesNo);
             $form->select("event_update_stream", "Event / Update stream on server", 0, $this->yesNo);
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
         include "../App/View/Server/api_notes.php";
         include "../App/View/Server/js_on_select_api.php";
     }

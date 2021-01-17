@@ -18,10 +18,10 @@ class DefaultView extends View
         $input = new InputFilter();
         $search = $input->getFilter("search");
         if (strlen($search) < 3) {
-            $this->output->setSwapTagString("page_content", "Sorry search requires 3 or more letters");
+            $this->setSwapTag("page_content", "Sorry search requires 3 or more letters");
             return;
         }
-        $this->output->setSwapTagString("page_title", "Search results for: " . $search);
+        $this->setSwapTag("page_title", "Search results for: " . $search);
 
         $server_set = $this->loadServers();
         $search_avatar_set = $this->loadAvatars($search);

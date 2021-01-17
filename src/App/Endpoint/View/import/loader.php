@@ -1,8 +1,8 @@
 <?php
 
-$this->output->setSwapTagString("html_title", "R4 import");
-$this->output->setSwapTagString("page_title", "Import /");
-$this->output->setSwapTagString("page_actions", "");
+$this->setSwapTag("html_title", "R4 import");
+$this->setSwapTag("page_title", "Import /");
+$this->setSwapTag("page_actions", "");
 if ($session->getOwnerLevel() == 1) {
     function auto_load_r4_model($class_name = ""): void
     {

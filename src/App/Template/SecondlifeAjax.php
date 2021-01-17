@@ -49,7 +49,7 @@ abstract class SecondlifeAjax extends View
         $this->timeWindow();
         $this->hashCheck();
         if ($this->load_ok == false) {
-            $this->output->setSwapTagString("status", "false");
+            $this->setSwapTag("status", "false");
             return;
         }
         $this->output->tempateSecondLifeAjax();
@@ -99,7 +99,7 @@ abstract class SecondlifeAjax extends View
             $this->load_ok = false;
         }
         if ($this->load_ok == false) {
-            $this->output->setSwapTagString("message", "One or more required values are missing");
+            $this->setSwapTag("message", "One or more required values are missing");
             return;
         }
     }
@@ -112,14 +112,14 @@ abstract class SecondlifeAjax extends View
         $hashcheck = sha1($this->unixtime . "" . $this->staticpart . "" . $this->slconfig->getSllinkcode());
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->output->setSwapTagString("message", "Unable to vaildate request to API endpoint");
+            $this->setSwapTag("message", "Unable to vaildate request to API endpoint");
             return;
         }
         $avatar_helper = new avatar_helper();
         $get_av_status = $avatar_helper->load_or_create($this->ownerkey, $this->ownername);
         if ($get_av_status == false) {
             $this->load_ok = false;
-            $this->output->setSwapTagString("message", "Unable to load owner avatar for this object!");
+            $this->setSwapTag("message", "Unable to load owner avatar for this object!");
             return;
         }
         $this->object_owner_avatar = $avatar_helper->get_avatar();
@@ -127,7 +127,7 @@ abstract class SecondlifeAjax extends View
         $get_region_status = $region_helper->load_or_create($this->regionname);
         if ($get_region_status == false) {
             $this->load_ok = false;
-            $this->output->setSwapTagString("message", "Unable to load region");
+            $this->setSwapTag("message", "Unable to load region");
             return;
         }
         $this->region = $region_helper->get_region();
@@ -139,7 +139,7 @@ abstract class SecondlifeAjax extends View
         );
         if ($get_reseller_status == false) {
             $this->load_ok = false;
-            $this->output->setSwapTagString("message", "Unable to load reseller");
+            $this->setSwapTag("message", "Unable to load reseller");
             return;
         }
         $this->reseller = $reseller_helper->get_reseller();
@@ -148,7 +148,7 @@ abstract class SecondlifeAjax extends View
         }
         if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
             $this->load_ok = false;
-            $this->output->setSwapTagString("message", "Unable to access this api - please contact owner");
+            $this->setSwapTag("message", "Unable to access this api - please contact owner");
             return;
         }
         $object_helper = new object_helper();
@@ -163,7 +163,7 @@ abstract class SecondlifeAjax extends View
         );
         if ($get_object_status == false) {
             $this->load_ok = false;
-            $this->output->setSwapTagString("message", "Unable to attach object");
+            $this->setSwapTag("message", "Unable to attach object");
             return;
         }
         $this->object = $object_helper->get_object();
@@ -186,8 +186,8 @@ abstract class SecondlifeAjax extends View
             }
         }
         if ($this->load_ok == false) {
-            $this->output->setSwapTagString("status", "false");
-            $this->output->setSwapTagString("message", "timewindow is out of scope");
+            $this->setSwapTag("status", "false");
+            $this->setSwapTag("message", "timewindow is out of scope");
             return;
         }
     }

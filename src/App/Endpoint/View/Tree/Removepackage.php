@@ -30,7 +30,7 @@ class Removepackage extends View
         $this->output->addSwapTagString("html_title", " ~ Remove");
         $this->output->addSwapTagString("page_title", " Remove linked package:"
         . $package->getName() . " from tree vender:" . $treevender->getName());
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
 
         $form = new Form();
         $form->target("tree/removepackage/" . $this->page . "");
@@ -38,6 +38,6 @@ class Removepackage extends View
         $form->col(6);
         $form->group("Warning");
         $form->textInput("accept", "Type \"Accept\"", 30, "", "This will remove the link to the package");
-        $this->output->setSwapTagString("page_content", $form->render("Remove", "danger"));
+        $this->setSwapTag("page_content", $form->render("Remove", "danger"));
     }
 }

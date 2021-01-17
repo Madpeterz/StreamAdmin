@@ -12,26 +12,26 @@ class Remove extends ViewAjax
     {
         $input = new InputFilter();
         $accept = $input->postFilter("accept");
-        $this->output->setSwapTagString("redirect", "textureconfig");
+        $this->setSwapTag("redirect", "textureconfig");
         if ($accept != "Accept") {
-            $this->output->setSwapTagString("message", "Did not Accept");
-            $this->output->setSwapTagString("redirect", "textureconfig/manage/" . $this->page . "");
+            $this->setSwapTag("message", "Did not Accept");
+            $this->setSwapTag("redirect", "textureconfig/manage/" . $this->page . "");
             return;
         }
         $textureconfig = new Textureconfig();
         if ($textureconfig->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find texture pack");
+            $this->setSwapTag("message", "Unable to find texture pack");
             return;
         }
         $remove_status = $textureconfig->removeEntry();
         if ($remove_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to remove texture pack: %1\$s", $remove_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "texture pack removed");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "texture pack removed");
     }
 }

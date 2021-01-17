@@ -14,9 +14,9 @@ class Setup extends View
     public function process(): void
     {
         parent::process();
-        $this->output->setSwapTagString("page_content", "");
-        $this->output->setSwapTagString("html_title", "Installer / Step 4 / System setup");
-        $this->output->setSwapTagString("page_title", "Installer / Step 4 / System setup");
+        $this->setSwapTag("page_content", "");
+        $this->setSwapTag("html_title", "Installer / Step 4 / System setup");
+        $this->setSwapTag("page_title", "Installer / Step 4 / System setup");
         $input = new InputFilter();
         $form_ok = false;
         if ($input->postFilter("av_uuid", "uuid") != null) {
@@ -32,7 +32,7 @@ class Setup extends View
 
     protected function nextAction(): void
     {
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_content",
             '
             <div class="alert alert-success" role="alert">User config applyed
@@ -80,20 +80,20 @@ class Setup extends View
         $av_uuid = $input->postFilter("av_uuid", "uuid");
         $staff = new Staff();
         if ($staff->loadID(1) == false) {
-            $this->output->setSwapTagString("page_content", "unable to load staff entry");
+            $this->setSwapTag("page_content", "unable to load staff entry");
             return false;
         }
         $staff->setUsername($input->postFilter("av_username"));
         $staff->setEmail($input->postFilter("av_email"));
         $update_status = $staff->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString("page_content", "unable to update staff entry");
+            $this->setSwapTag("page_content", "unable to update staff entry");
             return false;
         }
 
         $avatar = new Avatar();
         if ($avatar->loadID(1) == false) {
-            $this->output->setSwapTagString("page_content", "Unable to load avatar entry");
+            $this->setSwapTag("page_content", "Unable to load avatar entry");
             return false;
         }
         $avatar->setAvataruuid($av_uuid);
@@ -101,19 +101,19 @@ class Setup extends View
         $avatar->setAvatar_uid($avatar->createUID("avatar_uid", 8)["uid"]);
         $update_status = $avatar->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString("page_content", "Unable to update avatar entry");
+            $this->setSwapTag("page_content", "Unable to update avatar entry");
             return false;
         }
 
         $slconfig = new Slconfig();
         if ($slconfig->loadID(1) == false) {
-            $this->output->setSwapTagString("page_content", "Unable to load config entry");
+            $this->setSwapTag("page_content", "Unable to load config entry");
             return false;
         }
         $slconfig->setSllinkcode($slconfig->createUID("sllinkcode", 10, 10)["uid"]);
         $update_status = $slconfig->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString("page_content", "Unable to update config entry");
+            $this->setSwapTag("page_content", "Unable to update config entry");
             return false;
         }
 

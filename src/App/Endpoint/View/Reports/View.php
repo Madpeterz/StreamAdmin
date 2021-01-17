@@ -28,8 +28,8 @@ abstract class View extends BasicView
     public function __construct()
     {
         parent::__construct();
-        $this->output->setSwapTagString("html_title", "Reports");
-        $this->output->setSwapTagString("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("html_title", "Reports");
+        $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");
+        $this->setSwapTag("page_actions", "");
     }
 }

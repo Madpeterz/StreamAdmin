@@ -12,20 +12,20 @@ class Remove extends ViewAjax
     {
         $input = new InputFilter();
         $accept = $input->postFilter("accept");
-        $this->output->setSwapTagString("redirect", "template");
+        $this->setSwapTag("redirect", "template");
         if ($accept != "Accept") {
-            $this->output->setSwapTagString("message", "Did not Accept");
-            $this->output->setSwapTagString("redirect", "template/manage/" . $this->page . "");
+            $this->setSwapTag("message", "Did not Accept");
+            $this->setSwapTag("redirect", "template/manage/" . $this->page . "");
             return;
         }
         $template = new Template();
         if ($template->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find template");
+            $this->setSwapTag("message", "Unable to find template");
             return;
         }
         $remove_status = $template->removeEntry();
         if ($remove_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to remove template: %1\$s",
@@ -34,7 +34,7 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $this->output->setSwapTagString("message", "Template removed");
-        $this->output->setSwapTagString("status", "true");
+        $this->setSwapTag("message", "Template removed");
+        $this->setSwapTag("status", "true");
     }
 }

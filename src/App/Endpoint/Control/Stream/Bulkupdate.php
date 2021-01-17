@@ -19,7 +19,7 @@ class Bulkupdate extends ViewAjax
         $stream_set = new StreamSet();
         $stream_set->loadWithConfig($whereconfig);
         $status = true;
-        $this->output->setSwapTagString("redirect", "stream/bulkupdate");
+        $this->setSwapTag("redirect", "stream/bulkupdate");
         $input = new InputFilter();
         $streams_updated = 0;
         $streams_skipped_original_adminusername = 0;
@@ -43,7 +43,7 @@ class Bulkupdate extends ViewAjax
             $stream->setNeedwork(0);
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
-                $this->output->setSwapTagString(
+                $this->setSwapTag(
                     "message",
                     sprintf(
                         "Unable to update stream %1\$s",
@@ -58,9 +58,9 @@ class Bulkupdate extends ViewAjax
         if ($status == false) {
             return;
         }
-        $this->output->setSwapTagString("status", "true");
+        $this->setSwapTag("status", "true");
         if ($streams_skipped_original_adminusername > 0) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "%1\$s streams updated and %2\$s skipped due to admin username not matching",
@@ -70,7 +70,7 @@ class Bulkupdate extends ViewAjax
             );
             return;
         }
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "message",
             sprintf(
                 "%1\$s streams updated",

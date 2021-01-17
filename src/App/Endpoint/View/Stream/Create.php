@@ -14,7 +14,7 @@ class Create extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " Create new stream");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
 
         $server_set = new ServerSet();
         $server_set->loadAll();
@@ -90,7 +90,7 @@ class Create extends View
         $form->col(6);
         $form->group("Magic");
         $form->select("api_create", "Create on server", 0, $this->yesNo);
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
         include "../App/View/Stream/api_linking.php";
     }
 }

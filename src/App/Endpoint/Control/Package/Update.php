@@ -33,81 +33,81 @@ class Update extends ViewAjax
 
         $failed_on = "";
         if (strlen($name) < 5) {
-            $this->output->setSwapTagString("message", "Name length must be 5 or longer");
+            $this->setSwapTag("message", "Name length must be 5 or longer");
             return;
         }
         if (strlen($name) > 60) {
-            $this->output->setSwapTagString("message", "Name must be 30 or less");
+            $this->setSwapTag("message", "Name must be 30 or less");
             return;
         }
         if ($cost < 1) {
-            $this->output->setSwapTagString("message", "Cost must be 1 or more");
+            $this->setSwapTag("message", "Cost must be 1 or more");
             return;
         }
         if ($cost > 99999) {
-            $this->output->setSwapTagString("message", "Cost must be 99999 or less");
+            $this->setSwapTag("message", "Cost must be 99999 or less");
             return;
         }
         if ($days < 1) {
-            $this->output->setSwapTagString("message", "Days must be 1 or more");
+            $this->setSwapTag("message", "Days must be 1 or more");
             return;
         }
         if ($days > 999) {
-            $this->output->setSwapTagString("message", "Days must be 999 or less");
+            $this->setSwapTag("message", "Days must be 999 or less");
             return;
         }
         if ($bitrate < 56) {
-            $this->output->setSwapTagString("message", "bitrate must be 56 or more");
+            $this->setSwapTag("message", "bitrate must be 56 or more");
             return;
         }
         if ($bitrate > 999) {
-            $this->output->setSwapTagString("message", "bitrate must be 999 or less");
+            $this->setSwapTag("message", "bitrate must be 999 or less");
             return;
         }
         if ($listeners < 1) {
-            $this->output->setSwapTagString("message", "listeners must be 1 or more");
+            $this->setSwapTag("message", "listeners must be 1 or more");
             return;
         }
         if ($listeners > 999) {
-            $this->output->setSwapTagString("message", "listeners must be 999 or less");
+            $this->setSwapTag("message", "listeners must be 999 or less");
             return;
         }
         if (strlen($texture_uuid_soldout) != 36) {
-            $this->output->setSwapTagString("message", "Texture sold out must be a uuid");
+            $this->setSwapTag("message", "Texture sold out must be a uuid");
             return;
         }
         if (strlen($texture_uuid_instock_small) != 36) {
-            $this->output->setSwapTagString("message", "Texture instock small out must be a uuid");
+            $this->setSwapTag("message", "Texture instock small out must be a uuid");
             return;
         }
         if (strlen($texture_uuid_instock_selected) != 36) {
-            $this->output->setSwapTagString("message", "Texture instock selected out must be a uuid");
+            $this->setSwapTag("message", "Texture instock selected out must be a uuid");
             return;
         }
         if ($autodj_size > 9999) {
-            $this->output->setSwapTagString("message", "AutoDJ size must be 9999 or less");
+            $this->setSwapTag("message", "AutoDJ size must be 9999 or less");
             return;
         }
         if ($template->loadID($templatelink) == false) {
-            $this->output->setSwapTagString("message", "Unable to find template");
+            $this->setSwapTag("message", "Unable to find template");
             return;
         }
         if (strlen($api_template) > 50) {
-            $this->output->setSwapTagString("message", "API template name can not be longer than 50");
+            $this->setSwapTag("message", "API template name can not be longer than 50");
             return;
         }
         if (strlen($api_template) < 3) {
-            $this->output->setSwapTagString("message", "API template name can not be shorter than 3");
+            $this->setSwapTag("message", "API template name can not be shorter than 3");
             return;
         }
         if ($servertype->loadID($servertypelink) == false) {
-            $this->output->setSwapTagString("message", "Unable to find server type");
+            $this->setSwapTag("message", "Unable to find server type");
             return;
         }
 
-        $this->output->setSwapTagString("redirect", "package");
+        $this->setSwapTag("redirect", "package");
         if ($package->loadByField("package_uid", $this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to load package");
+            $this->setSwapTag("message", "Unable to load package");
             return;
         }
         $package->setName($name);
@@ -126,7 +126,7 @@ class Update extends ViewAjax
 
         $update_status = $package->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to update package: %1\$s",
@@ -135,7 +135,7 @@ class Update extends ViewAjax
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Package updated");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Package updated");
     }
 }

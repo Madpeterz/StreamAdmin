@@ -29,41 +29,41 @@ class Create extends ViewAjax
         }
 
         $failed_on = "";
-        $this->output->setSwapTagString("redirect", null);
+        $this->setSwapTag("redirect", null);
         if (strlen($name) < 5) {
-            $this->output->setSwapTagString("message", "Name length must be 5 or longer");
+            $this->setSwapTag("message", "Name length must be 5 or longer");
             return;
         }
         if (strlen($name) > 100) {
-            $this->output->setSwapTagString("message", "Name length must be 100 or less");
+            $this->setSwapTag("message", "Name length must be 100 or less");
             return;
         }
         if (strlen($immessage) < 5) {
-            $this->output->setSwapTagString("message", "immessage length must be 5 or more");
+            $this->setSwapTag("message", "immessage length must be 5 or more");
             return;
         }
         if (strlen($immessage) > 800) {
-            $this->output->setSwapTagString("message", "immessage length must be 800 or less");
+            $this->setSwapTag("message", "immessage length must be 800 or less");
             return;
         }
         if (strlen($hoursremaining) < 0) {
-            $this->output->setSwapTagString("message", "hoursremaining must be 0 or more");
+            $this->setSwapTag("message", "hoursremaining must be 0 or more");
             return;
         }
         if (strlen($hoursremaining) > 999) {
-            $this->output->setSwapTagString("message", "hoursremaining must be 999 or less");
+            $this->setSwapTag("message", "hoursremaining must be 999 or less");
             return;
         }
         if ($notice->loadByField("hoursremaining", $hoursremaining) == true) {
-            $this->output->setSwapTagString("message", "There is already a notice assigned to that remaining hours");
+            $this->setSwapTag("message", "There is already a notice assigned to that remaining hours");
             return;
         }
         if ($static_notecard->loadID($notice_notecardlink) == false) {
-            $this->output->setSwapTagString("message", "Unable to find selected static notecard");
+            $this->setSwapTag("message", "Unable to find selected static notecard");
             return;
         }
         if ($static_notecard->getMissing() == true) {
-            $this->output->setSwapTagString("message", "Selected static notecard is marked as missing please change!");
+            $this->setSwapTag("message", "Selected static notecard is marked as missing please change!");
             return;
         }
 
@@ -77,14 +77,14 @@ class Create extends ViewAjax
         $notice->setNotice_notecardlink($static_notecard->getId());
         $create_status = $notice->createEntry();
         if ($create_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to create notice: %1\$s", $create_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Notice created");
-        $this->output->setSwapTagString("redirect", "notice");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Notice created");
+        $this->setSwapTag("redirect", "notice");
     }
 }

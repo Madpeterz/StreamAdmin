@@ -38,9 +38,9 @@ class BulkRemove extends RenderList
     public function process(): void
     {
         global $unixtime_day;
-        $this->output->setSwapTagString("html_title", "Clients");
+        $this->setSwapTag("html_title", "Clients");
         $this->output->addSwapTagString("page_title", "Bulk remove");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
 
         $table_head = ["id","Action","Avatar","Server","Port","NoticeLevel","Expired"];
         $table_body = [];
@@ -88,13 +88,13 @@ class BulkRemove extends RenderList
             }
         }
 
-        $this->output->setSwapTagString("page_content", "No clients to remove right now");
+        $this->setSwapTag("page_content", "No clients to remove right now");
         if (count($table_body) > 0) {
             $form = new Form();
             $form->target("client/bulkremove");
             $form->col(12);
               $form->directAdd(render_datatable($table_head, $table_body));
-            $this->output->setSwapTagString("page_content", $form->render("Process", "outline-danger"));
+            $this->setSwapTag("page_content", $form->render("Process", "outline-danger"));
         }
     }
 

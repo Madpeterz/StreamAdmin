@@ -17,9 +17,9 @@ class DefaultView extends View
         $botconfig->loadID(1);
         $avatar = new Avatar();
         $avatar->loadID($botconfig->getAvatarlink());
-        $this->output->setSwapTagString("html_title", "Bot setup");
-        $this->output->setSwapTagString("page_title", "Editing bot " . $avatar->getAvatarname());
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("html_title", "Bot setup");
+        $this->setSwapTag("page_title", "Editing bot " . $avatar->getAvatarname());
+        $this->setSwapTag("page_actions", "");
         $form = new form();
         $form->target("bot/update");
         $form->required(true);
@@ -43,6 +43,6 @@ class DefaultView extends View
         $form->group("Actions");
         $form->select("notecards", "Create notecards", $botconfig->getNotecards(), [false => "No",true => "Yes"]);
         $form->select("ims", "Send ims", $botconfig->getIms(), [false => "No",true => "Yes"]);
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

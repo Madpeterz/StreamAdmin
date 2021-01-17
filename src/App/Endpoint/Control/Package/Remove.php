@@ -23,23 +23,23 @@ class Remove extends ViewAjax
 
         $accept = $input->postFilter("accept");
         $status = false;
-        $this->output->setSwapTagString("redirect", "package");
+        $this->setSwapTag("redirect", "package");
         if ($accept != "Accept") {
-            $this->output->setSwapTagString("message", "Did not Accept");
-            $this->output->setSwapTagString("redirect", "package/manage/" . $this->page . "");
+            $this->setSwapTag("message", "Did not Accept");
+            $this->setSwapTag("redirect", "package/manage/" . $this->page . "");
             return;
         }
         if ($package->loadByField("package_uid", $this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find package");
+            $this->setSwapTag("message", "Unable to find package");
             return;
         }
         $load_status = $stream_set->loadOnField("packagelink", $package->getId());
         if ($load_status["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to check if package is being used by any streams");
+            $this->setSwapTag("message", "Unable to check if package is being used by any streams");
             return;
         }
         if ($stream_set->getCount() != 0) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to remove package it is currently being used by: %1\$s stream('s)",
@@ -50,11 +50,11 @@ class Remove extends ViewAjax
         }
         $load_status = $transaction_set->loadOnField("packagelink", $package->getId());
         if ($load_status["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to check if package is being used by any transactions");
+            $this->setSwapTag("message", "Unable to check if package is being used by any transactions");
             return;
         }
         if ($transaction_set->getCount() != 0) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to remove package it is currently being used by: %1\$s transaction('s)",
@@ -65,11 +65,11 @@ class Remove extends ViewAjax
         }
         $load_status = $rental_set->loadOnField("packagelink", $package->getId());
         if ($load_status["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to check if package is being used by any clients");
+            $this->setSwapTag("message", "Unable to check if package is being used by any clients");
             return;
         }
         if ($rental_set->getCount() != 0) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to remove package it is currently being used by: %1\$s clients('s)",
@@ -80,11 +80,11 @@ class Remove extends ViewAjax
         }
         $load_status = $treevender_packages_set->loadOnField("packagelink", $package->getId());
         if ($load_status["status"] == true) {
-            $this->output->setSwapTagString("message", "Unable to check if package is being used by any treevenders");
+            $this->setSwapTag("message", "Unable to check if package is being used by any treevenders");
             return;
         }
         if ($treevender_packages_set->getCount() == 0) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to remove package it is currently being used by: %1\$s treevender('s)",
@@ -95,7 +95,7 @@ class Remove extends ViewAjax
         }
         $remove_status = $package->removeEntry();
         if ($remove_status["status"] == true) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to remove package: %1\$s",
@@ -104,7 +104,7 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Package removed");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Package removed");
     }
 }

@@ -12,7 +12,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing");
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_actions",
             "<a href='[[url_base]]server/remove/"
             . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>"
@@ -136,7 +136,7 @@ class Manage extends View
             $server->getEvent_update_stream(),
             $this->yesNo
         );
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
         include "../App/View/Server/api_notes.php";
         include "../App/View/Server/js_on_select_api.php";
     }

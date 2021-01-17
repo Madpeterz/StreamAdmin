@@ -27,26 +27,26 @@ class Template extends AddonProvider
 
             // global patch (to be phased out)
             global $site_theme, $site_lang, $template_parts;
-            $this->setSwapTagString("site_theme", $site_theme);
-            $this->setSwapTagString("site_lang", $site_lang);
-            $this->setSwapTagString("html_title", "Page");
-            $this->setSwapTagString("html_cs_top", "");
-            $this->setSwapTagString("html_js_onready", "");
-            $this->setSwapTagString("html_js_bottom", "");
+            $this->setSwapTag("site_theme", $site_theme);
+            $this->setSwapTag("site_lang", $site_lang);
+            $this->setSwapTag("html_title", "Page");
+            $this->setSwapTag("html_cs_top", "");
+            $this->setSwapTag("html_js_onready", "");
+            $this->setSwapTag("html_js_bottom", "");
             if (is_array($template_parts) == true) {
                 if (array_key_exists("html_title_after", $template_parts) == true) {
-                    $this->setSwapTagString("html_title_after", $template_parts["html_title_after"]);
+                    $this->setSwapTag("html_title_after", $template_parts["html_title_after"]);
                     $this->siteName($template_parts["html_title_after"]);
                 } else {
-                    $this->setSwapTagString("html_title_after", "StreamAdmin R7");
+                    $this->setSwapTag("html_title_after", "StreamAdmin R7");
                     $this->siteName("StreamAdmin R7");
                 }
                 if (array_key_exists("url_base", $template_parts) == true) {
-                    $this->setSwapTagString("url_base", $template_parts["url_base"]);
+                    $this->setSwapTag("url_base", $template_parts["url_base"]);
                     $this->urlBase($template_parts["url_base"]);
                 }
             } else {
-                $this->setSwapTagString("html_title_after", "StreamAdmin R7");
+                $this->setSwapTag("html_title_after", "StreamAdmin R7");
                 $this->siteName("StreamAdmin R7");
             }
         }
@@ -171,28 +171,29 @@ class Template extends AddonProvider
     public function renderAjax(): void
     {
         global $page,$module,$area;
-        $this->setSwapTagString("MODULE", $module);
-        $this->setSwapTagString("AREA", $area);
-        $this->setSwapTagString("PAGE", $page);
+        $this->setSwapTag("MODULE", $module);
+        $this->setSwapTag("AREA", $area);
+        $this->setSwapTag("PAGE", $page);
         print json_encode($this->swaptags);
     }
     public function renderSecondlifeAjax(): void
     {
         foreach ($this->swaptags as $tag => $value) {
-            if ($value == "true") {
-                $value = 1;
-            } elseif ($value == "false") {
-                $value = 0;
+            if (in_array($value, ["true",true,1,"yes","True","TRUE"], true)) {
+                $value = "1";
+            } elseif (in_array($value, ["false",false,0,"no","False","FALSE"], true)) {
+                $value = "0";
             }
+            $this->swaptags[$tag] = $value;
         }
-        $this->renderAjax();
+            $this->renderAjax();
     }
     public function renderPage(): void
     {
         global $page,$module,$area;
-        $this->setSwapTagString("MODULE", $module);
-        $this->setSwapTagString("AREA", $area);
-        $this->setSwapTagString("PAGE", $page);
+        $this->setSwapTag("MODULE", $module);
+        $this->setSwapTag("AREA", $area);
+        $this->setSwapTag("PAGE", $page);
 
         if ($this->redirect_enabled == true) {
             if ($this->redirect_offsite == true) {
@@ -242,8 +243,8 @@ class Template extends AddonProvider
     public function tempateAjax(): void
     {
         $this->loadTempate("ajax");
-        $this->output->setSwapTagString("status", "false");
-        $this->output->setSwapTagString("message", "Not processed");
+        $this->setSwapTag("status", "false");
+        $this->setSwapTag("message", "Not processed");
     }
     public function tempateSecondLifeAjax(): void
     {
@@ -260,12 +261,12 @@ class Template extends AddonProvider
     }
     protected function defaultSwapTags(): void
     {
-        $this->setSwapTagString("html_menu", "");
-        $this->setSwapTagString("page_title", "");
-        $this->setSwapTagString("page_actions", "");
-        $this->setSwapTagString("page_content", "");
-        $this->setSwapTagString("html_title", "");
-        $this->setSwapTagString("html_js_onready", "");
+        $this->setSwapTag("html_menu", "");
+        $this->setSwapTag("page_title", "");
+        $this->setSwapTag("page_actions", "");
+        $this->setSwapTag("page_content", "");
+        $this->setSwapTag("html_title", "");
+        $this->setSwapTag("html_js_onready", "");
     }
     protected function loadTempate(string $template): void
     {

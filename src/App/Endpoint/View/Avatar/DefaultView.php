@@ -34,7 +34,7 @@ class DefaultView extends View
         $avatarSet = new AvatarSet();
         if ($match_with == "newest") {
             $avatarSet->loadNewest(30);
-            $this->output->setSwapTagString("page_title", "Newest 30 avatars");
+            $this->setSwapTag("page_title", "Newest 30 avatars");
         } else {
             $where_config = [
                 "fields" => $wherefields,
@@ -44,9 +44,9 @@ class DefaultView extends View
             ];
             $avatarSet->loadWithConfig($where_config);
             if ($match_with == "name") {
-                $this->output->setSwapTagString("page_title", "Names containing: " . $name);
+                $this->setSwapTag("page_title", "Names containing: " . $name);
             } else {
-                $this->output->setSwapTagString("page_title", "UUID: " . $uuid);
+                $this->setSwapTag("page_title", "UUID: " . $uuid);
             }
         }
         $table_head = ["id","UID","Name"];

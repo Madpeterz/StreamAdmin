@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Endpoints\SecondLifeApi\Renew;
+
+use App\Models\ApirequestsSet;
+use App\Models\Avatar;
+use App\Models\Banlist;
+use App\Models\RentalSet;
+use App\Models\StreamSet;
+use App\Template\SecondlifeAjax;
+use YAPF\InputFilter\InputFilter;
+
+class Details extends SecondlifeAjax
+{
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $avataruuid = $input->postFilter("avataruuid");
+        $avatar = new Avatar();
+        $this->setSwapTag("dataset_count", 0);
+        if ($avatar->loadByField("avataruuid", $avataruuid) == false) {
+            $this->setSwapTag("message", "Unable to find avatar");
+            return;
+        }
+
+        $banlist = new Banlist();
+        if ($banlist->loadByField("avatar_link", $avatar->getId()) == true) {
+            $this->setSwapTag("message", "Unable to find avatar");
+            return;
+        }
+
+        $this->setSwapTag("status", "true");
+        $rental_set = new RentalSet();
+        $rental_set->loadOnField("avatarlink", $avatar->getId());
+        if ($rental_set->getCount() < 1) {
+            $this->setSwapTag("message", "Unable to find any active rentals");
+            return;
+        }
+        $stream_set = new StreamSet();
+        $stream_set->loadIds($rental_set->getAllByField("streamlink"));
+        if ($stream_set->getCount() < 1) {
+            $this->setSwapTag("message", "Unable to find any streams linked to rentals");
+            return;
+        }
+        $apirequests_set = new ApirequestsSet();
+        $apirequests_set->loadAll();
+        $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
+        $reply_dataset = [];
+        foreach ($rental_set->getAllIds() as $rental_id) {
+            $rental = $rental_set->getObjectByID($rental_id);
+            $stream = $stream_set->getObjectByID($rental->getStreamlink());
+            if ($stream != null) {
+                if (in_array($stream->getId(), $used_stream_ids) == false) {
+                    $reply_dataset[] = "" . $rental->getRental_uid() . "|||" . $stream->getPort() . "";
+                }
+            }
+        }
+        if (count($reply_dataset) < 1) {
+            $this->setSwapTag("status", "false");
+            $this->setSwapTag("message", "Unable to build reply dataset");
+            return;
+        }
+        $this->setSwapTag("dataset_count", count($reply_dataset));
+        $this->setSwapTag("dataset", $reply_dataset);
+        $this->setSwapTag("message", sprintf("Cleint account: %1\$s", $avatar->getAvatarname()));
+    }
+}

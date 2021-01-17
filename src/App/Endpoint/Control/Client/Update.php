@@ -146,15 +146,15 @@ class Update extends ViewAjax
         }
 
         if ($rental->loadByField("rental_uid", $this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find client");
-            $this->output->setSwapTagString("redirect", "client");
+            $this->setSwapTag("message", "Unable to find client");
+            $this->setSwapTag("redirect", "client");
             return;
         }
 
         if (strlen($transfer_avataruid) == 8) {
             $this->transerRental($rental, $transfer_avataruid);
             if ($this->issues != "") {
-                $this->output->setSwapTagString("message", $this->issues);
+                $this->setSwapTag("message", $this->issues);
                 return;
             }
         }
@@ -163,7 +163,7 @@ class Update extends ViewAjax
             $this->adjustTimeleft($rental, $adjustment_days, $adjustment_hours, $adjustment_dir);
             $this->transerRental($rental, $transfer_avataruid);
             if ($this->issues != "") {
-                $this->output->setSwapTagString("message", $this->issues);
+                $this->setSwapTag("message", $this->issues);
                 return;
             }
         }
@@ -172,16 +172,16 @@ class Update extends ViewAjax
             $this->actions_taken .= "\n Message Updated";
         }
         if ($this->actions_taken == "") {
-            $this->output->setSwapTagString("message", "? No actions taken ? ");
+            $this->setSwapTag("message", "? No actions taken ? ");
             return;
         }
         if ($this->issues != "") {
-            $this->output->setSwapTagString("message", $this->issues);
+            $this->setSwapTag("message", $this->issues);
             return;
         }
         $change_status = $rental->updateEntry();
         if ($change_status["status"] != true) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to update because: %1\$s",
@@ -190,8 +190,8 @@ class Update extends ViewAjax
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("redirect", "client/manage/" . $this->page);
-        $this->output->setSwapTagString("message", "Updated ok");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("redirect", "client/manage/" . $this->page);
+        $this->setSwapTag("message", "Updated ok");
     }
 }

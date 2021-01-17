@@ -10,7 +10,7 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_actions",
             "<a href='[[url_base]]client/create'><button type='button' class='btn btn-success'>Create</button></a>"
         );

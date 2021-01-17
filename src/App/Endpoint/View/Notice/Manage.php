@@ -13,7 +13,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing");
-        $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]notice/remove/" . $this->page . "'>"
+        $this->setSwapTag("page_actions", "<a href='[[url_base]]notice/remove/" . $this->page . "'>"
         . "<button type='button' class='btn btn-danger'>Remove</button></a>");
         $where_config = [
         "fields" => ["missing"],
@@ -90,7 +90,7 @@ class Manage extends View
             $use_notecard_link,
             $notice_notecard_set->getLinkedArray("id", "name")
         );
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
         include "webpanel/view/shared/swaps_table.php";
     }
 }

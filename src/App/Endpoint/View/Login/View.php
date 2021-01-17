@@ -10,8 +10,8 @@ abstract class View extends BasicView
     {
         parent::__construct(false);
         $this->output->tempateFull();
-        $this->output->setSwapTagString("html_title", "Login");
-        $this->output->setSwapTagString("page_title", "");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("html_title", "Login");
+        $this->setSwapTag("page_title", "");
+        $this->setSwapTag("page_actions", "");
     }
 }

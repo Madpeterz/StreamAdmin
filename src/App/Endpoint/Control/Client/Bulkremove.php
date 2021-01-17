@@ -42,7 +42,7 @@ class Bulkremove extends ViewAjax
         $removed_counter = 0;
         $skipped_counter = 0;
         $status = true;
-        $this->output->setSwapTagString("redirect", "client/bulkremove");
+        $this->setSwapTag("redirect", "client/bulkremove");
         $status = true;
         foreach ($rental_set->getAllIds() as $rental_id) {
             $rental = $rental_set->getObjectByID($rental_id);
@@ -62,7 +62,7 @@ class Bulkremove extends ViewAjax
             $stream = $stream_set->getObjectByID($rental->getStreamlink());
             if ($stream == null) {
                 $status = false;
-                $this->output->setSwapTagString(
+                $this->setSwapTag(
                     "message",
                     sprintf("Unable to find stream attached to rental %1\$s", $rental->getRental_uid())
                 );
@@ -71,7 +71,7 @@ class Bulkremove extends ViewAjax
             $server = new Server();
             if ($server->loadID($stream->getServerlink()) == false) {
                 $status = false;
-                $this->output->setSwapTagString(
+                $this->setSwapTag(
                     "message",
                     sprintf("Unable to find server attached to stream for rental %1\$s", $rental->getRental_uid())
                 );
@@ -82,7 +82,7 @@ class Bulkremove extends ViewAjax
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
                 $status = false;
-                $this->output->setSwapTagString(
+                $this->setSwapTag(
                     "message",
                     sprintf("Error releasing stream from rental %1\$s", $rental->getRental_uid())
                 );
@@ -101,18 +101,18 @@ class Bulkremove extends ViewAjax
             include "shared/media_server_apis/logic/revoke.php";
             $status = $api_serverlogic_reply;
             if ($status != true) {
-                $this->output->setSwapTagString("message", $why_failed);
+                $this->setSwapTag("message", $why_failed);
             }
             $removed_counter++;
         }
         if ($status == true) {
             $status = true;
-            $this->output->setSwapTagString("status", "true");
-            $this->output->setSwapTagString(
+            $this->setSwapTag("status", "true");
+            $this->setSwapTag(
                 "message",
                 sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter)
             );
-            $this->output->setSwapTagString("redirect", "client");
+            $this->setSwapTag("redirect", "client");
         }
     }
 }

@@ -10,10 +10,10 @@ class Manage extends View
     public function process(): void
     {
         $this->output->addSwapTagString("html_title", "~ Manage");
-        $this->output->setSwapTagString("page_title", "Editing avatar");
+        $this->setSwapTag("page_title", "Editing avatar");
         $target = "<a href='[[url_base]]avatar/remove/" . $this->page . "'>"
         . "<button type='button' class='btn btn-danger'>Remove</button></a>";
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_actions",
             $target
         );
@@ -40,6 +40,6 @@ class Manage extends View
             $avatar->getAvataruuid(),
             "SecondLife UUID [found on their SL profile]"
         );
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

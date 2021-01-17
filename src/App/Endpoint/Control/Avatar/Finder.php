@@ -10,7 +10,7 @@ class Finder extends ViewAjax
 {
     public function process(): void
     {
-        $this->output->setSwapTagString("status", "true");
+        $this->setSwapTag("status", "true");
 
         $input = new inputFilter();
         $avatarfindname = $input->postFilter("avatarfind");
@@ -25,7 +25,7 @@ class Finder extends ViewAjax
         $search_avatar_set->loadWithConfig($where_config);
         $scored_results = [];
         if ($search_avatar_set->getCount() == 0) {
-            $this->output->setSwapTagString("message", "nope");
+            $this->setSwapTag("message", "nope");
             return;
         }
         foreach ($search_avatar_set->getAllIds() as $result_id) {
@@ -47,10 +47,10 @@ class Finder extends ViewAjax
         usort($scored_results, function ($a, $b) {
             return $a['score'] <=> $b['score'];
         });
-        $this->output->setSwapTagArray("values", []);
+        $this->setSwapTagArray("values", []);
         if (count($scored_results) > 0) {
-            $this->output->setSwapTagArray("values", $scored_results[0]);
+            $this->setSwapTagArray("values", $scored_results[0]);
         }
-        $this->output->setSwapTagString("message", "ok");
+        $this->setSwapTag("message", "ok");
     }
 }

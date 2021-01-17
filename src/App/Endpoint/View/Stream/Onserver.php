@@ -10,7 +10,7 @@ class Onserver extends Withstatus
     {
         $server = new Server();
         $server->loadID($this->page);
-        $this->output->setSwapTagString("page_title", " On server: " . $server->getDomain() . "");
+        $this->setSwapTag("page_title", " On server: " . $server->getDomain() . "");
         $whereconfig = [
             "fields" => ["serverlink"],
             "values" => [$server->getId()],

@@ -9,8 +9,8 @@ abstract class View extends TemplateView
     public function __construct()
     {
         parent::__construct();
-        $this->output->setSwapTagString("html_title", "Dashboard");
-        $this->output->setSwapTagString("page_title", "Dashboard");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("html_title", "Dashboard");
+        $this->setSwapTag("page_title", "Dashboard");
+        $this->setSwapTag("page_actions", "");
     }
 }

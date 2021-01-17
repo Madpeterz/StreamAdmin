@@ -46,6 +46,6 @@ class DefaultView extends View
             $entry[] = $avatar->getAvatarname();
             $table_body[] = $entry;
         }
-        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
     }
 }

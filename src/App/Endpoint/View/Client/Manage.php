@@ -190,7 +190,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", "~ Manage");
         $this->output->addSwapTagString("page_title", "Editing client");
-        $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]client/revoke/" . $this->page . "'>"
+        $this->setSwapTag("page_actions", "<a href='[[url_base]]client/revoke/" . $this->page . "'>"
         . "<button type='button' class='btn btn-danger'>Revoke</button></a>");
 
         $this->rental = new Rental();
@@ -201,7 +201,7 @@ class Manage extends View
         $paged_info = new paged_info();
         $this->clientManageForm();
         $this->clientApiActions();
-        $this->output->setSwapTagString("page_content", $paged_info->render($this->pages));
+        $this->setSwapTag("page_content", $paged_info->render($this->pages));
         $this->clientTransactions();
     }
 }

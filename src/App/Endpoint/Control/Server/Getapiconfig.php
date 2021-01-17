@@ -15,19 +15,19 @@ class Getapiconfig extends ViewAjax
         $api = new Apis();
         $status = false;
         if ($apilink == 0) {
-            $this->output->setSwapTagString("message", "Invaild API selected");
+            $this->setSwapTag("message", "Invaild API selected");
             return;
         }
         if ($api->loadID($apilink) == false) {
-            $this->output->setSwapTagString("message", "Unknown API selected");
+            $this->setSwapTag("message", "Unknown API selected");
             return;
         }
         foreach ($api->getFields() as $apifield) {
             $getter = "get" . ucfirst($apifield);
-            $this->output->setSwapTagString($apifield, $api->$getter());
+            $this->setSwapTag($apifield, $api->$getter());
         }
-        $this->output->setSwapTagString("update_api_flags", "true");
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "API config loaded");
+        $this->setSwapTag("update_api_flags", "true");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "API config loaded");
     }
 }

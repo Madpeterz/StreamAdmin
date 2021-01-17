@@ -12,7 +12,7 @@ class Create extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", "Create new client");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
         $package_set = new PackageSet();
         $package_set->loadAll();
         $server_set = new ServerSet();
@@ -36,6 +36,6 @@ class Create extends View
         $form->col(6);
         $form->col(6);
             $form->directAdd("<br/>If there are multiple streams with the same port number you must use the UID!");
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

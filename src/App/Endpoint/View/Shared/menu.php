@@ -78,4 +78,4 @@
         $output .= '"><i class="' . $menu_config["icon"] . ' text-success"></i> ' . $menu_key . '</a>';
         $output .= '</li>';
     }
-    $this->output->setSwapTagString("html_menu", $output);
+    $this->setSwapTag("html_menu", $output);

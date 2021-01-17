@@ -10,12 +10,12 @@ class Finalstep extends View
     public function process(): void
     {
         parent::process();
-        $this->output->setSwapTagString("html_title", "Installer / Step 5 / Finishing touchs");
-        $this->output->setSwapTagString("page_title", "Installer / Step 5 / Finishing touchs");
+        $this->setSwapTag("html_title", "Installer / Step 5 / Finishing touchs");
+        $this->setSwapTag("page_title", "Installer / Step 5 / Finishing touchs");
         $this->sql = new MysqliEnabled();
         $slconfig = new Slconfig();
         if ($slconfig->loadID(1) == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "page_content",
                 "Setup finished<br/> SL link code: "
                 . $slconfig->getSllinkcode() . "<br/>if you are running in docker please set: INSTALL_OK to 1"
@@ -25,7 +25,7 @@ class Finalstep extends View
         if (getenv('DB_HOST') === false) {
             file_put_contents("../App/Config/ready.txt", "ready");
         }
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_content",
             "Setup finished<br/> SL link code: " . $slconfig->getSllinkcode()
             . "<br/>if you are running in docker please set: INSTALL_OK to 1 and restart the app!"

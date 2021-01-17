@@ -19,29 +19,29 @@ class Create extends ViewAjax
             $avatarname .= " Resident";
         }
         if (strlen($avatarname) < 5) {
-            $this->output->setSwapTagString("message", "avatarname length must be 5 or longer");
+            $this->setSwapTag("message", "avatarname length must be 5 or longer");
             return;
         }
         if (strlen($avatarname) > 125) {
-            $this->output->setSwapTagString("message", "avatarname length must be 125 or less");
+            $this->setSwapTag("message", "avatarname length must be 125 or less");
             return;
         }
         if (strlen($avataruuid) != 36) {
-            $this->output->setSwapTagString("message", "avataruuid must be a uuid");
+            $this->setSwapTag("message", "avataruuid must be a uuid");
             return;
         }
         if ($avatar->loadByField("avataruuid", $avataruuid) == true) {
-            $this->output->setSwapTagString("message", "There is already an avatar with that uuid");
+            $this->setSwapTag("message", "There is already an avatar with that uuid");
             return;
         }
         $avatar_helper = new avatar_helper();
         $status = $avatar_helper->load_or_create($avataruuid, $avatarname);
         if ($status == false) {
-            $this->output->setSwapTagString("message", "Unable to create avatar");
+            $this->setSwapTag("message", "Unable to create avatar");
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Avatar created");
-        $this->output->setSwapTagString("redirect", "avatar");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Avatar created");
+        $this->setSwapTag("redirect", "avatar");
     }
 }

@@ -25,6 +25,6 @@ class Mail extends View
             }
             $table_body[] = [$message->getId(),$avatar->getAvatarname(),$message_content];
         }
-        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
     }
 }

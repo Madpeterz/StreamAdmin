@@ -14,7 +14,7 @@ class Create extends View
         }
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " Create new staff account");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
         $form = new Form();
         $form->target("staff/create");
         $form->required(true);
@@ -35,7 +35,7 @@ class Create extends View
                 "Used to login [does not have to be the same as their SL name]"
             );
             $form->textInput("email", "Email", 200, "", "Used to change their password via email");
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
         $this->output->addSwapTagString(
             "page_content",
             "<br/><p>Once created they can use the Reset password system to gain access</p>"

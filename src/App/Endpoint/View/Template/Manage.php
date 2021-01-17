@@ -11,7 +11,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Manage");
-        $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]template/remove/"
+        $this->setSwapTag("page_actions", "<a href='[[url_base]]template/remove/"
         . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
         $template = new Template();
         if ($template->loadID($this->page) == false) {
@@ -41,7 +41,7 @@ class Manage extends View
                 $template->getNotecarddetail(),
                 "Use swap tags as the placeholder"
             );
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
         include "../App/View/Shared/swaps_table.php";
     }
 }

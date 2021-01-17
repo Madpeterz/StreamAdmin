@@ -30,57 +30,57 @@ class Update extends ViewAjax
         $api_update = $input->postFilter("api_update", "integer");
 
         if ($port < 1) {
-            $this->output->setSwapTagString("message", "Port must be 1 or more");
+            $this->setSwapTag("message", "Port must be 1 or more");
             return;
         }
         if ($port > 99999) {
-            $this->output->setSwapTagString("message", "Port must be 99999 or less");
+            $this->setSwapTag("message", "Port must be 99999 or less");
             return;
         }
         if ($package->loadID($packagelink) == false) {
-            $this->output->setSwapTagString("message", "Unable to find package");
+            $this->setSwapTag("message", "Unable to find package");
             return;
         }
         if ($server->loadID($serverlink) == false) {
-            $this->output->setSwapTagString("message", "Unable to find server");
+            $this->setSwapTag("message", "Unable to find server");
             return;
         }
         if (strlen($adminusername) < 3) {
-            $this->output->setSwapTagString("message", "Admin username length must be 3 or more");
+            $this->setSwapTag("message", "Admin username length must be 3 or more");
             return;
         }
         if (strlen($adminusername) >= 50) {
-            $this->output->setSwapTagString("message", "Admin username length must be 50 or less");
+            $this->setSwapTag("message", "Admin username length must be 50 or less");
             return;
         }
         if (strlen($adminpassword) < 4) {
-            $this->output->setSwapTagString("message", "Admin password length must be 4 or more");
+            $this->setSwapTag("message", "Admin password length must be 4 or more");
             return;
         }
         if (strlen($adminpassword) > 20) {
-            $this->output->setSwapTagString("message", "Admin password length must be 20 or less");
+            $this->setSwapTag("message", "Admin password length must be 20 or less");
             return;
         }
         if (strlen($djpassword) < 4) {
-            $this->output->setSwapTagString("message", "DJ password length must be 4 or more");
+            $this->setSwapTag("message", "DJ password length must be 4 or more");
             return;
         }
         if (strlen($djpassword) > 20) {
-            $this->output->setSwapTagString("message", "DJ password length must be 20 or less");
+            $this->setSwapTag("message", "DJ password length must be 20 or less");
             return;
         }
         if (strlen($original_adminusername) < 3) {
-            $this->output->setSwapTagString("message", "Original admin username length must be 3 or more");
+            $this->setSwapTag("message", "Original admin username length must be 3 or more");
             return;
         }
         if (strlen($original_adminusername) >= 50) {
-            $this->output->setSwapTagString("message", "Original admin username length must be 50 or less");
+            $this->setSwapTag("message", "Original admin username length must be 50 or less");
             return;
         }
 
         $stream = new Stream();
         if ($stream->loadByField("stream_uid", $this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find stream with that uid");
+            $this->setSwapTag("message", "Unable to find stream with that uid");
             return;
         }
         $whereConfig = [
@@ -97,11 +97,11 @@ class Update extends ViewAjax
             }
         }
         if ($count_check["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to check if there is a stream on that port already!");
+            $this->setSwapTag("message", "Unable to check if there is a stream on that port already!");
             return;
         }
         if ($count_check["count"] != $expected_count) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 "There is already a stream on that port for the selected server!"
             );
@@ -121,7 +121,7 @@ class Update extends ViewAjax
         $stream->setApi_uid_3($api_uid_3);
         $update_status = $stream->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf(
                     "Unable to update stream: %1\$s",
@@ -137,10 +137,10 @@ class Update extends ViewAjax
             $status = $api_serverlogic_reply;
         }
         if ($status == false) {
-            $this->output->setSwapTagString("message", $why_failed);
+            $this->setSwapTag("message", $why_failed);
             return;
         }
-        $this->output->setSwapTagString("message", "Stream updated");
-        $this->output->setSwapTagString("redirect", "stream");
+        $this->setSwapTag("message", "Stream updated");
+        $this->setSwapTag("redirect", "stream");
     }
 }

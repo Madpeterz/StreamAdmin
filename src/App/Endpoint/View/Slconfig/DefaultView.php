@@ -122,7 +122,7 @@ class DefaultView extends View
                 $this->slconfig->getDisplaytimezonelink(),
                 $timezones_set->getLinkedArray("id", "name")
             );
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
         $this->output->addSwapTagString("page_content", "<hr/>
         Feature packs<br/>
         <ul>

@@ -13,7 +13,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing");
-        $this->output->setSwapTagString("page_actions", "<a href='[[url_base]]tree/remove/" . $this->page
+        $this->setSwapTag("page_actions", "<a href='[[url_base]]tree/remove/" . $this->page
         . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
         $treevender = new Treevender();
         if ($treevender->loadID($this->page) == false) {
@@ -28,7 +28,7 @@ class Manage extends View
         $form->required(true);
         $form->col(6);
         $form->textInput("name", "Name", 30, $treevender->getName(), "Name");
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
         $this->output->addSwapTagString("page_content", "<br/><hr/><br/>");
         $treevender_packages_set = new TreevenderpackagesSet();
         $treevender_packages_set->loadOnField("treevenderlink", $treevender->getId());

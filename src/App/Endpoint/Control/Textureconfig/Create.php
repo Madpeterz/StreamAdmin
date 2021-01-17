@@ -26,51 +26,51 @@ class Create extends ViewAjax
         $treevend_waiting = $input->postFilter("treevend_waiting", "uuid");
 
         if (strlen($name) < 4) {
-            $this->output->setSwapTagString("message", "name length must be 4 or more");
+            $this->setSwapTag("message", "name length must be 4 or more");
             return;
         }
         if (strlen($name) > 30) {
-            $this->output->setSwapTagString("message", "name length must be 30 or less");
+            $this->setSwapTag("message", "name length must be 30 or less");
             return;
         }
         if (strlen($getting_details) != 36) {
-            $this->output->setSwapTagString("message", "getting_details is not a uuid");
+            $this->setSwapTag("message", "getting_details is not a uuid");
             return;
         }
         if (strlen($request_details) != 36) {
-            $this->output->setSwapTagString("message", "request_details is not a uuid");
+            $this->setSwapTag("message", "request_details is not a uuid");
             return;
         }
         if (strlen($offline) != 36) {
-            $this->output->setSwapTagString("message", "offline is not a uuid");
+            $this->setSwapTag("message", "offline is not a uuid");
             return;
         }
         if (strlen($wait_owner) != 36) {
-            $this->output->setSwapTagString("message", "wait_owner is not a uuid");
+            $this->setSwapTag("message", "wait_owner is not a uuid");
             return;
         }
         if (strlen($inuse) != 36) {
-            $this->output->setSwapTagString("message", "inuse is not a uuid");
+            $this->setSwapTag("message", "inuse is not a uuid");
             return;
         }
         if (strlen($make_payment) != 36) {
-            $this->output->setSwapTagString("message", "make_payment is not a uuid");
+            $this->setSwapTag("message", "make_payment is not a uuid");
             return;
         }
         if (strlen($stock_levels) != 36) {
-            $this->output->setSwapTagString("message", "stock_levels is not a uuid");
+            $this->setSwapTag("message", "stock_levels is not a uuid");
             return;
         }
         if (strlen($renew_here) != 36) {
-            $this->output->setSwapTagString("message", "renew_hereis not a uuid");
+            $this->setSwapTag("message", "renew_hereis not a uuid");
             return;
         }
         if (strlen($proxyrenew) != 36) {
-            $this->output->setSwapTagString("message", "proxyrenew not a uuid");
+            $this->setSwapTag("message", "proxyrenew not a uuid");
             return;
         }
         if (strlen($treevend_waiting) != 36) {
-            $this->output->setSwapTagString("message", "treevend_waiting not a uuid");
+            $this->setSwapTag("message", "treevend_waiting not a uuid");
             return;
         }
         $textureconfig->setName($name);
@@ -86,14 +86,14 @@ class Create extends ViewAjax
         $textureconfig->setTreevend_waiting($treevend_waiting);
         $create_status = $textureconfig->createEntry();
         if ($create_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to create Texture pack: %1\$s", $create_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Texture pack created");
-        $this->output->setSwapTagString("redirect", "textureconfig");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Texture pack created");
+        $this->setSwapTag("redirect", "textureconfig");
     }
 }

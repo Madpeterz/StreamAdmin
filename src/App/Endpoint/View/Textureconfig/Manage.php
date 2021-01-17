@@ -11,7 +11,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing texture pack");
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_actions",
             "<a href='[[url_base]]textureconfig/remove/" . $this->page
             . "'><button type='button' class='btn btn-danger'>Remove</button></a>"
@@ -76,6 +76,6 @@ class Manage extends View
             );
             $form->textureInput("renew_here", "Renew here", 36, $textureconfig->getRenew_here(), "UUID of texture");
             $form->textureInput("proxyrenew", "Proxy Renew", 36, $textureconfig->getProxyrenew(), "UUID of texture");
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

@@ -26,44 +26,44 @@ class Update extends ViewAjax
             }
         }
         $failed_on = "";
-        $this->output->setSwapTagString("redirect", null);
+        $this->setSwapTag("redirect", null);
         if (strlen($name) < 5) {
-            $this->output->setSwapTagString("message", "Name length must be 5 or longer");
+            $this->setSwapTag("message", "Name length must be 5 or longer");
             return;
         }
         if (strlen($name) > 100) {
-            $this->output->setSwapTagString("message", "Name length must be 100 or less");
+            $this->setSwapTag("message", "Name length must be 100 or less");
             return;
         }
         if (strlen($immessage) < 5) {
-            $this->output->setSwapTagString("message", "immessage length must be 5 or more");
+            $this->setSwapTag("message", "immessage length must be 5 or more");
             return;
         }
         if (strlen($immessage) > 800) {
-            $this->output->setSwapTagString("message", "immessage length must be 800 or less");
+            $this->setSwapTag("message", "immessage length must be 800 or less");
             return;
         }
         if (strlen($hoursremaining) < 0) {
-            $this->output->setSwapTagString("message", "hoursremaining must be 0 or more");
+            $this->setSwapTag("message", "hoursremaining must be 0 or more");
             return;
         }
         if (strlen($hoursremaining) > 999) {
-            $this->output->setSwapTagString("message", "hoursremaining must be 999 or less");
+            $this->setSwapTag("message", "hoursremaining must be 999 or less");
             return;
         }
         if ($static_notecard->loadID($notice_notecardlink) == false) {
-            $this->output->setSwapTagString("message", "Unable to find selected static notecard");
+            $this->setSwapTag("message", "Unable to find selected static notecard");
             return;
         }
         if ($static_notecard->getMissing() == true) {
-            $this->output->setSwapTagString("message", "Selected static notecard is marked as missing");
+            $this->setSwapTag("message", "Selected static notecard is marked as missing");
             return;
         }
 
         $notice = new Notice();
         if ($notice->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find notice");
-            $this->output->setSwapTagString("redirect", "notice");
+            $this->setSwapTag("message", "Unable to find notice");
+            $this->setSwapTag("redirect", "notice");
             return;
         }
         $whereConfig = [
@@ -78,11 +78,11 @@ class Update extends ViewAjax
             $expected_count = 1;
         }
         if ($count_check["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to check if there is a notice assigned already");
+            $this->setSwapTag("message", "Unable to check if there is a notice assigned already");
             return;
         }
         if ($count_check["count"] != $expected_count) {
-            $this->output->setSwapTagString("message", "There is already a notice with that hours remaining trigger");
+            $this->setSwapTag("message", "There is already a notice with that hours remaining trigger");
             return;
         }
         $notice->setName($name);
@@ -96,14 +96,14 @@ class Update extends ViewAjax
         }
         $update_status = $notice->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to update notice: %1\$s", $update_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Notice updated");
-        $this->output->setSwapTagString("redirect", "notice");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Notice updated");
+        $this->setSwapTag("redirect", "notice");
     }
 }

@@ -12,27 +12,27 @@ class Remove extends ViewAjax
     {
         $input = new inputFilter();
         $accept = $input->postFilter("accept");
-        $this->output->setSwapTagString("redirect", "avatar");
-        $this->output->setSwapTagString("message", "Not processed");
+        $this->setSwapTag("redirect", "avatar");
+        $this->setSwapTag("message", "Not processed");
         if ($accept != "Accept") {
-            $this->output->setSwapTagString("message", "Did not Accept");
-            $this->output->setSwapTagString("redirect", "avatar/manage/" . $this->page . "");
+            $this->setSwapTag("message", "Did not Accept");
+            $this->setSwapTag("redirect", "avatar/manage/" . $this->page . "");
             return;
         }
         $avatar = new Avatar();
         if ($avatar->loadByField("avatar_uid", $this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find avatar");
+            $this->setSwapTag("message", "Unable to find avatar");
             return;
         }
         $remove_status = $avatar->removeEntry();
         if ($remove_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to remove avatar: %1\$s", $remove_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Avatar removed");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Avatar removed");
     }
 }

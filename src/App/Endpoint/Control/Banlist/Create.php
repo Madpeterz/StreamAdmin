@@ -24,7 +24,7 @@ class Create extends ViewAjax
         $avatar_set->loadWithConfig($avatar_where_config);
 
         if ($avatar_set->getCount() != 1) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 "Unable to find avatar to attach to ban do they exist under avatars?"
             );
@@ -33,18 +33,18 @@ class Create extends ViewAjax
         $avatar = $avatar_set->getFirst();
         $banlist = new banlist();
         if ($banlist->loadByField("avatar_link", $avatar->getId()) == true) {
-            $this->output->setSwapTagString("message", "The target avatar is already banned");
+            $this->setSwapTag("message", "The target avatar is already banned");
             return;
         }
         $banlist = new banlist();
         $banlist->setAvatar_link($avatar->getId());
         $create_status = $banlist->createEntry();
         if ($create_status["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to create a new entry in the ban list");
+            $this->setSwapTag("message", "Unable to create a new entry in the ban list");
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Banlist entry created");
-        $this->output->setSwapTagString("redirect", "banlist");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Banlist entry created");
+        $this->setSwapTag("redirect", "banlist");
     }
 }

@@ -19,19 +19,19 @@ class SyncAccounts extends ViewAjax
         $serverapi_helper = new serverapi_helper();
 
         if ($server->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find server");
+            $this->setSwapTag("message", "Unable to find server");
             return;
         }
         if ($api->loadID($server->getApilink()) == false) {
-            $this->output->setSwapTagString("message", "Unable to find api used by server");
+            $this->setSwapTag("message", "Unable to find api used by server");
             return;
         }
         if (($server->getApi_sync_accounts() == false) || ($api->getApi_sync_accounts() == false)) {
-            $this->output->setSwapTagString("message", "Server or API have sync accounts disabled");
+            $this->setSwapTag("message", "Server or API have sync accounts disabled");
             return;
         }
         if ($serverapi_helper->force_set_server($server) == false) {
-            $this->output->setSwapTagString("message", "Unable to attach server to api helper");
+            $this->setSwapTag("message", "Unable to attach server to api helper");
             return;
         }
         $oneday_ago = time() - ((60 * 60) * 24);
@@ -48,7 +48,7 @@ class SyncAccounts extends ViewAjax
 
         $stream_set->loadWithConfig($where_config, null, $limits);
         if ($stream_set->getCount() == 0) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 "Unable to find any streams attached to server or all streamed sync'd in the last 24 hours"
             );
@@ -56,7 +56,7 @@ class SyncAccounts extends ViewAjax
         }
         $accounts_found = $serverapi_helper->get_all_accounts(true, $stream_set);
         if ($accounts_found["status"] == false) {
-            $this->output->setSwapTagString("message", $serverapi_helper->getMessage());
+            $this->setSwapTag("message", $serverapi_helper->getMessage());
             return;
         }
         $accounts_updated = 0;
@@ -86,7 +86,7 @@ class SyncAccounts extends ViewAjax
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
                 $all_ok = false;
-                $this->output->setSwapTagString("message", "failed to sync password to db");
+                $this->setSwapTag("message", "failed to sync password to db");
                 break;
             }
             $accounts_updated++;
@@ -97,11 +97,11 @@ class SyncAccounts extends ViewAjax
         $server->setLast_api_sync(time());
         $update_status = $server->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to update server last sync time");
+            $this->setSwapTag("message", "Unable to update server last sync time");
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");
         if ($accounts_missing_passwords > 0) {
             $this->output->addSwapTagString("message", " / Missing PW dataset: " . $accounts_missing_passwords);
         }

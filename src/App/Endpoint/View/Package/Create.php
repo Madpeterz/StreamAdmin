@@ -12,7 +12,7 @@ class Create extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " Create new package");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
 
         $template_set = new TemplateSet();
         $template_set->loadAll();
@@ -44,6 +44,6 @@ class Create extends View
         $form->group("Auto DJ");
         $form->select("autodj", "Enabled", false, [false => "No",true => "Yes"]);
         $form->numberInput("autodj_size", "Storage GB", null, 3, "Max GB storage 9999");
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

@@ -14,37 +14,37 @@ class Update extends ViewAjax
         $input = new InputFilter();
 
         if ($this->session->getOwnerLevel() == false) {
-            $this->output->setSwapTagString("message", "Owner level access required");
-            $this->output->setSwapTagString("redirect", "staff/manage/" . $this->page . "");
+            $this->setSwapTag("message", "Owner level access required");
+            $this->setSwapTag("redirect", "staff/manage/" . $this->page . "");
         }
 
         $username = $input->postFilter("username");
         $email = $input->postFilter("email");
         $bits = explode("@", $email);
         if (strlen($username) < 5) {
-            $this->output->setSwapTagString("message", "username length must be 5 or longer");
+            $this->setSwapTag("message", "username length must be 5 or longer");
             return;
         }
         if (strlen($username) > 40) {
-            $this->output->setSwapTagString("message", "username length must be 40 or less");
+            $this->setSwapTag("message", "username length must be 40 or less");
             return;
         }
         if (count($bits) != 2) {
-            $this->output->setSwapTagString("message", "Email address is not formated correctly");
+            $this->setSwapTag("message", "Email address is not formated correctly");
             return;
         }
         if ($staff->loadByField("username", $username) == true) {
-            $this->output->setSwapTagString("message", "There is already a staff member with that username");
+            $this->setSwapTag("message", "There is already a staff member with that username");
             return;
         }
         if (strlen($email) > 100) {
-            $this->output->setSwapTagString("message", "email length must be 100 or less");
+            $this->setSwapTag("message", "email length must be 100 or less");
             return;
         }
 
         $staff = new Staff();
         if ($staff->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to load staff member");
+            $this->setSwapTag("message", "Unable to load staff member");
             return;
         }
         $staff->setUsername($username);
@@ -54,13 +54,13 @@ class Update extends ViewAjax
         $staff->setPsalt(sha1("psalt install" . microtime() . "" . $username));
         $update_status = $staff->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to update staff member: %1\$s", $update_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "staff member updated passwords reset");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "staff member updated passwords reset");
     }
 }

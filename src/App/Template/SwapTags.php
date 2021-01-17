@@ -25,7 +25,7 @@ abstract class SwapTags
         $this->swaptags[$tagname] = $current;
         return $current;
     }
-    public function setSwapTagString(string $tagname, ?string $newvalue): ?string
+    public function setSwapTag(string $tagname, $newvalue): ?string
     {
         $current = $this->getSwapTagString($tagname);
         if ($current != $newvalue) {
@@ -49,15 +49,15 @@ abstract class SwapTags
     }
     public function urlBase(string $newvalue = null): ?string
     {
-        return $this->setSwapTagString("url_base", $newvalue);
+        return $this->setSwapTag("url_base", $newvalue);
     }
     public function pageTitle(string $newvalue = null): ?string
     {
-        return $this->setSwapTagString("PAGE_TITLE", $newvalue);
+        return $this->setSwapTag("PAGE_TITLE", $newvalue);
     }
     public function siteName(string $newvalue = null): ?string
     {
-        return $this->setSwapTagString("SITE_NAME", $newvalue);
+        return $this->setSwapTag("SITE_NAME", $newvalue);
     }
     /**
      * metaTags

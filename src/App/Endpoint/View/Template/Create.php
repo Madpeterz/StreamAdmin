@@ -10,7 +10,7 @@ class Create extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " Create new");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
         $form = new Form();
         $form->target("template/create");
         $form->required(true);
@@ -27,7 +27,7 @@ class Create extends View
         );
         $form->col(6);
         $form->textarea("notecarddetail", "Notecard template", 2000, "", "Use swap tags as the placeholder");
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
         include "../App/View/Shared/swaps_table.php";
     }
 }

@@ -10,9 +10,9 @@ class Bulkupdate extends View
 {
     public function process(): void
     {
-        $this->output->setSwapTagString("html_title", "Streams");
+        $this->setSwapTag("html_title", "Streams");
         $this->output->addSwapTagString("page_title", " Bulk update");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
         $whereconfig = [
         "fields" => ["needwork","rentallink"],
         "values" => [1,null],
@@ -22,7 +22,7 @@ class Bulkupdate extends View
         $stream_set = new StreamSet();
         $stream_set->loadWithConfig($whereconfig);
         if ($stream_set->getCount() == 0) {
-            $this->output->setSwapTagString("page_content", "No streams marked as need work");
+            $this->setSwapTag("page_content", "No streams marked as need work");
             return;
         }
 
@@ -62,13 +62,13 @@ class Bulkupdate extends View
         }
 
         if (count($table_body) == 0) {
-            $this->output->setSwapTagString("page_content", "No streams need updates!");
+            $this->setSwapTag("page_content", "No streams need updates!");
             return;
         }
         $form = new Form();
         $form->target("stream/bulkupdate");
         $form->col(12);
         $form->directAdd(render_datatable($table_head, $table_body));
-        $this->output->setSwapTagString("page_content", $form->render("Process", "outline-warning"));
+        $this->setSwapTag("page_content", $form->render("Process", "outline-warning"));
     }
 }

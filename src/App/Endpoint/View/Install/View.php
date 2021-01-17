@@ -13,8 +13,8 @@ abstract class View extends TemplateView
         }
         parent::__construct(false);
         $this->output->tempateFull();
-        $this->output->setSwapTagString("html_title", "Installer");
-        $this->output->setSwapTagString("page_title", "Installer");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("html_title", "Installer");
+        $this->setSwapTag("page_title", "Installer");
+        $this->setSwapTag("page_actions", "");
     }
 }

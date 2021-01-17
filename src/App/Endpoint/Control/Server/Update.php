@@ -43,93 +43,93 @@ class Update extends ViewAjax
 
         $yesno_array = [0,1];
         if (strlen($domain) > 100) {
-            $this->output->setSwapTagString("message", "Domain length can not be more than 200");
+            $this->setSwapTag("message", "Domain length can not be more than 200");
             return;
         }
         if (strlen($domain) < 5) {
-            $this->output->setSwapTagString("message", "Domain length can not be less than 5");
+            $this->setSwapTag("message", "Domain length can not be less than 5");
             return;
         }
         if (strlen($controlpanel_url) < 5) {
-            $this->output->setSwapTagString("message", "controlpanel url length can not be less than 5");
+            $this->setSwapTag("message", "controlpanel url length can not be less than 5");
             return;
         }
         if (in_array($apilink, $apis->getAllIds()) == false) {
-            $this->output->setSwapTagString("message", "Not a supported api");
+            $this->setSwapTag("message", "Not a supported api");
             return;
         }
         if (in_array($opt_password_reset, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "opt_password_reset not vaild");
+            $this->setSwapTag("message", "opt_password_reset not vaild");
             return;
         }
         if (in_array($opt_autodj_next, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "opt_autodj_next not vaild");
+            $this->setSwapTag("message", "opt_autodj_next not vaild");
             return;
         }
         if (in_array($opt_toggle_autodj, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "opt_toggle_autodj not vaild");
+            $this->setSwapTag("message", "opt_toggle_autodj not vaild");
             return;
         }
         if (in_array($event_enable_start, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_enable_start not vaild");
+            $this->setSwapTag("message", "event_enable_start not vaild");
             return;
         }
         if (in_array($event_disable_expire, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_disable_expire not vaild");
+            $this->setSwapTag("message", "event_disable_expire not vaild");
             return;
         }
         if (in_array($event_disable_revoke, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_disable_revoke not vaild");
+            $this->setSwapTag("message", "event_disable_revoke not vaild");
             return;
         }
         if (in_array($event_reset_password_revoke, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_reset_password_revoke not vaild");
+            $this->setSwapTag("message", "event_reset_password_revoke not vaild");
             return;
         }
         if (in_array($event_enable_renew, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_enable_renew not vaild");
+            $this->setSwapTag("message", "event_enable_renew not vaild");
             return;
         }
         if (in_array($opt_toggle_status, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "opt_toggle_status not vaild");
+            $this->setSwapTag("message", "opt_toggle_status not vaild");
             return;
         }
         if (in_array($event_start_sync_username, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_start_sync_username not vaild");
+            $this->setSwapTag("message", "event_start_sync_username not vaild");
             return;
         }
         if (in_array($api_serverstatus, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "api_serverstatus not vaild");
+            $this->setSwapTag("message", "api_serverstatus not vaild");
             return;
         }
         if (in_array($event_clear_djs, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_clear_djs not vaild");
+            $this->setSwapTag("message", "event_clear_djs not vaild");
             return;
         }
         if (in_array($event_revoke_reset_username, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_revoke_reset_username not vaild");
+            $this->setSwapTag("message", "event_revoke_reset_username not vaild");
             return;
         }
         if (in_array($event_recreate_revoke, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_recreate_revoke not vaild");
+            $this->setSwapTag("message", "event_recreate_revoke not vaild");
             return;
         }
         if (in_array($api_sync_accounts, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "api_sync_accounts not vaild");
+            $this->setSwapTag("message", "api_sync_accounts not vaild");
             return;
         }
         if (in_array($event_create_stream, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_create_stream not vaild");
+            $this->setSwapTag("message", "event_create_stream not vaild");
             return;
         }
         if (in_array($event_update_stream, $yesno_array) == false) {
-            $this->output->setSwapTagString("message", "event_update_stream not vaild");
+            $this->setSwapTag("message", "event_update_stream not vaild");
             return;
         }
 
         if ($server->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to find server");
-            $this->output->setSwapTagString("redirect", "server");
+            $this->setSwapTag("message", "Unable to find server");
+            $this->setSwapTag("redirect", "server");
             return;
         }
         $whereConfig = [
@@ -144,14 +144,14 @@ class Update extends ViewAjax
             $expected_count = 1;
         }
         if ($count_check["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 "Unable to check if there is a server assigned to domain already"
             );
             return;
         }
         if ($count_check["count"] != $expected_count) {
-            $this->output->setSwapTagString("message", "There is already a server with that domain");
+            $this->setSwapTag("message", "There is already a server with that domain");
             return;
         }
         $server->setDomain($domain);
@@ -182,14 +182,14 @@ class Update extends ViewAjax
 
         $update_status = $server->updateEntry();
         if ($update_status["status"] == false) {
-            $this->output->setSwapTagString(
+            $this->setSwapTag(
                 "message",
                 sprintf("Unable to update server: %1\$s", $update_status["message"])
             );
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "Server updated");
-        $this->output->setSwapTagString("redirect", "server");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "Server updated");
+        $this->setSwapTag("redirect", "server");
     }
 }

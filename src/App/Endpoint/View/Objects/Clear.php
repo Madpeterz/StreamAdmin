@@ -10,7 +10,7 @@ class Clear extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Clear");
         $this->output->addSwapTagString("page_title", " : Clear");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
 
         $form = new Form();
         $form->target("objects/clear");
@@ -27,6 +27,6 @@ class Clear extends View
   </label>
 </div>';
         $form->directAdd($action);
-        $this->output->setSwapTagString("page_content", $form->render("Clear", "warning"));
+        $this->setSwapTag("page_content", $form->render("Clear", "warning"));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 $this->output->addSwapTagString("html_title", " ~ Setup R4 connection");
-$this->output->setSwapTagString("page_title", "R4 DB settings");
+$this->setSwapTag("page_title", "R4 DB settings");
 $form = new form();
 $form->target("import/setconfig");
 $form->required(true);

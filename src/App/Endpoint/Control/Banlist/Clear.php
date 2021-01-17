@@ -10,18 +10,18 @@ class Clear extends ViewAjax
     public function process(): void
     {
         $banlist = new Banlist();
-        $this->output->setSwapTagString("redirect", "banlist");
+        $this->setSwapTag("redirect", "banlist");
         if ($banlist->loadID($this->page) == false) {
-            $this->output->setSwapTagString("message", "unable to find entry");
+            $this->setSwapTag("message", "unable to find entry");
             return;
         }
         $remove_status = $banlist->removeEntry();
         if ($remove_status["status"] == false) {
-            $this->output->setSwapTagString("message", "Unable to remove entry");
+            $this->setSwapTag("message", "Unable to remove entry");
             return;
         }
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "entry removed");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "entry removed");
         return;
     }
 }

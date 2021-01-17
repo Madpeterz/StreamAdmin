@@ -15,7 +15,7 @@ class Manage extends View
         }
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", ": Editing staff member");
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_actions",
             "<a href='[[url_base]]staff/remove/" . $this->page . "'><button type='button' "
             . "class='btn btn-danger'>Remove</button></a>"
@@ -38,6 +38,6 @@ class Manage extends View
             "Used to login [does not have to be the same as their SL name]"
         );
         $form->textInput("email", "Email", 200, $staff->getEmail(), "Used to change their password via email");
-        $this->output->setSwapTagString("page_content", $form->render("Update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

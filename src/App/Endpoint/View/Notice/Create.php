@@ -20,7 +20,7 @@ class Create extends View
 
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " : New");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
 
         $form = new form();
         $form->target("notice/create");
@@ -42,7 +42,7 @@ class Create extends View
         $form->col(6);
         $form->group("Static notecard");
         $form->select("notice_notecardlink", " ", 1, $notice_notecard_set->getLinkedArray("id", "name"));
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
         include "webpanel/view/shared/swaps_table.php";
     }
 }

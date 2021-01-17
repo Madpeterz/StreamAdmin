@@ -40,6 +40,6 @@ class Api extends View
             $stream->getPort(),expired_ago($request->getLast_attempt()),
             $request->getAttempts(),$request->getMessage()];
         }
-        $this->output->setSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
     }
 }

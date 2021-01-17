@@ -10,8 +10,8 @@ class Setconfig extends ViewAjax
     public function process(): void
     {
         if ($this->session->getOwnerLevel() != 1) {
-            $this->output->setSwapTagString("message", "Only the system owner can access this area");
-            $this->output->setSwapTagString("redirect", "");
+            $this->setSwapTag("message", "Only the system owner can access this area");
+            $this->setSwapTag("redirect", "");
         }
         $input = new InputFilter();
         $db_host = $input->postFilter("db_host");
@@ -26,8 +26,8 @@ class Setconfig extends ViewAjax
             unlink("../App/Config/r4.php");
         }
         file_put_contents("../App/Config/r4.php", $saveconfig);
-        $this->output->setSwapTagString("status", "true");
-        $this->output->setSwapTagString("message", "ok");
-        $this->output->setSwapTagString("redirect", "import");
+        $this->setSwapTag("status", "true");
+        $this->setSwapTag("message", "ok");
+        $this->setSwapTag("redirect", "import");
     }
 }

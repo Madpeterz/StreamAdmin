@@ -16,7 +16,7 @@ class Needwork extends Withstatus
             "matches" => ["="],
         ];
         parent::process();
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "page_actions",
             "<a href='[[url_base]]stream/bulkupdate'><button type='button' class='btn btn-outline-warning btn-sm'>"
             . "Bulk update</button></a>"

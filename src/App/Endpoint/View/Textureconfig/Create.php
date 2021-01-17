@@ -10,7 +10,7 @@ class Create extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " Create new texture config pack");
-        $this->output->setSwapTagString("page_actions", "");
+        $this->setSwapTag("page_actions", "");
         $form = new Form();
         $form->target("textureconfig/create");
         $form->required(true);
@@ -29,6 +29,6 @@ class Create extends View
             $form->textInput("stock_levels", "Stock levels", 36, "", "UUID of texture");
             $form->textInput("renew_here", "Renew here", 36, "", "UUID of texture");
             $form->textInput("proxyrenew", "Proxy Renew", 36, "", "UUID of texture");
-        $this->output->setSwapTagString("page_content", $form->render("Create", "primary"));
+        $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

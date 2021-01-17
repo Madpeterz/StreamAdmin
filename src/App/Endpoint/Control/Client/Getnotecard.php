@@ -16,9 +16,9 @@ class Getnotecard extends ViewAjax
     {
         $rental = new Rental();
         if ($rental->loadByField("rental_uid", $this->page) == false) {
-            $this->output->setSwapTagString("message", "Unable to load rental");
+            $this->setSwapTag("message", "Unable to load rental");
         }
-        $this->output->setSwapTagString("status", "true");
+        $this->setSwapTag("status", "true");
         $avatar = new Avatar();
         $avatar->loadID($rental->getAvatarlink());
 
@@ -48,7 +48,7 @@ class Getnotecard extends ViewAjax
         . "===========================[[NL]][[NL]]"
         . "Expires: [[RENTAL_EXPIRES_DATETIME]]";
         $swapables_helper = new swapables_helper();
-        $this->output->setSwapTagString(
+        $this->setSwapTag(
             "message",
             $swapables_helper->get_swapped_text($viewnotecard, $avatar, $rental, $package, $server, $stream)
         );

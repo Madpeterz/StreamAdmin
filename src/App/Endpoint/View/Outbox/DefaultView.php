@@ -18,6 +18,6 @@ class DefaultView extends View
         include "../App/View/Shared/swaps_table.php";
 
         $paged_info = new paged_info();
-        $this->output->setSwapTagString("page_content", $paged_info->render($pages));
+        $this->setSwapTag("page_content", $paged_info->render($pages));
     }
 }

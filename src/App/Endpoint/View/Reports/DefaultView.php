@@ -138,6 +138,6 @@ class DefaultView extends View
         $mygrid->addContent("<h4>Year breakdown</h4>" . $flow_form_year, 6);
         $mygrid->addContent("<hr/>", 12);
         $mygrid->addContent("<h4>Year vs Year</h4>" . $compare_form_year, 6);
-        $this->output->setSwapTagString("page_content", $mygrid->getOutput());
+        $this->setSwapTag("page_content", $mygrid->getOutput());
     }
 }
