@@ -22,7 +22,7 @@ foreach ($r4_users_set->getAllIds() as $r4_user_id) {
     if (in_array($r4_user->get_slkey(), $seen_avatar_uuids) == false) {
         $seen_avatar_uuids[] = $r4_user->get_slkey();
         $avatar_helper = new avatar_helper();
-        $status = $avatar_helper->load_or_create($r4_user->get_slkey(), $r4_user->get_slname());
+        $status = $avatar_helper->loadOrCreate($r4_user->get_slkey(), $r4_user->get_slname());
         if ($status == true) {
             $avatars_created++;
         } else {

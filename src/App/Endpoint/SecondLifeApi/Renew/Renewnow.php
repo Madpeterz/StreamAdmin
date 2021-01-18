@@ -91,7 +91,7 @@ class Renewnow extends SecondlifeAjax
             return;
         }
         $avatar_helper = new avatar_helper();
-        $get_av_status = $avatar_helper->load_or_create($avataruuid, $avatarname);
+        $get_av_status = $avatar_helper->loadOrCreate($avataruuid, $avatarname);
         if ($get_av_status == false) {
             $this->setSwapTag("message", "Unable to find avatar");
             return;

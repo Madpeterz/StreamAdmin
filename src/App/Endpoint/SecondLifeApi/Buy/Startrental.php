@@ -32,7 +32,7 @@ class Startrental extends SecondlifeAjax
     protected function getAvatar(string $avataruuid, string $avatarname): ?Avatar
     {
         $avatar_helper = new avatar_helper();
-        $get_av_status = $avatar_helper->load_or_create($avataruuid, $avatarname);
+        $get_av_status = $avatar_helper->loadOrCreate($avataruuid, $avatarname);
         if ($get_av_status == true) {
             return $avatar_helper->get_avatar();
         }

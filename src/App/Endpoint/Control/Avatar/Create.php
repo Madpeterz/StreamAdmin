@@ -35,7 +35,7 @@ class Create extends ViewAjax
             return;
         }
         $avatar_helper = new avatar_helper();
-        $status = $avatar_helper->load_or_create($avataruuid, $avatarname);
+        $status = $avatar_helper->loadOrCreate($avataruuid, $avatarname);
         if ($status == false) {
             $this->setSwapTag("message", "Unable to create avatar");
             return;
