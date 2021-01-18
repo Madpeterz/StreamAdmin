@@ -85,9 +85,11 @@ abstract class GenClassLoad extends GenClassSet
                 }
                 return $id_check_passed;
             }
-            $error_message = "Load error incorrect number of entrys expected 1 but got:";
-            $error_message .= count($load_data["dataset"]);
-            $this->addError(__FILE__, __FUNCTION__, $error_message);
+            if (count($load_data["dataset"]) > 1) {
+                $error_message = "Load error incorrect number of entrys expected 1 but got:";
+                $error_message .= count($load_data["dataset"]);
+                $this->addError(__FILE__, __FUNCTION__, $error_message);
+            }
         }
         return false;
     }

@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => '1.0.0+no-version-set',
+    'version' => '1.0.0.0',
     'aliases' => 
     array (
     ),
-    'reference' => 'cda0d40f80a0d20b79d7e5528317c2897133b015',
+    'reference' => NULL,
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -58,21 +58,21 @@
     ),
     'madpeterz/streamadmin' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => '1.0.0+no-version-set',
+      'version' => '1.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'cda0d40f80a0d20b79d7e5528317c2897133b015',
+      'reference' => NULL,
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => 'v1.0.4-stable',
-      'version' => '1.0.4.0',
+      'pretty_version' => 'v1.0.6-stable',
+      'version' => '1.0.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9eaca834f17d9b174e337f3eb02575daf3d6fb3e',
+      'reference' => '47e65ac3920bfa8b14e1e307c1d133f871082d6c',
     ),
     'myclabs/deep-copy' => 
     array (
@@ -131,6 +131,15 @@
       array (
       ),
       'reference' => '6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0',
+    ),
+    'phpmailer/phpmailer' => 
+    array (
+      'pretty_version' => 'v6.2.0',
+      'version' => '6.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e38888a75c070304ca5514197d4847a59a5c853f',
     ),
     'phpspec/prophecy' => 
     array (
@@ -382,12 +391,12 @@
     ),
     'symfony/polyfill-ctype' => 
     array (
-      'pretty_version' => 'v1.20.0',
-      'version' => '1.20.0.0',
+      'pretty_version' => 'v1.22.0',
+      'version' => '1.22.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f4ba089a5b6366e453971d3aad5fe8e897b37f41',
+      'reference' => 'c6c942b1ac76c82448322025e084cadc56048b4e',
     ),
     'theseer/tokenizer' => 
     array (

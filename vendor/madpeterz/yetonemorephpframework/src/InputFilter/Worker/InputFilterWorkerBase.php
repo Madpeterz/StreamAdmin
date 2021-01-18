@@ -38,8 +38,7 @@ abstract class InputFilterWorkerBase extends ErrorLogging
 
         /**
      * SharedInputFilter
-     * fetchs the value from get or post
-     * or returns the default
+     * Overridden in InputFilterWorkerValue
      * @return mixed
      */
     protected function sharedInputFilter(
@@ -49,14 +48,8 @@ abstract class InputFilterWorkerBase extends ErrorLogging
         array $args = []
     ) {
         $not_set = false;
-        $value = $this->fetchTestingValue($not_set, $source_dataset, $inputName);
-        if ($not_set == false) {
-            $this->whyfailed = "";
-            $value = $this->valueFilter($value, $filter, $args);
-            if ($this->whyfailed != "") {
-                $this->addError(__FILE__, __FUNCTION__, $this->whyfailed);
-            }
-        }
+        $value = null;
+        $this->whyfailed = "Using base function!";
         return $this->failureExpectedReplyValue($value, $filter);
     }
     /**

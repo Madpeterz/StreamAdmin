@@ -12,6 +12,11 @@
         "source": "https://github.com/Madpeterz/yetonemorephpframework",
         "issues": "https://github.com/Madpeterz/yetonemorephpframework/issues"
     },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    },
     "require": {
         "php": ">=7.4",
         "guzzlehttp/guzzle": "^7.2"

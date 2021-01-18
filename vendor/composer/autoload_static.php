@@ -40,6 +40,7 @@ class ComposerStaticInitb024e098c99359c0ef56676eb0cc355a
             'Psr\\Http\\Client\\' => 16,
             'Prophecy\\' => 9,
             'PHPStan\\PhpDocParser\\' => 21,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'G' => 
         array (
@@ -97,6 +98,10 @@ class ComposerStaticInitb024e098c99359c0ef56676eb0cc355a
         'PHPStan\\PhpDocParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

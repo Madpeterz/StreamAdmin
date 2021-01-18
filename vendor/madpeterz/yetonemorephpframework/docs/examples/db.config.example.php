@@ -2,6 +2,8 @@
 
 namespace App;
 
+use YAPF\Core\ErrorLogging as ErrorLogging;
+
 class Db extends ErrorLogging
 {
     protected $dbHost = "localhost";

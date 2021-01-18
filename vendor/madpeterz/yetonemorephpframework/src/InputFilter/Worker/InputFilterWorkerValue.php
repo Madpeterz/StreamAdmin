@@ -7,6 +7,29 @@ use YAPF\InputFilter\FilterTypes\InputFilterTypeColor as InputFilterTypeColor;
 abstract class InputFilterWorkerValue extends InputFilterTypeColor
 {
     /**
+     * SharedInputFilter
+     * fetchs the value from get or post
+     * or returns the default
+     * @return mixed
+     */
+    protected function sharedInputFilter(
+        string $inputName,
+        array &$source_dataset,
+        string $filter = "string",
+        array $args = []
+    ) {
+        $not_set = false;
+        $value = $this->fetchTestingValue($not_set, $source_dataset, $inputName);
+        if ($not_set == false) {
+            $this->whyfailed = "";
+            $value = $this->valueFilter($value, $filter, $args);
+            if ($this->whyfailed != "") {
+                $this->addError(__FILE__, __FUNCTION__, $this->whyfailed);
+            }
+        }
+        return $this->failureExpectedReplyValue($value, $filter);
+    }
+    /**
      * valueFilter
      * filters the given value by the selected filter
      * using the optional args, see the filter for their
