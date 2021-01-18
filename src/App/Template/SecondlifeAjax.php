@@ -33,6 +33,14 @@ abstract class SecondlifeAjax extends View
     protected ?Object $object;
     protected bool $soft_fail = false;
 
+    public function setReseller(Reseller $reseller): void
+    {
+        $this->reseller = $reseller;
+    }
+    public function setOwnerOverride(bool $status): void
+    {
+        $this->owner_override = $status;
+    }
     public function getSoftFail(): bool
     {
         return $this->soft_fail;
@@ -116,7 +124,7 @@ abstract class SecondlifeAjax extends View
             return;
         }
         $avatar_helper = new avatar_helper();
-        $get_av_status = $avatar_helper->load_or_create($this->ownerkey, $this->ownername);
+        $get_av_status = $avatar_helper->loadOrCreate($this->ownerkey, $this->ownername);
         if ($get_av_status == false) {
             $this->load_ok = false;
             $this->setSwapTag("message", "Unable to load owner avatar for this object!");
@@ -124,7 +132,7 @@ abstract class SecondlifeAjax extends View
         }
         $this->object_owner_avatar = $avatar_helper->get_avatar();
         $region_helper = new region_helper();
-        $get_region_status = $region_helper->load_or_create($this->regionname);
+        $get_region_status = $region_helper->loadOrCreate($this->regionname);
         if ($get_region_status == false) {
             $this->load_ok = false;
             $this->setSwapTag("message", "Unable to load region");
@@ -132,7 +140,7 @@ abstract class SecondlifeAjax extends View
         }
         $this->region = $region_helper->get_region();
         $reseller_helper = new reseller_helper();
-        $get_reseller_status = $reseller_helper->load_or_create(
+        $get_reseller_status = $reseller_helper->loadOrCreate(
             $this->object_owner_avatar->getId(),
             $this->slconfig->getNew_resellers(),
             $this->slconfig->getNew_resellers_rate()
@@ -152,7 +160,7 @@ abstract class SecondlifeAjax extends View
             return;
         }
         $object_helper = new object_helper();
-        $get_object_status = $object_helper->load_or_create(
+        $get_object_status = $object_helper->loadOrCreate(
             $this->object_owner_avatar->getId(),
             $this->region->getId(),
             $this->objectuuid,
