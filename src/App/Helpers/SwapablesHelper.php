@@ -1,15 +1,23 @@
 <?php
 
+namespace App\Helpers;
+
 use App\Models\Avatar;
 use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
 
-class swapables_helper
+class SwapablesHelper
 {
-    function get_swapped_text(string $template, Avatar $avatar, Rental $rental, Package $package, Server $server, Stream $stream): string
-    {
+    public function get_swapped_text(
+        string $template,
+        Avatar $avatar,
+        Rental $rental,
+        Package $package,
+        Server $server,
+        Stream $stream
+    ): string {
         global $timezone_name;
           $av_split = explode(" ", $avatar->getAvatarname());
         if (count($av_split) == 1) {

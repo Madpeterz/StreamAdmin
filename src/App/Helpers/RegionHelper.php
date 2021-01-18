@@ -1,20 +1,24 @@
 <?php
 
-class region_helper
+namespace App\Helpers;
+
+use App\Models\Region;
+
+class RegionHelper
 {
     protected $region = null;
-    function get_region(): region
+    public function getRegion(): region
     {
         return $this->region;
     }
-    function load_or_create(string $regionname): bool
+    public function loadOrCreate(string $regionname): bool
     {
-        $this->region = new region();
+        $this->region = new Region();
         if (strlen($regionname) > 3) {
             if ($this->region->loadByField("name", $regionname) == true) {
                 return true;
             } else {
-                $this->region = new region();
+                $this->region = new Region();
                 $this->region->setName($regionname);
                 $save_status = $this->region->createEntry();
                 return $save_status["status"];

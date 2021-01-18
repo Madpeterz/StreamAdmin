@@ -1,15 +1,16 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+namespace App\Helpers;
 
-require_once("webpanel/vendor/autoload.php");
-class email_helper
+use App\Models\Slconfig;
+use PHPMailer\PHPMailer\PHPMailer;
+
+class EmailHelper
 {
-    public function send_email($to = "", $subject = "", $message = "")
+    public function send_email($to = "", $subject = "", $message = ""): array
     {
         $to_name = explode("@", $to)[0];
-        $slconfig = new slconfig();
+        $slconfig = new Slconfig();
         if ($slconfig->loadID(1) == true) {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
@@ -17,8 +18,8 @@ class email_helper
             $mail->Port = $slconfig->getSmtp_port();
             $mail->SMTPSecure = 'tls';
             $mail->SMTPAuth = true;
-            $mail->Username = $slconfig->get_smtp_username();
-            $mail->Password = $slconfig->get_smtp_accesscode();
+            $mail->Username = $slconfig->getSmtp_username();
+            $mail->Password = $slconfig->getSmtp_accesscode();
             $mail->setFrom($slconfig->getSmtp_from(), $slconfig->getSmtp_replyto());
             $mail->addAddress($to, $to_name);
             $mail->Subject = $subject;

@@ -1,21 +1,29 @@
 <?php
 
+namespace App\Helpers;
+
 use App\Models\Avatar;
 use App\Models\Botconfig;
+use App\Models\Message;
 
-class bot_helper
+class BotHelper
 {
-    function send_bot_command(Botconfig $botconfig, string $command, array $args): string
+    public function send_bot_command(Botconfig $botconfig, string $command, array $args): string
     {
-        $raw = "" . $command . "" . implode("~#~", $args) . "" . $botconfig->get_secret();
+        $raw = "" . $command . "" . implode("~#~", $args) . "" . $botconfig->getSecret();
         $cooked = sha1($raw);
         global $reply;
         $reply["raw"] = $raw;
         $reply["cooked"] = $cooked;
         return "" . $command . "|||" . implode("~#~", $args) . "@@@" . $cooked . "";
     }
-    function send_message(Botconfig $botconfig, Avatar $botavatar, Avatar $avatar, string $message, bool $allow_bot = false)
-    {
+    public function send_message(
+        Botconfig $botconfig,
+        Avatar $botavatar,
+        Avatar $avatar,
+        string $message,
+        bool $allow_bot = false
+    ): array {
         $reply_status = true;
         $why_failed = "No idea";
         if ($allow_bot == true) {
@@ -34,9 +42,9 @@ class bot_helper
             return ["status" => false,"message" => $why_failed];
         }
     }
-    function send_message_to_avatar(Avatar $avatar, string $sendmessage): array
+    public function send_message_to_avatar(Avatar $avatar, string $sendmessage): array
     {
-        $message = new message();
+        $message = new Message();
         $message->setAvatarlink($avatar->getId());
         $message->setMessage($sendmessage);
         return $message->createEntry();

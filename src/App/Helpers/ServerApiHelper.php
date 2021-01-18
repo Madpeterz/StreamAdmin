@@ -1,12 +1,18 @@
 <?php
 
+namespace App\Helpers;
+
+use App\Models\Apis;
+use App\Models\Avatar;
 use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
 use App\Models\StreamSet;
+use YAPF\Core\SqlConnectedClass;
+use YAPF\InputFilter\InputFilter;
 
-class serverapi_helper
+class ServerApiHelper extends SqlConnectedClass
 {
     protected $server = null;
     protected $package = null;
@@ -126,7 +132,7 @@ class serverapi_helper
     }
     protected function load_api(): bool
     {
-        $api = new apis();
+        $api = new Apis();
         $processed = false;
         if ($api->loadID($this->server->getApilink()) == true) {
             if ($api->getId() > 1) {
@@ -149,7 +155,7 @@ class serverapi_helper
     }
     protected function load_rental(): bool
     {
-        $rental = new rental();
+        $rental = new Rental();
         if ($rental->loadByField("streamlink", $this->stream->getId()) == true) {
             $this->rental = $rental;
             $this->message = "Rental loaded";
@@ -160,7 +166,7 @@ class serverapi_helper
     }
     protected function load_package(): bool
     {
-        $package = new package();
+        $package = new Package();
         if ($package->loadID($this->stream->getPackagelink()) == true) {
             $this->package = $package;
             $this->message = "Package loaded";
@@ -171,7 +177,7 @@ class serverapi_helper
     }
     protected function load_server(): bool
     {
-        $server = new server();
+        $server = new Server();
         if ($server->loadID($this->stream->getServerlink()) == true) {
             $this->message = "Server loaded";
             $this->server = $server;
@@ -182,7 +188,7 @@ class serverapi_helper
     }
     protected function load_avatar(): bool
     {
-        $avatar = new avatar();
+        $avatar = new Avatar();
         if ($avatar->loadID($this->rental->getAvatarlink()) == true) {
             $this->message = "Avatar loaded";
             $this->avatar = $avatar;
@@ -372,7 +378,13 @@ class serverapi_helper
         if ($this->callable_action(__FUNCTION__) == true) {
             return $this->server_api->get_server_status();
         }
-        return ["status" => false,"loads" => ["1" => 0,"5" => 0,"15" => 0],"ram" => ["free" => 0,"max" => 0],"streams" => ["total" => 0,"active" => 0],"message" => "No api"];
+        return [
+            "status" => false,
+        "loads" => ["1" => 0,"5" => 0,"15" => 0],
+        "ram" => ["free" => 0,"max" => 0],
+        "streams" => ["total" => 0,"active" => 0],
+        "message" => "No api",
+        ];
     }
 
 
@@ -382,9 +394,17 @@ class serverapi_helper
         $this->message = "started";
         if (($new_dj_password == null) || ($new_admin_password == null)) {
             $this->message = "no passwords sent";
-            $input = new inputFilter();
-            $set_dj_password = $input->postFilter("set_dj_password", "string", ["minLength" => 5,"maxLength" => 12]);
-            $set_admin_password = $input->postFilter("set_admin_password", "string", ["minLength" => 5,"maxLength" => 12]);
+            $input = new InputFilter();
+            $set_dj_password = $input->postFilter(
+                "set_dj_password",
+                "string",
+                ["minLength" => 5,"maxLength" => 12]
+            );
+            $set_admin_password = $input->postFilter(
+                "set_admin_password",
+                "string",
+                ["minLength" => 5,"maxLength" => 12]
+            );
             if (($set_dj_password != null) && ($set_admin_password != null)) {
                 $new_dj_password = $set_dj_password;
                 $new_admin_password = $set_admin_password;
@@ -508,11 +528,16 @@ class serverapi_helper
                     $acceptable_names = [];
                     $avname = explode(" ", strtolower($this->avatar->getAvatarname()));
                     $acceptable_names[] = $avname[0]; // Firstname
-                    $acceptable_names[] = $avname[0] . "_" . substr($avname[1], 0, 2); // Firstname 2 letters of last name
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->getPort(); // Firstname Port
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->getPort() . "_" . $this->package->getBitrate(); // Firstname Port Bitrate
-                    $acceptable_names[] = $avname[0] . "_" . $this->stream->getPort() . "_" . $this->server->getId(); // Firstname Port ServerID
-                    $acceptable_names[] = $avname[0] . "_" . $this->rental->getRental_uid(); // Firstname RentalUID
+                    $acceptable_names[] = $avname[0] . "_"
+                    . substr($avname[1], 0, 2); // Firstname 2 letters of last name
+                    $acceptable_names[] = $avname[0] . "_"
+                    . $this->stream->getPort(); // Firstname Port
+                    $acceptable_names[] = $avname[0] . "_"
+                    . $this->stream->getPort() . "_" . $this->package->getBitrate(); // Firstname Port Bitrate
+                    $acceptable_names[] = $avname[0] . "_"
+                    . $this->stream->getPort() . "_" . $this->server->getId(); // Firstname Port ServerID
+                    $acceptable_names[] = $avname[0] . "_"
+                    . $this->rental->getRental_uid(); // Firstname RentalUID
                     $accepted_name = "";
                     foreach ($acceptable_names as $testname) {
                         if (in_array($testname, $server_accounts["usernames"]) == false) {
@@ -557,10 +582,10 @@ class serverapi_helper
                             $status = $this->server_api->event_start_sync_username($old_username);
                             $this->message = $this->server_api->get_last_api_message();
                             if ($status == false) {
-                                $sql->flagError();
+                                $this->sql->flagError();
                             }
                         } else {
-                            $sql->flagError();
+                            $this->sql->flagError();
                             $this->message = "failed to save changes to DB";
                         }
                     } else {
