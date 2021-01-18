@@ -42,6 +42,10 @@ abstract class View
         $this->output->addSwapTagString("page_content", "Not Loaded");
         $this->setSwapTag("status", "false");
     }
+    public function getOutputObject(): Template
+    {
+        return $this->output;
+    }
     public function getoutput(): void
     {
         $this->output->renderPage();
