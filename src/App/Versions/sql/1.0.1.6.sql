@@ -209,3 +209,21 @@ CHANGE `treevenderlink` `treevenderLink` INT(11) NOT NULL,
 CHANGE `packagelink` `packageLink` INT(11) NOT NULL;
 ALTER TABLE `treevenderpackages` ADD INDEX(`treevenderLink`);
 ALTER TABLE `treevenderpackages` ADD INDEX(`packageLink`);
+ALTER TABLE `apis` 
+CHANGE `api_serverstatus` `apiServerStatus` TINYINT(1) NOT NULL DEFAULT '0', 
+CHANGE `api_sync_accounts` `apiSyncAccounts` TINYINT(1) NOT NULL DEFAULT '0';
+ALTER TABLE `package` DROP INDEX `servertypelink`;
+ALTER TABLE `package` DROP INDEX `templatelink`;
+ALTER TABLE `package` DROP INDEX `package_uid`;
+ALTER TABLE `package` 
+CHANGE `package_uid` `packageUid` VARCHAR(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
+CHANGE `autodj_size` `autodjSize` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL, 
+CHANGE `templatelink` `templateLink` INT(11) NULL DEFAULT NULL, 
+CHANGE `servertypelink` `servertypeLink` INT(11) NOT NULL DEFAULT '1', 
+CHANGE `texture_uuid_soldout` `textureSoldout` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
+CHANGE `texture_uuid_instock_small` `textureInstockSmall` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
+CHANGE `texture_uuid_instock_selected` `textureInstockSelected` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
+CHANGE `api_template` `apiTemplate` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+ALTER TABLE `package` ADD INDEX(`servertypeLink`)
+ALTER TABLE `package` ADD INDEX(`templateLink`);
+ALTER TABLE `package` ADD UNIQUE(`packageUid`);

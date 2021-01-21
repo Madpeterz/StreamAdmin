@@ -14,7 +14,7 @@ class Textureconfig extends genClass
         "offline" => ["type" => "str", "value" => null],
         "waitOwner" => ["type" => "str", "value" => null],
         "stockLevels" => ["type" => "str", "value" => null],
-        "makePayment" => ["type" => "str", "value" => null],
+        "make_payment" => ["type" => "str", "value" => null],
         "inUse" => ["type" => "str", "value" => null],
         "renewHere" => ["type" => "str", "value" => null],
         "treevendWaiting" => ["type" => "str", "value" => null],
@@ -38,9 +38,9 @@ class Textureconfig extends genClass
     {
         return $this->getField("stockLevels");
     }
-    public function getMakePayment(): ?string
+    public function getMake_payment(): ?string
     {
-        return $this->getField("makePayment");
+        return $this->getField("make_payment");
     }
     public function getInUse(): ?string
     {
@@ -99,12 +99,12 @@ class Textureconfig extends genClass
         return $this->updateField("stockLevels", $newvalue);
     }
     /**
-    * setMakePayment
+    * setMake_payment
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setMakePayment(?string $newvalue): array
+    public function setMake_payment(?string $newvalue): array
     {
-        return $this->updateField("makePayment", $newvalue);
+        return $this->updateField("make_payment", $newvalue);
     }
     /**
     * setInUse

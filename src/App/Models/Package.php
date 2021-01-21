@@ -13,17 +13,17 @@ class Package extends genClass
         "packageUid" => ["type" => "str", "value" => null],
         "name" => ["type" => "str", "value" => null],
         "autodj" => ["type" => "bool", "value" => 0],
-        "autodj_size" => ["type" => "str", "value" => null],
+        "autodjSize" => ["type" => "str", "value" => null],
         "listeners" => ["type" => "int", "value" => null],
         "bitrate" => ["type" => "int", "value" => null],
-        "templatelink" => ["type" => "int", "value" => null],
-        "servertypelink" => ["type" => "int", "value" => 1],
+        "templateLink" => ["type" => "int", "value" => null],
+        "servertypeLink" => ["type" => "int", "value" => 1],
         "cost" => ["type" => "int", "value" => null],
         "days" => ["type" => "int", "value" => null],
-        "texture_uuid_soldout" => ["type" => "str", "value" => null],
-        "texture_uuid_instock_small" => ["type" => "str", "value" => null],
-        "texture_uuid_instock_selected" => ["type" => "str", "value" => null],
-        "api_template" => ["type" => "str", "value" => null],
+        "textureSoldout" => ["type" => "str", "value" => null],
+        "textureInstockSmall" => ["type" => "str", "value" => null],
+        "textureInstockSelected" => ["type" => "str", "value" => null],
+        "apiTemplate" => ["type" => "str", "value" => null],
     ];
     public function getPackageUid(): ?string
     {
@@ -37,9 +37,9 @@ class Package extends genClass
     {
         return $this->getField("autodj");
     }
-    public function getAutodj_size(): ?string
+    public function getAutodjSize(): ?string
     {
-        return $this->getField("autodj_size");
+        return $this->getField("autodjSize");
     }
     public function getListeners(): ?int
     {
@@ -49,13 +49,13 @@ class Package extends genClass
     {
         return $this->getField("bitrate");
     }
-    public function getTemplatelink(): ?int
+    public function getTemplateLink(): ?int
     {
-        return $this->getField("templatelink");
+        return $this->getField("templateLink");
     }
-    public function getServertypelink(): ?int
+    public function getServertypeLink(): ?int
     {
-        return $this->getField("servertypelink");
+        return $this->getField("servertypeLink");
     }
     public function getCost(): ?int
     {
@@ -65,21 +65,21 @@ class Package extends genClass
     {
         return $this->getField("days");
     }
-    public function getTexture_uuid_soldout(): ?string
+    public function getTextureSoldout(): ?string
     {
-        return $this->getField("texture_uuid_soldout");
+        return $this->getField("textureSoldout");
     }
-    public function getTexture_uuid_instock_small(): ?string
+    public function getTextureInstockSmall(): ?string
     {
-        return $this->getField("texture_uuid_instock_small");
+        return $this->getField("textureInstockSmall");
     }
-    public function getTexture_uuid_instock_selected(): ?string
+    public function getTextureInstockSelected(): ?string
     {
-        return $this->getField("texture_uuid_instock_selected");
+        return $this->getField("textureInstockSelected");
     }
-    public function getApi_template(): ?string
+    public function getApiTemplate(): ?string
     {
-        return $this->getField("api_template");
+        return $this->getField("apiTemplate");
     }
     /**
     * setPackageUid
@@ -106,12 +106,12 @@ class Package extends genClass
         return $this->updateField("autodj", $newvalue);
     }
     /**
-    * setAutodj_size
+    * setAutodjSize
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAutodj_size(?string $newvalue): array
+    public function setAutodjSize(?string $newvalue): array
     {
-        return $this->updateField("autodj_size", $newvalue);
+        return $this->updateField("autodjSize", $newvalue);
     }
     /**
     * setListeners
@@ -130,20 +130,20 @@ class Package extends genClass
         return $this->updateField("bitrate", $newvalue);
     }
     /**
-    * setTemplatelink
+    * setTemplateLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setTemplatelink(?int $newvalue): array
+    public function setTemplateLink(?int $newvalue): array
     {
-        return $this->updateField("templatelink", $newvalue);
+        return $this->updateField("templateLink", $newvalue);
     }
     /**
-    * setServertypelink
+    * setServertypeLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setServertypelink(?int $newvalue): array
+    public function setServertypeLink(?int $newvalue): array
     {
-        return $this->updateField("servertypelink", $newvalue);
+        return $this->updateField("servertypeLink", $newvalue);
     }
     /**
     * setCost
@@ -162,36 +162,36 @@ class Package extends genClass
         return $this->updateField("days", $newvalue);
     }
     /**
-    * setTexture_uuid_soldout
+    * setTextureSoldout
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setTexture_uuid_soldout(?string $newvalue): array
+    public function setTextureSoldout(?string $newvalue): array
     {
-        return $this->updateField("texture_uuid_soldout", $newvalue);
+        return $this->updateField("textureSoldout", $newvalue);
     }
     /**
-    * setTexture_uuid_instock_small
+    * setTextureInstockSmall
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setTexture_uuid_instock_small(?string $newvalue): array
+    public function setTextureInstockSmall(?string $newvalue): array
     {
-        return $this->updateField("texture_uuid_instock_small", $newvalue);
+        return $this->updateField("textureInstockSmall", $newvalue);
     }
     /**
-    * setTexture_uuid_instock_selected
+    * setTextureInstockSelected
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setTexture_uuid_instock_selected(?string $newvalue): array
+    public function setTextureInstockSelected(?string $newvalue): array
     {
-        return $this->updateField("texture_uuid_instock_selected", $newvalue);
+        return $this->updateField("textureInstockSelected", $newvalue);
     }
     /**
-    * setApi_template
+    * setApiTemplate
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_template(?string $newvalue): array
+    public function setApiTemplate(?string $newvalue): array
     {
-        return $this->updateField("api_template", $newvalue);
+        return $this->updateField("apiTemplate", $newvalue);
     }
 }
 // please do not edit this file

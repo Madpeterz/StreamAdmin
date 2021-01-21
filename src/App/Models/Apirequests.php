@@ -10,25 +10,25 @@ class Apirequests extends genClass
     protected $use_table = "apirequests";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "serverLink" => ["type" => "int", "value" => null],
-        "rentalLink" => ["type" => "int", "value" => null],
-        "streamLink" => ["type" => "int", "value" => null],
+        "serverlink" => ["type" => "int", "value" => null],
+        "rentallink" => ["type" => "int", "value" => null],
+        "streamlink" => ["type" => "int", "value" => null],
         "eventname" => ["type" => "str", "value" => null],
         "attempts" => ["type" => "int", "value" => 0],
         "lastAttempt" => ["type" => "int", "value" => 0],
         "message" => ["type" => "str", "value" => null],
     ];
-    public function getServerLink(): ?int
+    public function getServerlink(): ?int
     {
-        return $this->getField("serverLink");
+        return $this->getField("serverlink");
     }
-    public function getRentalLink(): ?int
+    public function getRentallink(): ?int
     {
-        return $this->getField("rentalLink");
+        return $this->getField("rentallink");
     }
-    public function getStreamLink(): ?int
+    public function getStreamlink(): ?int
     {
-        return $this->getField("streamLink");
+        return $this->getField("streamlink");
     }
     public function getEventname(): ?string
     {
@@ -47,28 +47,28 @@ class Apirequests extends genClass
         return $this->getField("message");
     }
     /**
-    * setServerLink
+    * setServerlink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setServerLink(?int $newvalue): array
+    public function setServerlink(?int $newvalue): array
     {
-        return $this->updateField("serverLink", $newvalue);
+        return $this->updateField("serverlink", $newvalue);
     }
     /**
-    * setRentalLink
+    * setRentallink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRentalLink(?int $newvalue): array
+    public function setRentallink(?int $newvalue): array
     {
-        return $this->updateField("rentalLink", $newvalue);
+        return $this->updateField("rentallink", $newvalue);
     }
     /**
-    * setStreamLink
+    * setStreamlink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setStreamLink(?int $newvalue): array
+    public function setStreamlink(?int $newvalue): array
     {
-        return $this->updateField("streamLink", $newvalue);
+        return $this->updateField("streamlink", $newvalue);
     }
     /**
     * setEventname
