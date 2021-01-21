@@ -18,18 +18,18 @@ class Create extends ViewAjax
         $package = new Package();
 
         $name = $input->postFilter("name");
-        $templatelink = $input->postFilter("templatelink", "integer");
+        $templateLink = $input->postFilter("templateLink", "integer");
         $cost = $input->postFilter("cost", "integer");
         $days = $input->postFilter("days", "integer");
         $bitrate = $input->postFilter("bitrate", "integer");
         $listeners = $input->postFilter("listeners", "integer");
-        $texture_uuid_soldout = $input->postFilter("texture_uuid_soldout", "uuid");
-        $texture_uuid_instock_small = $input->postFilter("texture_uuid_instock_small", "uuid");
-        $texture_uuid_instock_selected = $input->postFilter("texture_uuid_instock_selected", "uuid");
+        $textureSoldout = $input->postFilter("textureSoldout", "uuid");
+        $textureInstockSmall = $input->postFilter("textureInstockSmall", "uuid");
+        $textureInstockSelected = $input->postFilter("textureInstockSelected", "uuid");
         $autodj = $input->postFilter("autodj", "bool");
-        $autodj_size = $input->postFilter("autodj_size", "integer");
-        $api_template = $input->postFilter("api_template");
-        $servertypelink = $input->postFilter("servertypelink", "integer");
+        $autodjSize = $input->postFilter("autodjSize", "integer");
+        $apiTemplate = $input->postFilter("apiTemplate");
+        $servertypeLink = $input->postFilter("servertypeLink", "integer");
 
         if (strlen($name) < 5) {
             $this->setSwapTag("message", "Name length must be 5 or longer");
@@ -71,35 +71,35 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "listeners must be 999 or less");
             return;
         }
-        if (strlen($texture_uuid_soldout) != 36) {
+        if (strlen($textureSoldout) != 36) {
             $this->setSwapTag("message", "Texture sold out must be a uuid");
             return;
         }
-        if (strlen($texture_uuid_instock_small) != 36) {
+        if (strlen($textureInstockSmall) != 36) {
             $this->setSwapTag("message", "Texture instock small out must be a uuid");
             return;
         }
-        if (strlen($texture_uuid_instock_selected) != 36) {
+        if (strlen($textureInstockSelected) != 36) {
             $this->setSwapTag("message", "Texture instock selected out must be a uuid");
             return;
         }
-        if ($autodj_size > 9999) {
+        if ($autodjSize > 9999) {
             $this->setSwapTag("message", "AutoDJ size must be 9999 or less");
             return;
         }
-        if ($template->loadID($templatelink) == false) {
+        if ($template->loadID($templateLink) == false) {
             $this->setSwapTag("message", "Unable to find template");
             return;
         }
-        if (strlen($api_template) > 50) {
+        if (strlen($apiTemplate) > 50) {
             $this->setSwapTag("message", "API template name can not be longer than 50");
             return;
         }
-        if (strlen($api_template) < 3) {
+        if (strlen($apiTemplate) < 3) {
             $this->setSwapTag("message", "API template name can not be shorter than 3");
             return;
         }
-        if ($servertype->loadID($servertypelink) == false) {
+        if ($servertype->loadID($servertypeLink) == false) {
             $this->setSwapTag("message", "Unable to find server type");
             return;
         }
@@ -113,17 +113,17 @@ class Create extends ViewAjax
         $package->setPackageUid($uid["uid"]);
         $package->setName($name);
         $package->setAutodj($autodj);
-        $package->setAutodj_size($autodj_size);
+        $package->setAutodjSize($autodjSize);
         $package->setListeners($listeners);
         $package->setBitrate($bitrate);
-        $package->setTemplatelink($templatelink);
+        $package->setTemplateLink($templateLink);
         $package->setCost($cost);
         $package->setDays($days);
-        $package->setTexture_uuid_soldout($texture_uuid_soldout);
-        $package->setTexture_uuid_instock_small($texture_uuid_instock_small);
-        $package->setTexture_uuid_instock_selected($texture_uuid_instock_selected);
-        $package->setApi_template($api_template);
-        $package->setServertypelink($servertypelink);
+        $package->setTextureSoldout($textureSoldout);
+        $package->setTextureInstockSmall($textureInstockSmall);
+        $package->setTextureInstockSelected($textureInstockSelected);
+        $package->setApiTemplate($apiTemplate);
+        $package->setServertypeLink($servertypeLink);
         $create_status = $package->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag(

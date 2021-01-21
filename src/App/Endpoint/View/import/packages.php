@@ -32,25 +32,25 @@ foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
         $package->set_audodj_size(0);
         $package->setListeners($r4_package->get_users());
         $package->setBitrate($r4_package->get_streamrate());
-        $package->setTemplatelink($template->getId());
+        $package->setTemplateLink($template->getId());
         $package->setCost($r4_package->get_Lcost());
         $package->setDays($r4_package->get_sublength());
         if ($r4_package->get_soldouttexture() == null) {
-            $package->setTexture_uuid_soldout("00000000-0000-0000-0000-000000000000");
+            $package->setTextureSoldout("00000000-0000-0000-0000-000000000000");
         } else {
-            $package->setTexture_uuid_soldout($r4_package->get_soldouttexture());
+            $package->setTextureSoldout($r4_package->get_soldouttexture());
         }
 
         if ($r4_package->get_infotexture() == null) {
-            $package->setTexture_uuid_instock_small("00000000-0000-0000-0000-000000000000");
+            $package->setTextureInstockSmall("00000000-0000-0000-0000-000000000000");
         } else {
-            $package->setTexture_uuid_instock_small($r4_package->get_infotexture());
+            $package->setTextureInstockSmall($r4_package->get_infotexture());
         }
 
         if ($r4_package->get_maintexture() == null) {
-            $package->setTexture_uuid_instock_selected("00000000-0000-0000-0000-000000000000");
+            $package->setTextureInstockSelected("00000000-0000-0000-0000-000000000000");
         } else {
-            $package->setTexture_uuid_instock_selected($r4_package->get_maintexture());
+            $package->setTextureInstockSelected($r4_package->get_maintexture());
         }
 
         $create_status = $package->createEntry();

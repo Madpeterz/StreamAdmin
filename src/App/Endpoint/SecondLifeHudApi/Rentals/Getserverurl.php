@@ -41,7 +41,7 @@ class Getserverurl extends SecondlifeAjax
             return;
         }
         $servertypes = new Servertypes();
-        if ($servertypes->loadID($package->getServertypelink()) == false) {
+        if ($servertypes->loadID($package->getServertypeLink()) == false) {
             $this->setSwapTag("message", "Unable to load server type");
             return;
         }

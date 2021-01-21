@@ -66,9 +66,9 @@ class server_centova3 extends server_centova3_only
     protected function create_account(): bool
     {
         global $slconfig;
-        if ($this->package->getApi_template() != null) {
+        if ($this->package->getApiTemplate() != null) {
             $servertype = new servertypes();
-            if ($servertype->loadID($this->package->getServertypelink()) == true) {
+            if ($servertype->loadID($this->package->getServertypeLink()) == true) {
                 $post_data = [
                     "port" => $this->stream->getPort(),
                     "maxclients" => $this->package->getListeners(),
@@ -79,7 +79,7 @@ class server_centova3 extends server_centova3_only
                     "email" => $slconfig->get_apiDefaultEmail(),
                     "usesource" => 2,
                     "autostart" => 1,
-                    "template" => $this->package->getApi_template(),
+                    "template" => $this->package->getApiTemplate(),
                 ];
                 /*
                 if($servertype->getId() == 1)
@@ -98,7 +98,7 @@ class server_centova3 extends server_centova3_only
                 if ($this->package->getAutodj() == true) {
                     $post_data["autostart"] = 0;
                     $post_data["usesource"] = 1;
-                    $post_data["diskquota"] = $this->package->getAutodj_size() * 1000;
+                    $post_data["diskquota"] = $this->package->getAutodjSize() * 1000;
                 }
                 $reply = $this->centova_systemclass_api_call("provision", $post_data);
                 if ($this->simple_reply_ok($reply) == true) {

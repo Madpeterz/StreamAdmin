@@ -60,7 +60,7 @@ class Getpackages extends SecondlifeAjax
                 " ",
                 [
                 $package->getAutodj(),
-                $package->getAutodj_size(),
+                $package->getAutodjSize(),
                 $package->getListeners(),
                 $package->getBitrate(),
                 $package->getDays(),
@@ -71,7 +71,7 @@ class Getpackages extends SecondlifeAjax
                 $package_hashs[] = $hash;
                 $reply["packageUid"][] = $package->getPackageUid();
                 $reply["package_autodj"][] = [true => "Yes",false => "No"][$package->getAutodj()];
-                $reply["package_autodjsize"][] = $this->valueOrZero($package->getAutodj_size());
+                $reply["package_autodjsize"][] = $this->valueOrZero($package->getAutodjSize());
                 $reply["package_listeners"][] = $package->getListeners();
                 $reply["package_bitrate"][] = $package->getBitrate();
                 $reply["package_days"][] = $package->getDays();

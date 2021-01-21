@@ -43,7 +43,7 @@ class SwapablesHelper
               "PACKAGE_LISTENERS" => $package->getListeners(),
               "PACKAGE_BITRATE" => $package->getBitrate(),
               "PACKAGE_AUTODJ" => $true_false,
-              "PACKAGE_AUTODJ_SIZE" => $package->getAutodj_size(),
+              "PACKAGE_AUTODJ_SIZE" => $package->getAutodjSize(),
               "NL" => "\n",
               "PACKAGE_UID" => $package->getPackageUid(),
               "RENTAL_UID" => $rental->getRentalUid(),

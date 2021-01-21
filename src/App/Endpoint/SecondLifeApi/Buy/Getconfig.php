@@ -64,9 +64,9 @@ class Getconfig extends SecondlifeAjax
         $this->setSwapTag("texture_fetchingdetails", $textureconfig->getGettingDetails());
         $this->setSwapTag("texture_request_payment", $textureconfig->getMakePayment());
         $this->setSwapTag("package_cost", $package->getCost());
-        $this->setSwapTag("texture_package_small", $package->getTexture_uuid_instock_small());
-        $this->setSwapTag("texture_package_big", $package->getTexture_uuid_instock_selected());
-        $this->setSwapTag("texture_package_soldout", $package->getTexture_uuid_soldout());
+        $this->setSwapTag("texture_package_small", $package->getTextureInstockSmall());
+        $this->setSwapTag("texture_package_big", $package->getTextureInstockSelected());
+        $this->setSwapTag("texture_package_soldout", $package->getTextureSoldout());
         $this->setSwapTag("reseller_rate", 100);
         $this->setSwapTag("reseller_mode", "System owner mode");
         if ($this->owner_override == false) {

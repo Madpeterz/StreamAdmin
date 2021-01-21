@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\Control\Avatar;
 
+use App\Helpers\AvatarHelper;
 use App\Models\Avatar;
 use App\Template\ViewAjax;
-use avatar_helper;
 use YAPF\InputFilter\InputFilter;
 
 class Create extends ViewAjax
@@ -34,7 +34,7 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "There is already an avatar with that uuid");
             return;
         }
-        $avatar_helper = new avatar_helper();
+        $avatar_helper = new AvatarHelper();
         $status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
         if ($status == false) {
             $this->setSwapTag("message", "Unable to create avatar");

@@ -25,9 +25,9 @@ class Create extends View
         $form->col(6);
         $form->group("Basics");
         $form->textInput("name", "Name", 30, "", "Package name [60 chars]");
-        $form->select("templatelink", "Template", 0, $template_set->getLinkedArray("id", "name"));
-        $form->select("servertypelink", "Server type", 1, $servertypes_set->getLinkedArray("id", "name"));
-        $form->textInput("api_template", "API template", 50, "", "API template name");
+        $form->select("templateLink", "Template", 0, $template_set->getLinkedArray("id", "name"));
+        $form->select("servertypeLink", "Server type", 1, $servertypes_set->getLinkedArray("id", "name"));
+        $form->textInput("apiTemplate", "API template", 50, "", "API template name");
         $form->col(6);
         $form->group("Terms");
         $form->numberInput("cost", "Cost L$", null, 5, "Max L$ 99999");
@@ -37,13 +37,13 @@ class Create extends View
         $form->split();
         $form->col(6);
         $form->group("Textures");
-        $form->uuidInput("texture_uuid_soldout", "Sold out", "", "UUID of texture");
-        $form->uuidInput("texture_uuid_instock_small", "In stock [Small]", "", "UUID of texture");
-        $form->uuidInput("texture_uuid_instock_selected", "In stock [Selected]", "", "UUID of texture");
+        $form->uuidInput("textureSoldout", "Sold out", "", "UUID of texture");
+        $form->uuidInput("textureInstockSmall", "In stock [Small]", "", "UUID of texture");
+        $form->uuidInput("textureInstockSelected", "In stock [Selected]", "", "UUID of texture");
         $form->col(6);
         $form->group("Auto DJ");
         $form->select("autodj", "Enabled", false, [false => "No",true => "Yes"]);
-        $form->numberInput("autodj_size", "Storage GB", null, 3, "Max GB storage 9999");
+        $form->numberInput("autodjSize", "Storage GB", null, 3, "Max GB storage 9999");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

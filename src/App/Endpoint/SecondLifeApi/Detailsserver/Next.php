@@ -68,7 +68,7 @@ class Next extends SecondlifeAjax
             return;
         }
         $template = new Template();
-        if ($template->loadID($package->getTemplatelink()) == false) {
+        if ($template->loadID($package->getTemplateLink()) == false) {
             $this->setSwapTag("message", "Unable to load template");
             return;
         }

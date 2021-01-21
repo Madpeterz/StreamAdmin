@@ -39,7 +39,7 @@ class Create extends View
         $improved_packageLinker = [];
         foreach ($package_set->getAllIds() as $package_id) {
             $package = $package_set->getObjectByID($package_id);
-            $servertype = $servertypes_set->getObjectByID($package->getServertypelink());
+            $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
             $saddon = "";
             if ($package->getDays() > 1) {
                 $saddon = "'s";

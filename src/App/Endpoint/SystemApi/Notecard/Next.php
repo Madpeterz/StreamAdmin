@@ -34,9 +34,8 @@ class Next extends ViewAjax
         "server" => ["stream" => "serverLink"],
         "package" => ["stream" => "packageLink"],
         ];
-        if ($notecard->getAsNotice) {
-            == false)
-            $load_by["template"] = ["package" => "templatelink"];
+        if ($notecard->getAsNotice() == false) {
+            $load_by["template"] = ["package" => "templateLink"];
         } else {
             $load_by["notice"] = ["rental" => "noticeLink"];
         }
@@ -64,8 +63,7 @@ class Next extends ViewAjax
         $notecard_title = "";
         $notecard_content = "";
         $swap_helper = new SwapablesHelper();
-        if ($notecard->getAsNotice) {
-            == false)
+        if ($notecard->getAsNotice() == false) {
             $notecard_title = "Streamdetails for " . $avatar->getAvatarName() . " port: " . $stream->getPort() . "";
             $notecard_content = $swap_helper->get_swapped_text(
                 $template->getNotecarddetail(),

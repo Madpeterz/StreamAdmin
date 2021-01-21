@@ -46,8 +46,8 @@ class Checkstock extends SecondlifeAjax
             $this->setSwapTag("package_instock", "1");
         }
         $this->setSwapTag("package_cost", $package->getCost());
-        $this->setSwapTag("texture_package_small", $package->getTexture_uuid_instock_small());
-        $this->setSwapTag("texture_package_big", $package->getTexture_uuid_instock_selected());
-        $this->setSwapTag("texture_package_soldout", $package->getTexture_uuid_soldout());
+        $this->setSwapTag("texture_package_small", $package->getTextureInstockSmall());
+        $this->setSwapTag("texture_package_big", $package->getTextureInstockSelected());
+        $this->setSwapTag("texture_package_soldout", $package->getTextureSoldout());
     }
 }
