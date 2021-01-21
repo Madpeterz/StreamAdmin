@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Server;
+namespace App\Endpoint\Control\Server;
 
 use App\Models\Apis;
 use App\Models\Server;
@@ -22,11 +22,11 @@ class SyncAccounts extends ViewAjax
             $this->setSwapTag("message", "Unable to find server");
             return;
         }
-        if ($api->loadID($server->getApilink()) == false) {
+        if ($api->loadID($server->getApiLink()) == false) {
             $this->setSwapTag("message", "Unable to find api used by server");
             return;
         }
-        if (($server->getApi_sync_accounts() == false) || ($api->getApi_sync_accounts() == false)) {
+        if (($server->getApiSyncAccounts() == false) || ($api->getApiSyncAccounts() == false)) {
             $this->setSwapTag("message", "Server or API have sync accounts disabled");
             return;
         }
@@ -36,7 +36,7 @@ class SyncAccounts extends ViewAjax
         }
         $oneday_ago = time() - ((60 * 60) * 24);
         $where_config = [
-        "fields" => ["serverlink","last_api_sync"],
+        "fields" => ["serverLink","lastApiSync"],
         "matches" => ["=","<="],
         "values" => [$server->getId(),$oneday_ago],
         "types" => ["i","i"],
@@ -66,23 +66,23 @@ class SyncAccounts extends ViewAjax
         $all_ok = true;
         foreach ($stream_set->getAllIds() as $streamid) {
             $stream = $stream_set->getObjectByID($streamid);
-            if (in_array($stream->getAdminusername(), $accounts_found["usernames"]) == false) {
+            if (in_array($stream->getAdminUsername(), $accounts_found["usernames"]) == false) {
                 $accounts_missing_global++;
                 continue;
             }
-            if (array_key_exists($stream->getAdminusername(), $accounts_found["passwords"]) == false) {
+            if (array_key_exists($stream->getAdminUsername(), $accounts_found["passwords"]) == false) {
                 $accounts_missing_passwords++;
                 continue;
             }
-            $admpw = $accounts_found["passwords"][$stream->getAdminusername()]["admin"];
-            $djpw = $accounts_found["passwords"][$stream->getAdminusername()]["dj"];
-            if ($stream->getAdminpassword() != $admpw) {
-                $stream->setAdminpassword($admpw);
+            $admpw = $accounts_found["passwords"][$stream->getAdminUsername()]["admin"];
+            $djpw = $accounts_found["passwords"][$stream->getAdminUsername()]["dj"];
+            if ($stream->getAdminPassword() != $admpw) {
+                $stream->setAdminPassword($admpw);
             }
-            if ($stream->getDjpassword() != $djpw) {
-                $stream->setDjpassword($djpw);
+            if ($stream->getDjPassword() != $djpw) {
+                $stream->setDjPassword($djpw);
             }
-            $stream->setLast_api_sync(time());
+            $stream->setLastApiSync(time());
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
                 $all_ok = false;
@@ -94,7 +94,7 @@ class SyncAccounts extends ViewAjax
         if ($all_ok == false) {
             return;
         }
-        $server->setLast_api_sync(time());
+        $server->setLastApiSync(time());
         $update_status = $server->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag("message", "Unable to update server last sync time");

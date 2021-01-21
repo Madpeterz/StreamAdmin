@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Server;
+namespace App\Endpoint\View\Server;
 
 use App\Models\ApisSet;
 use App\Models\ServerSet;
@@ -19,7 +19,7 @@ class DefaultView extends View
         $has_api_sync = false;
         foreach ($server_set->getAllIds() as $server_id) {
             $server = $server_set->getObjectByID($server_id);
-            if ($server->getApi_sync_accounts() == true) {
+            if ($server->getApiSyncAccounts() == true) {
                 $has_api_sync = true;
                 $table_head = ["id","Domain","Last sync","Sync"];
                 break;
@@ -27,15 +27,15 @@ class DefaultView extends View
         }
         foreach ($server_set->getAllIds() as $server_id) {
             $server = $server_set->getObjectByID($server_id);
-            $api = $apis_set->getObjectByID($server->getApilink());
+            $api = $apis_set->getObjectByID($server->getApiLink());
             $entry = [];
             $entry[] = $server->getId();
             $entry[] = '<a href="[[url_base]]server/manage/' . $server->getId() . '">' . $server->getDomain() . '</a>';
             if ($has_api_sync == true) {
-                if (($server->getApi_sync_accounts() == true) && ($api->getApi_sync_accounts() == true)) {
+                if (($server->getApiSyncAccounts() == true) && ($api->getApiSyncAccounts() == true)) {
                     $form = new Form();
                     $form->target("server/SyncAccounts/" . $server->getId() . "");
-                    $entry[] = expired_ago($server->getLast_api_sync());
+                    $entry[] = expired_ago($server->getLastApiSync());
                     $entry[] = $form->render("Sync", "primary", true, true);
                 } else {
                     $entry[] = " - ";

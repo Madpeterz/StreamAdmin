@@ -12,17 +12,17 @@ class ResellerHelper
         return $this->reseller;
     }
     public function loadOrCreate(
-        int $avatarlinkid,
+        int $avatarLinkid,
         bool $auto_accept = false,
         int $auto_accept_rate = 0
     ): bool {
         $this->reseller = new Reseller();
-        if ($avatarlinkid < 1) {
+        if ($avatarLinkid < 1) {
             return false;
         }
-        if ($this->reseller->loadByField("avatarlink", $avatarlinkid) == false) {
+        if ($this->reseller->loadByField("avatarLink", $avatarLinkid) == false) {
             $this->reseller = new Reseller();
-            $this->reseller->setAvatarlink($avatarlinkid);
+            $this->reseller->setAvatarLink($avatarLinkid);
             $this->reseller->setAllowed($auto_accept);
             $this->reseller->setRate($auto_accept_rate);
             $save_status = $this->reseller->createEntry();

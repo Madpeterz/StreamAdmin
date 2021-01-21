@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Banlist;
+namespace App\Endpoint\View\Banlist;
 
 use App\Models\Avatar;
 use App\Models\Botconfig;
@@ -16,9 +16,9 @@ class DefaultView extends View
         $botconfig = new Botconfig();
         $botconfig->loadID(1);
         $avatar = new Avatar();
-        $avatar->loadID($botconfig->getAvatarlink());
+        $avatar->loadID($botconfig->getAvatarLink());
         $this->setSwapTag("html_title", "Bot setup");
-        $this->setSwapTag("page_title", "Editing bot " . $avatar->getAvatarname());
+        $this->setSwapTag("page_title", "Editing bot " . $avatar->getAvatarName());
         $this->setSwapTag("page_actions", "");
         $form = new form();
         $form->target("bot/update");
@@ -29,7 +29,7 @@ class DefaultView extends View
             "avataruid",
             "Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" href=\"#\" target=\"_blank\">Find</a>",
             30,
-            $avatar->getAvatar_uid(),
+            $avatar->getAvatarUid(),
             "Avatar uid [Not the same as a SL UUID!]"
         );
         $form->textInput(

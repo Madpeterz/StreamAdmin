@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Client;
+namespace App\Endpoint\Control\Client;
 
 use App\Models\ApirequestsSet;
 use App\Models\Avatar;
@@ -32,12 +32,12 @@ class Revoke extends ViewAjax
             return;
         }
 
-        if ($rental->loadByField("rental_uid", $this->page) == false) {
+        if ($rental->loadByField("rentalUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to find client");
             return;
         }
 
-        if ($api_requests->loadByField("rentallink", $rental->getId()) == false) {
+        if ($api_requests->loadByField("rentalLink", $rental->getId()) == false) {
             $this->setSwapTag(
                 "message",
                 "Unable to check for pending api requests attached to the client"
@@ -53,29 +53,29 @@ class Revoke extends ViewAjax
             return;
         }
 
-        if ($stream->loadID($rental->getStreamlink()) == true) {
+        if ($stream->loadID($rental->getStreamLink()) == true) {
             $this->setSwapTag("message", "Unable to find attached stream");
             return;
         }
 
-        if ($server->loadID($stream->getServerlink()) == false) {
+        if ($server->loadID($stream->getServerLink()) == false) {
             $this->setSwapTag("message", "Unable to load server");
             return;
         }
 
-        $stream->setRentallink(null);
-        $stream->setNeedwork(1);
+        $stream->setRentalLink(null);
+        $stream->setNeedWork(1);
         $update_status = $stream->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag("message", "Unable to mark stream as needs work");
             return;
         }
 
-        if ($package->loadID($rental->getPackagelink()) == false) {
+        if ($package->loadID($rental->getPackageLink()) == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }
-        if ($avatar->loadID($rental->getAvatarlink()) == false) {
+        if ($avatar->loadID($rental->getAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to load avatar");
             return;
         }

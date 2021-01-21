@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Reseller;
+namespace App\Endpoint\Control\Reseller;
 
 use App\Models\Reseller;
 use App\Template\ViewAjax;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Login;
+namespace App\Endpoint\Control\Login;
 
 use App\Models\Avatar;
 use App\Models\Message;
@@ -41,7 +41,7 @@ class Reset extends ViewAjax
         global $template_parts;
         $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $resetCode;
         $message = new Message();
-        $message->setAvatarlink($avatar->getId());
+        $message->setAvatarLink($avatar->getId());
         $message->setMessage(sprintf("Web panel reset link: %1\$s expires in 1 hour", $reset_url));
         $add_status = $message->createEntry();
         if ($add_status["status"] == true) {
@@ -71,16 +71,16 @@ class Reset extends ViewAjax
                 $username_bits[] = "Resident";
             }
             $slusername = implode(" ", $username_bits);
-            if ($avatar->loadByField("avatarname", $slusername) == true) {
-                $status = $staff->loadByField("avatarlink", $avatar->getId());
+            if ($avatar->loadByField("avatarName", $slusername) == true) {
+                $status = $staff->loadByField("avatarLink", $avatar->getId());
             }
         }
         if ($status == true) {
             if ($staff->getId() > 0) {
-                $uid = $staff->createUID("email_reset_code", 8, 10);
+                $uid = $staff->createUID("emailResetCode", 8, 10);
                 if ($uid["status"] == true) {
-                    $staff->setEmail_reset_code($uid["uid"]);
-                    $staff->setEmail_reset_expires((time() + $unixtime_hour));
+                    $staff->setEmailResetCode($uid["uid"]);
+                    $staff->setEmailResetExpires((time() + $unixtime_hour));
                     $update_status = $staff->updateEntry();
                     if ($update_status["status"] == true) {
                         if ($contact_via == "email") {

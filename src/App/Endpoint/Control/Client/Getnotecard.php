@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Client;
+namespace App\Endpoint\Control\Client;
 
 use App\Models\Avatar;
 use App\Models\Package;
@@ -15,21 +15,21 @@ class Getnotecard extends ViewAjax
     public function process(): void
     {
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $this->page) == false) {
+        if ($rental->loadByField("rentalUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to load rental");
         }
         $this->setSwapTag("status", "true");
         $avatar = new Avatar();
-        $avatar->loadID($rental->getAvatarlink());
+        $avatar->loadID($rental->getAvatarLink());
 
         $stream = new Stream();
-        $stream->loadID($rental->getStreamlink());
+        $stream->loadID($rental->getStreamLink());
 
         $package = new Package();
-        $package->loadID($stream->getPackagelink());
+        $package->loadID($stream->getPackageLink());
 
         $server = new Server();
-        $server->loadID($stream->getServerlink());
+        $server->loadID($stream->getServerLink());
 
         $viewnotecard = ""
         . "Assigned to: [[AVATAR_FULLNAME]][[NL]]"

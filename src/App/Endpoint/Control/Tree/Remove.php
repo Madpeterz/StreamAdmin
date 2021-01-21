@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Tree;
+namespace App\Endpoint\Control\Tree;
 
 use App\Models\Treevender;
 use App\Models\TreevenderpackagesSet;
@@ -25,7 +25,7 @@ class Remove extends ViewAjax
             return;
         }
         $treevender_package_set = new TreevenderpackagesSet();
-        $treevender_package_set->loadOnField("treevenderlink", $treevender->getId());
+        $treevender_package_set->loadOnField("treevenderLink", $treevender->getId());
         $purge_status = $treevender_package_set->purgeCollection();
         if ($purge_status["status"] == false) {
             $this->setSwapTag("message", "Unable to purge packages linked to tree vender");

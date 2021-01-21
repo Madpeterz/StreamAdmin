@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Noticeserver;
+namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
 use App\Models\Noticenotecard;
 use App\Models\NoticenotecardSet;
@@ -80,7 +80,7 @@ class UpdateNotecards extends SecondlifeAjax
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         if ($notice_set->getCount() > 0) {
-            $used_notecards = $notice_set->getUniqueArray("notice_notecardlink");
+            $used_notecards = $notice_set->getUniqueArray("noticeNotecardLink");
             foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
                 if (in_array($notice_notecard_id, $used_notecards) == false) {
                     $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);

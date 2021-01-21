@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Package;
+namespace App\Endpoint\Control\Package;
 
 use App\Models\Package;
 use App\Models\RentalSet;
@@ -29,11 +29,11 @@ class Remove extends ViewAjax
             $this->setSwapTag("redirect", "package/manage/" . $this->page . "");
             return;
         }
-        if ($package->loadByField("package_uid", $this->page) == false) {
+        if ($package->loadByField("packageUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to find package");
             return;
         }
-        $load_status = $stream_set->loadOnField("packagelink", $package->getId());
+        $load_status = $stream_set->loadOnField("packageLink", $package->getId());
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to check if package is being used by any streams");
             return;
@@ -48,7 +48,7 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $load_status = $transaction_set->loadOnField("packagelink", $package->getId());
+        $load_status = $transaction_set->loadOnField("packageLink", $package->getId());
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to check if package is being used by any transactions");
             return;
@@ -63,7 +63,7 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $load_status = $rental_set->loadOnField("packagelink", $package->getId());
+        $load_status = $rental_set->loadOnField("packageLink", $package->getId());
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to check if package is being used by any clients");
             return;
@@ -78,7 +78,7 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $load_status = $treevender_packages_set->loadOnField("packagelink", $package->getId());
+        $load_status = $treevender_packages_set->loadOnField("packageLink", $package->getId());
         if ($load_status["status"] == true) {
             $this->setSwapTag("message", "Unable to check if package is being used by any treevenders");
             return;

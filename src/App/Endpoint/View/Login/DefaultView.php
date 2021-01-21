@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Login;
+namespace App\Endpoint\View\Login;
 
 class DefaultView extends View
 {

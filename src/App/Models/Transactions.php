@@ -10,35 +10,35 @@ class Transactions extends genClass
     protected $use_table = "transactions";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "avatarlink" => ["type" => "int", "value" => null],
-        "packagelink" => ["type" => "int", "value" => null],
-        "streamlink" => ["type" => "int", "value" => null],
-        "resellerlink" => ["type" => "int", "value" => null],
-        "regionlink" => ["type" => "int", "value" => null],
+        "avatarLink" => ["type" => "int", "value" => null],
+        "packageLink" => ["type" => "int", "value" => null],
+        "streamLink" => ["type" => "int", "value" => null],
+        "resellerLink" => ["type" => "int", "value" => null],
+        "regionLink" => ["type" => "int", "value" => null],
         "amount" => ["type" => "int", "value" => null],
         "unixtime" => ["type" => "int", "value" => null],
-        "transaction_uid" => ["type" => "str", "value" => null],
+        "transactionUid" => ["type" => "str", "value" => null],
         "renew" => ["type" => "bool", "value" => 0],
     ];
-    public function getAvatarlink(): ?int
+    public function getAvatarLink(): ?int
     {
-        return $this->getField("avatarlink");
+        return $this->getField("avatarLink");
     }
-    public function getPackagelink(): ?int
+    public function getPackageLink(): ?int
     {
-        return $this->getField("packagelink");
+        return $this->getField("packageLink");
     }
-    public function getStreamlink(): ?int
+    public function getStreamLink(): ?int
     {
-        return $this->getField("streamlink");
+        return $this->getField("streamLink");
     }
-    public function getResellerlink(): ?int
+    public function getResellerLink(): ?int
     {
-        return $this->getField("resellerlink");
+        return $this->getField("resellerLink");
     }
-    public function getRegionlink(): ?int
+    public function getRegionLink(): ?int
     {
-        return $this->getField("regionlink");
+        return $this->getField("regionLink");
     }
     public function getAmount(): ?int
     {
@@ -48,53 +48,53 @@ class Transactions extends genClass
     {
         return $this->getField("unixtime");
     }
-    public function getTransaction_uid(): ?string
+    public function getTransactionUid(): ?string
     {
-        return $this->getField("transaction_uid");
+        return $this->getField("transactionUid");
     }
     public function getRenew(): ?bool
     {
         return $this->getField("renew");
     }
     /**
-    * setAvatarlink
+    * setAvatarLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAvatarlink(?int $newvalue): array
+    public function setAvatarLink(?int $newvalue): array
     {
-        return $this->updateField("avatarlink", $newvalue);
+        return $this->updateField("avatarLink", $newvalue);
     }
     /**
-    * setPackagelink
+    * setPackageLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setPackagelink(?int $newvalue): array
+    public function setPackageLink(?int $newvalue): array
     {
-        return $this->updateField("packagelink", $newvalue);
+        return $this->updateField("packageLink", $newvalue);
     }
     /**
-    * setStreamlink
+    * setStreamLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setStreamlink(?int $newvalue): array
+    public function setStreamLink(?int $newvalue): array
     {
-        return $this->updateField("streamlink", $newvalue);
+        return $this->updateField("streamLink", $newvalue);
     }
     /**
-    * setResellerlink
+    * setResellerLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setResellerlink(?int $newvalue): array
+    public function setResellerLink(?int $newvalue): array
     {
-        return $this->updateField("resellerlink", $newvalue);
+        return $this->updateField("resellerLink", $newvalue);
     }
     /**
-    * setRegionlink
+    * setRegionLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRegionlink(?int $newvalue): array
+    public function setRegionLink(?int $newvalue): array
     {
-        return $this->updateField("regionlink", $newvalue);
+        return $this->updateField("regionLink", $newvalue);
     }
     /**
     * setAmount
@@ -113,12 +113,12 @@ class Transactions extends genClass
         return $this->updateField("unixtime", $newvalue);
     }
     /**
-    * setTransaction_uid
+    * setTransactionUid
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setTransaction_uid(?string $newvalue): array
+    public function setTransactionUid(?string $newvalue): array
     {
-        return $this->updateField("transaction_uid", $newvalue);
+        return $this->updateField("transactionUid", $newvalue);
     }
     /**
     * setRenew

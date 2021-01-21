@@ -10,240 +10,240 @@ class Slconfig extends genClass
     protected $use_table = "slconfig";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "db_version" => ["type" => "str", "value" => 'install'],
-        "new_resellers" => ["type" => "bool", "value" => 0],
-        "new_resellers_rate" => ["type" => "int", "value" => 0],
-        "sllinkcode" => ["type" => "str", "value" => null],
-        "clients_list_mode" => ["type" => "bool", "value" => 0],
-        "publiclinkcode" => ["type" => "str", "value" => null],
-        "owner_av" => ["type" => "int", "value" => null],
-        "eventstorage" => ["type" => "bool", "value" => 0],
-        "datatable_itemsperpage" => ["type" => "int", "value" => 10],
-        "http_inbound_secret" => ["type" => "str", "value" => null],
-        "smtp_host" => ["type" => "str", "value" => null],
-        "smtp_port" => ["type" => "int", "value" => null],
-        "smtp_username" => ["type" => "str", "value" => null],
-        "smtp_accesscode" => ["type" => "str", "value" => null],
-        "smtp_from" => ["type" => "str", "value" => null],
-        "smtp_replyto" => ["type" => "str", "value" => null],
-        "displaytimezonelink" => ["type" => "int", "value" => 11],
-        "api_default_email" => ["type" => "str", "value" => null],
+        "dbVersion" => ["type" => "str", "value" => 'install'],
+        "newResellers" => ["type" => "bool", "value" => 0],
+        "newResellersRate" => ["type" => "int", "value" => 0],
+        "slLinkCode" => ["type" => "str", "value" => null],
+        "clientsListMode" => ["type" => "bool", "value" => 0],
+        "publicLinkCode" => ["type" => "str", "value" => null],
+        "ownerAvatarLink" => ["type" => "int", "value" => null],
+        "eventStorage" => ["type" => "bool", "value" => 0],
+        "datatableItemsPerPage" => ["type" => "int", "value" => 10],
+        "httpInboundSecret" => ["type" => "str", "value" => null],
+        "smtpHost" => ["type" => "str", "value" => null],
+        "smtpPort" => ["type" => "int", "value" => null],
+        "smtpUsername" => ["type" => "str", "value" => null],
+        "smtpAccesscode" => ["type" => "str", "value" => null],
+        "smtpFrom" => ["type" => "str", "value" => null],
+        "smtpReplyTo" => ["type" => "str", "value" => null],
+        "displayTimezoneLink" => ["type" => "int", "value" => 11],
+        "apiDefaultEmail" => ["type" => "str", "value" => null],
     ];
-    public function getDb_version(): ?string
+    public function getDbVersion(): ?string
     {
-        return $this->getField("db_version");
+        return $this->getField("dbVersion");
     }
-    public function getNew_resellers(): ?bool
+    public function getNewResellers(): ?bool
     {
-        return $this->getField("new_resellers");
+        return $this->getField("newResellers");
     }
-    public function getNew_resellers_rate(): ?int
+    public function getNewResellersRate(): ?int
     {
-        return $this->getField("new_resellers_rate");
+        return $this->getField("newResellersRate");
     }
-    public function getSllinkcode(): ?string
+    public function getSlLinkCode(): ?string
     {
-        return $this->getField("sllinkcode");
+        return $this->getField("slLinkCode");
     }
-    public function getClients_list_mode(): ?bool
+    public function getClientsListMode(): ?bool
     {
-        return $this->getField("clients_list_mode");
+        return $this->getField("clientsListMode");
     }
-    public function getPubliclinkcode(): ?string
+    public function getPublicLinkCode(): ?string
     {
-        return $this->getField("publiclinkcode");
+        return $this->getField("publicLinkCode");
     }
-    public function getOwner_av(): ?int
+    public function getOwnerAvatarLink(): ?int
     {
-        return $this->getField("owner_av");
+        return $this->getField("ownerAvatarLink");
     }
-    public function getEventstorage(): ?bool
+    public function getEventStorage(): ?bool
     {
-        return $this->getField("eventstorage");
+        return $this->getField("eventStorage");
     }
-    public function getDatatable_itemsperpage(): ?int
+    public function getDatatableItemsPerPage(): ?int
     {
-        return $this->getField("datatable_itemsperpage");
+        return $this->getField("datatableItemsPerPage");
     }
-    public function getHttp_inbound_secret(): ?string
+    public function getHttpInboundSecret(): ?string
     {
-        return $this->getField("http_inbound_secret");
+        return $this->getField("httpInboundSecret");
     }
-    public function getSmtp_host(): ?string
+    public function getSmtpHost(): ?string
     {
-        return $this->getField("smtp_host");
+        return $this->getField("smtpHost");
     }
-    public function getSmtp_port(): ?int
+    public function getSmtpPort(): ?int
     {
-        return $this->getField("smtp_port");
+        return $this->getField("smtpPort");
     }
-    public function getSmtp_username(): ?string
+    public function getSmtpUsername(): ?string
     {
-        return $this->getField("smtp_username");
+        return $this->getField("smtpUsername");
     }
-    public function getSmtp_accesscode(): ?string
+    public function getSmtpAccesscode(): ?string
     {
-        return $this->getField("smtp_accesscode");
+        return $this->getField("smtpAccesscode");
     }
-    public function getSmtp_from(): ?string
+    public function getSmtpFrom(): ?string
     {
-        return $this->getField("smtp_from");
+        return $this->getField("smtpFrom");
     }
-    public function getSmtp_replyto(): ?string
+    public function getSmtpReplyTo(): ?string
     {
-        return $this->getField("smtp_replyto");
+        return $this->getField("smtpReplyTo");
     }
-    public function getDisplaytimezonelink(): ?int
+    public function getDisplayTimezoneLink(): ?int
     {
-        return $this->getField("displaytimezonelink");
+        return $this->getField("displayTimezoneLink");
     }
-    public function getApi_default_email(): ?string
+    public function getApiDefaultEmail(): ?string
     {
-        return $this->getField("api_default_email");
-    }
-    /**
-    * setDb_version
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setDb_version(?string $newvalue): array
-    {
-        return $this->updateField("db_version", $newvalue);
+        return $this->getField("apiDefaultEmail");
     }
     /**
-    * setNew_resellers
+    * setDbVersion
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setNew_resellers(?bool $newvalue): array
+    public function setDbVersion(?string $newvalue): array
     {
-        return $this->updateField("new_resellers", $newvalue);
+        return $this->updateField("dbVersion", $newvalue);
     }
     /**
-    * setNew_resellers_rate
+    * setNewResellers
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setNew_resellers_rate(?int $newvalue): array
+    public function setNewResellers(?bool $newvalue): array
     {
-        return $this->updateField("new_resellers_rate", $newvalue);
+        return $this->updateField("newResellers", $newvalue);
     }
     /**
-    * setSllinkcode
+    * setNewResellersRate
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setSllinkcode(?string $newvalue): array
+    public function setNewResellersRate(?int $newvalue): array
     {
-        return $this->updateField("sllinkcode", $newvalue);
+        return $this->updateField("newResellersRate", $newvalue);
     }
     /**
-    * setClients_list_mode
+    * setSlLinkCode
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setClients_list_mode(?bool $newvalue): array
+    public function setSlLinkCode(?string $newvalue): array
     {
-        return $this->updateField("clients_list_mode", $newvalue);
+        return $this->updateField("slLinkCode", $newvalue);
     }
     /**
-    * setPubliclinkcode
+    * setClientsListMode
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setPubliclinkcode(?string $newvalue): array
+    public function setClientsListMode(?bool $newvalue): array
     {
-        return $this->updateField("publiclinkcode", $newvalue);
+        return $this->updateField("clientsListMode", $newvalue);
     }
     /**
-    * setOwner_av
+    * setPublicLinkCode
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setOwner_av(?int $newvalue): array
+    public function setPublicLinkCode(?string $newvalue): array
     {
-        return $this->updateField("owner_av", $newvalue);
+        return $this->updateField("publicLinkCode", $newvalue);
     }
     /**
-    * setEventstorage
+    * setOwnerAvatarLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEventstorage(?bool $newvalue): array
+    public function setOwnerAvatarLink(?int $newvalue): array
     {
-        return $this->updateField("eventstorage", $newvalue);
+        return $this->updateField("ownerAvatarLink", $newvalue);
     }
     /**
-    * setDatatable_itemsperpage
+    * setEventStorage
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setDatatable_itemsperpage(?int $newvalue): array
+    public function setEventStorage(?bool $newvalue): array
     {
-        return $this->updateField("datatable_itemsperpage", $newvalue);
+        return $this->updateField("eventStorage", $newvalue);
     }
     /**
-    * setHttp_inbound_secret
+    * setDatatableItemsPerPage
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setHttp_inbound_secret(?string $newvalue): array
+    public function setDatatableItemsPerPage(?int $newvalue): array
     {
-        return $this->updateField("http_inbound_secret", $newvalue);
+        return $this->updateField("datatableItemsPerPage", $newvalue);
     }
     /**
-    * setSmtp_host
+    * setHttpInboundSecret
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setSmtp_host(?string $newvalue): array
+    public function setHttpInboundSecret(?string $newvalue): array
     {
-        return $this->updateField("smtp_host", $newvalue);
+        return $this->updateField("httpInboundSecret", $newvalue);
     }
     /**
-    * setSmtp_port
+    * setSmtpHost
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setSmtp_port(?int $newvalue): array
+    public function setSmtpHost(?string $newvalue): array
     {
-        return $this->updateField("smtp_port", $newvalue);
+        return $this->updateField("smtpHost", $newvalue);
     }
     /**
-    * setSmtp_username
+    * setSmtpPort
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setSmtp_username(?string $newvalue): array
+    public function setSmtpPort(?int $newvalue): array
     {
-        return $this->updateField("smtp_username", $newvalue);
+        return $this->updateField("smtpPort", $newvalue);
     }
     /**
-    * setSmtp_accesscode
+    * setSmtpUsername
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setSmtp_accesscode(?string $newvalue): array
+    public function setSmtpUsername(?string $newvalue): array
     {
-        return $this->updateField("smtp_accesscode", $newvalue);
+        return $this->updateField("smtpUsername", $newvalue);
     }
     /**
-    * setSmtp_from
+    * setSmtpAccesscode
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setSmtp_from(?string $newvalue): array
+    public function setSmtpAccesscode(?string $newvalue): array
     {
-        return $this->updateField("smtp_from", $newvalue);
+        return $this->updateField("smtpAccesscode", $newvalue);
     }
     /**
-    * setSmtp_replyto
+    * setSmtpFrom
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setSmtp_replyto(?string $newvalue): array
+    public function setSmtpFrom(?string $newvalue): array
     {
-        return $this->updateField("smtp_replyto", $newvalue);
+        return $this->updateField("smtpFrom", $newvalue);
     }
     /**
-    * setDisplaytimezonelink
+    * setSmtpReplyTo
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setDisplaytimezonelink(?int $newvalue): array
+    public function setSmtpReplyTo(?string $newvalue): array
     {
-        return $this->updateField("displaytimezonelink", $newvalue);
+        return $this->updateField("smtpReplyTo", $newvalue);
     }
     /**
-    * setApi_default_email
+    * setDisplayTimezoneLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_default_email(?string $newvalue): array
+    public function setDisplayTimezoneLink(?int $newvalue): array
     {
-        return $this->updateField("api_default_email", $newvalue);
+        return $this->updateField("displayTimezoneLink", $newvalue);
+    }
+    /**
+    * setApiDefaultEmail
+    * @return mixed[] [status =>  bool, message =>  string]
+    */
+    public function setApiDefaultEmail(?string $newvalue): array
+    {
+        return $this->updateField("apiDefaultEmail", $newvalue);
     }
 }
 // please do not edit this file

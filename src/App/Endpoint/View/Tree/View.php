@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Tree;
+namespace App\Endpoint\View\Tree;
 
 use App\Models\Stream;
 use App\Template\View as BasicView;

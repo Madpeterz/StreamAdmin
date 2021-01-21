@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Outbox;
+namespace App\Endpoint\View\Outbox;
 
 class Status extends View
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 use App\Template\Form;
 

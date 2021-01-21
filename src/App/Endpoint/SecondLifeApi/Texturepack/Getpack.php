@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Texturepack;
+namespace App\Endpoint\SecondLifeApi\Texturepack;
 
 use App\Models\Textureconfig;
 use App\Template\SecondlifeAjax;
@@ -23,15 +23,15 @@ class Getpack extends SecondlifeAjax
         }
         $this->setSwapTag("status", "true");
         $this->setSwapTag("texture_offline", $textureconfig->getOffline());
-        $this->setSwapTag("texture_waitingforowner", $textureconfig->getWait_owner());
-        $this->setSwapTag("texture_fetchingdetails", $textureconfig->getGetting_details());
-        $this->setSwapTag("texture_request_payment", $textureconfig->getMake_payment());
-        $this->setSwapTag("texture_renewhere", $textureconfig->getRenew_here());
-        $this->setSwapTag("texture_inuse", $textureconfig->getInuse());
-        $this->setSwapTag("texture_request_details", $textureconfig->getRequest_details());
-        $this->setSwapTag("texture_stock_levels", $textureconfig->getStock_levels());
-        $this->setSwapTag("texture_proxyrenew", $textureconfig->getProxyrenew());
-        $this->setSwapTag("texture_treevend_waiting", $textureconfig->getTreevend_waiting());
+        $this->setSwapTag("texture_waitingforowner", $textureconfig->getWaitOwner());
+        $this->setSwapTag("texture_fetchingdetails", $textureconfig->getGettingDetails());
+        $this->setSwapTag("texture_request_payment", $textureconfig->getMakePayment());
+        $this->setSwapTag("texture_renewhere", $textureconfig->getRenewHere());
+        $this->setSwapTag("texture_inUse", $textureconfig->getInUse());
+        $this->setSwapTag("texture_requestDetails", $textureconfig->getRequestDetails());
+        $this->setSwapTag("texture_stockLevels", $textureconfig->getStockLevels());
+        $this->setSwapTag("texture_proxyRenew", $textureconfig->getProxyRenew());
+        $this->setSwapTag("texture_treevendWaiting", $textureconfig->getTreevendWaiting());
 
 
         $this->setSwapTag("reseller_rate", 100);

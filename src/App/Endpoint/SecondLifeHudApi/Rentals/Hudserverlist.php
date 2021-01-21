@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeHudApi\Rentals;
+namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
 use App\Models\RentalSet;
 use App\Models\StreamSet;
@@ -12,14 +12,14 @@ class Hudserverlist extends SecondlifeAjax
     {
         $this->setSwapTag("status", "true");
         $rentals_set = new RentalSet();
-        $rentals_set->loadByField("avatarlink", $this->object_owner_avatar->getId());
+        $rentals_set->loadByField("avatarLink", $this->object_ownerAvatarLinkatar->getId());
         if ($rentals_set->getCount() < 1) {
             $this->setSwapTag("message", "none");
             return;
         }
 
         $stream_set = new StreamSet();
-        $stream_set->loadIds($rentals_set->getUniqueArray("streamlink"));
+        $stream_set->loadIds($rentals_set->getUniqueArray("streamLink"));
         $oneday = time() + ((60 * 60) * 24);
         if ($stream_set->getCount() < 1) {
             $this->setSwapTag("message", "none");
@@ -31,10 +31,10 @@ class Hudserverlist extends SecondlifeAjax
         $reply["states"] = [];
         foreach ($stream_set->getAllIds() as $streamid) {
             $stream = $stream_set->getObjectByID($streamid);
-            $rental = $rentals_set->getObjectByID($stream->getRentallink());
+            $rental = $rentals_set->getObjectByID($stream->getRentalLink());
             $reply["ports"][] = $stream->getPort();
-            $reply["uids"][] = $rental->getRental_uid();
-            $timeleft = $rental->getExpireunixtime();
+            $reply["uids"][] = $rental->getRentalUid();
+            $timeleft = $rental->getExpireUnixtime();
             if ($timeleft < time()) {
                 $reply["states"][] = 0;
             } elseif ($timeleft < $oneday) {

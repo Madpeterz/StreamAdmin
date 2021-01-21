@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Notice;
+namespace App\Endpoint\View\Notice;
 
 use App\Models\Stream;
 use App\Template\View as BasicView;

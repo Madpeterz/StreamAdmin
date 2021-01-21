@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Staff;
+namespace App\Endpoint\Control\Staff;
 
 use App\Models\Staff;
 use App\Template\ViewAjax;

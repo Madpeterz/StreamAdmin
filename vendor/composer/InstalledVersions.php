@@ -14,12 +14,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '96a769fa7bfefc6a4253c99bea256e197fb94b23',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -71,12 +71,12 @@ private static $installed = array (
     ),
     'madpeterz/streamadmin' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '96a769fa7bfefc6a4253c99bea256e197fb94b23',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (

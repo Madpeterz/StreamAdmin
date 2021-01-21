@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Client;
+namespace App\Endpoint\View\Client;
 
 use App\Models\Avatar;
 use App\Models\AvatarSet;
@@ -24,15 +24,15 @@ class Manage extends View
     protected function clientManageForm(): void
     {
         $this->avatar = new Avatar();
-        $this->avatar->loadID($this->rental->getAvatarlink());
-        $this->output->addSwapTagString("page_title", ": " . $this->rental->getRental_uid() . " "
-        . "[" . $this->avatar->getAvatarname() . "]");
+        $this->avatar->loadID($this->rental->getAvatarLink());
+        $this->output->addSwapTagString("page_title", ": " . $this->rental->getRentalUid() . " "
+        . "[" . $this->avatar->getAvatarName() . "]");
         $form = new Form();
         $form->target("client/update/" . $this->page . "");
         $form->required(true);
         $form->col(6);
-            $form->group("Timeleft: " . timeleft_hours_and_days($this->rental->getExpireunixtime()) . "");
-            $form->directAdd("<sub>" . date('l jS \of F Y h:i:s A', $this->rental->getExpireunixtime()) . "</sub>"
+            $form->group("Timeleft: " . timeleft_hours_and_days($this->rental->getExpireUnixtime()) . "");
+            $form->directAdd("<sub>" . date('l jS \of F Y h:i:s A', $this->rental->getExpireUnixtime()) . "</sub>"
             . "<br/><br/>");
             $form->numberInput("adjustment_days", "Adjustment [Days]", 0, 3, "Max 999");
             $form->numberInput("adjustment_hours", "Adjustment [Hours]", 0, 2, "Max 23");
@@ -62,8 +62,8 @@ class Manage extends View
     protected function clientTransactions(): void
     {
         $where_config = [
-            "fields" => ["streamlink","unixtime"],
-            "values" => [$this->rental->getStreamlink(),$this->rental->getStartunixtime()],
+            "fields" => ["streamLink","unixtime"],
+            "values" => [$this->rental->getStreamLink(),$this->rental->getStartUnixtime()],
             "types" => ["i","i"],
             "matches" => ["=",">="],
         ];
@@ -74,12 +74,12 @@ class Manage extends View
         $reseller_set = new ResellerSet();
         $region_set = new RegionSet();
         $avatar_set = new AvatarSet();
-        $region_set->loadIds($transactions_set->getAllByField("regionlink"));
-        $reseller_set->loadIds($transactions_set->getAllByField("resellerlink"));
+        $region_set->loadIds($transactions_set->getAllByField("regionLink"));
+        $reseller_set->loadIds($transactions_set->getAllByField("resellerLink"));
         $avatar_set->loadIds(
             array_merge(
-                $transactions_set->getAllByField("avatarlink"),
-                $reseller_set->getAllByField("avatarlink")
+                $transactions_set->getAllByField("avatarLink"),
+                $reseller_set->getAllByField("avatarLink")
             ),
             "id",
             "i",
@@ -89,15 +89,15 @@ class Manage extends View
         $table_body = [];
         foreach ($transactions_set->getAllIds() as $transaction_id) {
             $transaction = $transactions_set->getObjectByID($transaction_id);
-            $avatar = $avatar_set->getObjectByID($transaction->getAvatarlink());
-            $region = $region_set->getObjectByID($transaction->getRegionlink());
-            $reseller = $reseller_set->getObjectByID($transaction->getResellerlink());
-            $reseller_av = $avatar_set->getObjectByID($reseller->getAvatarlink());
+            $avatar = $avatar_set->getObjectByID($transaction->getAvatarLink());
+            $region = $region_set->getObjectByID($transaction->getRegionLink());
+            $reseller = $reseller_set->getObjectByID($transaction->getResellerLink());
+            $reseller_av = $avatar_set->getObjectByID($reseller->getAvatarLink());
             $entry = [];
             $entry[] = $transaction->getId();
-            $entry[] = $transaction->getTransaction_uid();
-            $entry[] = $avatar->getAvatarname();
-            $entry[] = $reseller_av->getAvatarname();
+            $entry[] = $transaction->getTransactionUid();
+            $entry[] = $avatar->getAvatarName();
+            $entry[] = $reseller_av->getAvatarName();
             $entry[] = $region->getName();
             $entry[] = $transaction->getAmount();
             $entry[]  = date('l jS \of F Y h:i:s A', $transaction->getUnixtime());
@@ -111,16 +111,16 @@ class Manage extends View
         $stream = new Stream();
         $server = new Server();
         $package = new Package();
-        if ($stream->loadID($this->rental->getStreamlink()) == false) {
+        if ($stream->loadID($this->rental->getStreamLink()) == false) {
             return;
         }
-        if ($server->loadID($stream->getServerlink()) == false) {
+        if ($server->loadID($stream->getServerLink()) == false) {
             return;
         }
-        if ($server->getApilink() < 2) {
+        if ($server->getApiLink() < 2) {
             return;
         }
-        if ($package->loadID($stream->getPackagelink()) == false) {
+        if ($package->loadID($stream->getPackageLink()) == false) {
             return;
         }
         $serverapi_helper = new serverapi_helper();
@@ -159,20 +159,20 @@ class Manage extends View
                 "set_dj_password",
                 "Set DJ password",
                 6,
-                $stream->getDjpassword(),
+                $stream->getDjPassword(),
                 "DJ/Stream password"
             );
             $form->textInput(
                 "set_admin_password",
                 "Set Admin password",
                 6,
-                $stream->getAdminpassword(),
+                $stream->getAdminPassword(),
                 "Admin password"
             );
             $mygrid->addContent($form->render("Set passwords", "warning", true), 6);
         }
         $this->pages["API"] = $mygrid->getOutput();
-        $avname = explode(" ", strtolower($this->avatar->getAvatarname()));
+        $avname = explode(" ", strtolower($this->avatar->getAvatarName()));
         if ($serverapi_helper->callable_action("api_customize_username") == true) {
             $this->pages["API"] .= "<br/>customize username changes the admin username for the stream following"
             . " this ruleset<br/><ol>
@@ -182,7 +182,7 @@ class Manage extends View
             <li>Firstname Port Bitrate: \"" . $avname[0] . "_" . $stream->getPort() . "_"
             . $package->getBitrate() . "\"</li>
             <li>Firstname Port ServerID: \"" . $avname[0] . "_" . $stream->getPort() . "_" . $server->getId() . "\"</li>
-            <li>Firstname RentalUID: \"" . $avname[0] . "_" . $this->rental->getRental_uid() . "\"</li>
+            <li>Firstname RentalUID: \"" . $avname[0] . "_" . $this->rental->getRentalUid() . "\"</li>
             </ol>";
         }
     }
@@ -194,7 +194,7 @@ class Manage extends View
         . "<button type='button' class='btn btn-danger'>Revoke</button></a>");
 
         $this->rental = new Rental();
-        if ($this->rental->loadByField("rental_uid", $this->page) == true) {
+        if ($this->rental->loadByField("rentalUid", $this->page) == true) {
             $this->output->redirect("client?bubblemessage=unable to find client&bubbletype=warning");
             return;
         }

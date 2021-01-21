@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Renew;
+namespace App\Endpoint\SecondLifeApi\Renew;
 
 use App\Models\Avatar;
 use App\Models\Banlist;
@@ -19,22 +19,22 @@ class Renewnow extends SecondlifeAjax
     {
         global $unixtime_day, $unixtime_hour;
         $input = new InputFilter();
-        $rental_uid = $input->postFilter("rental_uid");
-        $avataruuid = $input->postFilter("avataruuid", "uuid");
-        $avatarname = $input->postFilter("avatarname");
+        $rentalUid = $input->postFilter("rentalUid");
+        $avatarUUID = $input->postFilter("avatarUUID", "uuid");
+        $avatarName = $input->postFilter("avatarName");
         $amountpaid = $input->postFilter("amountpaid", "integer");
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $rental_uid) == false) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
         $stream = new Stream();
-        if ($stream->loadID($rental->getStreamlink()) == false) {
+        if ($stream->loadID($rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to find stream");
             return;
         }
         $package = new Package();
-        if ($package->loadID($stream->getPackagelink()) == false) {
+        if ($package->loadID($stream->getPackageLink()) == false) {
             $this->setSwapTag("message", "Unable to find package");
             return;
         }
@@ -50,23 +50,23 @@ class Renewnow extends SecondlifeAjax
         }
         $multipler = $accepted_payment_amounts[$amountpaid];
         $transaction = new Transactions();
-        $uid_transaction = $transaction->createUID("transaction_uid", 8, 10);
+        $uid_transaction = $transaction->createUID("transactionUid", 8, 10);
         if ($uid_transaction["status"] == false) {
             $this->setSwapTag("message", "Unable to create transaction uid");
             return;
         }
 
         $unixtime_to_add = (($package->getDays() * $unixtime_day) * $multipler);
-        $new_expires_time = $rental->getExpireunixtime() + $unixtime_to_add;
-        $rental->setExpireunixtime($new_expires_time);
+        $new_expires_time = $rental->getExpireUnixtime() + $unixtime_to_add;
+        $rental->setExpireUnixtime($new_expires_time);
         $rental->setRenewals(($rental->getRenewals() + $multipler));
-        $rental->setTotalamount(($rental->getTotalamount() + $amountpaid));
+        $rental->setTotalAmount(($rental->getTotalAmount() + $amountpaid));
         $unixtime_remain = $new_expires_time - time();
         if ($unixtime_remain > 0) {
             $hours_remain = ceil($unixtime_remain / $unixtime_hour);
             $notice_set = new NoticeSet();
             $notice_set->loadAll();
-            $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
+            $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
             ksort($sorted_linked, SORT_NUMERIC);
             $use_notice_index = 0;
             $break_next = false;
@@ -81,8 +81,8 @@ class Renewnow extends SecondlifeAjax
                 }
             }
             if ($use_notice_index != 0) {
-                if ($rental->getNoticelink() != $use_notice_index) {
-                    $rental->setNoticelink($use_notice_index);
+                if ($rental->getNoticeLink() != $use_notice_index) {
+                    $rental->setNoticeLink($use_notice_index);
                 }
             }
         }
@@ -91,25 +91,25 @@ class Renewnow extends SecondlifeAjax
             return;
         }
         $avatar_helper = new avatar_helper();
-        $get_av_status = $avatar_helper->loadOrCreate($avataruuid, $avatarname);
+        $get_av_status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
         if ($get_av_status == false) {
             $this->setSwapTag("message", "Unable to find avatar");
             return;
         }
         $avatar = $avatar_helper->get_avatar();
         $banlist = new Banlist();
-        if ($banlist->loadByField("avatar_link", $avatar->getId()) == true) {
+        if ($banlist->loadByField("avatarLink", $avatar->getId()) == true) {
             $this->setSwapTag("message", "Unable to find avatar");
             return;
         }
-        $transaction->setAvatarlink($avatar->getId());
-        $transaction->setPackagelink($package->getId());
-        $transaction->setStreamlink($stream->getId());
-        $transaction->setResellerlink($this->reseller->getId());
-        $transaction->setRegionlink($this->region->getId());
+        $transaction->setAvatarLink($avatar->getId());
+        $transaction->setPackageLink($package->getId());
+        $transaction->setStreamLink($stream->getId());
+        $transaction->setResellerLink($this->reseller->getId());
+        $transaction->setRegionLink($this->region->getId());
         $transaction->setAmount($amountpaid);
         $transaction->setUnixtime(time());
-        $transaction->setTransaction_uid($uid_transaction["uid"]);
+        $transaction->setTransactionUid($uid_transaction["uid"]);
         $transaction->setRenew(true);
         if ($transaction->createEntry()["status"] == false) {
             $this->setSwapTag("message", "Unable to create transaction");
@@ -118,7 +118,7 @@ class Renewnow extends SecondlifeAjax
         $this->setSwapTag("owner_payment", 0);
         if ($this->owner_override == false) {
             $avatar_system = new Avatar();
-            if ($avatar_system->loadID($this->slconfig->getOwner_av()) == false) {
+            if ($avatar_system->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
                 $this->setSwapTag("message", "Unable to find system owner avatar");
                 return;
             }
@@ -136,11 +136,11 @@ class Renewnow extends SecondlifeAjax
             }
             $this->setSwapTag("owner_payment", 1);
             $this->setSwapTag("owner_payment_amount", $left_over);
-            $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvataruuid());
+            $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
         $this->setSwapTag("status", "true");
         $this->setSwapTag("message", "Payment account but account is still in arrears");
-        if ($rental->getExpireunixtime() > time()) {
+        if ($rental->getExpireUnixtime() > time()) {
             $all_ok = true;
             if ($all_ok == true) {
                 // Server API support
@@ -152,8 +152,8 @@ class Renewnow extends SecondlifeAjax
                     "message",
                     sprintf(
                         "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
-                        timeleft_hours_and_days($rental->getExpireunixtime()),
-                        date('l jS \of F Y h:i:s A', $rental->getExpireunixtime())
+                        timeleft_hours_and_days($rental->getExpireUnixtime()),
+                        date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime())
                     )
                 );
             }

@@ -1,6 +1,6 @@
 <?php
 
-$steps = array(
-    "" => "event_disable_expire"
-);
+$steps = [
+    "" => "eventDisableExpire",
+];
 include "shared/media_server_apis/logic/process.php";

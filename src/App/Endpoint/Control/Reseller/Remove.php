@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Reseller;
+namespace App\Endpoint\Control\Reseller;
 
 use App\Models\Reseller;
 use App\Models\TransactionsSet;
@@ -25,7 +25,7 @@ class Remove extends ViewAjax
             $this->setSwapTag("message", "Unable to find Reseller");
             return;
         }
-        if ($transactionsSet->loadByField("resellerlink", $reseller->getId()) == false) {
+        if ($transactionsSet->loadByField("resellerLink", $reseller->getId()) == false) {
             $this->setSwapTag("message", "Unable to check if reseller has any transactions to transfer");
             return;
         }
@@ -50,12 +50,12 @@ class Remove extends ViewAjax
     protected function transferTransactions(TransactionsSet $transactionsSet): bool
     {
         $reseller = new Reseller();
-        if ($reseller->loadByField("avatarlink", $this->slconfig->getOwner_av()) == false) {
+        if ($reseller->loadByField("avatarLink", $this->slconfig->getOwnerAvatarLink()) == false) {
             return false;
         }
         if ($reseller->getId() <= 0) {
             return false;
         }
-        return $transactionsSet->updateFieldInCollection("resellerlink", $reseller->getId());
+        return $transactionsSet->updateFieldInCollection("resellerLink", $reseller->getId());
     }
 }

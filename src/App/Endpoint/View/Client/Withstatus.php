@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Client;
+namespace App\Endpoint\View\Client;
 
 use App\Models\AvatarSet;
 use App\Models\RentalSet;
@@ -15,9 +15,9 @@ abstract class Withstatus extends RenderList
             $this->rentalSet = new RentalSet();
             $this->rentalSet->loadWithConfig($this->whereconfig);
             $this->avatarSet = new AvatarSet();
-            $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarlink"));
+            $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarLink"));
             $this->streamSet = new StreamSet();
-            $this->streamSet->loadIds($this->rentalSet->getAllByField("streamlink"));
+            $this->streamSet->loadIds($this->rentalSet->getAllByField("streamLink"));
         }
         parent::process();
     }

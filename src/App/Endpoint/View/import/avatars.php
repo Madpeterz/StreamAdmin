@@ -16,11 +16,11 @@ include "shared/lang/control/avatar/" . $site_lang . ".php";
 $all_ok = true;
 $avatars_created = 0;
 
-$seen_avatar_uuids = [];
+$seen_avatarUUIDs = [];
 foreach ($r4_users_set->getAllIds() as $r4_user_id) {
     $r4_user = $r4_users_set->getObjectByID($r4_user_id);
-    if (in_array($r4_user->get_slkey(), $seen_avatar_uuids) == false) {
-        $seen_avatar_uuids[] = $r4_user->get_slkey();
+    if (in_array($r4_user->get_slkey(), $seen_avatarUUIDs) == false) {
+        $seen_avatarUUIDs[] = $r4_user->get_slkey();
         $avatar_helper = new avatar_helper();
         $status = $avatar_helper->loadOrCreate($r4_user->get_slkey(), $r4_user->get_slname());
         if ($status == true) {

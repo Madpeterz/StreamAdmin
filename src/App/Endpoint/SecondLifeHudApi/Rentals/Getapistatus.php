@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeHudApi\Rentals;
+namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
 use App\Models\Apis;
 use App\Models\Rental;
@@ -14,32 +14,32 @@ class Getapistatus extends SecondlifeAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $rental_uid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("uid");
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $rental_uid) == false) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
         $stream = new Stream();
-        if ($stream->loadID($rental->getStreamlink()) == false) {
+        if ($stream->loadID($rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to find stream");
             return;
         }
         $server = new Server();
-        if ($server->loadID($stream->getServerlink()) == false) {
+        if ($server->loadID($stream->getServerLink()) == false) {
             $this->setSwapTag("message", "Unable to find server");
             return;
         }
         $serverapi = new Apis();
-        if ($serverapi->loadID($server->getApilink()) == false) {
+        if ($serverapi->loadID($server->getApiLink()) == false) {
             $this->setSwapTag("message", "Unable to load API");
             return;
         }
         $flags = [
-            "autodjnext" => "opt_autodj_next",
-            "toggleautodj" => "opt_toggle_autodj",
-            "togglestate" => "opt_toggle_status",
-            "resetpw" => "opt_password_reset",
+            "autodjnext" => "optAutodjNext",
+            "toggleautodj" => "optToggleAutodj",
+            "togglestate" => "optToggleStatus",
+            "resetpw" => "optPasswordReset",
         ];
         $this->setSwapTag("status", "true");
         $this->setSwapTag("message", "seeflags");

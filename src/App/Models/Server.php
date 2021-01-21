@@ -11,125 +11,125 @@ class Server extends genClass
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "domain" => ["type" => "str", "value" => null],
-        "controlpanel_url" => ["type" => "str", "value" => null],
-        "apilink" => ["type" => "int", "value" => 1],
-        "api_url" => ["type" => "str", "value" => null],
-        "api_username" => ["type" => "str", "value" => null],
-        "api_password" => ["type" => "str", "value" => null],
-        "api_serverstatus" => ["type" => "bool", "value" => 0],
-        "api_sync_accounts" => ["type" => "bool", "value" => 0],
-        "opt_password_reset" => ["type" => "bool", "value" => 0],
-        "opt_autodj_next" => ["type" => "bool", "value" => 0],
-        "opt_toggle_autodj" => ["type" => "bool", "value" => 0],
-        "opt_toggle_status" => ["type" => "bool", "value" => 0],
-        "event_enable_start" => ["type" => "bool", "value" => 0],
-        "event_start_sync_username" => ["type" => "bool", "value" => 0],
-        "event_enable_renew" => ["type" => "bool", "value" => 0],
-        "event_disable_expire" => ["type" => "bool", "value" => 0],
-        "event_disable_revoke" => ["type" => "bool", "value" => 0],
-        "event_revoke_reset_username" => ["type" => "bool", "value" => 0],
-        "event_reset_password_revoke" => ["type" => "bool", "value" => 0],
-        "event_clear_djs" => ["type" => "bool", "value" => 0],
-        "event_recreate_revoke" => ["type" => "bool", "value" => 0],
-        "last_api_sync" => ["type" => "int", "value" => 0],
-        "event_create_stream" => ["type" => "bool", "value" => 0],
-        "event_update_stream" => ["type" => "bool", "value" => 0],
+        "controlPanelURL" => ["type" => "str", "value" => null],
+        "apiLink" => ["type" => "int", "value" => 1],
+        "apiURL" => ["type" => "str", "value" => null],
+        "apiUsername" => ["type" => "str", "value" => null],
+        "apiPassword" => ["type" => "str", "value" => null],
+        "apiServerStatus" => ["type" => "bool", "value" => 0],
+        "apiSyncAccounts" => ["type" => "bool", "value" => 0],
+        "optPasswordReset" => ["type" => "bool", "value" => 0],
+        "optAutodjNext" => ["type" => "bool", "value" => 0],
+        "optToggleAutodj" => ["type" => "bool", "value" => 0],
+        "optToggleStatus" => ["type" => "bool", "value" => 0],
+        "eventEnableStart" => ["type" => "bool", "value" => 0],
+        "eventStartSyncUsername" => ["type" => "bool", "value" => 0],
+        "eventEnableRenew" => ["type" => "bool", "value" => 0],
+        "eventDisableExpire" => ["type" => "bool", "value" => 0],
+        "eventDisableRevoke" => ["type" => "bool", "value" => 0],
+        "eventRevokeResetUsername" => ["type" => "bool", "value" => 0],
+        "eventResetPasswordRevoke" => ["type" => "bool", "value" => 0],
+        "eventClearDjs" => ["type" => "bool", "value" => 0],
+        "eventRecreateRevoke" => ["type" => "bool", "value" => 0],
+        "lastApiSync" => ["type" => "int", "value" => 0],
+        "eventCreateStream" => ["type" => "bool", "value" => 0],
+        "eventUpdateStream" => ["type" => "bool", "value" => 0],
     ];
     public function getDomain(): ?string
     {
         return $this->getField("domain");
     }
-    public function getControlpanel_url(): ?string
+    public function getControlPanelURL(): ?string
     {
-        return $this->getField("controlpanel_url");
+        return $this->getField("controlPanelURL");
     }
-    public function getApilink(): ?int
+    public function getApiLink(): ?int
     {
-        return $this->getField("apilink");
+        return $this->getField("apiLink");
     }
-    public function getApi_url(): ?string
+    public function getApiURL(): ?string
     {
-        return $this->getField("api_url");
+        return $this->getField("apiURL");
     }
-    public function getApi_username(): ?string
+    public function getApiUsername(): ?string
     {
-        return $this->getField("api_username");
+        return $this->getField("apiUsername");
     }
-    public function getApi_password(): ?string
+    public function getApiPassword(): ?string
     {
-        return $this->getField("api_password");
+        return $this->getField("apiPassword");
     }
-    public function getApi_serverstatus(): ?bool
+    public function getApiServerStatus(): ?bool
     {
-        return $this->getField("api_serverstatus");
+        return $this->getField("apiServerStatus");
     }
-    public function getApi_sync_accounts(): ?bool
+    public function getApiSyncAccounts(): ?bool
     {
-        return $this->getField("api_sync_accounts");
+        return $this->getField("apiSyncAccounts");
     }
-    public function getOpt_password_reset(): ?bool
+    public function getOptPasswordReset(): ?bool
     {
-        return $this->getField("opt_password_reset");
+        return $this->getField("optPasswordReset");
     }
-    public function getOpt_autodj_next(): ?bool
+    public function getOptAutodjNext(): ?bool
     {
-        return $this->getField("opt_autodj_next");
+        return $this->getField("optAutodjNext");
     }
-    public function getOpt_toggle_autodj(): ?bool
+    public function getOptToggleAutodj(): ?bool
     {
-        return $this->getField("opt_toggle_autodj");
+        return $this->getField("optToggleAutodj");
     }
-    public function getOpt_toggle_status(): ?bool
+    public function getOptToggleStatus(): ?bool
     {
-        return $this->getField("opt_toggle_status");
+        return $this->getField("optToggleStatus");
     }
-    public function getEvent_enable_start(): ?bool
+    public function getEventEnableStart(): ?bool
     {
-        return $this->getField("event_enable_start");
+        return $this->getField("eventEnableStart");
     }
-    public function getEvent_start_sync_username(): ?bool
+    public function getEventStartSyncUsername(): ?bool
     {
-        return $this->getField("event_start_sync_username");
+        return $this->getField("eventStartSyncUsername");
     }
-    public function getEvent_enable_renew(): ?bool
+    public function getEventEnableRenew(): ?bool
     {
-        return $this->getField("event_enable_renew");
+        return $this->getField("eventEnableRenew");
     }
-    public function getEvent_disable_expire(): ?bool
+    public function getEventDisableExpire(): ?bool
     {
-        return $this->getField("event_disable_expire");
+        return $this->getField("eventDisableExpire");
     }
-    public function getEvent_disable_revoke(): ?bool
+    public function getEventDisableRevoke(): ?bool
     {
-        return $this->getField("event_disable_revoke");
+        return $this->getField("eventDisableRevoke");
     }
-    public function getEvent_revoke_reset_username(): ?bool
+    public function getEventRevokeResetUsername(): ?bool
     {
-        return $this->getField("event_revoke_reset_username");
+        return $this->getField("eventRevokeResetUsername");
     }
-    public function getEvent_reset_password_revoke(): ?bool
+    public function getEventResetPasswordRevoke(): ?bool
     {
-        return $this->getField("event_reset_password_revoke");
+        return $this->getField("eventResetPasswordRevoke");
     }
-    public function getEvent_clear_djs(): ?bool
+    public function getEventClearDjs(): ?bool
     {
-        return $this->getField("event_clear_djs");
+        return $this->getField("eventClearDjs");
     }
-    public function getEvent_recreate_revoke(): ?bool
+    public function getEventRecreateRevoke(): ?bool
     {
-        return $this->getField("event_recreate_revoke");
+        return $this->getField("eventRecreateRevoke");
     }
-    public function getLast_api_sync(): ?int
+    public function getLastApiSync(): ?int
     {
-        return $this->getField("last_api_sync");
+        return $this->getField("lastApiSync");
     }
-    public function getEvent_create_stream(): ?bool
+    public function getEventCreateStream(): ?bool
     {
-        return $this->getField("event_create_stream");
+        return $this->getField("eventCreateStream");
     }
-    public function getEvent_update_stream(): ?bool
+    public function getEventUpdateStream(): ?bool
     {
-        return $this->getField("event_update_stream");
+        return $this->getField("eventUpdateStream");
     }
     /**
     * setDomain
@@ -140,188 +140,188 @@ class Server extends genClass
         return $this->updateField("domain", $newvalue);
     }
     /**
-    * setControlpanel_url
+    * setControlPanelURL
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setControlpanel_url(?string $newvalue): array
+    public function setControlPanelURL(?string $newvalue): array
     {
-        return $this->updateField("controlpanel_url", $newvalue);
+        return $this->updateField("controlPanelURL", $newvalue);
     }
     /**
-    * setApilink
+    * setApiLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApilink(?int $newvalue): array
+    public function setApiLink(?int $newvalue): array
     {
-        return $this->updateField("apilink", $newvalue);
+        return $this->updateField("apiLink", $newvalue);
     }
     /**
-    * setApi_url
+    * setApiURL
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_url(?string $newvalue): array
+    public function setApiURL(?string $newvalue): array
     {
-        return $this->updateField("api_url", $newvalue);
+        return $this->updateField("apiURL", $newvalue);
     }
     /**
-    * setApi_username
+    * setApiUsername
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_username(?string $newvalue): array
+    public function setApiUsername(?string $newvalue): array
     {
-        return $this->updateField("api_username", $newvalue);
+        return $this->updateField("apiUsername", $newvalue);
     }
     /**
-    * setApi_password
+    * setApiPassword
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_password(?string $newvalue): array
+    public function setApiPassword(?string $newvalue): array
     {
-        return $this->updateField("api_password", $newvalue);
+        return $this->updateField("apiPassword", $newvalue);
     }
     /**
-    * setApi_serverstatus
+    * setApiServerStatus
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_serverstatus(?bool $newvalue): array
+    public function setApiServerStatus(?bool $newvalue): array
     {
-        return $this->updateField("api_serverstatus", $newvalue);
+        return $this->updateField("apiServerStatus", $newvalue);
     }
     /**
-    * setApi_sync_accounts
+    * setApiSyncAccounts
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_sync_accounts(?bool $newvalue): array
+    public function setApiSyncAccounts(?bool $newvalue): array
     {
-        return $this->updateField("api_sync_accounts", $newvalue);
+        return $this->updateField("apiSyncAccounts", $newvalue);
     }
     /**
-    * setOpt_password_reset
+    * setOptPasswordReset
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setOpt_password_reset(?bool $newvalue): array
+    public function setOptPasswordReset(?bool $newvalue): array
     {
-        return $this->updateField("opt_password_reset", $newvalue);
+        return $this->updateField("optPasswordReset", $newvalue);
     }
     /**
-    * setOpt_autodj_next
+    * setOptAutodjNext
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setOpt_autodj_next(?bool $newvalue): array
+    public function setOptAutodjNext(?bool $newvalue): array
     {
-        return $this->updateField("opt_autodj_next", $newvalue);
+        return $this->updateField("optAutodjNext", $newvalue);
     }
     /**
-    * setOpt_toggle_autodj
+    * setOptToggleAutodj
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setOpt_toggle_autodj(?bool $newvalue): array
+    public function setOptToggleAutodj(?bool $newvalue): array
     {
-        return $this->updateField("opt_toggle_autodj", $newvalue);
+        return $this->updateField("optToggleAutodj", $newvalue);
     }
     /**
-    * setOpt_toggle_status
+    * setOptToggleStatus
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setOpt_toggle_status(?bool $newvalue): array
+    public function setOptToggleStatus(?bool $newvalue): array
     {
-        return $this->updateField("opt_toggle_status", $newvalue);
+        return $this->updateField("optToggleStatus", $newvalue);
     }
     /**
-    * setEvent_enable_start
+    * setEventEnableStart
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_enable_start(?bool $newvalue): array
+    public function setEventEnableStart(?bool $newvalue): array
     {
-        return $this->updateField("event_enable_start", $newvalue);
+        return $this->updateField("eventEnableStart", $newvalue);
     }
     /**
-    * setEvent_start_sync_username
+    * setEventStartSyncUsername
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_start_sync_username(?bool $newvalue): array
+    public function setEventStartSyncUsername(?bool $newvalue): array
     {
-        return $this->updateField("event_start_sync_username", $newvalue);
+        return $this->updateField("eventStartSyncUsername", $newvalue);
     }
     /**
-    * setEvent_enable_renew
+    * setEventEnableRenew
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_enable_renew(?bool $newvalue): array
+    public function setEventEnableRenew(?bool $newvalue): array
     {
-        return $this->updateField("event_enable_renew", $newvalue);
+        return $this->updateField("eventEnableRenew", $newvalue);
     }
     /**
-    * setEvent_disable_expire
+    * setEventDisableExpire
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_disable_expire(?bool $newvalue): array
+    public function setEventDisableExpire(?bool $newvalue): array
     {
-        return $this->updateField("event_disable_expire", $newvalue);
+        return $this->updateField("eventDisableExpire", $newvalue);
     }
     /**
-    * setEvent_disable_revoke
+    * setEventDisableRevoke
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_disable_revoke(?bool $newvalue): array
+    public function setEventDisableRevoke(?bool $newvalue): array
     {
-        return $this->updateField("event_disable_revoke", $newvalue);
+        return $this->updateField("eventDisableRevoke", $newvalue);
     }
     /**
-    * setEvent_revoke_reset_username
+    * setEventRevokeResetUsername
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_revoke_reset_username(?bool $newvalue): array
+    public function setEventRevokeResetUsername(?bool $newvalue): array
     {
-        return $this->updateField("event_revoke_reset_username", $newvalue);
+        return $this->updateField("eventRevokeResetUsername", $newvalue);
     }
     /**
-    * setEvent_reset_password_revoke
+    * setEventResetPasswordRevoke
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_reset_password_revoke(?bool $newvalue): array
+    public function setEventResetPasswordRevoke(?bool $newvalue): array
     {
-        return $this->updateField("event_reset_password_revoke", $newvalue);
+        return $this->updateField("eventResetPasswordRevoke", $newvalue);
     }
     /**
-    * setEvent_clear_djs
+    * setEventClearDjs
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_clear_djs(?bool $newvalue): array
+    public function setEventClearDjs(?bool $newvalue): array
     {
-        return $this->updateField("event_clear_djs", $newvalue);
+        return $this->updateField("eventClearDjs", $newvalue);
     }
     /**
-    * setEvent_recreate_revoke
+    * setEventRecreateRevoke
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_recreate_revoke(?bool $newvalue): array
+    public function setEventRecreateRevoke(?bool $newvalue): array
     {
-        return $this->updateField("event_recreate_revoke", $newvalue);
+        return $this->updateField("eventRecreateRevoke", $newvalue);
     }
     /**
-    * setLast_api_sync
+    * setLastApiSync
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setLast_api_sync(?int $newvalue): array
+    public function setLastApiSync(?int $newvalue): array
     {
-        return $this->updateField("last_api_sync", $newvalue);
+        return $this->updateField("lastApiSync", $newvalue);
     }
     /**
-    * setEvent_create_stream
+    * setEventCreateStream
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_create_stream(?bool $newvalue): array
+    public function setEventCreateStream(?bool $newvalue): array
     {
-        return $this->updateField("event_create_stream", $newvalue);
+        return $this->updateField("eventCreateStream", $newvalue);
     }
     /**
-    * setEvent_update_stream
+    * setEventUpdateStream
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_update_stream(?bool $newvalue): array
+    public function setEventUpdateStream(?bool $newvalue): array
     {
-        return $this->updateField("event_update_stream", $newvalue);
+        return $this->updateField("eventUpdateStream", $newvalue);
     }
 }
 // please do not edit this file

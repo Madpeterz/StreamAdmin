@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Avatar;
+namespace App\Endpoint\View\Avatar;
 
 use App\Models\Avatar;
 use App\Template\Form as Form;
@@ -18,7 +18,7 @@ class Manage extends View
             $target
         );
         $avatar = new Avatar();
-        if ($avatar->loadByField("avatar_uid", $this->page) == false) {
+        if ($avatar->loadByField("avatarUid", $this->page) == false) {
             $this->output->redirect("avatar?bubblemessage=unable to find avatar&bubbletype=warning");
             return;
         }
@@ -27,17 +27,17 @@ class Manage extends View
         $form->required(true);
         $form->col(6);
         $form->textInput(
-            "avatarname",
+            "avatarName",
             "Name",
             125,
-            $avatar->getAvatarname(),
+            $avatar->getAvatarName(),
             "Madpeter Zond [You can leave out Resident]"
         );
         $form->textInput(
-            "avataruuid",
+            "avatarUUID",
             "SL UUID",
             3,
-            $avatar->getAvataruuid(),
+            $avatar->getAvatarUUID(),
             "SecondLife UUID [found on their SL profile]"
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));

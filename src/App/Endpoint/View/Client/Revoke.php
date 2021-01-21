@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Client;
+namespace App\Endpoint\View\Client;
 
 use App\Template\Form;
 

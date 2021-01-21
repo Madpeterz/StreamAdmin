@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Client;
+namespace App\Endpoint\Control\Client;
 
 use App\Models\Rental;
 use App\Models\Stream;
@@ -12,12 +12,12 @@ class Api extends ViewAjax
     public function process(): void
     {
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $this->page) == false) {
+        if ($rental->loadByField("rentalUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to load rental");
             return;
         }
         $stream = new Stream();
-        if ($stream->loadID($rental->getStreamlink()) == false) {
+        if ($stream->loadID($rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to load stream");
             return;
         }

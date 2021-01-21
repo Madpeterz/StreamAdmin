@@ -12,15 +12,15 @@ class Textureconfig extends genClass
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],
         "offline" => ["type" => "str", "value" => null],
-        "wait_owner" => ["type" => "str", "value" => null],
-        "stock_levels" => ["type" => "str", "value" => null],
-        "make_payment" => ["type" => "str", "value" => null],
-        "inuse" => ["type" => "str", "value" => null],
-        "renew_here" => ["type" => "str", "value" => null],
-        "treevend_waiting" => ["type" => "str", "value" => null],
-        "proxyrenew" => ["type" => "str", "value" => null],
-        "getting_details" => ["type" => "str", "value" => null],
-        "request_details" => ["type" => "str", "value" => null],
+        "waitOwner" => ["type" => "str", "value" => null],
+        "stockLevels" => ["type" => "str", "value" => null],
+        "makePayment" => ["type" => "str", "value" => null],
+        "inUse" => ["type" => "str", "value" => null],
+        "renewHere" => ["type" => "str", "value" => null],
+        "treevendWaiting" => ["type" => "str", "value" => null],
+        "proxyRenew" => ["type" => "str", "value" => null],
+        "gettingDetails" => ["type" => "str", "value" => null],
+        "requestDetails" => ["type" => "str", "value" => null],
     ];
     public function getName(): ?string
     {
@@ -30,41 +30,41 @@ class Textureconfig extends genClass
     {
         return $this->getField("offline");
     }
-    public function getWait_owner(): ?string
+    public function getWaitOwner(): ?string
     {
-        return $this->getField("wait_owner");
+        return $this->getField("waitOwner");
     }
-    public function getStock_levels(): ?string
+    public function getStockLevels(): ?string
     {
-        return $this->getField("stock_levels");
+        return $this->getField("stockLevels");
     }
-    public function getMake_payment(): ?string
+    public function getMakePayment(): ?string
     {
-        return $this->getField("make_payment");
+        return $this->getField("makePayment");
     }
-    public function getInuse(): ?string
+    public function getInUse(): ?string
     {
-        return $this->getField("inuse");
+        return $this->getField("inUse");
     }
-    public function getRenew_here(): ?string
+    public function getRenewHere(): ?string
     {
-        return $this->getField("renew_here");
+        return $this->getField("renewHere");
     }
-    public function getTreevend_waiting(): ?string
+    public function getTreevendWaiting(): ?string
     {
-        return $this->getField("treevend_waiting");
+        return $this->getField("treevendWaiting");
     }
-    public function getProxyrenew(): ?string
+    public function getProxyRenew(): ?string
     {
-        return $this->getField("proxyrenew");
+        return $this->getField("proxyRenew");
     }
-    public function getGetting_details(): ?string
+    public function getGettingDetails(): ?string
     {
-        return $this->getField("getting_details");
+        return $this->getField("gettingDetails");
     }
-    public function getRequest_details(): ?string
+    public function getRequestDetails(): ?string
     {
-        return $this->getField("request_details");
+        return $this->getField("requestDetails");
     }
     /**
     * setName
@@ -83,76 +83,76 @@ class Textureconfig extends genClass
         return $this->updateField("offline", $newvalue);
     }
     /**
-    * setWait_owner
+    * setWaitOwner
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setWait_owner(?string $newvalue): array
+    public function setWaitOwner(?string $newvalue): array
     {
-        return $this->updateField("wait_owner", $newvalue);
+        return $this->updateField("waitOwner", $newvalue);
     }
     /**
-    * setStock_levels
+    * setStockLevels
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setStock_levels(?string $newvalue): array
+    public function setStockLevels(?string $newvalue): array
     {
-        return $this->updateField("stock_levels", $newvalue);
+        return $this->updateField("stockLevels", $newvalue);
     }
     /**
-    * setMake_payment
+    * setMakePayment
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setMake_payment(?string $newvalue): array
+    public function setMakePayment(?string $newvalue): array
     {
-        return $this->updateField("make_payment", $newvalue);
+        return $this->updateField("makePayment", $newvalue);
     }
     /**
-    * setInuse
+    * setInUse
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setInuse(?string $newvalue): array
+    public function setInUse(?string $newvalue): array
     {
-        return $this->updateField("inuse", $newvalue);
+        return $this->updateField("inUse", $newvalue);
     }
     /**
-    * setRenew_here
+    * setRenewHere
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRenew_here(?string $newvalue): array
+    public function setRenewHere(?string $newvalue): array
     {
-        return $this->updateField("renew_here", $newvalue);
+        return $this->updateField("renewHere", $newvalue);
     }
     /**
-    * setTreevend_waiting
+    * setTreevendWaiting
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setTreevend_waiting(?string $newvalue): array
+    public function setTreevendWaiting(?string $newvalue): array
     {
-        return $this->updateField("treevend_waiting", $newvalue);
+        return $this->updateField("treevendWaiting", $newvalue);
     }
     /**
-    * setProxyrenew
+    * setProxyRenew
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setProxyrenew(?string $newvalue): array
+    public function setProxyRenew(?string $newvalue): array
     {
-        return $this->updateField("proxyrenew", $newvalue);
+        return $this->updateField("proxyRenew", $newvalue);
     }
     /**
-    * setGetting_details
+    * setGettingDetails
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setGetting_details(?string $newvalue): array
+    public function setGettingDetails(?string $newvalue): array
     {
-        return $this->updateField("getting_details", $newvalue);
+        return $this->updateField("gettingDetails", $newvalue);
     }
     /**
-    * setRequest_details
+    * setRequestDetails
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRequest_details(?string $newvalue): array
+    public function setRequestDetails(?string $newvalue): array
     {
-        return $this->updateField("request_details", $newvalue);
+        return $this->updateField("requestDetails", $newvalue);
     }
 }
 // please do not edit this file

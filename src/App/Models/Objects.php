@@ -10,97 +10,97 @@ class Objects extends genClass
     protected $use_table = "objects";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "avatarlink" => ["type" => "int", "value" => null],
-        "regionlink" => ["type" => "int", "value" => null],
-        "objectuuid" => ["type" => "str", "value" => null],
-        "objectname" => ["type" => "str", "value" => null],
-        "objectmode" => ["type" => "str", "value" => null],
-        "objectxyz" => ["type" => "str", "value" => null],
-        "lastseen" => ["type" => "int", "value" => 0],
+        "avatarLink" => ["type" => "int", "value" => null],
+        "regionLink" => ["type" => "int", "value" => null],
+        "objectUUID" => ["type" => "str", "value" => null],
+        "objectName" => ["type" => "str", "value" => null],
+        "objectMode" => ["type" => "str", "value" => null],
+        "objectXYZ" => ["type" => "str", "value" => null],
+        "lastSeen" => ["type" => "int", "value" => 0],
     ];
-    public function getAvatarlink(): ?int
+    public function getAvatarLink(): ?int
     {
-        return $this->getField("avatarlink");
+        return $this->getField("avatarLink");
     }
-    public function getRegionlink(): ?int
+    public function getRegionLink(): ?int
     {
-        return $this->getField("regionlink");
+        return $this->getField("regionLink");
     }
-    public function getObjectuuid(): ?string
+    public function getObjectUUID(): ?string
     {
-        return $this->getField("objectuuid");
+        return $this->getField("objectUUID");
     }
-    public function getObjectname(): ?string
+    public function getObjectName(): ?string
     {
-        return $this->getField("objectname");
+        return $this->getField("objectName");
     }
-    public function getObjectmode(): ?string
+    public function getObjectMode(): ?string
     {
-        return $this->getField("objectmode");
+        return $this->getField("objectMode");
     }
-    public function getObjectxyz(): ?string
+    public function getObjectXYZ(): ?string
     {
-        return $this->getField("objectxyz");
+        return $this->getField("objectXYZ");
     }
-    public function getLastseen(): ?int
+    public function getLastSeen(): ?int
     {
-        return $this->getField("lastseen");
-    }
-    /**
-    * setAvatarlink
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setAvatarlink(?int $newvalue): array
-    {
-        return $this->updateField("avatarlink", $newvalue);
+        return $this->getField("lastSeen");
     }
     /**
-    * setRegionlink
+    * setAvatarLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRegionlink(?int $newvalue): array
+    public function setAvatarLink(?int $newvalue): array
     {
-        return $this->updateField("regionlink", $newvalue);
+        return $this->updateField("avatarLink", $newvalue);
     }
     /**
-    * setObjectuuid
+    * setRegionLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setObjectuuid(?string $newvalue): array
+    public function setRegionLink(?int $newvalue): array
     {
-        return $this->updateField("objectuuid", $newvalue);
+        return $this->updateField("regionLink", $newvalue);
     }
     /**
-    * setObjectname
+    * setObjectUUID
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setObjectname(?string $newvalue): array
+    public function setObjectUUID(?string $newvalue): array
     {
-        return $this->updateField("objectname", $newvalue);
+        return $this->updateField("objectUUID", $newvalue);
     }
     /**
-    * setObjectmode
+    * setObjectName
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setObjectmode(?string $newvalue): array
+    public function setObjectName(?string $newvalue): array
     {
-        return $this->updateField("objectmode", $newvalue);
+        return $this->updateField("objectName", $newvalue);
     }
     /**
-    * setObjectxyz
+    * setObjectMode
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setObjectxyz(?string $newvalue): array
+    public function setObjectMode(?string $newvalue): array
     {
-        return $this->updateField("objectxyz", $newvalue);
+        return $this->updateField("objectMode", $newvalue);
     }
     /**
-    * setLastseen
+    * setObjectXYZ
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setLastseen(?int $newvalue): array
+    public function setObjectXYZ(?string $newvalue): array
     {
-        return $this->updateField("lastseen", $newvalue);
+        return $this->updateField("objectXYZ", $newvalue);
+    }
+    /**
+    * setLastSeen
+    * @return mixed[] [status =>  bool, message =>  string]
+    */
+    public function setLastSeen(?int $newvalue): array
+    {
+        return $this->updateField("lastSeen", $newvalue);
     }
 }
 // please do not edit this file

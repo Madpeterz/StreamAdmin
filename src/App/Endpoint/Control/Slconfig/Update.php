@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Slconfig;
+namespace App\Endpoint\Control\Slconfig;
 
 use App\Models\Avatar;
 use App\Models\Timezones;
@@ -17,24 +17,24 @@ class Update extends ViewAjax
         $timezone = new Timezones();
         $input = new InputFilter();
 
-        $sllinkcode = $input->postFilter("sllinkcode");
+        $slLinkCode = $input->postFilter("slLinkCode");
         $httpcode = $input->postFilter("httpcode");
-        $publiclinkcode = $input->postFilter("publiclinkcode");
-        $new_resellers_rate = $input->postFilter("new_resellers_rate", "integer");
-        $new_resellers = $input->postFilter("new_resellers", "bool");
+        $publicLinkCode = $input->postFilter("publicLinkCode");
+        $newResellersRate = $input->postFilter("newResellersRate", "integer");
+        $newResellers = $input->postFilter("newResellers", "bool");
         $event_storage = $input->postFilter("event_storage", "bool");
         $owneravuid = $input->postFilter("owneravuid");
         $ui_tweaks_clients_fulllist = $input->postFilter("ui_tweaks_clients_fulllist", "bool");
-        $ui_tweaks_datatable_itemsperpage = $input->postFilter("ui_tweaks_datatable_itemsperpage", "integer");
-        $api_default_email = $input->postFilter("api_default_email", "email");
-        $displaytimezonelink = $input->postFilter("displaytimezonelink", "integer");
+        $ui_tweaks_datatableItemsPerPage = $input->postFilter("ui_tweaks_datatableItemsPerPage", "integer");
+        $apiDefaultEmail = $input->postFilter("apiDefaultEmail", "email");
+        $displayTimezoneLink = $input->postFilter("displayTimezoneLink", "integer");
 
-        if (strlen($sllinkcode) < 5) {
-            $this->setSwapTag("message", "sllinkcode length must be 5 or longer");
+        if (strlen($slLinkCode) < 5) {
+            $this->setSwapTag("message", "slLinkCode length must be 5 or longer");
             return;
         }
-        if (strlen($sllinkcode) > 10) {
-            $this->setSwapTag("message", "sllinkcode length must be 10 or less");
+        if (strlen($slLinkCode) > 10) {
+            $this->setSwapTag("message", "slLinkCode length must be 10 or less");
             return;
         }
         if (strlen($httpcode) < 5) {
@@ -45,19 +45,19 @@ class Update extends ViewAjax
             $this->setSwapTag("message", "httpcode length must be 30 or less");
             return;
         }
-        if ($new_resellers_rate < 0) {
-            $this->setSwapTag("message", "new_resellers_rate must be 1 or more");
+        if ($newResellersRate < 0) {
+            $this->setSwapTag("message", "newResellersRate must be 1 or more");
             return;
         }
-        if ($new_resellers_rate > 100) {
-            $this->setSwapTag("message", "new_resellers_rate must be 100 or less");
+        if ($newResellersRate > 100) {
+            $this->setSwapTag("message", "newResellersRate must be 100 or less");
             return;
         }
-        if ($ui_tweaks_datatable_itemsperpage < 10) {
+        if ($ui_tweaks_datatableItemsPerPage < 10) {
             $this->setSwapTag("message", "Datatable entrys per page length must be 10 or more");
             return;
         }
-        if ($ui_tweaks_datatable_itemsperpage > 200) {
+        if ($ui_tweaks_datatableItemsPerPage > 200) {
             $this->setSwapTag("message", "Datatable entrys per page must be 200 or less");
             return;
         }
@@ -65,59 +65,59 @@ class Update extends ViewAjax
             $this->setSwapTag("message", "Owner AV uid length must be 8");
             return;
         }
-        if ($avatar->loadByField("avatar_uid", $owneravuid) == false) {
+        if ($avatar->loadByField("avatarUid", $owneravuid) == false) {
             $this->setSwapTag("message", "Unable to load avatar from uid");
             return;
         }
-        if ($timezone->loadID($displaytimezonelink) == false) {
+        if ($timezone->loadID($displayTimezoneLink) == false) {
             $this->setSwapTag("message", "Timezone selected not supported");
             return;
         }
-        if (strlen($api_default_email) < 7) {
+        if (strlen($apiDefaultEmail) < 7) {
             $this->setSwapTag("message", "API default email address does not appear to be vaild");
             return;
         }
-        if (strlen($publiclinkcode) < 6) {
+        if (strlen($publicLinkCode) < 6) {
             $this->setSwapTag("message", "Public link code min length is 6");
             return;
         }
-        if (strlen($publiclinkcode) > 12) {
+        if (strlen($publicLinkCode) > 12) {
             $this->setSwapTag("message", "Public link code max length is 12");
             return;
         }
 
         $this->setSwapTag("redirect", "slconfig");
-        if ($avatar->getId() != $this->slconfig->getOwner_av()) {
-            $this->slconfig->setOwner_av($avatar->getId());
+        if ($avatar->getId() != $this->slconfig->getOwnerAvatarLink()) {
+            $this->slconfig->setOwnerAvatarLink($avatar->getId());
         }
-        $this->slconfig->setSllinkcode($sllinkcode);
-        $this->slconfig->setPubliclinkcode($publiclinkcode);
-        $this->slconfig->setHttp_inbound_secret($httpcode);
-        $this->slconfig->setNew_resellers($new_resellers);
-        $this->slconfig->setNew_resellers_rate($new_resellers_rate);
-        $this->slconfig->setEventstorage($event_storage);
-        $this->slconfig->setClients_list_mode($ui_tweaks_clients_fulllist);
-        $this->slconfig->setDatatable_itemsperpage($ui_tweaks_datatable_itemsperpage);
-        $this->slconfig->setDisplaytimezonelink($displaytimezonelink);
-        $this->slconfig->setApi_default_email($api_default_email);
+        $this->slconfig->setSlLinkCode($slLinkCode);
+        $this->slconfig->setPublicLinkCode($publicLinkCode);
+        $this->slconfig->setHttpInboundSecret($httpcode);
+        $this->slconfig->setNewResellers($newResellers);
+        $this->slconfig->setNewResellersRate($newResellersRate);
+        $this->slconfig->setEventStorage($event_storage);
+        $this->slconfig->setClientsListMode($ui_tweaks_clients_fulllist);
+        $this->slconfig->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
+        $this->slconfig->setDisplayTimezoneLink($displayTimezoneLink);
+        $this->slconfig->setApiDefaultEmail($apiDefaultEmail);
         if ($this->session->getOwnerLevel() == 1) {
-            $smtp_from = $input->postFilter("smtp_from");
+            $smtpFrom = $input->postFilter("smtpFrom");
             $smtp_reply = $input->postFilter("smtp_reply");
-            $smtp_host = $input->postFilter("smtp_host");
+            $smtpHost = $input->postFilter("smtpHost");
             $smtp_user = $input->postFilter("smtp_user");
             $smtp_code = $input->postFilter("smtp_code");
-            $smtp_port = $input->postFilter("smtp_port");
+            $smtpPort = $input->postFilter("smtpPort");
             // missing tests here :P
-            $this->slconfig->setSmtp_host($smtp_host);
-            $this->slconfig->setSmtp_port($smtp_port);
+            $this->slconfig->setSmtpHost($smtpHost);
+            $this->slconfig->setSmtpPort($smtpPort);
             if ($smtp_user != "skip") {
-                $this->slconfig->setSmtp_username($smtp_user);
+                $this->slconfig->setSmtpUsername($smtp_user);
             }
             if ($smtp_code != "skip") {
-                $this->slconfig->setSmtp_accesscode($smtp_code);
+                $this->slconfig->setSmtpAccesscode($smtp_code);
             }
-            $this->slconfig->setSmtp_from($smtp_from);
-            $this->slconfig->setSmtp_replyto($smtp_reply);
+            $this->slconfig->setSmtpFrom($smtpFrom);
+            $this->slconfig->setSmtpReplyTo($smtp_reply);
         }
             $update_status = $this->slconfig->updateEntry();
         if ($update_status["status"] == false) {

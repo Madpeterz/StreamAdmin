@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Endpoints\SecondLifeHudApi\Rentals;
+namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
-use App\Endpoints\SecondLifeApi\Renew\Renewnow;
+use App\Endpoint\SecondLifeApi\Renew\Renewnow;
 use App\Helpers\BotHelper;
 use App\Helpers\RegionHelper;
 use App\Models\Avatar;
@@ -21,13 +21,13 @@ class Topup extends SecondlifeAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $rental_uid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("uid");
         $amount = $input->postFilter("amount", "integer");
         $transactionid = $input->postFilter("transactionid", "uuid");
         $tidhash = $input->postFilter("tidhash");
         $tidtime = $input->postFilter("tidtime", "integer");
         $regionname = $input->postFilter("regionname");
-        $fasttest = [$amount,$rental_uid,$transactionid,$tidhash,$tidtime,$regionname];
+        $fasttest = [$amount,$rentalUid,$transactionid,$tidhash,$tidtime,$regionname];
         if (in_array(null, $fasttest) == true) {
             $this->setSwapTag("message", "One or more values passed are not set correctly");
             return;
@@ -39,26 +39,26 @@ class Topup extends SecondlifeAjax
             return;
         }
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $rental_uid) == false) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
-        if ($rental->getAvatarlink() != $this->object_owner_avatar->getId()) {
+        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
             $this->setSwapTag("message", "Unable to process topup");
             return;
         }
         $stream = new Stream();
-        if ($stream->loadID($rental->getStreamlink()) == false) {
+        if ($stream->loadID($rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to load stream");
             return;
         }
         $server = new Server();
-        if ($server->loadID($stream->getServerlink()) == false) {
+        if ($server->loadID($stream->getServerLink()) == false) {
             $this->setSwapTag("message", "Unable to load server");
             return;
         }
         $package = new Package();
-        if ($package->loadID($rental->getPackagelink()) == false) {
+        if ($package->loadID($rental->getPackageLink()) == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }
@@ -67,13 +67,13 @@ class Topup extends SecondlifeAjax
             return;
         }
         $bits = [
-            $rental_uid,
+            $rentalUid,
             $amount,
             $transactionid,
             $tidtime,
-            $this->object_owner_avatar->getAvataruuid(),
-            $this->slconfig->getPubliclinkcode(),
-            $rental->getExpireunixtime(),
+            $this->object_ownerAvatarLinkatar->getAvatarUUID(),
+            $this->slconfig->getPublicLinkCode(),
+            $rental->getExpireUnixtime(),
         ];
         $raw = implode("", $bits);
         $tidhashcheck = sha1($raw);
@@ -87,7 +87,7 @@ class Topup extends SecondlifeAjax
             return;
         }
         $avatar_system = new Avatar();
-        if ($avatar_system->loadID($this->slconfig->getOwner_av()) == false) {
+        if ($avatar_system->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to load system owner avatar");
             return;
         }
@@ -97,9 +97,9 @@ class Topup extends SecondlifeAjax
             return;
         }
 
-        $_POST["rental_uid"] = $rental_uid;
-        $_POST["avataruuid"] = $this->object_owner_avatar->getAvataruuid();
-        $_POST["avatarname"] = $this->object_owner_avatar->getAvatarname();
+        $_POST["rentalUid"] = $rentalUid;
+        $_POST["avatarUUID"] = $this->object_ownerAvatarLinkatar->getAvatarUUID();
+        $_POST["avatarName"] = $this->object_ownerAvatarLinkatar->getAvatarName();
         $_POST["amountpaid"] = $amount;
 
         $apiobj = new Renewnow();
@@ -115,15 +115,15 @@ class Topup extends SecondlifeAjax
             $botconfig->loadID(1);
 
             $botavatar = new Avatar();
-            $botavatar->loadID($botconfig->getAvatarlink());
+            $botavatar->loadID($botconfig->getAvatarLink());
 
             $sendmessage = $swapables_helper->get_swapped_text(
                 "= Remote transaction notice =[[NL]] User: [[AVATAR_FULLNAME]] has topped up L$"
                 . $amount . " [[NL]] Rental: "
-                . $rental->getRental_uid() . " on port: "
+                . $rental->getRentalUid() . " on port: "
                 . $stream->getPort() . " [[NL]] transaction ID:"
                 . $transactionid . "",
-                $this->object_owner_avatar,
+                $this->object_ownerAvatarLinkatar,
                 $rental,
                 $package,
                 $server,

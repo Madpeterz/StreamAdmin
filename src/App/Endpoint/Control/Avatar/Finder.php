@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Avatar;
+namespace App\Endpoint\Control\Avatar;
 
 use App\Models\AvatarSet;
 use App\Template\ViewAjax;
@@ -15,7 +15,7 @@ class Finder extends ViewAjax
         $input = new inputFilter();
         $avatarfindname = $input->postFilter("avatarfind");
         $where_config = [
-            "fields" => ["avataruuid","avatarname","avatar_uid"],
+            "fields" => ["avatarUUID","avatarName","avatarUid"],
             "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
             "values" => [$avatarfindname,$avatarfindname,$avatarfindname],
             "types" => ["s","s","s"],
@@ -32,16 +32,16 @@ class Finder extends ViewAjax
             $avatar = $search_avatar_set->getObjectByID($result_id);
             $percent_uuid = 0;
             $percent_name = 0;
-            similar_text($avatarfindname, $avatar->getAvataruuid(), $percent_uuid);
-            similar_text($avatarfindname, $avatar->getAvatarname(), $percent_name);
+            similar_text($avatarfindname, $avatar->getAvatarUUID(), $percent_uuid);
+            similar_text($avatarfindname, $avatar->getAvatarName(), $percent_name);
             $match_score = $percent_name;
             if ($percent_uuid > $percent_name) {
                 $match_score = $percent_uuid;
             }
             $scored_results[] = [
                 "score" => round($match_score),
-                "matchuid" => $avatar->getAvatar_uid(),
-                "matchname" => $avatar->getAvatarname(),
+                "matchuid" => $avatar->getAvatarUid(),
+                "matchname" => $avatar->getAvatarName(),
             ];
         }
         usort($scored_results, function ($a, $b) {

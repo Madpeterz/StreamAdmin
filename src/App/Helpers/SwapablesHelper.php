@@ -19,7 +19,7 @@ class SwapablesHelper
         Stream $stream
     ): string {
         global $timezone_name;
-          $av_split = explode(" ", $avatar->getAvatarname());
+          $av_split = explode(" ", $avatar->getAvatarName());
         if (count($av_split) == 1) {
               $av_split[] = "Resident";
         }
@@ -29,24 +29,24 @@ class SwapablesHelper
           $swaps = [
               "AVATAR_FIRSTNAME" => $av_split[0],
               "AVATAR_LASTNAME" => $av_split[1],
-              "AVATAR_FULLNAME" => $avatar->getAvatarname(),
-              "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A', $rental->getExpireunixtime()),
-              "RENTAL_TIMELEFT" => timeleft_hours_and_days($rental->getExpireunixtime()),
+              "AVATAR_FULLNAME" => $avatar->getAvatarName(),
+              "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime()),
+              "RENTAL_TIMELEFT" => timeleft_hours_and_days($rental->getExpireUnixtime()),
               "STREAM_PORT" => $stream->getPort(),
-              "STREAM_ADMINUSERNAME" => $stream->getAdminusername(),
-              "STREAM_ADMINPASSWORD" => $stream->getAdminpassword(),
-              "STREAM_DJPASSWORD" => $stream->getDjpassword(),
+              "STREAM_ADMINUSERNAME" => $stream->getAdminUsername(),
+              "STREAM_ADMINPASSWORD" => $stream->getAdminPassword(),
+              "STREAM_DJPASSWORD" => $stream->getDjPassword(),
               "STREAM_MOUNTPOINT" => $stream->getMountpoint(),
               "SERVER_DOMAIN" => $server->getDomain(),
-              "SERVER_CONTROLPANEL" => $server->getControlpanel_url(),
+              "SERVER_CONTROLPANEL" => $server->getControlPanelURL(),
               "PACKAGE_NAME" => $package->getName(),
               "PACKAGE_LISTENERS" => $package->getListeners(),
               "PACKAGE_BITRATE" => $package->getBitrate(),
               "PACKAGE_AUTODJ" => $true_false,
               "PACKAGE_AUTODJ_SIZE" => $package->getAutodj_size(),
               "NL" => "\n",
-              "PACKAGE_UID" => $package->getPackage_uid(),
-              "RENTAL_UID" => $rental->getRental_uid(),
+              "PACKAGE_UID" => $package->getPackageUid(),
+              "RENTAL_UID" => $rental->getRentalUid(),
               "TIMEZONE" => $timezone_name,
           ];
           foreach ($swaps as $key => $value) {

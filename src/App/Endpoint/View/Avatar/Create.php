@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Avatar;
+namespace App\Endpoint\View\Avatar;
 
 use App\Template\Form as Form;
 
@@ -15,8 +15,8 @@ class Create extends View
         $form->target("avatar/create");
         $form->required(true);
         $form->col(6);
-            $form->textInput("avatarname", "Name", 125, null, "Madpeter Zond [You can leave out Resident]");
-            $form->textInput("avataruuid", "SL UUID", 3, null, "SecondLife UUID [found on their SL profile]");
+            $form->textInput("avatarName", "Name", 125, null, "Madpeter Zond [You can leave out Resident]");
+            $form->textInput("avatarUUID", "SL UUID", 3, null, "SecondLife UUID [found on their SL profile]");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Textureconfig;
+namespace App\Endpoint\View\Textureconfig;
 
 use App\Template\Form;
 
@@ -16,19 +16,19 @@ class Create extends View
         $form->required(true);
         $form->col(6);
             $form->textInput("name", "Name", 30, "", "Name");
-            $form->textInput("getting_details", "Fetching details", 36, "", "UUID of texture");
-            $form->textInput("request_details", "Request details", 36, "", "UUID of texture");
+            $form->textInput("gettingDetails", "Fetching details", 36, "", "UUID of texture");
+            $form->textInput("requestDetails", "Request details", 36, "", "UUID of texture");
         $form->split();
         $form->col(6);
             $form->textInput("offline", "Offline", 36, "", "UUID of texture");
-            $form->textInput("wait_owner", "Waiting for owner", 36, "", "UUID of texture");
-            $form->textInput("inuse", "Inuse", 36, "", "UUID of texture");
-            $form->textInput("treevend_waiting", "Tree vend [Wait]", 36, "", "UUID of texture");
+            $form->textInput("waitOwner", "Waiting for owner", 36, "", "UUID of texture");
+            $form->textInput("inUse", "InUse", 36, "", "UUID of texture");
+            $form->textInput("treevendWaiting", "Tree vend [Wait]", 36, "", "UUID of texture");
         $form->col(6);
-            $form->textInput("make_payment", "Request payment", 36, "", "UUID of texture");
-            $form->textInput("stock_levels", "Stock levels", 36, "", "UUID of texture");
-            $form->textInput("renew_here", "Renew here", 36, "", "UUID of texture");
-            $form->textInput("proxyrenew", "Proxy Renew", 36, "", "UUID of texture");
+            $form->textInput("makePayment", "Request payment", 36, "", "UUID of texture");
+            $form->textInput("stockLevels", "Stock levels", 36, "", "UUID of texture");
+            $form->textInput("renewHere", "Renew here", 36, "", "UUID of texture");
+            $form->textInput("proxyRenew", "Proxy Renew", 36, "", "UUID of texture");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

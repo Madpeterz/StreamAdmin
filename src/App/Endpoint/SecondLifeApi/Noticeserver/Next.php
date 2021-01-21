@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Noticeserver;
+namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
 use App\Models\Apis;
 use App\Models\Avatar;
@@ -34,13 +34,13 @@ class Next extends SecondlifeAjax
             return;
         }
 
-        if ($botconfig->getAvatarlink() <= 0) {
+        if ($botconfig->getAvatarLink() <= 0) {
             $this->setSwapTag("message", "Assigned avatar to bot is not vaild");
             return;
         }
 
         $botavatar = new Avatar();
-        if ($botavatar->loadID($botconfig->getAvatarlink()) == false) {
+        if ($botavatar->loadID($botconfig->getAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to load avatar attached to bot");
             return;
         }
@@ -61,14 +61,14 @@ class Next extends SecondlifeAjax
         $all_ok = true;
         $changes = 0;
 
-        $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
+        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
         $max_hours = array_keys($sorted_linked)[count($sorted_linked) - 2]; // ignore 999 hours at the end for active
         $unixtime = $max_hours * $unixtime_hour;
-        $expired_notice = $notice_set->getObjectByField("hoursremaining", 0);
+        $expired_notice = $notice_set->getObjectByField("hoursRemaining", 0);
 
         $where_config = [
-            "fields" => ["expireunixtime","noticelink"],
+            "fields" => ["expireUnixtime","noticeLink"],
             "values" => [(time() + $unixtime),$expired_notice->getId()],
             "types" => ["i","i"],
             "matches" => ["<=","!="],
@@ -83,13 +83,13 @@ class Next extends SecondlifeAjax
 
         $rental = $rental_set->getFirst();
 
-        $avatar->loadID($rental->getAvatarlink());
-        $stream->loadID($rental->getStreamlink());
-        $server->loadID($stream->getServerlink());
-        $package->loadID($stream->getPackagelink());
-        $apis->loadID($server->getApilink());
+        $avatar->loadID($rental->getAvatarLink());
+        $stream->loadID($rental->getStreamLink());
+        $server->loadID($stream->getServerLink());
+        $package->loadID($stream->getPackageLink());
+        $apis->loadID($server->getApiLink());
 
-        if ($rental->getExpireunixtime() < time()) {
+        if ($rental->getExpireUnixtime() < time()) {
             $this->processNoticeChange(
                 $expired_notice,
                 $rental,
@@ -103,14 +103,14 @@ class Next extends SecondlifeAjax
             return;
         }
 
-        $hours_remain = ceil(($rental->getExpireunixtime() - time()) / $unixtime_hour);
+        $hours_remain = ceil(($rental->getExpireUnixtime() - time()) / $unixtime_hour);
         if ($hours_remain < 0) {
             $this->setSwapTag("message", "Math error - negitive hours remaining but not expired");
             return;
         }
 
-        $current_notice_level = $notice_set->getObjectByID($rental->getNoticelink());
-        $current_hold_hours = $current_notice_level->getHoursremaining();
+        $current_notice_level = $notice_set->getObjectByID($rental->getNoticeLink());
+        $current_hold_hours = $current_notice_level->getHoursRemaining();
         $use_notice_index = 0;
         foreach ($sorted_linked as $hours => $index) {
             if (($hours > 0) && ($hours < 999)) {
@@ -159,7 +159,7 @@ class Next extends SecondlifeAjax
         $bot_helper = new bot_helper();
         $swapables_helper = new swapables_helper();
         $sendmessage = $swapables_helper->get_swapped_text(
-            $notice->getImmessage(),
+            $notice->getImMessage(),
             $avatar,
             $rental,
             $package,
@@ -171,20 +171,20 @@ class Next extends SecondlifeAjax
             $botavatar,
             $avatar,
             $sendmessage,
-            $notice->getUsebot()
+            $notice->getUseBot()
         );
         if ($send_message_status["status"] == false) {
             $this->setSwapTag("message", "Unable to put mail into outbox");
             return;
         }
-        $rental->setNoticelink($notice->getId());
+        $rental->setNoticeLink($notice->getId());
         $save_status = $rental->updateEntry();
         if ($save_status["status"] == false) {
             $this->setSwapTag("message", "Unable to update rental notice level");
             return;
         }
 
-        if ($notice->getHoursremaining() == 0) {
+        if ($notice->getHoursRemaining() == 0) {
             include "shared/media_server_apis/logic/expire.php";
             $all_ok = $api_serverlogic_reply;
         }
@@ -193,12 +193,12 @@ class Next extends SecondlifeAjax
             return;
         }
 
-        if ($notice->getSend_notecard() == true) {
+        if ($notice->getSendNotecard() == true) {
             if ($botconfig->getNotecards() == true) {
                 $notecard = new Notecard();
-                $notecard->setRentallink($rental->getId());
-                $notecard->setAs_notice(1);
-                $notecard->setNoticelink($notice->getId());
+                $notecard->setRentalLink($rental->getId());
+                $notecard->setAsNotice(1);
+                $notecard->setNoticeLink($notice->getId());
                 $create_status = $notecard->createEntry();
                 if ($create_status["status"] == false) {
                     $this->setSwapTag("message", "Unable to create new notecard");
@@ -207,18 +207,18 @@ class Next extends SecondlifeAjax
             }
         }
 
-        if ($notice->getNotice_notecardlink() <= 1) {
+        if ($notice->getNoticeNotecardLink() <= 1) {
             return;
         }
         $notice_notecard = new Noticenotecard();
 
-        if ($notice_notecard->loadID($notice->getNotice_notecardlink()) == false) {
+        if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
             $this->setSwapTag("message", "Unable to find static notecard!");
             return;
         }
         if ($notice_notecardgetMissing() == false) {
             $this->setSwapTag("send_static_notecard", $notice_notecard->getName());
-            $this->setSwapTag("send_static_notecard_to", $avatar->getAvataruuid());
+            $this->setSwapTag("send_static_notecard_to", $avatar->getAvatarUUID());
         }
 
         $this->setSwapTag("status", "true");

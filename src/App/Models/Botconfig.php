@@ -10,14 +10,14 @@ class Botconfig extends genClass
     protected $use_table = "botconfig";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "avatarlink" => ["type" => "int", "value" => null],
+        "avatarLink" => ["type" => "int", "value" => null],
         "secret" => ["type" => "str", "value" => null],
         "notecards" => ["type" => "bool", "value" => 0],
         "ims" => ["type" => "bool", "value" => 0],
     ];
-    public function getAvatarlink(): ?int
+    public function getAvatarLink(): ?int
     {
-        return $this->getField("avatarlink");
+        return $this->getField("avatarLink");
     }
     public function getSecret(): ?string
     {
@@ -32,12 +32,12 @@ class Botconfig extends genClass
         return $this->getField("ims");
     }
     /**
-    * setAvatarlink
+    * setAvatarLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAvatarlink(?int $newvalue): array
+    public function setAvatarLink(?int $newvalue): array
     {
-        return $this->updateField("avatarlink", $newvalue);
+        return $this->updateField("avatarLink", $newvalue);
     }
     /**
     * setSecret

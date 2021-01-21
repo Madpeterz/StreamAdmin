@@ -5,8 +5,8 @@ class server_secondbot extends server_secondbot_core
     protected function process_api_call(server $server, array $args): array
     {
         $post_data = [];
-        $post_data["token"] = sha1(time() . "eventinbound" . $server->get_api_password() . "");
-        $url = $server->getApi_url() . "/event/inbound";
+        $post_data["token"] = sha1(time() . "eventinbound" . $server->get_apiPassword() . "");
+        $url = $server->getApiURL() . "/event/inbound";
         foreach ($args as $key => $value) {
             $post_data[$key] = $value;
         }
@@ -23,7 +23,7 @@ class server_secondbot extends server_secondbot_core
     {
         $remove_status = $eventremoveEntry();
         if ($remove_status["status"] == true) {
-            $reply = ["status" => true,"message" => "event_removed"];
+            $reply = ["status" => true,"message" => "eventRemoved"];
         } else {
             $reply = ["status" => false,"message" => "unable to remove event: " . $remove_status["message"] . ""];
         }
@@ -32,7 +32,7 @@ class server_secondbot extends server_secondbot_core
     {
         global $reply, $sql;
         $server = new server();
-        $server->loadByField("apilink", 5);
+        $server->loadByField("apiLink", 5);
         $event_set = new event_set();
         $event_set->loadNewest(1, [], [], "id", "ASC");
         if ($event_set->getCount() == 1) {

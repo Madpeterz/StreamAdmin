@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Outbox;
+namespace App\Endpoint\View\Outbox;
 
 use App\Models\AvatarSet;
 use App\Models\DetailSet;
@@ -16,14 +16,14 @@ class Details extends View
         $detail_set = new DetailSet();
         $detail_set->loadAll();
         $rental_set = new RentalSet();
-        $rental_set->loadIds($detail_set->getAllByField("rentallink"));
+        $rental_set->loadIds($detail_set->getAllByField("rentalLink"));
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
+        $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
         foreach ($detail_set->getAllIds() as $detail_id) {
             $detail = $detail_set->getObjectByID($detail_id);
-            $rental = $rental_set->getObjectByID($detail->getRentallink());
-            $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
-            $table_body[] = [$detail->getId(),$rental->getRental_uid(),$avatar->getAvatarname()];
+            $rental = $rental_set->getObjectByID($detail->getRentalLink());
+            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
+            $table_body[] = [$detail->getId(),$rental->getRentalUid(),$avatar->getAvatarName()];
         }
         $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
     }

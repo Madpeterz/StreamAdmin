@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Home;
+namespace App\Endpoint\View\Home;
 
 use App\Template\Grid;
 

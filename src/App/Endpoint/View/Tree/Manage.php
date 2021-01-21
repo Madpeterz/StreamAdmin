@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Tree;
+namespace App\Endpoint\View\Tree;
 
 use App\Models\PackageSet;
 use App\Template\Form;
@@ -31,14 +31,14 @@ class Manage extends View
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
         $this->output->addSwapTagString("page_content", "<br/><hr/><br/>");
         $treevender_packages_set = new TreevenderpackagesSet();
-        $treevender_packages_set->loadOnField("treevenderlink", $treevender->getId());
+        $treevender_packages_set->loadOnField("treevenderLink", $treevender->getId());
         $table_head = ["ID","Name","Action"];
         $table_body = [];
         $used_package_ids = [];
         foreach ($treevender_packages_set->getAllIds() as $treevender_packages_id) {
             $treevender_packages = $treevender_packages_set->getObjectByID($treevender_packages_id);
             $entry = [];
-            $package = $package_set->getObjectByID($treevender_packages->getPackagelink());
+            $package = $package_set->getObjectByID($treevender_packages->getPackageLink());
             $used_package_ids[] = $package->getId();
             $entry[] = $treevender_packages->getId();
             $entry[] = $package->getName();
@@ -47,16 +47,16 @@ class Manage extends View
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));
-        $unused_index = [];
+        $unUsed_index = [];
         foreach ($package_set->getLinkedArray("id", "name") as $id => $name) {
             if (in_array($id, $used_package_ids) == false) {
-                $unused_index[$id] = $name;
+                $unUsed_index[$id] = $name;
             }
         }
-        if (count($unused_index) > 0) {
+        if (count($unUsed_index) > 0) {
             $form = new Form();
             $form->target("tree/addpackage/" . $this->page . "");
-            $form->select("package", "Package", "", $unused_index);
+            $form->select("package", "Package", "", $unUsed_index);
             $this->output->addSwapTagString("page_content", $form->render("Add package", "success"));
         }
     }

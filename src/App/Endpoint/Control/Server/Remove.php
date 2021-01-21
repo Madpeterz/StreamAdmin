@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Server;
+namespace App\Endpoint\Control\Server;
 
 use App\Models\ApirequestsSet;
 use App\Models\Server;
@@ -28,7 +28,7 @@ class Remove extends ViewAjax
             $this->setSwapTag("message", "Unable to find server");
             return;
         }
-        $load_status = $stream_set->loadOnField("serverlink", $server->getId());
+        $load_status = $stream_set->loadOnField("serverLink", $server->getId());
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to check if the server is being used by a stream");
             return;
@@ -43,7 +43,7 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $load_status = $api_requests_set->loadOnField("serverlink", $server->getId());
+        $load_status = $api_requests_set->loadOnField("serverLink", $server->getId());
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to check if the server is being used by a api request");
             return;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Error;
+namespace App\Endpoint\View\Error;
 
 use App\Template\View as TemplateView;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Notice;
+namespace App\Endpoint\View\Notice;
 
 use App\Template\Form as Form;
 

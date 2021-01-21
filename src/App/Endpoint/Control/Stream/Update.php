@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Stream;
+namespace App\Endpoint\Control\Stream;
 
 use App\Models\Package;
 use App\Models\Server;
@@ -17,16 +17,16 @@ class Update extends ViewAjax
         $input = new InputFilter();
 
         $port = $input->postFilter("port", "integer");
-        $packagelink = $input->postFilter("packagelink", "integer");
-        $serverlink = $input->postFilter("serverlink", "integer");
+        $packageLink = $input->postFilter("packageLink", "integer");
+        $serverLink = $input->postFilter("serverLink", "integer");
         $mountpoint = $input->postFilter("mountpoint");
-        $adminusername = $input->postFilter("adminusername");
-        $adminpassword = $input->postFilter("adminpassword");
-        $djpassword = $input->postFilter("djpassword");
-        $original_adminusername = $input->postFilter("original_adminusername");
-        $api_uid_1 = $input->postFilter("api_uid_1");
-        $api_uid_2 = $input->postFilter("api_uid_2");
-        $api_uid_3 = $input->postFilter("api_uid_3");
+        $adminUsername = $input->postFilter("adminUsername");
+        $adminPassword = $input->postFilter("adminPassword");
+        $djPassword = $input->postFilter("djPassword");
+        $originalAdminUsername = $input->postFilter("originalAdminUsername");
+        $apiConfigValue1 = $input->postFilter("apiConfigValue1");
+        $apiConfigValue2 = $input->postFilter("apiConfigValue2");
+        $apiConfigValue3 = $input->postFilter("apiConfigValue3");
         $api_update = $input->postFilter("api_update", "integer");
 
         if ($port < 1) {
@@ -37,62 +37,62 @@ class Update extends ViewAjax
             $this->setSwapTag("message", "Port must be 99999 or less");
             return;
         }
-        if ($package->loadID($packagelink) == false) {
+        if ($package->loadID($packageLink) == false) {
             $this->setSwapTag("message", "Unable to find package");
             return;
         }
-        if ($server->loadID($serverlink) == false) {
+        if ($server->loadID($serverLink) == false) {
             $this->setSwapTag("message", "Unable to find server");
             return;
         }
-        if (strlen($adminusername) < 3) {
+        if (strlen($adminUsername) < 3) {
             $this->setSwapTag("message", "Admin username length must be 3 or more");
             return;
         }
-        if (strlen($adminusername) >= 50) {
+        if (strlen($adminUsername) >= 50) {
             $this->setSwapTag("message", "Admin username length must be 50 or less");
             return;
         }
-        if (strlen($adminpassword) < 4) {
+        if (strlen($adminPassword) < 4) {
             $this->setSwapTag("message", "Admin password length must be 4 or more");
             return;
         }
-        if (strlen($adminpassword) > 20) {
+        if (strlen($adminPassword) > 20) {
             $this->setSwapTag("message", "Admin password length must be 20 or less");
             return;
         }
-        if (strlen($djpassword) < 4) {
+        if (strlen($djPassword) < 4) {
             $this->setSwapTag("message", "DJ password length must be 4 or more");
             return;
         }
-        if (strlen($djpassword) > 20) {
+        if (strlen($djPassword) > 20) {
             $this->setSwapTag("message", "DJ password length must be 20 or less");
             return;
         }
-        if (strlen($original_adminusername) < 3) {
+        if (strlen($originalAdminUsername) < 3) {
             $this->setSwapTag("message", "Original admin username length must be 3 or more");
             return;
         }
-        if (strlen($original_adminusername) >= 50) {
+        if (strlen($originalAdminUsername) >= 50) {
             $this->setSwapTag("message", "Original admin username length must be 50 or less");
             return;
         }
 
         $stream = new Stream();
-        if ($stream->loadByField("stream_uid", $this->page) == false) {
+        if ($stream->loadByField("streamUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to find stream with that uid");
             return;
         }
         $whereConfig = [
-            "fields" => ["port","serverlink"],
-            "values" => [$port,$serverlink],
+            "fields" => ["port","serverLink"],
+            "values" => [$port,$serverLink],
             "types" => ["i","i"],
             "matches" => ["=","="],
         ];
         $count_check = $this->sql->basicCountV2($stream->getTable(), $whereConfig);
         $expected_count = 0;
         if ($stream->getPort() == $port) {
-            if ($stream->getServerlink() == $serverlink) {
+            if ($stream->getServerLink() == $serverLink) {
                 $expected_count = 1;
             }
         }
@@ -107,18 +107,18 @@ class Update extends ViewAjax
             );
             return;
         }
-        $stream->setPackagelink($packagelink);
-        $stream->setServerlink($serverlink);
+        $stream->setPackageLink($packageLink);
+        $stream->setServerLink($serverLink);
         $stream->setPort($port);
-        $stream->setNeedwork(false);
-        $stream->setAdminusername($adminusername);
-        $stream->setAdminpassword($adminpassword);
-        $stream->setDjpassword($djpassword);
+        $stream->setNeedWork(false);
+        $stream->setAdminUsername($adminUsername);
+        $stream->setAdminPassword($adminPassword);
+        $stream->setDjPassword($djPassword);
         $stream->setMountpoint($mountpoint);
-        $stream->setOriginal_adminusername($original_adminusername);
-        $stream->setApi_uid_1($api_uid_1);
-        $stream->setApi_uid_2($api_uid_2);
-        $stream->setApi_uid_3($api_uid_3);
+        $stream->setOriginalAdminUsername($originalAdminUsername);
+        $stream->setApiConfigValue1($apiConfigValue1);
+        $stream->setApiConfigValue2($apiConfigValue2);
+        $stream->setApiConfigValue3($apiConfigValue3);
         $update_status = $stream->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag(

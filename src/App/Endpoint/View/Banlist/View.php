@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Banlist;
+namespace App\Endpoint\View\Banlist;
 
 use App\Template\View as BasicView;
 

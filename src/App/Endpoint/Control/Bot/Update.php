@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Bot;
+namespace App\Endpoint\Control\Bot;
 
 use App\Models\Avatar;
 use App\Models\Botconfig;
@@ -36,11 +36,11 @@ class Update extends ViewAjax
             return;
         }
         $avatar = new Avatar();
-        if ($avatar->loadByField("avatar_uid", $avataruid) == false) {
+        if ($avatar->loadByField("avatarUid", $avataruid) == false) {
             $this->setSwapTag("message", "Unable to load avatar to attach bot to");
             return;
         }
-        $botconfig->setAvatarlink($avatar->getId());
+        $botconfig->setAvatarLink($avatar->getId());
         $botconfig->setSecret($secret);
         $botconfig->setNotecards($notecards);
         $botconfig->setIms($ims);

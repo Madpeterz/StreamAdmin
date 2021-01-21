@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Login;
+namespace App\Endpoint\View\Login;
 
 use App\Models\NoticeSet;
 
@@ -15,13 +15,13 @@ class DefaultView extends View
 
         foreach ($notice_set->getAllIds() as $notice_id) {
             $notice = $notice_set->getObjectByID($notice_id);
-            if ($notice->getHoursremaining() != 999) {
+            if ($notice->getHoursRemaining() != 999) {
                 $entry = [];
-                $entry[] = $notice->getHoursremaining();
+                $entry[] = $notice->getHoursRemaining();
                 $entry[] = '<a href="[[url_base]]notice/manage/' . $notice->getId() . '"
                 .">' . $notice->getName() . '</a>';
-                $entry[] = [false => "No",true => "Yes"][$notice->getUsebot()];
-                $entry[] = $notice->getHoursremaining();
+                $entry[] = [false => "No",true => "Yes"][$notice->getUseBot()];
+                $entry[] = $notice->getHoursRemaining();
                 $table_body[] = $entry;
             }
         }

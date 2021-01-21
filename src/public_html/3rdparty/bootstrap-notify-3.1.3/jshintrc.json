@@ -11,16 +11,14 @@
 	"nonbsp": true,
 	"nonew": true,
 	"undef": true,
-	"unused": true,
+	"unUsed": true,
 	"strict": false,
 	"trailing": true,
 	"maxparams": 5,
 	"sub": true,
 	"devel": true,
 	"browser": true,
-
 	"globals": {
 		"jQuery": false
 	}
-
 }

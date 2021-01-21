@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Package;
+namespace App\Endpoint\View\Package;
 
 use App\Models\ServertypesSet;
 use App\Template\Form;

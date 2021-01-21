@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Transactions;
+namespace App\Endpoint\View\Transactions;
 
 use YAPF\InputFilter\InputFilter;
 
@@ -42,9 +42,9 @@ class Inrange extends RangeForm
         ];
 
         $this->transaction_set->loadWithConfig($whereconfig);
-        $this->package_set->loadIds($this->transaction_set->getAllByField("packagelink"));
-        $this->region_set->loadIds($this->transaction_set->getAllByField("regionlink"));
-        $this->avatar_set->loadIds($this->transaction_set->getAllByField("avatarlink"));
+        $this->package_set->loadIds($this->transaction_set->getAllByField("packageLink"));
+        $this->region_set->loadIds($this->transaction_set->getAllByField("regionLink"));
+        $this->avatar_set->loadIds($this->transaction_set->getAllByField("avatarLink"));
         parent::process();
     }
 }

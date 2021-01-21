@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Mailserver;
+namespace App\Endpoint\SecondLifeApi\Mailserver;
 
 use App\Models\Avatar;
 use App\Models\MessageSet;
@@ -23,7 +23,7 @@ class Next extends SecondlifeAjax
         }
         $message = $message_set->getFirst();
         $avatar = new Avatar();
-        if ($avatar->loadID($message->getAvatarlink()) == false) {
+        if ($avatar->loadID($message->getAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to find avatar attached to message");
             return;
         }
@@ -35,7 +35,7 @@ class Next extends SecondlifeAjax
         }
         $this->setSwapTag("hasmessage", 1);
         $this->setSwapTag("message", $message->getMessage());
-        $this->setSwapTag("avataruuid", $avatar->getAvataruuid());
+        $this->setSwapTag("avatarUUID", $avatar->getAvatarUUID());
         $this->setSwapTag("status", "true");
     }
 }

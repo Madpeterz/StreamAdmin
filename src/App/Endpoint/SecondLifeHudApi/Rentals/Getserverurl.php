@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeHudApi\Rentals;
+namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
 use App\Models\Package;
 use App\Models\Rental;
@@ -15,28 +15,28 @@ class Getserverurl extends SecondlifeAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $rental_uid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("uid");
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $rental_uid) == true) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == true) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
-        if ($rental->getAvatarlink() != $this->object_owner_avatar->getId()) {
+        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
             $this->setSwapTag("message", "System linking error - please try again later");
             return;
         }
         $package = new Package();
-        if ($package->loadID($rental->getPackagelink()) == false) {
+        if ($package->loadID($rental->getPackageLink()) == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }
         $stream = new Stream();
-        if ($stream->loadID($rental->getStreamlink()) == false) {
+        if ($stream->loadID($rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to load stream");
             return;
         }
         $server = new Server();
-        if ($server->loadID($stream->getServerlink()) == false) {
+        if ($server->loadID($stream->getServerLink()) == false) {
             $this->setSwapTag("message", "Unable to load server");
             return;
         }

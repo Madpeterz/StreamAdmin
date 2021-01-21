@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Proxyrenew;
+namespace App\Endpoint\SecondLifeApi\ProxyRenew;
 
 use App\Models\Avatar;
 use App\Models\RentalSet;
@@ -30,9 +30,9 @@ class Details extends SecondlifeAjax
             $lastname = strtolower($bits[1]);
             $lastname = ucfirst($lastname);
             $targetuid = "" . $firstname . " " . $lastname . "";
-            $load_status = $avatar->loadByField("avatarname", $targetuid);
+            $load_status = $avatar->loadByField("avatarName", $targetuid);
         } elseif (strlen($targetuid) == 36) {
-            $load_status = $avatar->loadByField("avataruuid", $targetuid);
+            $load_status = $avatar->loadByField("avatarUUID", $targetuid);
         }
 
         $this->setSwapTag("dataset_count", 0);
@@ -41,13 +41,13 @@ class Details extends SecondlifeAjax
             return;
         }
         $rental_set = new RentalSet();
-        $rental_set->loadOnField("avatarlink", $avatar->getId());
+        $rental_set->loadOnField("avatarLink", $avatar->getId());
         if ($rental_set->getCount() < 1) {
             $this->setSwapTag("message", "Unable to find rentals");
             return;
         }
         $stream_set = new StreamSet();
-        $stream_set->loadIds($rental_set->getAllByField("streamlink"));
+        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
         if ($stream_set->getCount() < 1) {
             $this->setSwapTag("message", "Unable to find streams attached to rentals!");
             return;
@@ -55,9 +55,9 @@ class Details extends SecondlifeAjax
         $reply_dataset = [];
         foreach ($rental_set->getAllIds() as $rental_id) {
             $rental = $rental_set->getObjectByID($rental_id);
-            $stream = $stream_set->getObjectByID($rental->getStreamlink());
+            $stream = $stream_set->getObjectByID($rental->getStreamLink());
             if ($stream != null) {
-                $reply_dataset[] = "" . $rental->getRental_uid() . "|||" . $stream->getPort() . "";
+                $reply_dataset[] = "" . $rental->getRentalUid() . "|||" . $stream->getPort() . "";
             }
         }
         if (count($reply_dataset) < 1) {
@@ -67,6 +67,6 @@ class Details extends SecondlifeAjax
         $this->setSwapTag("status", "true");
         $this->setSwapTag("dataset_count", count($reply_dataset));
         $this->setSwapTag("dataset", $reply_dataset);
-        $this->setSwapTag("message", sprintf("Cleint account: %1\$s", $avatar->getAvatarname()));
+        $this->setSwapTag("message", sprintf("Cleint account: %1\$s", $avatar->getAvatarName()));
     }
 }

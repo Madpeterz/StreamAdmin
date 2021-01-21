@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Tree;
+namespace App\Endpoint\SecondLifeApi\Tree;
 
 use App\Models\PackageSet;
 use App\Models\Treevender;
@@ -31,13 +31,13 @@ class Getpackages extends SecondlifeAjax
             return;
         }
         $treevender_packages_set = new TreevenderpackagesSet();
-        $load_status = $treevender_packages_set->loadOnField("treevenderlink", $treevender->getId());
+        $load_status = $treevender_packages_set->loadOnField("treevenderLink", $treevender->getId());
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to load tree vender packages");
             return;
         }
         $package_set = new PackageSet();
-        $load_status = $package_set->loadIds($treevender_packages_set->getUniqueArray("packagelink"));
+        $load_status = $package_set->loadIds($treevender_packages_set->getUniqueArray("packageLink"));
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to load packages");
             return;
@@ -45,7 +45,7 @@ class Getpackages extends SecondlifeAjax
         $this->setSwapTag("status", "true");
         $this->setSwapTag("message", "ok");
         $reply = [];
-        $reply["package_uid"] = [];
+        $reply["packageUid"] = [];
         $reply["package_autodj"] = [];
         $reply["package_autodjsize"] = [];
         $reply["package_listeners"] = [];
@@ -55,7 +55,7 @@ class Getpackages extends SecondlifeAjax
         $package_hashs = [];
         foreach ($treevender_packages_set->getAllIds() as $treevender_package_id) {
             $treevender_package = $treevender_packages_set->getObjectByID($treevender_package_id);
-            $package = $package_set->getObjectByID($treevender_package->getPackagelink());
+            $package = $package_set->getObjectByID($treevender_package->getPackageLink());
             $hash = sha1(implode(
                 " ",
                 [
@@ -69,7 +69,7 @@ class Getpackages extends SecondlifeAjax
             ));
             if (in_array($hash, $package_hashs) == false) {
                 $package_hashs[] = $hash;
-                $reply["package_uid"][] = $package->getPackage_uid();
+                $reply["packageUid"][] = $package->getPackageUid();
                 $reply["package_autodj"][] = [true => "Yes",false => "No"][$package->getAutodj()];
                 $reply["package_autodjsize"][] = $this->valueOrZero($package->getAutodj_size());
                 $reply["package_listeners"][] = $package->getListeners();

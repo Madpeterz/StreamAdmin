@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Client;
+namespace App\Endpoint\View\Client;
 
 use App\Models\ApirequestsSet;
 use App\Models\AvatarSet;
@@ -16,7 +16,7 @@ class BulkRemove extends RenderList
     protected function loader(): void
     {
         $whereconfig = [
-        "fields" => ["expireunixtime"],
+        "fields" => ["expireUnixtime"],
         "values" => [time()],
         "types" => ["i"],
         "matches" => ["<="],
@@ -27,11 +27,11 @@ class BulkRemove extends RenderList
         $this->serverSet = new ServerSet();
         $this->serverSet->loadAll();
         $this->avatarSet = new AvatarSet();
-        $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarlink"));
+        $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarLink"));
         $this->streamSet = new StreamSet();
-        $this->streamSet->loadIds($this->rentalSet->getAllByField("streamlink"));
+        $this->streamSet->loadIds($this->rentalSet->getAllByField("streamLink"));
         $this->noticeSet = new NoticeSet();
-        $this->noticeSet->loadIds($this->rentalSet->getAllByField("noticelink"));
+        $this->noticeSet->loadIds($this->rentalSet->getAllByField("noticeLink"));
         $this->apiRequestsSet = new ApirequestsSet();
         $this->apiRequestsSet->loadAll();
     }
@@ -47,43 +47,43 @@ class BulkRemove extends RenderList
 
         $this->loader();
 
-        $used_stream_ids = $this->apiRequestsSet->getUniqueArray("streamlink");
+        $used_stream_ids = $this->apiRequestsSet->getUniqueArray("streamLink");
 
         $unixtime_oneday_ago = time() - $unixtime_day;
 
         foreach ($this->rentalSet->getAllIds() as $rental_id) {
             $rental = $this->rentalSet->getObjectByID($rental_id);
-            $avatar = $this->avatarSet->getObjectByID($rental->getAvatarlink());
-            $stream = $this->streamSet->getObjectByID($rental->getStreamlink());
-            $server = $this->serverSet->getObjectByID($stream->getServerlink());
-            $notice = $this->noticeSet->getObjectByID($rental->getNoticelink());
+            $avatar = $this->avatarSet->getObjectByID($rental->getAvatarLink());
+            $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
+            $server = $this->serverSet->getObjectByID($stream->getServerLink());
+            $notice = $this->noticeSet->getObjectByID($rental->getNoticeLink());
             if (strlen($rental->getMessage()) != 0) {
                 $this->hidden_clients[] = [
                   "why" => "Message on account",
-                  "rentaluid" => $rental->getRental_uid(),
-                  "avatar" => $avatar->getAvatarname(),
+                  "rentaluid" => $rental->getRentalUid(),
+                  "avatar" => $avatar->getAvatarName(),
                   "port" => $stream->getPort(),
                 ];
             } elseif (in_array($stream->getId(), $used_stream_ids) == true) {
                 $this->hidden_clients[] = [
                 "why" => "Pend ing api request",
-                "rentaluid" => $rental->getRental_uid(),
-                "avatar" => $avatar->getAvatarname(),
+                "rentaluid" => $rental->getRentalUid(),
+                "avatar" => $avatar->getAvatarName(),
                 "port" => $stream->getPort(),
                 ];
             } else {
                 $entry = [];
                 $entry[] = $rental->getId();
-                $action = $this->makeButton($rental->getRental_uid(), "", "checked");
-                if (($notice->getId() == 6) && ($rental->getExpireunixtime() < $unixtime_oneday_ago)) {
-                    $action = $this->makeButton($rental->getRental_uid());
+                $action = $this->makeButton($rental->getRentalUid(), "", "checked");
+                if (($notice->getId() == 6) && ($rental->getExpireUnixtime() < $unixtime_oneday_ago)) {
+                    $action = $this->makeButton($rental->getRentalUid());
                 }
                 $entry[] = $action;
-                $entry[] = $avatar->getAvatarname();
+                $entry[] = $avatar->getAvatarName();
                 $entry[] = $server->getDomain();
                 $entry[] = $stream->getPort();
                 $entry[] = $notice->getName();
-                $entry[] = expired_ago($rental->getExpireunixtime());
+                $entry[] = expired_ago($rental->getExpireUnixtime());
                 $table_body[] = $entry;
             }
         }

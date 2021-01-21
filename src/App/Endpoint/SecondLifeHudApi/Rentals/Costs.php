@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeHudApi\Rentals;
+namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
 use App\Models\Avatar;
 use App\Models\Package;
@@ -13,27 +13,27 @@ class Costs extends SecondlifeAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $rental_uid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("uid");
         $rental = new Rental();
         $this->setSwapTag("message", "unabletoload");
-        if ($rental->loadByField("rental_uid", $rental_uid) == false) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             return;
         }
-        if ($rental->getAvatarlink() != $this->object_owner_avatar->getId()) {
+        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
             return;
         }
         $package = new Package();
-        if ($package->loadID($rental->getPackagelink()) == false) {
+        if ($package->loadID($rental->getPackageLink()) == false) {
             return;
         }
         $avatar_system = new Avatar();
-        if ($avatar_system->loadID($this->slconfig->getOwner_av()) == false) {
+        if ($avatar_system->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
             return;
         }
         $this->setSwapTag("status", "true");
         $this->setSwapTag("message", "ok");
-        $this->setSwapTag("systemowner", $avatar_system->getAvataruuid());
+        $this->setSwapTag("systemowner", $avatar_system->getAvatarUUID());
         $this->setSwapTag("cost", $package->getCost());
-        $this->setSwapTag("old_expire_time", $rental->getExpireunixtime());
+        $this->setSwapTag("old_expire_time", $rental->getExpireUnixtime());
     }
 }

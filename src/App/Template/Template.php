@@ -101,8 +101,8 @@ class Template extends AddonProvider
             mkdir("catche");
         }
         if (file_exists("catche/version.info") == false) {
-            file_put_contents("catche/version.info", $slconfig->getDb_version());
-            $this->catche_version = $slconfig->getDb_version();
+            file_put_contents("catche/version.info", $slconfig->getDbVersion());
+            $this->catche_version = $slconfig->getDbVersion();
         } else {
             $this->catche_version = file_get_contents("catche/version.info");
         }
@@ -119,7 +119,7 @@ class Template extends AddonProvider
     {
         global $slconfig;
         if ($this->catche_version != null) {
-            if (version_compare($slconfig->getDb_version(), $this->catche_version) == 1) {
+            if (version_compare($slconfig->getDbVersion(), $this->catche_version) == 1) {
                 // DB is newer force reload cache
                 $this->delTree("catche");
                 $this->createCacheVersionFile();

@@ -39,9 +39,9 @@ class Switchboard
             $this->module = "Install";
             include "../App/Flags/InstallMode.php";
         }
-        $TargetView = "\\App\\Endpoints\\" . $loadwith . "\\" . $this->module . "\\" . $this->option;
-        $DefaultView = "\\App\\Endpoints" . $loadwith . "\\" . $this->module . "\\DefaultView";
-        $use_class = "\\App\\Endpoints\\" . $loadwith . "\\" . $fallback . "\\DefaultView";
+        $TargetView = "\\App\\Endpoint\\" . $loadwith . "\\" . $this->module . "\\" . $this->option;
+        $DefaultView = "\\App\\Endpoint" . $loadwith . "\\" . $this->module . "\\DefaultView";
+        $use_class = "\\App\\Endpoint\\" . $loadwith . "\\" . $fallback . "\\DefaultView";
         if (class_exists($DefaultView) == true) {
             $use_class = $DefaultView;
         }

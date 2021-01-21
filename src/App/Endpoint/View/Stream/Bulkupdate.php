@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 use App\Models\ServerSet;
 use App\Models\StreamSet;
@@ -14,7 +14,7 @@ class Bulkupdate extends View
         $this->output->addSwapTagString("page_title", " Bulk update");
         $this->setSwapTag("page_actions", "");
         $whereconfig = [
-        "fields" => ["needwork","rentallink"],
+        "fields" => ["needWork","rentalLink"],
         "values" => [1,null],
         "types" => ["i","i"],
         "matches" => ["=","IS"],
@@ -34,15 +34,15 @@ class Bulkupdate extends View
 
         foreach ($stream_set->getAllIds() as $streamid) {
             $stream = $stream_set->getObjectByID($streamid);
-            $server = $server_set->getObjectByID($stream->getServerlink());
-            if ($stream->getOriginal_adminusername() == $stream->getAdminusername()) {
+            $server = $server_set->getObjectByID($stream->getServerLink());
+            if ($stream->getOriginalAdminUsername() == $stream->getAdminUsername()) {
                 $action = '
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-outline-success">
-<input type="radio" value="update" name="stream' . $stream->getStream_uid() . '" autocomplete="off"> Update
+<input type="radio" value="update" name="stream' . $stream->getStreamUid() . '" autocomplete="off"> Update
 </label>
 <label class="btn btn-outline-secondary active">
-<input type="radio" value="skip" name="stream' . $stream->getStream_uid() . '" autocomplete="off" checked> Skip
+<input type="radio" value="skip" name="stream' . $stream->getStreamUid() . '" autocomplete="off" checked> Skip
 </label>
 </div>';
                 $entry = [];
@@ -50,13 +50,13 @@ class Bulkupdate extends View
                 $entry[] = $action;
                 $entry[] = $server->getDomain();
                 $entry[] = $stream->getPort();
-                $adminpassword = '<input type="text" class="form-control" name="stream' . $stream->getStream_uid()
-                . 'adminpw" value="' . $stream->getAdminpassword() . '" placeholder="Max 20 length">';
-                $djpassword = '<input type="text" class="form-control" name="stream'
-                . $stream->getStream_uid() . 'djpw" value="' . $stream->getDjpassword()
+                $adminPassword = '<input type="text" class="form-control" name="stream' . $stream->getStreamUid()
+                . 'adminpw" value="' . $stream->getAdminPassword() . '" placeholder="Max 20 length">';
+                $djPassword = '<input type="text" class="form-control" name="stream'
+                . $stream->getStreamUid() . 'djpw" value="' . $stream->getDjPassword()
                 . '" placeholder="Max 20 length">';
-                $entry[] = $adminpassword;
-                $entry[] = $djpassword;
+                $entry[] = $adminPassword;
+                $entry[] = $djPassword;
                 $table_body[] = $entry;
             }
         }

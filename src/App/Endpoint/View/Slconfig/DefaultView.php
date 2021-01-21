@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Slconfig;
+namespace App\Endpoint\View\Slconfig;
 
 use App\Models\Avatar;
 use App\Template\Form;
@@ -11,7 +11,7 @@ class DefaultView extends View
     public function process(): void
     {
         $avatar = new Avatar();
-        $avatar->loadID($this->slconfig->getOwner_av());
+        $avatar->loadID($this->slconfig->getOwnerAvatarLink());
         $timezones_set = new TimezonesSet();
         $timezones_set->loadAll();
 
@@ -20,48 +20,48 @@ class DefaultView extends View
         $form->required(true);
         $form->col(6);
             $form->group("Core");
-            $form->directAdd("Current owner: " . $avatar->getAvatarname() . "<br/>");
+            $form->directAdd("Current owner: " . $avatar->getAvatarName() . "<br/>");
             $form->textInput(
                 "owneravuid",
                 "Owner avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\" "
                 . "href=\"#\" target=\"_blank\">Find</a>",
                 8,
-                $avatar->getAvatar_uid(),
+                $avatar->getAvatarUid(),
                 "Not a SL uuid!"
             );
             $form->textInput(
-                "sllinkcode",
+                "slLinkCode",
                 "Link code [SL->Server]",
                 30,
-                $this->slconfig->getSllinkcode(),
+                $this->slconfig->getSlLinkCode(),
                 "The code shared by your vendors to connet"
             );
             $form->textInput(
-                "publiclinkcode",
+                "publicLinkCode",
                 "Public Link code [SL->Server]",
                 30,
-                $this->slconfig->getPubliclinkcode(),
+                $this->slconfig->getPublicLinkCode(),
                 "The code shared by your user hud"
             );
             $form->textInput(
                 "httpcode",
                 "HTTP code [Apps->Server]",
                 36,
-                $this->slconfig->getHttp_inbound_secret(),
+                $this->slconfig->getHttpInboundSecret(),
                 "Enter here"
             );
         if ($this->session->getOwnerLevel() == 1) {
             $form->col(6);
                 $form->group("SMTP [Email sending support]");
-                $form->textInput("smtp_from", "From", 30, $this->slconfig->getSmtp_from(), "From email address");
+                $form->textInput("smtpFrom", "From", 30, $this->slconfig->getSmtpFrom(), "From email address");
                 $form->textInput(
                     "smtp_reply",
                     "Reply",
                     30,
-                    $this->slconfig->getSmtp_replyto(),
+                    $this->slconfig->getSmtpReplyTo(),
                     "Reply to email address"
                 );
-                $form->textInput("smtp_host", "Host", 30, $this->slconfig->getSmtp_host(), "SMTP host");
+                $form->textInput("smtpHost", "Host", 30, $this->slconfig->getSmtpHost(), "SMTP host");
                 $form->textInput("smtp_user", "Username", 30, "skip", "SMTP username (leave as skip to not update)");
                 $form->textInput(
                     "smtp_code",
@@ -71,55 +71,55 @@ class DefaultView extends View
                     "SMTP access code [or password] (leave as skip to not update)"
                 );
                 $form->textInput(
-                    "smtp_port",
+                    "smtpPort",
                     "Port",
                     30,
-                    $this->slconfig->getSmtp_port(),
+                    $this->slconfig->getSmtpPort(),
                     "port to connect to for SMTP"
                 );
         }
         $form->col(6);
             $form->group("Resellers");
             $form->directAdd("<br/>");
-            $form->select("new_resellers", "Auto accept resellers", $this->slconfig->getNew_resellers(), $this->yesNo);
+            $form->select("newResellers", "Auto accept resellers", $this->slconfig->getNewResellers(), $this->yesNo);
             $form->textInput(
-                "new_resellers_rate",
+                "newResellersRate",
                 "Auto accepted resellers rate (As a %)",
                 36,
-                $this->slconfig->getNew_resellers_rate(),
+                $this->slconfig->getNewResellersRate(),
                 "1 to 100"
             );
         $form->col(6);
             $form->directAdd("<br/>");
             $form->group("Feature packs");
-            $form->select("event_storage", "Event storage", $this->slconfig->getEventstorage(), $this->disableEnable);
+            $form->select("event_storage", "Event storage", $this->slconfig->getEventStorage(), $this->disableEnable);
         $form->col(6);
             $form->directAdd("<br/>");
             $form->group("Misc settings");
             $form->select(
                 "ui_tweaks_clients_fulllist",
                 "Clients [Full list]",
-                $this->slconfig->getClients_list_mode(),
+                $this->slconfig->getClientsListMode(),
                 $this->disableEnable
             );
             $form->textInput(
-                "ui_tweaks_datatable_itemsperpage",
+                "ui_tweaks_datatableItemsPerPage",
                 "Datatables items per page",
                 3,
-                $$this->slconfig->get_datatable_itemsperpage(),
+                $$this->slconfig->get_datatableItemsPerPage(),
                 "10 to 200"
             );
             $form->textInput(
-                "api_default_email",
+                "apiDefaultEmail",
                 "API default email",
                 3,
-                $this->slconfig->getApi_default_email(),
+                $this->slconfig->getApiDefaultEmail(),
                 "Required to be a vaild email"
             );
             $form->select(
-                "displaytimezonelink",
+                "displayTimezoneLink",
                 "Default timezone",
-                $this->slconfig->getDisplaytimezonelink(),
+                $this->slconfig->getDisplayTimezoneLink(),
                 $timezones_set->getLinkedArray("id", "name")
             );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));

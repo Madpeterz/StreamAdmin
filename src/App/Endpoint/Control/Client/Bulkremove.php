@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Client;
+namespace App\Endpoint\Control\Client;
 
 use App\Models\ApirequestsSet;
 use App\Models\ApisSet;
@@ -18,7 +18,7 @@ class Bulkremove extends ViewAjax
     public function process(): void
     {
         $whereconfig = [
-        "fields" => ["expireunixtime"],
+        "fields" => ["expireUnixtime"],
         "values" => [time()],
         "types" => ["i"],
         "matches" => ["<="],
@@ -33,10 +33,10 @@ class Bulkremove extends ViewAjax
         $api_requests_set = new ApirequestsSet();
         $apis_set = new ApisSet();
         $rental_set->loadWithConfig($whereconfig);
-        $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
-        $package_set->loadIds($rental_set->getAllByField("packagelink"));
-        $stream_set->loadIds($rental_set->getAllByField("streamlink"));
-        $api_requests_set->loadIds($rental_set->getAllByField("id"), "rentallink");
+        $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
+        $package_set->loadIds($rental_set->getAllByField("packageLink"));
+        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
+        $api_requests_set->loadIds($rental_set->getAllByField("id"), "rentalLink");
         $apis_set->loadAll();
         $server_set->loadAll();
         $removed_counter = 0;
@@ -50,41 +50,41 @@ class Bulkremove extends ViewAjax
                 $skipped_counter++;
                 continue;
             }
-            if ($api_requests_set->getObjectByField("rentallink", $rental_id) != null) {
+            if ($api_requests_set->getObjectByField("rentalLink", $rental_id) != null) {
                 $skipped_counter++;
                 continue;
             }
-            $accept = $input->postFilter("rental" . $rental->getRental_uid() . "");
+            $accept = $input->postFilter("rental" . $rental->getRentalUid() . "");
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;
             }
-            $stream = $stream_set->getObjectByID($rental->getStreamlink());
+            $stream = $stream_set->getObjectByID($rental->getStreamLink());
             if ($stream == null) {
                 $status = false;
                 $this->setSwapTag(
                     "message",
-                    sprintf("Unable to find stream attached to rental %1\$s", $rental->getRental_uid())
+                    sprintf("Unable to find stream attached to rental %1\$s", $rental->getRentalUid())
                 );
                 break;
             }
             $server = new Server();
-            if ($server->loadID($stream->getServerlink()) == false) {
+            if ($server->loadID($stream->getServerLink()) == false) {
                 $status = false;
                 $this->setSwapTag(
                     "message",
-                    sprintf("Unable to find server attached to stream for rental %1\$s", $rental->getRental_uid())
+                    sprintf("Unable to find server attached to stream for rental %1\$s", $rental->getRentalUid())
                 );
                 break;
             }
-            $stream->setRentallink(null);
-            $stream->setNeedwork(1);
+            $stream->setRentalLink(null);
+            $stream->setNeedWork(1);
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
                 $status = false;
                 $this->setSwapTag(
                     "message",
-                    sprintf("Error releasing stream from rental %1\$s", $rental->getRental_uid())
+                    sprintf("Error releasing stream from rental %1\$s", $rental->getRentalUid())
                 );
                 break;
             }

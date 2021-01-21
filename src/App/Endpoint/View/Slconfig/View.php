@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Slconfig;
+namespace App\Endpoint\View\Slconfig;
 
 use App\Template\View as BasicView;
 

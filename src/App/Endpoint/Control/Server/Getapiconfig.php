@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Server;
+namespace App\Endpoint\Control\Server;
 
 use App\Models\Apis;
 use App\Template\ViewAjax;
@@ -11,14 +11,14 @@ class Getapiconfig extends ViewAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $apilink = $input->postFilter("apilink", "integer");
+        $apiLink = $input->postFilter("apiLink", "integer");
         $api = new Apis();
         $status = false;
-        if ($apilink == 0) {
+        if ($apiLink == 0) {
             $this->setSwapTag("message", "Invaild API selected");
             return;
         }
-        if ($api->loadID($apilink) == false) {
+        if ($api->loadID($apiLink) == false) {
             $this->setSwapTag("message", "Unknown API selected");
             return;
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Login;
+namespace App\Endpoint\Control\Login;
 
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;

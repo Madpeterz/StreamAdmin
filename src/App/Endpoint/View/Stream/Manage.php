@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 use App\Models\ApisSet;
 use App\Models\PackageSet;
@@ -22,7 +22,7 @@ class Manage extends View
         );
 
         $stream = new Stream();
-        if ($stream->loadByField("stream_uid", $this->page) == false) {
+        if ($stream->loadByField("streamUid", $this->page) == false) {
             $this->output->redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
             return;
         }
@@ -35,18 +35,18 @@ class Manage extends View
         $api_set = new ApisSet();
         $api_set->loadAll();
 
-        $improved_serverlinker = [];
+        $improved_serverLinker = [];
         foreach ($server_set->getAllIds() as $server_id) {
             $server = $server_set->getObjectByID($server_id);
-            $api = $api_set->getObjectByID($server->getApilink());
-            $improved_serverlinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
+            $api = $api_set->getObjectByID($server->getApiLink());
+            $improved_serverLinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
         }
 
         $servertypes_set = new ServertypesSet();
         $servertypes_set->loadAll();
 
         $autodjflag = [true => "{AutoDJ}",false => "{StreamOnly}"];
-        $improved_packagelinker = [];
+        $improved_packageLinker = [];
         foreach ($package_set->getAllIds() as $package_id) {
             $package = $package_set->getObjectByID($package_id);
             $servertype = $servertypes_set->getObjectByID($package->getServertypelink());
@@ -74,7 +74,7 @@ class Manage extends View
             $info .= $package->getListeners();
             $info .= "listener";
             $info .= $saddon2;
-            $improved_packagelinker[$package->getId()] = $info;
+            $improved_packageLinker[$package->getId()] = $info;
         }
 
         $form = new Form();
@@ -83,33 +83,33 @@ class Manage extends View
         $form->col(6);
         $form->group("Basics");
         $form->numberInput("port", "port", $stream->getPort(), 5, "Max 99999");
-        $form->select("packagelink", "Package", $stream->getPackagelink(), $improved_packagelinker);
-        $form->select("serverlink", "Server", $stream->getServerlink(), $improved_serverlinker);
+        $form->select("packageLink", "Package", $stream->getPackageLink(), $improved_packageLinker);
+        $form->select("serverLink", "Server", $stream->getServerLink(), $improved_serverLinker);
         $form->textInput("mountpoint", "Mountpoint", 999, $stream->getMountpoint(), "Stream mount point");
         $form->col(6);
         $form->group("Config");
         $form->textInput(
-            "original_adminusername",
+            "originalAdminUsername",
             "Original admin Usr",
             5,
-            $stream->getOriginal_adminusername(),
-            "original adminusername [Restored by API if enabled]"
+            $stream->getOriginalAdminUsername(),
+            "original adminUsername [Restored by API if enabled]"
         );
-        $form->textInput("adminusername", "Admin Usr", 5, $stream->getAdminusername(), "Admin username");
-        $form->textInput("adminpassword", "Admin PW", 3, $stream->getAdminpassword(), "Admin password");
+        $form->textInput("adminUsername", "Admin Usr", 5, $stream->getAdminUsername(), "Admin username");
+        $form->textInput("adminPassword", "Admin PW", 3, $stream->getAdminPassword(), "Admin password");
         $form->textInput(
-            "djpassword",
+            "djPassword",
             "Encoder/Stream password",
             3,
-            $stream->getDjpassword(),
+            $stream->getDjPassword(),
             "Encoder/Stream password"
         );
         $form->directAdd("<br/>");
         $form->col(6);
         $form->group("API");
-        $form->textInput("api_uid_1", "API UID 1", 10, $stream->getApi_uid_1(), "API id 1");
-        $form->textInput("api_uid_2", "API UID 2", 10, $stream->getApi_uid_2(), "API id 2");
-        $form->textInput("api_uid_3", "API UID 3", 10, $stream->getApi_uid_3(), "API id 3");
+        $form->textInput("apiConfigValue1", "API UID 1", 10, $stream->getApiConfigValue1(), "API id 1");
+        $form->textInput("apiConfigValue2", "API UID 2", 10, $stream->getApiConfigValue2(), "API id 2");
+        $form->textInput("apiConfigValue3", "API UID 3", 10, $stream->getApiConfigValue3(), "API id 3");
         $form->col(6);
         $form->group("Magic");
         $form->select("api_update", "Update on server", 0, $this->yesNo);

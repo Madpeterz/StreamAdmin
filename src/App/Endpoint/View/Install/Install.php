@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Install;
+namespace App\Endpoint\View\Install;
 
 use App\Models\Avatar;
 use YAPF\MySQLi\MysqliEnabled;
@@ -34,7 +34,7 @@ class Install extends View
             $this->setSwapTag("page_content", 'Error: reading from datatabase');
             return;
         }
-        if ($avatar->getAvatar_uid() != "system") {
+        if ($avatar->getAvatarUid() != "system") {
             $this->setSwapTag("page_content", 'Error: Expected install config db value is invaild');
             return;
         }

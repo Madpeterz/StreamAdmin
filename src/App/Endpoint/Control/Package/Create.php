@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Package;
+namespace App\Endpoint\Control\Package;
 
 use App\Models\Package;
 use App\Models\Servertypes;
@@ -105,12 +105,12 @@ class Create extends ViewAjax
         }
 
         $this->setSwapTag("redirect", "package");
-        $uid = $package->createUID("package_uid", 8, 10);
+        $uid = $package->createUID("packageUid", 8, 10);
         if ($uid["status"] == false) {
             $this->setSwapTag("message", "Unable to assign a new UID to the package");
             return;
         }
-        $package->setPackage_uid($uid["uid"]);
+        $package->setPackageUid($uid["uid"]);
         $package->setName($name);
         $package->setAutodj($autodj);
         $package->setAutodj_size($autodj_size);

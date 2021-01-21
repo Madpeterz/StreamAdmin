@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Endpoints\SecondLifeHudApi\Rentals;
+namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
-use App\Endpoints\SecondLifeApi\Details\Resend;
+use App\Endpoint\SecondLifeApi\Details\Resend;
 use App\Models\Rental;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
@@ -12,13 +12,13 @@ class Getdetails extends SecondlifeAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $rental_uid = $input->postFilter("rental_uid");
+        $rentalUid = $input->postFilter("rentalUid");
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $rental_uid) == false) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
-        if ($rental->getAvatarlink() != $this->object_owner_avatar->getId()) {
+        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }

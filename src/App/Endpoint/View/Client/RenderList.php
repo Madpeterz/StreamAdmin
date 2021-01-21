@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Client;
+namespace App\Endpoint\View\Client;
 
 use App\Models\ApirequestsSet;
 use App\Models\AvatarSet;
@@ -24,15 +24,15 @@ abstract class RenderList extends View
 
         foreach ($this->rentalSet->getAllIds() as $rental_id) {
             $rental = $this->rentalSet->getObjectByID($rental_id);
-            $avatar = $this->avatarSet->getObjectByID($rental->getAvatarlink());
-            $stream = $this->streamSet->getObjectByID($rental->getStreamlink());
+            $avatar = $this->avatarSet->getObjectByID($rental->getAvatarLink());
+            $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
             $entry = [];
             $entry[] = $rental->getId();
-            $entry[] = '<a href="[[url_base]]client/manage/' . $rental->getRental_uid() . '">'
-            . $rental->getRental_uid() . '</a>';
-            $av_detail = explode(" ", $avatar->getAvatarname());
+            $entry[] = '<a href="[[url_base]]client/manage/' . $rental->getRentalUid() . '">'
+            . $rental->getRentalUid() . '</a>';
+            $av_detail = explode(" ", $avatar->getAvatarName());
 
-            $name = $avatar->getAvatarname();
+            $name = $avatar->getAvatarName();
             if ($av_detail[1] == "Resident") {
                 $entry[] = $av_detail[0];
             }
@@ -40,11 +40,11 @@ abstract class RenderList extends View
             $entry[] = $stream->getPort();
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
-            . $rental->getRental_uid() . "\">View</button>";
+            . $rental->getRentalUid() . "\">View</button>";
 
-            $status = "Expired - " . expired_ago($rental->getExpireunixtime());
-            if ($rental->getExpireunixtime() > time()) {
-                $status = "Active - " . timeleft_hours_and_days($rental->getExpireunixtime());
+            $status = "Expired - " . expired_ago($rental->getExpireUnixtime());
+            if ($rental->getExpireUnixtime() > time()) {
+                $status = "Active - " . timeleft_hours_and_days($rental->getExpireUnixtime());
             }
             $entry[] = $status;
             $entry[] = $rental->getRenewals();

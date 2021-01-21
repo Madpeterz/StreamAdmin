@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Apirequests\Events;
+namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
 class Opttoggleautodj extends CallApi
 {
     protected function configEvent(): void
     {
         $this->logic_step = "opt";
-        $this->functionname = "opt_toggle_autodj";
+        $this->functionname = "optToggleAutodj";
     }
 }

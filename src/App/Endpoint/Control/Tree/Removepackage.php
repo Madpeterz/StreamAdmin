@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Tree;
+namespace App\Endpoint\Control\Tree;
 
 use App\Models\Treevenderpackages;
 use App\Template\ViewAjax;
@@ -25,7 +25,7 @@ class Removepackage extends ViewAjax
             $this->setSwapTag("message", "Unable to load the linked package object for the tree vender");
             return;
         }
-        $redirect_to = $treevender_packages->getTreevenderlink();
+        $redirect_to = $treevender_packages->getTreevenderLink();
         $remove_status = $treevender_packages->removeEntry();
         if ($remove_status["status"] == false) {
             $this->setSwapTag(

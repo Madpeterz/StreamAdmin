@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Buy;
+namespace App\Endpoint\SecondLifeApi\Buy;
 
 use App\Models\ApirequestsSet;
 use App\Models\Package;
@@ -26,18 +26,18 @@ class Getconfig extends SecondlifeAjax
             return;
         }
         $package = new Package();
-        if ($package->loadByField("package_uid", $packageuid) == false) {
+        if ($package->loadByField("packageUid", $packageuid) == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }
-        // $reseller, $object_owner_avatar, $owner_override, $region, $object
+        // $reseller, $object_ownerAvatarLinkatar, $owner_override, $region, $object
         $apirequests_set = new ApirequestsSet();
         $apirequests_set->loadAll();
-        $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
+        $used_stream_ids = $apirequests_set->getUniqueArray("streamLink");
         // package_instock,
         $stream = new Stream();
         $whereconfig = [
-            "fields" => ["rentallink","packagelink","needwork"],
+            "fields" => ["rentalLink","packageLink","needWork"],
             "matches" => ["IS","=","="],
             "values" => [null,$package->getId(),0],
             "types" => ["i","i","i"],
@@ -60,9 +60,9 @@ class Getconfig extends SecondlifeAjax
             $this->setSwapTag("package_instock", "1");
         }
         $this->setSwapTag("texture_offline", $textureconfig->getOffline());
-        $this->setSwapTag("texture_waitingforowner", $textureconfig->getWait_owner());
-        $this->setSwapTag("texture_fetchingdetails", $textureconfig->getGetting_details());
-        $this->setSwapTag("texture_request_payment", $textureconfig->getMake_payment());
+        $this->setSwapTag("texture_waitingforowner", $textureconfig->getWaitOwner());
+        $this->setSwapTag("texture_fetchingdetails", $textureconfig->getGettingDetails());
+        $this->setSwapTag("texture_request_payment", $textureconfig->getMakePayment());
         $this->setSwapTag("package_cost", $package->getCost());
         $this->setSwapTag("texture_package_small", $package->getTexture_uuid_instock_small());
         $this->setSwapTag("texture_package_big", $package->getTexture_uuid_instock_selected());

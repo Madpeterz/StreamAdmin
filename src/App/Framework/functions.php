@@ -11,7 +11,7 @@ function create_pending_api_request(Server $server, Stream $stream, ?Rental $ren
     global $why_failed, $no_api_action;
     if ($eventname == "core_send_details") {
         $detail = new Detail();
-        $detail->setRentallink($rental->getId());
+        $detail->setRentalLink($rental->getId());
         $create_status = $detail->createEntry();
         $status = $create_status["status"];
         if ($status == false) {
@@ -21,14 +21,14 @@ function create_pending_api_request(Server $server, Stream $stream, ?Rental $ren
     } else {
         $no_api_action = false;
         $api_request = new Apirequests();
-        $api_request->setServerlink($server->getId());
+        $api_request->setServerLink($server->getId());
         if ($rental != null) {
-            $api_request->setRentallink($rental->getId());
+            $api_request->setRentalLink($rental->getId());
         }
-        $api_request->setStreamlink($stream->getId());
+        $api_request->setStreamLink($stream->getId());
         $api_request->setEventname($eventname);
         $api_request->setMessage("in Q");
-        $api_request->setLast_attempt(time());
+        $api_request->setLastAttempt(time());
         $reply = $api_request->createEntry();
         if ($reply["status"] == false) {
             if ($save_to_why_failed == true) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Staff;
+namespace App\Endpoint\View\Staff;
 
 use App\Models\StaffSet;
 

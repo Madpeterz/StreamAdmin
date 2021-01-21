@@ -6,7 +6,7 @@ class server_centova3_only extends server_public_api
     protected function process_centova_api_call(array $post_data, array $args): array
     {
         $post_data["f"] = "json";
-        $post_data["a[password]"] = "" . $this->server->getApi_username() . "|" . $this->server->get_api_password() . "";
+        $post_data["a[password]"] = "" . $this->server->getApiUsername() . "|" . $this->server->get_apiPassword() . "";
         foreach ($args as $key => $value) {
             $post_data["a[" . $key . "]"] = $value;
         }
@@ -22,7 +22,7 @@ class server_centova3_only extends server_public_api
     protected function centova_serverclass_api_call(string $method, array $args = [], $post_data = []): array
     {
         $post_data["xm"] = "server." . $method . "";
-        $post_data["a[username]"] = $this->stream->getAdminusername();
+        $post_data["a[username]"] = $this->stream->getAdminUsername();
         return $this->process_centova_api_call($post_data, $args);
     }
     protected function centova_systemclass_api_call(string $method, array $args = []): array
@@ -72,11 +72,11 @@ class server_centova3 extends server_centova3_only
                 $post_data = [
                     "port" => $this->stream->getPort(),
                     "maxclients" => $this->package->getListeners(),
-                    "adminpassword" => $this->stream->getAdminpassword(),
-                    "sourcepassword" => $this->stream->getDjpassword(),
+                    "adminPassword" => $this->stream->getAdminPassword(),
+                    "sourcepassword" => $this->stream->getDjPassword(),
                     "maxbitrate" => $this->package->getBitrate(),
-                    "username" => $this->stream->getAdminusername(),
-                    "email" => $slconfig->get_api_default_email(),
+                    "username" => $this->stream->getAdminUsername(),
+                    "email" => $slconfig->get_apiDefaultEmail(),
                     "usesource" => 2,
                     "autostart" => 1,
                     "template" => $this->package->getApi_template(),
@@ -224,7 +224,7 @@ class server_centova3 extends server_centova3_only
         if ($include_passwords == true) {
             if ($stream_set == null) {
                 $stream_set = new stream_set();
-                $stream_set->loadByField("serverlink", $this->server->getId());
+                $stream_set->loadByField("serverLink", $this->server->getId());
                 if ($stream_set->getCount() == 0) {
                     $all_ok = false;
                     $this->last_api_message = "Unable to find streams attached to server";
@@ -244,7 +244,7 @@ class server_centova3 extends server_centova3_only
                         $reply = $this->centova_serverclass_api_call("getaccount");
                         if ($this->simple_reply_ok($reply) == true) {
                             $accountinfo = $reply["data"]["response"]["data"]["account"];
-                            $current_passwords[$stream->getAdminusername()] = ["admin" => $accountinfo["adminpassword"],"dj" => $accountinfo["sourcepassword"]];
+                            $current_passwords[$stream->getAdminUsername()] = ["admin" => $accountinfo["adminPassword"],"dj" => $accountinfo["sourcepassword"]];
                         }
                     }
                 }
@@ -255,7 +255,7 @@ class server_centova3 extends server_centova3_only
 
     protected function sync_username(string $old_username): bool
     {
-        $reply = $this->centova_systemclass_api_call("rename", ["username" => $old_username,"newusername" => $this->stream->getAdminusername()]);
+        $reply = $this->centova_systemclass_api_call("rename", ["username" => $old_username,"newusername" => $this->stream->getAdminUsername()]);
         if ($this->simple_reply_ok($reply) == true) {
             return true;
         }
@@ -315,15 +315,15 @@ class server_centova3 extends server_centova3_only
     }
     protected function susspend_server(): bool
     {
-        return $this->simple_reply_ok($this->centova_systemclass_api_call("setstatus", ["username" => $this->stream->getAdminusername(),"status" => "disabled"]));
+        return $this->simple_reply_ok($this->centova_systemclass_api_call("setstatus", ["username" => $this->stream->getAdminUsername(),"status" => "disabled"]));
     }
     protected function un_susspend_server(): bool
     {
-        return $this->simple_reply_ok($this->centova_systemclass_api_call("setstatus", ["username" => $this->stream->getAdminusername(),"status" => "enabled"]));
+        return $this->simple_reply_ok($this->centova_systemclass_api_call("setstatus", ["username" => $this->stream->getAdminUsername(),"status" => "enabled"]));
     }
     protected function change_password(): bool
     {
-        return $this->simple_reply_ok($this->centova_serverclass_api_call("reconfigure", ["adminpassword" => $this->stream->getAdminpassword(),"sourcepassword" => $this->stream->getDjpassword()]));
+        return $this->simple_reply_ok($this->centova_serverclass_api_call("reconfigure", ["adminPassword" => $this->stream->getAdminPassword(),"sourcepassword" => $this->stream->getDjPassword()]));
     }
     protected function change_title_now(string $newtitle = "Not set"): bool
     {

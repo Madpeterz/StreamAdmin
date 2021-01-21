@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Template;
+namespace App\Endpoint\View\Template;
 
 use App\Models\TemplateSet;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Bot;
+namespace App\Endpoint\SecondLifeApi\Bot;
 
 use App\Models\Avatar;
 use App\Models\Botconfig;
@@ -22,7 +22,7 @@ class Notecardsync extends SecondlifeAjax
             return;
         }
         $botavatar = new Avatar();
-        if ($botavatar->loadID($botconfig->getAvatarlink()) == false) {
+        if ($botavatar->loadID($botconfig->getAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to load bot avatar");
             return;
         }
@@ -53,12 +53,12 @@ class Notecardsync extends SecondlifeAjax
         }
 
         $this->setSwapTag("hassyncmessage", "1");
-        $this->setSwapTag("avataruuid", $botavatar->getAvataruuid());
+        $this->setSwapTag("avatarUUID", $botavatar->getAvatarUUID());
         $bot_helper = new bot_helper();
         $message = $bot_helper->send_bot_command(
             $botconfig,
             "fetchnextnotecard",
-            [$this->output->getSwapTagString("url_base"),$this->slconfig->getHttp_inbound_secret()]
+            [$this->output->getSwapTagString("url_base"),$this->slconfig->getHttpInboundSecret()]
         );
         $this->setSwapTag("message", $message);
     }

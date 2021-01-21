@@ -34,7 +34,7 @@ if (install_ok() == true) {
                 $timezone_config_from_cache = $this->output->get_cache_file("current_timezone", false);
                 if ($timezone_config_from_cache == null) {
                     $timezone = new Timezones();
-                    if ($timezone->loadID($slconfig->getDisplaytimezonelink()) == true) {
+                    if ($timezone->loadID($slconfig->getDisplayTimezoneLink()) == true) {
                         $cooked = $timezone_name . "###" . $timezone->getCode();
                         $this->output->set_cache_file($cooked, "current_timezone", false);
                     }

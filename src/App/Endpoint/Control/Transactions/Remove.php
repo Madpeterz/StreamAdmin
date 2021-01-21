@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Transactions;
+namespace App\Endpoint\Control\Transactions;
 
 use App\Models\Transactions;
 use App\Template\ViewAjax;
@@ -22,7 +22,7 @@ class Remove extends ViewAjax
             return;
         }
         $transaction = new Transactions();
-        if ($transaction->loadByField("transaction_uid", $this->page) == false) {
+        if ($transaction->loadByField("transactionUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to find transaction");
             return;
         }

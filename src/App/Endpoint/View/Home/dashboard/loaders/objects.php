@@ -15,11 +15,11 @@ $owner_objects_list = [
 $one_hour_ago = (time() - $unixtime_hour);
 $objects_set = new ObjectsSet();
 $where_config = [
-     "fields" => ["avatarlink","lastseen","objectmode"],
+     "fields" => ["avatarLink","lastSeen","objectMode"],
      "matches" => ["=",">=","IN"],
-     "values" => [$slconfig->getOwner_av(),$one_hour_ago,$owner_objects_list],
+     "values" => [$slconfig->getOwnerAvatarLink(),$one_hour_ago,$owner_objects_list],
      "types" => ["i","i","s"],
 ];
 $objects_set->loadWithConfig($where_config);
 $region_set = new RegionSet();
-$region_set->loadIds($objects_set->getAllByField("regionlink"));
+$region_set->loadIds($objects_set->getAllByField("regionLink"));

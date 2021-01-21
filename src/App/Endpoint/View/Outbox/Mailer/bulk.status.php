@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Outbox;
+namespace App\Endpoint\View\Outbox;
 
 use App\Models\NoticeSet;
 use App\Template\Form;
@@ -13,7 +13,7 @@ $form = new Form();
 $form->target("outbox/bulk/notice");
 $form->mode("get");
 $form->col(4);
-    $form->select("noticelink", "Notice level", 0, $notice_set->getLinkedArray("id", "name"));
+    $form->select("noticeLink", "Notice level", 0, $notice_set->getLinkedArray("id", "name"));
 $form->col(8);
     $form->textarea("message", "Message", 800, "", "Use swap tags as the placeholders! max length 800");
 $pages["Send => Bulk [Notice]"] =  $form->render("Select avatars", "primary")

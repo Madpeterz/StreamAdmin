@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Transactions;
+namespace App\Endpoint\View\Transactions;
 
 use App\Models\AvatarSet;
 use App\Models\PackageSet;
@@ -33,20 +33,20 @@ abstract class RenderList extends View
         foreach ($this->transaction_set->getAllIds() as $transaction_id) {
             $transaction = $this->transaction_set->getObjectByID($transaction_id);
             $packagename = "";
-            if ($transaction->getPackagelink() != null) {
-                $package = $this->package_set->getObjectByID($transaction->getPackagelink());
+            if ($transaction->getPackageLink() != null) {
+                $package = $this->package_set->getObjectByID($transaction->getPackageLink());
                 $packagename = $package->getName();
             }
             $regionname = "";
-            if ($transaction->getRegionlink() != null) {
-                $region = $this->region_set->getObjectByID($transaction->getRegionlink());
+            if ($transaction->getRegionLink() != null) {
+                $region = $this->region_set->getObjectByID($transaction->getRegionLink());
                 $regionname = $region->getName();
             }
-            $avatar = $this->avatar_set->getObjectByID($transaction->getAvatarlink());
+            $avatar = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
             $entry = [];
             $entry[] = $transaction->getId();
-            $entry[] = $transaction->getTransaction_uid();
-            $entry[] = $avatar->getAvatarname();
+            $entry[] = $transaction->getTransactionUid();
+            $entry[] = $avatar->getAvatarName();
             $entry[] = $packagename;
             $entry[] = $regionname;
             $entry[] = $transaction->getAmount();
@@ -57,7 +57,7 @@ abstract class RenderList extends View
             }
             $entry[] = $type;
             if ($this->session->getOwnerLevel() == 1) {
-                $entry[] = "<a href=\"[[url_base]]transactions/remove/" . $transaction->getTransaction_uid() . "\">"
+                $entry[] = "<a href=\"[[url_base]]transactions/remove/" . $transaction->getTransactionUid() . "\">"
                 . "<button type=\"button\" class=\"btn btn-danger btn-sm\"><i class=\"fas fa-minus-circle\"></i>"
                 . "</button></a>";
             }

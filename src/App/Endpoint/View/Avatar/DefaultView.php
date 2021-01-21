@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Avatar;
+namespace App\Endpoint\View\Avatar;
 
 use App\Models\AvatarSet;
 use App\Template\Form as Form;
@@ -20,13 +20,13 @@ class DefaultView extends View
         $wherematchs = [];
         if (strlen($uuid) == 36) {
             $match_with = "uuid";
-            $wherefields = ["avataruuid"];
+            $wherefields = ["avatarUUID"];
             $wherevalues = [$uuid];
             $wheretypes = ["s"];
             $wherematchs = ["="];
         } elseif (strlen($name) >= 2) {
             $match_with = "name";
-            $wherefields = ["avatarname"];
+            $wherefields = ["avatarName"];
             $wherevalues = [$name];
             $wheretypes = ["s"];
             $wherematchs = ["% LIKE %"];
@@ -55,9 +55,9 @@ class DefaultView extends View
             $avatar = $avatarSet->getObjectByID($avatar_id);
             $entry = [];
             $entry[] = $avatar->getId();
-            $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatar_uid() . '">'
-            . $avatar->getAvatar_uid() . '</a>';
-            $entry[] = $avatar->getAvatarname();
+            $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'
+            . $avatar->getAvatarUid() . '</a>';
+            $entry[] = $avatar->getAvatarName();
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));

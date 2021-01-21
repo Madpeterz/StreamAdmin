@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Reseller;
+namespace App\Endpoint\View\Reseller;
 
 use App\Models\AvatarSet;
 use App\Models\ResellerSet;
@@ -14,18 +14,18 @@ class DefaultView extends View
         $reseller_set->loadAll();
 
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($reseller_set->getAllByField("avatarlink"));
+        $avatar_set->loadIds($reseller_set->getAllByField("avatarLink"));
 
         $table_head = ["id","Name","Allow","Rate"];
         $table_body = [];
 
         foreach ($reseller_set->getAllIds() as $reseller_id) {
             $reseller = $reseller_set->getObjectByID($reseller_id);
-            $avatar = $avatar_set->getObjectByID($reseller->getAvatarlink());
+            $avatar = $avatar_set->getObjectByID($reseller->getAvatarLink());
             $entry = [];
             $entry[] = $reseller->getId();
             $entry[] = '<a href="[[url_base]]reseller/manage/' . $reseller->getId() . '">'
-            . $avatar->getAvatarname() . '</a>';
+            . $avatar->getAvatarName() . '</a>';
             $entry[] = [false => "No",true => "Yes"][$reseller->getAllowed()];
             $entry[] = $reseller->getRate();
             $table_body[] = $entry;

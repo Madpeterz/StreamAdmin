@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Template;
+namespace App\Endpoint\Control\Template;
 
 use App\Models\Template;
 use App\Template\ViewAjax;
@@ -13,7 +13,7 @@ class Create extends ViewAjax
         $input = new InputFilter();
         $name = $input->postFilter("name");
         $detail = $input->postFilter("detail");
-        $notecarddetail = $input->postFilter("notecarddetail");
+        $notecardDetail = $input->postFilter("notecardDetail");
         if (strlen($name) < 5) {
             $this->setSwapTag("message", "Name length must be 5 or longer");
             return;
@@ -30,14 +30,14 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "template length must be 800 or less");
             return;
         }
-        if (strlen($notecarddetail) < 5) {
+        if (strlen($notecardDetail) < 5) {
             $this->setSwapTag("message", "Notecard template length must be 5 or more");
             return;
         }
         $template = new Template();
         $template->setName($name);
         $template->setDetail($detail);
-        $template->setNotecarddetail($notecarddetail);
+        $template->setNotecardDetail($notecardDetail);
         $create_status = $template->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag(

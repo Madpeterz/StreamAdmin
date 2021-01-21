@@ -18,7 +18,7 @@ $stream_set = new stream_set();
 $stream_set->loadAll();
 
 $stream_set_oldid_to_id = $stream_set->getLinkedArray("mountpoint", "id");
-$avatar_set_uuid_to_id = $avatar_set->getLinkedArray("avataruuid", "id");
+$avatar_set_uuid_to_id = $avatar_set->getLinkedArray("avatarUUID", "id");
 
 $clients_created = 0;
 $clients_skipped_no_stream = 0;
@@ -30,7 +30,7 @@ include "shared/lang/control/client/" . $site_lang . ".php";
 
 $notice_set = new notice_set();
 $notice_set->loadAll();
-$sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
+$sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
 ksort($sorted_linked, SORT_NUMERIC);
 
 foreach ($r4_users_set->getAllIds() as $r4_user_id) {
@@ -57,21 +57,21 @@ foreach ($r4_users_set->getAllIds() as $r4_user_id) {
                 $stream = $stream_set->getObjectByID($stream_set_oldid_to_id[$find_stream]);
                 $avatar = $avatar_set->getObjectByID($avatar_set_uuid_to_id[$r4_user->get_slkey()]);
                 $rental = new rental();
-                $uid = $rental->createUID("rental_uid", 8, 10);
+                $uid = $rental->createUID("rentalUid", 8, 10);
                 if ($uid["status"] == true) {
-                    $rental->setRental_uid($uid["uid"]);
-                    $rental->setAvatarlink($avatar->getId());
-                    $rental->setPackagelink($stream->getPackagelink());
-                    $rental->setStreamlink($stream->getId());
-                    $rental->setStartunixtime(time());
-                    $rental->setExpireunixtime($r4_user->get_expireunix());
-                    $rental->setAvatarlink($avatar->getId());
-                    $rental->setNoticelink($use_notice_index);
+                    $rental->setRentalUid($uid["uid"]);
+                    $rental->setAvatarLink($avatar->getId());
+                    $rental->setPackageLink($stream->getPackageLink());
+                    $rental->setStreamLink($stream->getId());
+                    $rental->setStartUnixtime(time());
+                    $rental->setExpireUnixtime($r4_user->get_expireunix());
+                    $rental->setAvatarLink($avatar->getId());
+                    $rental->setNoticeLink($use_notice_index);
                     $rental->setMessage($r4_user->get_notes());
                     $create_status = $rental->createEntry();
                     if ($create_status["status"] == true) {
-                        $stream->setRentallink($rental->getId());
-                        $stream->setNeedwork(0);
+                        $stream->setRentalLink($rental->getId());
+                        $stream->setNeedWork(0);
                         $update_status = $stream->updateEntry();
                         if ($update_status["status"] == true) {
                             $clients_created++;

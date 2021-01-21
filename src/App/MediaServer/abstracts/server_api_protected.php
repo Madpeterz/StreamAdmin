@@ -44,7 +44,7 @@ abstract class server_rest_api extends error_logging
     {
         if ($this->client == null) {
             $this->options = [];
-            $this->options['base_uri'] = $this->server->getApi_url();
+            $this->options['base_uri'] = $this->server->getApiURL();
             $this->options['allow_redirects'] = true;
             $this->options['timeout'] = 15;
             $this->options['http_errors'] = false;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Import;
+namespace App\Endpoint\Control\Import;
 
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Package;
+namespace App\Endpoint\View\Package;
 
 use App\Models\PackageSet;
 
@@ -19,8 +19,8 @@ class DefaultView extends View
             $package = $package_set->getObjectByID($package_id);
             $entry = [];
             $entry[] = $package->getId();
-            $entry[] = '<a href="[[url_base]]package/manage/' . $package->getPackage_uid() . '">'
-             . $package->getPackage_uid() . '</a>';
+            $entry[] = '<a href="[[url_base]]package/manage/' . $package->getPackageUid() . '">'
+             . $package->getPackageUid() . '</a>';
             $entry[] = $package->getName();
             $entry[] = $package->getListeners();
             $entry[] = $package->getDays();

@@ -10,24 +10,24 @@ class Message extends genClass
     protected $use_table = "message";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "avatarlink" => ["type" => "int", "value" => null],
+        "avatarLink" => ["type" => "int", "value" => null],
         "message" => ["type" => "str", "value" => null],
     ];
-    public function getAvatarlink(): ?int
+    public function getAvatarLink(): ?int
     {
-        return $this->getField("avatarlink");
+        return $this->getField("avatarLink");
     }
     public function getMessage(): ?string
     {
         return $this->getField("message");
     }
     /**
-    * setAvatarlink
+    * setAvatarLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAvatarlink(?int $newvalue): array
+    public function setAvatarLink(?int $newvalue): array
     {
-        return $this->updateField("avatarlink", $newvalue);
+        return $this->updateField("avatarLink", $newvalue);
     }
     /**
     * setMessage

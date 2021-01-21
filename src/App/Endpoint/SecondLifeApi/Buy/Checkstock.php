@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Buy;
+namespace App\Endpoint\SecondLifeApi\Buy;
 
 use App\Models\ApirequestsSet;
 use App\Models\Package;
@@ -15,16 +15,16 @@ class Checkstock extends SecondlifeAjax
         $input = new InputFilter();
         $packageuid = $input->postFilter("packageuid");
         $package = new Package();
-        if ($package->loadByField("package_uid", $packageuid) == false) {
+        if ($package->loadByField("packageUid", $packageuid) == false) {
             $this->setSwapTag("message", "Unable to find package");
             return;
         }
         $apirequests_set = new ApirequestsSet();
         $apirequests_set->loadAll();
-        $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
+        $used_stream_ids = $apirequests_set->getUniqueArray("streamLink");
         $stream = new Stream();
         $whereconfig = [
-            "fields" => ["rentallink","packagelink","needwork"],
+            "fields" => ["rentalLink","packageLink","needWork"],
             "matches" => ["IS","=","="],
             "values" => [null,$package->getId(),0],
             "types" => ["i","i","i"],

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Server;
+namespace App\Endpoint\View\Server;
 
 use App\Models\ApisSet;
 use App\Models\Server;
@@ -31,109 +31,109 @@ class Manage extends View
         $form->col(6);
         $form->textInput("domain", "Domain", 30, $server->getDomain(), "ip or uncloudflared proxyed domain/subdomain");
         $form->textInput(
-            "controlpanel_url",
+            "controlPanelURL",
             "Control panel",
             200,
-            $server->getControlpanel_url(),
+            $server->getControlPanelURL(),
             "URL to the control panel"
         );
         $form->col(6);
-        $form->select("apilink", "API / type", $server->getApilink(), $apis->getLinkedArray("id", "name"));
-        $form->textInput("api_url", "API / URL", 200, $server->getApi_url(), "");
-        $form->textInput("api_username", "API / Username", 200, $server->getApi_username(), "the API username");
-        $form->textInput("api_password", "API / Password", 200, "NoChange", "the API password");
+        $form->select("apiLink", "API / type", $server->getApiLink(), $apis->getLinkedArray("id", "name"));
+        $form->textInput("apiURL", "API / URL", 200, $server->getApiURL(), "");
+        $form->textInput("apiUsername", "API / Username", 200, $server->getApiUsername(), "the API username");
+        $form->textInput("apiPassword", "API / Password", 200, "NoChange", "the API password");
         $form->select(
-            "api_serverstatus",
+            "apiServerStatus",
             "Panel / Server status",
-            $server->getApi_serverstatus(),
+            $server->getApiServerStatus(),
             $this->allowDisallow
         );
         $form->select(
-            "api_sync_accounts",
+            "apiSyncAccounts",
             "Panel / Sync accounts",
-            $server->getApi_sync_accounts(),
+            $server->getApiSyncAccounts(),
             $this->allowDisallow
         );
         $form->split();
         $form->group("API Flags");
         $form->col(6);
-        $form->select("opt_password_reset", "Opt / PWD reset", $server->getOpt_password_reset(), $this->allowDisallow);
-        $form->select("opt_autodj_next", "Opt / ADJ next", $server->getOpt_autodj_next(), $this->allowDisallow);
-        $form->select("opt_toggle_autodj", "Opt / ADJ toggle", $server->getOpt_toggle_autodj(), $this->allowDisallow);
+        $form->select("optPasswordReset", "Opt / PWD reset", $server->getOptPasswordReset(), $this->allowDisallow);
+        $form->select("optAutodjNext", "Opt / ADJ next", $server->getOptAutodjNext(), $this->allowDisallow);
+        $form->select("optToggleAutodj", "Opt / ADJ toggle", $server->getOptToggleAutodj(), $this->allowDisallow);
         $form->select(
-            "opt_toggle_status",
+            "optToggleStatus",
             "Opt / Toggle status",
-            $server->getOpt_toggle_status(),
+            $server->getOptToggleStatus(),
             $this->allowDisallow
         );
         $form->col(6);
         $form->select(
-            "event_enable_start",
+            "eventEnableStart",
             "Event / Enable on rental start",
-            $server->getEvent_enable_start(),
+            $server->getEventEnableStart(),
             $this->yesNo
         );
         $form->select(
-            "event_start_sync_username",
+            "eventStartSyncUsername",
             "Event / Customize username on rental start",
-            $server->getEvent_start_sync_username(),
+            $server->getEventStartSyncUsername(),
             $this->yesNo
         );
         $form->select(
-            "event_enable_renew",
+            "eventEnableRenew",
             "Event / Enable on renewal",
-            $server->getEvent_enable_renew(),
+            $server->getEventEnableRenew(),
             $this->yesNo
         );
         $form->select(
-            "event_disable_expire",
+            "eventDisableExpire",
             "Event / Disable on expire",
-            $server->getEvent_disable_expire(),
+            $server->getEventDisableExpire(),
             $this->yesNo
         );
         $form->split();
         $form->col(6);
         $form->select(
-            "event_disable_revoke",
+            "eventDisableRevoke",
             "Event / Disable on revoke",
-            $server->getEvent_disable_revoke(),
+            $server->getEventDisableRevoke(),
             $this->yesNo
         );
         $form->select(
-            "event_reset_password_revoke",
+            "eventResetPasswordRevoke",
             "Event / Reset password on revoke",
-            $server->getEvent_reset_password_revoke(),
+            $server->getEventResetPasswordRevoke(),
             $this->yesNo
         );
         $form->select(
-            "event_revoke_reset_username",
+            "eventRevokeResetUsername",
             "Event / Reset username on revoke",
-            $server->getEvent_revoke_reset_username(),
+            $server->getEventRevokeResetUsername(),
             $this->yesNo
         );
         $form->select(
-            "event_clear_djs",
+            "eventClearDjs",
             "Event / Clear DJ accounts on revoke",
-            $server->getEvent_clear_djs(),
+            $server->getEventClearDjs(),
             $this->yesNo
         );
         $form->col(6);
         $form->select(
-            "event_recreate_revoke",
+            "eventRecreateRevoke",
             "Event / Recreate account on revoke",
-            $server->getEvent_recreate_revoke(),
+            $server->getEventRecreateRevoke(),
             $this->yesNo
         );
         $form->select(
-            "event_create_stream",
+            "eventCreateStream",
             "Event / Create stream on server",
-            $server->getEvent_create_stream(),
+            $server->getEventCreateStream(),
             $this->yesNo
         );
         $form->select(
-            "event_update_stream",
+            "eventUpdateStream",
             "Event / Update stream on server",
-            $server->getEvent_update_stream(),
+            $server->getEventUpdateStream(),
             $this->yesNo
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));

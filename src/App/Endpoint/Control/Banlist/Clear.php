@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Banlist;
+namespace App\Endpoint\Control\Banlist;
 
 use App\Models\Banlist;
 use App\Template\ViewAjax;

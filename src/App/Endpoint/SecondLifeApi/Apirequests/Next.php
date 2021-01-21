@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Apirequests;
+namespace App\Endpoint\SecondLifeApi\Apirequests;
 
 use App\Models\ApirequestsSet;
 use App\Template\SecondlifeAjax;
@@ -14,7 +14,7 @@ class Next extends SecondlifeAjax
             return;
         }
 
-        $order_config = ["ordering_enabled" => true,"order_field" => "last_attempt","order_dir" => "DESC"];
+        $order_config = ["ordering_enabled" => true,"order_field" => "lastAttempt","order_dir" => "DESC"];
         $limits_config = ["page_number" => 0,"max_entrys" => 1];
         $api_requests_set = new ApirequestsSet();
 
@@ -30,7 +30,7 @@ class Next extends SecondlifeAjax
 
         $api_request = $api_requests_set->getFirst();
         $api_request->setAttempts($api_request->getAttempts() + 1);
-        $api_request->setLast_attempt(time());
+        $api_request->setLastAttempt(time());
         $api_request->setMessage("started processing");
         $save_status = $api_request->updateEntry();
         if ($save_status["status"] == false) {
@@ -39,7 +39,7 @@ class Next extends SecondlifeAjax
         }
         $targetclass = ucfirst($api_request->getEventname());
         $targetclass = str_replace("_", "", $targetclass);
-        $namespace = "\\App\\Endpoints\\SecondLifeApi\\Apirequests\\Events\\";
+        $namespace = "\\App\\Endpoint\\SecondLifeApi\\Apirequests\\Events\\";
         $use_class = $namespace . $targetclass;
         if (class_exists($use_class) == false) {
             $this->soft_fail = true;

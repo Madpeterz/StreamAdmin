@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Avatar;
+namespace App\Endpoint\Control\Avatar;
 
 use App\Models\Avatar;
 use App\Template\ViewAjax;
@@ -13,29 +13,29 @@ class Create extends ViewAjax
     {
         $avatar = new Avatar();
         $input = new InputFilter();
-        $avatarname = $input->postFilter("avatarname");
-        $avataruuid = $input->postFilter("avataruuid", "uuid");
-        if (count(explode(" ", $avatarname)) == 1) {
-            $avatarname .= " Resident";
+        $avatarName = $input->postFilter("avatarName");
+        $avatarUUID = $input->postFilter("avatarUUID", "uuid");
+        if (count(explode(" ", $avatarName)) == 1) {
+            $avatarName .= " Resident";
         }
-        if (strlen($avatarname) < 5) {
-            $this->setSwapTag("message", "avatarname length must be 5 or longer");
+        if (strlen($avatarName) < 5) {
+            $this->setSwapTag("message", "avatarName length must be 5 or longer");
             return;
         }
-        if (strlen($avatarname) > 125) {
-            $this->setSwapTag("message", "avatarname length must be 125 or less");
+        if (strlen($avatarName) > 125) {
+            $this->setSwapTag("message", "avatarName length must be 125 or less");
             return;
         }
-        if (strlen($avataruuid) != 36) {
-            $this->setSwapTag("message", "avataruuid must be a uuid");
+        if (strlen($avatarUUID) != 36) {
+            $this->setSwapTag("message", "avatarUUID must be a uuid");
             return;
         }
-        if ($avatar->loadByField("avataruuid", $avataruuid) == true) {
+        if ($avatar->loadByField("avatarUUID", $avatarUUID) == true) {
             $this->setSwapTag("message", "There is already an avatar with that uuid");
             return;
         }
         $avatar_helper = new avatar_helper();
-        $status = $avatar_helper->loadOrCreate($avataruuid, $avatarname);
+        $status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
         if ($status == false) {
             $this->setSwapTag("message", "Unable to create avatar");
             return;

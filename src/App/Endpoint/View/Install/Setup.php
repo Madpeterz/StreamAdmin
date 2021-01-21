@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Install;
+namespace App\Endpoint\View\Install;
 
 use App\Models\Avatar;
 use App\Models\Slconfig;
@@ -96,9 +96,9 @@ class Setup extends View
             $this->setSwapTag("page_content", "Unable to load avatar entry");
             return false;
         }
-        $avatar->setAvataruuid($av_uuid);
-        $avatar->setAvatarname($input->postFilter("av_name"));
-        $avatar->setAvatar_uid($avatar->createUID("avatar_uid", 8)["uid"]);
+        $avatar->setAvatarUUID($av_uuid);
+        $avatar->setAvatarName($input->postFilter("av_name"));
+        $avatar->setAvatarUid($avatar->createUID("avatarUid", 8)["uid"]);
         $update_status = $avatar->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag("page_content", "Unable to update avatar entry");
@@ -110,7 +110,7 @@ class Setup extends View
             $this->setSwapTag("page_content", "Unable to load config entry");
             return false;
         }
-        $slconfig->setSllinkcode($slconfig->createUID("sllinkcode", 10, 10)["uid"]);
+        $slconfig->setSlLinkCode($slconfig->createUID("slLinkCode", 10, 10)["uid"]);
         $update_status = $slconfig->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag("page_content", "Unable to update config entry");

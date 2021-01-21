@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Search;
+namespace App\Endpoint\View\Search;
 
 use App\Models\AvatarSet;
 use App\Models\PackageSet;
@@ -44,34 +44,34 @@ class DefaultView extends View
         $table_head = ["UID","Server","Port","Status"];
         $table_body = [];
         $rental_set = new RentalSet();
-        $rental_set->loadIds($search_stream_set->getAllByField("rentallink"));
+        $rental_set->loadIds($search_stream_set->getAllByField("rentalLink"));
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($rental_set->getAllByField("avatarlink"));
+        $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
         $rental_set_ids = $rental_set->getAllIds();
         foreach ($search_stream_set->getAllIds() as $streamid) {
             $stream = $search_stream_set->getObjectByID($streamid);
-            $server = $server_set->getObjectByID($stream->getServerlink());
+            $server = $server_set->getObjectByID($stream->getServerLink());
             $entry = [];
-            $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStream_uid() . '">'
-            . $stream->getStream_uid() . '</a>';
+            $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStreamUid() . '">'
+            . $stream->getStreamUid() . '</a>';
             $entry[] = $server->getDomain();
             $entry[] = $stream->getPort();
-            if ($stream->getNeedwork() == true) {
-                $entry[] = "<span class=\"needwork\">Need work</span>";
-            } elseif ($stream->getRentallink() == null) {
+            if ($stream->getNeedWork() == true) {
+                $entry[] = "<span class=\"needWork\">Need work</span>";
+            } elseif ($stream->getRentalLink() == null) {
                 $entry[] = "<span class=\"ready\">Ready</span>";
-            } elseif (in_array($stream->getRentallink(), $rental_set_ids) == false) {
+            } elseif (in_array($stream->getRentalLink(), $rental_set_ids) == false) {
                 $entry[] = "Rented but cant find rental.";
             } else {
-                $rental = $rental_set->getObjectByID($stream->getRentallink());
-                $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
-                $av_detail = explode(" ", $avatar->getAvatarname());
-                $av_name = $avatar->getAvatarname();
+                $rental = $rental_set->getObjectByID($stream->getRentalLink());
+                $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
+                $av_detail = explode(" ", $avatar->getAvatarName());
+                $av_name = $avatar->getAvatarName();
                 if ($av_detail[1] == "Resident") {
                     $av_name = $av_detail[0];
                 }
                 $entry[] = '<a class="sold" href="[[url_base]]client/manage/'
-                . $rental->getRental_uid() . '">Sold -> ' . $av_name . '</a>';
+                . $rental->getRentalUid() . '">Sold -> ' . $av_name . '</a>';
             }
         }
         $table_body[] = $entry;
@@ -85,9 +85,9 @@ class DefaultView extends View
         foreach ($avatar_set->getAllIds() as $avatar_id) {
             $avatar = $avatar_set->getObjectByID($avatar_id);
             $entry = [];
-            $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatar_uid() . '">'
-            . $avatar->getAvatar_uid() . '</a>';
-            $entry[] = $avatar->getAvatarname();
+            $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'
+            . $avatar->getAvatarUid() . '</a>';
+            $entry[] = $avatar->getAvatarName();
             $table_body[] = $entry;
         }
         $this->pages["Avatars [" . $avatar_set->getCount() . "]"] = render_table($table_head, $table_body);
@@ -99,13 +99,13 @@ class DefaultView extends View
         $table_body = [];
         foreach ($search_rental_set->getAllIds() as $rental_id) {
             $rental = $search_rental_set->getObjectByID($rental_id);
-            $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
-            $stream = $stream_set->getObjectByID($rental->getStreamlink());
+            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
+            $stream = $stream_set->getObjectByID($rental->getStreamLink());
             $entry = [];
             $entry[] = '<a href="[[url_base]]client/manage/'
-            . $rental->getRental_uid() . '">' . $rental->getRental_uid() . '</a>';
-            $av_detail = explode(" ", $avatar->getAvatarname());
-            $avname = $avatar->getAvatarname();
+            . $rental->getRentalUid() . '">' . $rental->getRentalUid() . '</a>';
+            $av_detail = explode(" ", $avatar->getAvatarName());
+            $avname = $avatar->getAvatarName();
             if ($av_detail[1] == "Resident") {
                 $avname = $av_detail[0];
             }
@@ -113,10 +113,10 @@ class DefaultView extends View
             $entry[] = $stream->getPort();
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
-            . $rental->getRental_uid() . "\">View</button>";
-            $timeleft = "Expired - " . expired_ago($rental->getExpireunixtime());
-            if ($rental->getExpireunixtime() > time()) {
-                $timeleft  = "Active - " . timeleft_hours_and_days($rental->getExpireunixtime());
+            . $rental->getRentalUid() . "\">View</button>";
+            $timeleft = "Expired - " . expired_ago($rental->getExpireUnixtime());
+            if ($rental->getExpireUnixtime() > time()) {
+                $timeleft  = "Active - " . timeleft_hours_and_days($rental->getExpireUnixtime());
             }
             $entry[] = $timeleft;
             $entry[] = $rental->getRenewals();
@@ -128,21 +128,21 @@ class DefaultView extends View
     protected function loadPackagesFromStreams(StreamSet $stream_set): PackageSet
     {
         $package_set = new PackageSet();
-        $package_set->loadIds($stream_set->getAllByField("packagelink"));
+        $package_set->loadIds($stream_set->getAllByField("packageLink"));
         return $package_set;
     }
 
     protected function loadStreamsFromRentals(RentalSet $search_rental_set): StreamSet
     {
         $stream_set = new StreamSet();
-        $stream_set->loadIds($search_rental_set->getAllByField("streamlink"));
+        $stream_set->loadIds($search_rental_set->getAllByField("streamLink"));
         return $stream_set;
     }
 
     protected function loadAvatarsFromRentals(RentalSet $search_rental_set): AvatarSet
     {
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($search_rental_set->getAllByField("avatarlink"));
+        $avatar_set->loadIds($search_rental_set->getAllByField("avatarLink"));
         return $avatar_set;
     }
 
@@ -176,13 +176,13 @@ class DefaultView extends View
     protected function loadClientsLinked(StreamSet $search_stream_set, RentalSet $search_rental_set): RentalSet
     {
         $search_rental_set_again = new RentalSet();
-        $entry = $search_stream_set->getUniqueArray("rentallink");
+        $entry = $search_stream_set->getUniqueArray("rentalLink");
         $seen = $search_rental_set->getUniqueArray("id");
         $repeat_search_entrys = [];
-        foreach ($entry as $rentallink) {
-            if (in_array($rentallink, $seen) == false) {
-                $repeat_search_entrys[] = $rentallink;
-                $seen[] = $rentallink;
+        foreach ($entry as $rentalLink) {
+            if (in_array($rentalLink, $seen) == false) {
+                $repeat_search_entrys[] = $rentalLink;
+                $seen[] = $rentalLink;
             }
         }
         if (count($repeat_search_entrys) > 0) {
@@ -200,7 +200,7 @@ class DefaultView extends View
     protected function loadStreams(string $search, RentalSet $search_rental_set): StreamSet
     {
         $where_config = [
-            "fields" => ["adminusername","port","stream_uid"],
+            "fields" => ["adminUsername","port","streamUid"],
             "matches" => ["% LIKE %","LIKE","% LIKE %"],
             "values" => [$search,$search,$search],
             "types" => ["s","i","s"],
@@ -209,7 +209,7 @@ class DefaultView extends View
         if ($search_rental_set->getCount() > 0) {
             $where_config["fields"][] = "id";
             $where_config["matches"][] = "IN";
-            $where_config["values"][] = $search_rental_set->getUniqueArray("streamlink");
+            $where_config["values"][] = $search_rental_set->getUniqueArray("streamLink");
             $where_config["types"][] = "i";
             $where_config["join_with"][] = "OR";
         }
@@ -229,7 +229,7 @@ class DefaultView extends View
     protected function loadAvatars(string $search): AvatarSet
     {
         $where_config = [
-            "fields" => ["avataruuid","avatarname","avatar_uid"],
+            "fields" => ["avatarUUID","avatarName","avatarUid"],
             "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
             "values" => [$search,$search,$search],
             "types" => ["s","s","s"],
@@ -243,14 +243,14 @@ class DefaultView extends View
     protected function loadClients(string $search, AvatarSet $search_avatar_set): RentalSet
     {
         $where_config = [
-            "fields" => ["rental_uid","message"],
+            "fields" => ["rentalUid","message"],
             "matches" => ["% LIKE %","% LIKE %"],
             "values" => [$search,$search],
             "types" => ["s","s"],
             "join_with" => ["OR"],
         ];
         if ($search_avatar_set->getCount() > 0) {
-            $where_config["fields"][] = "avatarlink";
+            $where_config["fields"][] = "avatarLink";
             $where_config["matches"][] = "IN";
             $where_config["values"][] = $search_avatar_set->getUniqueArray("id");
             $where_config["types"][] = "i";

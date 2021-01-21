@@ -9,15 +9,15 @@ class SessionControl extends SqlConnectedClass
 {
     protected $main_class_object = null;
     protected $logged_in = false;
-    protected $session_values = ["lhash","autologout","nextcheck","username","ownerlevel"];
+    protected $session_values = ["lhash","autologout","nextcheck","username","ownerLevel"];
     protected $lhash = 0;
     protected $autologout = 0;
     protected $nextcheck = 0;
     protected $username = "";
-    protected $ownerlevel = 0;
+    protected $ownerLevel = 0;
     public function getOwnerLevel(): bool
     {
-        if ($this->ownerlevel == 1) {
+        if ($this->ownerLevel == 1) {
             return true;
         }
         return false;
@@ -28,7 +28,7 @@ class SessionControl extends SqlConnectedClass
         $this->autologout = time() + 600;
         $this->nextcheck = time() + 45;
         $this->username = $this->main_class_object->getUsername();
-        $this->ownerlevel = $this->main_class_object->getOwnerLevel();
+        $this->ownerLevel = $this->main_class_object->getOwnerLevel();
         $this->updateSession();
         return true;
     }

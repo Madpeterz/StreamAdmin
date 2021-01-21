@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Install;
+namespace App\Endpoint\View\Install;
 
 use App\Models\Slconfig;
 use YAPF\MySQLi\MysqliEnabled;
@@ -18,7 +18,7 @@ class Finalstep extends View
             $this->setSwapTag(
                 "page_content",
                 "Setup finished<br/> SL link code: "
-                . $slconfig->getSllinkcode() . "<br/>if you are running in docker please set: INSTALL_OK to 1"
+                . $slconfig->getSlLinkCode() . "<br/>if you are running in docker please set: INSTALL_OK to 1"
             );
             return;
         }
@@ -27,7 +27,7 @@ class Finalstep extends View
         }
         $this->setSwapTag(
             "page_content",
-            "Setup finished<br/> SL link code: " . $slconfig->getSllinkcode()
+            "Setup finished<br/> SL link code: " . $slconfig->getSlLinkCode()
             . "<br/>if you are running in docker please set: INSTALL_OK to 1 and restart the app!"
         );
         $this->output->addSwapTagString(

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 use App\Models\Server;
 
@@ -10,7 +10,7 @@ class Sold extends Withstatus
     {
         $this->output->addSwapTagString("page_title", " With status: Sold");
         $whereconfig = [
-            "fields" => ["rentallink"],
+            "fields" => ["rentalLink"],
             "values" => [null],
             "types" => ["s"],
             "matches" => ["IS NOT"],

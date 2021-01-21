@@ -14,13 +14,13 @@ class EmailHelper
         if ($slconfig->loadID(1) == true) {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
-            $mail->Host = $slconfig->getSmtp_host();
-            $mail->Port = $slconfig->getSmtp_port();
+            $mail->Host = $slconfig->getSmtpHost();
+            $mail->Port = $slconfig->getSmtpPort();
             $mail->SMTPSecure = 'tls';
             $mail->SMTPAuth = true;
-            $mail->Username = $slconfig->getSmtp_username();
-            $mail->Password = $slconfig->getSmtp_accesscode();
-            $mail->setFrom($slconfig->getSmtp_from(), $slconfig->getSmtp_replyto());
+            $mail->Username = $slconfig->getSmtpUsername();
+            $mail->Password = $slconfig->getSmtpAccesscode();
+            $mail->setFrom($slconfig->getSmtpFrom(), $slconfig->getSmtpReplyTo());
             $mail->addAddress($to, $to_name);
             $mail->Subject = $subject;
             $mail->IsHTML(true);

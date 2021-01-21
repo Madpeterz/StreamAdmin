@@ -10,104 +10,104 @@ class Rental extends genClass
     protected $use_table = "rental";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "avatarlink" => ["type" => "int", "value" => null],
-        "streamlink" => ["type" => "int", "value" => null],
-        "packagelink" => ["type" => "int", "value" => null],
-        "noticelink" => ["type" => "int", "value" => null],
-        "startunixtime" => ["type" => "int", "value" => null],
-        "expireunixtime" => ["type" => "int", "value" => null],
+        "avatarLink" => ["type" => "int", "value" => null],
+        "streamLink" => ["type" => "int", "value" => null],
+        "packageLink" => ["type" => "int", "value" => null],
+        "noticeLink" => ["type" => "int", "value" => null],
+        "startUnixtime" => ["type" => "int", "value" => null],
+        "expireUnixtime" => ["type" => "int", "value" => null],
         "renewals" => ["type" => "int", "value" => 0],
-        "totalamount" => ["type" => "int", "value" => 0],
+        "totalAmount" => ["type" => "int", "value" => 0],
         "message" => ["type" => "str", "value" => null],
-        "rental_uid" => ["type" => "str", "value" => null],
+        "rentalUid" => ["type" => "str", "value" => null],
     ];
-    public function getAvatarlink(): ?int
+    public function getAvatarLink(): ?int
     {
-        return $this->getField("avatarlink");
+        return $this->getField("avatarLink");
     }
-    public function getStreamlink(): ?int
+    public function getStreamLink(): ?int
     {
-        return $this->getField("streamlink");
+        return $this->getField("streamLink");
     }
-    public function getPackagelink(): ?int
+    public function getPackageLink(): ?int
     {
-        return $this->getField("packagelink");
+        return $this->getField("packageLink");
     }
-    public function getNoticelink(): ?int
+    public function getNoticeLink(): ?int
     {
-        return $this->getField("noticelink");
+        return $this->getField("noticeLink");
     }
-    public function getStartunixtime(): ?int
+    public function getStartUnixtime(): ?int
     {
-        return $this->getField("startunixtime");
+        return $this->getField("startUnixtime");
     }
-    public function getExpireunixtime(): ?int
+    public function getExpireUnixtime(): ?int
     {
-        return $this->getField("expireunixtime");
+        return $this->getField("expireUnixtime");
     }
     public function getRenewals(): ?int
     {
         return $this->getField("renewals");
     }
-    public function getTotalamount(): ?int
+    public function getTotalAmount(): ?int
     {
-        return $this->getField("totalamount");
+        return $this->getField("totalAmount");
     }
     public function getMessage(): ?string
     {
         return $this->getField("message");
     }
-    public function getRental_uid(): ?string
+    public function getRentalUid(): ?string
     {
-        return $this->getField("rental_uid");
+        return $this->getField("rentalUid");
     }
     /**
-    * setAvatarlink
+    * setAvatarLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAvatarlink(?int $newvalue): array
+    public function setAvatarLink(?int $newvalue): array
     {
-        return $this->updateField("avatarlink", $newvalue);
+        return $this->updateField("avatarLink", $newvalue);
     }
     /**
-    * setStreamlink
+    * setStreamLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setStreamlink(?int $newvalue): array
+    public function setStreamLink(?int $newvalue): array
     {
-        return $this->updateField("streamlink", $newvalue);
+        return $this->updateField("streamLink", $newvalue);
     }
     /**
-    * setPackagelink
+    * setPackageLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setPackagelink(?int $newvalue): array
+    public function setPackageLink(?int $newvalue): array
     {
-        return $this->updateField("packagelink", $newvalue);
+        return $this->updateField("packageLink", $newvalue);
     }
     /**
-    * setNoticelink
+    * setNoticeLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setNoticelink(?int $newvalue): array
+    public function setNoticeLink(?int $newvalue): array
     {
-        return $this->updateField("noticelink", $newvalue);
+        return $this->updateField("noticeLink", $newvalue);
     }
     /**
-    * setStartunixtime
+    * setStartUnixtime
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setStartunixtime(?int $newvalue): array
+    public function setStartUnixtime(?int $newvalue): array
     {
-        return $this->updateField("startunixtime", $newvalue);
+        return $this->updateField("startUnixtime", $newvalue);
     }
     /**
-    * setExpireunixtime
+    * setExpireUnixtime
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setExpireunixtime(?int $newvalue): array
+    public function setExpireUnixtime(?int $newvalue): array
     {
-        return $this->updateField("expireunixtime", $newvalue);
+        return $this->updateField("expireUnixtime", $newvalue);
     }
     /**
     * setRenewals
@@ -118,12 +118,12 @@ class Rental extends genClass
         return $this->updateField("renewals", $newvalue);
     }
     /**
-    * setTotalamount
+    * setTotalAmount
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setTotalamount(?int $newvalue): array
+    public function setTotalAmount(?int $newvalue): array
     {
-        return $this->updateField("totalamount", $newvalue);
+        return $this->updateField("totalAmount", $newvalue);
     }
     /**
     * setMessage
@@ -134,12 +134,12 @@ class Rental extends genClass
         return $this->updateField("message", $newvalue);
     }
     /**
-    * setRental_uid
+    * setRentalUid
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRental_uid(?string $newvalue): array
+    public function setRentalUid(?string $newvalue): array
     {
-        return $this->updateField("rental_uid", $newvalue);
+        return $this->updateField("rentalUid", $newvalue);
     }
 }
 // please do not edit this file

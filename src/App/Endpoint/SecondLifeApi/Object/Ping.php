@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Object;
+namespace App\Endpoint\SecondLifeApi\Object;
 
 use App\Template\SecondlifeAjax;
 

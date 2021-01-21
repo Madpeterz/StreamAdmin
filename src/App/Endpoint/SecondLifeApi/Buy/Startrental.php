@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Buy;
+namespace App\Endpoint\SecondLifeApi\Buy;
 
 use App\Models\ApirequestsSet;
 use App\Models\Avatar;
@@ -22,17 +22,17 @@ class Startrental extends SecondlifeAjax
     protected function notBanned(Avatar $avatar): bool
     {
         $banlist = new Banlist();
-        $banlist->loadByField("avatar_link", $avatar->getId());
+        $banlist->loadByField("avatarLink", $avatar->getId());
         if ($banlist->getId() > 0) {
             return false;
         }
         return true;
     }
 
-    protected function getAvatar(string $avataruuid, string $avatarname): ?Avatar
+    protected function getAvatar(string $avatarUUID, string $avatarName): ?Avatar
     {
         $avatar_helper = new avatar_helper();
-        $get_av_status = $avatar_helper->loadOrCreate($avataruuid, $avatarname);
+        $get_av_status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
         if ($get_av_status == true) {
             return $avatar_helper->get_avatar();
         }
@@ -48,18 +48,18 @@ class Startrental extends SecondlifeAjax
         int $amountpaid
     ): bool {
         $transaction = new Transactions();
-        $uid_transaction = $transaction->createUID("transaction_uid", 8, 10);
+        $uid_transaction = $transaction->createUID("transactionUid", 8, 10);
         if ($uid_transaction["status"] == false) {
             return false;
         }
-        $transaction->setAvatarlink($avatar->getId());
-        $transaction->setPackagelink($package->getId());
-        $transaction->setStreamlink($stream->getId());
-        $transaction->setResellerlink($reseller->getId());
-        $transaction->setRegionlink($region->getId());
+        $transaction->setAvatarLink($avatar->getId());
+        $transaction->setPackageLink($package->getId());
+        $transaction->setStreamLink($stream->getId());
+        $transaction->setResellerLink($reseller->getId());
+        $transaction->setRegionLink($region->getId());
         $transaction->setAmount($amountpaid);
         $transaction->setUnixtime(time());
-        $transaction->setTransaction_uid($uid_transaction["uid"]);
+        $transaction->setTransactionUid($uid_transaction["uid"]);
         $transaction->setRenew(false);
         $create_status = $transaction->createEntry();
         return $create_status["status"];
@@ -68,7 +68,7 @@ class Startrental extends SecondlifeAjax
     protected function getPackage(string $packageuid): ?Package
     {
         $package = new Package();
-        if ($package->loadByField("package_uid", $packageuid) == true) {
+        if ($package->loadByField("packageUid", $packageuid) == true) {
             return $package;
         }
         return null;
@@ -78,9 +78,9 @@ class Startrental extends SecondlifeAjax
     {
         $apirequests_set = new ApirequestsSet();
         $apirequests_set->loadAll();
-        $used_stream_ids = $apirequests_set->getUniqueArray("streamlink");
+        $used_stream_ids = $apirequests_set->getUniqueArray("streamLink");
         $where_config = [
-            "fields" => ["rentallink","packagelink","needwork"],
+            "fields" => ["rentalLink","packageLink","needWork"],
             "values" => [null,$package->getId(),0],
             "types" => ["i","i","i"],
             "matches" => ["IS","=","="],
@@ -117,7 +117,7 @@ class Startrental extends SecondlifeAjax
             return;
         }
 
-        $avatar = $this->getAvatar($input->postFilter("avataruuid"), $input->postFilter("avatarname"));
+        $avatar = $this->getAvatar($input->postFilter("avatarUUID"), $input->postFilter("avatarName"));
         if ($avatar == null) {
             $this->setSwapTag("message", "Unable to attach avatar");
             return;
@@ -148,7 +148,7 @@ class Startrental extends SecondlifeAjax
         // get expire unixtime and notice index
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
-        $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
+        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
         $multipler = $accepted_payment_amounts[$amountpaid];
         $hours_remain = ($package->getDays() * 24) * $multipler;
@@ -163,28 +163,28 @@ class Startrental extends SecondlifeAjax
         $unixtime = time() + ($hours_remain * $unixtime_hour);
 
         $rental = new Rental();
-        $uid_rental = $rental->createUID("rental_uid", 8, 10);
+        $uid_rental = $rental->createUID("rentalUid", 8, 10);
         $status = $uid_rental["status"];
         if ($status == false) {
             $this->setSwapTag("message", "Unable to create rental uid");
             return;
         }
 
-        $rental->setRental_uid($uid_rental["uid"]);
-        $rental->setAvatarlink($avatar->getId());
-        $rental->setPackagelink($stream->getPackagelink());
-        $rental->setStreamlink($stream->getId());
-        $rental->setStartunixtime(time());
-        $rental->setExpireunixtime($unixtime);
-        $rental->setNoticelink($use_notice_index);
-        $rental->setTotalamount($amountpaid);
+        $rental->setRentalUid($uid_rental["uid"]);
+        $rental->setAvatarLink($avatar->getId());
+        $rental->setPackageLink($stream->getPackageLink());
+        $rental->setStreamLink($stream->getId());
+        $rental->setStartUnixtime(time());
+        $rental->setExpireUnixtime($unixtime);
+        $rental->setNoticeLink($use_notice_index);
+        $rental->setTotalAmount($amountpaid);
         $status = $rental->createEntry()["status"];
         if ($status == false) {
             $this->setSwapTag("message", "Unable to create rental");
             return;
         }
 
-        $stream->setRentallink($rental->getId());
+        $stream->setRentalLink($rental->getId());
         $status = $stream->updateEntry()["status"];
         if ($status == false) {
             $this->setSwapTag("message", "Unable to update rental link for stream");
@@ -200,7 +200,7 @@ class Startrental extends SecondlifeAjax
         $this->setSwapTag("owner_payment", 0);
         if ($this->owner_override == false) {
             $avatar_system = new Avatar();
-            if ($avatar_system->loadID($this->slconfig->getOwner_av()) == false) {
+            if ($avatar_system->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
                 $this->setSwapTag("message", "Unable to load owner avatar");
                 return;
             }
@@ -218,7 +218,7 @@ class Startrental extends SecondlifeAjax
             }
             $this->setSwapTag("owner_payment", 1);
             $this->setSwapTag("owner_payment_amount", $left_over);
-            $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvataruuid());
+            $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
 
         include "shared/media_server_apis/logic/buy.php";

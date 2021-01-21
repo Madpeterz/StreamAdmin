@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Notice;
+namespace App\Endpoint\Control\Notice;
 
 use App\Models\NotecardSet;
 use App\Models\Notice;
@@ -32,7 +32,7 @@ class Remove extends ViewAjax
             $this->setSwapTag("message", "Unable to find notice");
             return;
         }
-        $load_status = $notecard_set->loadOnField("noticelink", $notice->getId());
+        $load_status = $notecard_set->loadOnField("noticeLink", $notice->getId());
         if ($load_status["status"] == false) {
             $this->setSwapTag(
                 "message",

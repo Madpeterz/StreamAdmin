@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Reports;
+namespace App\Endpoint\View\Reports;
 
 use App\Template\Form;
 use App\Template\Grid;

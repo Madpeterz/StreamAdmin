@@ -14,7 +14,7 @@ $sql = $current_sql; // swtich back to r7
 $avatars = new avatar_set();
 $avatars->loadAll();
 
-$avatar_name_to_id = $avatars->getLinkedArray("avatarname", "id");
+$avatarName_to_id = $avatars->getLinkedArray("avatarName", "id");
 
 $all_ok = true;
 $transactions_created = 0;
@@ -23,12 +23,12 @@ foreach ($r4_sales_tracking_set->getAllIds() as $r4_sales_tracking_id) {
     $r4_sales_tracking = $r4_sales_tracking_set->getObjectByID($r4_sales_tracking_id);
 
     $avatar_id = 1;
-    if (array_key_exists($r4_sales_tracking->get_SLname(), $avatar_name_to_id) == true) {
-        $avatar_id = $avatar_name_to_id[$r4_sales_tracking->get_SLname()];
+    if (array_key_exists($r4_sales_tracking->get_SLname(), $avatarName_to_id) == true) {
+        $avatar_id = $avatarName_to_id[$r4_sales_tracking->get_SLname()];
     }
 
     $transaction = new transactions();
-    $uid_transaction = $transaction->createUID("transaction_uid", 8, 10);
+    $uid_transaction = $transaction->createUID("transactionUid", 8, 10);
     if ($uid_transaction["status"] == true) {
         $date = explode("/", $r4_sales_tracking->get_date());
         $time = explode(":", $r4_sales_tracking->get_time());
@@ -39,14 +39,14 @@ foreach ($r4_sales_tracking_set->getAllIds() as $r4_sales_tracking_id) {
             }
             $unixtime = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
         }
-        $transaction->setAvatarlink($avatar_id);
-        $transaction->setPackagelink(null);
-        $transaction->setStreamlink(null);
-        $transaction->set_resellerlink(null);
-        $transaction->set_regionlink(null);
+        $transaction->setAvatarLink($avatar_id);
+        $transaction->setPackageLink(null);
+        $transaction->setStreamLink(null);
+        $transaction->set_resellerLink(null);
+        $transaction->set_regionLink(null);
         $transaction->set_amount($r4_sales_tracking->getAmount());
         $transaction->set_unixtime($unixtime);
-        $transaction->set_transaction_uid($uid_transaction["uid"]);
+        $transaction->set_transactionUid($uid_transaction["uid"]);
         $transaction->set_renew($r4_sales_tracking->get_salemode());
         $create_status = $transaction->createEntry();
         if ($create_status["status"] == true) {

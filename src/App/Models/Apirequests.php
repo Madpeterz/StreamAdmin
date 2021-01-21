@@ -10,25 +10,25 @@ class Apirequests extends genClass
     protected $use_table = "apirequests";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "serverlink" => ["type" => "int", "value" => null],
-        "rentallink" => ["type" => "int", "value" => null],
-        "streamlink" => ["type" => "int", "value" => null],
+        "serverLink" => ["type" => "int", "value" => null],
+        "rentalLink" => ["type" => "int", "value" => null],
+        "streamLink" => ["type" => "int", "value" => null],
         "eventname" => ["type" => "str", "value" => null],
         "attempts" => ["type" => "int", "value" => 0],
-        "last_attempt" => ["type" => "int", "value" => 0],
+        "lastAttempt" => ["type" => "int", "value" => 0],
         "message" => ["type" => "str", "value" => null],
     ];
-    public function getServerlink(): ?int
+    public function getServerLink(): ?int
     {
-        return $this->getField("serverlink");
+        return $this->getField("serverLink");
     }
-    public function getRentallink(): ?int
+    public function getRentalLink(): ?int
     {
-        return $this->getField("rentallink");
+        return $this->getField("rentalLink");
     }
-    public function getStreamlink(): ?int
+    public function getStreamLink(): ?int
     {
-        return $this->getField("streamlink");
+        return $this->getField("streamLink");
     }
     public function getEventname(): ?string
     {
@@ -38,37 +38,37 @@ class Apirequests extends genClass
     {
         return $this->getField("attempts");
     }
-    public function getLast_attempt(): ?int
+    public function getLastAttempt(): ?int
     {
-        return $this->getField("last_attempt");
+        return $this->getField("lastAttempt");
     }
     public function getMessage(): ?string
     {
         return $this->getField("message");
     }
     /**
-    * setServerlink
+    * setServerLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setServerlink(?int $newvalue): array
+    public function setServerLink(?int $newvalue): array
     {
-        return $this->updateField("serverlink", $newvalue);
+        return $this->updateField("serverLink", $newvalue);
     }
     /**
-    * setRentallink
+    * setRentalLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRentallink(?int $newvalue): array
+    public function setRentalLink(?int $newvalue): array
     {
-        return $this->updateField("rentallink", $newvalue);
+        return $this->updateField("rentalLink", $newvalue);
     }
     /**
-    * setStreamlink
+    * setStreamLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setStreamlink(?int $newvalue): array
+    public function setStreamLink(?int $newvalue): array
     {
-        return $this->updateField("streamlink", $newvalue);
+        return $this->updateField("streamLink", $newvalue);
     }
     /**
     * setEventname
@@ -87,12 +87,12 @@ class Apirequests extends genClass
         return $this->updateField("attempts", $newvalue);
     }
     /**
-    * setLast_attempt
+    * setLastAttempt
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setLast_attempt(?int $newvalue): array
+    public function setLastAttempt(?int $newvalue): array
     {
-        return $this->updateField("last_attempt", $newvalue);
+        return $this->updateField("lastAttempt", $newvalue);
     }
     /**
     * setMessage

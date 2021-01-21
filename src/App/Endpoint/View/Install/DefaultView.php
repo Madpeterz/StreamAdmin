@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Install;
+namespace App\Endpoint\View\Install;
 
 use App\Template\Form;
 use YAPF\InputFilter\InputFilter;

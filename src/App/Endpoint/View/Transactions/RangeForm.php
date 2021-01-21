@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Transactions;
+namespace App\Endpoint\View\Transactions;
 
 use App\Template\Form;
 

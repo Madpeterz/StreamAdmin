@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Search;
+namespace App\Endpoint\View\Search;
 
 use App\Template\View as BasicView;
 

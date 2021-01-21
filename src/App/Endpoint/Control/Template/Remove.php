@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Template;
+namespace App\Endpoint\Control\Template;
 
 use App\Models\Template;
 use App\Template\ViewAjax;

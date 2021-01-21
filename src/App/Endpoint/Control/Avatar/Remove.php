@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Avatar;
+namespace App\Endpoint\Control\Avatar;
 
 use App\Models\Avatar;
 use App\Template\ViewAjax;
@@ -20,7 +20,7 @@ class Remove extends ViewAjax
             return;
         }
         $avatar = new Avatar();
-        if ($avatar->loadByField("avatar_uid", $this->page) == false) {
+        if ($avatar->loadByField("avatarUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to find avatar");
             return;
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Client;
+namespace App\Endpoint\View\Client;
 
 class Soon extends Withstatus
 {
@@ -8,7 +8,7 @@ class Soon extends Withstatus
     {
         global $unixtime_day;
         $this->whereconfig = [
-        "fields" => ["expireunixtime","expireunixtime"],
+        "fields" => ["expireUnixtime","expireUnixtime"],
         "values" => [time() + $unixtime_day,time()],
         "types" => ["i","i"],
         "matches" => ["<=",">"],

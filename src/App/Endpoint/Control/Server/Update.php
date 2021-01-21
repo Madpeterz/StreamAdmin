@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Server;
+namespace App\Endpoint\Control\Server;
 
 use App\Models\ApisSet;
 use App\Models\Server;
@@ -18,28 +18,28 @@ class Update extends ViewAjax
         $apis->loadAll();
 
         $domain = $input->postFilter("domain");
-        $controlpanel_url = $input->postFilter("controlpanel_url");
-        $apilink = $input->postFilter("apilink", "integer");
-        $api_url = $input->postFilter("api_url");
-        $api_username = $input->postFilter("api_username");
-        $api_password = $input->postFilter("api_password");
-        $opt_password_reset = $input->postFilter("opt_password_reset", "integer");
-        $opt_autodj_next = $input->postFilter("opt_autodj_next", "integer");
-        $opt_toggle_autodj = $input->postFilter("opt_toggle_autodj", "integer");
-        $event_enable_start = $input->postFilter("event_enable_start", "integer");
-        $event_disable_expire = $input->postFilter("event_disable_expire", "integer");
-        $event_disable_revoke = $input->postFilter("event_disable_revoke", "integer");
-        $event_reset_password_revoke = $input->postFilter("event_reset_password_revoke", "integer");
-        $event_enable_renew = $input->postFilter("event_enable_renew", "integer");
-        $opt_toggle_status = $input->postFilter("opt_toggle_status", "integer");
-        $event_start_sync_username = $input->postFilter("event_start_sync_username", "integer");
-        $api_serverstatus = $input->postFilter("api_serverstatus", "integer");
-        $event_clear_djs = $input->postFilter("event_clear_djs", "integer");
-        $event_revoke_reset_username = $input->postFilter("event_revoke_reset_username", "integer");
-        $event_recreate_revoke = $input->postFilter("event_recreate_revoke", "integer");
-        $api_sync_accounts = $input->postFilter("api_sync_accounts", "integer");
-        $event_create_stream = $input->postFilter("event_create_stream", "integer");
-        $event_update_stream = $input->postFilter("event_update_stream", "integer");
+        $controlPanelURL = $input->postFilter("controlPanelURL");
+        $apiLink = $input->postFilter("apiLink", "integer");
+        $apiURL = $input->postFilter("apiURL");
+        $apiUsername = $input->postFilter("apiUsername");
+        $apiPassword = $input->postFilter("apiPassword");
+        $optPasswordReset = $input->postFilter("optPasswordReset", "integer");
+        $optAutodjNext = $input->postFilter("optAutodjNext", "integer");
+        $optToggleAutodj = $input->postFilter("optToggleAutodj", "integer");
+        $eventEnableStart = $input->postFilter("eventEnableStart", "integer");
+        $eventDisableExpire = $input->postFilter("eventDisableExpire", "integer");
+        $eventDisableRevoke = $input->postFilter("eventDisableRevoke", "integer");
+        $eventResetPasswordRevoke = $input->postFilter("eventResetPasswordRevoke", "integer");
+        $eventEnableRenew = $input->postFilter("eventEnableRenew", "integer");
+        $optToggleStatus = $input->postFilter("optToggleStatus", "integer");
+        $eventStartSyncUsername = $input->postFilter("eventStartSyncUsername", "integer");
+        $apiServerStatus = $input->postFilter("apiServerStatus", "integer");
+        $eventClearDjs = $input->postFilter("eventClearDjs", "integer");
+        $eventRevokeResetUsername = $input->postFilter("eventRevokeResetUsername", "integer");
+        $eventRecreateRevoke = $input->postFilter("eventRecreateRevoke", "integer");
+        $apiSyncAccounts = $input->postFilter("apiSyncAccounts", "integer");
+        $eventCreateStream = $input->postFilter("eventCreateStream", "integer");
+        $eventUpdateStream = $input->postFilter("eventUpdateStream", "integer");
 
         $yesno_array = [0,1];
         if (strlen($domain) > 100) {
@@ -50,80 +50,80 @@ class Update extends ViewAjax
             $this->setSwapTag("message", "Domain length can not be less than 5");
             return;
         }
-        if (strlen($controlpanel_url) < 5) {
+        if (strlen($controlPanelURL) < 5) {
             $this->setSwapTag("message", "controlpanel url length can not be less than 5");
             return;
         }
-        if (in_array($apilink, $apis->getAllIds()) == false) {
+        if (in_array($apiLink, $apis->getAllIds()) == false) {
             $this->setSwapTag("message", "Not a supported api");
             return;
         }
-        if (in_array($opt_password_reset, $yesno_array) == false) {
-            $this->setSwapTag("message", "opt_password_reset not vaild");
+        if (in_array($optPasswordReset, $yesno_array) == false) {
+            $this->setSwapTag("message", "optPasswordReset not vaild");
             return;
         }
-        if (in_array($opt_autodj_next, $yesno_array) == false) {
-            $this->setSwapTag("message", "opt_autodj_next not vaild");
+        if (in_array($optAutodjNext, $yesno_array) == false) {
+            $this->setSwapTag("message", "optAutodjNext not vaild");
             return;
         }
-        if (in_array($opt_toggle_autodj, $yesno_array) == false) {
-            $this->setSwapTag("message", "opt_toggle_autodj not vaild");
+        if (in_array($optToggleAutodj, $yesno_array) == false) {
+            $this->setSwapTag("message", "optToggleAutodj not vaild");
             return;
         }
-        if (in_array($event_enable_start, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_enable_start not vaild");
+        if (in_array($eventEnableStart, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventEnableStart not vaild");
             return;
         }
-        if (in_array($event_disable_expire, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_disable_expire not vaild");
+        if (in_array($eventDisableExpire, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventDisableExpire not vaild");
             return;
         }
-        if (in_array($event_disable_revoke, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_disable_revoke not vaild");
+        if (in_array($eventDisableRevoke, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventDisableRevoke not vaild");
             return;
         }
-        if (in_array($event_reset_password_revoke, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_reset_password_revoke not vaild");
+        if (in_array($eventResetPasswordRevoke, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventResetPasswordRevoke not vaild");
             return;
         }
-        if (in_array($event_enable_renew, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_enable_renew not vaild");
+        if (in_array($eventEnableRenew, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventEnableRenew not vaild");
             return;
         }
-        if (in_array($opt_toggle_status, $yesno_array) == false) {
-            $this->setSwapTag("message", "opt_toggle_status not vaild");
+        if (in_array($optToggleStatus, $yesno_array) == false) {
+            $this->setSwapTag("message", "optToggleStatus not vaild");
             return;
         }
-        if (in_array($event_start_sync_username, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_start_sync_username not vaild");
+        if (in_array($eventStartSyncUsername, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventStartSyncUsername not vaild");
             return;
         }
-        if (in_array($api_serverstatus, $yesno_array) == false) {
-            $this->setSwapTag("message", "api_serverstatus not vaild");
+        if (in_array($apiServerStatus, $yesno_array) == false) {
+            $this->setSwapTag("message", "apiServerStatus not vaild");
             return;
         }
-        if (in_array($event_clear_djs, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_clear_djs not vaild");
+        if (in_array($eventClearDjs, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventClearDjs not vaild");
             return;
         }
-        if (in_array($event_revoke_reset_username, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_revoke_reset_username not vaild");
+        if (in_array($eventRevokeResetUsername, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventRevokeResetUsername not vaild");
             return;
         }
-        if (in_array($event_recreate_revoke, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_recreate_revoke not vaild");
+        if (in_array($eventRecreateRevoke, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventRecreateRevoke not vaild");
             return;
         }
-        if (in_array($api_sync_accounts, $yesno_array) == false) {
-            $this->setSwapTag("message", "api_sync_accounts not vaild");
+        if (in_array($apiSyncAccounts, $yesno_array) == false) {
+            $this->setSwapTag("message", "apiSyncAccounts not vaild");
             return;
         }
-        if (in_array($event_create_stream, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_create_stream not vaild");
+        if (in_array($eventCreateStream, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventCreateStream not vaild");
             return;
         }
-        if (in_array($event_update_stream, $yesno_array) == false) {
-            $this->setSwapTag("message", "event_update_stream not vaild");
+        if (in_array($eventUpdateStream, $yesno_array) == false) {
+            $this->setSwapTag("message", "eventUpdateStream not vaild");
             return;
         }
 
@@ -155,30 +155,30 @@ class Update extends ViewAjax
             return;
         }
         $server->setDomain($domain);
-        $server->setControlpanel_url($controlpanel_url);
-        $server->setApilink($apilink);
-        $server->setApi_url($api_url);
-        $server->setApi_username($api_username);
-        if ($api_password != "NoChange") {
-            $server->setApi_password($api_password);
+        $server->setControlPanelURL($controlPanelURL);
+        $server->setApiLink($apiLink);
+        $server->setApiURL($apiURL);
+        $server->setApiUsername($apiUsername);
+        if ($apiPassword != "NoChange") {
+            $server->setApiPassword($apiPassword);
         }
-        $server->setOpt_password_reset($opt_password_reset);
-        $server->setOpt_autodj_next($opt_autodj_next);
-        $server->setOpt_toggle_autodj($opt_toggle_autodj);
-        $server->setEvent_enable_start($event_enable_start);
-        $server->setEvent_disable_expire($event_disable_expire);
-        $server->setEvent_disable_revoke($event_disable_revoke);
-        $server->setEvent_reset_password_revoke($event_reset_password_revoke);
-        $server->setEvent_enable_renew($event_enable_renew);
-        $server->setOpt_toggle_status($opt_toggle_status);
-        $server->setEvent_start_sync_username($event_start_sync_username);
-        $server->setApi_serverstatus($api_serverstatus);
-        $server->setEvent_clear_djs($event_clear_djs);
-        $server->setEvent_revoke_reset_username($event_revoke_reset_username);
-        $server->setEvent_recreate_revoke($event_recreate_revoke);
-        $server->setApi_sync_accounts($api_sync_accounts);
-        $server->setEvent_create_stream($event_create_stream);
-        $server->setEvent_update_stream($event_update_stream);
+        $server->setOptPasswordReset($optPasswordReset);
+        $server->setOptAutodjNext($optAutodjNext);
+        $server->setOptToggleAutodj($optToggleAutodj);
+        $server->setEventEnableStart($eventEnableStart);
+        $server->setEventDisableExpire($eventDisableExpire);
+        $server->setEventDisableRevoke($eventDisableRevoke);
+        $server->setEventResetPasswordRevoke($eventResetPasswordRevoke);
+        $server->setEventEnableRenew($eventEnableRenew);
+        $server->setOptToggleStatus($optToggleStatus);
+        $server->setEventStartSyncUsername($eventStartSyncUsername);
+        $server->setApiServerStatus($apiServerStatus);
+        $server->setEventClearDjs($eventClearDjs);
+        $server->setEventRevokeResetUsername($eventRevokeResetUsername);
+        $server->setEventRecreateRevoke($eventRecreateRevoke);
+        $server->setApiSyncAccounts($apiSyncAccounts);
+        $server->setEventCreateStream($eventCreateStream);
+        $server->setEventUpdateStream($eventUpdateStream);
 
         $update_status = $server->updateEntry();
         if ($update_status["status"] == false) {

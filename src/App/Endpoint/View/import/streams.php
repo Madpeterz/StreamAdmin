@@ -39,17 +39,17 @@ foreach ($r4_items_set->getAllIds() as $r4_item_id) {
         if (array_key_exists($find_package, $package_name_to_id) == true) {
             if (array_key_exists($r4_item->get_streamurl(), $server_domain_to_id) == true) {
                 $stream = new stream();
-                $uid = $stream->createUID("stream_uid", 8, 10);
+                $uid = $stream->createUID("streamUid", 8, 10);
                 if ($uid["status"] == true) {
-                    $stream->setStream_uid($uid["uid"]);
-                    $stream->setPackagelink($package_name_to_id[$find_package]);
-                    $stream->setServerlink($server_domain_to_id[$r4_item->get_streamurl()]);
+                    $stream->setStreamUid($uid["uid"]);
+                    $stream->setPackageLink($package_name_to_id[$find_package]);
+                    $stream->setServerLink($server_domain_to_id[$r4_item->get_streamurl()]);
                     $stream->setPort($r4_item->get_streamport());
-                    $stream->setNeedwork($r4_item->get_baditem());
-                    $stream->setAdminpassword($r4_item->getAdminpassword());
-                    $stream->setAdminusername($r4_item->getAdminusername());
-                    $stream->setOriginal_adminusername($r4_item->getAdminusername());
-                    $stream->setDjpassword($r4_item->get_streampassword());
+                    $stream->setNeedWork($r4_item->get_baditem());
+                    $stream->setAdminPassword($r4_item->getAdminPassword());
+                    $stream->setAdminUsername($r4_item->getAdminUsername());
+                    $stream->setOriginalAdminUsername($r4_item->getAdminUsername());
+                    $stream->setDjPassword($r4_item->get_streampassword());
                     $stream->setMountpoint("r4|" . $r4_item->getId() . "");
                     $create_status = $stream->createEntry();
                     if ($create_status["status"] == true) {

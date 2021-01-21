@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Endpoints\View\Avatar;
+namespace App\Endpoint\View\Avatar;
 
 use App\Models\NoticeSet;
 use App\Models\Rental;
-use App\Endpoints\View\Client\View as View;
+use App\Endpoint\View\Client\View as View;
 
 class SelectNoticeLevel extends View
 {
@@ -14,12 +14,12 @@ class SelectNoticeLevel extends View
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $rental = new Rental();
-        $group_count = $this->sql->groupCountV2($rental->getTable(), "noticelink");
+        $group_count = $this->sql->groupCountV2($rental->getTable(), "noticeLink");
         $table_head = ["id","NoticeLevel","Count"];
         $table_body = [];
         if ($group_count["status"] == true) {
             foreach ($group_count["dataset"] as $countentry) {
-                $notice = $notice_set->getObjectByID($countentry["noticelink"]);
+                $notice = $notice_set->getObjectByID($countentry["noticeLink"]);
                 $entry = [];
                 $entry[] = $notice->getId();
                 $entry[] = '<a href="[[url_base]]client/bynoticelevel/' . $notice->getId() . '">'

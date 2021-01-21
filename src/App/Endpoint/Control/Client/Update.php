@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Client;
+namespace App\Endpoint\Control\Client;
 
 use App\Models\Avatar;
 use App\Models\NoticeSet;
@@ -17,23 +17,23 @@ class Update extends ViewAjax
     {
         $avatar = new Avatar();
         $avatar_from = new Avatar();
-        if ($avatar->loadByField("avatar_uid", $transfer_avataruid) == false) {
+        if ($avatar->loadByField("avatarUid", $transfer_avataruid) == false) {
             $this->issues .= "Unable to find avatar to transfer to";
             return;
         }
-        if ($avatar_from->loadID($rental->getAvatarlink()) == false) {
+        if ($avatar_from->loadID($rental->getAvatarLink()) == false) {
             $this->issues .= "Unable to find avatar to transfer from";
             return;
         }
-        $rental->setAvatarlink($avatar->getId());
+        $rental->setAvatarLink($avatar->getId());
         $this->actions_taken .= "\n Ownership transfered";
         $this->message .= sprintf(
             "\n %1\$s - Transfer to: %2\$s [%3\$s] from %4 [%5]",
             date("F j, Y, g:i a", time()),
-            $avatar->getAvatarname(),
-            $avatar->getAvatar_uid(),
-            $avatar_from->getAvatarname(),
-            $avatar_from->getAvatar_uid()
+            $avatar->getAvatarName(),
+            $avatar->getAvatarUid(),
+            $avatar_from->getAvatarName(),
+            $avatar_from->getAvatarUid()
         );
     }
     protected function adjustTimeleft(
@@ -61,9 +61,9 @@ class Update extends ViewAjax
         $adjustment_text = "Added";
         if ($adjustment_dir == false) {
             $adjustment_text = "Removed";
-            $new_unixtime = $rental->getExpireunixtime() - $adjustment_unixtime;
+            $new_unixtime = $rental->getExpireUnixtime() - $adjustment_unixtime;
         } else {
-            $new_unixtime = $rental->getExpireunixtime() + $adjustment_unixtime;
+            $new_unixtime = $rental->getExpireUnixtime() + $adjustment_unixtime;
         }
             $add_days = 0;
         while ($total_adjust_hours >= 24) {
@@ -95,8 +95,8 @@ class Update extends ViewAjax
         $dif_array = [];
         foreach ($notice_set->getAllIds() as $notice_id) {
             $notice = $notice_set->getObjectByID($notice_id);
-            if ($notice->getHoursremaining() > 0) {
-                $dif_array[$notice->getId()] = (time() + ($notice->getHoursremaining() * $unixtime_hour));
+            if ($notice->getHoursRemaining() > 0) {
+                $dif_array[$notice->getId()] = (time() + ($notice->getHoursRemaining() * $unixtime_hour));
             }
         }
         $closest_diff = null;
@@ -114,11 +114,11 @@ class Update extends ViewAjax
             }
         }
         if ($closest_diff_index != 0) {
-            if ($rental->getNoticelink() != $closest_diff_index) {
-                $rental->setNoticelink($closest_diff_index);
+            if ($rental->getNoticeLink() != $closest_diff_index) {
+                $rental->setNoticeLink($closest_diff_index);
             }
         }
-        $rental->setExpireunixtime($new_unixtime);
+        $rental->setExpireUnixtime($new_unixtime);
         $this->actions_taken .= "\n Adjusted timeleft";
     }
 
@@ -145,7 +145,7 @@ class Update extends ViewAjax
             $this->message = null;
         }
 
-        if ($rental->loadByField("rental_uid", $this->page) == false) {
+        if ($rental->loadByField("rentalUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;

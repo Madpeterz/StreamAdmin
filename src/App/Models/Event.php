@@ -10,125 +10,125 @@ class Event extends genClass
     protected $use_table = "event";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "avatar_uuid" => ["type" => "str", "value" => null],
-        "avatar_name" => ["type" => "str", "value" => null],
-        "rental_uid" => ["type" => "str", "value" => null],
-        "package_uid" => ["type" => "str", "value" => null],
-        "event_new" => ["type" => "bool", "value" => 0],
-        "event_renew" => ["type" => "bool", "value" => 0],
-        "event_expire" => ["type" => "bool", "value" => 0],
-        "event_remove" => ["type" => "bool", "value" => 0],
+        "avatarUUID" => ["type" => "str", "value" => null],
+        "avatarName" => ["type" => "str", "value" => null],
+        "rentalUid" => ["type" => "str", "value" => null],
+        "packageUid" => ["type" => "str", "value" => null],
+        "eventNew" => ["type" => "bool", "value" => 0],
+        "eventRenew" => ["type" => "bool", "value" => 0],
+        "eventExpire" => ["type" => "bool", "value" => 0],
+        "eventRemove" => ["type" => "bool", "value" => 0],
         "unixtime" => ["type" => "int", "value" => null],
-        "expire_unixtime" => ["type" => "int", "value" => null],
+        "expireUnixtime" => ["type" => "int", "value" => null],
         "port" => ["type" => "int", "value" => 0],
     ];
-    public function getAvatar_uuid(): ?string
+    public function getAvatarUUID(): ?string
     {
-        return $this->getField("avatar_uuid");
+        return $this->getField("avatarUUID");
     }
-    public function getAvatar_name(): ?string
+    public function getAvatarName(): ?string
     {
-        return $this->getField("avatar_name");
+        return $this->getField("avatarName");
     }
-    public function getRental_uid(): ?string
+    public function getRentalUid(): ?string
     {
-        return $this->getField("rental_uid");
+        return $this->getField("rentalUid");
     }
-    public function getPackage_uid(): ?string
+    public function getPackageUid(): ?string
     {
-        return $this->getField("package_uid");
+        return $this->getField("packageUid");
     }
-    public function getEvent_new(): ?bool
+    public function getEventNew(): ?bool
     {
-        return $this->getField("event_new");
+        return $this->getField("eventNew");
     }
-    public function getEvent_renew(): ?bool
+    public function getEventRenew(): ?bool
     {
-        return $this->getField("event_renew");
+        return $this->getField("eventRenew");
     }
-    public function getEvent_expire(): ?bool
+    public function getEventExpire(): ?bool
     {
-        return $this->getField("event_expire");
+        return $this->getField("eventExpire");
     }
-    public function getEvent_remove(): ?bool
+    public function getEventRemove(): ?bool
     {
-        return $this->getField("event_remove");
+        return $this->getField("eventRemove");
     }
     public function getUnixtime(): ?int
     {
         return $this->getField("unixtime");
     }
-    public function getExpire_unixtime(): ?int
+    public function getExpireUnixtime(): ?int
     {
-        return $this->getField("expire_unixtime");
+        return $this->getField("expireUnixtime");
     }
     public function getPort(): ?int
     {
         return $this->getField("port");
     }
     /**
-    * setAvatar_uuid
+    * setAvatarUUID
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAvatar_uuid(?string $newvalue): array
+    public function setAvatarUUID(?string $newvalue): array
     {
-        return $this->updateField("avatar_uuid", $newvalue);
+        return $this->updateField("avatarUUID", $newvalue);
     }
     /**
-    * setAvatar_name
+    * setAvatarName
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAvatar_name(?string $newvalue): array
+    public function setAvatarName(?string $newvalue): array
     {
-        return $this->updateField("avatar_name", $newvalue);
+        return $this->updateField("avatarName", $newvalue);
     }
     /**
-    * setRental_uid
+    * setRentalUid
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRental_uid(?string $newvalue): array
+    public function setRentalUid(?string $newvalue): array
     {
-        return $this->updateField("rental_uid", $newvalue);
+        return $this->updateField("rentalUid", $newvalue);
     }
     /**
-    * setPackage_uid
+    * setPackageUid
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setPackage_uid(?string $newvalue): array
+    public function setPackageUid(?string $newvalue): array
     {
-        return $this->updateField("package_uid", $newvalue);
+        return $this->updateField("packageUid", $newvalue);
     }
     /**
-    * setEvent_new
+    * setEventNew
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_new(?bool $newvalue): array
+    public function setEventNew(?bool $newvalue): array
     {
-        return $this->updateField("event_new", $newvalue);
+        return $this->updateField("eventNew", $newvalue);
     }
     /**
-    * setEvent_renew
+    * setEventRenew
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_renew(?bool $newvalue): array
+    public function setEventRenew(?bool $newvalue): array
     {
-        return $this->updateField("event_renew", $newvalue);
+        return $this->updateField("eventRenew", $newvalue);
     }
     /**
-    * setEvent_expire
+    * setEventExpire
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_expire(?bool $newvalue): array
+    public function setEventExpire(?bool $newvalue): array
     {
-        return $this->updateField("event_expire", $newvalue);
+        return $this->updateField("eventExpire", $newvalue);
     }
     /**
-    * setEvent_remove
+    * setEventRemove
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setEvent_remove(?bool $newvalue): array
+    public function setEventRemove(?bool $newvalue): array
     {
-        return $this->updateField("event_remove", $newvalue);
+        return $this->updateField("eventRemove", $newvalue);
     }
     /**
     * setUnixtime
@@ -139,12 +139,12 @@ class Event extends genClass
         return $this->updateField("unixtime", $newvalue);
     }
     /**
-    * setExpire_unixtime
+    * setExpireUnixtime
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setExpire_unixtime(?int $newvalue): array
+    public function setExpireUnixtime(?int $newvalue): array
     {
-        return $this->updateField("expire_unixtime", $newvalue);
+        return $this->updateField("expireUnixtime", $newvalue);
     }
     /**
     * setPort

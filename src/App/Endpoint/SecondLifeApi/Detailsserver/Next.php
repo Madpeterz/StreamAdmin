@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Detailsserver;
+namespace App\Endpoint\SecondLifeApi\Detailsserver;
 
 use App\Models\Avatar;
 use App\Models\Botconfig;
@@ -30,7 +30,7 @@ class Next extends SecondlifeAjax
             return;
         }
         $botavatar = new Avatar();
-        if ($botavatar->loadID($botconfig->getAvatarlink()) == false) {
+        if ($botavatar->loadID($botconfig->getAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to load bot avatar");
             return;
         }
@@ -43,27 +43,27 @@ class Next extends SecondlifeAjax
         }
         $detail = $detail_set->getFirst();
         $rental = new Rental();
-        if ($rental->loadID($detail->getRentallink()) == false) {
+        if ($rental->loadID($detail->getRentalLink()) == false) {
             $this->setSwapTag("message", "Unable to load rental");
             return;
         }
         $avatar = new Avatar();
-        if ($avatar->loadID($rental->getAvatarlink()) == false) {
+        if ($avatar->loadID($rental->getAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to load avatar");
             return;
         }
         $stream = new Stream();
-        if ($stream->loadID($rental->getStreamlink()) == false) {
+        if ($stream->loadID($rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to load stream");
             return;
         }
         $server = new Server();
-        if ($server->loadID($stream->getServerlink()) == false) {
+        if ($server->loadID($stream->getServerLink()) == false) {
             $this->setSwapTag("message", "Unable to load server");
             return;
         }
         $package = new Package();
-        if ($package->loadID($stream->getPackagelink()) == false) {
+        if ($package->loadID($stream->getPackageLink()) == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }
@@ -94,7 +94,7 @@ class Next extends SecondlifeAjax
         }
         if ($botconfig->getNotecards() == true) {
             $notecard = new Notecard();
-            $notecard->setRentallink($rental->getId());
+            $notecard->setRentalLink($rental->getId());
             $create_status = $notecard->createEntry();
             if ($create_status["status"] == false) {
                 $this->setSwapTag("message", "Unable to add notecard to be created!");

@@ -10,105 +10,105 @@ class Stream extends genClass
     protected $use_table = "stream";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "serverlink" => ["type" => "int", "value" => null],
-        "rentallink" => ["type" => "int", "value" => null],
-        "packagelink" => ["type" => "int", "value" => null],
+        "serverLink" => ["type" => "int", "value" => null],
+        "rentalLink" => ["type" => "int", "value" => null],
+        "packageLink" => ["type" => "int", "value" => null],
         "port" => ["type" => "int", "value" => null],
-        "needwork" => ["type" => "bool", "value" => 0],
-        "original_adminusername" => ["type" => "str", "value" => null],
-        "adminusername" => ["type" => "str", "value" => null],
-        "adminpassword" => ["type" => "str", "value" => null],
-        "djpassword" => ["type" => "str", "value" => null],
-        "stream_uid" => ["type" => "str", "value" => null],
+        "needWork" => ["type" => "bool", "value" => 0],
+        "originalAdminUsername" => ["type" => "str", "value" => null],
+        "adminUsername" => ["type" => "str", "value" => null],
+        "adminPassword" => ["type" => "str", "value" => null],
+        "djPassword" => ["type" => "str", "value" => null],
+        "streamUid" => ["type" => "str", "value" => null],
         "mountpoint" => ["type" => "str", "value" => null],
-        "last_api_sync" => ["type" => "int", "value" => 0],
-        "api_uid_1" => ["type" => "str", "value" => null],
-        "api_uid_2" => ["type" => "str", "value" => null],
-        "api_uid_3" => ["type" => "str", "value" => null],
+        "lastApiSync" => ["type" => "int", "value" => 0],
+        "apiConfigValue1" => ["type" => "str", "value" => null],
+        "apiConfigValue2" => ["type" => "str", "value" => null],
+        "apiConfigValue3" => ["type" => "str", "value" => null],
     ];
-    public function getServerlink(): ?int
+    public function getServerLink(): ?int
     {
-        return $this->getField("serverlink");
+        return $this->getField("serverLink");
     }
-    public function getRentallink(): ?int
+    public function getRentalLink(): ?int
     {
-        return $this->getField("rentallink");
+        return $this->getField("rentalLink");
     }
-    public function getPackagelink(): ?int
+    public function getPackageLink(): ?int
     {
-        return $this->getField("packagelink");
+        return $this->getField("packageLink");
     }
     public function getPort(): ?int
     {
         return $this->getField("port");
     }
-    public function getNeedwork(): ?bool
+    public function getNeedWork(): ?bool
     {
-        return $this->getField("needwork");
+        return $this->getField("needWork");
     }
-    public function getOriginal_adminusername(): ?string
+    public function getOriginalAdminUsername(): ?string
     {
-        return $this->getField("original_adminusername");
+        return $this->getField("originalAdminUsername");
     }
-    public function getAdminusername(): ?string
+    public function getAdminUsername(): ?string
     {
-        return $this->getField("adminusername");
+        return $this->getField("adminUsername");
     }
-    public function getAdminpassword(): ?string
+    public function getAdminPassword(): ?string
     {
-        return $this->getField("adminpassword");
+        return $this->getField("adminPassword");
     }
-    public function getDjpassword(): ?string
+    public function getDjPassword(): ?string
     {
-        return $this->getField("djpassword");
+        return $this->getField("djPassword");
     }
-    public function getStream_uid(): ?string
+    public function getStreamUid(): ?string
     {
-        return $this->getField("stream_uid");
+        return $this->getField("streamUid");
     }
     public function getMountpoint(): ?string
     {
         return $this->getField("mountpoint");
     }
-    public function getLast_api_sync(): ?int
+    public function getLastApiSync(): ?int
     {
-        return $this->getField("last_api_sync");
+        return $this->getField("lastApiSync");
     }
-    public function getApi_uid_1(): ?string
+    public function getApiConfigValue1(): ?string
     {
-        return $this->getField("api_uid_1");
+        return $this->getField("apiConfigValue1");
     }
-    public function getApi_uid_2(): ?string
+    public function getApiConfigValue2(): ?string
     {
-        return $this->getField("api_uid_2");
+        return $this->getField("apiConfigValue2");
     }
-    public function getApi_uid_3(): ?string
+    public function getApiConfigValue3(): ?string
     {
-        return $this->getField("api_uid_3");
-    }
-    /**
-    * setServerlink
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setServerlink(?int $newvalue): array
-    {
-        return $this->updateField("serverlink", $newvalue);
+        return $this->getField("apiConfigValue3");
     }
     /**
-    * setRentallink
+    * setServerLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setRentallink(?int $newvalue): array
+    public function setServerLink(?int $newvalue): array
     {
-        return $this->updateField("rentallink", $newvalue);
+        return $this->updateField("serverLink", $newvalue);
     }
     /**
-    * setPackagelink
+    * setRentalLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setPackagelink(?int $newvalue): array
+    public function setRentalLink(?int $newvalue): array
     {
-        return $this->updateField("packagelink", $newvalue);
+        return $this->updateField("rentalLink", $newvalue);
+    }
+    /**
+    * setPackageLink
+    * @return mixed[] [status =>  bool, message =>  string]
+    */
+    public function setPackageLink(?int $newvalue): array
+    {
+        return $this->updateField("packageLink", $newvalue);
     }
     /**
     * setPort
@@ -119,52 +119,52 @@ class Stream extends genClass
         return $this->updateField("port", $newvalue);
     }
     /**
-    * setNeedwork
+    * setNeedWork
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setNeedwork(?bool $newvalue): array
+    public function setNeedWork(?bool $newvalue): array
     {
-        return $this->updateField("needwork", $newvalue);
+        return $this->updateField("needWork", $newvalue);
     }
     /**
-    * setOriginal_adminusername
+    * setOriginalAdminUsername
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setOriginal_adminusername(?string $newvalue): array
+    public function setOriginalAdminUsername(?string $newvalue): array
     {
-        return $this->updateField("original_adminusername", $newvalue);
+        return $this->updateField("originalAdminUsername", $newvalue);
     }
     /**
-    * setAdminusername
+    * setAdminUsername
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAdminusername(?string $newvalue): array
+    public function setAdminUsername(?string $newvalue): array
     {
-        return $this->updateField("adminusername", $newvalue);
+        return $this->updateField("adminUsername", $newvalue);
     }
     /**
-    * setAdminpassword
+    * setAdminPassword
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAdminpassword(?string $newvalue): array
+    public function setAdminPassword(?string $newvalue): array
     {
-        return $this->updateField("adminpassword", $newvalue);
+        return $this->updateField("adminPassword", $newvalue);
     }
     /**
-    * setDjpassword
+    * setDjPassword
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setDjpassword(?string $newvalue): array
+    public function setDjPassword(?string $newvalue): array
     {
-        return $this->updateField("djpassword", $newvalue);
+        return $this->updateField("djPassword", $newvalue);
     }
     /**
-    * setStream_uid
+    * setStreamUid
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setStream_uid(?string $newvalue): array
+    public function setStreamUid(?string $newvalue): array
     {
-        return $this->updateField("stream_uid", $newvalue);
+        return $this->updateField("streamUid", $newvalue);
     }
     /**
     * setMountpoint
@@ -175,36 +175,36 @@ class Stream extends genClass
         return $this->updateField("mountpoint", $newvalue);
     }
     /**
-    * setLast_api_sync
+    * setLastApiSync
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setLast_api_sync(?int $newvalue): array
+    public function setLastApiSync(?int $newvalue): array
     {
-        return $this->updateField("last_api_sync", $newvalue);
+        return $this->updateField("lastApiSync", $newvalue);
     }
     /**
-    * setApi_uid_1
+    * setApiConfigValue1
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_uid_1(?string $newvalue): array
+    public function setApiConfigValue1(?string $newvalue): array
     {
-        return $this->updateField("api_uid_1", $newvalue);
+        return $this->updateField("apiConfigValue1", $newvalue);
     }
     /**
-    * setApi_uid_2
+    * setApiConfigValue2
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_uid_2(?string $newvalue): array
+    public function setApiConfigValue2(?string $newvalue): array
     {
-        return $this->updateField("api_uid_2", $newvalue);
+        return $this->updateField("apiConfigValue2", $newvalue);
     }
     /**
-    * setApi_uid_3
+    * setApiConfigValue3
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setApi_uid_3(?string $newvalue): array
+    public function setApiConfigValue3(?string $newvalue): array
     {
-        return $this->updateField("api_uid_3", $newvalue);
+        return $this->updateField("apiConfigValue3", $newvalue);
     }
 }
 // please do not edit this file

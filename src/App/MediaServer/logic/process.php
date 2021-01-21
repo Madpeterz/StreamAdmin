@@ -15,7 +15,7 @@ if (file_exists($lang_file) == true) {
 }
 if (isset($server) == false) {
     $server = new server();
-    $server->loadID($stream->getServerlink());
+    $server->loadID($stream->getServerLink());
 }
 if (isset($no_api_action) == false) {
     $no_api_action = true;
@@ -31,7 +31,7 @@ if (isset($current_step) == false) {
 }
 if ($server->is_loaded() == true) {
     $api = new apis();
-    if ($api->loadID($server->getApilink()) == true) {
+    if ($api->loadID($server->getApiLink()) == true) {
         if ($api->getId() != 1) {
             $exit = false;
             while ($exit == false) {
@@ -55,7 +55,7 @@ if ($server->is_loaded() == true) {
                         if ($current_step == "core_send_details") {
                             if ($rental == null) {
                                 $rental = new rental();
-                                $all_ok = $rental->loadByField("streamlink", $stream->getId());
+                                $all_ok = $rental->loadByField("streamLink", $stream->getId());
                             }
                         }
                         if ($all_ok == true) {
@@ -65,7 +65,7 @@ if ($server->is_loaded() == true) {
                             $api_serverlogic_reply = false;
                         }
                     } else {
-                        if ($current_step == "event_recreate_revoke") {
+                        if ($current_step == "eventRecreateRevoke") {
                             $current_step = "recreate_not_enabled";
                         }
                     }

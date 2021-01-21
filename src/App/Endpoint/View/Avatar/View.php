@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Avatar;
+namespace App\Endpoint\View\Avatar;
 
 use App\Template\View as BasicView;
 

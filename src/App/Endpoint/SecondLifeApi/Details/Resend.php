@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Details;
+namespace App\Endpoint\SecondLifeApi\Details;
 
 use App\Models\Detail;
 use App\Models\Rental;
@@ -12,15 +12,15 @@ class Resend extends SecondlifeAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $rental_uid = $input->postFilter("rental_uid");
+        $rentalUid = $input->postFilter("rentalUid");
         $rental = new Rental();
-        if ($rental->loadByField("rental_uid", $rental_uid) == true) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == true) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
         $detail = new Detail();
         $whereConfig = [
-            "fields" => ["rentallink"],
+            "fields" => ["rentalLink"],
             "values" => [$rental->getId()],
             "types" => ["i"],
             "matches" => ["="],
@@ -35,7 +35,7 @@ class Resend extends SecondlifeAjax
             return;
         }
         $detail = new Detail();
-        $detail->setRentallink($rental->getId());
+        $detail->setRentalLink($rental->getId());
         $create_status = $detail->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag("message", "Unable to create details request");

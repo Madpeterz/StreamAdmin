@@ -24,20 +24,20 @@ class ServerApiHelper extends SqlConnectedClass
     protected $api_config = null;
 
     protected $callable_actions = [
-        "api_enable_account" => ["event_enable_start"],
-        "api_list_djs" => ["event_clear_djs"],
-        "api_change_title" => ["event_enable_start"],
-        "api_purge_djs" => ["event_clear_djs"],
-        "api_disable_account" => ["event_disable_revoke"],
-        "api_serverstatus" => ["api_serverstatus"],
-        "api_start" => ["opt_toggle_status","event_enable_start"],
-        "api_stop" => ["opt_toggle_status","event_enable_start"],
-        "api_autodj_toggle" => ["opt_toggle_autodj"],
-        "api_autodj_next" => ["opt_autodj_next"],
-        "api_customize_username" => ["event_start_sync_username"],
+        "api_enable_account" => ["eventEnableStart"],
+        "api_list_djs" => ["eventClearDjs"],
+        "api_change_title" => ["eventEnableStart"],
+        "api_purge_djs" => ["eventClearDjs"],
+        "api_disable_account" => ["eventDisableRevoke"],
+        "apiServerStatus" => ["apiServerStatus"],
+        "api_start" => ["optToggleStatus","eventEnableStart"],
+        "api_stop" => ["optToggleStatus","eventEnableStart"],
+        "api_autodj_toggle" => ["optToggleAutodj"],
+        "api_autodj_next" => ["optAutodjNext"],
+        "api_customize_username" => ["eventStartSyncUsername"],
         "api_recreate_account" => [],
-        "api_reset_passwords" => ["opt_password_reset"],
-        "api_set_passwords" => ["opt_password_reset","event_reset_password_revoke"],
+        "api_reset_passwords" => ["optPasswordReset"],
+        "api_set_passwords" => ["optPasswordReset","eventResetPasswordRevoke"],
     ];
 
     public function getMessage()
@@ -48,51 +48,51 @@ class ServerApiHelper extends SqlConnectedClass
     {
         $this->force_set_stream($stream, $auto_load);
     }
-    public function event_recreate_revoke(): bool
+    public function eventRecreateRevoke(): bool
     {
         return $this->api_recreate_account();
     }
-    public function event_enable_start(): bool
+    public function eventEnableStart(): bool
     {
         return $this->api_enable_account();
     }
-    public function event_clear_djs(): bool
+    public function eventClearDjs(): bool
     {
         return $this->api_purge_djs();
     }
-    public function event_disable_expire(): bool
+    public function eventDisableExpire(): bool
     {
         return $this->api_disable_account();
     }
-    public function event_disable_revoke(): bool
+    public function eventDisableRevoke(): bool
     {
         return $this->api_disable_account();
     }
-    public function event_enable_renew(): bool
+    public function eventEnableRenew(): bool
     {
         return $this->api_enable_account();
     }
-    public function event_reset_password_revoke(): bool
+    public function eventResetPasswordRevoke(): bool
     {
         return $this->api_reset_passwords();
     }
-    public function event_start_sync_username(): bool
+    public function eventStartSyncUsername(): bool
     {
         return $this->api_customize_username();
     }
-    public function event_revoke_reset_username(): bool
+    public function eventRevokeResetUsername(): bool
     {
         return $this->api_customize_username();
     }
-    public function opt_autodj_next(): bool
+    public function optAutodjNext(): bool
     {
         return $this->api_autodj_next();
     }
-    public function opt_password_reset(): bool
+    public function optPasswordReset(): bool
     {
         return $this->api_reset_passwords();
     }
-    public function opt_toggle_autodj(): bool
+    public function optToggleAutodj(): bool
     {
         return $this->api_autodj_toggle();
     }
@@ -134,7 +134,7 @@ class ServerApiHelper extends SqlConnectedClass
     {
         $api = new Apis();
         $processed = false;
-        if ($api->loadID($this->server->getApilink()) == true) {
+        if ($api->loadID($this->server->getApiLink()) == true) {
             if ($api->getId() > 1) {
                 $this->api_config = $api;
                 $server_api_name = "server_" . $api->getName() . "";
@@ -156,7 +156,7 @@ class ServerApiHelper extends SqlConnectedClass
     protected function load_rental(): bool
     {
         $rental = new Rental();
-        if ($rental->loadByField("streamlink", $this->stream->getId()) == true) {
+        if ($rental->loadByField("streamLink", $this->stream->getId()) == true) {
             $this->rental = $rental;
             $this->message = "Rental loaded";
             return true;
@@ -167,7 +167,7 @@ class ServerApiHelper extends SqlConnectedClass
     protected function load_package(): bool
     {
         $package = new Package();
-        if ($package->loadID($this->stream->getPackagelink()) == true) {
+        if ($package->loadID($this->stream->getPackageLink()) == true) {
             $this->package = $package;
             $this->message = "Package loaded";
             return true;
@@ -178,7 +178,7 @@ class ServerApiHelper extends SqlConnectedClass
     protected function load_server(): bool
     {
         $server = new Server();
-        if ($server->loadID($this->stream->getServerlink()) == true) {
+        if ($server->loadID($this->stream->getServerLink()) == true) {
             $this->message = "Server loaded";
             $this->server = $server;
             return true;
@@ -189,7 +189,7 @@ class ServerApiHelper extends SqlConnectedClass
     protected function load_avatar(): bool
     {
         $avatar = new Avatar();
-        if ($avatar->loadID($this->rental->getAvatarlink()) == true) {
+        if ($avatar->loadID($this->rental->getAvatarLink()) == true) {
             $this->message = "Avatar loaded";
             $this->avatar = $avatar;
             return true;
@@ -256,11 +256,11 @@ class ServerApiHelper extends SqlConnectedClass
     {
         global $sql;
         if ($this->callable_action(__FUNCTION__) == true) {
-            $old_username = $this->stream->getAdminusername();
-            $this->stream->setAdminusername($this->stream->getOriginal_adminusername());
-            $this->stream->setAdminpassword($this->rand_string(7 + rand(1, 6)));
-            $this->stream->setDjpassword($this->rand_string(5 + rand(1, 3)));
-            $this->stream->setNeedwork(false);
+            $old_username = $this->stream->getAdminUsername();
+            $this->stream->setAdminUsername($this->stream->getOriginalAdminUsername());
+            $this->stream->setAdminPassword($this->rand_string(7 + rand(1, 6)));
+            $this->stream->setDjPassword($this->rand_string(5 + rand(1, 3)));
+            $this->stream->setNeedWork(false);
             $update_status = $this->stream->updateEntry();
             if ($update_status["status"] == true) {
                 $status = $this->server_api->remove_account($old_username);
@@ -327,7 +327,7 @@ class ServerApiHelper extends SqlConnectedClass
     {
         if ($this->callable_action(__FUNCTION__) == true) {
             if ($this->avatar != null) {
-                $reply = $this->server_api->change_title($this->avatar->getAvatarname() . " stream");
+                $reply = $this->server_api->change_title($this->avatar->getAvatarName() . " stream");
                 return $reply;
             }
             return true;
@@ -373,7 +373,7 @@ class ServerApiHelper extends SqlConnectedClass
         }
         return false;
     }
-    public function api_serverstatus(): array
+    public function apiServerStatus(): array
     {
         if ($this->callable_action(__FUNCTION__) == true) {
             return $this->server_api->get_server_status();
@@ -419,15 +419,15 @@ class ServerApiHelper extends SqlConnectedClass
                 $status = false;
                 $this->message = "started api_reset_passwords";
                 if ($this->server_api != null) {
-                    if ($this->check_flags(["opt_password_reset","event_reset_password_revoke"]) == true) {
+                    if ($this->check_flags(["optPasswordReset","eventResetPasswordRevoke"]) == true) {
                         $this->message = "passed flag check";
-                        $this->stream->setAdminpassword($new_admin_password);
-                        $this->stream->setDjpassword($new_dj_password);
-                        $this->stream->setNeedwork(false);
+                        $this->stream->setAdminPassword($new_admin_password);
+                        $this->stream->setDjPassword($new_dj_password);
+                        $this->stream->setNeedWork(false);
                         $update_status = $this->stream->updateEntry();
                         if ($update_status["status"] == true) {
                             $this->message = "calling api";
-                            $status = $this->server_api->opt_password_reset();
+                            $status = $this->server_api->optPasswordReset();
                             $this->message = $this->server_api->get_last_api_message();
                             if ($status == false) {
                                 $sql->flagError();
@@ -453,7 +453,7 @@ class ServerApiHelper extends SqlConnectedClass
     public function api_start(): bool
     {
         if ($this->callable_action(__FUNCTION__) == true) {
-            $status = $this->server_api->opt_toggle_status(true);
+            $status = $this->server_api->optToggleStatus(true);
             $this->message = $this->server_api->get_last_api_message();
             return $status;
         }
@@ -462,7 +462,7 @@ class ServerApiHelper extends SqlConnectedClass
     public function api_stop(): bool
     {
         if ($this->callable_action(__FUNCTION__) == true) {
-            $status = $this->server_api->opt_toggle_status(false);
+            $status = $this->server_api->optToggleStatus(false);
             $this->message = $this->server_api->get_last_api_message();
             return $status;
         }
@@ -477,7 +477,7 @@ class ServerApiHelper extends SqlConnectedClass
                 if ($this->package != null) {
                     $this->message = "This package does not support autoDJ";
                     if ($this->package->getAutodj() == true) {
-                        $status = $this->server_api->opt_toggle_autodj();
+                        $status = $this->server_api->optToggleAutodj();
                         $this->message = $this->server_api->get_last_api_message();
                         return $status;
                     }
@@ -495,7 +495,7 @@ class ServerApiHelper extends SqlConnectedClass
                 if ($this->package != null) {
                     $this->message = "This package does not support autoDJ";
                     if ($this->package->getAutodj() == true) {
-                        $status = $this->server_api->opt_autodj_next();
+                        $status = $this->server_api->optAutodjNext();
                         $this->message = $this->server_api->get_last_api_message();
                         return $status;
                     }
@@ -518,15 +518,15 @@ class ServerApiHelper extends SqlConnectedClass
         $new_username = "";
         if ($this->avatar == null) {
             // reset username
-            $new_username = $this->stream->getOriginal_adminusername();
+            $new_username = $this->stream->getOriginalAdminUsername();
         } else {
             // customize username
             $server_accounts = $this->server_api->get_account_name_list();
             $this->message = $this->server_api->get_last_api_message();
             if ($server_accounts["status"] == true) {
-                if (in_array($this->stream->getAdminusername(), $server_accounts["usernames"]) == true) {
+                if (in_array($this->stream->getAdminUsername(), $server_accounts["usernames"]) == true) {
                     $acceptable_names = [];
-                    $avname = explode(" ", strtolower($this->avatar->getAvatarname()));
+                    $avname = explode(" ", strtolower($this->avatar->getAvatarName()));
                     $acceptable_names[] = $avname[0]; // Firstname
                     $acceptable_names[] = $avname[0] . "_"
                     . substr($avname[1], 0, 2); // Firstname 2 letters of last name
@@ -537,7 +537,7 @@ class ServerApiHelper extends SqlConnectedClass
                     $acceptable_names[] = $avname[0] . "_"
                     . $this->stream->getPort() . "_" . $this->server->getId(); // Firstname Port ServerID
                     $acceptable_names[] = $avname[0] . "_"
-                    . $this->rental->getRental_uid(); // Firstname RentalUID
+                    . $this->rental->getRentalUid(); // Firstname RentalUID
                     $accepted_name = "";
                     foreach ($acceptable_names as $testname) {
                         if (in_array($testname, $server_accounts["usernames"]) == false) {
@@ -574,12 +574,12 @@ class ServerApiHelper extends SqlConnectedClass
             if (($retry == false) && ($all_ok == true)) {
                 $new_username = $this->get_stream_customized_username();
                 if ($new_username != "") {
-                    $old_username = $this->stream->getAdminusername();
+                    $old_username = $this->stream->getAdminUsername();
                     if ($old_username != $new_username) {
-                        $this->stream->setAdminusername($new_username);
+                        $this->stream->setAdminUsername($new_username);
                         $update_status = $this->stream->updateEntry();
                         if ($update_status["status"] == true) {
-                            $status = $this->server_api->event_start_sync_username($old_username);
+                            $status = $this->server_api->eventStartSyncUsername($old_username);
                             $this->message = $this->server_api->get_last_api_message();
                             if ($status == false) {
                                 $this->sql->flagError();
@@ -597,7 +597,7 @@ class ServerApiHelper extends SqlConnectedClass
                     $this->message = "No new username found";
                 }
             } elseif (($retry == true) && ($all_ok == true)) {
-                $status = $this->server_api->opt_toggle_status(false);
+                $status = $this->server_api->optToggleStatus(false);
                 $this->message = $this->server_api->get_last_api_message();
                 if ($status == true) {
                     $this->message = "Unable to update username right now stopping server!";

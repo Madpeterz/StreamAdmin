@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Reseller;
+namespace App\Endpoint\View\Reseller;
 
 use App\Models\Avatar;
 use App\Models\Reseller;
@@ -20,8 +20,8 @@ class Manage extends View
         if ($reseller->loadID($this->page) == false) {
             $this->output->redirect("reseller?bubblemessage=unable to find reseller&bubbletype=warning");
         }
-            $avatar->loadID($reseller->getAvatarlink());
-            $this->output->addSwapTagString("page_title", ":" . $avatar->getAvatarname());
+            $avatar->loadID($reseller->getAvatarLink());
+            $this->output->addSwapTagString("page_title", ":" . $avatar->getAvatarName());
             $form = new Form();
             $form->target("reseller/update/" . $this->page . "");
             $form->required(true);

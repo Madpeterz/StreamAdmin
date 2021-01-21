@@ -11,19 +11,19 @@ class AvatarHelper
     {
         return $this->avatar;
     }
-    public function loadOrCreate(string $avatar_uuid, string $avatar_name): bool
+    public function loadOrCreate(string $avatarUUID, string $avatarName): bool
     {
         $this->avatar = new Avatar();
-        if (strlen($avatar_uuid) == 36) {
-            if ($this->avatar->loadByField("avataruuid", $avatar_uuid) == true) {
+        if (strlen($avatarUUID) == 36) {
+            if ($this->avatar->loadByField("avatarUUID", $avatarUUID) == true) {
                 return true;
             }
             $this->avatar = new Avatar();
-            $uid = $this->avatar->createUID("avatar_uid", 8, 10);
+            $uid = $this->avatar->createUID("avatarUid", 8, 10);
             if ($uid["status"] == true) {
-                $this->avatar->setAvatar_uid($uid["uid"]);
-                $this->avatar->setAvatarname($avatar_name);
-                $this->avatar->setAvataruuid($avatar_uuid);
+                $this->avatar->setAvatarUid($uid["uid"]);
+                $this->avatar->setAvatarName($avatarName);
+                $this->avatar->setAvatarUUID($avatarUUID);
                 $create_status = $this->avatar->createEntry();
                 return $create_status["status"];
             }

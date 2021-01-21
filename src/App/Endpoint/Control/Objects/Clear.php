@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Objects;
+namespace App\Endpoint\Control\Objects;
 
 use App\Models\ObjectsSet;
 use App\Template\ViewAjax;

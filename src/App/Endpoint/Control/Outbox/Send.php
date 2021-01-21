@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Outbox;
+namespace App\Endpoint\Control\Outbox;
 
 use App\Models\Avatar;
 use App\Models\AvatarSet;
@@ -43,22 +43,22 @@ class Send extends ViewAjax
             return;
         }
         if ($source == "notice") {
-            $rental_set->loadOnField("noticelink", $source_id);
+            $rental_set->loadOnField("noticeLink", $source_id);
         } elseif ($source == "server") {
-            $stream_set->loadOnField("serverlink", $source_id);
-            $rental_set->loadIds($stream_set->getAllIds(), "streamlink");
+            $stream_set->loadOnField("serverLink", $source_id);
+            $rental_set->loadIds($stream_set->getAllIds(), "streamLink");
         } elseif ($source == "package") {
-            $rental_set->loadOnField("packagelink", $source_id);
+            $rental_set->loadOnField("packageLink", $source_id);
         }
         if ($rental_set->getCount() == 0) {
             $this->setSwapTag("message", "No rentals found with selected source/id pair");
             return;
         }
         $stream_set = new StreamSet();
-        $stream_set->loadIds($rental_set->getAllByField("streamlink"));
-        $avatar_set->loadIds($rental_set->getUniqueArray("avatarlink"));
-        $banlist_set->loadIds($rental_set->getUniqueArray("avatarlink"), "avatar_link");
-        $banned_ids = $banlist_set->getAllByField("avatarlink");
+        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
+        $avatar_set->loadIds($rental_set->getUniqueArray("avatarLink"));
+        $banlist_set->loadIds($rental_set->getUniqueArray("avatarLink"), "avatarLink");
+        $banned_ids = $banlist_set->getAllByField("avatarLink");
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
             $this->setSwapTag("message", "No avatars found to send to");
@@ -68,20 +68,20 @@ class Send extends ViewAjax
         $server_set->loadAll();
         $notice_set->loadAll();
         $botconfig->loadID(1);
-        $botavatar->loadID($botconfig->getAvatarlink());
+        $botavatar->loadID($botconfig->getAvatarLink());
 
         $sent_counter = 0;
         $seen_avatars = [];
         foreach ($rental_set->getAllIds() as $rental_id) {
             $rental = $rental_set->getObjectByID($rental_id);
-            if (in_array($rental->getAvatarlink(), $avatarids) == true) {
-                if (in_array($rental->getAvatarlink(), $seen_avatars) == false) {
-                        $seen_avatars[] = $rental->getAvatarlink();
-                        $avatar = $avatar_set->getObjectByID($rental->getAvatarlink());
+            if (in_array($rental->getAvatarLink(), $avatarids) == true) {
+                if (in_array($rental->getAvatarLink(), $seen_avatars) == false) {
+                        $seen_avatars[] = $rental->getAvatarLink();
+                        $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
                     if (in_array($avatar->getId(), $banned_ids) == false) {
-                        $stream = $stream_set->getObjectByID($rental->getStreamlink());
-                        $package = $package_set->getObjectByID($stream->getPackagelink());
-                        $server = $server_set->getObjectByID($stream->getServerlink());
+                        $stream = $stream_set->getObjectByID($rental->getStreamLink());
+                        $package = $package_set->getObjectByID($stream->getPackageLink());
+                        $server = $server_set->getObjectByID($stream->getServerLink());
                         $sendmessage = $swapables_helper->get_swapped_text(
                             $message,
                             $avatar,

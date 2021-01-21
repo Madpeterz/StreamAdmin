@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Package;
+namespace App\Endpoint\View\Package;
 
 use App\Models\Package;
 use App\Models\ServertypesSet;
@@ -22,7 +22,7 @@ class Manage extends View
         $servertypes_set->loadAll();
 
         $package = new Package();
-        if ($package->loadByField("package_uid", $this->page) == false) {
+        if ($package->loadByField("packageUid", $this->page) == false) {
             $this->output->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
             return;
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Package;
+namespace App\Endpoint\Control\Package;
 
 use App\Models\Package;
 use App\Models\Servertypes;
@@ -106,7 +106,7 @@ class Update extends ViewAjax
         }
 
         $this->setSwapTag("redirect", "package");
-        if ($package->loadByField("package_uid", $this->page) == false) {
+        if ($package->loadByField("packageUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }

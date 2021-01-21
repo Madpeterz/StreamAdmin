@@ -1,6 +1,6 @@
 <?php
 
-$steps = array(
-    "" => "event_update_stream"
-);
+$steps = [
+    "" => "eventUpdateStream",
+];
 include "shared/media_server_apis/logic/process.php";

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Apirequests\Events;
+namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
 class Eventenablestart extends CallApi
 {
     protected function configEvent(): void
     {
         $this->logic_step = "buy";
-        $this->functionname = "event_enable_start";
+        $this->functionname = "eventEnableStart";
     }
 }

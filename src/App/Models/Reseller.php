@@ -10,13 +10,13 @@ class Reseller extends genClass
     protected $use_table = "reseller";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "avatarlink" => ["type" => "int", "value" => null],
+        "avatarLink" => ["type" => "int", "value" => null],
         "allowed" => ["type" => "bool", "value" => 0],
         "rate" => ["type" => "int", "value" => 0],
     ];
-    public function getAvatarlink(): ?int
+    public function getAvatarLink(): ?int
     {
-        return $this->getField("avatarlink");
+        return $this->getField("avatarLink");
     }
     public function getAllowed(): ?bool
     {
@@ -27,12 +27,12 @@ class Reseller extends genClass
         return $this->getField("rate");
     }
     /**
-    * setAvatarlink
+    * setAvatarLink
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setAvatarlink(?int $newvalue): array
+    public function setAvatarLink(?int $newvalue): array
     {
-        return $this->updateField("avatarlink", $newvalue);
+        return $this->updateField("avatarLink", $newvalue);
     }
     /**
     * setAllowed

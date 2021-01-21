@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 use App\Models\Server;
 
@@ -12,7 +12,7 @@ class Onserver extends Withstatus
         $server->loadID($this->page);
         $this->setSwapTag("page_title", " On server: " . $server->getDomain() . "");
         $whereconfig = [
-            "fields" => ["serverlink"],
+            "fields" => ["serverLink"],
             "values" => [$server->getId()],
             "types" => ["i"],
             "matches" => ["="],

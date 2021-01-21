@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Tree;
+namespace App\Endpoint\Control\Tree;
 
 use App\Models\Package;
 use App\Models\Treevender;
@@ -32,7 +32,7 @@ class Addpackage extends ViewAjax
         }
         $treevender_package = new Treevenderpackages();
         $where_fields = [
-        "fields" => ["packagelink","treevenderlink"],
+        "fields" => ["packageLink","treevenderLink"],
         "values" => [$package->getId(),$treevender->getId()],
         "types" => ["i","i"],
         "matches" => ["=","="],
@@ -43,8 +43,8 @@ class Addpackage extends ViewAjax
             return;
         }
         $treevender_package = new Treevenderpackages();
-        $treevender_package->setPackagelink($package->getId());
-        $treevender_package->setTreevenderlink($treevender->getId());
+        $treevender_package->setPackageLink($package->getId());
+        $treevender_package->setTreevenderLink($treevender->getId());
         $create_status = $treevender_package->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag("message", "Unable to attach package to tree vender");

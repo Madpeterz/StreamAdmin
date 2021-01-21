@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Notice;
+namespace App\Endpoint\Control\Notice;
 
 use App\Models\Notice;
 use App\Models\Noticenotecard;
@@ -14,15 +14,15 @@ class Update extends ViewAjax
         $input = new InputFilter();
         $static_notecard = new Noticenotecard();
         $name = $input->postFilter("name");
-        $hoursremaining = $input->postFilter("hoursremaining", "integer");
-        $immessage = $input->postFilter("immessage");
-        $usebot = $input->postFilter("usebot", "bool");
-        $send_notecard = $input->postFilter("send_notecard", "bool");
-        $notecarddetail = $input->postFilter("notecarddetail");
-        $notice_notecardlink = $input->postFilter("notice_notecardlink", "integer");
-        if ($send_notecard == false) {
-            if (strlen($notecarddetail) < 1) {
-                $notecarddetail = "";
+        $hoursRemaining = $input->postFilter("hoursRemaining", "integer");
+        $imMessage = $input->postFilter("imMessage");
+        $useBot = $input->postFilter("useBot", "bool");
+        $sendNotecard = $input->postFilter("sendNotecard", "bool");
+        $notecardDetail = $input->postFilter("notecardDetail");
+        $noticeNotecardLink = $input->postFilter("noticeNotecardLink", "integer");
+        if ($sendNotecard == false) {
+            if (strlen($notecardDetail) < 1) {
+                $notecardDetail = "";
             }
         }
         $failed_on = "";
@@ -35,23 +35,23 @@ class Update extends ViewAjax
             $this->setSwapTag("message", "Name length must be 100 or less");
             return;
         }
-        if (strlen($immessage) < 5) {
-            $this->setSwapTag("message", "immessage length must be 5 or more");
+        if (strlen($imMessage) < 5) {
+            $this->setSwapTag("message", "imMessage length must be 5 or more");
             return;
         }
-        if (strlen($immessage) > 800) {
-            $this->setSwapTag("message", "immessage length must be 800 or less");
+        if (strlen($imMessage) > 800) {
+            $this->setSwapTag("message", "imMessage length must be 800 or less");
             return;
         }
-        if (strlen($hoursremaining) < 0) {
-            $this->setSwapTag("message", "hoursremaining must be 0 or more");
+        if (strlen($hoursRemaining) < 0) {
+            $this->setSwapTag("message", "hoursRemaining must be 0 or more");
             return;
         }
-        if (strlen($hoursremaining) > 999) {
-            $this->setSwapTag("message", "hoursremaining must be 999 or less");
+        if (strlen($hoursRemaining) > 999) {
+            $this->setSwapTag("message", "hoursRemaining must be 999 or less");
             return;
         }
-        if ($static_notecard->loadID($notice_notecardlink) == false) {
+        if ($static_notecard->loadID($noticeNotecardLink) == false) {
             $this->setSwapTag("message", "Unable to find selected static notecard");
             return;
         }
@@ -67,14 +67,14 @@ class Update extends ViewAjax
             return;
         }
         $whereConfig = [
-            "fields" => ["hoursremaining"],
-            "values" => [$hoursremaining],
+            "fields" => ["hoursRemaining"],
+            "values" => [$hoursRemaining],
             "types" => ["i"],
             "matches" => ["="],
         ];
         $count_check = $this->sql->basicCountV2($notice->getTable(), $whereConfig);
         $expected_count = 0;
-        if ($notice->getHoursremaining() == $hoursremaining) {
+        if ($notice->getHoursRemaining() == $hoursRemaining) {
             $expected_count = 1;
         }
         if ($count_check["status"] == false) {
@@ -86,13 +86,13 @@ class Update extends ViewAjax
             return;
         }
         $notice->setName($name);
-        $notice->setImmessage($immessage);
-        $notice->setUsebot($usebot);
-        $notice->setSend_notecard($send_notecard);
-        $notice->setNotecarddetail($notecarddetail);
-        $notice->setNotice_notecardlink($static_notecard->getId());
+        $notice->setImMessage($imMessage);
+        $notice->setUseBot($useBot);
+        $notice->setSendNotecard($sendNotecard);
+        $notice->setNotecardDetail($notecardDetail);
+        $notice->setNoticeNotecardLink($static_notecard->getId());
         if (in_array($this->page, [6,10]) == false) {
-            $notice->setHoursremaining($hoursremaining);
+            $notice->setHoursRemaining($hoursRemaining);
         }
         $update_status = $notice->updateEntry();
         if ($update_status["status"] == false) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 class Ready extends Withstatus
 {
@@ -8,7 +8,7 @@ class Ready extends Withstatus
     {
         $this->setSwapTag("page_title", " With status: Ready");
         $whereconfig = [
-            "fields" => ["rentallink","needwork"],
+            "fields" => ["rentalLink","needWork"],
             "values" => [null,0],
             "types" => ["s","i"],
             "matches" => ["IS","="],

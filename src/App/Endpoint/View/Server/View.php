@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Server;
+namespace App\Endpoint\View\Server;
 
 use App\Template\View as BasicView;
 

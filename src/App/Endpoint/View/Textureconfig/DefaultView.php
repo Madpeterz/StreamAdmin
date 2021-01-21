@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Textureconfig;
+namespace App\Endpoint\View\Textureconfig;
 
 use App\Models\TextureconfigSet;
 

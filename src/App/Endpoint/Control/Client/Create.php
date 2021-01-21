@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Client;
+namespace App\Endpoint\Control\Client;
 
 use App\Models\Avatar;
 use App\Models\AvatarSet;
@@ -32,7 +32,7 @@ class Create extends ViewAjax
         $failed_on = "";
 
         $avatar_where_config = [
-            "fields" => ["avatar_uid","avatarname","avataruuid"],
+            "fields" => ["avatarUid","avatarName","avatarUUID"],
             "matches" => ["=","=","="],
             "values" => [$avataruid,$avataruid,$avataruid],
             "types" => ["s","s","s"],
@@ -42,7 +42,7 @@ class Create extends ViewAjax
         $avatar_set->loadWithConfig($avatar_where_config);
 
         $stream_where_config = [
-            "fields" => ["port","stream_uid"],
+            "fields" => ["port","streamUid"],
             "matches" => ["=","="],
             "values" => [$streamuid,$streamuid],
             "types" => ["i","s"],
@@ -66,7 +66,7 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "daysremaining must be 1 or more");
             return;
         }
-        if ($stream->getRentallink() > 0) {
+        if ($stream->getRentalLink() > 0) {
             $this->setSwapTag("message", "Stream already has a rental attached");
             return;
         }
@@ -74,7 +74,7 @@ class Create extends ViewAjax
             $stream = $stream_set->getFirst();
         }
         $notice_set->loadAll();
-        $sorted_linked = $notice_set->getLinkedArray("hoursremaining", "id");
+        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
         $hours_remain = $daysremaining * 24;
         $use_notice_index = 0;
@@ -89,18 +89,18 @@ class Create extends ViewAjax
         $avatar = $avatar_set->getFirst();
         $unixtime = time() + ($daysremaining * $unixtime_day);
         $rental = new Rental();
-        $uid = $rental->createUID("rental_uid", 8, 10);
+        $uid = $rental->createUID("rentalUid", 8, 10);
         if ($uid["status"] == false) {
             $this->setSwapTag("message", "Unable to create a new Client uid");
             return;
         }
-        $rental->setRental_uid($uid["uid"]);
-        $rental->setAvatarlink($avatar->getId());
-        $rental->setPackagelink($stream->getPackagelink());
-        $rental->setStreamlink($stream->getId());
-        $rental->setStartunixtime(time());
-        $rental->setExpireunixtime($unixtime);
-        $rental->setNoticelink($use_notice_index);
+        $rental->setRentalUid($uid["uid"]);
+        $rental->setAvatarLink($avatar->getId());
+        $rental->setPackageLink($stream->getPackageLink());
+        $rental->setStreamLink($stream->getId());
+        $rental->setStartUnixtime(time());
+        $rental->setExpireUnixtime($unixtime);
+        $rental->setNoticeLink($use_notice_index);
         $create_status = $rental->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag(
@@ -109,8 +109,8 @@ class Create extends ViewAjax
             );
             return;
         }
-        $stream->setRentallink($rental->getId());
-        $stream->setNeedwork(0);
+        $stream->setRentalLink($rental->getId());
+        $stream->setNeedWork(0);
         $update_status = $stream->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag("message", "Unable to mark stream as linked to rental");

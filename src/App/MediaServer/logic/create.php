@@ -1,6 +1,6 @@
 <?php
 
-$steps = array(
-    "" => "event_enable_renew"
-);
+$steps = [
+    "" => "eventEnableRenew",
+];
 include "shared/media_server_apis/logic/process.php";

@@ -10,7 +10,7 @@ class Package extends genClass
     protected $use_table = "package";
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "package_uid" => ["type" => "str", "value" => null],
+        "packageUid" => ["type" => "str", "value" => null],
         "name" => ["type" => "str", "value" => null],
         "autodj" => ["type" => "bool", "value" => 0],
         "autodj_size" => ["type" => "str", "value" => null],
@@ -25,9 +25,9 @@ class Package extends genClass
         "texture_uuid_instock_selected" => ["type" => "str", "value" => null],
         "api_template" => ["type" => "str", "value" => null],
     ];
-    public function getPackage_uid(): ?string
+    public function getPackageUid(): ?string
     {
-        return $this->getField("package_uid");
+        return $this->getField("packageUid");
     }
     public function getName(): ?string
     {
@@ -82,12 +82,12 @@ class Package extends genClass
         return $this->getField("api_template");
     }
     /**
-    * setPackage_uid
+    * setPackageUid
     * @return mixed[] [status =>  bool, message =>  string]
     */
-    public function setPackage_uid(?string $newvalue): array
+    public function setPackageUid(?string $newvalue): array
     {
-        return $this->updateField("package_uid", $newvalue);
+        return $this->updateField("packageUid", $newvalue);
     }
     /**
     * setName

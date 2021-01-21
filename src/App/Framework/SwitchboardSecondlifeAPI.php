@@ -22,7 +22,7 @@ class SwitchboardSecondlifeAPI
             print json_encode(["status" => "0", "message" => "Setup"]);
             return;
         }
-        $use_class = "\\App\\Endpoints\\SecondLifeApi\\" . $this->method . "\\" . $this->action . "";
+        $use_class = "\\App\\Endpoint\\SecondLifeApi\\" . $this->method . "\\" . $this->action . "";
         if (class_exists($use_class) == false) {
             print json_encode(["status" => "0", "message" => "Not supported"]);
             return;

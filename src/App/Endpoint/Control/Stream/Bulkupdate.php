@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Stream;
+namespace App\Endpoint\Control\Stream;
 
 use App\Models\StreamSet;
 use App\Template\ViewAjax;
@@ -11,7 +11,7 @@ class Bulkupdate extends ViewAjax
     public function process(): void
     {
         $whereconfig = [
-            "fields" => ["needwork","rentallink"],
+            "fields" => ["needWork","rentalLink"],
             "values" => [1,null],
             "types" => ["i","i"],
             "matches" => ["=","IS"],
@@ -22,25 +22,25 @@ class Bulkupdate extends ViewAjax
         $this->setSwapTag("redirect", "stream/bulkupdate");
         $input = new InputFilter();
         $streams_updated = 0;
-        $streams_skipped_original_adminusername = 0;
+        $streams_skipped_originalAdminUsername = 0;
         foreach ($stream_set->getAllIds() as $stream_id) {
             $stream = $stream_set->getObjectByID($stream_id);
-            if ($stream->getOriginal_adminusername() == $stream->getAdminusername()) {
-                $streams_skipped_original_adminusername++;
+            if ($stream->getOriginalAdminUsername() == $stream->getAdminUsername()) {
+                $streams_skipped_originalAdminUsername++;
                 continue;
             }
-            $accept = $input->postFilter("stream" . $stream->getStream_uid() . "");
+            $accept = $input->postFilter("stream" . $stream->getStreamUid() . "");
             if ($accept != "update") {
                 continue;
             }
-            $newadminpw = $input->postFilter('stream' . $stream->getStream_uid() . 'adminpw');
-            $newdjpw = $input->postFilter('stream' . $stream->getStream_uid() . 'djpw');
-            if (($stream->getAdminpassword() == $newadminpw) || ($stream->getDjpassword() == $newdjpw)) {
+            $newadminpw = $input->postFilter('stream' . $stream->getStreamUid() . 'adminpw');
+            $newdjpw = $input->postFilter('stream' . $stream->getStreamUid() . 'djpw');
+            if (($stream->getAdminPassword() == $newadminpw) || ($stream->getDjPassword() == $newdjpw)) {
                 continue;
             }
-            $stream->setAdminpassword($newadminpw);
-            $stream->setDjpassword($newdjpw);
-            $stream->setNeedwork(0);
+            $stream->setAdminPassword($newadminpw);
+            $stream->setDjPassword($newdjpw);
+            $stream->setNeedWork(0);
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
                 $this->setSwapTag(
@@ -59,13 +59,13 @@ class Bulkupdate extends ViewAjax
             return;
         }
         $this->setSwapTag("status", "true");
-        if ($streams_skipped_original_adminusername > 0) {
+        if ($streams_skipped_originalAdminUsername > 0) {
             $this->setSwapTag(
                 "message",
                 sprintf(
                     "%1\$s streams updated and %2\$s skipped due to admin username not matching",
                     $streams_updated,
-                    $streams_skipped_original_adminusername
+                    $streams_skipped_originalAdminUsername
                 )
             );
             return;

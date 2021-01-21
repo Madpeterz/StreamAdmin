@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Template;
+namespace App\Endpoint\View\Template;
 
 use App\Template\Form;
 use App\Models\Template;
@@ -35,10 +35,10 @@ class Manage extends View
             );
         $form->col(6);
             $form->textarea(
-                "notecarddetail",
+                "notecardDetail",
                 "Notecard template",
                 2000,
-                $template->getNotecarddetail(),
+                $template->getNotecardDetail(),
                 "Use swap tags as the placeholder"
             );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));

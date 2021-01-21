@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Server;
+namespace App\Endpoint\Control\Server;
 
 use App\Models\Server;
 use App\Template\ViewAjax;
@@ -17,12 +17,12 @@ class ServerLoad extends ViewAjax
             $this->setSwapTag("message", "<span class=\"text-danger\">Unable to find server</span>");
             return;
         }
-        if ($server->getApi_serverstatus() == 0) {
+        if ($server->getApiServerStatus() == 0) {
             $this->output->addSwapTagString("message", "<span class=\"text-warning\">Not supported</span>");
             return;
         }
         $serverapi_helper->force_set_server($server);
-        $apireply = $serverapi_helper->api_serverstatus();
+        $apireply = $serverapi_helper->apiServerStatus();
         if ($apireply["status"] == false) {
             $this->output->addSwapTagString("message", "<span class=\"text-danger\">Offline</span>");
             return;

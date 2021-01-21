@@ -9,18 +9,18 @@ $all_good = true;
 $issues = 0;
 foreach ($objects_set->getAllIds() as $object_id) {
     $object = $objects_set->getObjectByID($object_id);
-    $region = $region_set->getObjectByID($object->getRegionlink());
+    $region = $region_set->getObjectByID($object->getRegionLink());
     $entry = [];
     $color = "text-light";
-    if (in_array($object->get_objectmode(), $seen_objects) == true) {
+    if (in_array($object->get_objectMode(), $seen_objects) == true) {
         $color = "text-danger";
         $issues++;
     } else {
-        $seen_objects[] = $object->get_objectmode();
+        $seen_objects[] = $object->get_objectMode();
     }
-    $entry[] = '<span class="' . $color . '">' . str_replace("server", "", $object->get_objectmode()) . '</span>';
+    $entry[] = '<span class="' . $color . '">' . str_replace("server", "", $object->get_objectMode()) . '</span>';
     $color = "text-success";
-    $dif = time() - $object->get_lastseen();
+    $dif = time() - $object->get_lastSeen();
     if ($dif > 240) {
         $issues += 5;
         $color = "text-danger";
@@ -28,9 +28,9 @@ foreach ($objects_set->getAllIds() as $object_id) {
         $issues++;
         $color = "text-warning";
     }
-    $entry[] = '<span class="' . $color . '">' . expired_ago($object->get_lastseen(), true) . '</span>';
+    $entry[] = '<span class="' . $color . '">' . expired_ago($object->get_lastSeen(), true) . '</span>';
     $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
-     . implode("/", explode(",", $object->get_objectxyz())) . "";
+     . implode("/", explode(",", $object->get_objectXYZ())) . "";
     $tp_url = str_replace(' ', '%20', $tp_url);
     $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
     . $region->getName() . "</a>";

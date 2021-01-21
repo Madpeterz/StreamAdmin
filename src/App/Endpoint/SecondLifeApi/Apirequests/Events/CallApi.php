@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SecondLifeApi\Apirequests\Events;
+namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
 use App\Models\Apirequests;
 use App\Models\Stream;
@@ -25,7 +25,7 @@ abstract class CallApi extends SecondlifeAjax
         $message = "Started call_api";
         $current_step = $this->functionname;
         $retry = false;
-        if ($stream->loadID($this->targetEvent->getStreamlink()) == false) {
+        if ($stream->loadID($this->targetEvent->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to load stream");
             return;
         }

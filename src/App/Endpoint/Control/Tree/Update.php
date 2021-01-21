@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Tree;
+namespace App\Endpoint\Control\Tree;
 
 use App\Models\Treevender;
 use App\Template\ViewAjax;

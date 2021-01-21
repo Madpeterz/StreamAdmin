@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Login;
+namespace App\Endpoint\Control\Login;
 
 use App\Framework\SessionControl;
 use App\Models\Avatar;
@@ -43,11 +43,11 @@ class Resetnow extends ViewAjax
         $slusername = implode(" ", $username_bits);
         $avatar = new Avatar();
         $status = false;
-        if ($avatar->loadByField("avatarname", $slusername) == true) {
+        if ($avatar->loadByField("avatarName", $slusername) == true) {
             $staff = new Staff();
-            if ($staff->loadByField("avatarlink", $avatar->getId()) == true) {
-                if ($staff->getEmail_reset_code() == $token) {
-                    if ($staff->getEmail_reset_expires() <= time()) {
+            if ($staff->loadByField("avatarLink", $avatar->getId()) == true) {
+                if ($staff->getEmailResetCode() == $token) {
+                    if ($staff->getEmailResetExpires() <= time()) {
                         $this->setSwapTag(
                             "message",
                             "Your token has expired, please request a new one"
@@ -67,8 +67,8 @@ class Resetnow extends ViewAjax
         if ($update_status["status"] == false) {
             return "Something went wrong updating your password";
         }
-        $staff->setEmail_reset_code(null);
-        $staff->setEmail_reset_expires(time() - 1);
+        $staff->setEmailResetCode(null);
+        $staff->setEmailResetExpires(time() - 1);
         $update_status = $staff->updateEntry();
         if ($update_status["status"] == false) {
             return "Unable to finalize changes to your account";

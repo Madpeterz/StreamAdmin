@@ -6,7 +6,7 @@ class server_azuracast extends server_public_api
     protected $station_djs_map = null;
     protected function get_client_auth(): void
     {
-        $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_api_password();
+        $this->options['headers']['Authorization'] = 'Bearer ' . $this->server->get_apiPassword();
     }
     protected function get_post_formated(array $postdata = []): array
     {
@@ -32,7 +32,7 @@ class server_azuracast extends server_public_api
             foreach ($this->station_djs_map as $key => $value) {
                 if ($value == $djaccount) {
                     $this->last_api_message = "unable to remove DJ";
-                    $reply = $this->rest_delete("station/" . $this->stream->getApi_uid_1() . "/streamer/" . $key . "");
+                    $reply = $this->rest_delete("station/" . $this->stream->getApiConfigValue1() . "/streamer/" . $key . "");
                     if ($reply["status"] == true) {
                         $json = json_decode($reply["message"]);
                         $removed = $json->success;
@@ -51,7 +51,7 @@ class server_azuracast extends server_public_api
     protected function dj_list(): array
     {
         $this->last_api_message = "unable to get list of djs";
-        $reply = $this->rest_get("station/" . $this->stream->getApi_uid_1() . "/streamers");
+        $reply = $this->rest_get("station/" . $this->stream->getApiConfigValue1() . "/streamers");
         if ($reply["status"] == true) {
             $this->last_api_message = "fetched DJ list";
             $json = json_decode($reply["message"]);
@@ -79,7 +79,7 @@ class server_azuracast extends server_public_api
         $status = false;
         $state = false;
         $this->last_api_message = "fetching account state";
-        $reply = $this->rest_get("admin/user/" . $this->stream->getApi_uid_3() . "");
+        $reply = $this->rest_get("admin/user/" . $this->stream->getApiConfigValue3() . "");
         $status = $reply["status"];
         if ($status == true) {
             $this->last_api_message = "got account state";
@@ -93,7 +93,7 @@ class server_azuracast extends server_public_api
     protected function stream_state(): array
     {
         $this->last_api_message = "unable to get station status";
-        $reply = $this->rest_get("station/" . $this->stream->getApi_uid_1() . "/status");
+        $reply = $this->rest_get("station/" . $this->stream->getApiConfigValue1() . "/status");
         $state = false;
         $source = false;
         $autodj = false;
@@ -142,7 +142,7 @@ class server_azuracast extends server_public_api
                 if ($status_state["state"] == true) {
                     $options = [true => "stop",false => "start"];
                     $this->last_api_message = "Attempting to toggle auto dj";
-                    $reply = $this->rest_post("station/" . $this->stream->getApi_uid_1() . "/backend/" . $options[$status_state["autodj"]]);
+                    $reply = $this->rest_post("station/" . $this->stream->getApiConfigValue1() . "/backend/" . $options[$status_state["autodj"]]);
                     if ($reply["status"] == true) {
                         $json = json_decode($reply["message"]);
                         if ($json->success == true) {
@@ -164,7 +164,7 @@ class server_azuracast extends server_public_api
                 $this->last_api_message = "AutoDJ not running";
                 if ($status_state["autodj"] == true) {
                     $this->last_api_message = "Failed to skip track";
-                    $reply = $this->rest_post("station/" . $this->stream->getApi_uid_1() . "/backend/skip");
+                    $reply = $this->rest_post("station/" . $this->stream->getApiConfigValue1() . "/backend/skip");
                     if ($reply["status"] == true) {
                         $json = json_decode($reply["message"]);
                         $this->last_api_message = "Skip accepted";
@@ -188,7 +188,7 @@ class server_azuracast extends server_public_api
         $stopped_auto_dj = !$status_state["autodj"];
         if ($stopped_auto_dj == false) {
             $this->last_api_message = "Unable to stop autoDJ";
-            $reply = $this->rest_post("station/" . $this->stream->getApi_uid_1() . "/backend/stop");
+            $reply = $this->rest_post("station/" . $this->stream->getApiConfigValue1() . "/backend/stop");
             if ($reply["status"] == true) {
                 $json = json_decode($reply["message"]);
                 $stopped_auto_dj = $json->success;
@@ -196,7 +196,7 @@ class server_azuracast extends server_public_api
         }
         if ($stopped_auto_dj == true) {
             $this->last_api_message = "Unable to stop stream";
-            $reply = $this->rest_post("station/" . $this->stream->getApi_uid_1() . "/frontend/stop");
+            $reply = $this->rest_post("station/" . $this->stream->getApiConfigValue1() . "/frontend/stop");
             if ($reply["status"] == true) {
                 $json = json_decode($reply["message"]);
                 if ($json->success == true) {
@@ -210,7 +210,7 @@ class server_azuracast extends server_public_api
     protected function start_server(int $skip_auto_dj = 0): bool
     {
         $this->last_api_message = "Unable to start stream";
-        $reply = $this->rest_post("station/" . $this->stream->getApi_uid_1() . "/frontend/start");
+        $reply = $this->rest_post("station/" . $this->stream->getApiConfigValue1() . "/frontend/start");
         if ($reply["status"] == true) {
             $json = json_decode($reply["message"]);
             if ($json->success == true) {
@@ -220,7 +220,7 @@ class server_azuracast extends server_public_api
                 }
                 if ($this->package->getAutodj() == true) {
                     $this->last_api_message = "Server started / Unable to start AutoDJ";
-                    $reply = $this->rest_post("station/" . $this->stream->getApi_uid_1() . "/backend/start");
+                    $reply = $this->rest_post("station/" . $this->stream->getApiConfigValue1() . "/backend/start");
                     if ($reply["status"] == true) {
                         $json = json_decode($reply["message"]);
                         if ($json->success == true) {
@@ -247,7 +247,7 @@ class server_azuracast extends server_public_api
             }
             $this->last_api_message = "Attempting to remove access to server";
             $post_fields = ["roles" => []];
-            $reply = $this->rest_put("admin/user/" . $this->stream->getApi_uid_3() . "", $post_fields);
+            $reply = $this->rest_put("admin/user/" . $this->stream->getApiConfigValue3() . "", $post_fields);
             error_log(print_r($reply, true));
             if ($reply["status"] == true) {
                 $json = json_decode($reply["message"]);
@@ -269,8 +269,8 @@ class server_azuracast extends server_public_api
                 return false;
             }
             $this->last_api_message = "Sending request to un_susspend to server";
-            $post_fields = ["roles" => [$this->stream->getApi_uid_2()]];
-            $reply = $this->rest_put("admin/user/" . $this->stream->getApi_uid_3() . "", $post_fields);
+            $post_fields = ["roles" => [$this->stream->getApiConfigValue2()]];
+            $reply = $this->rest_put("admin/user/" . $this->stream->getApiConfigValue3() . "", $post_fields);
             if ($reply["status"] == true) {
                 $this->last_api_message = "Request failed";
                 $json = json_decode($reply["message"]);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Staff;
+namespace App\Endpoint\Control\Staff;
 
 use App\Models\Avatar;
 use App\Models\Staff;
@@ -40,7 +40,7 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "There is already a staff member with that username");
             return;
         }
-        if ($avatar->loadByField("avatar_uid", $avataruid) == false) {
+        if ($avatar->loadByField("avatarUid", $avataruid) == false) {
             $this->setSwapTag("message", "Unable to find avatar with matching uid");
             return;
         }
@@ -58,12 +58,12 @@ class Create extends ViewAjax
         }
         $staff = new Staff();
         $staff->setUsername($username);
-        $staff->setAvatarlink($avatar->getId());
+        $staff->setAvatarLink($avatar->getId());
         $staff->setEmail($email);
         $staff->setPhash(sha1("phash install" . microtime() . "" . $username));
         $staff->setLhash(sha1("lhash install" . microtime() . "" . $username));
         $staff->setPsalt(sha1("psalt install" . microtime() . "" . $username));
-        $staff->setOwnerlevel(false);
+        $staff->setOwnerLevel(false);
         $create_status = $staff->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag(

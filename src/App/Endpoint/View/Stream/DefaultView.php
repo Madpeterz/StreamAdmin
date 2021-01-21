@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 use App\Models\PackageSet;
 use App\Models\StreamSet;
@@ -21,14 +21,14 @@ class DefaultView extends View
         }
         foreach ($stream_set->getAllIds() as $stream_id) {
             $stream = $stream_set->getObjectByID($stream_id);
-            if ($stream->getRentallink() == null) {
-                if ($stream->getNeedwork() == false) {
-                    $streams_in_package[$stream->getPackagelink()]["ready"]++;
+            if ($stream->getRentalLink() == null) {
+                if ($stream->getNeedWork() == false) {
+                    $streams_in_package[$stream->getPackageLink()]["ready"]++;
                 } else {
-                    $streams_in_package[$stream->getPackagelink()]["work"]++;
+                    $streams_in_package[$stream->getPackageLink()]["work"]++;
                 }
             } else {
-                $streams_in_package[$stream->getPackagelink()]["sold"]++;
+                $streams_in_package[$stream->getPackageLink()]["sold"]++;
             }
         }
 
@@ -39,7 +39,7 @@ class DefaultView extends View
             $package = $package_set->getObjectByID($package_id);
             $entry = [];
             $entry[] = $package->getId();
-            $entry[] = '<a href="[[url_base]]stream/inpackage/' . $package->getPackage_uid() . '">'
+            $entry[] = '<a href="[[url_base]]stream/inpackage/' . $package->getPackageUid() . '">'
             . $package->getName() . '</a>';
             $entry[] = $streams_in_package[$package_id]["sold"];
             $entry[] = $streams_in_package[$package_id]["work"];

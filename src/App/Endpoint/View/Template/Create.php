@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Template;
+namespace App\Endpoint\View\Template;
 
 use App\Template\Form;
 
@@ -26,7 +26,7 @@ class Create extends View
             "Use swap tags as the placeholders! max length 800"
         );
         $form->col(6);
-        $form->textarea("notecarddetail", "Notecard template", 2000, "", "Use swap tags as the placeholder");
+        $form->textarea("notecardDetail", "Notecard template", 2000, "", "Use swap tags as the placeholder");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
         include "../App/View/Shared/swaps_table.php";
     }

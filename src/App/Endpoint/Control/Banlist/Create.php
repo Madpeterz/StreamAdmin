@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\Control\Banlist;
+namespace App\Endpoint\Control\Banlist;
 
 use App\Models\AvatarSet;
 use App\Models\Banlist;
@@ -14,7 +14,7 @@ class Create extends ViewAjax
         $input = new InputFilter();
         $avataruid = $input->postFilter("uid");
         $avatar_where_config = [
-            "fields" => ["avatar_uid","avatarname","avataruuid"],
+            "fields" => ["avatarUid","avatarName","avatarUUID"],
             "matches" => ["=","=","="],
             "values" => [$avataruid,$avataruid,$avataruid],
             "types" => ["s","s","s"],
@@ -32,12 +32,12 @@ class Create extends ViewAjax
         }
         $avatar = $avatar_set->getFirst();
         $banlist = new banlist();
-        if ($banlist->loadByField("avatar_link", $avatar->getId()) == true) {
+        if ($banlist->loadByField("avatarLink", $avatar->getId()) == true) {
             $this->setSwapTag("message", "The target avatar is already banned");
             return;
         }
         $banlist = new banlist();
-        $banlist->setAvatar_link($avatar->getId());
+        $banlist->setAvatarLink($avatar->getId());
         $create_status = $banlist->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag("message", "Unable to create a new entry in the ban list");

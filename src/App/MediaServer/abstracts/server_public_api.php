@@ -6,19 +6,19 @@ abstract class server_public_api extends server_public_api_basic
     {
         return $this->account_state();
     }
-    public function event_start_sync_username(string $old_username): bool
+    public function eventStartSyncUsername(string $old_username): bool
     {
         return $this->sync_username($old_username);
     }
-    public function opt_autodj_next(): bool
+    public function optAutodjNext(): bool
     {
         return $this->autodj_next();
     }
-    public function opt_toggle_autodj(): bool
+    public function optToggleAutodj(): bool
     {
         return $this->toggle_autodj();
     }
-    public function opt_toggle_status(bool $status = false): bool
+    public function optToggleStatus(bool $status = false): bool
     {
         if ($status == true) {
             return $this->start_server();
@@ -26,7 +26,7 @@ abstract class server_public_api extends server_public_api_basic
             return $this->stop_server();
         }
     }
-    public function opt_password_reset()
+    public function optPasswordReset()
     {
         return $this->change_password();
     }

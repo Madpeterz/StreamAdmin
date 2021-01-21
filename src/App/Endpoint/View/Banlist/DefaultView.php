@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Banlist;
+namespace App\Endpoint\View\Banlist;
 
 use App\Models\AvatarSet;
 use App\Models\BanlistSet;
@@ -26,13 +26,13 @@ class DefaultView extends View
         $wherematchs = [];
         if (strlen($uuid) == 36) {
             $match_with = "uuid";
-            $wherefields = ["avataruuid"];
+            $wherefields = ["avatarUUID"];
             $wherevalues = [$uuid];
             $wheretypes = ["s"];
             $wherematchs = ["="];
         } elseif (strlen($name) >= 2) {
             $match_with = "name";
-            $wherefields = ["avatarname"];
+            $wherefields = ["avatarName"];
             $wherevalues = [$name];
             $wheretypes = ["s"];
             $wherematchs = ["% LIKE %"];
@@ -41,7 +41,7 @@ class DefaultView extends View
         $avatar_set = new AvatarSet();
         if ($match_with == "newest") {
             $banlist_set->loadNewest(30);
-            $avatar_set->loadIds($banlist_set->getUniqueArray("avatar_link"));
+            $avatar_set->loadIds($banlist_set->getUniqueArray("avatarLink"));
             $this->output->addSwapTagString("page_title", " Newest 30 avatars banned");
         } else {
             $where_config = [
@@ -56,7 +56,7 @@ class DefaultView extends View
             } else {
                 $this->output->addSwapTagString("page_title", "UUID: " . $uuid);
             }
-            $banlist_set->loadIds($avatar_set->getAllIds(), "avatar_link");
+            $banlist_set->loadIds($avatar_set->getAllIds(), "avatarLink");
         }
 
         $table_head = ["id","Name","Remove"];
@@ -64,14 +64,14 @@ class DefaultView extends View
 
         foreach ($banlist_set->getAllIds() as $ban_id) {
             $banlist = $banlist_set->getObjectByID($ban_id);
-            $avatar = $avatar_set->getObjectByID($banlist->getAvatar_link());
+            $avatar = $avatar_set->getObjectByID($banlist->getAvatarLink());
 
             $entry = [];
             $entry[] = $banlist->getId();
             $form = new form();
             $form->target("banlist/clear/'.$ban_id.'");
             $form->required(true);
-            $entry[] = $avatar->getAvatarname();
+            $entry[] = $avatar->getAvatarName();
             $entry[] = $form->render("Remove", "danger");
             $table_body[] = $entry;
         }

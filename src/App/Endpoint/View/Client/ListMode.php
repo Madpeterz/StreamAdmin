@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Endpoints\View\Avatar;
+namespace App\Endpoint\View\Avatar;
 
-use App\Endpoints\View\Client\RenderList;
+use App\Endpoint\View\Client\RenderList;
 use App\Models\AvatarSet;
 use App\Models\RentalSet;
 use App\Models\StreamSet;
@@ -14,9 +14,9 @@ class ListMode extends RenderList
         $this->rentalSet = new RentalSet();
         $this->rentalSet->loadAll("id", "DESC");
         $this->avatarSet = new AvatarSet();
-        $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarlink"));
+        $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarLink"));
         $this->streamSet = new StreamSet();
-        $this->streamSet->loadIds($this->rentalSet->getAllByField("streamlink"));
+        $this->streamSet->loadIds($this->rentalSet->getAllByField("streamLink"));
 
         $this->output->addSwapTagString("page_title", " [All]");
         parent::process();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Reseller;
+namespace App\Endpoint\View\Reseller;
 
 use App\Template\View as BasicView;
 

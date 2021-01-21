@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Stream;
+namespace App\Endpoint\View\Stream;
 
 use App\Models\Package;
 
@@ -10,12 +10,12 @@ class Inpackage extends Withstatus
     {
         $this->output->addSwapTagString("page_title", " In package:");
         $package = new Package();
-        if ($package->loadByField("package_uid", $this->page) == false) {
+        if ($package->loadByField("packageUid", $this->page) == false) {
             $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
             return;
         }
         $whereconfig = [
-            "fields" => ["packagelink"],
+            "fields" => ["packageLink"],
             "values" => [$package->getId()],
             "types" => ["i"],
             "matches" => ["="],

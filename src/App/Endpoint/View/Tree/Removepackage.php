@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Tree;
+namespace App\Endpoint\View\Tree;
 
 use App\Models\Package;
 use App\Template\Form;
@@ -17,13 +17,13 @@ class Removepackage extends View
             return;
         }
         $treevender = new Treevender();
-        if ($treevender->loadID($treevender_packages->getTreevenderlink()) == false) {
+        if ($treevender->loadID($treevender_packages->getTreevenderLink()) == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find treevender "
             . "thats linked to this package link&bubbletype=warning");
             return;
         }
         $package = new Package();
-        if ($package->loadID($treevender_packages->getPackagelink()) == false) {
+        if ($package->loadID($treevender_packages->getPackageLink()) == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find package&bubbletype=warning");
             return;
         }

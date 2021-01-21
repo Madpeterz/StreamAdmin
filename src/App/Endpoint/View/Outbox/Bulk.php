@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\View\Outbox;
+namespace App\Endpoint\View\Outbox;
 
 use App\Models\AvatarSet;
 use App\Models\BanlistSet;
@@ -33,32 +33,32 @@ class Bulk extends View
             return;
         }
         if ($this->page == "notice") {
-            $source_id = $input_filter->getFilter("noticelink", "integer");
+            $source_id = $input_filter->getFilter("noticeLink", "integer");
             if ($source_id != null) {
                 $notice = new Notice();
                 $notice->loadID($source_id);
                 $souce_named = $notice->getName();
-                $rental_set->loadOnField("noticelink", $source_id);
+                $rental_set->loadOnField("noticeLink", $source_id);
                 $ok = true;
             }
         } elseif ($this->page == "server") {
-            $source_id = $input_filter->getFilter("serverlink", "integer");
+            $source_id = $input_filter->getFilter("serverLink", "integer");
             if ($source_id != null) {
                 $server = new Server();
                 $server->loadID($source_id);
                 $souce_named = $server->getDomain();
                 $stream_set = new StreamSet();
-                $stream_set->loadOnField("serverlink", $source_id);
-                $rental_set->loadIds($stream_set->getAllIds(), "streamlink");
+                $stream_set->loadOnField("serverLink", $source_id);
+                $rental_set->loadIds($stream_set->getAllIds(), "streamLink");
                 $ok = true;
             }
         } elseif ($this->page == "package") {
-            $source_id = $input_filter->getFilter("packagelink", "integer");
+            $source_id = $input_filter->getFilter("packageLink", "integer");
             if ($source_id != null) {
                 $package = new Package();
                 $package->loadID($source_id);
                 $souce_named = $package->getName();
-                $rental_set->loadOnField("packagelink", $source_id);
+                $rental_set->loadOnField("packageLink", $source_id);
                 $ok = true;
             }
         }
@@ -69,11 +69,11 @@ class Bulk extends View
 
         $this->output->addSwapTagString("page_title", " Bulk sending to " . $this->page . ": " . $souce_named);
         $stream_set = new StreamSet();
-        $stream_set->loadIds($rental_set->getAllByField("streamlink"));
+        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($rental_set->getUniqueArray("avatarlink"));
+        $avatar_set->loadIds($rental_set->getUniqueArray("avatarLink"));
         $banlist_set = new BanlistSet();
-        $banlist_set->loadIds($rental_set->getUniqueArray("avatarlink"), "avatar_link");
+        $banlist_set->loadIds($rental_set->getUniqueArray("avatarLink"), "avatarLink");
 
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
@@ -90,7 +90,7 @@ class Bulk extends View
         $table_head = ["X","Name"];
         $table_body = [];
 
-        $banned_ids = $banlist_set->getAllByField("avatarlink");
+        $banned_ids = $banlist_set->getAllByField("avatarLink");
         foreach ($avatar_set->getAllIds() as $avatar_id) {
             if (in_array($avatar_id, $banned_ids) == false) {
                 $avatar = $avatar_set->getObjectByID($avatar_id);
@@ -98,7 +98,7 @@ class Bulk extends View
                 $entry[] = '<div class="checkbox"><input checked type="checkbox" id="avatarmail' . $avatar_id
                 . '" name="avatarids[]" value="' . $avatar_id . '"></div>';
                 $entry[] = '<div class="checkbox"><label for="avatarmail'
-                . $avatar_id . '">' . $avatar->getAvatarname() . '</label></div>';
+                . $avatar_id . '">' . $avatar->getAvatarName() . '</label></div>';
                 $table_body[] = $entry;
             }
         }
