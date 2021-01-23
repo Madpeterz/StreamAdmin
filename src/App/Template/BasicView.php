@@ -56,6 +56,6 @@ abstract class BasicView
     }
     protected function setSwapTag(string $tag, $value): void
     {
-        $this->setSwapTag($tag, $value);
+        $this->output->setSwapTag($tag, $value);
     }
 }

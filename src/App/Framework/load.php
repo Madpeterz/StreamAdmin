@@ -7,7 +7,7 @@ use App\Models\Slconfig;
 use App\Models\Timezones;
 use YAPF\MySQLi\MysqliEnabled;
 
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 session_start();
 include "../App/Framework/globals.php";
 include "../App/Framework/url_loading.php";
@@ -20,7 +20,6 @@ $session = new SessionControl();
 $slconfig = new Slconfig();
 if (install_ok() == true) {
     $sql = new MysqliEnabled();
-    include "3rdparty/3rdparty.php";
     if (class_exists("Db", false) == true) {
         if (defined("INSTALLED") == true) {
             // lets get some work done

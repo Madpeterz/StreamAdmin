@@ -18,7 +18,7 @@
       <whitelist>
           <directory>src</directory>
           <exclude>
-              <directory>src/Junk</directory>
+              <directory>src/App/R4</directory>
           </exclude>
       </whitelist>
   </filter>

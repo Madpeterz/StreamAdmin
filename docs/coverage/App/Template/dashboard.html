@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for D:\php projects\streamadmin\src\App\Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="../../_css/style.css" rel="stylesheet" type="text/css">
+  <link href="../../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../../index.html">D:\php projects\streamadmin\src</a></li>
+         <li class="breadcrumb-item"><a href="../index.html">App</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Template</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="AddonProvider.php.html#5">App\Template\AddonProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BasicView.php.html#9">App\Template\BasicView</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#7">App\Template\Form</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#5">App\Template\Grid</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PagedInfo.php.html#5">App\Template\PagedInfo</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#14">App\Template\SecondlifeAjax</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#7">App\Template\SwapTags</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TableView.php.html#5">App\Template\TableView</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#5">App\Template\Template</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ViewAjax.php.html#5">App\Template\ViewAjax</a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Template.php.html#5">App\Template\Template</a></td><td class="text-right">2652</td></tr>
+       <tr><td><a href="Form.php.html#7">App\Template\Form</a></td><td class="text-right">1640</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#14">App\Template\SecondlifeAjax</a></td><td class="text-right">1056</td></tr>
+       <tr><td><a href="AddonProvider.php.html#5">App\Template\AddonProvider</a></td><td class="text-right">992</td></tr>
+       <tr><td><a href="SwapTags.php.html#7">App\Template\SwapTags</a></td><td class="text-right">462</td></tr>
+       <tr><td><a href="Grid.php.html#5">App\Template\Grid</a></td><td class="text-right">210</td></tr>
+       <tr><td><a href="BasicView.php.html#9">App\Template\BasicView</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="TableView.php.html#5">App\Template\TableView</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="PagedInfo.php.html#5">App\Template\PagedInfo</a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="AddonProvider.php.html#8"><abbr title="App\Template\AddonProvider::proccessAddRequest">proccessAddRequest</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#53"><abbr title="App\Template\SwapTags::setSwapTagArray">setSwapTagArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TableView.php.html#34"><abbr title="App\Template\TableView::renderDatatable">renderDatatable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TableView.php.html#7"><abbr title="App\Template\TableView::renderTable">renderTable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#83"><abbr title="App\Template\SwapTags::keypairReplace">keypairReplace</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#75"><abbr title="App\Template\SwapTags::metaTags">metaTags</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#66"><abbr title="App\Template\SwapTags::siteName">siteName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#62"><abbr title="App\Template\SwapTags::pageTitle">pageTitle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#58"><abbr title="App\Template\SwapTags::urlBase">urlBase</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#36"><abbr title="App\Template\SwapTags::setSwapTag">setSwapTag</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#54"><abbr title="App\Template\Template::setCacheFile">setCacheFile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#29"><abbr title="App\Template\SwapTags::addSwapTagString">addSwapTagString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#22"><abbr title="App\Template\SwapTags::getSwapTagString">getSwapTagString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SwapTags.php.html#17"><abbr title="App\Template\SwapTags::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#203"><abbr title="App\Template\SecondlifeAjax::renderPage">renderPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#180"><abbr title="App\Template\SecondlifeAjax::timeWindow">timeWindow</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#115"><abbr title="App\Template\SecondlifeAjax::hashCheck">hashCheck</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#66"><abbr title="App\Template\SecondlifeAjax::requiredValues">requiredValues</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#53"><abbr title="App\Template\SecondlifeAjax::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#14"><abbr title="App\Template\Template::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#65"><abbr title="App\Template\Template::purgeCacheFile">purgeCacheFile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#44"><abbr title="App\Template\SecondlifeAjax::getSoftFail">getSoftFail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#191"><abbr title="App\Template\Template::renderPage">renderPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ViewAjax.php.html#7"><abbr title="App\Template\ViewAjax::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#271"><abbr title="App\Template\Template::loadTempate">loadTempate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#262"><abbr title="App\Template\Template::defaultSwapTags">defaultSwapTags</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#253"><abbr title="App\Template\Template::tempateInstall">tempateInstall</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#249"><abbr title="App\Template\Template::tempateSecondLifeAjax">tempateSecondLifeAjax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#243"><abbr title="App\Template\Template::tempateAjax">tempateAjax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#234"><abbr title="App\Template\Template::tempateFull">tempateFull</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#225"><abbr title="App\Template\Template::tempateSidemenu">tempateSidemenu</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#179"><abbr title="App\Template\Template::renderSecondlifeAjax">renderSecondlifeAjax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#82"><abbr title="App\Template\Template::getCacheFile">getCacheFile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#171"><abbr title="App\Template\Template::renderAjax">renderAjax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#164"><abbr title="App\Template\Template::loadTemplateFile">loadTemplateFile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#156"><abbr title="App\Template\Template::loadTemplate">loadTemplate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#150"><abbr title="App\Template\Template::redirect">redirect</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#134"><abbr title="App\Template\Template::delTree">delTree</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#118"><abbr title="App\Template\Template::purgeCache">purgeCache</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#110"><abbr title="App\Template\Template::getCatcheVersion">getCatcheVersion</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Template.php.html#97"><abbr title="App\Template\Template::createCacheVersionFile">createCacheVersionFile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#48"><abbr title="App\Template\SecondlifeAjax::getLoadOk">getLoadOk</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#40"><abbr title="App\Template\SecondlifeAjax::setOwnerOverride">setOwnerOverride</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AddonProvider.php.html#46"><abbr title="App\Template\AddonProvider::onAdd">onAdd</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#15"><abbr title="App\Template\Form::enablegridRender">enablegridRender</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#79"><abbr title="App\Template\Form::requiredAddon">requiredAddon</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#75"><abbr title="App\Template\Form::required">required</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#46"><abbr title="App\Template\Form::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#39"><abbr title="App\Template\Form::split">split</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#30"><abbr title="App\Template\Form::mode">mode</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#25"><abbr title="App\Template\Form::col">col</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#21"><abbr title="App\Template\Form::noAjax">noAjax</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BasicView.php.html#57"><abbr title="App\Template\BasicView::setSwapTag">setSwapTag</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#92"><abbr title="App\Template\Form::group">group</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BasicView.php.html#53"><abbr title="App\Template\BasicView::getoutput">getoutput</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BasicView.php.html#49"><abbr title="App\Template\BasicView::getOutputObject">getOutputObject</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BasicView.php.html#41"><abbr title="App\Template\BasicView::process">process</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BasicView.php.html#37"><abbr title="App\Template\BasicView::addVendor">addVendor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BasicView.php.html#22"><abbr title="App\Template\BasicView::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AddonProvider.php.html#201"><abbr title="App\Template\AddonProvider::addJsToPage">addJsToPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AddonProvider.php.html#179"><abbr title="App\Template\AddonProvider::addCssToPage">addCssToPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AddonProvider.php.html#77"><abbr title="App\Template\AddonProvider::addVendor">addVendor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#87"><abbr title="App\Template\Form::target">target</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#97"><abbr title="App\Template\Form::directAdd">directAdd</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#36"><abbr title="App\Template\SecondlifeAjax::setReseller">setReseller</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#11"><abbr title="App\Template\Grid::getOutput">getOutput</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PagedInfo.php.html#7"><abbr title="App\Template\PagedInfo::render">render</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#64"><abbr title="App\Template\Grid::row">row</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#57"><abbr title="App\Template\Grid::closeCol">closeCol</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#48"><abbr title="App\Template\Grid::closeRow">closeRow</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#35"><abbr title="App\Template\Grid::col">col</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#28"><abbr title="App\Template\Grid::addContent">addContent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#24"><abbr title="App\Template\Grid::addAfter">addAfter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Grid.php.html#20"><abbr title="App\Template\Grid::addBefore">addBefore</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#184"><abbr title="App\Template\Form::select">select</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#102"><abbr title="App\Template\Form::startField">startField</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#180"><abbr title="App\Template\Form::numberInput">numberInput</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#176"><abbr title="App\Template\Form::hiddenInput">hiddenInput</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#172"><abbr title="App\Template\Form::uuidInput">uuidInput</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#149"><abbr title="App\Template\Form::textureInput">textureInput</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#127"><abbr title="App\Template\Form::textInput">textInput</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#117"><abbr title="App\Template\Form::textarea">textarea</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#112"><abbr title="App\Template\Form::addLabel">addLabel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Form.php.html#107"><abbr title="App\Template\Form::endField">endField</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ViewAjax.php.html#13"><abbr title="App\Template\ViewAjax::renderPage">renderPage</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="SecondlifeAjax.php.html#115"><abbr title="App\Template\SecondlifeAjax::hashCheck">hashCheck</abbr></a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="AddonProvider.php.html#8"><abbr title="App\Template\AddonProvider::proccessAddRequest">proccessAddRequest</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#66"><abbr title="App\Template\SecondlifeAjax::requiredValues">requiredValues</abbr></a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="AddonProvider.php.html#77"><abbr title="App\Template\AddonProvider::addVendor">addVendor</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#180"><abbr title="App\Template\SecondlifeAjax::timeWindow">timeWindow</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="AddonProvider.php.html#201"><abbr title="App\Template\AddonProvider::addJsToPage">addJsToPage</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="AddonProvider.php.html#179"><abbr title="App\Template\AddonProvider::addCssToPage">addCssToPage</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Template.php.html#191"><abbr title="App\Template\Template::renderPage">renderPage</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Template.php.html#14"><abbr title="App\Template\Template::__construct">__construct</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="TableView.php.html#7"><abbr title="App\Template\TableView::renderTable">renderTable</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Form.php.html#46"><abbr title="App\Template\Form::render">render</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Template.php.html#179"><abbr title="App\Template\Template::renderSecondlifeAjax">renderSecondlifeAjax</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Template.php.html#134"><abbr title="App\Template\Template::delTree">delTree</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Form.php.html#127"><abbr title="App\Template\Form::textInput">textInput</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Form.php.html#149"><abbr title="App\Template\Form::textureInput">textureInput</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Template.php.html#82"><abbr title="App\Template\Template::getCacheFile">getCacheFile</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Template.php.html#65"><abbr title="App\Template\Template::purgeCacheFile">purgeCacheFile</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="SwapTags.php.html#36"><abbr title="App\Template\SwapTags::setSwapTag">setSwapTag</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="AddonProvider.php.html#46"><abbr title="App\Template\AddonProvider::onAdd">onAdd</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Template.php.html#118"><abbr title="App\Template\Template::purgeCache">purgeCache</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Template.php.html#110"><abbr title="App\Template\Template::getCatcheVersion">getCatcheVersion</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Template.php.html#97"><abbr title="App\Template\Template::createCacheVersionFile">createCacheVersionFile</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="SwapTags.php.html#22"><abbr title="App\Template\SwapTags::getSwapTagString">getSwapTagString</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Grid.php.html#35"><abbr title="App\Template\Grid::col">col</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Form.php.html#184"><abbr title="App\Template\Form::select">select</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Grid.php.html#28"><abbr title="App\Template\Grid::addContent">addContent</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Form.php.html#79"><abbr title="App\Template\Form::requiredAddon">requiredAddon</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Template.php.html#164"><abbr title="App\Template\Template::loadTemplateFile">loadTemplateFile</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Template.php.html#156"><abbr title="App\Template\Template::loadTemplate">loadTemplate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Form.php.html#117"><abbr title="App\Template\Form::textarea">textarea</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Form.php.html#172"><abbr title="App\Template\Form::uuidInput">uuidInput</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Form.php.html#176"><abbr title="App\Template\Form::hiddenInput">hiddenInput</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Form.php.html#180"><abbr title="App\Template\Form::numberInput">numberInput</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Grid.php.html#11"><abbr title="App\Template\Grid::getOutput">getOutput</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Template.php.html#54"><abbr title="App\Template\Template::setCacheFile">setCacheFile</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SecondlifeAjax.php.html#53"><abbr title="App\Template\SecondlifeAjax::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="PagedInfo.php.html#7"><abbr title="App\Template\PagedInfo::render">render</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SwapTags.php.html#83"><abbr title="App\Template\SwapTags::keypairReplace">keypairReplace</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SwapTags.php.html#75"><abbr title="App\Template\SwapTags::metaTags">metaTags</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SwapTags.php.html#66"><abbr title="App\Template\SwapTags::siteName">siteName</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SwapTags.php.html#62"><abbr title="App\Template\SwapTags::pageTitle">pageTitle</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SwapTags.php.html#58"><abbr title="App\Template\SwapTags::urlBase">urlBase</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Grid.php.html#48"><abbr title="App\Template\Grid::closeRow">closeRow</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="SwapTags.php.html#29"><abbr title="App\Template\SwapTags::addSwapTagString">addSwapTagString</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Grid.php.html#57"><abbr title="App\Template\Grid::closeCol">closeCol</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="BasicView.php.html#22"><abbr title="App\Template\BasicView::__construct">__construct</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Form.php.html#15"><abbr title="App\Template\Form::enablegridRender">enablegridRender</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Form.php.html#30"><abbr title="App\Template\Form::mode">mode</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 8.0.2</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.12</a> with <a href="https://xdebug.org/">Xdebug 2.8.1</a> and <a href="https://phpunit.de/">PHPUnit 9.0.0</a> at Sat Jan 23 23:06:58 CET 2021.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../../_js/jquery.min.js" type="text/javascript"></script>
+  <script src="../../_js/d3.min.js" type="text/javascript"></script>
+  <script src="../../_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([10,0,0,0,0,0,0,0,0,0,0,1], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([85,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,31,"<a href=\"AddonProvider.php.html#5\">App\\Template\\AddonProvider<\/a>"],[0,7,"<a href=\"BasicView.php.html#9\">App\\Template\\BasicView<\/a>"],[0,40,"<a href=\"Form.php.html#7\">App\\Template\\Form<\/a>"],[0,14,"<a href=\"Grid.php.html#5\">App\\Template\\Grid<\/a>"],[0,2,"<a href=\"PagedInfo.php.html#5\">App\\Template\\PagedInfo<\/a>"],[0,32,"<a href=\"SecondlifeAjax.php.html#14\">App\\Template\\SecondlifeAjax<\/a>"],[0,21,"<a href=\"SwapTags.php.html#7\">App\\Template\\SwapTags<\/a>"],[0,6,"<a href=\"TableView.php.html#5\">App\\Template\\TableView<\/a>"],[0,51,"<a href=\"Template.php.html#5\">App\\Template\\Template<\/a>"],[100,0,"<a href=\"View.php.html#5\">App\\Template\\View<\/a>"],[0,2,"<a href=\"ViewAjax.php.html#5\">App\\Template\\ViewAjax<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,9,"<a href=\"AddonProvider.php.html#8\">App\\Template\\AddonProvider::proccessAddRequest<\/a>"],[0,3,"<a href=\"AddonProvider.php.html#46\">App\\Template\\AddonProvider::onAdd<\/a>"],[0,7,"<a href=\"AddonProvider.php.html#77\">App\\Template\\AddonProvider::addVendor<\/a>"],[0,6,"<a href=\"AddonProvider.php.html#179\">App\\Template\\AddonProvider::addCssToPage<\/a>"],[0,6,"<a href=\"AddonProvider.php.html#201\">App\\Template\\AddonProvider::addJsToPage<\/a>"],[0,2,"<a href=\"BasicView.php.html#22\">App\\Template\\BasicView::__construct<\/a>"],[0,1,"<a href=\"BasicView.php.html#37\">App\\Template\\BasicView::addVendor<\/a>"],[0,1,"<a href=\"BasicView.php.html#41\">App\\Template\\BasicView::process<\/a>"],[0,1,"<a href=\"BasicView.php.html#49\">App\\Template\\BasicView::getOutputObject<\/a>"],[0,1,"<a href=\"BasicView.php.html#53\">App\\Template\\BasicView::getoutput<\/a>"],[0,1,"<a href=\"BasicView.php.html#57\">App\\Template\\BasicView::setSwapTag<\/a>"],[0,2,"<a href=\"Form.php.html#15\">App\\Template\\Form::enablegridRender<\/a>"],[0,1,"<a href=\"Form.php.html#21\">App\\Template\\Form::noAjax<\/a>"],[0,1,"<a href=\"Form.php.html#25\">App\\Template\\Form::col<\/a>"],[0,2,"<a href=\"Form.php.html#30\">App\\Template\\Form::mode<\/a>"],[0,1,"<a href=\"Form.php.html#39\">App\\Template\\Form::split<\/a>"],[0,5,"<a href=\"Form.php.html#46\">App\\Template\\Form::render<\/a>"],[0,1,"<a href=\"Form.php.html#75\">App\\Template\\Form::required<\/a>"],[0,2,"<a href=\"Form.php.html#79\">App\\Template\\Form::requiredAddon<\/a>"],[0,1,"<a href=\"Form.php.html#87\">App\\Template\\Form::target<\/a>"],[0,1,"<a href=\"Form.php.html#92\">App\\Template\\Form::group<\/a>"],[0,1,"<a href=\"Form.php.html#97\">App\\Template\\Form::directAdd<\/a>"],[0,1,"<a href=\"Form.php.html#102\">App\\Template\\Form::startField<\/a>"],[0,1,"<a href=\"Form.php.html#107\">App\\Template\\Form::endField<\/a>"],[0,1,"<a href=\"Form.php.html#112\">App\\Template\\Form::addLabel<\/a>"],[0,2,"<a href=\"Form.php.html#117\">App\\Template\\Form::textarea<\/a>"],[0,4,"<a href=\"Form.php.html#127\">App\\Template\\Form::textInput<\/a>"],[0,4,"<a href=\"Form.php.html#149\">App\\Template\\Form::textureInput<\/a>"],[0,2,"<a href=\"Form.php.html#172\">App\\Template\\Form::uuidInput<\/a>"],[0,2,"<a href=\"Form.php.html#176\">App\\Template\\Form::hiddenInput<\/a>"],[0,2,"<a href=\"Form.php.html#180\">App\\Template\\Form::numberInput<\/a>"],[0,3,"<a href=\"Form.php.html#184\">App\\Template\\Form::select<\/a>"],[0,2,"<a href=\"Grid.php.html#11\">App\\Template\\Grid::getOutput<\/a>"],[0,1,"<a href=\"Grid.php.html#20\">App\\Template\\Grid::addBefore<\/a>"],[0,1,"<a href=\"Grid.php.html#24\">App\\Template\\Grid::addAfter<\/a>"],[0,2,"<a href=\"Grid.php.html#28\">App\\Template\\Grid::addContent<\/a>"],[0,3,"<a href=\"Grid.php.html#35\">App\\Template\\Grid::col<\/a>"],[0,2,"<a href=\"Grid.php.html#48\">App\\Template\\Grid::closeRow<\/a>"],[0,2,"<a href=\"Grid.php.html#57\">App\\Template\\Grid::closeCol<\/a>"],[0,1,"<a href=\"Grid.php.html#64\">App\\Template\\Grid::row<\/a>"],[0,2,"<a href=\"PagedInfo.php.html#7\">App\\Template\\PagedInfo::render<\/a>"],[0,1,"<a href=\"SecondlifeAjax.php.html#36\">App\\Template\\SecondlifeAjax::setReseller<\/a>"],[0,1,"<a href=\"SecondlifeAjax.php.html#40\">App\\Template\\SecondlifeAjax::setOwnerOverride<\/a>"],[0,1,"<a href=\"SecondlifeAjax.php.html#44\">App\\Template\\SecondlifeAjax::getSoftFail<\/a>"],[0,1,"<a href=\"SecondlifeAjax.php.html#48\">App\\Template\\SecondlifeAjax::getLoadOk<\/a>"],[0,2,"<a href=\"SecondlifeAjax.php.html#53\">App\\Template\\SecondlifeAjax::__construct<\/a>"],[0,8,"<a href=\"SecondlifeAjax.php.html#66\">App\\Template\\SecondlifeAjax::requiredValues<\/a>"],[0,10,"<a href=\"SecondlifeAjax.php.html#115\">App\\Template\\SecondlifeAjax::hashCheck<\/a>"],[0,7,"<a href=\"SecondlifeAjax.php.html#180\">App\\Template\\SecondlifeAjax::timeWindow<\/a>"],[0,1,"<a href=\"SecondlifeAjax.php.html#203\">App\\Template\\SecondlifeAjax::renderPage<\/a>"],[0,1,"<a href=\"SwapTags.php.html#17\">App\\Template\\SwapTags::__construct<\/a>"],[0,3,"<a href=\"SwapTags.php.html#22\">App\\Template\\SwapTags::getSwapTagString<\/a>"],[0,2,"<a href=\"SwapTags.php.html#29\">App\\Template\\SwapTags::addSwapTagString<\/a>"],[0,4,"<a href=\"SwapTags.php.html#36\">App\\Template\\SwapTags::setSwapTag<\/a>"],[0,1,"<a href=\"SwapTags.php.html#53\">App\\Template\\SwapTags::setSwapTagArray<\/a>"],[0,2,"<a href=\"SwapTags.php.html#58\">App\\Template\\SwapTags::urlBase<\/a>"],[0,2,"<a href=\"SwapTags.php.html#62\">App\\Template\\SwapTags::pageTitle<\/a>"],[0,2,"<a href=\"SwapTags.php.html#66\">App\\Template\\SwapTags::siteName<\/a>"],[0,2,"<a href=\"SwapTags.php.html#75\">App\\Template\\SwapTags::metaTags<\/a>"],[0,2,"<a href=\"SwapTags.php.html#83\">App\\Template\\SwapTags::keypairReplace<\/a>"],[0,5,"<a href=\"TableView.php.html#7\">App\\Template\\TableView::renderTable<\/a>"],[0,1,"<a href=\"TableView.php.html#34\">App\\Template\\TableView::renderDatatable<\/a>"],[0,5,"<a href=\"Template.php.html#14\">App\\Template\\Template::__construct<\/a>"],[0,2,"<a href=\"Template.php.html#54\">App\\Template\\Template::setCacheFile<\/a>"],[0,4,"<a href=\"Template.php.html#65\">App\\Template\\Template::purgeCacheFile<\/a>"],[0,4,"<a href=\"Template.php.html#82\">App\\Template\\Template::getCacheFile<\/a>"],[0,3,"<a href=\"Template.php.html#97\">App\\Template\\Template::createCacheVersionFile<\/a>"],[0,3,"<a href=\"Template.php.html#110\">App\\Template\\Template::getCatcheVersion<\/a>"],[0,3,"<a href=\"Template.php.html#118\">App\\Template\\Template::purgeCache<\/a>"],[0,4,"<a href=\"Template.php.html#134\">App\\Template\\Template::delTree<\/a>"],[0,1,"<a href=\"Template.php.html#150\">App\\Template\\Template::redirect<\/a>"],[0,2,"<a href=\"Template.php.html#156\">App\\Template\\Template::loadTemplate<\/a>"],[0,2,"<a href=\"Template.php.html#164\">App\\Template\\Template::loadTemplateFile<\/a>"],[0,1,"<a href=\"Template.php.html#171\">App\\Template\\Template::renderAjax<\/a>"],[0,4,"<a href=\"Template.php.html#179\">App\\Template\\Template::renderSecondlifeAjax<\/a>"],[0,6,"<a href=\"Template.php.html#191\">App\\Template\\Template::renderPage<\/a>"],[0,1,"<a href=\"Template.php.html#225\">App\\Template\\Template::tempateSidemenu<\/a>"],[0,1,"<a href=\"Template.php.html#234\">App\\Template\\Template::tempateFull<\/a>"],[0,1,"<a href=\"Template.php.html#243\">App\\Template\\Template::tempateAjax<\/a>"],[0,1,"<a href=\"Template.php.html#249\">App\\Template\\Template::tempateSecondLifeAjax<\/a>"],[0,1,"<a href=\"Template.php.html#253\">App\\Template\\Template::tempateInstall<\/a>"],[0,1,"<a href=\"Template.php.html#262\">App\\Template\\Template::defaultSwapTags<\/a>"],[0,1,"<a href=\"Template.php.html#271\">App\\Template\\Template::loadTempate<\/a>"],[0,1,"<a href=\"ViewAjax.php.html#7\">App\\Template\\ViewAjax::__construct<\/a>"],[0,1,"<a href=\"ViewAjax.php.html#13\">App\\Template\\ViewAjax::renderPage<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

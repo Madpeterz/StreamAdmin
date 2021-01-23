@@ -1,74 +1,80 @@
 <?php
 
-$current_sql = $sql;
-$old_sql = new mysqli_controler();
-$old_sql->sqlStart_test($r4_db_username, $r4_db_pass, $r4_db_name, false, $r4_db_host);
+namespace App\Endpoint\View\Import;
 
-$sql = $old_sql; // switch to r4
+use App\Models\Package;
+use App\Models\TemplateSet;
+use App\R4\PackagesSet;
 
-$r4_packages_set = new r4_packages_set();
-$r4_packages_set->loadAll();
+class Packages extends View
+{
+    public function process(): void
+    {
+        $r4_packages_set = new PackagesSet();
+        $r4_packages_set->reconnectSql($this->oldSqlDB);
+        $r4_packages_set->loadAll();
 
-$sql = $current_sql; // swtich back to r7
+        $template_set = new TemplateSet();
+        $template_set->loadAll();
 
-$template_set = new template_set();
-$template_set->loadAll();
+        $template = $template_set->getFirst();
 
-$template = $template_set->getFirst();
+        $all_ok = true;
+        $packages_created = 0;
+        foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
+            $r4_package = $r4_packages_set->getObjectByID($r4_package_id);
+            $package = new Package();
+            $uid = $package->createUID("packageUid", 8, 10);
+            if ($uid["status"] == false) {
+                $this->output->addSwapTagString("page_content", "Unable to create a package Uid");
+                $all_ok = false;
+                break;
+            }
+            $package->setPackageUid($uid["uid"]);
+            $package->setName("R4|" . $r4_package->getId() . "|" . $r4_package->getName());
+            $package->setAutodj($r4_package->getAutoDJ());
+            $package->setAutodjSize(0);
+            $package->setListeners($r4_package->getUsers());
+            $package->setBitrate($r4_package->getStreamrate());
+            $package->setTemplateLink($template->getId());
+            $package->setCost($r4_package->getLcost());
+            $package->setDays($r4_package->getSublength());
+            if ($r4_package->getSoldouttexture() == null) {
+                $package->setTextureSoldout("00000000-0000-0000-0000-000000000000");
+            } else {
+                $package->setTextureSoldout($r4_package->getSoldouttexture());
+            }
 
+            if ($r4_package->getInfotexture() == null) {
+                $package->setTextureInstockSmall("00000000-0000-0000-0000-000000000000");
+            } else {
+                $package->setTextureInstockSmall($r4_package->getInfotexture());
+            }
 
-include "shared/lang/control/package/" . $site_lang . ".php";
+            if ($r4_package->getMaintexture() == null) {
+                $package->setTextureInstockSelected("00000000-0000-0000-0000-000000000000");
+            } else {
+                $package->setTextureInstockSelected($r4_package->getMaintexture());
+            }
 
-$all_ok = true;
-$packages_created = 0;
-foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
-    $r4_package = $r4_packages_set->getObjectByID($r4_package_id);
-    $package = new package();
-    $uid = $package->createUID("packageUid", 8, 10);
-    if ($uid["status"] == true) {
-        $package->setPackageUid($uid["uid"]);
-        $package->setName("R4|" . $r4_package->getId() . "|" . $r4_package->getName());
-        $package->setAutodj($r4_package->get_autoDJ());
-        $package->set_audodj_size(0);
-        $package->setListeners($r4_package->get_users());
-        $package->setBitrate($r4_package->get_streamrate());
-        $package->setTemplateLink($template->getId());
-        $package->setCost($r4_package->get_Lcost());
-        $package->setDays($r4_package->get_sublength());
-        if ($r4_package->get_soldouttexture() == null) {
-            $package->setTextureSoldout("00000000-0000-0000-0000-000000000000");
-        } else {
-            $package->setTextureSoldout($r4_package->get_soldouttexture());
-        }
-
-        if ($r4_package->get_infotexture() == null) {
-            $package->setTextureInstockSmall("00000000-0000-0000-0000-000000000000");
-        } else {
-            $package->setTextureInstockSmall($r4_package->get_infotexture());
-        }
-
-        if ($r4_package->get_maintexture() == null) {
-            $package->setTextureInstockSelected("00000000-0000-0000-0000-000000000000");
-        } else {
-            $package->setTextureInstockSelected($r4_package->get_maintexture());
-        }
-
-        $create_status = $package->createEntry();
-        if ($create_status["status"] == true) {
+            $create_status = $package->createEntry();
+            if ($create_status["status"] == false) {
+                $this->output->addSwapTagString(
+                    "page_content",
+                    "Unable to create entry because: " . $create_status["message"]
+                );
+                $all_ok = false;
+                break;
+            }
             $packages_created++;
-        } else {
-            $this->output->addSwapTagString("page_content", sprintf($lang["package.cr.error.17"], $create_status["message"]));
-            $all_ok = false;
-            break;
         }
-    } else {
-        $this->output->addSwapTagString("page_content", $lang["package.cr.error.16"]);
-        $all_ok = false;
-        break;
+        if ($all_ok == false) {
+            $this->sql->flagError();
+            return;
+        }
+        $this->output->addSwapTagString(
+            "page_content",
+            "Created: " . $packages_created . " packages <br/> <a href=\"[[url_base]]import\">Back to menu</a>"
+        );
     }
-}
-if ($all_ok == true) {
-    $this->output->addSwapTagString("page_content", "Created: " . $packages_created . " packages <br/> <a href=\"[[url_base]]import\">Back to menu</a>");
-} else {
-    $sql->flagError();
 }
