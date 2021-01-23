@@ -19,15 +19,21 @@ CHANGE `event_update_stream` `eventUpdateStream` TINYINT(1) NOT NULL DEFAULT '0'
 ALTER TABLE `avatar` CHANGE `avataruuid` `avatarUUID` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `avatar` CHANGE `avatar_uid` `avatarUid` VARCHAR(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `avatar` CHANGE `avatarname` `avatarName` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+ALTER TABLE `banlist` DROP FOREIGN KEY avatar_in_use_banlist;
 ALTER TABLE `banlist` DROP INDEX `avatar_link`;
 ALTER TABLE `banlist` CHANGE `avatar_link` `avatarLink` INT(11) NOT NULL;
 ALTER TABLE `banlist` ADD INDEX(`avatarLink`);
+ALTER TABLE `banlist` ADD CONSTRAINT `avatar_in_use_banlist` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `botconfig` DROP FOREIGN KEY botconfig_ibfk_1;
 ALTER TABLE `botconfig` DROP INDEX `avatarlink`;
 ALTER TABLE `botconfig` CHANGE `avatarlink` `avatarLink` INT(11) NOT NULL;
 ALTER TABLE `botconfig` ADD INDEX(`avatarLink`);
+ALTER TABLE `botconfig` ADD CONSTRAINT `avatar_in_use_botconfig` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `detail` DROP FOREIGN KEY detail_ibfk_1;
 ALTER TABLE `detail` DROP INDEX `rentallink`;
 ALTER TABLE `detail` CHANGE `rentallink` `rentalLink` INT(11) NOT NULL;
 ALTER TABLE `detail` ADD INDEX(`rentalLink`);
+ALTER TABLE `detail` ADD CONSTRAINT `rental_in_use_detail` FOREIGN KEY (`rentalLink`) REFERENCES `rental`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
 ALTER TABLE `event` 
 CHANGE `avatar_uuid` `avatarUUID` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
 CHANGE `avatar_name` `avatarName` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
@@ -38,9 +44,13 @@ CHANGE `event_renew` `eventRenew` TINYINT(1) NOT NULL DEFAULT '0',
 CHANGE `event_expire` `eventExpire` TINYINT(1) NOT NULL DEFAULT '0', 
 CHANGE `event_remove` `eventRemove` TINYINT(1) NOT NULL DEFAULT '0', 
 CHANGE `expire_unixtime` `expireUnixtime` INT(11) NOT NULL;
+ALTER TABLE `message` DROP FOREIGN KEY message_ibfk_1;
 ALTER TABLE `message` DROP INDEX `avatarlink`;
 ALTER TABLE `message` CHANGE `avatarlink` `avatarLink` INT(11) NOT NULL;
 ALTER TABLE `message` ADD INDEX(`avatarLink`);
+ALTER TABLE `message` ADD CONSTRAINT `avatar_in_use_message` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `notecard` DROP FOREIGN KEY notecard_ibfk_1;
+ALTER TABLE `notecard` DROP FOREIGN KEY notecard_ibfk_2;
 ALTER TABLE `notecard` DROP INDEX `rentallink`;
 ALTER TABLE `notecard` DROP INDEX `noticelink`;
 ALTER TABLE `notecard` 
@@ -49,6 +59,9 @@ CHANGE `as_notice` `asNotice` TINYINT(1) NOT NULL DEFAULT '0',
 CHANGE `noticelink` `noticeLink` INT(11) NULL DEFAULT NULL;
 ALTER TABLE `notecard` ADD INDEX(`noticeLink`);
 ALTER TABLE `notecard` ADD INDEX(`rentalLink`);
+ALTER TABLE `notecard` ADD CONSTRAINT `rental_in_use_notecard` FOREIGN KEY (`rentalLink`) REFERENCES `rental`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `notecard` ADD CONSTRAINT `notice_in_use_notecard` FOREIGN KEY (`noticeLink`) REFERENCES `notice`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `notice` DROP FOREIGN KEY notice_notice_notecard_inuse;
 ALTER TABLE `notice` DROP INDEX `notice_notecardlink`;
 ALTER TABLE `notice` DROP INDEX `hoursremaining`;
 ALTER TABLE `notice` 
@@ -59,6 +72,9 @@ CHANGE `notecarddetail` `notecardDetail` TEXT CHARACTER SET utf8mb4 COLLATE utf8
 CHANGE `hoursremaining` `hoursRemaining` INT(11) NOT NULL DEFAULT '0', 
 CHANGE `notice_notecardlink` `noticeNotecardLink` INT(11) NOT NULL DEFAULT '1';
 ALTER TABLE `notice` ADD INDEX(`noticeNotecardLink`);
+ALTER TABLE `notice` ADD CONSTRAINT `noticenotcard_in_use_notice` FOREIGN KEY (`noticeNotecardLink`) REFERENCES `noticenotecard`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `objects` DROP FOREIGN KEY objects_ibfk_1;
+ALTER TABLE `objects` DROP FOREIGN KEY objects_ibfk_2;
 ALTER TABLE `objects` DROP INDEX `avatarlink`;
 ALTER TABLE `objects` DROP INDEX `regionlink`;
 ALTER TABLE `objects` DROP INDEX `objectmode`;
@@ -72,6 +88,11 @@ CHANGE `objectxyz` `objectXYZ` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_genera
 CHANGE `lastseen` `lastSeen` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `objects` ADD INDEX(`avatarLink`);
 ALTER TABLE `objects` ADD INDEX(`regionLink`);
+ALTER TABLE `objects` ADD CONSTRAINT `avatar_in_use_objects` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `objects` ADD CONSTRAINT `region_in_use_objects` FOREIGN KEY (`regionLink`) REFERENCES `region`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `rental` DROP FOREIGN KEY rental_ibfk_1;
+ALTER TABLE `rental` DROP FOREIGN KEY rental_ibfk_2;
+ALTER TABLE `rental` DROP FOREIGN KEY rental_ibfk_3;
 ALTER TABLE `rental` DROP INDEX `streamlink`;
 ALTER TABLE `rental` DROP INDEX `rental_uid`;
 ALTER TABLE `rental` DROP INDEX `avatarlink`;
@@ -91,9 +112,16 @@ ALTER TABLE `rental` ADD UNIQUE(`streamLink`);
 ALTER TABLE `rental` ADD INDEX(`packageLink`);
 ALTER TABLE `rental` ADD INDEX(`noticeLink`);
 ALTER TABLE `rental` ADD UNIQUE(`rentalUid`);
+ALTER TABLE `rental` ADD CONSTRAINT `stream_in_use_rental` FOREIGN KEY (`streamLink`) REFERENCES `stream`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT; 
+ALTER TABLE `rental` ADD CONSTRAINT `avatar_in_use_rental` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `rental` ADD CONSTRAINT `package_in_use_rental` FOREIGN KEY (`packageLink`) REFERENCES `package`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `rental` ADD CONSTRAINT `notice_in_use_rental` FOREIGN KEY (`noticeLink`) REFERENCES `notice`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `reseller` DROP FOREIGN KEY reseller_ibfk_1;
 ALTER TABLE `reseller` DROP INDEX `avatarlink`;
 ALTER TABLE `reseller` CHANGE `avatarlink` `avatarLink` INT(11) NOT NULL;
 ALTER TABLE `reseller` ADD UNIQUE(`avatarLink`);
+ALTER TABLE `reseller` ADD CONSTRAINT `avatar_in_use_reseller` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `server` DROP FOREIGN KEY server_api_inuse;
 ALTER TABLE `server` DROP INDEX `apilink`;
 ALTER TABLE `server` 
 CHANGE `controlpanel_url` `controlPanelURL` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
@@ -120,6 +148,8 @@ CHANGE `last_api_sync` `lastApiSync` INT(11) NOT NULL DEFAULT '0',
 CHANGE `event_create_stream` `eventCreateStream` TINYINT(1) NOT NULL DEFAULT '0', 
 CHANGE `event_update_stream` `eventUpdateStream` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `server` ADD INDEX(`apiLink`);
+ALTER TABLE `server` ADD CONSTRAINT `api_in_use_server` FOREIGN KEY (`apiLink`) REFERENCES `apis`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `slconfig` DROP FOREIGN KEY slconfig_ibfk_1;
 ALTER TABLE `slconfig` DROP INDEX `owner_av`;
 ALTER TABLE `slconfig` 
 CHANGE `db_version` `dbVersion` VARCHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'install', 
@@ -141,7 +171,9 @@ CHANGE `displaytimezonelink` `displayTimezoneLink` INT(11) NOT NULL DEFAULT '11'
 CHANGE `api_default_email` `apiDefaultEmail` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `slconfig` ADD INDEX(`ownerAvatarLink`);
 ALTER TABLE `slconfig` ADD INDEX(`displayTimezoneLink`);
-ALTER TABLE `slconfig` ADD CONSTRAINT `slconfig_ibfk_2` FOREIGN KEY (`displayTimezoneLink`) REFERENCES `timezones`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `slconfig` ADD CONSTRAINT `avatar_in_use_config` FOREIGN KEY (`ownerAvatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `slconfig` ADD CONSTRAINT `timezone_in_use_config` FOREIGN KEY (`displayTimezoneLink`) REFERENCES `timezones`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `staff` DROP FOREIGN KEY staff_ibfk_1;
 ALTER TABLE `staff` DROP INDEX `avatarlink`;
 ALTER TABLE `staff` DROP INDEX `email_reset_code`;
 ALTER TABLE `staff` 
@@ -151,6 +183,10 @@ CHANGE `avatarlink` `avatarLink` INT(11) NOT NULL,
 CHANGE `ownerlevel` `ownerLevel` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `staff` ADD UNIQUE(`avatarLink`);
 ALTER TABLE `staff` ADD UNIQUE(`emailResetCode`);
+ALTER TABLE `staff` ADD CONSTRAINT `avatar_in_use_staff` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `stream` DROP FOREIGN KEY stream_ibfk_1;
+ALTER TABLE `stream` DROP FOREIGN KEY stream_ibfk_2;
+ALTER TABLE `stream` DROP FOREIGN KEY stream_ibfk_3;
 ALTER TABLE `stream` DROP INDEX `stream_uid`;
 ALTER TABLE `stream` DROP INDEX `packagelink`;
 ALTER TABLE `stream` DROP INDEX `rentallink`;
@@ -173,6 +209,9 @@ ALTER TABLE `stream` ADD INDEX(`serverLink`);
 ALTER TABLE `stream` ADD UNIQUE(`rentalLink`);
 ALTER TABLE `stream` ADD INDEX(`packageLink`);
 ALTER TABLE `stream` ADD UNIQUE(`streamUid`);
+ALTER TABLE `stream` ADD CONSTRAINT `package_in_use_stream` FOREIGN KEY (`packageLink`) REFERENCES `package`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `stream` ADD CONSTRAINT `rental_in_use_stream` FOREIGN KEY (`rentalLink`) REFERENCES `rental`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `stream` ADD CONSTRAINT `server_in_use_stream` FOREIGN KEY (`serverLink`) REFERENCES `server`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
 ALTER TABLE `template` CHANGE `notecarddetail` `notecardDetail` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 ALTER TABLE `textureconfig` 
 CHANGE `wait_owner` `waitOwner` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
@@ -183,6 +222,11 @@ CHANGE `treevend_waiting` `treevendWaiting` VARCHAR(36) CHARACTER SET utf8mb4 CO
 CHANGE `proxyrenew` `proxyRenew` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
 CHANGE `getting_details` `gettingDetails` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
 CHANGE `request_details` `requestDetails` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+ALTER TABLE `transactions` DROP FOREIGN KEY transactions_ibfk_1;
+ALTER TABLE `transactions` DROP FOREIGN KEY transactions_ibfk_2;
+ALTER TABLE `transactions` DROP FOREIGN KEY transactions_ibfk_3;
+ALTER TABLE `transactions` DROP FOREIGN KEY transactions_ibfk_4;
+ALTER TABLE `transactions` DROP FOREIGN KEY transactions_ibfk_5;
 ALTER TABLE `transactions` DROP INDEX `transaction_uid`;
 ALTER TABLE `transactions` DROP INDEX `avatarlink`;
 ALTER TABLE `transactions` DROP INDEX `packagelink`;
@@ -202,6 +246,13 @@ ALTER TABLE `transactions` ADD INDEX(`streamLink`);
 ALTER TABLE `transactions` ADD INDEX(`resellerLink`);
 ALTER TABLE `transactions` ADD INDEX(`regionLink`);
 ALTER TABLE `transactions` ADD UNIQUE(`transactionUid`);
+ALTER TABLE `transactions` ADD CONSTRAINT `avatar_in_use_transactions` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `transactions` ADD CONSTRAINT `package_in_use_transactions` FOREIGN KEY (`packageLink`) REFERENCES `package`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `transactions` ADD CONSTRAINT `region_in_use_transactions` FOREIGN KEY (`regionLink`) REFERENCES `region`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `transactions` ADD CONSTRAINT `reseller_in_use_transactions` FOREIGN KEY (`resellerLink`) REFERENCES `reseller`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `transactions` ADD CONSTRAINT `stream_in_use_transactions` FOREIGN KEY (`streamLink`) REFERENCES `stream`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `treevenderpackages` DROP FOREIGN KEY treevenderpackages_ibfk_1;
+ALTER TABLE `treevenderpackages` DROP FOREIGN KEY treevenderpackages_ibfk_2;
 ALTER TABLE `treevenderpackages` DROP INDEX `treevenderlink`;
 ALTER TABLE `treevenderpackages` DROP INDEX `packagelink`;
 ALTER TABLE `treevenderpackages` 
@@ -209,9 +260,13 @@ CHANGE `treevenderlink` `treevenderLink` INT(11) NOT NULL,
 CHANGE `packagelink` `packageLink` INT(11) NOT NULL;
 ALTER TABLE `treevenderpackages` ADD INDEX(`treevenderLink`);
 ALTER TABLE `treevenderpackages` ADD INDEX(`packageLink`);
+ALTER TABLE `treevenderpackages` ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `treevenderpackages` ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
 ALTER TABLE `apis` 
 CHANGE `api_serverstatus` `apiServerStatus` TINYINT(1) NOT NULL DEFAULT '0', 
 CHANGE `api_sync_accounts` `apiSyncAccounts` TINYINT(1) NOT NULL DEFAULT '0';
+ALTER TABLE `package` DROP FOREIGN KEY package_ibfk_1;
+ALTER TABLE `package` DROP FOREIGN KEY package_ibfk_2;
 ALTER TABLE `package` DROP INDEX `servertypelink`;
 ALTER TABLE `package` DROP INDEX `templatelink`;
 ALTER TABLE `package` DROP INDEX `package_uid`;
@@ -224,9 +279,11 @@ CHANGE `texture_uuid_soldout` `textureSoldout` VARCHAR(36) CHARACTER SET utf8mb4
 CHANGE `texture_uuid_instock_small` `textureInstockSmall` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
 CHANGE `texture_uuid_instock_selected` `textureInstockSelected` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL, 
 CHANGE `api_template` `apiTemplate` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
-ALTER TABLE `package` ADD INDEX(`servertypeLink`)
+ALTER TABLE `package` ADD INDEX(`servertypeLink`);
 ALTER TABLE `package` ADD INDEX(`templateLink`);
 ALTER TABLE `package` ADD UNIQUE(`packageUid`);
+ALTER TABLE `package` ADD CONSTRAINT `servertype_in_use_package` FOREIGN KEY (`servertypeLink`) REFERENCES `servertypes`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `package` ADD CONSTRAINT `template_in_use_package` FOREIGN KEY (`templateLink`) REFERENCES `template`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
 ALTER TABLE `textureconfig` CHANGE `make_payment` `makePayment` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
 UPDATE `apis` SET `name` = 'None' WHERE `apis`.`id` = 1; 
 UPDATE `apis` SET `name` = 'Centova3' WHERE `apis`.`id` = 2; 
