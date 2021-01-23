@@ -45,17 +45,17 @@ abstract class AddonProvider extends SwapTags
     }
     protected function onAdd(string $provider): void
     {
-        global $view_reply, $slconfig;
+        global $view_reply;
         if ($provider == "datatable") {
             $this->output->addSwapTagString("html_js_onready", "
         $('.datatable-default').DataTable({
           'order': [[ 0, 'desc' ]],
           responsive: true,
         ");
-            if (version_compare($slconfig->getDbVersion(), "1.0.0.4", ">") == true) {
+            if (version_compare($this->slconfig->getDbVersion(), "1.0.0.4", ">") == true) {
                 $this->output->addSwapTagString("html_js_onready", "
-                pageLength: " . $slconfig->get_datatableItemsPerPage() . ",
-                lengthMenu: [[" . $slconfig->get_datatableItemsPerPage() . ", "
+                pageLength: " . $this->slconfig->getDatatableItemsPerPage() . ",
+                lengthMenu: [[" . $this->slconfig->getDatatableItemsPerPage() . ", "
                 . "10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
                 ");
             }

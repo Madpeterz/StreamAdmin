@@ -26,7 +26,7 @@ class Reset extends ViewAjax
         global $template_parts;
         $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $resetCode;
         $email_helper = new email_helper();
-        $status_reply = $email_helper->send_email(
+        $status_reply = $email_helper->sendEmail(
             $staff->getEmail(),
             "StreamAdmin password reset",
             sprintf($this->reset_message, $resetCode, $reset_url)

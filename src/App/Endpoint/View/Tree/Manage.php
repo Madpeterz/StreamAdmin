@@ -46,7 +46,7 @@ class Manage extends View
             . "<button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
             $table_body[] = $entry;
         }
-        $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));
         $unUsed_index = [];
         foreach ($package_set->getLinkedArray("id", "name") as $id => $name) {
             if (in_array($id, $used_package_ids) == false) {

@@ -23,10 +23,10 @@ class Getserverstatus extends SecondlifeAjax
         }
         $this->setSwapTag("status", "true");
         $this->setSwapTag("message", "ok");
-        $this->setSwapTag("timeleft", "Expired: " . expired_ago($rental->getExpireUnixtime()));
+        $this->setSwapTag("timeleft", "Expired: " . expiredAgo($rental->getExpireUnixtime()));
         $this->setSwapTag("expires", "Expired: " . date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime()));
         if ($rental->getExpireUnixtime() > time()) {
-            $this->setSwapTag("timeleft", "Timeleft: " . timeleft_hours_and_days($rental->getExpireUnixtime()));
+            $this->setSwapTag("timeleft", "Timeleft: " . timeleftHoursAndDays($rental->getExpireUnixtime()));
             $this->setSwapTag(
                 "expires",
                 "Renewal due by: " . date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime())

@@ -7,7 +7,7 @@ $swaps = [
     "AVATAR_LASTNAME" => "Zond",
     "AVATAR_FULLNAME" => "Madpeter Zond",
     "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A', $example_time),
-    "RENTAL_TIMELEFT" => timeleft_hours_and_days($example_time),
+    "RENTAL_TIMELEFT" => timeleftHoursAndDays($example_time),
     "STREAM_PORT" => 4000,
     "STREAM_ADMINUSERNAME" => "SuperAdmin",
     "STREAM_ADMINPASSWORD" => "AdminPaSSwordHere",
@@ -44,7 +44,7 @@ if (count($current) != 0) {
     $current[] = " ";
     $table_body[] = $current;
 }
-$tableout = render_table($table_head, $table_body);
+$tableout = $this->renderTable($table_head, $table_body);
 if (defined("swaps_table_paged") == true) {
     $pages["Swaps"] = $tableout;
 } else {

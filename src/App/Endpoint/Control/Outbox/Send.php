@@ -90,7 +90,7 @@ class Send extends ViewAjax
                             $server,
                             $stream
                         );
-                        $bot_helper->send_message($botconfig, $botavatar, $avatar, $sendmessage, true);
+                        $bot_helper->sendMessage($botconfig, $botavatar, $avatar, $sendmessage, true);
                         $sent_counter++;
                     }
                 }

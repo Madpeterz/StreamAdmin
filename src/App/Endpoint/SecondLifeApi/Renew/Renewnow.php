@@ -152,7 +152,7 @@ class Renewnow extends SecondlifeAjax
                     "message",
                     sprintf(
                         "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
-                        timeleft_hours_and_days($rental->getExpireUnixtime()),
+                        timeleftHoursAndDays($rental->getExpireUnixtime()),
                         date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime())
                     )
                 );

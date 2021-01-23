@@ -50,7 +50,7 @@ class Callapi extends SecondlifeAjax
             $this->setSwapTag("message", "There is already a pending API request please wait and try again later");
             return;
         }
-        $status = create_pending_api_request(
+        $status = createPendingApiRequest(
             $server,
             $stream,
             $rental,

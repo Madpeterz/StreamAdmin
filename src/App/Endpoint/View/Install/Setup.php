@@ -127,12 +127,15 @@ class Setup extends View
             return true;
         }
         $content = '<?php
-        $site_theme = "streamadminr5";
-        $site_lang = "en";
-        $template_parts["html_title"] = " Page ";
-        $template_parts["html_title_after"] = "[[INSTALL_SITE_NAME]]";
-        $template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
-        ?>';
+
+namespace App;
+
+$site_theme = "streamadminr5";
+$site_lang = "en";
+$template_parts["html_title"] = " Page ";
+$template_parts["html_title_after"] = "[[INSTALL_SITE_NAME]]";
+$template_parts["url_base"] = "[[INSTALL_SITE_URI]];
+';
         $content = str_replace("[[INSTALL_SITE_NAME]]", $input->postFilter("sitename"), $content);
         $content = str_replace("[[INSTALL_SITE_URI]]", $input->postFilter("domain"), $content);
         $config_file = "../App/Config/site_installed.php";

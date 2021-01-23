@@ -42,7 +42,7 @@ class DefaultView extends View
                 $table_body[] = $entry;
                 $loop++;
             }
-            $this->output->addSwapTagString("page_content", render_table($table_head, $table_body));
+            $this->output->addSwapTagString("page_content", $this->renderTable($table_head, $table_body));
         }
     }
 }

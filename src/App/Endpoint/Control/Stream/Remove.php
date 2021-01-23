@@ -27,13 +27,19 @@ class Remove extends ViewAjax
         $transaction_set = new TransactionsSet();
         $load_status = $transaction_set->loadOnField("streamLink", $stream->getId());
         if ($load_status["status"] == false) {
-            $this->setSwapTag("message", sprintf("Unable to load transactions linked to stream because: %1\$s", $load_status["message"]));
+            $this->setSwapTag(
+                "message",
+                sprintf("Unable to load transactions linked to stream because: %1\$s", $load_status["message"])
+            );
             return;
         }
         if ($transaction_set->getCount() > 0) {
             $bulkupdate_status = $transaction_set->updateFieldInCollection("streamLink", null);
             if ($bulkupdate_status["status"] == false) {
-                $this->setSwapTag("message", sprintf("Unable to unlink transactions from stream because: %1\$s", $bulkupdate_status["message"]));
+                $this->setSwapTag(
+                    "message",
+                    sprintf("Unable to unlink transactions from stream because: %1\$s", $bulkupdate_status["message"])
+                );
                 return;
             }
         }

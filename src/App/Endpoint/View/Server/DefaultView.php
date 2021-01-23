@@ -35,7 +35,7 @@ class DefaultView extends View
                 if (($server->getApiSyncAccounts() == true) && ($api->getApiSyncAccounts() == true)) {
                     $form = new Form();
                     $form->target("server/SyncAccounts/" . $server->getId() . "");
-                    $entry[] = expired_ago($server->getLastApiSync());
+                    $entry[] = expiredAgo($server->getLastApiSync());
                     $entry[] = $form->render("Sync", "primary", true, true);
                 } else {
                     $entry[] = " - ";
@@ -44,6 +44,6 @@ class DefaultView extends View
             }
             $table_body[] = $entry;
         }
-        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }
 }

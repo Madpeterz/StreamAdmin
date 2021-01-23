@@ -46,6 +46,6 @@ class DefaultView extends View
             $entry[] = $streams_in_package[$package_id]["ready"];
             $table_body[] = $entry;
         }
-        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }
 }

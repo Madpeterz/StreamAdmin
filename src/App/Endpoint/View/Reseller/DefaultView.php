@@ -30,7 +30,7 @@ class DefaultView extends View
             $entry[] = $reseller->getRate();
             $table_body[] = $entry;
         }
-        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
         $this->output->addSwapTagString("page_content", "<br/><hr/><p>
         To register a new reseller please have them rez and activate any StreamAdmin object<br/>
         if enabled in config they will be automagicly accepted<br/>

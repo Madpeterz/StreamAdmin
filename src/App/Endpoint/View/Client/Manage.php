@@ -31,7 +31,7 @@ class Manage extends View
         $form->target("client/update/" . $this->page . "");
         $form->required(true);
         $form->col(6);
-            $form->group("Timeleft: " . timeleft_hours_and_days($this->rental->getExpireUnixtime()) . "");
+            $form->group("Timeleft: " . timeleftHoursAndDays($this->rental->getExpireUnixtime()) . "");
             $form->directAdd("<sub>" . date('l jS \of F Y h:i:s A', $this->rental->getExpireUnixtime()) . "</sub>"
             . "<br/><br/>");
             $form->numberInput("adjustment_days", "Adjustment [Days]", 0, 3, "Max 999");
@@ -104,7 +104,7 @@ class Manage extends View
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", "<br/><h4>Transactions</h4>");
-        $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));
     }
     protected function clientApiActions(): void
     {

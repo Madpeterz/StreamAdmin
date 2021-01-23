@@ -10,7 +10,7 @@ use App\Models\Stream;
 
 class SwapablesHelper
 {
-    public function get_swapped_text(
+    public function getSwappedText(
         string $template,
         Avatar $avatar,
         Rental $rental,
@@ -31,7 +31,7 @@ class SwapablesHelper
               "AVATAR_LASTNAME" => $av_split[1],
               "AVATAR_FULLNAME" => $avatar->getAvatarName(),
               "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime()),
-              "RENTAL_TIMELEFT" => timeleft_hours_and_days($rental->getExpireUnixtime()),
+              "RENTAL_TIMELEFT" => timeleftHoursAndDays($rental->getExpireUnixtime()),
               "STREAM_PORT" => $stream->getPort(),
               "STREAM_ADMINUSERNAME" => $stream->getAdminUsername(),
               "STREAM_ADMINPASSWORD" => $stream->getAdminPassword(),

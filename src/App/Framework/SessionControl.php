@@ -48,7 +48,7 @@ class SessionControl extends SqlConnectedClass
             $this->why_logged_out = "Unable to create root session object";
             return false;
         }
-        $new_lhash = $this->hash_password(time(), rand(1000, 4000), microtime(), $this->main_class_object->get_lhash());
+        $new_lhash = $this->hashPassword(time(), rand(1000, 4000), microtime(), $this->main_class_object->get_lhash());
         $this->main_class_object->setlhash($new_lhash);
         $this->nextcheck = time() + 120;
         $save_status = $this->main_class_object->updateEntry();
@@ -150,16 +150,20 @@ class SessionControl extends SqlConnectedClass
         }
         return false;
     }
+    /**
+     * updatePassword
+     * @return mixed[] [status => bool, message=>string,]
+     */
     public function updatePassword(string $new_password): array
     {
         if ($this->main_class_object != null) {
-            $psalt = $this->hash_password(
+            $psalt = $this->hashPassword(
                 time(),
                 $this->main_class_object->getId(),
                 $this->main_class_object->get_psalt(),
                 $this->main_class_object->getOwnerLevel()
             );
-            $phash = $this->hash_password(
+            $phash = $this->hashPassword(
                 $new_password,
                 $this->main_class_object->getId(),
                 $psalt,
@@ -188,6 +192,10 @@ class SessionControl extends SqlConnectedClass
         }
         return false;
     }
+    /**
+     * hashUserPassword
+     * @return mixed[] [status => bool, message=>string, new_salt=>bool, salt_value=> string, phash=> string]
+     */
     public function hashUserPassword(string $input_password, bool $create_new_psalt = false): array
     {
         if ($this->main_class_object != null) {

@@ -2,6 +2,8 @@
 
 namespace App\Endpoint\SecondLifeApi\Buy;
 
+use App\Helpers\AvatarHelper;
+use App\MediaServer\Logic\Buy;
 use App\Models\ApirequestsSet;
 use App\Models\Avatar;
 use App\Models\Banlist;
@@ -14,7 +16,6 @@ use App\Models\Stream;
 use App\Models\StreamSet;
 use App\Models\Transactions;
 use App\Template\SecondlifeAjax;
-use avatar_helper;
 use YAPF\InputFilter\InputFilter;
 
 class Startrental extends SecondlifeAjax
@@ -31,10 +32,10 @@ class Startrental extends SecondlifeAjax
 
     protected function getAvatar(string $avatarUUID, string $avatarName): ?Avatar
     {
-        $avatar_helper = new avatar_helper();
+        $avatar_helper = new AvatarHelper();
         $get_av_status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
         if ($get_av_status == true) {
-            return $avatar_helper->get_avatar();
+            return $avatar_helper->getAvatar();
         }
         return null;
     }
@@ -221,21 +222,22 @@ class Startrental extends SecondlifeAjax
             $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
 
-        include "shared/media_server_apis/logic/buy.php";
-        $status = $api_serverlogic_reply;
-        if ($status == true) {
-            if ($no_api_action == true) {
-                // trigger sending details
-                $status = create_pending_api_request(
-                    $server,
-                    $stream,
-                    $rental,
-                    "core_send_details",
-                    "Unable to create pending api request"
-                );
-            }
-        }
-
         $this->setSwapTag("status", $status);
+
+        $apilogic = new ApiLogicBuy();
+        $reply = $apilogic->getApiServerLogicReply();
+        if ($reply["status"] == false) {
+            return;
+        }
+        if ($apilogic->getNoAction() == false) {
+            return;
+        }
+        $status = createPendingApiRequest(
+            null,
+            $stream,
+            $rental,
+            "core_send_details",
+            "Unable to create pending api request"
+        );
     }
 }

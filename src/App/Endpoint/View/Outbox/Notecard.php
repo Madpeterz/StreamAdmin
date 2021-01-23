@@ -25,6 +25,6 @@ class Notecard extends View
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
             $table_body[] = [$notecard->getId(),$rental->getRentalUid(),$avatar->getAvatarName()];
         }
-        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }
 }

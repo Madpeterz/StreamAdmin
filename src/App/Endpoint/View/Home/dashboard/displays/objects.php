@@ -28,7 +28,7 @@ foreach ($objects_set->getAllIds() as $object_id) {
         $issues++;
         $color = "text-warning";
     }
-    $entry[] = '<span class="' . $color . '">' . expired_ago($object->get_lastSeen(), true) . '</span>';
+    $entry[] = '<span class="' . $color . '">' . expiredAgo($object->get_lastSeen(), true) . '</span>';
     $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
      . implode("/", explode(",", $object->get_objectXYZ())) . "";
     $tp_url = str_replace(' ', '%20', $tp_url);
@@ -56,4 +56,4 @@ if ($issues == 0) {
     $issues_badge = '<span class="badge badge-warning"><i class="far fa-caret-square-right"></i></span>';
 }
 $sub_grid_objects->addContent('<h4>SL health ' . $issues_badge . '</h4>', 12);
-$sub_grid_objects->addContent(render_table($table_head, $table_body, "", false), 12);
+$sub_grid_objects->addContent($this->renderTable($table_head, $table_body, "", false), 12);

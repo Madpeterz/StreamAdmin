@@ -60,7 +60,7 @@ class DefaultView extends View
             $entry[] = $avatar->getAvatarName();
             $table_body[] = $entry;
         }
-        $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));
         $this->output->addSwapTagString("page_content", "<br/><hr/>");
         $form = new Form();
         $form->mode("get");

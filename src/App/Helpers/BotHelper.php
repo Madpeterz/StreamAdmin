@@ -8,7 +8,7 @@ use App\Models\Message;
 
 class BotHelper
 {
-    public function send_bot_command(Botconfig $botconfig, string $command, array $args): string
+    public function sendBotCommand(Botconfig $botconfig, string $command, array $args): string
     {
         $raw = "" . $command . "" . implode("~#~", $args) . "" . $botconfig->getSecret();
         $cooked = sha1($raw);
@@ -17,7 +17,11 @@ class BotHelper
         $reply["cooked"] = $cooked;
         return "" . $command . "|||" . implode("~#~", $args) . "@@@" . $cooked . "";
     }
-    public function send_message(
+    /**
+     * sendMessage
+     * @return mixed[] [status =>  bool, message =>  string]
+     */
+    public function sendMessage(
         Botconfig $botconfig,
         Avatar $botavatar,
         Avatar $avatar,
@@ -27,9 +31,9 @@ class BotHelper
         $reply_status = true;
         $why_failed = "No idea";
         if ($allow_bot == true) {
-            if ($botconfig->get_ims() == true) {
-                $bot_send_message = $this->send_bot_command($botconfig, "im", [$avatar->getAvatarUUID(),$message]);
-                $status = $this->send_message_to_avatar($botavatar, $bot_send_message);
+            if ($botconfig->getIms() == true) {
+                $bot_sendMessage = $this->sendBotCommand($botconfig, "im", [$avatar->getAvatarUUID(),$message]);
+                $status = $this->sendMessageToAvatar($botavatar, $bot_sendMessage);
                 if ($status["status"] == false) {
                     $reply_status = false;
                     $why_failed = $status["message"];
@@ -37,12 +41,15 @@ class BotHelper
             }
         }
         if ($reply_status == true) {
-            return $this->send_message_to_avatar($avatar, $message);
-        } else {
-            return ["status" => false,"message" => $why_failed];
+            return $this->sendMessageToAvatar($avatar, $message);
         }
+        return ["status" => false,"message" => $why_failed];
     }
-    public function send_message_to_avatar(Avatar $avatar, string $sendmessage): array
+    /**
+     * sendMessageToAvatar
+     * @return mixed[] [status =>  bool, message =>  string]
+     */
+    public function sendMessageToAvatar(Avatar $avatar, string $sendmessage): array
     {
         $message = new Message();
         $message->setAvatarLink($avatar->getId());

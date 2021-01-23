@@ -83,7 +83,7 @@ class BulkRemove extends RenderList
                 $entry[] = $server->getDomain();
                 $entry[] = $stream->getPort();
                 $entry[] = $notice->getName();
-                $entry[] = expired_ago($rental->getExpireUnixtime());
+                $entry[] = expiredAgo($rental->getExpireUnixtime());
                 $table_body[] = $entry;
             }
         }
@@ -93,7 +93,7 @@ class BulkRemove extends RenderList
             $form = new Form();
             $form->target("client/bulkremove");
             $form->col(12);
-              $form->directAdd(render_datatable($table_head, $table_body));
+              $form->directAdd($this->renderDatatable($table_head, $table_body));
             $this->setSwapTag("page_content", $form->render("Process", "outline-danger"));
         }
     }
@@ -129,7 +129,7 @@ class BulkRemove extends RenderList
                 $entry[] = $hclient["port"];
                 $table_body[] = $entry;
             }
-            $this->output->addSwapTagString("page_content", render_table($table_head, $table_body));
+            $this->output->addSwapTagString("page_content", $this->renderTable($table_head, $table_body));
         }
     }
 }

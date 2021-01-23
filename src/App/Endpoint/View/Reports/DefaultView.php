@@ -124,7 +124,7 @@ class DefaultView extends View
             }
         }
         $mygrid = new Grid();
-        $table = render_table(
+        $table = $this->renderTable(
             ["New","Renews","L$ total [New]","L$ total [Rewew]"],
             [[$new_rentals,$renewed_rentals,$amount_new,$amount_renew]]
         );

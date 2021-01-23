@@ -42,14 +42,14 @@ abstract class RenderList extends View
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
             . $rental->getRentalUid() . "\">View</button>";
 
-            $status = "Expired - " . expired_ago($rental->getExpireUnixtime());
+            $status = "Expired - " . expiredAgo($rental->getExpireUnixtime());
             if ($rental->getExpireUnixtime() > time()) {
-                $status = "Active - " . timeleft_hours_and_days($rental->getExpireUnixtime());
+                $status = "Active - " . timeleftHoursAndDays($rental->getExpireUnixtime());
             }
             $entry[] = $status;
             $entry[] = $rental->getRenewals();
             $table_body[] = $entry;
         }
-        $this->output->addSwapTagString("page_content", render_datatable($table_head, $table_body));
+        $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));
     }
 }

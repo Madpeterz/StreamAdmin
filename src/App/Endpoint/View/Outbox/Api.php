@@ -37,9 +37,9 @@ class Api extends View
             $request = $api_requests_set->getObjectByID($request_id);
             $stream = $stream_set->getObjectByID($request->getStreamLink());
             $table_body[] = [$request->getId(),$event_names[$request->getEventname()],
-            $stream->getPort(),expired_ago($request->getLastAttempt()),
+            $stream->getPort(),expiredAgo($request->getLastAttempt()),
             $request->getAttempts(),$request->getMessage()];
         }
-        $this->setSwapTag("page_content", render_datatable($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }
 }

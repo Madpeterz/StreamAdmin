@@ -35,7 +35,7 @@ class Status extends View
             }
             $table_body[] = $entry;
         }
-        $pages["Status"] = "" . render_table($table_head, $table_body) . "<br><hr/><p>TTC is the Expected "
+        $pages["Status"] = "" . $this->renderTable($table_head, $table_body) . "<br><hr/><p>TTC is the Expected "
         . "time to clear<br/> this is if the SL service object is running normaly</p>";
     }
 }

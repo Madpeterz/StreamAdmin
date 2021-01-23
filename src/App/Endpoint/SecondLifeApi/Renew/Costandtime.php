@@ -31,6 +31,6 @@ class Costandtime extends SecondlifeAjax
         }
         $this->setSwapTag("status", "true");
         $this->setSwapTag("cost", $package->getCost());
-        $this->setSwapTag("message", timeleft_hours_and_days($rental->getExpireUnixtime()));
+        $this->setSwapTag("message", timeleftHoursAndDays($rental->getExpireUnixtime()));
     }
 }

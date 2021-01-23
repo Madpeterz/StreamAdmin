@@ -34,4 +34,4 @@ foreach ($server_set->getAllIds() as $server_id) {
 }
 $sub_grid_servers = new Grid();
 $sub_grid_servers->addContent('<h4>servers</h4>', 12);
-$sub_grid_servers->addContent(render_table($table_head, $table_body, "", false), 12);
+$sub_grid_servers->addContent($this->renderTable($table_head, $table_body, "", false), 12);

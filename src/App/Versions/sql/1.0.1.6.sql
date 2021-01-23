@@ -227,3 +227,10 @@ CHANGE `api_template` `apiTemplate` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_g
 ALTER TABLE `package` ADD INDEX(`servertypeLink`)
 ALTER TABLE `package` ADD INDEX(`templateLink`);
 ALTER TABLE `package` ADD UNIQUE(`packageUid`);
+ALTER TABLE `textureconfig` CHANGE `make_payment` `makePayment` VARCHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+UPDATE `apis` SET `name` = 'None' WHERE `apis`.`id` = 1; 
+UPDATE `apis` SET `name` = 'Centova3' WHERE `apis`.`id` = 2; 
+UPDATE `apis` SET `name` = 'MediaCp' WHERE `apis`.`id` = 3; 
+UPDATE `apis` SET `name` = 'WhmSonic' WHERE `apis`.`id` = 4; 
+UPDATE `apis` SET `name` = 'Secondbot' WHERE `apis`.`id` = 5; 
+UPDATE `apis` SET `name` = 'Azurecast' WHERE `apis`.`id` = 6;

@@ -156,11 +156,11 @@ class BreakdownYear extends View
             }
         }
         $pages = [];
-        $pages["Fast report"] = render_table(
+        $pages["Fast report"] = $this->renderTable(
             ["New","Renews","L$ total [New]","L$ total [Rewew]"],
             [[$new_rentals,$renewed_rentals,$amount_new,$amount_renew]]
         );
-        $pages["Month breakdown"] = render_table($table_head, $table_body);
+        $pages["Month breakdown"] = $this->renderTable($table_head, $table_body);
         $paged_info = new paged_info();
         $this->setSwapTag("page_content", $paged_info->render($pages));
     }

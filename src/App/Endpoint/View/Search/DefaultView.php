@@ -75,7 +75,7 @@ class DefaultView extends View
             }
         }
         $table_body[] = $entry;
-        $pages["Streams [" . $search_stream_set->getCount() . "]"] = render_table($table_head, $table_body);
+        $pages["Streams [" . $search_stream_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
     protected function renderAvatars(AvatarSet $avatar_set): void
@@ -90,7 +90,7 @@ class DefaultView extends View
             $entry[] = $avatar->getAvatarName();
             $table_body[] = $entry;
         }
-        $this->pages["Avatars [" . $avatar_set->getCount() . "]"] = render_table($table_head, $table_body);
+        $this->pages["Avatars [" . $avatar_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
     protected function renderRentals(RentalSet $search_rental_set, AvatarSet $avatar_set, StreamSet $stream_set): void
@@ -114,15 +114,15 @@ class DefaultView extends View
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
             . $rental->getRentalUid() . "\">View</button>";
-            $timeleft = "Expired - " . expired_ago($rental->getExpireUnixtime());
+            $timeleft = "Expired - " . expiredAgo($rental->getExpireUnixtime());
             if ($rental->getExpireUnixtime() > time()) {
-                $timeleft  = "Active - " . timeleft_hours_and_days($rental->getExpireUnixtime());
+                $timeleft  = "Active - " . timeleftHoursAndDays($rental->getExpireUnixtime());
             }
             $entry[] = $timeleft;
             $entry[] = $rental->getRenewals();
             $table_body[] = $entry;
         }
-        $this->pages["Clients [" . $search_rental_set->getCount() . "]"] = render_table($table_head, $table_body);
+        $this->pages["Clients [" . $search_rental_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
     protected function loadPackagesFromStreams(StreamSet $stream_set): PackageSet

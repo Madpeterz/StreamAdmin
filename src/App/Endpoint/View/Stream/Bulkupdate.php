@@ -68,7 +68,7 @@ class Bulkupdate extends View
         $form = new Form();
         $form->target("stream/bulkupdate");
         $form->col(12);
-        $form->directAdd(render_datatable($table_head, $table_body));
+        $form->directAdd($this->renderDatatable($table_head, $table_body));
         $this->setSwapTag("page_content", $form->render("Process", "outline-warning"));
     }
 }

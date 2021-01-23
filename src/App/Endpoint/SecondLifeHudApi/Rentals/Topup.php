@@ -129,7 +129,7 @@ class Topup extends SecondlifeAjax
                 $server,
                 $stream
             );
-            $bot_helper->send_message($botconfig, $botavatar, $avatar_system, $sendmessage, true);
+            $bot_helper->sendMessage($botconfig, $botavatar, $avatar_system, $sendmessage, true);
         }
     }
 }

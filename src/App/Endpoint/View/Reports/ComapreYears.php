@@ -187,6 +187,6 @@ class ComapreYears extends View
             $entry[] = $this->amountChanged($dataset["counted"], $dataset2["counted"]);
             $table_body[] = $entry;
         }
-        $this->setSwapTag("page_content", render_table($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderTable($table_head, $table_body));
     }
 }

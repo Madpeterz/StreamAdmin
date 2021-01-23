@@ -2,8 +2,11 @@
 
 namespace App\Template;
 
+use App\Models\Slconfig;
+
 abstract class SwapTags
 {
+    protected Slconfig $slconfig;
     protected $swaptags = [
         "@NL@" => "\r\n",
         "PAGE_TITLE" => "",
@@ -11,6 +14,11 @@ abstract class SwapTags
         "url_base" => null,
         "META_TAGS" => "",
     ];
+    public function __construct()
+    {
+        global $slconfig;
+        $this->slconfig = &$slconfig;
+    }
     public function getSwapTagString(string $tagname): ?string
     {
         if (array_key_exists($tagname, $this->swaptags) == false) {

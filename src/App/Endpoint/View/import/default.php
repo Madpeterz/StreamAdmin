@@ -1,16 +1,16 @@
 <?php
 
-$config_areas = array(
+$config_areas = [
     "Setup" => "setup",
     "Servers" => "servers",
     "Packages" => "packages",
     "Avatars" => "avatars",
     "Streams" => "streams",
     "Clients" => "clients",
-    "Transactions" => "transactions"
-);
+    "Transactions" => "transactions",
+];
 $this->output->addSwapTagString("page_title", " Select action");
-$table_head = array("Name");
+$table_head = ["Name"];
 $table_body = [];
 $loop = 0;
 foreach ($config_areas as $key => $value) {
@@ -19,4 +19,4 @@ foreach ($config_areas as $key => $value) {
     $table_body[] = $entry;
     $loop++;
 }
-$this->output->addSwapTagString("page_content", render_table($table_head, $table_body));
+$this->output->addSwapTagString("page_content", $this->renderTable($table_head, $table_body));
