@@ -17,8 +17,8 @@ abstract class BasicView
     protected string $module;
     protected string $option;
     protected string $area;
-    protected SessionControl $session;
-    protected Slconfig $slconfig;
+    protected ?SessionControl $session;
+    protected ?Slconfig $slconfig;
     protected ?MysqliEnabled $sql;
     public function __construct(bool $AutoLoadTemplate = true)
     {

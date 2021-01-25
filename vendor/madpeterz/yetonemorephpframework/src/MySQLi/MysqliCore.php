@@ -13,9 +13,20 @@ abstract class MysqliCore extends Db
     protected $track_table_select_access = false;
     protected $track_select_from_tables = [];
 
+    protected bool $ExpectedErrorFlag = false;
+    public function setExpectedErrorFlag(bool $flagStatus = false): void
+    {
+        $this->ExpectedErrorFlag = $flagStatus;
+    }
+
     public function __destruct()
     {
         $this->shutdown();
+    }
+
+    public function sqlSave(): bool
+    {
+        return false;
     }
 
     public function shutdown(): bool

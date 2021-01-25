@@ -4,6 +4,11 @@ namespace YAPF\DbObjects\GenClass;
 
 abstract class GenClassSet extends GenClassGet
 {
+    protected bool $expectedSqlLoadError = false;
+    public function expectedSqlLoadError(bool $setFlag = false): void
+    {
+        $this->expectedSqlLoadError = $setFlag;
+    }
     public function setBadId(): void
     {
         $this->bad_id = true;

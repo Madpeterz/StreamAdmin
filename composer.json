@@ -31,13 +31,16 @@
     ],
     "scripts": {
         "dev-test": [
+            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "
+        ],
+        "dev-full": [
             "@phpcs",
             "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "
         ],
         "dev-test-objects": [
             "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite Objects "
         ],
-        "phpcs": "phpcs",
+        "phpcs": "phpcs --parallel=4",
         "phpcbf": "phpcbf",
         "phpunit": "phpunit"
     }

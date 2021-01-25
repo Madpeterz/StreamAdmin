@@ -11,7 +11,7 @@ use YAPF\MySQLi\MysqliEnabled;
 
 class Setup extends View
 {
-    public function process(): void
+    public function process(string $custom_write_config_location = null): void
     {
         parent::process();
         $this->setSwapTag("page_content", "");
@@ -20,7 +20,7 @@ class Setup extends View
         $input = new InputFilter();
         $form_ok = false;
         if ($input->postFilter("av_uuid", "uuid") != null) {
-            $form_ok = $this->processForm();
+            $form_ok = $this->processForm($custom_write_config_location);
             if ($form_ok == true) {
                 $this->nextAction();
                 return;
@@ -73,7 +73,7 @@ class Setup extends View
             <button class="btn btn-warning btn-block" type="button">Skip setup goto final</button></a><br/>');
     }
 
-    protected function processForm(): bool
+    protected function processForm(string $custom_write_config_location = null): bool
     {
         $this->sql = new MysqliEnabled();
         $input = new InputFilter();
@@ -117,10 +117,10 @@ class Setup extends View
             return false;
         }
 
-        return $this->writeConfigFile();
+        return $this->writeConfigFile($custom_write_config_location);
     }
 
-    protected function writeConfigFile(): bool
+    protected function writeConfigFile(string $custom_write_config_location = null): bool
     {
         $input = new InputFilter();
         if ($input->postFilter("domain") == "skip") {
@@ -139,6 +139,9 @@ $template_parts["url_base"] = "[[INSTALL_SITE_URI]];
         $content = str_replace("[[INSTALL_SITE_NAME]]", $input->postFilter("sitename"), $content);
         $content = str_replace("[[INSTALL_SITE_URI]]", $input->postFilter("domain"), $content);
         $config_file = "../App/Config/site_installed.php";
+        if ($custom_write_config_location != null) {
+            $config_file = $custom_write_config_location;
+        }
         if (file_exists($config_file) == true) {
             unlink($config_file);
         }

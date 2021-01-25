@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '30b8ee4a540d8c2b253905bcf22b53fc87bd6adf',
+    'reference' => '5ed3f35695121bff70420b70c4a5cf45c24131e5',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -63,16 +63,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '30b8ee4a540d8c2b253905bcf22b53fc87bd6adf',
+      'reference' => '5ed3f35695121bff70420b70c4a5cf45c24131e5',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => 'v1.0.7',
-      'version' => '1.0.7.0',
+      'pretty_version' => '1.0.8',
+      'version' => '1.0.8.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7eb852c26303fe533a958c7de8d5067676f9b34c',
+      'reference' => '6dae6a68ae6d69438a5c143b33e8d1a9d74e7c2f',
     ),
     'myclabs/deep-copy' => 
     array (

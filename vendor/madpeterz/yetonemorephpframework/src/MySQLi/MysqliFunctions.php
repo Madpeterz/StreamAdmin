@@ -171,6 +171,9 @@ abstract class MysqliFunctions extends MysqliCore
         $stmt = $this->sqlConnection->prepare($sql);
         if ($stmt == false) {
             $error_msg = "unable to prepair: " . $this->sqlConnection->error;
+            if ($this->ExpectedErrorFlag == true) {
+                return ["status" => false, "message" => $error_msg, "stmt" => null];
+            }
             return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
         }
         if (count($bind_args) > 0) {
@@ -183,6 +186,9 @@ abstract class MysqliFunctions extends MysqliCore
                     $error_msg .= ": ";
                     $error_msg .= $e->getMessage();
                 }
+                if ($this->ExpectedErrorFlag == true) {
+                    return ["status" => false, "message" => $error_msg, "stmt" => null];
+                }
                 return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
             }
         }
@@ -191,6 +197,9 @@ abstract class MysqliFunctions extends MysqliCore
         if ($execute_result == false) {
             $error_msg = "unable to execute because: " . $stmt->error;
             $stmt->close();
+            if ($this->ExpectedErrorFlag == true) {
+                return ["status" => false, "message" => $error_msg, "stmt" => null];
+            }
             return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
         }
         return ["status" => true, "message" => "ok", "stmt" => $stmt];

@@ -7,7 +7,7 @@ use YAPF\MySQLi\MysqliEnabled;
 
 class Install extends View
 {
-    public function process(): void
+    public function process(?string $custom_installer_path = null): void
     {
         parent::process();
         $this->setSwapTag("page_content", "");
@@ -15,11 +15,15 @@ class Install extends View
         $this->setSwapTag("page_title", "Installer / Step 3 / Install sql");
         $this->sql = new MysqliEnabled();
         $avatar = new Avatar();
+        $avatar->ExpectedSqlLoadError(true); // suppress the warning about the table not existing
         if ($avatar->loadID(1) == true) {
             $this->setSwapTag("page_content", 'Error: DB has data unable to install!');
             return;
         }
-        $install_file = "../App/View/Install/Required/install.sql";
+        $install_file = "../App/Versions/installer.sql";
+        if ($custom_installer_path != null) {
+            $install_file = $custom_installer_path;
+        }
         if (file_exists($install_file) == false) {
             $this->setSwapTag("page_content", 'Error: Unable to find install sql file!');
             return;

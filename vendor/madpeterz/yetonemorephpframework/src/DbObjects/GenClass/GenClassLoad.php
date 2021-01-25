@@ -58,7 +58,9 @@ abstract class GenClassLoad extends GenClassSet
     {
         if ($this->disabled == false) {
             $basic = ["table" => $this->getTable()];
+            $this->sql->setExpectedErrorFlag($this->expectedSqlLoadError);
             $load_data = $this->sql->selectV2($basic, null, $whereconfig);
+            $this->sql->setExpectedErrorFlag(false);
             return $this->processLoad($load_data);
         }
         $this->addError(__FILE__, __FUNCTION__, "unable to loadData this class is disabled");

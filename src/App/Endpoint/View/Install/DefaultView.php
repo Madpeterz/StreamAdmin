@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View
 {
-    public function process(): void
+    public function process(string $customConfigReadlocation = null, string $customConfigWriteLocation = null): void
     {
         parent::process();
         $this->setSwapTag("html_title", "Installer / Step 1 / DB config");
@@ -15,7 +15,7 @@ class DefaultView extends View
         $has_config = file_exists("../App/Config/db_installed.php");
         $has_env_config = (getenv('DB_HOST') !== false);
         if (($has_config == false) && ($has_env_config == false)) {
-            $this->getConfigFromUser();
+            $this->getConfigFromUser($customConfigReadlocation, $customConfigWriteLocation);
         } else {
             $this->getTestButton();
         }
@@ -33,7 +33,7 @@ class DefaultView extends View
             <a href="test"><button class="btn btn-primary btn-block" type="button">Test config</button></a>'
         );
     }
-    protected function getConfigFromUser(): void
+    protected function getConfigFromUser(string $customConfigReadlocation = null, string $customConfigWriteLocation = null): void
     {
         $input = new InputFilter();
         $db_user = $input->postFilter("db_user");
@@ -47,11 +47,19 @@ class DefaultView extends View
             "DB_USER_HERE" => $db_user,
             "DB_PASSWORD_HERE" => $input->postFilter("db_pass"),
         ];
-        $db_config = file_get_contents("../App/View/Install/Required/db.tmp.php");
+        $config_location = "../App/Endpoint/View/Install/Required/db.tmp.php";
+        if ($customConfigReadlocation != null) {
+            $config_location = $customConfigReadlocation;
+        }
+        $db_config = file_get_contents($config_location);
         foreach ($keys as $key => $value) {
             $db_config = str_replace("[[" . $key . "]]", $value, $db_config);
         }
-        file_put_contents("../App/Config/db_installed.php", $db_config);
+        $write_location = "../App/Config/db_installed.php";
+        if ($customConfigWriteLocation != null) {
+            $write_location = $customConfigWriteLocation;
+        }
+        file_put_contents($write_location, $db_config);
         $this->getTestButton();
     }
     protected function dbConfigForm(): void
