@@ -50,15 +50,15 @@ abstract class HomeDisplayData extends HomeLoadData
 
     protected function displayVersions(): void
     {
-        if (file_exists("../App/Versions/sql/" . $this->slconfig->getDbVersion() . ".sql") == true) {
+        if (file_exists("" . ROOTFOLDER . "/App/Versions/sql/" . $this->slconfig->getDbVersion() . ".sql") == true) {
             $this->main_grid->addContent("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
             . "<br/> please run \"App/Versions/sql/" . $this->slconfig->getDbVersion() . ".sql\"</div>", 12);
         }
-        if (file_exists("../App/Versions/about/" . $this->slconfig->getDbVersion() . ".txt") == true) {
+        if (file_exists("" . ROOTFOLDER . "/App/Versions/about/" . $this->slconfig->getDbVersion() . ".txt") == true) {
             $this->main_grid->closeRow();
             $this->main_grid->addContent("<br/>Version: " . $this->slconfig->getDbVersion() . "", 12);
             $this->main_grid->addContent(
-                file_get_contents("../App/Versions/about/" . $this->slconfig->getDbVersion() . ".txt"),
+                file_get_contents("" . ROOTFOLDER . "/App/Versions/about/" . $this->slconfig->getDbVersion() . ".txt"),
                 12
             );
         } else {

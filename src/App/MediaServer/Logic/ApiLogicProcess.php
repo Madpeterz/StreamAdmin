@@ -21,6 +21,10 @@ class ApiLogicProcess
     protected array $steps = [];
     public function __construct(string $setCurrentStep = "")
     {
+        global $stream, $rental, $server;
+        $this->stream = $stream;
+        $this->server = $server;
+        $this->rental = $rental;
         $this->currentStep = $setCurrentStep;
         $this->process();
     }

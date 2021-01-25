@@ -2,11 +2,19 @@
 
 namespace Tests;
 
-session_start();
-include "vendor/autoload.php";
-include "tests/test.db.php";
-include "src/App/Framework/globals.php";
-include "src/App/Framework/url_loading.php";
-include "src/App/Config/REQUIRE_ID_ON_LOAD.php";
-include "src/App/Framework/install.php";
-include "src/App/Framework/functions.php";
+if (defined("ROOTFOLDER") == false) {
+    define("ROOTFOLDER", "src");
+}
+if (defined("DEEPFOLDERPATH") == false) {
+    define("DEEPFOLDERPATH", ".");
+}
+if(file_exists("src/App/Config/db_installed.php") == true) {
+    unlink("src/App/Config/db_installed.php");
+}
+if(file_exists("src/App/Config/site_installed.php") == true) {
+    unlink("src/App/Config/site_installed.php");
+}
+if(file_exists("src/App/Config/ready.txt") == true) {
+    unlink("src/App/Config/ready.txt");
+}
+include ROOTFOLDER . "/App/Framework/load.php";

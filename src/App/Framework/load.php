@@ -8,23 +8,31 @@ use App\Models\Timezones;
 use App\Template\Output\Cache;
 use YAPF\MySQLi\MysqliEnabled;
 
+global $slconfig, $session, $sql, $timezone_name;
+
+if (defined("ROOTFOLDER") == false) {
+    include_once "../App/Flags/DefaultFolders.php";
+}
 ini_set('display_errors', 1);
-session_start();
-include "../App/Framework/globals.php";
-include "../App/Framework/url_loading.php";
-include "../../vendor/autoload.php";
-include "../App/Config/REQUIRE_ID_ON_LOAD.php";
-include "../App/Framework/install.php";
-include "../App/Config/load.php";
-include "../App/Framework/functions.php";
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    if (headers_sent() == false) {
+        session_start();
+    }
+}
+include_once ROOTFOLDER . "/App/Framework/globals.php";
+include_once ROOTFOLDER . "/App/Framework/url_loading.php";
+include_once DEEPFOLDERPATH . "/vendor/autoload.php";
+include_once ROOTFOLDER . "/App/Config/REQUIRE_ID_ON_LOAD.php";
+include_once ROOTFOLDER . "/App/Framework/install.php";
+include_once ROOTFOLDER . "/App/Config/load.php";
+include_once ROOTFOLDER . "/App/Framework/functions.php";
 $session = new SessionControl();
-$slconfig = new Slconfig();
 if (install_ok() == true) {
-    $sql = new MysqliEnabled();
     if (class_exists("App\\Db", false) == true) {
+        $sql = new MysqliEnabled();
         if (defined("INSTALLED") == true) {
             // lets get some work done
-
+            $slconfig = new Slconfig();
             if ($slconfig->loadID(1) == true) {
                 $session->loadFromSession();
             } else {
@@ -36,7 +44,7 @@ if (install_ok() == true) {
                 if ($timezone_config_from_cache == null) {
                     $timezone = new Timezones();
                     if ($timezone->loadID($slconfig->getDisplayTimezoneLink()) == true) {
-                        $cooked = $timezone_name . "###" . $timezone->getCode();
+                        $cooked = $timezone->getName() . "###" . $timezone->getCode();
                         $catchereader->setCacheFile($cooked, "current_timezone", false);
                     }
                     $timezone_config_from_cache = $catchereader->getCacheFile("current_timezone", false);

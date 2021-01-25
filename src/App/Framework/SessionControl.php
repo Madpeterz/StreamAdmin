@@ -10,7 +10,7 @@ class SessionControl extends SqlConnectedClass
     protected ?Staff $main_class_object = null;
     protected $logged_in = false;
     protected $session_values = ["lhash","autologout","nextcheck","username","ownerLevel"];
-    protected $lhash = 0;
+    protected $lhash = "";
     protected $autologout = 0;
     protected $nextcheck = 0;
     protected $username = "";
@@ -24,7 +24,6 @@ class SessionControl extends SqlConnectedClass
     }
     protected function populateSessionDataset(): bool
     {
-        session_regenerate_id(true);
         $this->lhash = $this->main_class_object->getLhash();
         $this->autologout = time() + 600;
         $this->nextcheck = time() + 45;
@@ -35,7 +34,15 @@ class SessionControl extends SqlConnectedClass
     }
     public function endSession(): void
     {
+        global $_SESSION;
         $this->why_logged_out = "Session ended";
+        $this->ownerLevel = 0;
+        $this->username = "";
+        $this->logged_in = false;
+        $this->autologout = 0;
+        $this->lhash = "";
+        $this->nextcheck = 0;
+        $_SESSION = [];
         session_destroy();
     }
     protected $why_logged_out = "Not logged in at all";

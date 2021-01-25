@@ -56,7 +56,7 @@ class Create extends View
             $form->select("eventCreateStream", "Event / Create stream on server", 0, $this->yesNo);
             $form->select("eventUpdateStream", "Event / Update stream on server", 0, $this->yesNo);
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
-        include "../App/View/Server/api_notes.php";
-        include "../App/View/Server/js_on_select_api.php";
+        include "" . ROOTFOLDER . "/App/Endpoint/View/Server/api_notes.php";
+        include "" . ROOTFOLDER . "/App/Endpoint/View/Server/js_on_select_api.php";
     }
 }

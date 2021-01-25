@@ -137,7 +137,7 @@ class Manage extends View
             $this->yesNo
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        include "../App/View/Server/api_notes.php";
-        include "../App/View/Server/js_on_select_api.php";
+        include "" . ROOTFOLDER . "/App/Endpoint/View/Server/api_notes.php";
+        include "" . ROOTFOLDER . "/App/Endpoint/View/Server/js_on_select_api.php";
     }
 }

@@ -18,12 +18,12 @@ abstract class RenderList extends View
         $table_body = [];
 
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($this->rental_set->getAllByField("avatarLink"));
+        $avatar_set->loadIds($this->rentalSet->getAllByField("avatarLink"));
         $server_set = new ServerSet();
         $server_set->loadAll();
 
-        foreach ($this->stream_set->getAllIds() as $streamid) {
-            $stream = $this->stream_set->getObjectByID($streamid);
+        foreach ($this->streamSet->getAllIds() as $streamid) {
+            $stream = $this->streamSet->getObjectByID($streamid);
             $server = $this->server_set->getObjectByID($stream->getServerLink());
 
 

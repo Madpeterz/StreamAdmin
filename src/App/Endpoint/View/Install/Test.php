@@ -39,8 +39,8 @@ class Test extends View
     }
     protected function noConnection(): void
     {
-        if (file_exists("../App/Config/db_installed.php") == true) {
-            unlink("../App/Config/db_installed.php");
+        if (file_exists(ROOTFOLDER . "/App/Config/db_installed.php") == true) {
+            unlink(ROOTFOLDER . "/App/Config/db_installed.php");
             $this->output->addSwapTagString("page_content", '
             <div class="alert alert-warning" role="alert">Error unable to connect to DB
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">

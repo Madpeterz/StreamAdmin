@@ -6,8 +6,8 @@ if (getenv('DB_HOST') !== false) {
     $template_parts["url_base"] = getenv('SITE_HOST');
     $site_lang = getenv('SITE_LANG');
 } else {
-    if (file_exists("../App/Config/site_installed.php") == true) {
-        include "../App/Config/site_installed.php";
+    if (file_exists(ROOTFOLDER . "App/Config/site_installed.php") == true) {
+        include ROOTFOLDER . "App/Config/site_installed.php";
     } else {
         $site_theme = "streamadminr5";
         $site_lang = "en";

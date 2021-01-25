@@ -28,6 +28,6 @@ class Create extends View
         $form->col(6);
         $form->textarea("notecardDetail", "Notecard template", 2000, "", "Use swap tags as the placeholder");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
-        include "../App/View/Shared/swaps_table.php";
+        include "" . ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
     }
 }

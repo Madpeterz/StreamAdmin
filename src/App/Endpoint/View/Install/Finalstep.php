@@ -23,7 +23,8 @@ class Finalstep extends View
             return;
         }
         if (getenv('DB_HOST') === false) {
-            file_put_contents("../App/Config/ready.txt", "ready");
+            $file_write_location = ROOTFOLDER . "/App/Config/ready.txt";
+            file_put_contents($file_write_location, "ready");
         }
         $this->setSwapTag(
             "page_content",

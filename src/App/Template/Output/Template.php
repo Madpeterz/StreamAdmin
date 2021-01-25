@@ -73,7 +73,7 @@ class Template extends Cache
     }
     protected function loadTemplateFile(string $layout, string $bit): void
     {
-        $check_for_file = "../App/Theme/" . $layout . "/" . $bit . ".layout";
+        $check_for_file = "" . ROOTFOLDER . "/App/Theme/" . $layout . "/" . $bit . ".layout";
         if (file_exists($check_for_file) == true) {
             $this->tempalte_parts[$bit] = file_get_contents($check_for_file);
         }

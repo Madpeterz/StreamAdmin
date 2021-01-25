@@ -22,10 +22,10 @@ class Setconfig extends ViewAjax
         $saveconfig = '<?php $r4_db_host="' . $db_host . '"; $r4_db_name="'
         . $db_name . '"; $r4_db_username="' . $db_username . '"; $r4_db_pass="'
         . $db_pass . '";?>';
-        if (file_exists("../App/Config/r4.php") == true) {
-            unlink("../App/Config/r4.php");
+        if (file_exists("" . ROOTFOLDER . "/App/Config/r4.php") == true) {
+            unlink("" . ROOTFOLDER . "/App/Config/r4.php");
         }
-        file_put_contents("../App/Config/r4.php", $saveconfig);
+        file_put_contents("" . ROOTFOLDER . "/App/Config/r4.php", $saveconfig);
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("redirect", "import");

@@ -7,15 +7,15 @@ use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View
 {
-    public function process(string $customConfigReadlocation = null, string $customConfigWriteLocation = null): void
+    public function process(): void
     {
         parent::process();
         $this->setSwapTag("html_title", "Installer / Step 1 / DB config");
         $this->setSwapTag("page_title", "Installer / Step 1 / DB config");
-        $has_config = file_exists("../App/Config/db_installed.php");
+        $has_config = file_exists(ROOTFOLDER . "/App/Config/db_installed.php");
         $has_env_config = (getenv('DB_HOST') !== false);
         if (($has_config == false) && ($has_env_config == false)) {
-            $this->getConfigFromUser($customConfigReadlocation, $customConfigWriteLocation);
+            $this->getConfigFromUser();
         } else {
             $this->getTestButton();
         }
@@ -33,7 +33,7 @@ class DefaultView extends View
             <a href="test"><button class="btn btn-primary btn-block" type="button">Test config</button></a>'
         );
     }
-    protected function getConfigFromUser(string $customConfigReadlocation = null, string $customConfigWriteLocation = null): void
+    protected function getConfigFromUser(): void
     {
         $input = new InputFilter();
         $db_user = $input->postFilter("db_user");
@@ -47,18 +47,12 @@ class DefaultView extends View
             "DB_USER_HERE" => $db_user,
             "DB_PASSWORD_HERE" => $input->postFilter("db_pass"),
         ];
-        $config_location = "../App/Endpoint/View/Install/Required/db.tmp.php";
-        if ($customConfigReadlocation != null) {
-            $config_location = $customConfigReadlocation;
-        }
+        $config_location = ROOTFOLDER . "/App/Endpoint/View/Install/Required/db.tmp.php";
         $db_config = file_get_contents($config_location);
         foreach ($keys as $key => $value) {
             $db_config = str_replace("[[" . $key . "]]", $value, $db_config);
         }
-        $write_location = "../App/Config/db_installed.php";
-        if ($customConfigWriteLocation != null) {
-            $write_location = $customConfigWriteLocation;
-        }
+        $write_location = ROOTFOLDER . "/App/Config/db_installed.php";
         file_put_contents($write_location, $db_config);
         $this->getTestButton();
     }

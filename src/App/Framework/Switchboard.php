@@ -60,7 +60,7 @@ class Switchboard
             }
         } else {
             $this->module = "Install";
-            include "../App/Flags/InstallMode.php";
+            include "" . ROOTFOLDER . "/App/Flags/InstallMode.php";
         }
         $use_class = $this->getTargetModulue($loadwith, $fallback);
         if (class_exists($use_class) == true) {

@@ -28,7 +28,7 @@ class Api extends ViewAjax
             return;
         }
         $status = $server_api_helper->$functionname();
-        $this->setSwapTag("status", (string)$status);
+        $this->setSwapTag("status", $status);
         $message = "No message from api helper";
         if (is_string($server_api_helper->getMessage()) == true) {
             $message = $server_api_helper->getMessage();

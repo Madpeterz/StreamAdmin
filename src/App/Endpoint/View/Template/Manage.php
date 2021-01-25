@@ -42,6 +42,6 @@ class Manage extends View
                 "Use swap tags as the placeholder"
             );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        include "../App/View/Shared/swaps_table.php";
+        include "" . ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
     }
 }

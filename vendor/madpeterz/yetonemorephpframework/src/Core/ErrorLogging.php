@@ -8,8 +8,7 @@ abstract class ErrorLogging
     protected $myLastErrorBasic = "";
     /**
      * addError
-     * Loggeds an error to trigger_error at E_USER_NOTICE
-     * and also sets myLastError
+     * see getLastError()
      * $fl = file error happened on
      * $fn = function name
      * $er = sent error message
@@ -20,7 +19,6 @@ abstract class ErrorLogging
     {
         $this->myLastError = "File: " . $fl . " Function: " . $fn . " info: " . $er . "";
         $this->myLastErrorBasic = $er;
-        trigger_error($this->myLastError, E_USER_NOTICE);
         return array_merge($ext, ["status" => false, "message" => $er]);
     }
     public function getLastErrorBasic(): string

@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Stream;
 
+use App\MediaServer\Logic\ApiLogicCreate;
 use App\Models\Package;
 use App\Models\Server;
 use App\Models\Stream;
@@ -120,15 +121,20 @@ class Create extends ViewAjax
             );
             return;
         }
+
         $api_serverlogic_reply = true;
+        $apilogic = null;
         if ($api_create == 1) {
-            include "shared/media_server_apis/logic/create.php";
+            $apilogic = new ApiLogicCreate();
         }
         if ($api_serverlogic_reply == false) {
-            $this->setSwapTag("message", $why_failed);
+            $this->setSwapTag("message", $apilogic->getApiServerLogicReply()["message"]);
             return;
         }
+        $this->setSwapTag("status", $api_serverlogic_reply);
         $this->setSwapTag("message", "Stream created");
-        $this->setSwapTag("redirect", "stream");
+        if ($api_serverlogic_reply == true) {
+            $this->setSwapTag("redirect", "stream");
+        }
     }
 }

@@ -2,10 +2,11 @@
 
 namespace StreamadminTest;
 
-use App\Db;
-use App\Endpoint\View\Install\DefaultView as InstallerDefault;
-use App\Endpoint\View\Install\Install;
+use App\Endpoint\View\Install\DefaultView as InstallerStep1;
+use App\Endpoint\View\Install\Finalstep as InstallerStep5;
+use App\Endpoint\View\Install\Install as InstallerStep3;
 use App\Endpoint\View\Install\Setup as InstallerStep4;
+use App\Endpoint\View\Install\Test as InstallerStep2;
 use App\Models\Avatar;
 use App\Models\Slconfig;
 use PHPUnit\Framework\TestCase;
@@ -18,30 +19,10 @@ class Installer extends TestCase
         if(defined("INSTALLMODE") == false) {
             define("INSTALLMODE",true);
         }
-        
-    }
-    public function test_RemoveOldConfig()
-    {
-        $remove_db_config_status = true;
-        if(file_exists("src/App/Config/db_installed.php") == true) {
-            $remove_db_config_status = unlink("src/App/Config/db_installed.php");
-        }
-        $remove_site_installed_status = true;
-        if(file_exists("src/App/Config/site_installed.php") == true) {
-            $remove_site_installed_status = unlink("src/App/Config/site_installed.php");
-        }
-        $this->assertSame(true,$remove_db_config_status,"Unable to remove DB installed");
-        $this->assertSame(true,$remove_site_installed_status,"Unable to remove site installed");
-    }
-    public function test_ClearDatabase()
-    {
-        $sql = new MysqliEnabled();
-        $status = $sql->rawSQL("tests/wipeDB.sql");
-        $this->assertSame(true,$status["status"]);
     }
     public function test_ShowFormEnterDatabaseDetails()
     {
-        $Install = new InstallerDefault();
+        $Install = new InstallerStep1();
         $Install->process();
         $statuscheck = $Install->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("Continue",$statuscheck);
@@ -50,21 +31,35 @@ class Installer extends TestCase
     public function test_ProcessFormEnterDatabaseDetails()
     {
         global $_POST;
-        $Install = new InstallerDefault();
-        $db = new Db();
-        $_POST["db_host"] = $db->dbHost;
-        $_POST["db_name"] = $db->dbName;
-        $_POST["db_user"] = $db->dbUser;
-        $_POST["db_pass"] = $db->dbPass;
-        $Install->process("src/App/Endpoint/View/Install/Required/db.tmp.php","src/App/Config/db_installed.php");
+        $Install = new InstallerStep1();
+        $_POST["db_host"] = "127.0.0.1";
+        $_POST["db_name"] = "test";
+        $_POST["db_user"] = "testsuser";
+        $_POST["db_pass"] = "testsuserPW";
+        $Install->process();
         $statuscheck = $Install->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("Test config",$statuscheck);
         $this->assertStringContainsString("DB config ready",$statuscheck);
     }
+    public function test_ShowTestDatabaseMessage()
+    {
+        include "src/App/Config/db.php";
+        $Install = new InstallerStep2();
+        $Install->process();
+        $statuscheck = $Install->getOutputObject()->getSwapTagString("page_content");
+        $this->assertStringContainsString("Connected [OK]",$statuscheck);
+        $this->assertStringContainsString("Skip install - Goto setup",$statuscheck);
+    }
+    public function test_ClearDatabase()
+    {
+        global $sql;
+        $status = $sql->rawSQL("tests/wipeDB.sql");
+        $this->assertSame(true,$status["status"]);
+    }
     public function test_InstallDatabase()
     {
-        $Install = new Install();
-        $Install->process("src/App/Versions/installer.sql");
+        $Install = new InstallerStep3();
+        $Install->process();
         $statuscheck = $Install->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("Streamadmin DB installed [OK]",$statuscheck);
     }
@@ -100,5 +95,17 @@ class Installer extends TestCase
         $this->assertSame("MadpeterUnit ZondTest",$av->getAvatarName(),"DB not updated with correct test name");
         $siteconfig = new Slconfig();
         $this->assertSame(true,$siteconfig->loadID(1),"Unable to load site config");
+    }
+    public function test_FinalChangesApplyed()
+    {
+        $installer = new InstallerStep5();
+        $installer->process();
+        $statuscheck = $installer->getOutputObject()->getSwapTagString("page_content");
+        $this->assertStringContainsString("docker please set: INSTALL_OK to 1",$statuscheck);
+        $this->assertStringContainsString("Goto login",$statuscheck);
+        $siteconfig = new Slconfig();
+        $this->assertSame(true,$siteconfig->loadID(1),"Unable to load site config");
+        $this->assertStringContainsString("SL link code: ".$siteconfig->getSlLinkCode(),$statuscheck);
+        $this->assertSame(true,file_exists("src/App/Config/ready.txt"),"ready flag not saved");
     }
 }

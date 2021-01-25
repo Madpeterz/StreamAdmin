@@ -7,7 +7,7 @@ use YAPF\MySQLi\MysqliEnabled;
 
 class Install extends View
 {
-    public function process(?string $custom_installer_path = null): void
+    public function process(): void
     {
         parent::process();
         $this->setSwapTag("page_content", "");
@@ -20,10 +20,7 @@ class Install extends View
             $this->setSwapTag("page_content", 'Error: DB has data unable to install!');
             return;
         }
-        $install_file = "../App/Versions/installer.sql";
-        if ($custom_installer_path != null) {
-            $install_file = $custom_installer_path;
-        }
+        $install_file = ROOTFOLDER . "/App/Versions/installer.sql";
         if (file_exists($install_file) == false) {
             $this->setSwapTag("page_content", 'Error: Unable to find install sql file!');
             return;

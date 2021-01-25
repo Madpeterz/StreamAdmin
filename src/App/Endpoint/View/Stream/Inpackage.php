@@ -8,12 +8,13 @@ class Inpackage extends Withstatus
 {
     public function process(): void
     {
-        $this->output->addSwapTagString("page_title", " In package:");
+        $this->output->addSwapTagString("page_title", " In package: ");
         $package = new Package();
         if ($package->loadByField("packageUid", $this->page) == false) {
             $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
             return;
         }
+        $this->output->addSwapTagString("page_title", $package->getName());
         $whereconfig = [
             "fields" => ["packageLink"],
             "values" => [$package->getId()],

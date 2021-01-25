@@ -91,6 +91,6 @@ class Create extends View
         $form->group("Magic");
         $form->select("api_create", "Create on server", 0, $this->yesNo);
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
-        include "../App/View/Stream/api_linking.php";
+        include "" . ROOTFOLDER . "/App/Endpoint/View/Stream/api_linking.php";
     }
 }

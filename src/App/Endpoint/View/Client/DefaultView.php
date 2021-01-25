@@ -15,5 +15,6 @@ class DefaultView extends View
             $view = new ListMode();
         }
         $view->process();
+        $this->output = $view->getOutputObject();
     }
 }

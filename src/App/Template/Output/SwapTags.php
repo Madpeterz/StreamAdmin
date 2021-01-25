@@ -22,6 +22,13 @@ abstract class SwapTags
     public function getSwapTagString(string $tagname): ?string
     {
         if (array_key_exists($tagname, $this->swaptags) == false) {
+            $this->swaptags[$tagname] = "";
+        }
+        return $this->swaptags[$tagname];
+    }
+    public function getSwapTagBool(string $tagname): ?bool
+    {
+        if (array_key_exists($tagname, $this->swaptags) == false) {
             $this->swaptags[$tagname] = null;
         }
         return $this->swaptags[$tagname];

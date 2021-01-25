@@ -18,7 +18,7 @@ abstract class View extends BasicView
         }
         $server = new Server();
         if ($server->HasAny() == false) {
-            $this->output->redirectWithMessage("package", "Please create a server before creating a stream");
+            $this->output->redirectWithMessage("server", "Please create a server before creating a stream");
         }
         $this->setSwapTag("html_title", "Streams");
         $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");

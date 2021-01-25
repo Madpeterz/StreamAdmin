@@ -2,5 +2,5 @@
 
 namespace App;
 
-include "../App/Config/db.php";
-include "../App/Config/site.php";
+include ROOTFOLDER . "/App/Config/db.php";
+include ROOTFOLDER . "/App/Config/site.php";

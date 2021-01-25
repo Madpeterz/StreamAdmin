@@ -14,8 +14,8 @@ abstract class View extends TemplateView
         $this->setSwapTag("html_title", "R4 import");
         $this->setSwapTag("page_title", "Import /");
         $this->setSwapTag("page_actions", "");
-        if (file_exists("../App/Config/r4.php") == true) {
-            include "../App/Config/r4.php";
+        if (file_exists("" . ROOTFOLDER . "/App/Config/r4.php") == true) {
+            include "" . ROOTFOLDER . "/App/Config/r4.php";
             $this->oldSqlDB = new MysqliEnabled();
             $this->oldSqlDB->sqlStartConnection($r4_db_username, $r4_db_pass, $r4_db_name, false, $r4_db_host);
         }
