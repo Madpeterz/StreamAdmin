@@ -188,6 +188,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
      */
     public function getAllIds(): array
     {
+        $this->makeWorker();
         return $this->getUniqueArray($this->worker->use_id_field);
     }
 }

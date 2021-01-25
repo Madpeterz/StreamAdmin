@@ -9,7 +9,10 @@ abstract class ViewAjax extends View
         parent::__construct($AutoLoadTemplate);
         $this->output->tempateAjax();
     }
-
+    public function getoutput(): void
+    {
+        $this->renderPage();
+    }
     public function renderPage(): void
     {
         $this->output->renderAjax();

@@ -17,4 +17,12 @@ class Twintables1Set extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Twintables1
+    {
+        return parent::getFirst();
+    }
 }

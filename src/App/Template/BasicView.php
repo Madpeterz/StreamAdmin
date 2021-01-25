@@ -29,7 +29,7 @@ abstract class BasicView
         $this->session = &$session;
         $this->slconfig = &$slconfig;
         $this->sql = &$sql;
-        $this->output = new Template();
+        $this->output = new Template($AutoLoadTemplate);
         if ($AutoLoadTemplate == true) {
             $this->output->tempateSidemenu();
         }

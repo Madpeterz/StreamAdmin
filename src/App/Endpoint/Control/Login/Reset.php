@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\Control\Login;
 
+use App\Helpers\EmailHelper;
 use App\Models\Avatar;
 use App\Models\Message;
 use App\Models\Staff;
 use App\Template\ViewAjax;
-use email_helper;
 use YAPF\InputFilter\InputFilter;
 
 class Reset extends ViewAjax
@@ -25,7 +25,7 @@ class Reset extends ViewAjax
     {
         global $template_parts;
         $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $resetCode;
-        $email_helper = new email_helper();
+        $email_helper = new EmailHelper();
         $status_reply = $email_helper->sendEmail(
             $staff->getEmail(),
             "StreamAdmin password reset",

@@ -7,7 +7,7 @@ use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
 
 class SessionControl extends SqlConnectedClass
 {
-    protected $main_class_object = null;
+    protected ?Staff $main_class_object = null;
     protected $logged_in = false;
     protected $session_values = ["lhash","autologout","nextcheck","username","ownerLevel"];
     protected $lhash = 0;
@@ -24,7 +24,7 @@ class SessionControl extends SqlConnectedClass
     }
     protected function populateSessionDataset(): bool
     {
-        $this->lhash = $this->main_class_object->get_lhash();
+        $this->lhash = $this->main_class_object->getLhash();
         $this->autologout = time() + 600;
         $this->nextcheck = time() + 45;
         $this->username = $this->main_class_object->getUsername();
@@ -48,7 +48,7 @@ class SessionControl extends SqlConnectedClass
             $this->why_logged_out = "Unable to create root session object";
             return false;
         }
-        $new_lhash = $this->hashPassword(time(), rand(1000, 4000), microtime(), $this->main_class_object->get_lhash());
+        $new_lhash = $this->hashPassword(time(), rand(1000, 4000), microtime(), $this->main_class_object->getLhash());
         $this->main_class_object->setlhash($new_lhash);
         $this->nextcheck = time() + 120;
         $save_status = $this->main_class_object->updateEntry();
@@ -83,7 +83,7 @@ class SessionControl extends SqlConnectedClass
             $this->why_logged_out = "Unable to create root session object";
             return false;
         }
-        if ($this->lhash == $this->main_class_object->get_lhash()) {
+        if ($this->lhash == $this->main_class_object->getLhash()) {
             return $this->createlhash(true);
         }
         $this->why_logged_out = "session lhash does not match db";
@@ -160,7 +160,7 @@ class SessionControl extends SqlConnectedClass
             $psalt = $this->hashPassword(
                 time(),
                 $this->main_class_object->getId(),
-                $this->main_class_object->get_psalt(),
+                $this->main_class_object->getPsalt(),
                 $this->main_class_object->getOwnerLevel()
             );
             $phash = $this->hashPassword(
@@ -169,8 +169,8 @@ class SessionControl extends SqlConnectedClass
                 $psalt,
                 $this->main_class_object->getOwnerLevel()
             );
-            $this->main_class_object->set_psalt($psalt);
-            $this->main_class_object->set_phash($phash);
+            $this->main_class_object->setPsalt($psalt);
+            $this->main_class_object->setPhash($phash);
             return $this->main_class_object->updateEntry();
         } else {
             return ["status" => false,"message" => "update_password requires the user object to be loaded!"];
@@ -181,7 +181,7 @@ class SessionControl extends SqlConnectedClass
         if ($this->createMainObject(true) == true) {
             $expected_hash = null;
             if ($expected_hash == null) {
-                $expected_hash = $this->main_class_object->get_phash();
+                $expected_hash = $this->main_class_object->getPhash();
             }
             $check_hash = $this->hashUserPassword($input_password);
             if ($check_hash["status"] == true) {
@@ -199,12 +199,12 @@ class SessionControl extends SqlConnectedClass
     public function hashUserPassword(string $input_password, bool $create_new_psalt = false): array
     {
         if ($this->main_class_object != null) {
-            $p_salt = $this->main_class_object->get_psalt();
+            $p_salt = $this->main_class_object->getPsalt();
             if ($create_new_psalt == true) {
                 $p_salt = $this->hashPassword(
                     time(),
                     $this->main_class_object->getId(),
-                    $this->main_class_object->get_psalt(),
+                    $this->main_class_object->getPsalt(),
                     $this->main_class_object->getOwnerLevel()
                 );
             }

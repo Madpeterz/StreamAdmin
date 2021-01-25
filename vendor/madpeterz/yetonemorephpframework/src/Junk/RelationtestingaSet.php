@@ -17,4 +17,12 @@ class RelationtestingaSet extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Relationtestinga
+    {
+        return parent::getFirst();
+    }
 }

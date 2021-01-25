@@ -17,4 +17,12 @@ class RollbacktestSet extends CollectionSet
     {
         return parent::getObjectByID($id);
     }
+    /**
+     * getFirst
+     * returns the first object in a collection
+     */
+    public function getFirst(): ?Rollbacktest
+    {
+        return parent::getFirst();
+    }
 }

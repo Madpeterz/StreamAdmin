@@ -8,28 +8,18 @@ if (count($bits) > 0) {
     }
 }
 if (count($bits) == 1) {
-    if ($bits[0] == "office") {
-        $section = "backend";
-        $module = "landing";
-    } else {
-        $module = urldecode($bits[0]);
-    }
+    $module = urldecode($bits[0]);
 } elseif (count($bits) >= 2) {
-    $shift_bits = 0;
-    if ($bits[0] == "office") {
-        $section = "backend";
-        $shift_bits = 1;
+    if (count($bits) >= 1) {
+        $module = $bits[0 ];
     }
-    if (count($bits) >= (1 + $shift_bits)) {
-        $module = $bits[0 + $shift_bits];
+    if (count($bits) >= 2) {
+        $area = $bits[1];
     }
-    if (count($bits) >= (2 + $shift_bits)) {
-        $area = $bits[1 + $shift_bits];
+    if (count($bits) >= 3) {
+        $page = $bits[2];
     }
-    if (count($bits) >= (3 + $shift_bits)) {
-        $page = $bits[2 + $shift_bits];
-    }
-    if (count($bits) >= (4 + $shift_bits)) {
-        $optional = $bits[3 + $shift_bits];
+    if (count($bits) >= 4) {
+        $optional = $bits[3];
     }
 }

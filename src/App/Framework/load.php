@@ -5,6 +5,9 @@ namespace App;
 use App\Framework\SessionControl;
 use App\Models\Slconfig;
 use App\Models\Timezones;
+use App\Template\Cache;
+use App\Template\Template;
+use App\Template\View;
 use YAPF\MySQLi\MysqliEnabled;
 
 ini_set('display_errors', 1);
@@ -20,7 +23,7 @@ $session = new SessionControl();
 $slconfig = new Slconfig();
 if (install_ok() == true) {
     $sql = new MysqliEnabled();
-    if (class_exists("Db", false) == true) {
+    if (class_exists("App\\Db", false) == true) {
         if (defined("INSTALLED") == true) {
             // lets get some work done
 
@@ -30,21 +33,28 @@ if (install_ok() == true) {
                 die("Unable to load system config [PANIC]");
             }
             if ($slconfig != null) {
-                $timezone_config_from_cache = $this->output->get_cache_file("current_timezone", false);
+                $catchereader = new Cache();
+                $timezone_config_from_cache =  $catchereader->getCacheFile("current_timezone", false);
                 if ($timezone_config_from_cache == null) {
                     $timezone = new Timezones();
                     if ($timezone->loadID($slconfig->getDisplayTimezoneLink()) == true) {
                         $cooked = $timezone_name . "###" . $timezone->getCode();
-                        $this->output->set_cache_file($cooked, "current_timezone", false);
+                        $catchereader->setCacheFile($cooked, "current_timezone", false);
                     }
-                    $timezone_config_from_cache = $this->output->get_cache_file("current_timezone", false);
+                    $timezone_config_from_cache = $catchereader->getCacheFile("current_timezone", false);
                 }
                 if ($timezone_config_from_cache != null) {
                     $bits = explode("###", $timezone_config_from_cache);
                     $timezone_name = $bits[0];
                     date_default_timezone_set($bits[1]);
                 }
+            } else {
+                print "No sl config";
             }
+        } else {
+            print "No installed flag";
         }
+    } else {
+        print "No Db";
     }
 }

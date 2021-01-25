@@ -8,7 +8,7 @@ abstract class View extends BasicView
 {
     public function __construct()
     {
-        parent::__construct(false);
+        parent::__construct(true);
         $this->output->tempateFull();
         $this->setSwapTag("html_title", "Login");
         $this->setSwapTag("page_title", "");
