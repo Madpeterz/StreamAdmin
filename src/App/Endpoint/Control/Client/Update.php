@@ -190,7 +190,7 @@ class Update extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "client/manage/" . $this->page);
         $this->setSwapTag("message", "Updated ok");
     }

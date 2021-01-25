@@ -64,7 +64,7 @@ class Details extends SecondlifeAjax
             $this->setSwapTag("message", "dataset packing has failed in a epic way");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("dataset_count", count($reply_dataset));
         $this->setSwapTag("dataset", $reply_dataset);
         $this->setSwapTag("message", sprintf("Cleint account: %1\$s", $avatar->getAvatarName()));

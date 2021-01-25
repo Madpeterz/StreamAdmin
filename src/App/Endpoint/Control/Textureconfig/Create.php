@@ -92,7 +92,7 @@ class Create extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Texture pack created");
         $this->setSwapTag("redirect", "textureconfig");
     }

@@ -24,6 +24,7 @@ class SessionControl extends SqlConnectedClass
     }
     protected function populateSessionDataset(): bool
     {
+        session_regenerate_id(true);
         $this->lhash = $this->main_class_object->getLhash();
         $this->autologout = time() + 600;
         $this->nextcheck = time() + 45;
@@ -114,41 +115,46 @@ class SessionControl extends SqlConnectedClass
     }
     public function loadFromSession(): bool
     {
-        if (isset($_SESSION)) {
-            $required_values_set = true;
-            foreach ($this->session_values as $value) {
-                if (isset($_SESSION[$value]) == false) {
-                    $required_values_set = false;
-                    break;
-                }
-            }
-            if ($required_values_set == true) {
-                foreach ($this->session_values as $value) {
-                    $this->$value = $_SESSION[$value];
-                }
-                if ($this->autologout > time()) {
-                    $this->autologout = time() + 3600;
-                    $this->updateSession();
-                    $this->logged_in = true;
-                    if ($this->nextcheck < time()) {
-                        $this->logged_in = $this->vaildatelhash();
-                    }
-                    if ($this->logged_in == false) {
-                        $this->endSession();
-                        $this->why_logged_out = "Session state error: Not logged in by session active";
-                    }
-                    return $this->logged_in;
-                } else {
-                    $this->endSession();
-                    $this->why_logged_out = "Inactive auto logout";
-                }
-            } else {
-                $this->why_logged_out = "-";
-            }
-        } else {
-            $this->why_logged_out = "-";
+        if (isset($_SESSION) == false) {
+            $this->why_logged_out = "Waiting for login";
+            return false;
         }
-        return false;
+
+        if (count($_SESSION) == 0) {
+            $this->why_logged_out = "Waiting for login";
+            return false;
+        }
+
+        $required_values_set = true;
+        foreach ($this->session_values as $value) {
+            if (isset($_SESSION[$value]) == false) {
+                $required_values_set = false;
+                break;
+            }
+        }
+        if ($required_values_set == false) {
+            $this->why_logged_out = "-";
+            return false;
+        }
+        foreach ($this->session_values as $value) {
+            $this->$value = $_SESSION[$value];
+        }
+        if ($this->autologout <= time()) {
+            $this->endSession();
+            $this->why_logged_out = "Inactive auto logout";
+            return false;
+        }
+        $this->autologout = time() + 3600;
+        $this->updateSession();
+        $this->logged_in = true;
+        if ($this->nextcheck < time()) {
+            $this->logged_in = $this->vaildatelhash();
+        }
+        if ($this->logged_in == false) {
+            $this->endSession();
+            $this->why_logged_out = "Session state error: Not logged in but session active";
+        }
+        return $this->logged_in;
     }
     /**
      * updatePassword

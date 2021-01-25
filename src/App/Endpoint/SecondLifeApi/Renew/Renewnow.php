@@ -138,7 +138,7 @@ class Renewnow extends SecondlifeAjax
             $this->setSwapTag("owner_payment_amount", $left_over);
             $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Payment account but account is still in arrears");
         if ($rental->getExpireUnixtime() > time()) {
             $all_ok = true;

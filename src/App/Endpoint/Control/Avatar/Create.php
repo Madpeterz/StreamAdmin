@@ -40,7 +40,7 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "Unable to create avatar");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Avatar created");
         $this->setSwapTag("redirect", "avatar");
     }

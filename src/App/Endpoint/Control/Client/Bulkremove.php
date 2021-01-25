@@ -107,7 +107,7 @@ class Bulkremove extends ViewAjax
         }
         if ($status == true) {
             $status = true;
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             $this->setSwapTag(
                 "message",
                 sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter)

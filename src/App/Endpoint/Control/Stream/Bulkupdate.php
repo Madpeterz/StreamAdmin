@@ -58,7 +58,7 @@ class Bulkupdate extends ViewAjax
         if ($status == false) {
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         if ($streams_skipped_originalAdminUsername > 0) {
             $this->setSwapTag(
                 "message",

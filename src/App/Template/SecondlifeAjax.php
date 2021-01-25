@@ -57,7 +57,7 @@ abstract class SecondlifeAjax extends View
         $this->timeWindow();
         $this->hashCheck();
         if ($this->load_ok == false) {
-            $this->setSwapTag("status", "false");
+            $this->setSwapTag("status", false);
             return;
         }
         $this->output->tempateSecondLifeAjax();
@@ -194,7 +194,7 @@ abstract class SecondlifeAjax extends View
             }
         }
         if ($this->load_ok == false) {
-            $this->setSwapTag("status", "false");
+            $this->setSwapTag("status", false);
             $this->setSwapTag("message", "timewindow is out of scope");
             return;
         }

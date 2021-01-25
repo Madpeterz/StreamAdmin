@@ -165,7 +165,7 @@ class Template extends Cache
     public function tempateAjax(): void
     {
         $this->render_layout = "";
-        $this->setSwapTag("status", "false");
+        $this->setSwapTag("status", false);
         $this->setSwapTag("message", "Not processed");
     }
     public function tempateSecondLifeAjax(): void

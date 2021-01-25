@@ -58,7 +58,7 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Notice removed");
     }
 }

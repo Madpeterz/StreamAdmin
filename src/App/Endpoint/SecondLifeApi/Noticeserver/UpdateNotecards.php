@@ -32,7 +32,7 @@ class UpdateNotecards extends SecondlifeAjax
                     return;
                 }
             }
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             $this->setSwapTag("message", "Old notecards removed");
             return;
         }
@@ -94,7 +94,7 @@ class UpdateNotecards extends SecondlifeAjax
                 }
             }
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
     }
 }

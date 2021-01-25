@@ -43,7 +43,7 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "Unable to create a new entry in the ban list");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Banlist entry created");
         $this->setSwapTag("redirect", "banlist");
     }

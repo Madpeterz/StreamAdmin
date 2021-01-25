@@ -41,7 +41,7 @@ class Getapistatus extends SecondlifeAjax
             "togglestate" => "optToggleStatus",
             "resetpw" => "optPasswordReset",
         ];
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "seeflags");
         foreach ($flags as $key => $dataset) {
             $state = 0;

@@ -45,7 +45,7 @@ abstract class BasicView
         $this->setSwapTag("page_title", " not set");
         $this->setSwapTag("page_actions", "");
         $this->output->addSwapTagString("page_content", "Not Loaded");
-        $this->setSwapTag("status", "false");
+        $this->setSwapTag("status", false);
     }
     public function getOutputObject(): Template
     {

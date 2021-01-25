@@ -96,7 +96,7 @@ class Send extends ViewAjax
                 }
             }
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", sprintf("Sent to %1\$s avatars", $sent_counter));
         $this->setSwapTag("redirect", "outbox");
     }

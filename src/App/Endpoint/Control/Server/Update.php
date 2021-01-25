@@ -188,7 +188,7 @@ class Update extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Server updated");
         $this->setSwapTag("redirect", "server");
     }

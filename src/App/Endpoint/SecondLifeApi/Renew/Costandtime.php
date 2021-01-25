@@ -29,7 +29,7 @@ class Costandtime extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find package");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("cost", $package->getCost());
         $this->setSwapTag("message", timeleftHoursAndDays($rental->getExpireUnixtime()));
     }

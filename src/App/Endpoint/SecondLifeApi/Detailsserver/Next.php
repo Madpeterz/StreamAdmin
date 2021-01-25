@@ -37,7 +37,7 @@ class Next extends SecondlifeAjax
         $detail_set = new DetailSet();
         $detail_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
         if ($detail_set->getCount() == 0) {
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             $this->setSwapTag("message", "nowork");
             return;
         }
@@ -101,7 +101,7 @@ class Next extends SecondlifeAjax
                 return;
             }
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
     }
 }

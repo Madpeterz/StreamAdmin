@@ -20,7 +20,7 @@ class Start extends ViewAjax
             $this->setSwapTag("message", "Username or Password is invaild");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "logged in ^+^");
         $this->setSwapTag("redirect", "here");
     }

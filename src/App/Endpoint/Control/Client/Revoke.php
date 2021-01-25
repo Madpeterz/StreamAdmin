@@ -97,7 +97,7 @@ class Revoke extends ViewAjax
             $this->setSwapTag("message", $why_failed);
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "client");
         $this->setSwapTag("message", "Client rental revoked");
     }

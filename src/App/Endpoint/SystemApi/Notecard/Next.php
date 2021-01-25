@@ -89,7 +89,7 @@ class Next extends ViewAjax
             $this->setSwapTag("message", "Unable to remove old entry");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("AvatarUUID", $avatar->getAvatarUUID());
         $this->setSwapTag("NotecardTitle", $notecard_title);

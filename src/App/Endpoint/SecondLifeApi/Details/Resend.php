@@ -41,7 +41,7 @@ class Resend extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to create details request");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Details request accepted, it should be with you shortly!");
     }
 }

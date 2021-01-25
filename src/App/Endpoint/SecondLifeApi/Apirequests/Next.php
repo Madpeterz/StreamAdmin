@@ -24,7 +24,7 @@ class Next extends SecondlifeAjax
         }
         if ($api_requests_set->getCount() == 0) {
             $this->setSwapTag("message", "nowork");
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             return;
         }
 

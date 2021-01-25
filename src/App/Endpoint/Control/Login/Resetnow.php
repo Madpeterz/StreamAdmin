@@ -73,7 +73,7 @@ class Resetnow extends ViewAjax
         if ($update_status["status"] == false) {
             return "Unable to finalize changes to your account";
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Password updated please login");
         $this->setSwapTag("redirect", "login");
         return "";

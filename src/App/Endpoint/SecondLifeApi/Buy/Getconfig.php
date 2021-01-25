@@ -54,7 +54,7 @@ class Getconfig extends SecondlifeAjax
             return;
         }
 
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("package_instock", "0");
         if ($count_data["count"] > 0) {
             $this->setSwapTag("package_instock", "1");

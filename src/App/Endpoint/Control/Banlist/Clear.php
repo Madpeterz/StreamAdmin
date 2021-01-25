@@ -20,7 +20,7 @@ class Clear extends ViewAjax
             $this->setSwapTag("message", "Unable to remove entry");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "entry removed");
         return;
     }

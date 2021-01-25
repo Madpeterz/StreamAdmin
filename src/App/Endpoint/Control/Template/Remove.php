@@ -35,6 +35,6 @@ class Remove extends ViewAjax
             return;
         }
         $this->setSwapTag("message", "Template removed");
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
     }
 }

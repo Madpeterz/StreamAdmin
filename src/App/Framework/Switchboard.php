@@ -52,11 +52,7 @@ class Switchboard
         $loadwith = "View";
         if (install_ok() == true) {
             $fallback = "Home";
-            if ($this->session->loadFromSession() == true) {
-                if ($this->session->getLoggedIn() == false) {
-                    $this->module = "Login";
-                }
-            } else {
+            if ($this->session->getLoggedIn() == false) {
                 $this->module = "Login";
             }
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -45,7 +45,7 @@ class Getserverurl extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load server type");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("serverurl", "http://" . $server->getDomain() . ":" . $stream->getPort());
         $this->setSwapTag("servertype", $servertypes->getName());

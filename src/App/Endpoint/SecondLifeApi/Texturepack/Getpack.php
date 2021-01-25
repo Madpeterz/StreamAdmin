@@ -21,7 +21,7 @@ class Getpack extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load texture pack");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("texture_offline", $textureconfig->getOffline());
         $this->setSwapTag("texture_waitingforowner", $textureconfig->getWaitOwner());
         $this->setSwapTag("texture_fetchingdetails", $textureconfig->getGettingDetails());

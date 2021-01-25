@@ -60,7 +60,7 @@ class Update extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "staff member updated passwords reset");
     }
 }

@@ -10,7 +10,7 @@ class Finder extends ViewAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
 
         $input = new inputFilter();
         $avatarfindname = $input->postFilter("avatarfind");

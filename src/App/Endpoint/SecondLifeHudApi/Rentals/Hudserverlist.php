@@ -10,7 +10,7 @@ class Hudserverlist extends SecondlifeAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $rentals_set = new RentalSet();
         $rentals_set->loadByField("avatarLink", $this->object_ownerAvatarLinkatar->getId());
         if ($rentals_set->getCount() < 1) {

@@ -21,7 +21,7 @@ class Getserverstatus extends SecondlifeAjax
             $this->setSwapTag("message", "System linking error - please try again later");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("timeleft", "Expired: " . expiredAgo($rental->getExpireUnixtime()));
         $this->setSwapTag("expires", "Expired: " . date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime()));

@@ -76,7 +76,7 @@ class Next extends SecondlifeAjax
 
         $rental_set->loadWithConfig($where_config);
         if ($rental_set->getCount() == 0) {
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             $this->setSwapTag("message", "nowork");
             return;
         }
@@ -221,6 +221,6 @@ class Next extends SecondlifeAjax
             $this->setSwapTag("send_static_notecard_to", $avatar->getAvatarUUID());
         }
 
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
     }
 }

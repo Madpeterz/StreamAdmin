@@ -42,7 +42,7 @@ class Getpackages extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load packages");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $reply = [];
         $reply["packageUid"] = [];

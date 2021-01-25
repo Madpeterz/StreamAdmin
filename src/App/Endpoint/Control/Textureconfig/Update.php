@@ -94,7 +94,7 @@ class Update extends ViewAjax
             $this->setSwapTag("redirect", "textureconfig");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag(
             "message",
             sprintf("Unable to update Texture pack: %1\$s", $update_status["message"])

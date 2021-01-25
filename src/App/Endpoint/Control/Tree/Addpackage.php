@@ -50,7 +50,7 @@ class Addpackage extends ViewAjax
             $this->setSwapTag("message", "Unable to attach package to tree vender");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "tree/manage/" . $this->page . "");
         $this->setSwapTag("message", "Package added to tree vender");
     }

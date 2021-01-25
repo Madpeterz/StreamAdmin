@@ -116,7 +116,7 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "Unable to mark stream as linked to rental");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Client created");
     }
 }

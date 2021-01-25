@@ -27,7 +27,7 @@ class Notecardsync extends SecondlifeAjax
             return;
         }
         if ($botconfig->getNotecards() == false) {
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             $this->setSwapTag("hassyncmessage", "2");
             $this->setSwapTag("message", "Notecards not enabled on bot");
             return;
@@ -45,7 +45,7 @@ class Notecardsync extends SecondlifeAjax
             return;
         }
 
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         if ($count_data["count"] == 0) {
             $this->setSwapTag("message", "No work");
             $this->setSwapTag("hassyncmessage", "0");

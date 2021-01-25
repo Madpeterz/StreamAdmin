@@ -27,7 +27,7 @@ class Getapiconfig extends ViewAjax
             $this->setSwapTag($apifield, $api->$getter());
         }
         $this->setSwapTag("update_api_flags", "true");
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "API config loaded");
     }
 }

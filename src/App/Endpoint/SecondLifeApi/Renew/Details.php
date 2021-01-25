@@ -29,7 +29,7 @@ class Details extends SecondlifeAjax
             return;
         }
 
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $rental_set = new RentalSet();
         $rental_set->loadOnField("avatarLink", $avatar->getId());
         if ($rental_set->getCount() < 1) {
@@ -56,7 +56,7 @@ class Details extends SecondlifeAjax
             }
         }
         if (count($reply_dataset) < 1) {
-            $this->setSwapTag("status", "false");
+            $this->setSwapTag("status", false);
             $this->setSwapTag("message", "Unable to build reply dataset");
             return;
         }

@@ -132,7 +132,7 @@ class Create extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Package created");
     }
 }

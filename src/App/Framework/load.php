@@ -46,13 +46,7 @@ if (install_ok() == true) {
                     $timezone_name = $bits[0];
                     date_default_timezone_set($bits[1]);
                 }
-            } else {
-                print "No sl config";
             }
-        } else {
-            print "No installed flag";
         }
-    } else {
-        print "No Db";
     }
 }

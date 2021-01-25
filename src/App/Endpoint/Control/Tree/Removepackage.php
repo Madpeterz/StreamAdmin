@@ -34,7 +34,7 @@ class Removepackage extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "tree/manage/" . $redirect_to . "");
         $this->setSwapTag("message", "Tree vender linked package removed");
     }

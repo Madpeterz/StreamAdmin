@@ -62,7 +62,7 @@ class Callapi extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to create pending api request");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         return;
     }

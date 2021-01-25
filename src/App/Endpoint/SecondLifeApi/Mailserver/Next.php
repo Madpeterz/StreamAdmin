@@ -36,6 +36,6 @@ class Next extends SecondlifeAjax
         $this->setSwapTag("hasmessage", 1);
         $this->setSwapTag("message", $message->getMessage());
         $this->setSwapTag("avatarUUID", $avatar->getAvatarUUID());
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
     }
 }

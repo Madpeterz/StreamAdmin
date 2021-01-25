@@ -100,7 +100,7 @@ class SyncAccounts extends ViewAjax
             $this->setSwapTag("message", "Unable to update server last sync time");
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");
         if ($accounts_missing_passwords > 0) {
             $this->output->addSwapTagString("message", " / Missing PW dataset: " . $accounts_missing_passwords);

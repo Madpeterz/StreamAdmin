@@ -47,7 +47,7 @@ abstract class CallApi extends SecondlifeAjax
             return;
         }
         if ($retry == true) {
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             $this->setSwapTag("message", "retry");
             return;
         }
@@ -58,7 +58,7 @@ abstract class CallApi extends SecondlifeAjax
         }
         $why_failed = "";
         if ($this->logic_step == "opt") {
-            $this->setSwapTag("status", "true");
+            $this->setSwapTag("status", true);
             $this->setSwapTag("message", "ok");
             return;
         }

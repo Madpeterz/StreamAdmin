@@ -18,7 +18,7 @@ class Getnotecard extends ViewAjax
         if ($rental->loadByField("rentalUid", $this->page) == false) {
             $this->setSwapTag("message", "Unable to load rental");
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $avatar = new Avatar();
         $avatar->loadID($rental->getAvatarLink());
 

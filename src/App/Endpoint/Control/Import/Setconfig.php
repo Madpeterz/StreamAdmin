@@ -26,7 +26,7 @@ class Setconfig extends ViewAjax
             unlink("../App/Config/r4.php");
         }
         file_put_contents("../App/Config/r4.php", $saveconfig);
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("redirect", "import");
     }

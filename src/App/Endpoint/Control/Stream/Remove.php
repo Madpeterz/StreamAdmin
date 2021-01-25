@@ -49,7 +49,7 @@ class Remove extends ViewAjax
             $this->setSwapTag("message", sprintf("Unable to remove stream: %1\$s", $remove_status["message"]));
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Stream removed");
     }
 }

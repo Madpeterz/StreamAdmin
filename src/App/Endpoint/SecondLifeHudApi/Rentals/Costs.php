@@ -30,7 +30,7 @@ class Costs extends SecondlifeAjax
         if ($avatar_system->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
             return;
         }
-        $this->setSwapTag("status", "true");
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("systemowner", $avatar_system->getAvatarUUID());
         $this->setSwapTag("cost", $package->getCost());
