@@ -5,9 +5,7 @@ namespace App;
 use App\Framework\SessionControl;
 use App\Models\Slconfig;
 use App\Models\Timezones;
-use App\Template\Cache;
-use App\Template\Template;
-use App\Template\View;
+use App\Template\Output\Cache;
 use YAPF\MySQLi\MysqliEnabled;
 
 ini_set('display_errors', 1);

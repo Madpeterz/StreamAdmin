@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Endpoint\View\Avatar;
+namespace App\Endpoint\View\Client;
 
 use App\Models\NoticeSet;
 use App\Models\Rental;
-use App\Endpoint\View\Client\View as View;
 
 class SelectNoticeLevel extends View
 {

@@ -4,6 +4,7 @@ namespace App\Template;
 
 use App\Framework\SessionControl;
 use App\Models\Slconfig;
+use App\Template\Output\Template;
 use YAPF\MySQLi\MysqliEnabled;
 
 abstract class BasicView

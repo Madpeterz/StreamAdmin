@@ -12,7 +12,7 @@ abstract class View extends BasicView
         parent::__construct();
         $template = new Template();
         if ($template->HasAny() == false) {
-            $this->output->redirect("template?message=Please create a template before creating a package");
+            $this->output->redirectWithMessage("template", "Please create a template before creating a package");
             return;
         }
         $this->setSwapTag("html_title", "Packages");

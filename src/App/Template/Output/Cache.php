@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Template;
+namespace App\Template\Output;
 
 class Cache extends AddonProvider
 {

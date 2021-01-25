@@ -12,7 +12,8 @@ abstract class View extends BasicView
         parent::__construct();
         $stream = new Stream();
         if ($stream->HasAny() == false) {
-            $this->output->redirect("stream?message=Please create a stream before creating a client");
+            $this->output->redirectWithMessage("stream", "Please create a stream before creating a client");
+            return;
         }
         $this->setSwapTag("html_title", "Clients");
         $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");

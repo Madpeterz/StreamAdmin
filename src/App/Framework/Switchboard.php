@@ -47,6 +47,7 @@ class Switchboard
     }
     protected function loadPage(): void
     {
+        global $slconfig;
         $fallback = "Error";
         $loadwith = "View";
         if (install_ok() == true) {

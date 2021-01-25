@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Template;
+namespace App\Template\Output;
 
 use App\Models\Slconfig;
 
 abstract class SwapTags
 {
-    protected Slconfig $slconfig;
+    protected ?Slconfig $slconfig = null;
     protected $swaptags = [
         "@NL@" => "\r\n",
         "PAGE_TITLE" => "",
@@ -14,7 +14,7 @@ abstract class SwapTags
         "url_base" => null,
         "META_TAGS" => "",
     ];
-    public function __construct()
+    public function __construct(bool $with_defaults = false)
     {
         global $slconfig;
         $this->slconfig = &$slconfig;

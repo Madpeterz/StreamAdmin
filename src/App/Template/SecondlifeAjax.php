@@ -2,13 +2,13 @@
 
 namespace App\Template;
 
+use App\Helpers\AvatarHelper;
+use App\Helpers\ObjectHelper;
+use App\Helpers\RegionHelper;
+use App\Helpers\ResellerHelper;
 use App\Models\Avatar;
 use App\Models\Region;
 use App\Models\Reseller;
-use avatar_helper;
-use object_helper;
-use region_helper;
-use reseller_helper;
 use YAPF\InputFilter\InputFilter;
 
 abstract class SecondlifeAjax extends View
@@ -123,23 +123,23 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("message", "Unable to vaildate request to API endpoint");
             return;
         }
-        $avatar_helper = new avatar_helper();
+        $avatar_helper = new AvatarHelper();
         $get_av_status = $avatar_helper->loadOrCreate($this->ownerkey, $this->ownername);
         if ($get_av_status == false) {
             $this->load_ok = false;
             $this->setSwapTag("message", "Unable to load owner avatar for this object!");
             return;
         }
-        $this->object_ownerAvatarLinkatar = $avatar_helper->get_avatar();
-        $region_helper = new region_helper();
+        $this->object_ownerAvatarLinkatar = $avatar_helper->getAvatar();
+        $region_helper = new RegionHelper();
         $get_region_status = $region_helper->loadOrCreate($this->regionname);
         if ($get_region_status == false) {
             $this->load_ok = false;
             $this->setSwapTag("message", "Unable to load region");
             return;
         }
-        $this->region = $region_helper->get_region();
-        $reseller_helper = new reseller_helper();
+        $this->region = $region_helper->getRegion();
+        $reseller_helper = new ResellerHelper();
         $get_reseller_status = $reseller_helper->loadOrCreate(
             $this->object_ownerAvatarLinkatar->getId(),
             $this->slconfig->getNewResellers(),
@@ -150,7 +150,7 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("message", "Unable to load reseller");
             return;
         }
-        $this->reseller = $reseller_helper->get_reseller();
+        $this->reseller = $reseller_helper->getReseller();
         if ($this->slconfig->getOwnerAvatarLink() == $this->object_ownerAvatarLinkatar->getId()) {
             $this->owner_override = true;
         }
@@ -159,7 +159,7 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("message", "Unable to access this api - please contact owner");
             return;
         }
-        $object_helper = new object_helper();
+        $object_helper = new ObjectHelper();
         $get_object_status = $object_helper->loadOrCreate(
             $this->object_ownerAvatarLinkatar->getId(),
             $this->region->getId(),
@@ -174,7 +174,7 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("message", "Unable to attach object");
             return;
         }
-        $this->object = $object_helper->get_object();
+        $this->object = $object_helper->getObject();
     }
 
     protected function timeWindow(): void

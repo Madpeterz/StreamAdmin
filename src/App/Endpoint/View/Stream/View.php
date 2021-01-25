@@ -13,12 +13,12 @@ abstract class View extends BasicView
         parent::__construct();
         $package = new Package();
         if ($package->HasAny() == false) {
-            $this->output->redirect("package?message=Please create a package before creating a stream");
+            $this->output->redirectWithMessage("package", "Please create a package before creating a stream");
             return;
         }
         $server = new Server();
         if ($server->HasAny() == false) {
-                $this->output->redirect("server?message=Please create a server before creating a stream");
+            $this->output->redirectWithMessage("package", "Please create a server before creating a stream");
         }
         $this->setSwapTag("html_title", "Streams");
         $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");

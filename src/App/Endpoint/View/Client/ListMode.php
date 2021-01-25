@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Endpoint\View\Avatar;
+namespace App\Endpoint\View\Client;
 
-use App\Endpoint\View\Client\RenderList;
 use App\Models\AvatarSet;
 use App\Models\RentalSet;
 use App\Models\StreamSet;

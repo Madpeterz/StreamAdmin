@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Template;
+namespace App\Template\Output;
+
+use YAPF\InputFilter\InputFilter;
 
 class Template extends Cache
 {
@@ -10,8 +12,9 @@ class Template extends Cache
     protected $redirect_enabled = false;
     protected $redirect_offsite = false;
     protected $redirect_to = "";
-    public function __construct($with_defaults = true)
+    public function __construct(bool $with_defaults = true)
     {
+        parent::__construct($with_defaults);
         if ($with_defaults == true) {
             $this->tempalte_parts["topper"] = '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -48,6 +51,11 @@ class Template extends Cache
                 $this->siteName("StreamAdmin R7");
             }
         }
+    }
+    public function redirectWithMessage(string $to, string $message, string $level = "info"): void
+    {
+        $to = "" . $to . "?bubblemessage=" . $message . "&bubbletype=" . $level;
+        $this->redirect($to);
     }
     public function redirect(string $to, bool $offsite = false): void
     {
@@ -97,6 +105,14 @@ class Template extends Cache
         $this->setSwapTag("AREA", $area);
         $this->setSwapTag("PAGE", $page);
 
+        $inputfilter = new InputFilter();
+        $bubblemessage = htmlspecialchars($inputfilter->getFilter("bubblemessage"));
+        $bubbletype = $inputfilter->getFilter("bubbletype");
+
+        if (in_array($bubbletype, ["info","warning","danger","success"]) == true) {
+            $this->addSwapTagString("html_js_onready", "alert_" . $bubbletype . "(\"" . $bubblemessage . "\");\n");
+        }
+
         if ($this->redirect_enabled == true) {
             if ($this->redirect_offsite == true) {
                 if (!headers_sent()) {
@@ -108,10 +124,13 @@ class Template extends Cache
                 if ($this->urlBase() == null) {
                     $this->urlBase("https://localhost");
                 }
+                if ($this->redirect_to == "here") {
+                    $this->redirect_to = "";
+                }
                 if (!headers_sent()) {
                     header("Location: " . $this->urlBase() . "" . $this->redirect_to . "");
                 } else {
-                    print "<meta http-equiv=\"refresh\" content=\"0; url=";
+                    print " < meta http - equiv = \"refresh\" content=\"0; url=";
                     print $this->urlBase() . "/" . $this->redirect_to . "\">";
                 }
             }
@@ -132,6 +151,7 @@ class Template extends Cache
         );
         $this->defaultSwapTags();
         $this->addVendor("website");
+        $this->loadMenu();
     }
     public function tempateFull(): void
     {
@@ -169,5 +189,88 @@ class Template extends Cache
         $this->setSwapTag("page_content", "");
         $this->setSwapTag("html_title", "");
         $this->setSwapTag("html_js_onready", "");
+    }
+    protected function loadMenu(): void
+    {
+        global $module;
+        $menu_items = [
+            "Dashboard" => [
+                "icon" => "fas fa-home",
+                "target" => "",
+                "active_on" => ["home"],
+            ],
+            "Clients" => [
+                "icon" => "fas fa-users",
+                "target" => "client",
+                "active_on" => ["client"],
+            ],
+            "Reports" => [
+                "icon" => "fas fa-balance-scale-right",
+                "target" => "reports",
+                "active_on" => ["reports"],
+            ],
+            "Outbox" => [
+                "icon" => "fas fa-mail-bulk",
+                "target" => "outbox",
+                "active_on" => ["outbox"],
+            ],
+            "Streams" => [
+                "icon" => "fas fa-satellite-dish",
+                "target" => "stream",
+                "active_on" => ["stream"],
+            ],
+            "Packages" => [
+                "icon" => "fas fa-box",
+                "target" => "package",
+                "active_on" => ["package"],
+            ],
+            "Resellers" => [
+                "icon" => "fas fa-portrait",
+                "target" => "reseller",
+                "active_on" => ["reseller"],
+            ],
+            "TreeVend" => [
+                "icon" => "fas fa-list-ul",
+                "target" => "tree",
+                "active_on" => ["tree"],
+            ],
+            "Config" => [
+                "icon" => "fas fa-cogs",
+                "target" => "config",
+                "active_on" => [
+                    "banlist",
+                    "config",
+                    "template",
+                    "slconfig",
+                    "textureconfig",
+                    "avatar",
+                    "transactions",
+                    "staff",
+                    "notice",
+                    "objects",
+                    "server",
+                ],
+            ],
+        ];
+
+        $output = "";
+        foreach ($menu_items as $menu_key => $menu_config) {
+            $output .= '<li class="nav-item">';
+            $output .= '<a href="[[url_base]]' . $menu_config["target"] . '" class="nav-link';
+            if (in_array($module, $menu_config["active_on"]) == true) {
+                $output .= " active";
+                $this->addSwapTagString(
+                    "page_breadcrumb_icon",
+                    '<i class="' . $menu_config["icon"] . ' text-success"></i>'
+                );
+                $this->addSwapTagString(
+                    "page_breadcrumb_text",
+                    '<a href="[[url_base]]' . $menu_config["target"] . '">' . $menu_key . '</a>'
+                );
+            }
+            $output .= '"><i class="' . $menu_config["icon"] . ' text-success"></i> ' . $menu_key . '</a>';
+            $output .= '</li>';
+        }
+        $this->setSwapTag("html_menu", $output);
     }
 }

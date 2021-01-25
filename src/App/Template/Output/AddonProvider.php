@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Template;
+namespace App\Template\Output;
 
 abstract class AddonProvider extends SwapTags
 {
@@ -45,21 +45,20 @@ abstract class AddonProvider extends SwapTags
     }
     protected function onAdd(string $provider): void
     {
-        global $view_reply;
         if ($provider == "datatable") {
-            $this->output->addSwapTagString("html_js_onready", "
+            $this->addSwapTagString("html_js_onready", "
         $('.datatable-default').DataTable({
           'order': [[ 0, 'desc' ]],
           responsive: true,
         ");
             if (version_compare($this->slconfig->getDbVersion(), "1.0.0.4", ">") == true) {
-                $this->output->addSwapTagString("html_js_onready", "
+                $this->addSwapTagString("html_js_onready", "
                 pageLength: " . $this->slconfig->getDatatableItemsPerPage() . ",
                 lengthMenu: [[" . $this->slconfig->getDatatableItemsPerPage() . ", "
                 . "10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
                 ");
             }
-            $this->output->addSwapTagString("html_js_onready", "
+            $this->addSwapTagString("html_js_onready", "
           language: {
             searchPlaceholder: 'Search...',
             sSearch: '',
@@ -80,7 +79,6 @@ abstract class AddonProvider extends SwapTags
         bool $css_only = false,
         bool $js_only = false
     ): void {
-        global $registered_vendors;
         $providers = [
         "website" => [
             "require_before" => [
@@ -178,7 +176,6 @@ abstract class AddonProvider extends SwapTags
     }
     protected function addCssToPage(string $provider_name, array $provider, string $file = ""): void
     {
-        global $view_reply, $registered_vendors;
         $load_path = "[[url_base]]3rdparty/" . $provider["main_folder"] . "";
         if (array_key_exists("local_folder", $provider) == true) {
             $load_path .= "/" . $provider["local_folder"] . "";

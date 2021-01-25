@@ -1,10 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\Banlist;
-
-use App\Endpoint\View\Avatar\ListMode;
-use App\Endpoint\View\Avatar\SelectNoticeLevel;
-use App\Endpoint\View\Client\View as View;
+namespace App\Endpoint\View\Client;
 
 class DefaultView extends View
 {
