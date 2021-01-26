@@ -36,7 +36,7 @@ abstract class RenderList extends View
             if ($av_detail[1] == "Resident") {
                 $entry[] = $av_detail[0];
             }
-            $entry = $name;
+            $entry[] = $name;
             $entry[] = $stream->getPort();
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""

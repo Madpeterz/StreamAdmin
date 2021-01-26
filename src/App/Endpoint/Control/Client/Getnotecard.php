@@ -2,13 +2,13 @@
 
 namespace App\Endpoint\Control\Client;
 
+use App\Helpers\SwapablesHelper;
 use App\Models\Avatar;
 use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
 use App\Template\ViewAjax;
-use swapables_helper;
 
 class Getnotecard extends ViewAjax
 {
@@ -47,10 +47,10 @@ class Getnotecard extends ViewAjax
         . "Encoder/Stream password: [[STREAM_DJPASSWORD]][[NL]]"
         . "===========================[[NL]][[NL]]"
         . "Expires: [[RENTAL_EXPIRES_DATETIME]]";
-        $swapables_helper = new swapables_helper();
+        $swapables_helper = new SwapablesHelper();
         $this->setSwapTag(
             "message",
-            $swapables_helper->get_swapped_text($viewnotecard, $avatar, $rental, $package, $server, $stream)
+            $swapables_helper->getSwappedText($viewnotecard, $avatar, $rental, $package, $server, $stream)
         );
     }
 }

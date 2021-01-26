@@ -100,14 +100,16 @@ abstract class HomeLoadData extends View
         $rental = new Rental();
         $group_count = $this->sql->groupCountV2($rental->getTable(), "noticeLink");
         if ($group_count["status"] == true) {
-            foreach ($group_count["dataset"] as $key => $count) {
-                $notice = $notice_set->getObjectByID($key);
-                if ($notice->getHoursRemaining() <= 0) {
-                    $this->client_expired += $count;
-                } elseif ($notice->getHoursRemaining() > 24) {
-                    $this->client_ok += $count;
-                } else {
-                    $this->client_expires_soon += $count;
+            foreach ($group_count["dataset"] as $entry) {
+                if ($entry["Entrys"] > 0) {
+                    $notice = $notice_set->getObjectByID($entry["noticeLink"]);
+                    if ($notice->getHoursRemaining() <= 0) {
+                        $this->client_expired += $entry["Entrys"];
+                    } elseif ($notice->getHoursRemaining() > 24) {
+                        $this->client_ok += $entry["Entrys"];
+                    } else {
+                        $this->client_expires_soon += $entry["Entrys"];
+                    }
                 }
             }
         }

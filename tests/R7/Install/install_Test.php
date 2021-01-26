@@ -10,7 +10,6 @@ use App\Endpoint\View\Install\Test as InstallerStep2;
 use App\Models\Avatar;
 use App\Models\Slconfig;
 use PHPUnit\Framework\TestCase;
-use YAPF\MySQLi\MysqliEnabled;
 
 class Installer extends TestCase
 {
@@ -53,11 +52,18 @@ class Installer extends TestCase
     public function test_ClearDatabase()
     {
         global $sql;
+        if($sql->getDatabaseName() != "test") {
+            die("Error - Running test_InstallDatabase / test_ClearDatabase via unit test not on the test database!");
+        }
         $status = $sql->rawSQL("tests/wipeDB.sql");
         $this->assertSame(true,$status["status"]);
     }
     public function test_InstallDatabase()
     {
+        global $sql;
+        if($sql->getDatabaseName() != "test") {
+            die("Error - Running test_InstallDatabase / test_ClearDatabase via unit test not on the test database!");
+        }
         $Install = new InstallerStep3();
         $Install->process();
         $statuscheck = $Install->getOutputObject()->getSwapTagString("page_content");

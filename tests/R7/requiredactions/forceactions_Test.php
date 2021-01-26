@@ -2,9 +2,12 @@
 
 namespace StreamadminTest;
 
+use App\Endpoint\Control\Client\Create as CreateCleintHandler;
 use App\Endpoint\Control\Package\Create as PackageCreateHandler;
 use App\Endpoint\Control\Server\Create as serverCreateHandler;
 use App\Endpoint\Control\Stream\Create as streamCreateHandler;
+use App\Endpoint\View\Client\Create as ClientCreateForm;
+use App\Endpoint\View\Client\DefaultView as clientListByNoticeLevel;
 use App\Endpoint\View\Package\Create as PackageCreateForm;
 use App\Endpoint\View\Home\DefaultView as Dashboard;
 use App\Endpoint\View\Package\DefaultView as PackagesList;
@@ -194,7 +197,42 @@ class ForcedActions extends TestCase
         $statuscheck = $streamCreateHandler->getOutputObject();
         $this->assertStringContainsString("Stream created",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
-        
+    }
+
+    public function test_clientListByNoticeLevel()
+    {
+        $clientListByNoticeLevel = new clientListByNoticeLevel();
+        $clientListByNoticeLevel->process();
+        $statuscheck = $clientListByNoticeLevel->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing clients list element";
+        $this->assertStringContainsString("<table",$statuscheck,$missing);
+        $this->assertStringContainsString("NoticeLevel",$statuscheck,$missing);
+        $this->assertStringContainsString("Count",$statuscheck,$missing);
+    }
+
+    public function test_ShowClientCreateForm()
+    {
+        $ClientCreateForm = new ClientCreateForm();
+        $ClientCreateForm->process();
+        $statuscheck = $ClientCreateForm->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing client create element";
+        $this->assertStringContainsString("Basics",$statuscheck,$missing);
+        $this->assertStringContainsString("Find/Add avatar",$statuscheck,$missing);
+        $this->assertStringContainsString("you must use the UID!",$statuscheck,$missing);
+        $this->assertStringContainsString("Create",$statuscheck,$missing);
+    }
+
+    public function test_CreateClient()
+    {
+        global $_POST;
+        $CreateCleintHandler = new CreateCleintHandler();
+        $_POST["avataruid"] = "MadpeterUnit ZondTest";
+        $_POST["streamuid"] = 8002;
+        $_POST["daysremaining"] = 7;
+        $CreateCleintHandler->process();
+        $statuscheck = $CreateCleintHandler->getOutputObject();
+        $this->assertStringContainsString("Client created",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
 }

@@ -36,24 +36,24 @@ class Create extends ViewAjax
             "matches" => ["=","=","="],
             "values" => [$avataruid,$avataruid,$avataruid],
             "types" => ["s","s","s"],
-            "join_with" => ["(OR)","(OR)"],
+            "join_with" => ["OR","OR"],
         ];
 
         $avatar_set->loadWithConfig($avatar_where_config);
+        if ($avatar_set->getCount() != 1) {
+            $this->setSwapTag("message", "Unable to find avatar: " . $avatar_set->getLastSql());
+            return;
+        }
 
         $stream_where_config = [
             "fields" => ["port","streamUid"],
             "matches" => ["=","="],
             "values" => [$streamuid,$streamuid],
             "types" => ["i","s"],
-            "join_with" => ["(OR)"],
+            "join_with" => ["OR"],
         ];
 
         $stream_set->loadWithConfig($stream_where_config);
-        if ($avatar_set->getCount() != 1) {
-            $this->setSwapTag("message", "Unable to find avatar");
-            return;
-        }
         if ($stream_set->getCount() != 1) {
             $this->setSwapTag("message", "Unable to find stream");
             return;

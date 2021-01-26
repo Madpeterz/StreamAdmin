@@ -19,6 +19,11 @@ abstract class MysqliCore extends Db
         $this->ExpectedErrorFlag = $flagStatus;
     }
 
+    public function getDatabaseName(): string
+    {
+        return $this->dbName;
+    }
+
     public function __destruct()
     {
         $this->shutdown();
