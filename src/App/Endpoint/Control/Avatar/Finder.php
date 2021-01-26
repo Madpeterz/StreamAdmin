@@ -47,9 +47,9 @@ class Finder extends ViewAjax
         usort($scored_results, function ($a, $b) {
             return $a['score'] <=> $b['score'];
         });
-        $this->setSwapTagArray("values", []);
+        $this->output->setSwapTagArray("values", []);
         if (count($scored_results) > 0) {
-            $this->setSwapTagArray("values", $scored_results[0]);
+            $this->output->setSwapTagArray("values", $scored_results[0]);
         }
         $this->setSwapTag("message", "ok");
     }

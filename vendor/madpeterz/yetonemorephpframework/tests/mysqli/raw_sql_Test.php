@@ -24,7 +24,7 @@ class mysqli_raw_test extends TestCase
         $results = $this->sql->rawSQL("tests/testdataset.sql");
         // [status =>  bool, message =>  string]
         $this->assertSame($results["status"], true);
-        $this->assertSame($results["message"], "62 commands run");
+        $this->assertSame($results["message"], "65 commands run");
         $results = $this->sql->rawSQL("tests/fake.sql");
         $this->assertSame($results["status"], false);
         $this->assertSame($results["message"], "Unable to see file to read");

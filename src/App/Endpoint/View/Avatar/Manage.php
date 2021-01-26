@@ -22,6 +22,7 @@ class Manage extends View
             $this->output->redirect("avatar?bubblemessage=unable to find avatar&bubbletype=warning");
             return;
         }
+        $this->output->addSwapTagString("page_title", " : " . $avatar->getAvatarName() . " [" . $avatar->getAvatarUid() . "]");
         $form = new form();
         $form->target("avatar/update/" . $this->page . "");
         $form->required(true);

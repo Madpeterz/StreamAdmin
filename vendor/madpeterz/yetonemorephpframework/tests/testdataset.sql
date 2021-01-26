@@ -2,6 +2,16 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `test`;
 
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS  `apirequests`, `apis`, `avatar`, `banlist`,
+`botconfig`, `detail`, `event`, `message`, `notecard`,
+`notice`, `noticenotecard`, `objects`, `package`,
+`region`, `rental`, `reseller`, `server`,
+`servertypes`, `slconfig`, `staff`, `stream`,
+`template`, `textureconfig`, `timezones`,
+`transactions`, `treevender`, `treevenderpackages`;
+SET FOREIGN_KEY_CHECKS = 1;
+
 DROP TABLE IF EXISTS `alltypestable`;
 CREATE TABLE `alltypestable` (
   `id` int(11) NOT NULL,

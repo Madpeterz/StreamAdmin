@@ -101,7 +101,7 @@ abstract class MysqliWhere extends MysqliFunctions
         string $type
     ): void {
         $adj = str_replace(" ", "", $match);
-        $value = strtr($adj, "LIKE", $value);
+        $value = str_replace("LIKE", $value, $adj);
         $match = "LIKE";
         $current_where_code .= "" . $field . " " . $match . " ? ";
         $bind_text .= $type;

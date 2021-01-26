@@ -68,8 +68,8 @@ class DefaultView extends View
         $form->required(false);
         $form->col(4);
         $form->group("Search: Name or UUID");
-        $form->textInput("name", "Name", 30, "", "2 letters min to match");
-        $form->textInput("uuid", "SL UUID", 36, "", "a full UUID to match");
+        $form->textInput("name", "Name", 30, $name, "2 letters min to match");
+        $form->textInput("uuid", "SL UUID", 36, $uuid, "a full UUID to match");
         $this->output->addSwapTagString("page_content", $form->render("Start", "info"));
     }
 }

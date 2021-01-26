@@ -26,6 +26,17 @@ abstract class SwapTags
         }
         return $this->swaptags[$tagname];
     }
+    /**
+     * getSwapTagArray
+     * @return mixed[]
+     */
+    public function getSwapTagArray(string $tagname): ?array
+    {
+        if (array_key_exists($tagname, $this->swaptags) == false) {
+            $this->swaptags[$tagname] = [];
+        }
+        return $this->swaptags[$tagname];
+    }
     public function getSwapTagBool(string $tagname): ?bool
     {
         if (array_key_exists($tagname, $this->swaptags) == false) {

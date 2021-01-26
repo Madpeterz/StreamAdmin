@@ -42,4 +42,6 @@ abstract class CollectionSetCore extends SqlConnectedClass
     {
         $this->collected[$object->getId()] = $object;
     }
+
+    //* - Added so git would save the line ending change
 }

@@ -14,6 +14,7 @@
         <directory>tests/R7/install</directory>
         <directory>tests/R7/login</directory>
         <directory>tests/R7/requiredactions</directory>
+        <directory>tests/R7/batchable</directory>
       </testsuite>
   </testsuites>
   <filter>

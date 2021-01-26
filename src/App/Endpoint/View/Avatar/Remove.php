@@ -9,7 +9,7 @@ class Remove extends View
     public function process(): void
     {
         $this->output->addSwapTagString("html_title", "~ Remove");
-        $this->setSwapTag("page_title", "Remove avatar");
+        $this->setSwapTag("page_title", "Remove avatar: ");
         $this->output->addSwapTagString("page_title", $this->page);
         $this->setSwapTag("page_actions", "");
         $form = new Form();

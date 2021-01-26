@@ -6,9 +6,10 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        $check_objects = ["App\Server","App\Template","App\Package","App\Stream","App\Slconfig","App\Textureconfig"];
+        $check_objects = ["Server","Template","Package","Stream","Slconfig","Textureconfig"];
         $all_ok = true;
         foreach ($check_objects as $check) {
+            $check = "App\\Models\\" . $check;
             $obj = new $check();
             if ($obj->HasAny() == false) {
                 $all_ok = false;
