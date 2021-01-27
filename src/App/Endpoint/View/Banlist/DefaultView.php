@@ -69,7 +69,7 @@ class DefaultView extends View
             $entry = [];
             $entry[] = $banlist->getId();
             $form = new form();
-            $form->target("banlist/clear/'.$ban_id.'");
+            $form->target("banlist/clear/" . $ban_id);
             $form->required(true);
             $entry[] = $avatar->getAvatarName();
             $entry[] = $form->render("Remove", "danger");

@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Client;
 
 use App\Template\Form;
 
-class Create extends View
+class Revoke extends View
 {
     public function process(): void
     {

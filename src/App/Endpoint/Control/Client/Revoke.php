@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Client;
 
+use App\MediaServer\Logic\ApiLogicRevoke;
 use App\Models\ApirequestsSet;
 use App\Models\Avatar;
 use App\Models\Package;
@@ -53,7 +54,7 @@ class Revoke extends ViewAjax
             return;
         }
 
-        if ($stream->loadID($rental->getStreamLink()) == true) {
+        if ($stream->loadID($rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to find attached stream");
             return;
         }
@@ -90,15 +91,17 @@ class Revoke extends ViewAjax
             return;
         }
 
-        $rental = null;
-        $api_serverlogic_reply = false;
-        include "shared/media_server_apis/logic/revoke.php";
+        $api_serverlogic_reply = true;
+        $apilogic = new ApiLogicRevoke();
         if ($api_serverlogic_reply == false) {
-            $this->setSwapTag("message", $why_failed);
+            $this->setSwapTag("message", $apilogic->getApiServerLogicReply()["message"]);
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("redirect", "client");
+
+        $this->setSwapTag("status", $api_serverlogic_reply);
+        if ($api_serverlogic_reply == true) {
+            $this->setSwapTag("redirect", "client");
+        }
         $this->setSwapTag("message", "Client rental revoked");
     }
 }

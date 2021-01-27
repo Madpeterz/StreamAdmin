@@ -13,7 +13,7 @@ use App\Endpoint\View\Avatar\Remove;
 use App\Models\Avatar as ModelsAvatar;
 use PHPUnit\Framework\TestCase;
 
-class Avatar extends TestCase
+class AvatarTest extends TestCase
 {
     public function test_Default()
     {

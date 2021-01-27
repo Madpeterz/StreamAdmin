@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\Banlist;
+namespace App\Endpoint\View\Bot;
 
 use App\Models\Avatar;
 use App\Models\Botconfig;

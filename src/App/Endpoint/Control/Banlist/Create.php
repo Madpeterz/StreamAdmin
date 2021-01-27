@@ -31,12 +31,12 @@ class Create extends ViewAjax
             return;
         }
         $avatar = $avatar_set->getFirst();
-        $banlist = new banlist();
+        $banlist = new Banlist();
         if ($banlist->loadByField("avatarLink", $avatar->getId()) == true) {
             $this->setSwapTag("message", "The target avatar is already banned");
             return;
         }
-        $banlist = new banlist();
+        $banlist = new Banlist();
         $banlist->setAvatarLink($avatar->getId());
         $create_status = $banlist->createEntry();
         if ($create_status["status"] == false) {

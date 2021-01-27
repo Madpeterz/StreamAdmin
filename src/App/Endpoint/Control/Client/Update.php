@@ -28,7 +28,7 @@ class Update extends ViewAjax
         $rental->setAvatarLink($avatar->getId());
         $this->actions_taken .= "\n Ownership transfered";
         $this->message .= sprintf(
-            "\n %1\$s - Transfer to: %2\$s [%3\$s] from %4 [%5]",
+            "\n %1\$s - Transfer to: %2\$s [%3\$s] from %4\$s [%5\$s]",
             date("F j, Y, g:i a", time()),
             $avatar->getAvatarName(),
             $avatar->getAvatarUid(),
@@ -124,11 +124,8 @@ class Update extends ViewAjax
 
     public function process(): void
     {
-
-
         $rental = new Rental();
         $input = new InputFilter();
-
 
         $this->actions_taken = "";
         $this->issues = "";
@@ -161,7 +158,6 @@ class Update extends ViewAjax
 
         if (($adjustment_days > 0) || ($adjustment_hours > 0)) {
             $this->adjustTimeleft($rental, $adjustment_days, $adjustment_hours, $adjustment_dir);
-            $this->transerRental($rental, $transfer_avataruid);
             if ($this->issues != "") {
                 $this->setSwapTag("message", $this->issues);
                 return;
@@ -192,6 +188,6 @@ class Update extends ViewAjax
         }
         $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "client/manage/" . $this->page);
-        $this->setSwapTag("message", "Updated ok");
+        $this->setSwapTag("message", $this->actions_taken);
     }
 }

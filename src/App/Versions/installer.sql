@@ -3,9 +3,9 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 DROP TABLE IF EXISTS `apirequests`;
 CREATE TABLE `apirequests` (
   `id` int(11) NOT NULL,
-  `serverlink` int(11) NOT NULL,
-  `rentallink` int(11) DEFAULT NULL,
-  `streamlink` int(11) NOT NULL,
+  `serverLink` int(11) NOT NULL,
+  `rentalLink` int(11) DEFAULT NULL,
+  `streamLink` int(11) NOT NULL,
   `eventname` text NOT NULL,
   `attempts` int(11) NOT NULL DEFAULT 0,
   `lastAttempt` int(11) NOT NULL DEFAULT 0,
@@ -387,9 +387,9 @@ CREATE TABLE `treevenderpackages` (
 
 ALTER TABLE `apirequests`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `serverlink` (`serverlink`),
-  ADD KEY `rentallink` (`rentallink`),
-  ADD KEY `streamlink` (`streamlink`);
+  ADD KEY `serverLink` (`serverLink`),
+  ADD KEY `rentalLink` (`rentalLink`),
+  ADD KEY `streamLink` (`streamLink`);
 
 ALTER TABLE `apis`
   ADD PRIMARY KEY (`id`);
@@ -523,16 +523,16 @@ ALTER TABLE `apirequests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `apis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `avatar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `banlist`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `botconfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `detail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -541,22 +541,22 @@ ALTER TABLE `event`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `notecard`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `notice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `noticenotecard`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `objects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `package`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `region`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -568,28 +568,28 @@ ALTER TABLE `reseller`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `server`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `servertypes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `slconfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `staff`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `stream`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `textureconfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `timezones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `transactions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -602,9 +602,9 @@ ALTER TABLE `treevenderpackages`
 
 
 ALTER TABLE `apirequests`
-  ADD CONSTRAINT `apirequest_rental_inuse` FOREIGN KEY (`rentallink`) REFERENCES `rental` (`id`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `apirequest_server_inuse` FOREIGN KEY (`serverlink`) REFERENCES `server` (`id`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `apirequest_stream_inuse` FOREIGN KEY (`streamlink`) REFERENCES `stream` (`id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `rental_in_use_apirequests` FOREIGN KEY (`rentalLink`) REFERENCES `rental` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `server_in_use_apirequests` FOREIGN KEY (`serverLink`) REFERENCES `server` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `stream_in_use_apirequests` FOREIGN KEY (`streamLink`) REFERENCES `stream` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `banlist`
   ADD CONSTRAINT `avatar_in_use_banlist` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION;

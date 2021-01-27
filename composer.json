@@ -33,6 +33,9 @@
         "dev-test": [
             "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "
         ],
+        "dev-install": [
+            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite Install "
+        ],
         "dev-full": [
             "@phpcs",
             "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "

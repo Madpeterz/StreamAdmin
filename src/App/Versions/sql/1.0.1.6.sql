@@ -291,3 +291,19 @@ UPDATE `apis` SET `name` = 'MediaCp' WHERE `apis`.`id` = 3;
 UPDATE `apis` SET `name` = 'WhmSonic' WHERE `apis`.`id` = 4; 
 UPDATE `apis` SET `name` = 'Secondbot' WHERE `apis`.`id` = 5; 
 UPDATE `apis` SET `name` = 'Azurecast' WHERE `apis`.`id` = 6;
+ALTER TABLE `apirequests` DROP FOREIGN KEY apirequest_rental_inuse;
+ALTER TABLE `apirequests` DROP FOREIGN KEY apirequest_server_inuse;
+ALTER TABLE `apirequests` DROP FOREIGN KEY apirequest_stream_inuse;
+ALTER TABLE `apirequests` DROP INDEX `streamlink`;
+ALTER TABLE `apirequests` DROP INDEX `rentallink`;
+ALTER TABLE `apirequests` DROP INDEX `serverlink`;
+ALTER TABLE `apirequests` 
+CHANGE `serverlink` `serverLink` INT(11) NOT NULL, 
+CHANGE `rentallink` `rentalLink` INT(11) NULL DEFAULT NULL, 
+CHANGE `streamlink` `streamLink` INT(11) NOT NULL;
+ALTER TABLE `apirequests` ADD INDEX(`serverLink`);
+ALTER TABLE `apirequests` ADD INDEX(`rentalLink`);
+ALTER TABLE `apirequests` ADD INDEX(`streamLink`);
+ALTER TABLE `apirequests` ADD CONSTRAINT `rental_in_use_apirequests` FOREIGN KEY (`rentalLink`) REFERENCES `rental`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `apirequests` ADD CONSTRAINT `server_in_use_apirequests` FOREIGN KEY (`serverLink`) REFERENCES `server`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `apirequests` ADD CONSTRAINT `stream_in_use_apirequests` FOREIGN KEY (`streamLink`) REFERENCES `stream`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '333668970964c0c1faee4c4688c18d3ae3fdcde9',
+    'reference' => '1d7990189d16be9e2b12719b81d7943ea9fde9ab',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -63,7 +63,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '333668970964c0c1faee4c4688c18d3ae3fdcde9',
+      'reference' => '1d7990189d16be9e2b12719b81d7943ea9fde9ab',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (

@@ -182,8 +182,8 @@ class ForcedActions extends TestCase
         global $_POST;
         $streamCreateHandler = new streamCreateHandler();
         $_POST["port"] = 8002;
-        $_POST["packageLink"] = 2;
-        $_POST["serverLink"] = 2;
+        $_POST["packageLink"] = 1;
+        $_POST["serverLink"] = 1;
         $_POST["mountpoint"] = "/live";
         $_POST["adminUsername"] = "UnitTesting";
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);

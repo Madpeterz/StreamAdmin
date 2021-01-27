@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\View\Client;
 
+use App\Helpers\ServerApiHelper;
 use App\Models\Avatar;
 use App\Models\AvatarSet;
 use App\Models\Package;
@@ -13,6 +14,7 @@ use App\Models\Stream;
 use App\Template\Form;
 use App\Template\Grid;
 use App\Models\TransactionsSet;
+use App\Template\PagedInfo;
 use paged_info;
 use serverapi_helper;
 
@@ -123,11 +125,11 @@ class Manage extends View
         if ($package->loadID($stream->getPackageLink()) == false) {
             return;
         }
-        $serverapi_helper = new serverapi_helper();
-        $serverapi_helper->force_set_rental($this->rental);
-        $serverapi_helper->force_set_server($server);
-        $serverapi_helper->force_set_package($package);
-        $serverapi_helper->force_set_stream($stream, false);
+        $serverapi_helper = new ServerApiHelper();
+        $serverapi_helper->forceSetRental($this->rental);
+        $serverapi_helper->forceSetServer($server);
+        $serverapi_helper->forceSetPackage($package);
+        $serverapi_helper->forceSetStream($stream, false);
         $mygrid = new Grid();
 
         $api_actions = [
@@ -143,7 +145,7 @@ class Manage extends View
             "purge_djs" => "danger",
         ];
         foreach ($api_actions as $key => $value) {
-            if ($serverapi_helper->callable_action("api_" . $key) == true) {
+            if ($serverapi_helper->callableAction("api" . ucfirst($key)) == true) {
                 $form = new Form();
                 $form->target("client/api/" . $this->page . "/" . $key);
                 $buttontext = str_replace("_", " ", ucfirst($key));
@@ -151,7 +153,7 @@ class Manage extends View
             }
         }
         $mygrid->addContent("<hr/>", 12);
-        if ($serverapi_helper->callable_action("api_set_passwords") == true) {
+        if ($serverapi_helper->callableAction("apiSetPasswords") == true) {
             $form = new Form();
             $form->target("client/api/" . $this->page . "/set_passwords");
             $form->group("API force set passwords");
@@ -173,7 +175,7 @@ class Manage extends View
         }
         $this->pages["API"] = $mygrid->getOutput();
         $avname = explode(" ", strtolower($this->avatar->getAvatarName()));
-        if ($serverapi_helper->callable_action("api_customize_username") == true) {
+        if ($serverapi_helper->callableAction("apiCustomizeUsername") == true) {
             $this->pages["API"] .= "<br/>customize username changes the admin username for the stream following"
             . " this ruleset<br/><ol>
             <li>Firstname eg:\"" . $avname[0] . "\"</li>
@@ -194,11 +196,12 @@ class Manage extends View
         . "<button type='button' class='btn btn-danger'>Revoke</button></a>");
 
         $this->rental = new Rental();
-        if ($this->rental->loadByField("rentalUid", $this->page) == true) {
-            $this->output->redirect("client?bubblemessage=unable to find client&bubbletype=warning");
+        if ($this->rental->loadByField("rentalUid", $this->page) == false) {
+            $this->output->redirect("client?bubblemessage=unable to find client "
+            . $this->page . "&bubbletype=warning");
             return;
         }
-        $paged_info = new paged_info();
+        $paged_info = new PagedInfo();
         $this->clientManageForm();
         $this->clientApiActions();
         $this->setSwapTag("page_content", $paged_info->render($this->pages));
