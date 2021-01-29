@@ -81,7 +81,8 @@ $(document).ready(function () {
                             }
                             if (jsondata.hasOwnProperty('redirect')) {
                                 jsondata.redirect = jsondata.redirect.replace("here", "");
-                                setTimeout(function () { $(location).attr('href', jsondata.redirect) }, redirectdelay);
+                                var urlgoto = url_base + jsondata.redirect;
+                                setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
                             }
                             else {
                                 setTimeout(function () { ajax_busy = false }, 1000);

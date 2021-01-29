@@ -16,7 +16,7 @@ class Manage extends View
         $this->setSwapTag("page_actions", "<a href='[[url_base]]tree/remove/" . $this->page
         . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
         $treevender = new Treevender();
-        if ($treevender->loadID($this->page) == false) {
+        if ($treevender->loadID(intval($this->page)) == false) {
             $this->output->redirect("tree?bubblemessage=unable to find tree vender&bubbletype=warning");
             return;
         }

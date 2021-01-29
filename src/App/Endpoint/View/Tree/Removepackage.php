@@ -28,8 +28,7 @@ class Removepackage extends View
             return;
         }
         $this->output->addSwapTagString("html_title", " ~ Remove");
-        $this->output->addSwapTagString("page_title", " Remove linked package:"
-        . $package->getName() . " from tree vender:" . $treevender->getName());
+        $this->output->addSwapTagString("page_title", "Remove package:" . $package->getName());
         $this->setSwapTag("page_actions", "");
 
         $form = new Form();
@@ -37,7 +36,16 @@ class Removepackage extends View
         $form->required(true);
         $form->col(6);
         $form->group("Warning");
-        $form->textInput("accept", "Type \"Accept\"", 30, "", "This will remove the link to the package");
+        $action = '
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-outline-danger active">
+        <input type="radio" value="Accept" name="accept" autocomplete="off" > Accept
+      </label>
+      <label class="btn btn-outline-secondary">
+        <input type="radio" value="Nevermind" name="accept" autocomplete="off" checked> Nevermind
+      </label>
+    </div>';
+        $form->directAdd($action);
         $this->setSwapTag("page_content", $form->render("Remove", "danger"));
     }
 }

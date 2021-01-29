@@ -177,8 +177,8 @@ class ComapreYears extends View
             }
             $entry[] = $dataset["title"];
             if ($dataset2["sum"] > 0) {
-                $entry[] = $dataset2["sum"];
                 $entry[] = $dataset2["counted"];
+                $entry[] = $dataset2["sum"];
             } else {
                 $entry[] = "";
                 $entry[] = "";

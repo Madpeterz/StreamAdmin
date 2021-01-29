@@ -3,7 +3,7 @@
 namespace App\Endpoint\View\Reports;
 
 use App\Models\TransactionsSet;
-use paged_info;
+use App\Template\PagedInfo;
 use YAPF\InputFilter\InputFilter;
 
 class BreakdownYear extends View
@@ -161,7 +161,7 @@ class BreakdownYear extends View
             [[$new_rentals,$renewed_rentals,$amount_new,$amount_renew]]
         );
         $pages["Month breakdown"] = $this->renderTable($table_head, $table_body);
-        $paged_info = new paged_info();
+        $paged_info = new PagedInfo();
         $this->setSwapTag("page_content", $paged_info->render($pages));
     }
 }

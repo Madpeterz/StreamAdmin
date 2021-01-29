@@ -8,7 +8,7 @@ class Grid
     protected $row_open = false;
     protected $col_open = false;
     protected $output = "";
-    public function getOutput(bool $show_steps = false): string
+    public function getOutput(): string
     {
         $this->closeCol();
         $this->closeRow();

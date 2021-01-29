@@ -56,6 +56,6 @@ class Remove extends ViewAjax
         if ($reseller->getId() <= 0) {
             return false;
         }
-        return $transactionsSet->updateFieldInCollection("resellerLink", $reseller->getId());
+        return $transactionsSet->updateFieldInCollection("resellerLink", $reseller->getId())["status"];
     }
 }

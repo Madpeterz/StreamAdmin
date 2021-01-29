@@ -7,6 +7,8 @@ use App\Endpoint\Control\Reseller\Update;
 use App\Endpoint\View\Reseller\DefaultView;
 use App\Endpoint\View\Reseller\Manage;
 use App\Endpoint\View\Reseller\Remove;
+use App\Helpers\AvatarHelper;
+use App\Helpers\ResellerHelper;
 use App\Models\Avatar;
 use App\Models\Reseller;
 use PHPUnit\Framework\TestCase;
@@ -15,15 +17,14 @@ class ResellerTest extends TestCase
 {
     public function test_Default()
     {
-        $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","MadpeterUnit ZondTest");
-        $this->assertSame(true,$status,"Unable to load test avatar");
-        $reseller = new Reseller();
-        $reseller->setAllowed(true);
-        $reseller->setAvatarLink($avatar->getId());
-        $reseller->setRate(34);
-        $status = $reseller->createEntry();
-        $this->assertSame(true,$status["status"],"Unable to create test reseller");
+        $avatarhelper = new AvatarHelper();
+        $status = $avatarhelper->loadOrCreate("289c3fa6-69b3-40c5-92f9-0c6a5d2f0766","Reseller Test");
+        $this->assertSame(true,$status,"Unable to create test avatar");
+        $avatar = $avatarhelper->getAvatar();
+        $resellerhelper = new ResellerHelper();
+        $status = $resellerhelper->loadOrCreate($avatar->getId(),true,44);
+        $this->assertSame(true,$status,"Unable to create test reseller");
+        $reseller = $resellerhelper->getReseller();
 
         $default = new DefaultView();
         $default->process();
@@ -32,7 +33,7 @@ class ResellerTest extends TestCase
         $this->assertStringContainsString("Name",$statuscheck,$missing);
         $this->assertStringContainsString("Allow",$statuscheck,$missing);
         $this->assertStringContainsString("Rate",$statuscheck,$missing);
-        $this->assertStringContainsString("34",$statuscheck,$missing);
+        $this->assertStringContainsString($reseller->getRate(),$statuscheck,$missing);
         $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
         $this->assertStringContainsString("Yes",$statuscheck,$missing);
         $this->assertStringContainsString("automagicly accepted",$statuscheck,$missing);
@@ -45,7 +46,7 @@ class ResellerTest extends TestCase
     {
         global $page;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","MadpeterUnit ZondTest");
+        $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status,"Unable to load test avatar");
         $page = $avatar->getAvatarUid();
         $reseller = new Reseller();
@@ -59,7 +60,7 @@ class ResellerTest extends TestCase
         $missing = "Missing reseller manage form element";
         $this->assertStringContainsString("Allow",$statuscheck,$missing);
         $this->assertStringContainsString("Rate (as %)",$statuscheck,$missing);
-        $this->assertStringContainsString("34",$statuscheck,$missing);
+        $this->assertStringContainsString($reseller->getRate(),$statuscheck,$missing);
     }
 
     /**
@@ -69,7 +70,7 @@ class ResellerTest extends TestCase
     {
         global $_POST, $page;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","MadpeterUnit ZondTest");
+        $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status,"Unable to load test avatar");
         $page = $avatar->getAvatarUid();
         $reseller = new Reseller();
@@ -99,7 +100,7 @@ class ResellerTest extends TestCase
     {
         global $page;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","MadpeterUnit ZondTest");
+        $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status,"Unable to load test avatar");
         $page = $avatar->getAvatarUid();
         $reseller = new Reseller();
@@ -124,7 +125,7 @@ class ResellerTest extends TestCase
     {
         global $page, $_POST;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","MadpeterUnit ZondTest");
+        $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status,"Unable to load test avatar");
         $page = $avatar->getAvatarUid();
         $reseller = new Reseller();

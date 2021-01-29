@@ -51,7 +51,7 @@ class Addpackage extends ViewAjax
             return;
         }
         $this->setSwapTag("status", true);
-        $this->setSwapTag("redirect", "tree/manage/" . $this->page . "");
+        $this->setSwapTag("redirect", "tree/manage/" . $treevender->getId() . "");
         $this->setSwapTag("message", "Package added to tree vender");
     }
 }
