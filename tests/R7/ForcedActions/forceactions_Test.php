@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Client\Create as CreateCleintHandler;
 use App\Endpoint\Control\Package\Create as PackageCreateHandler;

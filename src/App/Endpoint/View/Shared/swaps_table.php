@@ -49,5 +49,5 @@ $tableout = $this->renderTable($table_head, $table_body);
 if (defined("SWAPS_TABLE_PAGED") == true) {
     $pages["Swaps"] = $tableout;
 } else {
-    $this->output->addSwapTagString("page_content", $tableout);
+    $this->output->addSwapTagString("page_content", "<br/><hr/><br/>" . $tableout);
 }

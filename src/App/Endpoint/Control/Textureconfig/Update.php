@@ -90,14 +90,14 @@ class Update extends ViewAjax
         $textureconfig->setTreevendWaiting($treevendWaiting);
         $update_status = $textureconfig->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag("message", "Texture pack updated");
-            $this->setSwapTag("redirect", "textureconfig");
+            $this->setSwapTag(
+                "message",
+                sprintf("Unable to update Texture pack: %1\$s", $update_status["message"])
+            );
             return;
         }
         $this->setSwapTag("status", true);
-        $this->setSwapTag(
-            "message",
-            sprintf("Unable to update Texture pack: %1\$s", $update_status["message"])
-        );
+        $this->setSwapTag("message", "Texture pack updated");
+        $this->setSwapTag("redirect", "textureconfig");
     }
 }

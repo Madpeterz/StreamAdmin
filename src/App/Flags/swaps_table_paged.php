@@ -1,3 +1,5 @@
 <?php
 
-define("SWAPS_TABLE_PAGED", true);
+if (defined("SWAPS_TABLE_PAGED") == false) {
+    define("SWAPS_TABLE_PAGED", true);
+}

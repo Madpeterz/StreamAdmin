@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Server\Create as ServerCreate;
 use App\Endpoint\Control\Server\Remove as ServerRemove;

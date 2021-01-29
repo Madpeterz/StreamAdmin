@@ -6,6 +6,8 @@ use App\Template\Form;
 
 abstract class RangeForm extends RenderList
 {
+    protected $month = 1;
+    protected $year = 2021;
     public function process(): void
     {
         parent::process();

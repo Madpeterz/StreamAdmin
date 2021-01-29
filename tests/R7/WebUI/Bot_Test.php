@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Bot\Update;
 use App\Endpoint\View\Bot\DefaultView;

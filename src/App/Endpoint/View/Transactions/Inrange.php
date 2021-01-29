@@ -9,25 +9,25 @@ class Inrange extends RangeForm
     public function process(): void
     {
         $input = new InputFilter();
-        $month = $input->getFilter("month", "integer");
-        $year = $input->getFilter("year", "integer");
+        $this->month = $input->getFilter("month", "integer");
+        $this->year = $input->getFilter("year", "integer");
 
-        if ($month < 1) {
-            $month = 1;
-        } elseif ($month > 12) {
-            $month = 12;
+        if ($this->month < 1) {
+            $this->month = 1;
+        } elseif ($this->month > 12) {
+            $this->month = 12;
         }
-        if ($year < 2013) {
-            $year = 2013;
-        } elseif ($year > date("Y")) {
-            $year = date("Y");
+        if ($this->year < 2013) {
+            $this->year = 2013;
+        } elseif ($this->year > date("Y")) {
+            $this->year = date("Y");
         }
 
-        $start_unixtime = mktime(0, 0, 1, $month, 1, $year);
-        $end_month = $month + 1;
-        $end_year = $year;
+        $start_unixtime = mktime(0, 0, 1, $this->month, 1, $this->year);
+        $end_month = $this->month + 1;
+        $end_year = $this->year;
         if ($end_month > 12) {
-            $end_year + 1;
+            $end_year += 1;
             $end_month = 1;
         }
         $end_unixtime = mktime(0, 0, 1, $end_month, 1, $end_year);

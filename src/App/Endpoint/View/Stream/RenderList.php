@@ -24,7 +24,7 @@ abstract class RenderList extends View
 
         foreach ($this->streamSet->getAllIds() as $streamid) {
             $stream = $this->streamSet->getObjectByID($streamid);
-            $server = $this->server_set->getObjectByID($stream->getServerLink());
+            $server = $server_set->getObjectByID($stream->getServerLink());
 
 
             $entry = [];
@@ -40,7 +40,7 @@ abstract class RenderList extends View
             } elseif (in_array($stream->getRentalLink(), $this->rental_set_ids) == false) {
                 $entry[] = "Rented but cant find rental.";
             } else {
-                $rental = $this->rental_set->getObjectByID($stream->getRentalLink());
+                $rental = $this->rentalSet->getObjectByID($stream->getRentalLink());
                 $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
                 $av_detail = explode(" ", $avatar->getAvatarName());
                 $av_name = $avatar->getAvatarName();

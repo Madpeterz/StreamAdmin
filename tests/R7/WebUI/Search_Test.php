@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\View\Search\DefaultView;
 use PHPUnit\Framework\TestCase;

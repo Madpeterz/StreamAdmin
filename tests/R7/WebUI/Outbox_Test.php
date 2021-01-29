@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Outbox\Send;
 use App\Endpoint\View\Outbox\Api;

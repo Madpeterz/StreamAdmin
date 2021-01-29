@@ -3,6 +3,8 @@
 namespace App\Endpoint\SecondLifeApi\Buy;
 
 use App\Helpers\AvatarHelper;
+use App\Helpers\TransactionsHelper;
+use App\MediaServer\Logic\ApiLogicBuy;
 use App\MediaServer\Logic\Buy;
 use App\Models\ApirequestsSet;
 use App\Models\Avatar;
@@ -38,32 +40,6 @@ class Startrental extends SecondlifeAjax
             return $avatar_helper->getAvatar();
         }
         return null;
-    }
-
-    protected function createTransaction(
-        Avatar $avatar,
-        Package $package,
-        Stream $stream,
-        Reseller $reseller,
-        Region $region,
-        int $amountpaid
-    ): bool {
-        $transaction = new Transactions();
-        $uid_transaction = $transaction->createUID("transactionUid", 8, 10);
-        if ($uid_transaction["status"] == false) {
-            return false;
-        }
-        $transaction->setAvatarLink($avatar->getId());
-        $transaction->setPackageLink($package->getId());
-        $transaction->setStreamLink($stream->getId());
-        $transaction->setResellerLink($reseller->getId());
-        $transaction->setRegionLink($region->getId());
-        $transaction->setAmount($amountpaid);
-        $transaction->setUnixtime(time());
-        $transaction->setTransactionUid($uid_transaction["uid"]);
-        $transaction->setRenew(false);
-        $create_status = $transaction->createEntry();
-        return $create_status["status"];
     }
 
     protected function getPackage(string $packageuid): ?Package
@@ -192,7 +168,16 @@ class Startrental extends SecondlifeAjax
             return;
         }
 
-        $status = $this->createTransaction($avatar, $package, $stream, $this->reseller, $this->region, $amountpaid);
+        $TransactionsHelper = new TransactionsHelper();
+
+        $status = $TransactionsHelper->createTransaction(
+            $avatar,
+            $package,
+            $stream,
+            $this->reseller,
+            $this->region,
+            $amountpaid
+        );
         if ($status == false) {
             $this->setSwapTag("message", "Unable to create transaction");
             return;

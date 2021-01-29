@@ -15,7 +15,7 @@ class Inpackage extends Withstatus
             return;
         }
         $this->output->addSwapTagString("page_title", $package->getName());
-        $whereconfig = [
+        $this->whereconfig = [
             "fields" => ["packageLink"],
             "values" => [$package->getId()],
             "types" => ["i"],

@@ -9,7 +9,7 @@ class NeedWork extends Withstatus
     public function process(): void
     {
         $this->output->addSwapTagString("page_title", " With status: Need work");
-        $whereconfig = [
+        $this->whereconfig = [
             "fields" => ["needWork"],
             "values" => [1],
             "types" => ["i"],

@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Avatar\Create as AvatarCreate;
 use App\Endpoint\Control\Client\Create as ClientCreate;

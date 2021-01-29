@@ -11,7 +11,7 @@ class Onserver extends Withstatus
         $server = new Server();
         $server->loadID($this->page);
         $this->setSwapTag("page_title", " On server: " . $server->getDomain() . "");
-        $whereconfig = [
+        $this->whereconfig = [
             "fields" => ["serverLink"],
             "values" => [$server->getId()],
             "types" => ["i"],

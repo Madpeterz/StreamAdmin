@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Login\Reset;
 use App\Endpoint\Control\Login\Resetnow;

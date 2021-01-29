@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Reseller\Remove as ResellerRemove;
 use App\Endpoint\Control\Reseller\Update;

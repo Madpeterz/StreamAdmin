@@ -4,11 +4,13 @@ namespace App\Endpoint\View\Template;
 
 use App\Template\Form;
 use App\Models\Template;
+use App\Template\PagedInfo;
 
 class Manage extends View
 {
     public function process(): void
     {
+        global $pages;
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Manage");
         $this->setSwapTag("page_actions", "<a href='[[url_base]]template/remove/"
@@ -41,7 +43,11 @@ class Manage extends View
                 $template->getNotecardDetail(),
                 "Use swap tags as the placeholder"
             );
-        $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        include "" . ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
+        $pages = [];
+        $pages["Manage"] = $form->render("Update", "primary");
+        include ROOTFOLDER . "/App/Flags/swaps_table_paged.php";
+        include ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
+        $paged = new PagedInfo();
+        $this->setSwapTag("page_content", $paged->render($pages));
     }
 }

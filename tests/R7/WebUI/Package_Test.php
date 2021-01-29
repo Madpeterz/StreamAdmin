@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Package\Create as PackageCreate;
 use App\Endpoint\Control\Package\Remove as PackageRemove;

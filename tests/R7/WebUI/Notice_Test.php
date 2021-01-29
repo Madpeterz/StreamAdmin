@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Notice\Create as NoticeCreate;
 use App\Endpoint\Control\Notice\Remove as NoticeRemove;

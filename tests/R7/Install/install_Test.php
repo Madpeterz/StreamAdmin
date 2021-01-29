@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\View\Install\DefaultView as InstallerStep1;
 use App\Endpoint\View\Install\Finalstep as InstallerStep5;

@@ -1,6 +1,6 @@
 <?php
 
-namespace StreamadminTest;
+namespace StreamAdminR7;
 
 use App\Endpoint\Control\Objects\Clear as ObjectsClear;
 use App\Endpoint\View\Objects\Clear;

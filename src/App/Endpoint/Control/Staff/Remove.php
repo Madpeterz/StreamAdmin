@@ -40,6 +40,6 @@ class Remove extends ViewAjax
             return;
         }
         $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "staff member removed");
+        $this->setSwapTag("message", "Staff member removed");
     }
 }

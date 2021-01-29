@@ -9,7 +9,7 @@ class Sold extends Withstatus
     public function process(): void
     {
         $this->output->addSwapTagString("page_title", " With status: Sold");
-        $whereconfig = [
+        $this->whereconfig = [
             "fields" => ["rentalLink"],
             "values" => [null],
             "types" => ["s"],

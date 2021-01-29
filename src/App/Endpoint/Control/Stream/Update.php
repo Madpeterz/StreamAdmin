@@ -140,6 +140,7 @@ class Update extends ViewAjax
             $this->setSwapTag("message", $why_failed);
             return;
         }
+        $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Stream updated");
         $this->setSwapTag("redirect", "stream");
     }
