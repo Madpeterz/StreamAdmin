@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Client;
 
-abstract class Expired extends Withstatus
+class Expired extends Withstatus
 {
     public function process(): void
     {

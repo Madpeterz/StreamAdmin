@@ -174,7 +174,7 @@ abstract class HomeDisplayData extends HomeLoadData
             4
         );
         $this->sub_grid_clients->addContent(
-            '<h5><a href="[[url_base]]client/ok"><span class="badge badge-success">Ok '
+            '<h5><a href="[[url_base]]client/active"><span class="badge badge-success">Ok '
             . '<span class="badge badge-light">' . $this->client_ok . '</span></span></a></h5><br/>',
             4
         );

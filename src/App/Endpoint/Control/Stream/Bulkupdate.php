@@ -25,7 +25,7 @@ class Bulkupdate extends ViewAjax
         $streams_skipped_originalAdminUsername = 0;
         foreach ($stream_set->getAllIds() as $stream_id) {
             $stream = $stream_set->getObjectByID($stream_id);
-            if ($stream->getOriginalAdminUsername() == $stream->getAdminUsername()) {
+            if ($stream->getOriginalAdminUsername() != $stream->getAdminUsername()) {
                 $streams_skipped_originalAdminUsername++;
                 continue;
             }
@@ -59,6 +59,13 @@ class Bulkupdate extends ViewAjax
             return;
         }
         $this->setSwapTag("status", true);
+        $this->setSwapTag(
+            "message",
+            sprintf(
+                "%1\$s streams updated",
+                $streams_updated
+            )
+        );
         if ($streams_skipped_originalAdminUsername > 0) {
             $this->setSwapTag(
                 "message",
@@ -68,14 +75,6 @@ class Bulkupdate extends ViewAjax
                     $streams_skipped_originalAdminUsername
                 )
             );
-            return;
         }
-        $this->setSwapTag(
-            "message",
-            sprintf(
-                "%1\$s streams updated",
-                $streams_updated
-            )
-        );
     }
 }

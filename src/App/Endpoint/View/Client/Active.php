@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Client;
 
-abstract class Active extends Withstatus
+class Active extends Withstatus
 {
     public function process(): void
     {

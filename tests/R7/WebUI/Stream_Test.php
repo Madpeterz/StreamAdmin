@@ -2,16 +2,23 @@
 
 namespace StreamAdminR7;
 
+use App\Endpoint\Control\Stream\Bulkupdate as StreamBulkupdate;
 use App\Endpoint\Control\Stream\Create as StreamCreate;
 use App\Endpoint\Control\Stream\Remove as StreamRemove;
 use App\Endpoint\Control\Stream\Update;
+use App\Endpoint\View\Stream\Bulkupdate;
 use App\Endpoint\View\Stream\Create;
 use App\Endpoint\View\Stream\DefaultView;
 use App\Endpoint\View\Stream\Inpackage;
 use App\Endpoint\View\Stream\Manage;
+use App\Endpoint\View\Stream\NeedWork;
+use App\Endpoint\View\Stream\Onserver;
+use App\Endpoint\View\Stream\Ready;
 use App\Endpoint\View\Stream\Remove;
+use App\Endpoint\View\Stream\Sold;
 use App\Models\Package;
 use App\Models\Stream;
+use App\Models\StreamSet;
 use PHPUnit\Framework\TestCase;
 
 class StreamTest extends TestCase
@@ -193,4 +200,156 @@ class StreamTest extends TestCase
         $this->assertStringContainsString("Stream removed",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
+
+    /**
+     * @depends test_RemoveForm
+     */
+    public function test_Onserver()
+    {
+        global $page;
+        $page = 1;
+        $Onserver = new Onserver();
+        $Onserver->process();
+        $statuscheck = $Onserver->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing stream list onserver element";
+        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
+        $this->assertStringContainsString("8002",$statuscheck,$missing);
+        $this->assertStringContainsString("Sold",$statuscheck,$missing);
+        $this->assertStringContainsString("Testing",$statuscheck,$missing);
+    }
+
+    /**
+     * @depends test_RemoveForm
+     */
+    public function test_Ready()
+    {
+        $Ready = new Ready();
+        $Ready->process();
+        $statuscheck = $Ready->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing stream list ready element";
+        $this->assertStringContainsString("UID",$statuscheck,$missing);
+        $this->assertStringContainsString("Server",$statuscheck,$missing);
+        $this->assertStringContainsString("Port",$statuscheck,$missing);
+        $this->assertStringContainsString("Status",$statuscheck,$missing);
+    }
+
+    /**
+     * @depends test_RemoveForm
+     */
+    public function test_needWork()
+    {
+        $NeedWork = new NeedWork();
+        $NeedWork->process();
+        $statuscheck = $NeedWork->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing stream list needwork element";
+        $this->assertStringContainsString("UID",$statuscheck,$missing);
+        $this->assertStringContainsString("Server",$statuscheck,$missing);
+        $this->assertStringContainsString("Port",$statuscheck,$missing);
+        $this->assertStringContainsString("Status",$statuscheck,$missing);
+    }
+
+    /**
+     * @depends test_RemoveForm
+     */
+    public function test_sold()
+    {
+        $Sold = new Sold();
+        $Sold->process();
+        $statuscheck = $Sold->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing stream list Sold element";
+        $this->assertStringContainsString("UID",$statuscheck,$missing);
+        $this->assertStringContainsString("Server",$statuscheck,$missing);
+        $this->assertStringContainsString("Port",$statuscheck,$missing);
+        $this->assertStringContainsString("Status",$statuscheck,$missing);
+        $this->assertStringContainsString("Sold",$statuscheck,$missing);
+        $this->assertStringContainsString("8002",$statuscheck,$missing);
+        $this->assertStringContainsString("Testing",$statuscheck,$missing);
+    }
+
+     /**
+     * @depends test_sold
+     */
+    public function test_BulkUpdateForm()
+    {
+        global $_POST;
+        $port_loop = 9000;
+        $loop = 1;
+        $adminpasswords = [];
+        while($loop <= 10)
+        {
+            $streamCreateHandler = new StreamCreate();
+            $_POST["port"] = $port_loop+($loop*2);
+            $_POST["packageLink"] = 1;
+            $_POST["serverLink"] = 1;
+            $_POST["mountpoint"] = "/live";
+            $_POST["adminUsername"] = "MoreUnitTesting".$_POST["port"];
+            $adp = substr(md5($_POST["port"]."".microtime()."a"),0,8);
+            $_POST["adminPassword"] = $adp;
+            $adminpasswords[] = $adp;
+            $_POST["djPassword"] = substr(md5($_POST["port"]."".microtime()."b"),0,8);
+            $_POST["needswork"] = "1";
+            $_POST["apiConfigValue1"] = "";
+            $_POST["apiConfigValue2"] = "";
+            $_POST["apiConfigValue3"] = "";
+            $_POST["api_create"] = 0;
+            $streamCreateHandler->process();
+            $statuscheck = $streamCreateHandler->getOutputObject();
+            if($statuscheck == false) {
+                $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Failed to create test stream");
+                break;
+            }
+            $loop++;
+        }
+
+        $Bulkupdate = new Bulkupdate();
+        $Bulkupdate->process();
+        $statuscheck = $Bulkupdate->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing stream Bulk update element";
+        $this->assertStringContainsString("Admin Password",$statuscheck,$missing);
+        $this->assertStringContainsString("Update",$statuscheck,$missing);
+        $this->assertStringContainsString("Skip",$statuscheck,$missing);
+        $this->assertStringContainsString("Process",$statuscheck,$missing);
+        foreach($adminpasswords as $pwd) {
+            $this->assertStringContainsString($pwd,$statuscheck,$missing);
+        }
+    }
+
+    public function test_BulkUpdateProcess()
+    {
+        global $_POST;
+        $whereconfig = [
+            "fields" => ["needWork","rentalLink"],
+            "values" => [1,null],
+            "types" => ["i","i"],
+            "matches" => ["=","IS"],
+        ];
+        $stream_set = new StreamSet();
+        $stream_set->loadWithConfig($whereconfig);
+        $twitch = 0;
+        $updated_counter = 0;
+        foreach($stream_set->getAllIds() as $streamid) {
+            $stream = $stream_set->getObjectByID($streamid);
+            $mode = "update";
+            if($twitch == 1) { 
+                $mode = "skip";
+                $updated_counter++;
+            }
+            $twitch = !$twitch;
+            $_POST["stream" . $stream->getStreamUid()] = $mode;
+            if($mode == "update") {
+                $_POST["stream" . $stream->getStreamUid() . "adminpw"] = substr(md5($stream->getDjPassword()),0,8);
+                $_POST["stream" . $stream->getStreamUid() . "djpw"] = substr(md5($stream->getDjPassword()),0,8);
+            }
+        }
+        $updated_counter = $stream_set->getCount() - $updated_counter;
+        $StreamBulkupdate = new StreamBulkupdate();
+        $_POST["accept"] = "Accept";
+        $StreamBulkupdate->process();
+        $statuscheck = $StreamBulkupdate->getOutputObject();
+        $this->assertStringContainsString($updated_counter." streams updated",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+
+    }
+
+
 }

@@ -8,11 +8,14 @@ use App\Endpoint\Control\Client\Getnotecard;
 use App\Endpoint\Control\Client\Revoke as ClientRevoke;
 use App\Endpoint\Control\Client\Update;
 use App\Endpoint\Control\Stream\Create as StreamCreate;
+use App\Endpoint\View\Client\Active;
 use App\Endpoint\View\Client\Bynoticelevel;
 use App\Endpoint\View\Client\Create;
 use App\Endpoint\View\Client\DefaultView;
+use App\Endpoint\View\Client\Expired;
 use App\Endpoint\View\Client\Manage;
 use App\Endpoint\View\Client\Revoke;
+use App\Endpoint\View\Client\Soon;
 use App\Models\Avatar;
 use App\Models\Rental;
 use PHPUnit\Framework\TestCase;
@@ -265,5 +268,41 @@ class ClientTest extends TestCase
         $statuscheck = $removeProcess->getOutputObject();
         $this->assertStringContainsString("Client rental revoked",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+    }
+
+    public function test_Active()
+    {
+        $Active = new Active();
+        $Active->process();
+        $statuscheck = $Active->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing client list active status element";
+        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
+        $this->assertStringContainsString("8002",$statuscheck,$missing);
+        $this->assertStringContainsString("Active",$statuscheck,$missing);
+        $this->assertStringContainsString("Renewals",$statuscheck,$missing);
+    }
+
+    public function test_Soon()
+    {
+        $Soon = new Soon();
+        $Soon->process();
+        $statuscheck = $Soon->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing client list soon status element";
+        $this->assertStringContainsString("Port",$statuscheck,$missing);
+        $this->assertStringContainsString("Rental UID",$statuscheck,$missing);
+        $this->assertStringContainsString("Avatar",$statuscheck,$missing);
+        $this->assertStringContainsString("Renewals",$statuscheck,$missing);
+    }
+
+    public function test_Expired()
+    {
+        $Expired = new Expired();
+        $Expired->process();
+        $statuscheck = $Expired->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing client list expired status element";
+        $this->assertStringContainsString("Port",$statuscheck,$missing);
+        $this->assertStringContainsString("Rental UID",$statuscheck,$missing);
+        $this->assertStringContainsString("Avatar",$statuscheck,$missing);
+        $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
 }
