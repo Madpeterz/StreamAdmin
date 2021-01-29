@@ -23,11 +23,11 @@ class Clear extends ViewAjax
         if ($purge_status["status"] == false) {
             $this->setSwapTag(
                 "message",
-                sprintf("Unable to purge collection: %1\$s", $purge_status["message"])
+                sprintf("Unable to clear objects from DB because: %1\$s", $purge_status["message"])
             );
             return;
         }
         $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Collection purged");
+        $this->setSwapTag("message", "Objects cleared from DB");
     }
 }

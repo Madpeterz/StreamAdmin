@@ -16,11 +16,12 @@ class Manage extends View
         $this->setSwapTag("page_actions", "<a href='[[url_base]]notice/remove/" . $this->page . "'>"
         . "<button type='button' class='btn btn-danger'>Remove</button></a>");
         $where_config = [
-        "fields" => ["missing"],
-        "values" => [0],
-        "types" => ["i"],
-        "matches" => ["="],
+            "fields" => ["missing"],
+            "values" => [0],
+            "types" => ["i"],
+            "matches" => ["="],
         ];
+
         $notice_notecard_set = new NoticenotecardSet();
         $notice_notecard_set->loadWithConfig($where_config);
 
@@ -91,6 +92,6 @@ class Manage extends View
             $notice_notecard_set->getLinkedArray("id", "name")
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        include "webpanel/view/shared/swaps_table.php";
+        include ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
     }
 }

@@ -28,6 +28,7 @@ class Manage extends View
         $form = new Form();
         $form->target("server/update/" . $this->page . "");
         $form->required(true);
+        $form->group("Basic config");
         $form->col(6);
         $form->textInput("domain", "Domain", 30, $server->getDomain(), "ip or uncloudflared proxyed domain/subdomain");
         $form->textInput(

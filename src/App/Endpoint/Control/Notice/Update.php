@@ -85,6 +85,9 @@ class Update extends ViewAjax
             $this->setSwapTag("message", "There is already a notice with that hours remaining trigger");
             return;
         }
+        if ($notecardDetail == null) {
+            $notecardDetail = " ";
+        }
         $notice->setName($name);
         $notice->setImMessage($imMessage);
         $notice->setUseBot($useBot);

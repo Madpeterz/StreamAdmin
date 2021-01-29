@@ -6,12 +6,13 @@ class Status extends View
 {
     public function process(): void
     {
+        global $pages;
         $this->output->addSwapTagString("page_title", " Status");
         $services = [
-        "notecard" => ["timeper" => 30,"classname" => "App\NotecardSet"],
-        "details" => ["timeper" => 15,"classname" => "App\DetailSet"],
-        "mail" => ["timeper" => 15,"classname" => "App\MessageSet"],
-        "api" => ["timeper" => 10,"classname" => "App\ApirequestsSet"],
+        "notecard" => ["timeper" => 30,"classname" => "App\Models\NotecardSet"],
+        "details" => ["timeper" => 15,"classname" => "App\Models\DetailSet"],
+        "mail" => ["timeper" => 15,"classname" => "App\Models\MessageSet"],
+        "api" => ["timeper" => 10,"classname" => "App\Models\ApirequestsSet"],
         ];
         $table_head = ["Outbox name","Pending","TTC"];
         $table_body = [];

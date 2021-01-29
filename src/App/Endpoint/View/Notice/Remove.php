@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Notice;
 
 use App\Template\Form as Form;
 
-class Manage extends View
+class Remove extends View
 {
     public function process(): void
     {

@@ -58,6 +58,10 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "There is already a notice assigned to that remaining hours");
             return;
         }
+        if ($noticeNotecardLink < 1) {
+            $this->setSwapTag("message", "You must select a static notecard or use the non option!");
+            return;
+        }
         if ($static_notecard->loadID($noticeNotecardLink) == false) {
             $this->setSwapTag("message", "Unable to find selected static notecard");
             return;

@@ -22,7 +22,6 @@ class Remove extends ViewAjax
         $treevender_packages_set = new TreevenderpackagesSet();
 
         $accept = $input->postFilter("accept");
-        $status = false;
         $this->setSwapTag("redirect", "package");
         if ($accept != "Accept") {
             $this->setSwapTag("message", "Did not Accept");
@@ -78,12 +77,12 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $load_status = $treevender_packages_set->loadOnField("packageLink", $package->getId());
-        if ($load_status["status"] == true) {
+        $load_status = $treevender_packages_set->loadByField("packageLink", $package->getId());
+        if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to check if package is being used by any treevenders");
             return;
         }
-        if ($treevender_packages_set->getCount() == 0) {
+        if ($treevender_packages_set->getCount() != 0) {
             $this->setSwapTag(
                 "message",
                 sprintf(
@@ -94,7 +93,7 @@ class Remove extends ViewAjax
             return;
         }
         $remove_status = $package->removeEntry();
-        if ($remove_status["status"] == true) {
+        if ($remove_status["status"] == false) {
             $this->setSwapTag(
                 "message",
                 sprintf(

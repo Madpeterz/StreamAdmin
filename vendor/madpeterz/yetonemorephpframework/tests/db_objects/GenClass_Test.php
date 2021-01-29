@@ -89,7 +89,7 @@ class WeirdBrokenObjectWithSaveDatasetButMalformedLive extends GenClass
 }
 
 
-$sql = null;
+$sql = new MysqliConnector();
 class DbObjectsGenClassTest extends TestCase
 {
     /* @var YAPF\MySQLi\MysqliEnabled $sql */
@@ -252,7 +252,7 @@ class DbObjectsGenClassTest extends TestCase
         $countto->loadID(44);
         $fields = $countto->getFields();
         $this->assertSame(count($fields), 2);
-        $this->assertSame($fields[1], "cvalue");
+        $this->assertSame(true, in_array("cvalue",$fields));
     }
     public function testIsLoadedOnNonLoadedObject()
     {

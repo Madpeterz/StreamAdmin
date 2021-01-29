@@ -107,7 +107,6 @@ class Update extends ViewAjax
             $smtp_user = $input->postFilter("smtp_user");
             $smtp_code = $input->postFilter("smtp_code");
             $smtpPort = $input->postFilter("smtpPort");
-            // missing tests here :P
             $this->slconfig->setSmtpHost($smtpHost);
             $this->slconfig->setSmtpPort($smtpPort);
             if ($smtp_user != "skip") {
@@ -119,7 +118,7 @@ class Update extends ViewAjax
             $this->slconfig->setSmtpFrom($smtpFrom);
             $this->slconfig->setSmtpReplyTo($smtp_reply);
         }
-            $update_status = $this->slconfig->updateEntry();
+        $update_status = $this->slconfig->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag(
                 "message",

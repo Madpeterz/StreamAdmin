@@ -10,14 +10,13 @@ class Create extends View
     public function process(): void
     {
         $where_config = [
-        "fields" => ["missing"],
-        "values" => [0],
-        "types" => ["i"],
-        "matches" => ["="],
+            "fields" => ["missing"],
+            "values" => [0],
+            "types" => ["i"],
+            "matches" => ["="],
         ];
         $notice_notecard_set = new NoticenotecardSet();
         $notice_notecard_set->loadWithConfig($where_config);
-
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " : New");
         $this->setSwapTag("page_actions", "");
@@ -43,6 +42,6 @@ class Create extends View
         $form->group("Static notecard");
         $form->select("noticeNotecardLink", " ", 1, $notice_notecard_set->getLinkedArray("id", "name"));
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
-        include "webpanel/view/shared/swaps_table.php";
+        include ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
     }
 }

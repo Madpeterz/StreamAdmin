@@ -2,22 +2,25 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use paged_info;
+use App\Template\PagedInfo;
 
 class DefaultView extends View
 {
     public function process(): void
     {
+        global $pages;
         $pages = [];
-        include "../View/Outbox/Status.php";
-        include "../View/Outbox/Mailer/bulk.package.php";
-        include "../View/Outbox/Mailer/bulk.server.php";
-        include "../View/Outbox/Mailer/bulk.status.php";
+        $Status = new Status();
+        $Status->process();
+        $this->output = $Status->getOutputObject();
+        include ROOTFOLDER . "/App/Endpoint/View/Outbox/Mailer/bulk.package.php";
+        include ROOTFOLDER . "/App/Endpoint/View/Outbox/Mailer/bulk.server.php";
+        include ROOTFOLDER . "/App/Endpoint/View/Outbox/Mailer/bulk.status.php";
 
-        include "" . ROOTFOLDER . "/App/Flags/swaps_table_paged.php";
-        include "" . ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
+        include ROOTFOLDER . "/App/Flags/swaps_table_paged.php";
+        include ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
 
-        $paged_info = new paged_info();
+        $paged_info = new PagedInfo();
         $this->setSwapTag("page_content", $paged_info->render($pages));
     }
 }

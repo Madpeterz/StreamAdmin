@@ -263,7 +263,7 @@ abstract class MysqliWhere extends MysqliFunctions
         $match = $where_config["matches"][$loop];
         $type = $where_config["types"][$loop];
         $value = $where_config["values"][$loop];
-        if ($value == "null") {
+        if ($value === "null") {
             $value = null;
         }
         $field = $where_config["fields"][$loop];

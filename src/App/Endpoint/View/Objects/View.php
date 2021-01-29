@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Endpoint\View\Notice;
+namespace App\Endpoint\View\Objects;
 
-use App\Models\Stream;
 use App\Template\View as BasicView;
 
 abstract class View extends BasicView

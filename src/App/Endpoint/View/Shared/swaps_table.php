@@ -1,5 +1,6 @@
 <?php
 
+global $unixtime_week;
 $example_time = time();
 $example_time += $unixtime_week + rand(1000, 5000);
 $swaps = [
@@ -45,7 +46,7 @@ if (count($current) != 0) {
     $table_body[] = $current;
 }
 $tableout = $this->renderTable($table_head, $table_body);
-if (defined("swaps_table_paged") == true) {
+if (defined("SWAPS_TABLE_PAGED") == true) {
     $pages["Swaps"] = $tableout;
 } else {
     $this->output->addSwapTagString("page_content", $tableout);

@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '1d7990189d16be9e2b12719b81d7943ea9fde9ab',
+    'reference' => 'd0291d7d62620a54338c7ce66eeee63e36a6c346',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -76,16 +76,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '1d7990189d16be9e2b12719b81d7943ea9fde9ab',
+      'reference' => 'd0291d7d62620a54338c7ce66eeee63e36a6c346',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => '1.0.11',
-      'version' => '1.0.11.0',
+      'pretty_version' => '1.0.12',
+      'version' => '1.0.12.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1a62fed0a683c33d35c4ee99fae1a90f47814d61',
+      'reference' => '2dfd3afbe0d4330c8e56a1d545885168b56c1016',
     ),
     'myclabs/deep-copy' => 
     array (

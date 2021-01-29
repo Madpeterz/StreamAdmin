@@ -7,6 +7,7 @@ use App\Models\PackageSet;
 use App\Models\RentalSet;
 use App\Models\ServerSet;
 use App\Models\StreamSet;
+use App\Template\PagedInfo;
 use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View
@@ -37,6 +38,8 @@ class DefaultView extends View
         $this->renderRentals($search_rental_set, $avatar_set, $stream_set);
         $this->renderAvatars($avatar_set);
         $this->renderStreams($stream_set, $server_set);
+        $paged = new PagedInfo();
+        $this->setSwapTag("page_content", $paged->render($this->pages));
     }
 
     protected function renderStreams(StreamSet $search_stream_set, ServerSet $server_set): void
@@ -75,7 +78,7 @@ class DefaultView extends View
             }
         }
         $table_body[] = $entry;
-        $pages["Streams [" . $search_stream_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
+        $this->pages["Streams [" . $search_stream_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
     protected function renderAvatars(AvatarSet $avatar_set): void

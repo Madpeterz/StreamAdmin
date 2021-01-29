@@ -2,6 +2,8 @@
 
 namespace App\Endpoint\Control\Outbox;
 
+use App\Helpers\BotHelper;
+use App\Helpers\SwapablesHelper;
 use App\Models\Avatar;
 use App\Models\AvatarSet;
 use App\Models\BanlistSet;
@@ -12,8 +14,6 @@ use App\Models\RentalSet;
 use App\Models\ServerSet;
 use App\Models\StreamSet;
 use App\Template\ViewAjax;
-use bot_helper;
-use swapables_helper;
 use YAPF\InputFilter\InputFilter;
 
 class Send extends ViewAjax
@@ -25,8 +25,8 @@ class Send extends ViewAjax
         $stream_set = new StreamSet();
         $avatar_set = new AvatarSet();
         $banlist_set = new BanlistSet();
-        $bot_helper = new bot_helper();
-        $swapables_helper = new swapables_helper();
+        $bot_helper = new BotHelper();
+        $swapables_helper = new SwapablesHelper();
         $botconfig = new Botconfig();
         $botavatar = new Avatar();
         $notice_set = new NoticeSet();
@@ -82,7 +82,7 @@ class Send extends ViewAjax
                         $stream = $stream_set->getObjectByID($rental->getStreamLink());
                         $package = $package_set->getObjectByID($stream->getPackageLink());
                         $server = $server_set->getObjectByID($stream->getServerLink());
-                        $sendmessage = $swapables_helper->get_swapped_text(
+                        $sendmessage = $swapables_helper->getSwappedText(
                             $message,
                             $avatar,
                             $rental,

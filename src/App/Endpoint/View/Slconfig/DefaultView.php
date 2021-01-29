@@ -106,7 +106,7 @@ class DefaultView extends View
                 "ui_tweaks_datatableItemsPerPage",
                 "Datatables items per page",
                 3,
-                $$this->slconfig->get_datatableItemsPerPage(),
+                $this->slconfig->getDatatableItemsPerPage(),
                 "10 to 200"
             );
             $form->textInput(
@@ -123,12 +123,5 @@ class DefaultView extends View
                 $timezones_set->getLinkedArray("id", "name")
             );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        $this->output->addSwapTagString("page_content", "<hr/>
-        Feature packs<br/>
-        <ul>
-        <li>Event storage: Stores events into the database in an unlinked format, once im happy with the code 
-        the centova API engine uses this to automate ^+^</li>
-        </ul>
-        </p>");
     }
 }

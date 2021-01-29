@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\Search;
+namespace App\Endpoint\View\Server;
 
 use App\Template\Form;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\Login;
+namespace App\Endpoint\View\Notice;
 
 use App\Models\NoticeSet;
 

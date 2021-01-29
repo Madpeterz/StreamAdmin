@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\Login;
+namespace App\Endpoint\View\Objects;
 
 use App\Template\Form;
 
