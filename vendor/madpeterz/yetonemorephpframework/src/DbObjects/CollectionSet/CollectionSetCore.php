@@ -17,9 +17,9 @@ abstract class CollectionSetCore extends SqlConnectedClass
      * removing: CollectionSet
      * to get: Tree as the base class for this collection
      */
-    public function __construct()
+    public function __construct(string $worker_class)
     {
-        $this->worker_class = strtr(get_class($this), ["Set" => ""]);
+        $this->worker_class = $worker_class;
         parent::__construct();
     }
     /**

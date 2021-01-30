@@ -13,6 +13,7 @@ class DbObjectsFactory extends ModelFactory
     }
     public function start(): void
     {
+        global $GEN_DATABASES;
         if ($this->use_output == true) {
             $this->output .=  '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/';
             $this->output .=  'bootstrap/4.5.2/css/bootstrap.min.css"';
@@ -23,9 +24,9 @@ class DbObjectsFactory extends ModelFactory
             $this->output .=  ' integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN"';
             $this->output .=  ' crossorigin="anonymous">';
         }
-        if (defined("GEN_DATABASES") == true) {
-            if (count(GEN_DATABASES) > 0) {
-                foreach (GEN_DATABASES as $gen_database_name) {
+        if (isset($GEN_DATABASES) == true) {
+            if (count($GEN_DATABASES) > 0) {
+                foreach ($GEN_DATABASES as $gen_database_name) {
                     $this->processDatabaseTables($gen_database_name);
                 }
             }
@@ -33,6 +34,7 @@ class DbObjectsFactory extends ModelFactory
     }
     public function processDatabaseTables(string $target_database): void
     {
+        global $GEN_SELECTED_TABLES_ONLY;
         $this->sql->dbName = $target_database;
         if ($this->use_output == true) {
             $this->output .= "<h4>database: " . $target_database . "</h4>";
@@ -59,8 +61,17 @@ class DbObjectsFactory extends ModelFactory
             return;
         }
         foreach ($results["dataset"] as $row) {
-            $NoTablesInScema = false;
-            $this->CreateModel($row["TABLE_NAME"], $target_database);
+            $process = true;
+            if (isset($GEN_SELECTED_TABLES_ONLY) == true) {
+                if (is_array($GEN_SELECTED_TABLES_ONLY) == true) {
+                    $process = in_array($row["TABLE_NAME"], $GEN_SELECTED_TABLES_ONLY);
+                }
+            }
+            if ($process == true) {
+                $this->CreateModel($row["TABLE_NAME"], $target_database);
+            } else {
+                $this->output .= "<tr><td>" . $row["TABLE_NAME"] . "</td><td>Skipped</td><td>Skipped</td></tr>";
+            }
         }
         if ($this->use_output == true) {
             $this->output .= "</tbody></table>";

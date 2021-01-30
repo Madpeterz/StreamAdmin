@@ -116,6 +116,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
      */
     public function getWorkerClass(): string
     {
+        $this->makeWorker();
         return $this->worker_class;
     }
     /**

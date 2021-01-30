@@ -3,6 +3,10 @@
 namespace YAPF\Junk;
 
 use PHPUnit\Framework\TestCase;
+use YAPF\Junk\Models\Alltypestable;
+use YAPF\Junk\Models\Counttoonehundo;
+use YAPF\Junk\Models\Relationtestingb;
+use YAPF\Junk\Sets\CounttoonehundoSet;
 use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
 
 $sql = null;

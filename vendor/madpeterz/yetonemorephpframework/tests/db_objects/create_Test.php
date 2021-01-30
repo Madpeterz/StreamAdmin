@@ -3,6 +3,8 @@
 namespace YAPF\Junk;
 
 use PHPUnit\Framework\TestCase;
+use YAPF\Junk\Models\Alltypestable;
+use YAPF\Junk\Models\Endoftestwithfourentrys;
 use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
 
 $sql = null;

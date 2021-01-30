@@ -2,8 +2,12 @@
 
 namespace YAPF\Junk;
 
-use PHPUnit\Framework\Constraint\Count;
 use PHPUnit\Framework\TestCase;
+use YAPF\Junk\Models\Counttoonehundo;
+use YAPF\Junk\Models\Weirdtable;
+use YAPF\Junk\Sets\CounttoonehundoSet;
+use YAPF\Junk\Sets\Twintables1Set;
+use YAPF\Junk\Sets\WeirdtableSet;
 use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
 
 $sql = null;
@@ -177,7 +181,7 @@ class DbObjectsLoadTest extends TestCase
         $result = $countto->loadWithConfig($where_config);
         $this->assertSame($result["status"], false);
         $this->assertSame($result["count"], 0);
-        $errormsg = "YAPF\Junk\CounttoonehundoSet Unable to load data: ";
+        $errormsg = "YAPF\Junk\Sets\CounttoonehundoSet Unable to load data: ";
         $errormsg .= "Where config failed: count error fields <=> values";
         $this->assertSame($result["message"], $errormsg);
     }

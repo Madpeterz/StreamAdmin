@@ -4,7 +4,7 @@ namespace YAPF\Generator;
 
 class GeneratorWriter extends GeneratorDefaults
 {
-    protected function writeModelFile(string $create_file, int $retrys = 0, string $file_content = ""): void
+    protected function writeModelFile(string $create_file, string $file_content = ""): void
     {
         if (file_exists($create_file) == true) {
             unlink($create_file);

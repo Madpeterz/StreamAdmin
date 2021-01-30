@@ -5,6 +5,8 @@ namespace YAPF\Junk;
 use PHPUnit\Framework\TestCase;
 use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
 use YAPF\DbObjects\GenClass\GenClass as GenClass;
+use YAPF\Junk\Models\Counttoonehundo;
+use YAPF\Junk\Models\Liketests;
 
 $sql = null;
 
@@ -45,7 +47,7 @@ class DbObjectsSupportTest extends TestCase
     public function testLastSql()
     {
         global $sql;
-        $testing = new liketests();
+        $testing = new Liketests();
         $this->assertSame($testing->getLastSql(), "");
         $testing->loadID(1);
         $this->assertSame($testing->getLastSql(), 'SELECT * FROM test.liketests  WHERE id = ?');
