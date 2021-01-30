@@ -6,8 +6,8 @@ use App\Endpoint\Control\Avatar\Create as AvatarCreate;
 use App\Endpoint\Control\Banlist\Clear;
 use App\Endpoint\Control\Banlist\Create;
 use App\Endpoint\View\Banlist\DefaultView;
-use App\Models\Avatar;
-use App\Models\Banlist;
+use App\R7\Model\Avatar;
+use App\R7\Model\Banlist;
 use PHPUnit\Framework\TestCase;
 
 class BanlistTest extends TestCase

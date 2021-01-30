@@ -7,8 +7,8 @@ use App\Endpoint\Control\Login\Resetnow;
 use App\Endpoint\Control\Login\Start as LoginWithPassword;
 use App\Endpoint\View\Login\DefaultView as LoginPage;
 use App\Endpoint\View\Login\Logout;
-use App\Models\MessageSet;
-use App\Models\Staff;
+use App\R7\Set\MessageSet;
+use App\R7\Model\Staff;
 use PHPUnit\Framework\TestCase;
 
 class Login extends TestCase

@@ -9,8 +9,8 @@ use App\Endpoint\View\Reseller\Manage;
 use App\Endpoint\View\Reseller\Remove;
 use App\Helpers\AvatarHelper;
 use App\Helpers\ResellerHelper;
-use App\Models\Avatar;
-use App\Models\Reseller;
+use App\R7\Model\Avatar;
+use App\R7\Model\Reseller;
 use PHPUnit\Framework\TestCase;
 
 class ResellerTest extends TestCase

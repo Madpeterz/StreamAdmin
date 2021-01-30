@@ -10,8 +10,8 @@ use App\Endpoint\View\Staff\Create;
 use App\Endpoint\View\Staff\DefaultView;
 use App\Endpoint\View\Staff\Manage;
 use App\Endpoint\View\Staff\Remove;
-use App\Models\Avatar;
-use App\Models\Staff;
+use App\R7\Model\Avatar;
+use App\R7\Model\Staff;
 use PHPUnit\Framework\TestCase;
 
 class StaffTest extends TestCase

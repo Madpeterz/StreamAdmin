@@ -16,9 +16,9 @@ use App\Endpoint\View\Stream\Onserver;
 use App\Endpoint\View\Stream\Ready;
 use App\Endpoint\View\Stream\Remove;
 use App\Endpoint\View\Stream\Sold;
-use App\Models\Package;
-use App\Models\Stream;
-use App\Models\StreamSet;
+use App\R7\Model\Package;
+use App\R7\Model\Stream;
+use App\R7\Set\StreamSet;
 use PHPUnit\Framework\TestCase;
 
 class StreamTest extends TestCase

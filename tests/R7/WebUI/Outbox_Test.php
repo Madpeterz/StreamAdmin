@@ -9,7 +9,7 @@ use App\Endpoint\View\Outbox\DefaultView;
 use App\Endpoint\View\Outbox\Details;
 use App\Endpoint\View\Outbox\Mail;
 use App\Endpoint\View\Outbox\Notecard;
-use App\Models\MessageSet;
+use App\R7\Set\MessageSet;
 use PHPUnit\Framework\TestCase;
 
 class OutboxText extends TestCase

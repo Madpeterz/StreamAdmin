@@ -9,7 +9,7 @@ use App\Endpoint\View\Server\Create;
 use App\Endpoint\View\Server\DefaultView;
 use App\Endpoint\View\Server\Manage;
 use App\Endpoint\View\Server\Remove;
-use App\Models\Server;
+use App\R7\Model\Server;
 use PHPUnit\Framework\TestCase;
 
 class ServerTest extends TestCase

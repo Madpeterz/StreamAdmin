@@ -4,7 +4,7 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Bot\Update;
 use App\Endpoint\View\Bot\DefaultView;
-use App\Models\Avatar;
+use App\R7\Model\Avatar;
 use PHPUnit\Framework\TestCase;
 
 class BotTest extends TestCase

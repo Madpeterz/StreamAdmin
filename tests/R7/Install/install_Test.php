@@ -7,8 +7,8 @@ use App\Endpoint\View\Install\Finalstep as InstallerStep5;
 use App\Endpoint\View\Install\Install as InstallerStep3;
 use App\Endpoint\View\Install\Setup as InstallerStep4;
 use App\Endpoint\View\Install\Test as InstallerStep2;
-use App\Models\Avatar;
-use App\Models\Slconfig;
+use App\R7\Model\Avatar;
+use App\R7\Model\Slconfig;
 use PHPUnit\Framework\TestCase;
 
 class Installer extends TestCase

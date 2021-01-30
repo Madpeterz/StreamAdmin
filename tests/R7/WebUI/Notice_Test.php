@@ -9,7 +9,7 @@ use App\Endpoint\View\Notice\Create;
 use App\Endpoint\View\Notice\DefaultView;
 use App\Endpoint\View\Notice\Manage;
 use App\Endpoint\View\Notice\Remove;
-use App\Models\Notice;
+use App\R7\Model\Notice;
 use PHPUnit\Framework\TestCase;
 
 class NoticeTest extends TestCase

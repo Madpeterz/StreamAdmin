@@ -10,7 +10,7 @@ use App\Endpoint\View\Avatar\Create;
 use App\Endpoint\View\Avatar\DefaultView;
 use App\Endpoint\View\Avatar\Manage;
 use App\Endpoint\View\Avatar\Remove;
-use App\Models\Avatar as ModelsAvatar;
+use App\R7\Model\Avatar as ModelsAvatar;
 use PHPUnit\Framework\TestCase;
 
 class AvatarTest extends TestCase

@@ -12,8 +12,8 @@ use App\Endpoint\View\Tree\DefaultView;
 use App\Endpoint\View\Tree\Manage;
 use App\Endpoint\View\Tree\Remove;
 use App\Endpoint\View\Tree\Removepackage;
-use App\Models\Treevender;
-use App\Models\Treevenderpackages;
+use App\R7\Model\Treevender;
+use App\R7\Model\Treevenderpackages;
 use PHPUnit\Framework\TestCase;
 
 class TreeVendTest extends TestCase
