@@ -2,18 +2,18 @@
 
 namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
-use App\Models\Apis;
-use App\Models\Avatar;
-use App\Models\Botconfig;
-use App\Models\Notecard;
-use App\Models\Notice;
-use App\Models\Noticenotecard;
-use App\Models\NoticeSet;
-use App\Models\Package;
-use App\Models\Rental;
-use App\Models\RentalSet;
-use App\Models\Server;
-use App\Models\Stream;
+use App\R7\Model\Apis;
+use App\R7\Model\Avatar;
+use App\R7\Model\Botconfig;
+use App\R7\Model\Notecard;
+use App\R7\Model\Notice;
+use App\R7\Model\Noticenotecard;
+use App\R7\Set\NoticeSet;
+use App\R7\Model\Package;
+use App\R7\Model\Rental;
+use App\R7\Set\RentalSet;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
 use App\Template\SecondlifeAjax;
 use bot_helper;
 use swapables_helper;

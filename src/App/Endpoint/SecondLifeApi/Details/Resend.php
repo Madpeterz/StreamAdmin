@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\SecondLifeApi\Details;
 
-use App\Models\Detail;
-use App\Models\Rental;
+use App\R7\Model\Detail;
+use App\R7\Model\Rental;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

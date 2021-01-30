@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\SecondLifeApi\Renew;
 
-use App\Models\ApirequestsSet;
-use App\Models\Avatar;
-use App\Models\Banlist;
-use App\Models\RentalSet;
-use App\Models\StreamSet;
+use App\R7\Set\ApirequestsSet;
+use App\R7\Model\Avatar;
+use App\R7\Model\Banlist;
+use App\R7\Set\RentalSet;
+use App\R7\Set\StreamSet;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Template;
 
-use App\Models\TemplateSet;
+use App\R7\Set\TemplateSet;
 
 class DefaultView extends View
 {

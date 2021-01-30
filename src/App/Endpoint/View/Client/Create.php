@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\PackageSet;
-use App\Models\ServerSet;
+use App\R7\Set\PackageSet;
+use App\R7\Set\ServerSet;
 use App\Template\Form;
 
 class Create extends View

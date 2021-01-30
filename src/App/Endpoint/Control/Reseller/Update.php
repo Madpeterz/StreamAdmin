@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Reseller;
 
-use App\Models\Reseller;
+use App\R7\Model\Reseller;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

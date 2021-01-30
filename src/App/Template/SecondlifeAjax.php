@@ -6,12 +6,12 @@ use App\Helpers\AvatarHelper;
 use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
-use App\Models\Avatar;
-use App\Models\Package;
-use App\Models\Region;
-use App\Models\Reseller;
-use App\Models\Stream;
-use App\Models\Transactions;
+use App\R7\Model\Avatar;
+use App\R7\Model\Package;
+use App\R7\Model\Region;
+use App\R7\Model\Reseller;
+use App\R7\Model\Stream;
+use App\R7\Model\Transactions;
 use YAPF\InputFilter\InputFilter;
 
 abstract class SecondlifeAjax extends View

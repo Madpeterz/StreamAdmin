@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Install;
 
-use App\Models\Avatar;
-use App\Models\Slconfig;
-use App\Models\Staff;
+use App\R7\Model\Avatar;
+use App\R7\Model\Slconfig;
+use App\R7\Model\Staff;
 use App\Template\Form;
 use YAPF\InputFilter\InputFilter;
 use YAPF\MySQLi\MysqliEnabled;

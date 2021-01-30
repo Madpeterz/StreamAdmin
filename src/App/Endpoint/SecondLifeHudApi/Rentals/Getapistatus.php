@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
-use App\Models\Apis;
-use App\Models\Rental;
-use App\Models\Server;
-use App\Models\Stream;
+use App\R7\Model\Apis;
+use App\R7\Model\Rental;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

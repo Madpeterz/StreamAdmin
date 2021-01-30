@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Reseller;
+use App\R7\Model\Reseller;
 
 class ResellerHelper
 {

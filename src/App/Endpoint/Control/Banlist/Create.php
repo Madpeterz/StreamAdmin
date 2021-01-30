@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Banlist;
 
-use App\Models\AvatarSet;
-use App\Models\Banlist;
+use App\R7\Set\AvatarSet;
+use App\R7\Model\Banlist;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

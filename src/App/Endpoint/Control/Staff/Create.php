@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Staff;
 
-use App\Models\Avatar;
-use App\Models\Staff;
+use App\R7\Model\Avatar;
+use App\R7\Model\Staff;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

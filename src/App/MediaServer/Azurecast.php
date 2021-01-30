@@ -3,7 +3,7 @@
 namespace App\MediaServer;
 
 use App\MediaServer\Abstracts\PublicApi;
-use App\Models\StreamSet;
+use App\R7\Set\StreamSet;
 
 class Azurecast extends PublicApi
 {

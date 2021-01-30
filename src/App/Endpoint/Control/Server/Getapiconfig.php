@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\Models\Apis;
+use App\R7\Model\Apis;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

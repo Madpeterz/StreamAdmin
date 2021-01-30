@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\SecondLifeApi\Buy;
 
-use App\Models\ApirequestsSet;
-use App\Models\Package;
-use App\Models\Stream;
+use App\R7\Set\ApirequestsSet;
+use App\R7\Model\Package;
+use App\R7\Model\Stream;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

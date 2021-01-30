@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Slconfig;
+use App\R7\Model\Slconfig;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class EmailHelper

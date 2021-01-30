@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
-use App\Models\RentalSet;
-use App\Models\StreamSet;
+use App\R7\Set\RentalSet;
+use App\R7\Set\StreamSet;
 use App\Template\SecondlifeAjax;
 
 class Hudserverlist extends SecondlifeAjax

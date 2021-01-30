@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Reports;
 
 use App\Template\Form;
 use App\Template\Grid;
-use App\Models\TransactionsSet;
+use App\R7\Set\TransactionsSet;
 use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View

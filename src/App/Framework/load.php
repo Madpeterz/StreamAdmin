@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Framework\SessionControl;
-use App\Models\Slconfig;
-use App\Models\Timezones;
+use App\R7\Model\Slconfig;
+use App\R7\Model\Timezones;
 use App\Template\Output\Cache;
 use YAPF\MySQLi\MysqliEnabled;
 

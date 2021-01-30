@@ -3,17 +3,17 @@
 namespace App\Endpoint\View\Client;
 
 use App\Helpers\ServerApiHelper;
-use App\Models\Avatar;
-use App\Models\AvatarSet;
-use App\Models\Package;
-use App\Models\RegionSet;
-use App\Models\Rental;
-use App\Models\ResellerSet;
-use App\Models\Server;
-use App\Models\Stream;
+use App\R7\Model\Avatar;
+use App\R7\Set\AvatarSet;
+use App\R7\Model\Package;
+use App\R7\Set\RegionSet;
+use App\R7\Model\Rental;
+use App\R7\Set\ResellerSet;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
 use App\Template\Form;
 use App\Template\Grid;
-use App\Models\TransactionsSet;
+use App\R7\Set\TransactionsSet;
 use App\Template\PagedInfo;
 use paged_info;
 use serverapi_helper;

@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\AvatarSet;
-use App\Models\MessageSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\MessageSet;
 
 class Mail extends View
 {

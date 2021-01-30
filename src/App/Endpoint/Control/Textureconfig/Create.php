@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Textureconfig;
 
-use App\Models\Textureconfig;
+use App\R7\Model\Textureconfig;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

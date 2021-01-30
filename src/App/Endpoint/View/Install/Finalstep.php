@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Install;
 
-use App\Models\Slconfig;
+use App\R7\Model\Slconfig;
 use YAPF\MySQLi\MysqliEnabled;
 
 class Finalstep extends View

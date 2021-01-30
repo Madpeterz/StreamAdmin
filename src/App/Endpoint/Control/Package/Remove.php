@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\Control\Package;
 
-use App\Models\Package;
-use App\Models\RentalSet;
-use App\Models\StreamSet;
-use App\Models\TransactionsSet;
-use App\Models\TreevenderpackagesSet;
+use App\R7\Model\Package;
+use App\R7\Set\RentalSet;
+use App\R7\Set\StreamSet;
+use App\R7\Set\TransactionsSet;
+use App\R7\Set\TreevenderpackagesSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

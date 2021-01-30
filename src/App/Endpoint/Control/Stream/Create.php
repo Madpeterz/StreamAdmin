@@ -3,9 +3,9 @@
 namespace App\Endpoint\Control\Stream;
 
 use App\MediaServer\Logic\ApiLogicCreate;
-use App\Models\Package;
-use App\Models\Server;
-use App\Models\Stream;
+use App\R7\Model\Package;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
-use App\Models\Apirequests;
-use App\Models\Stream;
+use App\R7\Model\Apirequests;
+use App\R7\Model\Stream;
 use App\Template\SecondlifeAjax;
 use serverapi_helper;
 

@@ -2,12 +2,12 @@
 
 namespace App\Endpoint\View\Home;
 
-use App\Models\NoticeSet;
-use App\Models\ObjectsSet;
-use App\Models\RegionSet;
-use App\Models\Rental;
-use App\Models\ServerSet;
-use App\Models\StreamSet;
+use App\R7\Set\NoticeSet;
+use App\R7\Set\ObjectsSet;
+use App\R7\Set\RegionSet;
+use App\R7\Model\Rental;
+use App\R7\Set\ServerSet;
+use App\R7\Set\StreamSet;
 use App\Template\Grid;
 
 abstract class HomeLoadData extends View

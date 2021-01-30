@@ -3,7 +3,7 @@
 namespace App\Template;
 
 use App\Framework\SessionControl;
-use App\Models\Slconfig;
+use App\R7\Model\Slconfig;
 use App\Template\Output\Template;
 use YAPF\MySQLi\MysqliEnabled;
 

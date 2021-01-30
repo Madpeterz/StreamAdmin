@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\AvatarSet;
-use App\Models\RentalSet;
-use App\Models\ServerSet;
-use App\Models\StreamSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\RentalSet;
+use App\R7\Set\ServerSet;
+use App\R7\Set\StreamSet;
 
 abstract class RenderList extends View
 {

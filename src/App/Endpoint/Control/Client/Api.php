@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Client;
 
-use App\Models\Rental;
-use App\Models\Stream;
+use App\R7\Model\Rental;
+use App\R7\Model\Stream;
 use App\Template\ViewAjax;
 use serverapi_helper;
 

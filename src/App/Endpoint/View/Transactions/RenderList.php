@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use App\Models\AvatarSet;
-use App\Models\PackageSet;
-use App\Models\RegionSet;
-use App\Models\TransactionsSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\PackageSet;
+use App\R7\Set\RegionSet;
+use App\R7\Set\TransactionsSet;
 
 abstract class RenderList extends View
 {

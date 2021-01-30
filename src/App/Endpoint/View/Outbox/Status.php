@@ -9,10 +9,10 @@ class Status extends View
         global $pages;
         $this->output->addSwapTagString("page_title", " Status");
         $services = [
-        "notecard" => ["timeper" => 30,"classname" => "App\Models\NotecardSet"],
-        "details" => ["timeper" => 15,"classname" => "App\Models\DetailSet"],
-        "mail" => ["timeper" => 15,"classname" => "App\Models\MessageSet"],
-        "api" => ["timeper" => 10,"classname" => "App\Models\ApirequestsSet"],
+        "notecard" => ["timeper" => 30,"classname" => "App\R7\Set\NotecardSet"],
+        "details" => ["timeper" => 15,"classname" => "App\R7\Set\DetailSet"],
+        "mail" => ["timeper" => 15,"classname" => "App\R7\Set\MessageSet"],
+        "api" => ["timeper" => 10,"classname" => "App\R7\Set\ApirequestsSet"],
         ];
         $table_head = ["Outbox name","Pending","TTC"];
         $table_body = [];

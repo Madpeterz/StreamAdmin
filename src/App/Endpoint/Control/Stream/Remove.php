@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\Models\Stream;
-use App\Models\TransactionsSet;
+use App\R7\Model\Stream;
+use App\R7\Set\TransactionsSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

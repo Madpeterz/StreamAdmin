@@ -2,9 +2,9 @@
 
 namespace App\MediaServer\Abstracts;
 
-use App\Models\Package;
-use App\Models\Server;
-use App\Models\Stream;
+use App\R7\Model\Package;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
 use Exception;
 use YAPF\Core\ErrorLogging;
 

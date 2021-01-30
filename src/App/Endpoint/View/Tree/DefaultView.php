@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\Models\TreevenderSet;
+use App\R7\Set\TreevenderSet;
 
 class DefaultView extends View
 {

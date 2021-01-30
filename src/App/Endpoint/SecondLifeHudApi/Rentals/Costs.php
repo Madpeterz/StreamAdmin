@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
-use App\Models\Avatar;
-use App\Models\Package;
-use App\Models\Rental;
+use App\R7\Model\Avatar;
+use App\R7\Model\Package;
+use App\R7\Model\Rental;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

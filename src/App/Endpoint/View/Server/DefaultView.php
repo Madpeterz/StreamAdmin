@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Server;
 
-use App\Models\ApisSet;
-use App\Models\ServerSet;
+use App\R7\Set\ApisSet;
+use App\R7\Set\ServerSet;
 use App\Template\Form;
 
 class DefaultView extends View

@@ -4,15 +4,15 @@ namespace App\Endpoint\Control\Outbox;
 
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
-use App\Models\Avatar;
-use App\Models\AvatarSet;
-use App\Models\BanlistSet;
-use App\Models\Botconfig;
-use App\Models\NoticeSet;
-use App\Models\PackageSet;
-use App\Models\RentalSet;
-use App\Models\ServerSet;
-use App\Models\StreamSet;
+use App\R7\Model\Avatar;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\BanlistSet;
+use App\R7\Model\Botconfig;
+use App\R7\Set\NoticeSet;
+use App\R7\Set\PackageSet;
+use App\R7\Set\RentalSet;
+use App\R7\Set\ServerSet;
+use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

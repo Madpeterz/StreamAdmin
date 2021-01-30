@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Notice;
 
-use App\Models\Notice;
-use App\Models\Noticenotecard;
+use App\R7\Model\Notice;
+use App\R7\Model\Noticenotecard;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

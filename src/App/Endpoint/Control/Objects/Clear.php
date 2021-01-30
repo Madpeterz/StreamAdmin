@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Objects;
 
-use App\Models\ObjectsSet;
+use App\R7\Set\ObjectsSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

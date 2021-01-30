@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\Models\ApisSet;
-use App\Models\Server;
+use App\R7\Set\ApisSet;
+use App\R7\Model\Server;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

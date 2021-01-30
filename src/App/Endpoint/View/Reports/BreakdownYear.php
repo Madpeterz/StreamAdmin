@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\Models\TransactionsSet;
+use App\R7\Set\TransactionsSet;
 use App\Template\PagedInfo;
 use YAPF\InputFilter\InputFilter;
 

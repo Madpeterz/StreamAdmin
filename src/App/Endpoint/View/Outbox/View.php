@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Stream;
+use App\R7\Model\Stream;
 use App\Template\View as BasicView;
 
 abstract class View extends BasicView

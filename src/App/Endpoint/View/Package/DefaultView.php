@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Package;
 
-use App\Models\PackageSet;
+use App\R7\Set\PackageSet;
 
 class DefaultView extends View
 {

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\ServerSet;
+use App\R7\Set\ServerSet;
 use App\Template\Form;
 
 $server_set = new ServerSet();

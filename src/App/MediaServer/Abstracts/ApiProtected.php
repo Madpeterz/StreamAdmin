@@ -2,7 +2,7 @@
 
 namespace App\MediaServer\Abstracts;
 
-use App\Models\StreamSet;
+use App\R7\Set\StreamSet;
 
 abstract class ApiProtected extends RestApi
 {

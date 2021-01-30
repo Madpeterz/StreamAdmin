@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Avatar;
+use App\R7\Model\Avatar;
 
 class AvatarHelper
 {

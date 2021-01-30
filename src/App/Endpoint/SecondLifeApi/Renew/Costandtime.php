@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\SecondLifeApi\Renew;
 
-use App\Models\Package;
-use App\Models\Rental;
-use App\Models\Stream;
+use App\R7\Model\Package;
+use App\R7\Model\Rental;
+use App\R7\Model\Stream;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

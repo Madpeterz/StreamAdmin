@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Bot;
 
-use App\Models\Avatar;
-use App\Models\Botconfig;
+use App\R7\Model\Avatar;
+use App\R7\Model\Botconfig;
 use App\Template\Form as Form;
 
 class DefaultView extends View

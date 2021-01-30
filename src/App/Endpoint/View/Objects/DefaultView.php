@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Objects;
 
-use App\Models\AvatarSet;
-use App\Models\ObjectsSet;
-use App\Models\RegionSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\ObjectsSet;
+use App\R7\Set\RegionSet;
 
 class DefaultView extends View
 {

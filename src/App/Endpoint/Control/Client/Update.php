@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\Control\Client;
 
-use App\Models\Avatar;
-use App\Models\NoticeSet;
-use App\Models\Rental;
+use App\R7\Model\Avatar;
+use App\R7\Set\NoticeSet;
+use App\R7\Model\Rental;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

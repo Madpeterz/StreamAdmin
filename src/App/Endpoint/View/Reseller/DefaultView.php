@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Reseller;
 
-use App\Models\AvatarSet;
-use App\Models\ResellerSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\ResellerSet;
 
 class DefaultView extends View
 {

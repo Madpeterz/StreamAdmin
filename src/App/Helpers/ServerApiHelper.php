@@ -3,13 +3,13 @@
 namespace App\Helpers;
 
 use App\MediaServer\Abstracts\PublicApi;
-use App\Models\Apis;
-use App\Models\Avatar;
-use App\Models\Package;
-use App\Models\Rental;
-use App\Models\Server;
-use App\Models\Stream;
-use App\Models\StreamSet;
+use App\R7\Model\Apis;
+use App\R7\Model\Avatar;
+use App\R7\Model\Package;
+use App\R7\Model\Rental;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
+use App\R7\Set\StreamSet;
 use YAPF\Core\SqlConnectedClass;
 use YAPF\InputFilter\InputFilter;
 

@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\ServerSet;
-use App\Models\StreamSet;
+use App\R7\Set\ServerSet;
+use App\R7\Set\StreamSet;
 use App\Template\Form;
 
 class Bulkupdate extends View

@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\AvatarSet;
-use App\Models\NotecardSet;
-use App\Models\RentalSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\NotecardSet;
+use App\R7\Set\RentalSet;
 
 class Notecard extends View
 {

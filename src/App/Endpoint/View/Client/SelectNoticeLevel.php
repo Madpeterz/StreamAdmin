@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\NoticeSet;
-use App\Models\Rental;
+use App\R7\Set\NoticeSet;
+use App\R7\Model\Rental;
 
 class SelectNoticeLevel extends View
 {

@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Import;
 
-use App\Models\PackageSet;
-use App\Models\ServerSet;
-use App\Models\Stream;
+use App\R7\Set\PackageSet;
+use App\R7\Set\ServerSet;
+use App\R7\Model\Stream;
 use App\R4\ItemsSet;
 use App\R4\PackagesSet;
 

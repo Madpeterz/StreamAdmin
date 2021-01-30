@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Transactions;
 
-use App\Models\Transactions;
+use App\R7\Model\Transactions;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

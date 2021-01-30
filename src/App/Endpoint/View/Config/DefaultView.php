@@ -11,7 +11,7 @@ class DefaultView extends View
         $check_objects = ["Server","Template","Package","Stream","Slconfig","Textureconfig"];
         $all_ok = true;
         foreach ($check_objects as $check) {
-            $check = "App\\Models\\" . $check;
+            $check = "App\\R7\\Model\\" . $check;
             $obj = new $check();
             if ($obj->HasAny() == false) {
                 $all_ok = false;
@@ -77,7 +77,7 @@ class DefaultView extends View
             foreach ($config_areas as $key => $value) {
                 $element = '
                 <a href="[[url_base]]' . $value["link"] . '">
-                <button type="button" class="btn btn-outline-success btn-lg btn-block mb-4">
+                <button type="button" class="btn btn-outline-success btn-lg btn-block mt-2 mb-3">
                 <h5 class="text-black"><i class="' . $value["icon"] . '"></i></h5>
                 ' . $key . '
                 </button>

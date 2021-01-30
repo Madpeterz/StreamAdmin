@@ -2,13 +2,13 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\AvatarSet;
-use App\Models\BanlistSet;
-use App\Models\Notice;
-use App\Models\Package;
-use App\Models\RentalSet;
-use App\Models\Server;
-use App\Models\StreamSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\BanlistSet;
+use App\R7\Model\Notice;
+use App\R7\Model\Package;
+use App\R7\Set\RentalSet;
+use App\R7\Model\Server;
+use App\R7\Set\StreamSet;
 use App\Template\Form;
 use YAPF\InputFilter\InputFilter;
 

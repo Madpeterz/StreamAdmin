@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Search;
 
-use App\Models\AvatarSet;
-use App\Models\PackageSet;
-use App\Models\RentalSet;
-use App\Models\ServerSet;
-use App\Models\StreamSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\PackageSet;
+use App\R7\Set\RentalSet;
+use App\R7\Set\ServerSet;
+use App\R7\Set\StreamSet;
 use App\Template\PagedInfo;
 use YAPF\InputFilter\InputFilter;
 

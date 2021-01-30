@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\Control\Package;
 
-use App\Models\Package;
-use App\Models\Servertypes;
-use App\Models\Template;
+use App\R7\Model\Package;
+use App\R7\Model\Servertypes;
+use App\R7\Model\Template;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

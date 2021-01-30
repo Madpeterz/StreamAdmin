@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Import;
 
-use App\Models\AvatarSet;
-use App\Models\Transactions;
+use App\R7\Set\AvatarSet;
+use App\R7\Model\Transactions;
 use App\R4\Sales_trackingSet;
 
 class Trnasactions extends View

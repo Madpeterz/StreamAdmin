@@ -2,12 +2,12 @@
 
 namespace App\Endpoint\Control\Client;
 
-use App\Models\Avatar;
-use App\Models\AvatarSet;
-use App\Models\NoticeSet;
-use App\Models\Rental;
-use App\Models\Stream;
-use App\Models\StreamSet;
+use App\R7\Model\Avatar;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\NoticeSet;
+use App\R7\Model\Rental;
+use App\R7\Model\Stream;
+use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

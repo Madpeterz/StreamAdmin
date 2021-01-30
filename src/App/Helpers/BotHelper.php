@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
-use App\Models\Avatar;
-use App\Models\Botconfig;
-use App\Models\Message;
+use App\R7\Model\Avatar;
+use App\R7\Model\Botconfig;
+use App\R7\Model\Message;
 
 class BotHelper
 {

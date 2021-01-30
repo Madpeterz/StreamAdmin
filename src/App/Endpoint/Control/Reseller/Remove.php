@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Reseller;
 
-use App\Models\Reseller;
-use App\Models\TransactionsSet;
+use App\R7\Model\Reseller;
+use App\R7\Set\TransactionsSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

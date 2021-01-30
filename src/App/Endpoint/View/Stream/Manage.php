@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\ApisSet;
-use App\Models\PackageSet;
-use App\Models\ServerSet;
-use App\Models\ServertypesSet;
-use App\Models\Stream;
+use App\R7\Set\ApisSet;
+use App\R7\Set\PackageSet;
+use App\R7\Set\ServerSet;
+use App\R7\Set\ServertypesSet;
+use App\R7\Model\Stream;
 use App\Template\Form;
 
 class Manage extends View

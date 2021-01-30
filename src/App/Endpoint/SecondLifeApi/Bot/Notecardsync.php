@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\SecondLifeApi\Bot;
 
-use App\Models\Avatar;
-use App\Models\Botconfig;
-use App\Models\Notecard;
+use App\R7\Model\Avatar;
+use App\R7\Model\Botconfig;
+use App\R7\Model\Notecard;
 use App\Template\SecondlifeAjax;
 use bot_helper;
 

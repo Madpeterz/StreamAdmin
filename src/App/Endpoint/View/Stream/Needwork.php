@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\Server;
+use App\R7\Model\Server;
 
 class NeedWork extends Withstatus
 {

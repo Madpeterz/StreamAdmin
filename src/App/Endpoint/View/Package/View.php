@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Package;
 
-use App\Models\Template;
+use App\R7\Model\Template;
 use App\Template\View as BasicView;
 
 abstract class View extends BasicView

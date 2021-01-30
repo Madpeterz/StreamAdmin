@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\Models\Package;
+use App\R7\Model\Package;
 use App\Template\Form;
-use App\Models\Treevender;
-use App\Models\Treevenderpackages;
+use App\R7\Model\Treevender;
+use App\R7\Model\Treevenderpackages;
 
 class Removepackage extends View
 {

@@ -3,7 +3,7 @@
 namespace App\Endpoint\View\Template;
 
 use App\Template\Form;
-use App\Models\Template;
+use App\R7\Model\Template;
 use App\Template\PagedInfo;
 
 class Manage extends View

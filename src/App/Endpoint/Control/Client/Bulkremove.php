@@ -2,14 +2,14 @@
 
 namespace App\Endpoint\Control\Client;
 
-use App\Models\ApirequestsSet;
-use App\Models\ApisSet;
-use App\Models\AvatarSet;
-use App\Models\PackageSet;
-use App\Models\RentalSet;
-use App\Models\Server;
-use App\Models\ServerSet;
-use App\Models\StreamSet;
+use App\R7\Set\ApirequestsSet;
+use App\R7\Set\ApisSet;
+use App\R7\Set\AvatarSet;
+use App\R7\Set\PackageSet;
+use App\R7\Set\RentalSet;
+use App\R7\Model\Server;
+use App\R7\Set\ServerSet;
+use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

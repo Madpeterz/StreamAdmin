@@ -2,7 +2,7 @@
 
 namespace App\Template\Output;
 
-use App\Models\Slconfig;
+use App\R7\Model\Slconfig;
 
 abstract class SwapTags
 {

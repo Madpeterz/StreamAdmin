@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\Models\Treevender;
+use App\R7\Model\Treevender;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

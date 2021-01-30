@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\Models\NoticeSet;
+use App\R7\Set\NoticeSet;
 
 class DefaultView extends View
 {

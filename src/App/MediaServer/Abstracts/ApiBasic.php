@@ -2,8 +2,8 @@
 
 namespace App\MediaServer\Abstracts;
 
-use App\Models\Package;
-use App\Models\StreamSet;
+use App\R7\Model\Package;
+use App\R7\Set\StreamSet;
 
 abstract class ApiBasic extends ApiProtected
 {

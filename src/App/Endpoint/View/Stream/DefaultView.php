@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\PackageSet;
-use App\Models\StreamSet;
+use App\R7\Set\PackageSet;
+use App\R7\Set\StreamSet;
 
 class DefaultView extends View
 {

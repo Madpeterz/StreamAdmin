@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\Models\Apis;
-use App\Models\Server;
-use App\Models\StreamSet;
+use App\R7\Model\Apis;
+use App\R7\Model\Server;
+use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
 use serverapi_helper;
 

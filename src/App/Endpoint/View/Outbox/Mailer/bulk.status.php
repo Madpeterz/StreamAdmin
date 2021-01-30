@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\NoticeSet;
+use App\R7\Set\NoticeSet;
 use App\Template\Form;
 
 $notice_set = new NoticeSet();

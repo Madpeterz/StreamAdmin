@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\Models\ApirequestsSet;
-use App\Models\Server;
-use App\Models\StreamSet;
+use App\R7\Set\ApirequestsSet;
+use App\R7\Model\Server;
+use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

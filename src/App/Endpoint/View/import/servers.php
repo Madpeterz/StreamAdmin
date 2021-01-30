@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Import;
 
-use App\Models\Server;
+use App\R7\Model\Server;
 use App\R4\ItemsSet;
 
 class Servers extends View

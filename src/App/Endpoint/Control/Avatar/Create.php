@@ -3,7 +3,7 @@
 namespace App\Endpoint\Control\Avatar;
 
 use App\Helpers\AvatarHelper;
-use App\Models\Avatar;
+use App\R7\Model\Avatar;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

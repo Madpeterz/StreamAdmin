@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\Models\Package;
-use App\Models\Treevender;
-use App\Models\Treevenderpackages;
+use App\R7\Model\Package;
+use App\R7\Model\Treevender;
+use App\R7\Model\Treevenderpackages;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

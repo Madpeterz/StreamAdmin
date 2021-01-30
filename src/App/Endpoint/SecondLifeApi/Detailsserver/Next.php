@@ -2,15 +2,15 @@
 
 namespace App\Endpoint\SecondLifeApi\Detailsserver;
 
-use App\Models\Avatar;
-use App\Models\Botconfig;
-use App\Models\DetailSet;
-use App\Models\Notecard;
-use App\Models\Package;
-use App\Models\Rental;
-use App\Models\Server;
-use App\Models\Stream;
-use App\Models\Template;
+use App\R7\Model\Avatar;
+use App\R7\Model\Botconfig;
+use App\R7\Set\DetailSet;
+use App\R7\Model\Notecard;
+use App\R7\Model\Package;
+use App\R7\Model\Rental;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
+use App\R7\Model\Template;
 use App\Template\SecondlifeAjax;
 use bot_helper;
 use swapables_helper;

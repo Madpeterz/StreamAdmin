@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
-use App\Models\Noticenotecard;
-use App\Models\NoticenotecardSet;
-use App\Models\NoticeSet;
+use App\R7\Model\Noticenotecard;
+use App\R7\Set\NoticenotecardSet;
+use App\R7\Set\NoticeSet;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

@@ -2,7 +2,7 @@
 
 namespace App\Template;
 
-use App\Models\Slconfig;
+use App\R7\Model\Slconfig;
 
 class View extends TableView
 {

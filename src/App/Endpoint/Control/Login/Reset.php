@@ -3,9 +3,9 @@
 namespace App\Endpoint\Control\Login;
 
 use App\Helpers\EmailHelper;
-use App\Models\Avatar;
-use App\Models\Message;
-use App\Models\Staff;
+use App\R7\Model\Avatar;
+use App\R7\Model\Message;
+use App\R7\Model\Staff;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

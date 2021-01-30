@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\Texturepack;
 
-use App\Models\Textureconfig;
+use App\R7\Model\Textureconfig;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 

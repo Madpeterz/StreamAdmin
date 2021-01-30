@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Template;
 
-use App\Models\Template;
+use App\R7\Model\Template;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

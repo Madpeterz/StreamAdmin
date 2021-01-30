@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Slconfig;
 
-use App\Models\Avatar;
-use App\Models\Timezones;
+use App\R7\Model\Avatar;
+use App\R7\Model\Timezones;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\Models\StreamSet;
+use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

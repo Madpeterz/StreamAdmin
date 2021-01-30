@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\ApirequestsSet;
-use App\Models\StreamSet;
+use App\R7\Set\ApirequestsSet;
+use App\R7\Set\StreamSet;
 
 class Api extends View
 {

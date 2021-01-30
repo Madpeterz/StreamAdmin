@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Apirequests;
-use App\Models\Detail;
-use App\Models\Rental;
-use App\Models\Server;
-use App\Models\Stream;
+use App\R7\Model\Apirequests;
+use App\R7\Model\Detail;
+use App\R7\Model\Rental;
+use App\R7\Model\Server;
+use App\R7\Model\Stream;
 
 function createPendingApiRequest(
     ?Server $server,

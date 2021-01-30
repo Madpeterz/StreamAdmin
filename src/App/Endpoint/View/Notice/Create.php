@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\Models\NoticenotecardSet;
+use App\R7\Set\NoticenotecardSet;
 use App\Template\Form as Form;
 
 class Create extends View

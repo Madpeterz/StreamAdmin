@@ -2,13 +2,13 @@
 
 namespace App\Endpoint\SecondLifeApi\Renew;
 
-use App\Models\Avatar;
-use App\Models\Banlist;
-use App\Models\NoticeSet;
-use App\Models\Package;
-use App\Models\Rental;
-use App\Models\Stream;
-use App\Models\Transactions;
+use App\R7\Model\Avatar;
+use App\R7\Model\Banlist;
+use App\R7\Set\NoticeSet;
+use App\R7\Model\Package;
+use App\R7\Model\Rental;
+use App\R7\Model\Stream;
+use App\R7\Model\Transactions;
 use App\Template\SecondlifeAjax;
 use avatar_helper;
 use YAPF\InputFilter\InputFilter;

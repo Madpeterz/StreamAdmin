@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\Models\Notice;
-use App\Models\Noticenotecard;
-use App\Models\NoticenotecardSet;
+use App\R7\Model\Notice;
+use App\R7\Model\Noticenotecard;
+use App\R7\Set\NoticenotecardSet;
 use App\Template\Form as Form;
 
 class Manage extends View

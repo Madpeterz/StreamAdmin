@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Bot;
 
-use App\Models\Avatar;
-use App\Models\Botconfig;
+use App\R7\Model\Avatar;
+use App\R7\Model\Botconfig;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 

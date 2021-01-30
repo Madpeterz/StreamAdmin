@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Import;
 
-use App\Models\Package;
-use App\Models\TemplateSet;
+use App\R7\Model\Package;
+use App\R7\Set\TemplateSet;
 use App\R4\PackagesSet;
 
 class Packages extends View
