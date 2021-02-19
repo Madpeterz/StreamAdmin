@@ -55,9 +55,10 @@ class Getconfig extends SecondlifeAjax
         }
 
         $this->setSwapTag("status", true);
-        $this->setSwapTag("package_instock", "0");
+        $this->setSwapTag("message", "ok");
+        $this->setSwapTag("package_instock", false);
         if ($count_data["count"] > 0) {
-            $this->setSwapTag("package_instock", "1");
+            $this->setSwapTag("package_instock", true);
         }
         $this->setSwapTag("texture_offline", $textureconfig->getOffline());
         $this->setSwapTag("texture_waitingforowner", $textureconfig->getWaitOwner());

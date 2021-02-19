@@ -36,14 +36,15 @@ class Checkstock extends SecondlifeAjax
             $whereconfig["types"][] = "i";
         }
         $count_data = $this->sql->basicCountV2($stream->getTable(), $whereconfig);
-        if ($count_data["status"] == true) {
+        if ($count_data["status"] == false) {
             $this->setSwapTag("message", "Unable to check stock level");
             return;
         }
         $this->setSwapTag("status", true);
-        $this->setSwapTag("package_instock", "0");
+        $this->setSwapTag("message", "ok");
+        $this->setSwapTag("package_instock", false);
         if ($count_data["count"] > 0) {
-            $this->setSwapTag("package_instock", "1");
+            $this->setSwapTag("package_instock", true);
         }
         $this->setSwapTag("package_cost", $package->getCost());
         $this->setSwapTag("texture_package_small", $package->getTextureInstockSmall());

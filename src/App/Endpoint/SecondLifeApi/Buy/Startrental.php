@@ -5,18 +5,14 @@ namespace App\Endpoint\SecondLifeApi\Buy;
 use App\Helpers\AvatarHelper;
 use App\Helpers\TransactionsHelper;
 use App\MediaServer\Logic\ApiLogicBuy;
-use App\MediaServer\Logic\Buy;
 use App\R7\Set\ApirequestsSet;
 use App\R7\Model\Avatar;
 use App\R7\Model\Banlist;
 use App\R7\Set\NoticeSet;
 use App\R7\Model\Package;
-use App\R7\Model\Region;
 use App\R7\Model\Rental;
-use App\R7\Model\Reseller;
 use App\R7\Model\Stream;
 use App\R7\Set\StreamSet;
-use App\R7\Model\Transactions;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -208,6 +204,7 @@ class Startrental extends SecondlifeAjax
         }
 
         $this->setSwapTag("status", $status);
+        $this->setSwapTag("message", "ok");
 
         $apilogic = new ApiLogicBuy();
         $reply = $apilogic->getApiServerLogicReply();
@@ -224,5 +221,7 @@ class Startrental extends SecondlifeAjax
             "core_send_details",
             "Unable to create pending api request"
         );
+
+        $this->setSwapTag("status", $status);
     }
 }
