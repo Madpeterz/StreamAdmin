@@ -26,6 +26,11 @@ include_once ROOTFOLDER . "/App/Config/REQUIRE_ID_ON_LOAD.php";
 include_once ROOTFOLDER . "/App/Framework/install.php";
 include_once ROOTFOLDER . "/App/Config/load.php";
 include_once ROOTFOLDER . "/App/Framework/functions.php";
+
+if (array_key_exists("REQUEST_URI", $_SERVER) == true) {
+    process_uri($_SERVER['REQUEST_URI']);
+}
+
 $session = new SessionControl();
 if (install_ok() == true) {
     if (class_exists("App\\Db", false) == true) {

@@ -7,21 +7,21 @@ use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
 use App\R7\Model\Avatar;
-use App\R7\Model\Package;
 use App\R7\Model\Region;
 use App\R7\Model\Reseller;
-use App\R7\Model\Stream;
-use App\R7\Model\Transactions;
 use YAPF\InputFilter\InputFilter;
 
 abstract class SecondlifeAjax extends View
 {
-    protected $objectUUID = "";
+    protected $method = "";
+    protected $action = "";
+    protected $mode = "";
+    protected $objectuuid = "";
     protected $regionname = "";
     protected $ownerkey = "";
     protected $ownername = "";
     protected $pos = "";
-    protected $objectName = "";
+    protected $objectname = "";
     protected $objecttype = "";
     protected $hash = "";
     protected $unixtime = 0;
@@ -63,6 +63,7 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("status", false);
             return;
         }
+        $this->setSwapTag("message", "ready");
         $this->output->tempateSecondLifeAjax();
     }
 
@@ -75,38 +76,34 @@ abstract class SecondlifeAjax extends View
             "method",
             "action",
             "mode",
-            "objectUUID",
-            "region",
+            "objectuuid",
+            "regionname",
             "ownerkey",
             "ownername",
             "pos",
-            "objectName",
+            "objectname",
             "objecttype",
         ];
-        $lookups = [
-            "region" => "regionname",
-        ];
+
         $input = new InputFilter();
         $this->staticpart = "";
         foreach ($required_sl as $slvalue) {
-            $keeplookup = $slvalue;
-            if (array_key_exists($slvalue, $lookups) == true) {
-                $slvalue = $lookups[$slvalue];
-            }
-            $value = $input->postFilter($keeplookup);
+            $value = $input->postFilter($slvalue);
             if ($value !== null) {
-                $this->$$slvalue = $value;
+                $this->$slvalue = $value;
                 $this->staticpart .= $value;
             } else {
                 $this->load_ok = false;
+                $this->setSwapTag("message", "Value: " . $slvalue . " is missing");
+                break;
             }
         }
         $this->unixtime = $input->postFilter("unixtime");
         if ($this->unixtime === null) {
             $this->load_ok = false;
         }
-        $hash = $input->postFilter("hash");
-        if ($hash === null) {
+        $this->hash = $input->postFilter("hash");
+        if ($this->hash === null) {
             $this->load_ok = false;
         }
         if ($this->load_ok == false) {
@@ -120,10 +117,11 @@ abstract class SecondlifeAjax extends View
         if ($this->load_ok == false) {
             return;
         }
-        $hashcheck = sha1($this->unixtime . "" . $this->staticpart . "" . $this->slconfig->getSlLinkCode());
+        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->slconfig->getSlLinkCode();
+        $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to vaildate request to API endpoint");
+            $this->setSwapTag("message", "Unable to vaildate request to API endpoint: ");
             return;
         }
         $avatar_helper = new AvatarHelper();
@@ -166,15 +164,15 @@ abstract class SecondlifeAjax extends View
         $get_object_status = $object_helper->loadOrCreate(
             $this->object_ownerAvatarLinkatar->getId(),
             $this->region->getId(),
-            $this->objectUUID,
-            $this->objectName,
+            $this->objectuuid,
+            $this->objectname,
             $this->objecttype,
             $this->pos,
             true
         );
         if ($get_object_status == false) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to attach object");
+            $this->setSwapTag("message", "Unable to attach object: " . $object_helper->getLastWhyFailed());
             return;
         }
         $this->object = $object_helper->getObject();

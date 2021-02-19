@@ -120,7 +120,7 @@ class DbObjectsLoadTest extends TestCase
         $this->assertSame($result, false);
         $countto = new Counttoonehundo();
         $result = $countto->loadByField("cvalue", 128);
-        $this->assertSame($countto->getLastSql(), "SELECT * FROM test.counttoonehundo  WHERE cvalue = ?");
+        $this->assertSame($countto->getLastSql(), "SELECT * FROM test.counttoonehundo  WHERE `cvalue` = ?");
         $this->assertSame($countto->getLastErrorBasic(), "Load error incorrect number of entrys expected 1 but got:10");
         $this->assertSame($result, false);
     }

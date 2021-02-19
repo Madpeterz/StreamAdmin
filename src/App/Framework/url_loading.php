@@ -1,7 +1,10 @@
 <?php
 
-if (array_key_exists("REQUEST_URI", $_SERVER) == true) {
-    $uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
+function process_uri(string $process): void
+{
+    global $module, $area, $page, $optional;
+
+    $uri_parts = explode('?', $process, 2);
     $bits = array_values(array_diff(explode("/", $uri_parts[0]), [""]));
     if (count($bits) > 0) {
         if (strpos($bits[0], "php") !== false) {

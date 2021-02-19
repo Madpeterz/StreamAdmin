@@ -388,17 +388,17 @@
         },
         {
             "name": "madpeterz/yetonemorephpframework",
-            "version": "1.1.1",
-            "version_normalized": "1.1.1.0",
+            "version": "1.1.2",
+            "version_normalized": "1.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-                "reference": "f1551cd5f4c264fe46c4494d5a08cb439244f1b5"
+                "reference": "a04f685c6bb54b56ec04bec2d68449b1118cc7fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/f1551cd5f4c264fe46c4494d5a08cb439244f1b5",
-                "reference": "f1551cd5f4c264fe46c4494d5a08cb439244f1b5",
+                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/a04f685c6bb54b56ec04bec2d68449b1118cc7fc",
+                "reference": "a04f685c6bb54b56ec04bec2d68449b1118cc7fc",
                 "shasum": ""
             },
             "require": {
@@ -410,7 +410,7 @@
                 "slevomat/coding-standard": "^6.4",
                 "squizlabs/php_codesniffer": "*"
             },
-            "time": "2021-01-30T04:09:54+00:00",
+            "time": "2021-02-19T01:56:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2521,8 +2521,8 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.22.0",
-            "version_normalized": "1.22.0.0",
+            "version": "v1.22.1",
+            "version_normalized": "1.22.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -2583,7 +2583,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.22.1"
             },
             "funding": [
                 {

@@ -184,7 +184,7 @@ abstract class MysqliWhere extends MysqliFunctions
         } elseif (in_array($match, ["IN","NOT IN"]) == true) {
             $this->buildWhereCaseIn($current_where_code, $field, $match, $bind_text, $bind_args, $value, $type, $sql);
         } else {
-            $current_where_code .= "" . $field . " " . $match . " ?";
+            $current_where_code .= "`" . $field . "` " . $match . " ?";
             $bind_text .= $type;
             $bind_args[] = $value;
         }

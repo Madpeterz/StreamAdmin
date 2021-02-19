@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '5e891f8517b0d377d5d1efec357f31d515b0f763',
+    'reference' => 'd9b6ec8b3243362fbafad5c9b36497674b1f95f3',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -76,16 +76,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '5e891f8517b0d377d5d1efec357f31d515b0f763',
+      'reference' => 'd9b6ec8b3243362fbafad5c9b36497674b1f95f3',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => '1.1.1',
-      'version' => '1.1.1.0',
+      'pretty_version' => '1.1.2',
+      'version' => '1.1.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f1551cd5f4c264fe46c4494d5a08cb439244f1b5',
+      'reference' => 'a04f685c6bb54b56ec04bec2d68449b1118cc7fc',
     ),
     'myclabs/deep-copy' => 
     array (
@@ -404,8 +404,8 @@ private static $installed = array (
     ),
     'symfony/polyfill-ctype' => 
     array (
-      'pretty_version' => 'v1.22.0',
-      'version' => '1.22.0.0',
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
       'aliases' => 
       array (
       ),

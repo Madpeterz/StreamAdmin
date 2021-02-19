@@ -163,7 +163,7 @@ class MysqliSelectTest extends TestCase
         ];
         $result = $this->sql->selectV2($basic_config, null, $where_config);
         // [dataset => mixed[mixed[]], status => bool, message => string]
-        $expected_sql = "SELECT * FROM counttoonehundo  WHERE (cvalue = ? OR cvalue != ?) AND cvalue < ?";
+        $expected_sql = "SELECT * FROM counttoonehundo  WHERE (`cvalue` = ? OR `cvalue` != ?) AND `cvalue` < ?";
         $this->assertSame($this->sql->getLastSql(), $expected_sql);
         $this->assertSame($result["message"], "ok");
         $this->assertSame(count($result["dataset"]), 70);
@@ -182,7 +182,7 @@ class MysqliSelectTest extends TestCase
         ];
         $result = $this->sql->selectV2($basic_config, null, $where_config);
         // [dataset => mixed[mixed[]], status => bool, message => string]
-        $expected_sql = "SELECT * FROM counttoonehundo  WHERE (cvalue = ? OR (cvalue != ? AND cvalue < ?))";
+        $expected_sql = "SELECT * FROM counttoonehundo  WHERE (`cvalue` = ? OR (`cvalue` != ? AND `cvalue` < ?))";
         $this->assertSame($this->sql->getLastSql(), $expected_sql);
         $this->assertSame($result["message"], "ok");
         $this->assertSame(count($result["dataset"]), 70);

@@ -15,6 +15,9 @@
         <directory>tests/R7/Login</directory>
         <directory>tests/R7/ForcedActions</directory>
         <directory>tests/R7/WebUI</directory>
+        <directory>tests/R7/Etc</directory>
+        <file>tests/R7/SecondlifeAPI/Object_Test.php</file>
+        <file>tests/R7/SecondlifeAPI/Texturepack_Test.php</file>
       </testsuite>
   </testsuites>
   <filter>
