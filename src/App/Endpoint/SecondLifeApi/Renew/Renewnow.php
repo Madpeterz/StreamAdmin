@@ -2,6 +2,8 @@
 
 namespace App\Endpoint\SecondLifeApi\Renew;
 
+use App\Helpers\AvatarHelper;
+use App\MediaServer\Logic\ApiLogicRenew;
 use App\R7\Model\Avatar;
 use App\R7\Model\Banlist;
 use App\R7\Set\NoticeSet;
@@ -10,7 +12,6 @@ use App\R7\Model\Rental;
 use App\R7\Model\Stream;
 use App\R7\Model\Transactions;
 use App\Template\SecondlifeAjax;
-use avatar_helper;
 use YAPF\InputFilter\InputFilter;
 
 class Renewnow extends SecondlifeAjax
@@ -90,13 +91,13 @@ class Renewnow extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to update rental");
             return;
         }
-        $avatar_helper = new avatar_helper();
+        $avatar_helper = new AvatarHelper();
         $get_av_status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
         if ($get_av_status == false) {
             $this->setSwapTag("message", "Unable to find avatar");
             return;
         }
-        $avatar = $avatar_helper->get_avatar();
+        $avatar = $avatar_helper->getAvatar();
         $banlist = new Banlist();
         if ($banlist->loadByField("avatarLink", $avatar->getId()) == true) {
             $this->setSwapTag("message", "Unable to find avatar");
@@ -139,24 +140,28 @@ class Renewnow extends SecondlifeAjax
             $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
         $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Payment account but account is still in arrears");
-        if ($rental->getExpireUnixtime() > time()) {
-            $all_ok = true;
-            if ($all_ok == true) {
-                // Server API support
-                include "shared/media_server_apis/logic/renew.php";
-                $all_ok = $api_serverlogic_reply;
-            }
-            if ($all_ok == true) {
-                $this->setSwapTag(
-                    "message",
-                    sprintf(
-                        "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
-                        timeleftHoursAndDays($rental->getExpireUnixtime()),
-                        date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime())
-                    )
-                );
-            }
+        $this->setSwapTag("message", "Payment on account but account is still in arrears");
+        if ($rental->getExpireUnixtime() < time()) {
+            return;
+        }
+        $this->setSwapTag(
+            "message",
+            sprintf(
+                "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
+                timeleftHoursAndDays($rental->getExpireUnixtime()),
+                date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime())
+            )
+        );
+        $this->setSwapTag("status", false);
+        $apilogic = new ApiLogicRenew();
+        $reply = $apilogic->getApiServerLogicReply();
+        if ($reply["status"] == false) {
+            $this->setSwapTag("message", "API server logic has failed on ApiLogicRenew: " . $reply["message"]);
+            return;
+        }
+        $this->setSwapTag("status", true);
+        if ($apilogic->getNoAction() == false) {
+            return;
         }
     }
 }

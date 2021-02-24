@@ -78,6 +78,7 @@ class Startrental extends SecondlifeAjax
         global $unixtime_hour;
         $input = new InputFilter();
         $package = null;
+        global $stream;
         $stream = null;
         $avatar = null;
         $hours_remain = 0;
@@ -203,25 +204,28 @@ class Startrental extends SecondlifeAjax
             $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
 
-        $this->setSwapTag("status", $status);
         $this->setSwapTag("message", "ok");
 
         $apilogic = new ApiLogicBuy();
         $reply = $apilogic->getApiServerLogicReply();
         if ($reply["status"] == false) {
+            $this->setSwapTag("message", "API server logic has failed on ApiLogicBuy: " . $reply["message"]);
             return;
         }
-        if ($apilogic->getNoAction() == false) {
+        if ($apilogic->getNoAction() == true) {
+            $status = createPendingApiRequest(
+                null,
+                $stream,
+                $rental,
+                "core_send_details",
+                "Unable to create pending api request"
+            );
+            $this->setSwapTag("status", $status);
+            if ($status == false) {
+                $this->setSwapTag("message", "unable to create pending API request to send details");
+            }
             return;
         }
-        $status = createPendingApiRequest(
-            null,
-            $stream,
-            $rental,
-            "core_send_details",
-            "Unable to create pending api request"
-        );
-
-        $this->setSwapTag("status", $status);
+        $this->setSwapTag("status", true);
     }
 }

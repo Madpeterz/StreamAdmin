@@ -11,14 +11,23 @@
 >
   <testsuites>
       <testsuite name="All">
-        <directory>tests/R7/Install</directory>
-        <directory>tests/R7/Login</directory>
-        <directory>tests/R7/ForcedActions</directory>
-        <directory>tests/R7/WebUI</directory>
-        <directory>tests/R7/Etc</directory>
-        <file>tests/R7/SecondlifeAPI/Object_Test.php</file>
-        <file>tests/R7/SecondlifeAPI/Texturepack_Test.php</file>
-        <file>tests/R7/SecondlifeAPI/Buy_Test.php</file>
+        <directory>tests/Install</directory>
+        <directory>tests/Login</directory>
+        <directory>tests/ForcedActions</directory>
+        <directory>tests/WebUI</directory>
+        <directory>tests/Etc</directory>
+        <file>tests/SecondlifeAPI/Object_Test.php</file>
+        <file>tests/SecondlifeAPI/Texturepack_Test.php</file>
+        <file>tests/SecondlifeAPI/Buy_Test.php</file>
+        <file>tests/SecondlifeAPI/Renew_Test.php</file>
+        <file>tests/SecondlifeAPI/Proxyrenew_Test.php</file>
+        <file>tests/SecondlifeAPI/Detailsserver_Test.php</file>
+        <file>tests/SecondlifeAPI/Mailserver_Test.php</file>
+        <file>tests/SecondlifeAPI/Noticeserver_Test.php</file>
+        <file>tests/SecondlifeAPI/Details_Test.php</file>
+        <file>tests/SecondlifeAPI/Bot_Test.php</file>
+        <file>tests/SecondlifeAPI/Tree_Test.php</file>
+        <file>tests/SecondlifeHud/Rentals_Test.php</file>
       </testsuite>
   </testsuites>
   <filter>

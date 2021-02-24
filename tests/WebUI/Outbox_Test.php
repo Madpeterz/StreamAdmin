@@ -170,6 +170,6 @@ class OutboxText extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(3,$messages->getCount(),"Incorrect number of messages in outbox");
+        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox");
     }
 }

@@ -27,8 +27,8 @@ class BotTest extends TestCase
         $this->assertSame(true,$status,"Unable to load avatar");
         $_POST["avataruid"] = $avatar->getAvatarUid();
         $_POST["secret"] = substr(md5(microtime()."bb"),0,8);
-        $_POST["notecards"] = 0;
-        $_POST["ims"] = 0;
+        $_POST["notecards"] = 1;
+        $_POST["ims"] = 1;
         $Update = new Update();
         $Update->process();
         $statuscheck = $Update->getOutputObject();

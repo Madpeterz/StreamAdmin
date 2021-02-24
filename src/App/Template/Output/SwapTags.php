@@ -59,7 +59,7 @@ abstract class SwapTags
         $this->swaptags[$tagname] = $current;
         return $current;
     }
-    public function setSwapTag(string $tagname, $newvalue): ?string
+    public function setSwapTag($tagname, $newvalue): void
     {
         $current = $this->getSwapTagString($tagname);
         if ($current != $newvalue) {
@@ -67,7 +67,6 @@ abstract class SwapTags
                 $this->swaptags[$tagname] = $newvalue;
             }
         }
-        return $this->swaptags[$tagname];
     }
     /**
      * setSwapTagArray
@@ -81,17 +80,17 @@ abstract class SwapTags
         $this->swaptags[$tagname] = $newvalue;
         return $this->swaptags[$tagname];
     }
-    public function urlBase(string $newvalue = null): ?string
+    public function urlBase(string $newvalue = null): void
     {
-        return $this->setSwapTag("url_base", $newvalue);
+        $this->setSwapTag("url_base", $newvalue);
     }
-    public function pageTitle(string $newvalue = null): ?string
+    public function pageTitle(string $newvalue = null): void
     {
-        return $this->setSwapTag("PAGE_TITLE", $newvalue);
+        $this->setSwapTag("PAGE_TITLE", $newvalue);
     }
-    public function siteName(string $newvalue = null): ?string
+    public function siteName(string $newvalue = null): void
     {
-        return $this->setSwapTag("SITE_NAME", $newvalue);
+        $this->setSwapTag("SITE_NAME", $newvalue);
     }
     /**
      * metaTags

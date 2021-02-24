@@ -55,7 +55,7 @@ abstract class BasicView
     {
         $this->output->renderPage();
     }
-    protected function setSwapTag(string $tag, $value): void
+    protected function setSwapTag($tag, $value): void
     {
         $this->output->setSwapTag($tag, $value);
     }

@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Switchboard\Website;
+use App\Switchboard\MainGrid;
 
 include "../App/Framework/load.php";
 
-new Website();
+new MainGrid();

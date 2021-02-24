@@ -5,21 +5,21 @@ namespace App\Endpoint\SecondLifeHudApi\Rentals;
 use App\R7\Model\Avatar;
 use App\R7\Model\Package;
 use App\R7\Model\Rental;
-use App\Template\SecondlifeAjax;
+use App\Template\SecondlifeHudAjax;
 use YAPF\InputFilter\InputFilter;
 
-class Costs extends SecondlifeAjax
+class Costs extends SecondlifeHudAjax
 {
     public function process(): void
     {
         $input = new InputFilter();
-        $rentalUid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("rentalUid");
         $rental = new Rental();
         $this->setSwapTag("message", "unabletoload");
         if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             return;
         }
-        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
+        if ($rental->getAvatarLink() != $this->Object_OwnerAvatar->getId()) {
             return;
         }
         $package = new Package();

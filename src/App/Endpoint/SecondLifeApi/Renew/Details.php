@@ -62,6 +62,6 @@ class Details extends SecondlifeAjax
         }
         $this->setSwapTag("dataset_count", count($reply_dataset));
         $this->setSwapTag("dataset", $reply_dataset);
-        $this->setSwapTag("message", sprintf("Cleint account: %1\$s", $avatar->getAvatarName()));
+        $this->setSwapTag("message", sprintf("Client account: %1\$s", $avatar->getAvatarName()));
     }
 }

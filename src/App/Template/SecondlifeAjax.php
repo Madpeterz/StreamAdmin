@@ -29,7 +29,7 @@ abstract class SecondlifeAjax extends View
     protected bool $load_ok = true;
     protected $staticpart = "";
 
-    protected ?Avatar $object_ownerAvatarLinkatar;
+    protected ?Avatar $Object_OwnerAvatar;
     protected ?Region $region;
     protected ?Reseller $reseller;
     protected bool $owner_override = false;
@@ -43,6 +43,10 @@ abstract class SecondlifeAjax extends View
     public function setOwnerOverride(bool $status): void
     {
         $this->owner_override = $status;
+    }
+    public function setRegion(Region $region): void
+    {
+        $this->region = $region;
     }
     public function getSoftFail(): bool
     {
@@ -124,6 +128,11 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("message", "Unable to vaildate request to API endpoint: ");
             return;
         }
+        $this->continueHashChecks(false);
+    }
+
+    protected function continueHashChecks(bool $skip_reseller): void
+    {
         $avatar_helper = new AvatarHelper();
         $get_av_status = $avatar_helper->loadOrCreate($this->ownerkey, $this->ownername);
         if ($get_av_status == false) {
@@ -131,7 +140,7 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("message", "Unable to load owner avatar for this object!");
             return;
         }
-        $this->object_ownerAvatarLinkatar = $avatar_helper->getAvatar();
+        $this->Object_OwnerAvatar = $avatar_helper->getAvatar();
         $region_helper = new RegionHelper();
         $get_region_status = $region_helper->loadOrCreate($this->regionname);
         if ($get_region_status == false) {
@@ -142,7 +151,7 @@ abstract class SecondlifeAjax extends View
         $this->region = $region_helper->getRegion();
         $reseller_helper = new ResellerHelper();
         $get_reseller_status = $reseller_helper->loadOrCreate(
-            $this->object_ownerAvatarLinkatar->getId(),
+            $this->Object_OwnerAvatar->getId(),
             $this->slconfig->getNewResellers(),
             $this->slconfig->getNewResellersRate()
         );
@@ -151,18 +160,20 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("message", "Unable to load reseller");
             return;
         }
-        $this->reseller = $reseller_helper->getReseller();
-        if ($this->slconfig->getOwnerAvatarLink() == $this->object_ownerAvatarLinkatar->getId()) {
-            $this->owner_override = true;
-        }
-        if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
-            $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to access this api - please contact owner");
-            return;
+        if ($skip_reseller == false) {
+            $this->reseller = $reseller_helper->getReseller();
+            if ($this->slconfig->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
+                $this->owner_override = true;
+            }
+            if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
+                $this->load_ok = false;
+                $this->setSwapTag("message", "Unable to access this api - please contact owner");
+                return;
+            }
         }
         $object_helper = new ObjectHelper();
         $get_object_status = $object_helper->loadOrCreate(
-            $this->object_ownerAvatarLinkatar->getId(),
+            $this->Object_OwnerAvatar->getId(),
             $this->region->getId(),
             $this->objectuuid,
             $this->objectname,

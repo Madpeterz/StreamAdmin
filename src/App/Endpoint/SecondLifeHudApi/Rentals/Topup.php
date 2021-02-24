@@ -11,31 +11,24 @@ use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
-use App\Template\SecondlifeAjax;
+use App\Template\SecondlifeHudAjax;
 use App\Helpers\ResellerHelper;
 use App\Helpers\SwapablesHelper;
 use YAPF\InputFilter\InputFilter;
 
-class Topup extends SecondlifeAjax
+class Topup extends SecondlifeHudAjax
 {
     public function process(): void
     {
         $input = new InputFilter();
-        $rentalUid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("rentalUid");
         $amount = $input->postFilter("amount", "integer");
         $transactionid = $input->postFilter("transactionid", "uuid");
         $tidhash = $input->postFilter("tidhash");
         $tidtime = $input->postFilter("tidtime", "integer");
-        $regionname = $input->postFilter("regionname");
-        $fasttest = [$amount,$rentalUid,$transactionid,$tidhash,$tidtime,$regionname];
+        $fasttest = [$amount,$rentalUid,$transactionid,$tidhash,$tidtime];
         if (in_array(null, $fasttest) == true) {
             $this->setSwapTag("message", "One or more values passed are not set correctly");
-            return;
-        }
-        $region_helper = new RegionHelper();
-        $get_region_status = $region_helper->loadOrCreate($regionname);
-        if ($get_region_status == false) {
-            $this->setSwapTag("message", "Unable to find or setup new region for transaction");
             return;
         }
         $rental = new Rental();
@@ -43,7 +36,7 @@ class Topup extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
-        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
+        if ($rental->getAvatarLink() != $this->Object_OwnerAvatar->getId()) {
             $this->setSwapTag("message", "Unable to process topup");
             return;
         }
@@ -71,8 +64,8 @@ class Topup extends SecondlifeAjax
             $amount,
             $transactionid,
             $tidtime,
-            $this->object_ownerAvatarLinkatar->getAvatarUUID(),
-            $this->slconfig->getPublicLinkCode(),
+            $this->Object_OwnerAvatar->getAvatarUUID(),
+            $this->slconfig->getHudLinkCode(),
             $rental->getExpireUnixtime(),
         ];
         $raw = implode("", $bits);
@@ -96,15 +89,20 @@ class Topup extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load system owner reseller acccount");
             return;
         }
+        if ($this->region == null) {
+            $this->setSwapTag("message", "Region is null");
+            return;
+        }
 
         $_POST["rentalUid"] = $rentalUid;
-        $_POST["avatarUUID"] = $this->object_ownerAvatarLinkatar->getAvatarUUID();
-        $_POST["avatarName"] = $this->object_ownerAvatarLinkatar->getAvatarName();
+        $_POST["avatarUUID"] = $this->Object_OwnerAvatar->getAvatarUUID();
+        $_POST["avatarName"] = $this->Object_OwnerAvatar->getAvatarName();
         $_POST["amountpaid"] = $amount;
 
         $apiobj = new Renewnow();
         $apiobj->setReseller($reseller_helper->getReseller());
         $apiobj->setOwnerOverride(true);
+        $apiobj->setRegion($this->region);
         $apiobj->process();
         $this->output = $apiobj->getOutputObject();
         if ($this->output->getSwapTagString("status") == "true") {
@@ -117,13 +115,13 @@ class Topup extends SecondlifeAjax
             $botavatar = new Avatar();
             $botavatar->loadID($botconfig->getAvatarLink());
 
-            $sendmessage = $swapables_helper->get_swapped_text(
+            $sendmessage = $swapables_helper->getSwappedText(
                 "= Remote transaction notice =[[NL]] User: [[AVATAR_FULLNAME]] has topped up L$"
                 . $amount . " [[NL]] Rental: "
                 . $rental->getRentalUid() . " on port: "
                 . $stream->getPort() . " [[NL]] transaction ID:"
                 . $transactionid . "",
-                $this->object_ownerAvatarLinkatar,
+                $this->Object_OwnerAvatar,
                 $rental,
                 $package,
                 $server,

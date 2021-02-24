@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\ProxyRenew;
 
+use App\Endpoint\SecondLifeApi\Renew\Details as RenewDetails;
 use App\R7\Model\Avatar;
 use App\R7\Set\RentalSet;
 use App\R7\Set\StreamSet;
@@ -40,33 +41,9 @@ class Details extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find avatar");
             return;
         }
-        $rental_set = new RentalSet();
-        $rental_set->loadOnField("avatarLink", $avatar->getId());
-        if ($rental_set->getCount() < 1) {
-            $this->setSwapTag("message", "Unable to find rentals");
-            return;
-        }
-        $stream_set = new StreamSet();
-        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
-        if ($stream_set->getCount() < 1) {
-            $this->setSwapTag("message", "Unable to find streams attached to rentals!");
-            return;
-        }
-        $reply_dataset = [];
-        foreach ($rental_set->getAllIds() as $rental_id) {
-            $rental = $rental_set->getObjectByID($rental_id);
-            $stream = $stream_set->getObjectByID($rental->getStreamLink());
-            if ($stream != null) {
-                $reply_dataset[] = "" . $rental->getRentalUid() . "|||" . $stream->getPort() . "";
-            }
-        }
-        if (count($reply_dataset) < 1) {
-            $this->setSwapTag("message", "dataset packing has failed in a epic way");
-            return;
-        }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("dataset_count", count($reply_dataset));
-        $this->setSwapTag("dataset", $reply_dataset);
-        $this->setSwapTag("message", sprintf("Cleint account: %1\$s", $avatar->getAvatarName()));
+
+        $Details = new RenewDetails();
+        $Details->process();
+        $this->output = $Details->getOutputObject();
     }
 }

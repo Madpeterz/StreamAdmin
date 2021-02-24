@@ -6,15 +6,15 @@ use App\R7\Set\ApirequestsSet;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
-use App\Template\SecondlifeAjax;
+use App\Template\SecondlifeHudAjax;
 use YAPF\InputFilter\InputFilter;
 
-class Callapi extends SecondlifeAjax
+class Callapi extends SecondlifeHudAjax
 {
     public function process(): void
     {
         $input = new InputFilter();
-        $rentalUid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("rentalUid");
         $request_code = $input->postFilter("apiid");
         $rental = new Rental();
         $accepted_api_calls = ["optToggleAutodj","optPasswordReset","optAutodjNext"];
@@ -26,7 +26,7 @@ class Callapi extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load rental");
             return;
         }
-        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
+        if ($rental->getAvatarLink() != $this->Object_OwnerAvatar->getId()) {
             $this->setSwapTag("message", "Error setting up link");
             return;
         }

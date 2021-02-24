@@ -3,21 +3,21 @@
 namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
 use App\R7\Model\Rental;
-use App\Template\SecondlifeAjax;
+use App\Template\SecondlifeHudAjax;
 use YAPF\InputFilter\InputFilter;
 
-class Getserverstatus extends SecondlifeAjax
+class GetServerStatus extends SecondlifeHudAjax
 {
     public function process(): void
     {
         $input = new InputFilter();
-        $rentalUid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("rentalUid");
         $rental = new Rental();
-        if ($rental->loadByField("rentalUid", $rentalUid) == true) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
-        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
+        if ($rental->getAvatarLink() != $this->Object_OwnerAvatar->getId()) {
             $this->setSwapTag("message", "System linking error - please try again later");
             return;
         }

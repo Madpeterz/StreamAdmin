@@ -33,7 +33,7 @@ class UpdateNotecards extends SecondlifeAjax
                 }
             }
             $this->setSwapTag("status", true);
-            $this->setSwapTag("message", "Old notecards removed");
+            $this->setSwapTag("message", "ok");
             return;
         }
 
@@ -43,25 +43,48 @@ class UpdateNotecards extends SecondlifeAjax
         }
 
         $notecards_list = explode(",", $notecards);
+
+        $missing_ids = [];
+        $found_ids = [];
         // mark alive notecards / missing
         foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
-            $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);
-            $notecards_list_index = array_search($notice_notecard->getName(), $notecards_list);
-            if ($notecards_list_index !== false) {
-                unset($notecards_list[$notecards_list_index]);
-            }
-            if ($notice_notecard->getMissing() == $notecards_list_index) {
-                $notice_notecard->setMissing($notecards_list_index);
-                $status = $notice_notecard->updateEntry()["status"];
-                if ($status == false) {
-                    $this->setSwapTag(
-                        "message",
-                        "Unable to mark a single static notecard as missing"
-                    );
-                    return;
+            if ($notice_notecard_id != 1) {
+                $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);
+                if (in_array($notice_notecard->getName(), $notecards_list) == false) {
+                    if ($notice_notecard->getMissing() == 0) {
+                        $missing_ids[] = $notice_notecard_id;
+                    }
+                } else {
+                    if ($notice_notecard->getMissing() == 0) {
+                        $found_ids[] = $notice_notecard_id;
+                    }
                 }
             }
         }
+
+        $all_updates_ok = true;
+        if (count($missing_ids) > 0) {
+            $all_updates_ok = false;
+            $notice_notecard_set_missing = new NoticenotecardSet();
+            if ($notice_notecard_set_missing->loadIds($missing_ids)["status"] == true) {
+                $all_updates_ok = $notice_notecard_set_missing->updateFieldInCollection("missing", true)["status"];
+            }
+        }
+        if ($all_updates_ok == true) {
+            if (count($found_ids) > 0) {
+                $all_updates_ok = false;
+                $notice_notecard_set_found = new NoticenotecardSet();
+                if ($notice_notecard_set_found->loadIds($missing_ids)["status"] == true) {
+                    $all_updates_ok = $notice_notecard_set_found->updateFieldInCollection("missing", false)["status"];
+                }
+            }
+        }
+
+        if ($all_updates_ok == false) {
+            $this->setSwapTag("status", false);
+            $this->setSwapTag("message", "unable to update missing/found status");
+        }
+
         // new notecards
         if ($status == true) {
             foreach ($notecards_list as $notecardname) {
@@ -79,21 +102,27 @@ class UpdateNotecards extends SecondlifeAjax
         // remove dead notecards from db
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
-        if ($notice_set->getCount() > 0) {
-            $used_notecards = $notice_set->getUniqueArray("noticeNotecardLink");
-            foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
-                if (in_array($notice_notecard_id, $used_notecards) == false) {
-                    $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);
-                    if ($notice_notecard->getMissing() == true) {
-                        $status = $notice_notecard->removeEntry()["status"];
-                        if ($status == false) {
-                            $this->setSwapTag("message", "Unable to remove static notecard entry");
-                            return;
-                        }
-                    }
+        $used_notecard_ids = $notice_set->getUniqueArray("noticeNotecardLink");
+        $notice_notecard_set = new NoticenotecardSet();
+        $notice_notecard_set->loadByField("missing", 1);
+        $purgeids = [];
+        foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
+            if ($notice_notecard_id != 1) {
+                if (in_array($notice_notecard_id, $used_notecard_ids) == false) {
+                    $purgeids[] = $notice_notecard_id;
                 }
             }
         }
+
+        if (count($purgeids) > 0) {
+            $notice_notecard_set = new NoticenotecardSet();
+            $notice_notecard_set->loadIds($purgeids);
+            if ($notice_notecard_set->purgeCollection()["status"] == false) {
+                $this->setSwapTag("status", false);
+                $this->setSwapTag("message", "unable to remove old notecards");
+            }
+        }
+
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
     }

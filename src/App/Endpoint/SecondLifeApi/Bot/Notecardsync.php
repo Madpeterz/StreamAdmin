@@ -2,17 +2,17 @@
 
 namespace App\Endpoint\SecondLifeApi\Bot;
 
+use App\Helpers\BotHelper;
 use App\R7\Model\Avatar;
 use App\R7\Model\Botconfig;
 use App\R7\Model\Notecard;
 use App\Template\SecondlifeAjax;
-use bot_helper;
 
 class Notecardsync extends SecondlifeAjax
 {
     public function process(): void
     {
-        if ($this->owner_override == true) {
+        if ($this->owner_override == false) {
             $this->setSwapTag("message", "This API is owner only");
             return;
         }
@@ -48,16 +48,16 @@ class Notecardsync extends SecondlifeAjax
         $this->setSwapTag("status", true);
         if ($count_data["count"] == 0) {
             $this->setSwapTag("message", "No work");
-            $this->setSwapTag("hassyncmessage", "0");
+            $this->setSwapTag("hassyncmessage", false);
             return;
         }
 
-        $this->setSwapTag("hassyncmessage", "1");
+        $this->setSwapTag("hassyncmessage", true);
         $this->setSwapTag("avatarUUID", $botavatar->getAvatarUUID());
-        $bot_helper = new bot_helper();
-        $message = $bot_helper->send_bot_command(
+        $bot_helper = new BotHelper();
+        $message = $bot_helper->sendBotCommand(
             $botconfig,
-            "fetchnextnotecard",
+            "FetchNextNotecard",
             [$this->output->getSwapTagString("url_base"),$this->slconfig->getHttpInboundSecret()]
         );
         $this->setSwapTag("message", $message);

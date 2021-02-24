@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Framework;
+namespace App\Switchboard;
 
+use App\Framework\SessionControl;
 use YAPF\InputFilter\InputFilter;
 
-class SwitchboardSecondlifeAPI
+abstract class Switchboard
 {
+    protected $module = "";
+    protected $page = "";
+    protected $area = "";
+    protected $option = "";
+
     protected $method = "";
     protected $action = "";
+    protected $targetEndpoint = "";
+    protected SessionControl $session;
     public function __construct()
     {
         $input = new InputFilter();
@@ -22,7 +30,7 @@ class SwitchboardSecondlifeAPI
             print json_encode(["status" => "0", "message" => "Setup"]);
             return;
         }
-        $use_class = "\\App\\Endpoint\\SecondLifeApi\\" . $this->method . "\\" . $this->action . "";
+        $use_class = "\\App\\Endpoint\\" . $this->targetEndpoint . "\\" . $this->method . "\\" . $this->action . "";
         if (class_exists($use_class) == false) {
             print json_encode(["status" => "0", "message" => "Not supported"]);
             return;

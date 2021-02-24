@@ -33,7 +33,7 @@ class Next extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to remove message from the mailbox");
             return;
         }
-        $this->setSwapTag("hasmessage", 1);
+        $this->setSwapTag("hasmessage", true);
         $this->setSwapTag("message", $message->getMessage());
         $this->setSwapTag("avatarUUID", $avatar->getAvatarUUID());
         $this->setSwapTag("status", true);

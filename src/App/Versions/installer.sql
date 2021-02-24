@@ -667,3 +667,5 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
+
+ALTER TABLE `slconfig` ADD `hudLinkCode` VARCHAR(12) NULL AFTER `publicLinkCode`;

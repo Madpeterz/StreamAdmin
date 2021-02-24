@@ -30,7 +30,7 @@ class Getconfig extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load package");
             return;
         }
-        // $reseller, $object_ownerAvatarLinkatar, $owner_override, $region, $object
+        // $reseller, $Object_OwnerAvatar, $owner_override, $region, $object
         $apirequests_set = new ApirequestsSet();
         $apirequests_set->loadAll();
         $used_stream_ids = $apirequests_set->getUniqueArray("streamLink");

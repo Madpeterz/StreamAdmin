@@ -14,7 +14,7 @@ class Resend extends SecondlifeAjax
         $input = new InputFilter();
         $rentalUid = $input->postFilter("rentalUid");
         $rental = new Rental();
-        if ($rental->loadByField("rentalUid", $rentalUid) == true) {
+        if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }

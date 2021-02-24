@@ -6,15 +6,15 @@ use App\R7\Model\Apis;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
-use App\Template\SecondlifeAjax;
+use App\Template\SecondlifeHudAjax;
 use YAPF\InputFilter\InputFilter;
 
-class Getapistatus extends SecondlifeAjax
+class GetApiStatus extends SecondlifeHudAjax
 {
     public function process(): void
     {
         $input = new InputFilter();
-        $rentalUid = $input->postFilter("uid");
+        $rentalUid = $input->postFilter("rentalUid");
         $rental = new Rental();
         if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");

@@ -2,6 +2,8 @@
 
 namespace App\Endpoint\SecondLifeApi\Detailsserver;
 
+use App\Helpers\BotHelper;
+use App\Helpers\SwapablesHelper;
 use App\R7\Model\Avatar;
 use App\R7\Model\Botconfig;
 use App\R7\Set\DetailSet;
@@ -12,14 +14,11 @@ use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use App\R7\Model\Template;
 use App\Template\SecondlifeAjax;
-use bot_helper;
-use swapables_helper;
 
 class Next extends SecondlifeAjax
 {
     public function process(): void
     {
-        $status = false;
         if ($this->owner_override == false) {
             $this->setSwapTag("message", "SystemAPI access only - please contact support");
             return;
@@ -77,9 +76,9 @@ class Next extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to remove detail request");
             return;
         }
-        $bot_helper = new bot_helper();
-        $swapables_helper = new swapables_helper();
-        $sendmessage = $swapables_helper->get_swapped_text(
+        $bot_helper = new BotHelper();
+        $swapables_helper = new SwapablesHelper();
+        $sendmessage = $swapables_helper->getSwappedText(
             $template->getDetail(),
             $avatar,
             $rental,

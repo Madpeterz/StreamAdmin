@@ -4,15 +4,15 @@ namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
 use App\R7\Set\RentalSet;
 use App\R7\Set\StreamSet;
-use App\Template\SecondlifeAjax;
+use App\Template\SecondlifeHudAjax;
 
-class Hudserverlist extends SecondlifeAjax
+class GetServerList extends SecondlifeHudAjax
 {
     public function process(): void
     {
         $this->setSwapTag("status", true);
         $rentals_set = new RentalSet();
-        $rentals_set->loadByField("avatarLink", $this->object_ownerAvatarLinkatar->getId());
+        $rentals_set->loadByField("avatarLink", $this->Object_OwnerAvatar->getId());
         if ($rentals_set->getCount() < 1) {
             $this->setSwapTag("message", "none");
             return;
@@ -43,7 +43,8 @@ class Hudserverlist extends SecondlifeAjax
                 $reply["states"][] = 2;
             }
         }
-        $this->setSwapTag("message", "ok - " . count($reply["states"]));
+        $this->setSwapTag("message", "ok");
+        $this->setSwapTag("count", count($reply["states"]));
         foreach ($reply as $key => $value) {
             $this->setSwapTag($key, $value);
         }

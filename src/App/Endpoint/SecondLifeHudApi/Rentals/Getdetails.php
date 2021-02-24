@@ -4,10 +4,10 @@ namespace App\Endpoint\SecondLifeHudApi\Rentals;
 
 use App\Endpoint\SecondLifeApi\Details\Resend;
 use App\R7\Model\Rental;
-use App\Template\SecondlifeAjax;
+use App\Template\SecondlifeHudAjax;
 use YAPF\InputFilter\InputFilter;
 
-class Getdetails extends SecondlifeAjax
+class GetDetails extends SecondlifeHudAjax
 {
     public function process(): void
     {
@@ -18,11 +18,11 @@ class Getdetails extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
-        if ($rental->getAvatarLink() != $this->object_ownerAvatarLinkatar->getId()) {
+        if ($rental->getAvatarLink() != $this->Object_OwnerAvatar->getId()) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
         }
-        $this->setSwapTag("message", "ok but you should never see this message");
+        $this->setSwapTag("message", "ok");
         $api_object = new Resend();
         $api_object->process();
         $this->output = $api_object->getOutputObject();

@@ -307,3 +307,4 @@ ALTER TABLE `apirequests` ADD INDEX(`streamLink`);
 ALTER TABLE `apirequests` ADD CONSTRAINT `rental_in_use_apirequests` FOREIGN KEY (`rentalLink`) REFERENCES `rental`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
 ALTER TABLE `apirequests` ADD CONSTRAINT `server_in_use_apirequests` FOREIGN KEY (`serverLink`) REFERENCES `server`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
 ALTER TABLE `apirequests` ADD CONSTRAINT `stream_in_use_apirequests` FOREIGN KEY (`streamLink`) REFERENCES `stream`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+ALTER TABLE `slconfig` ADD `hudLinkCode` VARCHAR(12) NULL AFTER `publicLinkCode`;

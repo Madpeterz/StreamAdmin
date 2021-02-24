@@ -16,6 +16,7 @@ class Slconfig extends genClass
         "slLinkCode" => ["type" => "str", "value" => null],
         "clientsListMode" => ["type" => "bool", "value" => 0],
         "publicLinkCode" => ["type" => "str", "value" => null],
+        "hudLinkCode" => ["type" => "str", "value" => null],
         "ownerAvatarLink" => ["type" => "int", "value" => null],
         "eventStorage" => ["type" => "bool", "value" => 0],
         "datatableItemsPerPage" => ["type" => "int", "value" => 10],
@@ -52,6 +53,10 @@ class Slconfig extends genClass
     public function getPublicLinkCode(): ?string
     {
         return $this->getField("publicLinkCode");
+    }
+    public function getHudLinkCode(): ?string
+    {
+        return $this->getField("hudLinkCode");
     }
     public function getOwnerAvatarLink(): ?int
     {
@@ -148,6 +153,14 @@ class Slconfig extends genClass
     public function setPublicLinkCode(?string $newvalue): array
     {
         return $this->updateField("publicLinkCode", $newvalue);
+    }
+    /**
+    * setHudLinkCode
+    * @return mixed[] [status =>  bool, message =>  string]
+    */
+    public function setHudLinkCode(?string $newvalue): array
+    {
+        return $this->updateField("hudLinkCode", $newvalue);
     }
     /**
     * setOwnerAvatarLink
