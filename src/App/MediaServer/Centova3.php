@@ -77,6 +77,8 @@ class Centova3 extends PublicApi
     {
         return $this->simpleReplyOk($this->centovaSystemclassApiCall("terminate", ["username" => $old_username]));
     }
+
+    // faked
     protected function createAccount(): bool
     {
         global $slconfig;
@@ -106,11 +108,14 @@ class Centova3 extends PublicApi
         }
         return $this->susspendServer();
     }
+
     protected function removeDJ(string $djaccount): bool
     {
         $reply = $this->centovaServerclassApiCall("managedj", ["action" => "terminate","djusername" => $djaccount]);
         return $this->simpleReplyOk($reply);
     }
+
+    // faked
     /**
      * djList
      * @return mixed[] [status => bool, list=> array]
@@ -147,7 +152,7 @@ class Centova3 extends PublicApi
         return ["status" => $status,"list" => $list];
     }
 
-
+    // faked
     /**
      * serverStatus
      * @return mixed[] [status => bool, loads=>[1,5,15], ram=>[free,max], streams=>[total,active], message=> string]
