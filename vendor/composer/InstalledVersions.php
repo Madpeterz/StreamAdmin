@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '6b72df80a953da9432ef2561aee4f421131c15cc',
+    'reference' => '90f6f5decf31f521fc92e98fce7997e7985ba0cb',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -58,7 +58,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '6b72df80a953da9432ef2561aee4f421131c15cc',
+      'reference' => '90f6f5decf31f521fc92e98fce7997e7985ba0cb',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (

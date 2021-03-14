@@ -61,9 +61,11 @@ class SecondlifeApiNoticeserver extends TestCase
         $this->assertSame("ok",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$UpdateNotecards->getOutputObject()->getSwapTagBool("status"),"marked as failed");
 
+
+
         $noticenotecardset = new NoticenotecardSet();
         $this->assertSame(true,$noticenotecardset->loadAll()["status"],"Unable to load notecard set");
-        $this->assertSame(4,$noticenotecardset->getCount(),"Incorrect number of static notecards found");
+        $this->assertSame(6,$noticenotecardset->getCount(),"Incorrect number of static notecards found");
         $missing_count = 0;
         foreach($noticenotecardset->getAllIds() as $id)
         {
@@ -73,14 +75,14 @@ class SecondlifeApiNoticeserver extends TestCase
                 $missing_count++;
             }
         }
-        $this->assertSame(0,$missing_count,"Incorrect number of notecards marked as missing");
+        $this->assertSame(2,$missing_count,"Incorrect number of notecards marked as missing");
 
         $_POST["notecards"] = "none";
         $UpdateNotecards = new UpdateNotecards();
         $this->assertSame("Not processed",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$UpdateNotecards->getLoadOk(),"Load ok failed");
         $UpdateNotecards->process();
-        $this->assertSame("ok",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"incorrect reply");
+        $this->assertSame("ok - purged: 2 notecards",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$UpdateNotecards->getOutputObject()->getSwapTagBool("status"),"marked as failed");
 
         $noticenotecardset = new NoticenotecardSet();
