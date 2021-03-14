@@ -6,5 +6,9 @@ DROP TABLE IF EXISTS  `apirequests`, `apis`, `avatar`, `banlist`,
 `region`, `rental`, `reseller`, `server`,
 `servertypes`, `slconfig`, `staff`, `stream`,
 `template`, `textureconfig`, `timezones`,
-`transactions`, `treevender`, `treevenderpackages`;
+`transactions`, `treevender`, `treevenderpackages`,
+`alltypestable`, `counttoonehundo`, `endoftestempty`, 
+`endoftestwithfourentrys`, `endoftestwithupdates`, `flagedvalues`, 
+`liketests`, `relationtestinga`, `relationtestingb`, 
+`rollbacktest`, `twintables1`, `twintables2`, `weirdtable`;
 SET FOREIGN_KEY_CHECKS = 1;
