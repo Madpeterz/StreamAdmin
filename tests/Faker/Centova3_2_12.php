@@ -2,8 +2,11 @@
 
 namespace App\Faker;
 
-class Centova3
+class Centova3_2_12
 {
+    /*
+        replys are based on v3.2.12 using real world tests
+    */
     protected $required_post_keys = [];
     protected $a_args = [];
     public function __construct()
@@ -78,11 +81,20 @@ class Centova3
             "response" => [],
         ];
         $response = [
-            "message" => "This is a faked reply " . $functionname,
+            "message" => "This is a faked reply for: " . $functionname,
         ];
         $response = array_merge($response,$data_addon);
         $reply["response"] = $response;
         print json_encode($reply);
+    }
+
+    protected function serverManagedj(): void
+    {
+        $this->a_args[] = "action";
+        $reply_addon = [
+            "data" => [],
+        ];
+        $this->basicReply(__FUNCTION__,$reply_addon);
     }
 
     protected function serverGetaccount(): void
