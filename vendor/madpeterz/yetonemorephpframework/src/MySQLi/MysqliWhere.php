@@ -186,7 +186,7 @@ abstract class MysqliWhere extends MysqliFunctions
         } else {
             $current_where_code .= "`" . $field . "` " . $match . " ?";
             $bind_text .= $type;
-            $bind_args[] = $value;
+            $bind_args[] = $this->convertIfBool($value);
         }
     }
     protected function whereJoinBuilder(

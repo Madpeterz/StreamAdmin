@@ -66,7 +66,7 @@ abstract class InputFilterWorkerValue extends InputFilterTypeColor
         if ($filter != "array") {
             $filter_tests["is_array"] = [
                 "expected" => false,
-                "why" => "is an array",
+                "why" => "is an array but running test: " . $filter,
             ];
         }
         $this->whyfailed = "";

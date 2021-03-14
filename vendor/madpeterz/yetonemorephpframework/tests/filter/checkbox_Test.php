@@ -83,7 +83,7 @@ class inputFilter_checkbox_test extends TestCase
         $results1 = $this->_testingobject->getFilter("popcorn5", "checkbox", ["filter" => "string"]);
         $this->assertSame($results1, 0);
         $results1 = $this->_testingobject->getWhyFailed();
-        $this->assertSame($results1, "is an array");
+        $this->assertSame($results1, "is an array but running test: checkbox");
     }
 
     public function test_checkbox_feedback_loop()

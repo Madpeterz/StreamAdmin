@@ -33,7 +33,7 @@ class DbObjectsLoadTest extends TestCase
         $results = $sql->rawSQL("tests/testdataset.sql");
         // [status =>  bool, message =>  string]
         $this->assertSame($results["status"], true);
-        $this->assertSame($results["message"], "65 commands run");
+        $this->assertSame($results["message"], "56 commands run");
     }
     public function testLoadId()
     {

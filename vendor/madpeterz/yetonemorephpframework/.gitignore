@@ -1,4 +1,2 @@
 vendor/
 composer.lock
-src/Junk/Models/
-src/Junk/Sets/

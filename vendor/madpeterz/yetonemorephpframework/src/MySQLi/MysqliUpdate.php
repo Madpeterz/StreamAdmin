@@ -47,6 +47,7 @@ abstract class MysqliUpdate extends MysqliAdd
             }
             $sql .= $addon;
             $sql .= $update_config["fields"][$loop] . "=";
+            $update_config["values"][$loop] = $this->convertIfBool($update_config["values"][$loop]);
             if (($update_config["values"][$loop] == null) && ($update_config["values"][$loop] !== 0)) {
                 $sql .= "NULL";
             } else {
@@ -62,6 +63,7 @@ abstract class MysqliUpdate extends MysqliAdd
         if ($JustDoIt["status"] == false) {
             return $JustDoIt;
         }
+
         $stmt = $JustDoIt["stmt"];
         $changes = mysqli_stmt_affected_rows($stmt);
         $stmt->close();

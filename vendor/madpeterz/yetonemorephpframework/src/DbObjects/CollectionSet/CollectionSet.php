@@ -92,6 +92,11 @@ abstract class CollectionSet extends CollectionSetBulkRemove
         string $order = "id",
         string $order_dir = "DESC"
     ): array {
+        if (is_object($value) == true) {
+            $errormsg = "Attempted to pass value as a object!";
+            $this->addError(__FILE__, __FUNCTION__, $errormsg);
+            return ["status" => false,"message" => "Attempted to pass a value as a object!"];
+        }
         return $this->loadOnFields([$field], [$value], ["="], "AND", $order, $order_dir, $limit);
     }
    /**

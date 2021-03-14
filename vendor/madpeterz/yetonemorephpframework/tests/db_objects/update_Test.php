@@ -32,28 +32,28 @@ class DbObjectsUpdateTest extends TestCase
         global $sql;
         $target = new Endoftestempty();
         $result = $target->loadByField("name", "yes");
-        $this->assertSame($result, true);
+        $this->assertSame(true, $result, "Load by field failed");
         $result = $target->setName("Magic");
-        $this->assertSame($result["status"], true);
+        $this->assertSame(true, $result["status"], "Set field via helper failed");
         $result = $target->updateEntry();
-        $this->assertSame($result["status"], true);
+        $this->assertSame($result["status"], true, "Update failed");
         $this->tearDown();
-        $this->assertSame($sql, null); // reset mysql connection
+        $this->assertSame(null, $sql, "SQL did not go away"); // reset mysql connection
         $this->setUp();
         $target = new Endoftestempty();
         $result = $target->loadID(1);
-        $this->assertSame($result, true);
-        $this->assertSame($target->getName(), "Magic");
+        $this->assertSame(true, $result, "Unable to load id 1 from end of test empty");
+        $this->assertSame("Magic", $target->getName(), "Incorrect name value");
     }
 
     public function testUpdateSet()
     {
         $target = new LiketestsSet();
         $result = $target->loadAll();
-        $this->assertSame($result["status"], true);
+        $this->assertSame(true, $result["status"], "Incorrect load status");
         $this->assertSame($result["count"], 4);
         $result = $target->updateFieldInCollection("value", "Song");
-        $this->assertSame($result["status"], true);
+        $this->assertSame(true, $result["status"], "Incorrect update status");
         $this->assertSame($result["changes"], 3);
     }
 
@@ -61,10 +61,10 @@ class DbObjectsUpdateTest extends TestCase
     {
         $target = new LiketestsSet();
         $result = $target->loadAll();
-        $this->assertSame($result["status"], true);
+        $this->assertSame(true, $result["status"], "Incorrect load status");
         $this->assertSame($result["count"], 4);
         $result = $target->updateFieldInCollection("value", null);
-        $this->assertSame($result["status"], false);
+        $this->assertSame(false, $result["status"], "Incorrect update status");
         $this->assertSame($result["changes"], 0);
         $fail_message = "Update failed because:unable to execute because: Column 'value' cannot be null";
         $this->assertSame($result["message"], $fail_message);
@@ -74,7 +74,7 @@ class DbObjectsUpdateTest extends TestCase
     {
         $target = new LiketestsSet();
         $result = $target->updateFieldInCollection("value", "yes");
-        $this->assertSame($result["status"], false);
+        $this->assertSame(false, $result["status"], "Incorrect update status");
         $this->assertSame($result["changes"], 0);
         $fail_message = "Nothing loaded in collection";
         $this->assertSame($result["message"], $fail_message);
@@ -89,7 +89,7 @@ class DbObjectsUpdateTest extends TestCase
         $target->createEntry();
         $target->setFloatfield(55.81);
         $result = $target->updateEntry();
-        $this->assertSame($result["status"], true);
+        $this->assertSame(true, $result["status"], "Incorrect update status");
         $this->assertSame($result["changes"], 1);
     }
 }

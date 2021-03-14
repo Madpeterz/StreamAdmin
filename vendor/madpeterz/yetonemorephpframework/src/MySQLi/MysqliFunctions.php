@@ -7,6 +7,23 @@ use Exception;
 abstract class MysqliFunctions extends MysqliCore
 {
     public bool $fullSqlErrors = false;
+
+    /**
+     * convertIfBool
+     * takes a input and if its a bool converts it to a int
+     * otherwise returns input
+     * @return mixed
+     */
+    public function convertIfBool($input)
+    {
+        if ($input === false) {
+            return 0;
+        } elseif ($input === true) {
+            return 1;
+        }
+        return $input;
+    }
+
     /**
      * RawSQL
      * runs a stored sql file from disk

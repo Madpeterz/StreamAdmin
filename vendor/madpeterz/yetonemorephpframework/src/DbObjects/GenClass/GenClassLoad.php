@@ -19,6 +19,11 @@ abstract class GenClassLoad extends GenClassSet
      */
     public function loadByField(string $field_name, $field_value): bool
     {
+        if (is_object($field_value) == true) {
+            $errormsg = "Attempted to pass field_value as a object!";
+            $this->addError(__FILE__, __FUNCTION__, $errormsg);
+            return false;
+        }
         $field_type = $this->getFieldType($field_name, true);
         if ($field_type == null) {
             $errormsg = "Attempted to get field type: " . $field_name . " but its not supported!";

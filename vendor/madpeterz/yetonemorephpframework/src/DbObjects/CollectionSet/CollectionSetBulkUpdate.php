@@ -54,6 +54,7 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
         }
         return ["status" => $all_ok, "dataset" => $update_config, "message" => $message];
     }
+
     /**
      * updateMultipleGetUpdatedIds
      * using the fields that have changes

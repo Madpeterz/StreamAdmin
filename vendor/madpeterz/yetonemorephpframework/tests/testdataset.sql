@@ -9,10 +9,15 @@ DROP TABLE IF EXISTS  `apirequests`, `apis`, `avatar`, `banlist`,
 `region`, `rental`, `reseller`, `server`,
 `servertypes`, `slconfig`, `staff`, `stream`,
 `template`, `textureconfig`, `timezones`,
-`transactions`, `treevender`, `treevenderpackages`;
-SET FOREIGN_KEY_CHECKS = 1;
+`transactions`, `treevender`, `treevenderpackages`,
+`alltypestable`, `counttoonehundo`, `endoftestempty`, 
+`endoftestwithfourentrys`, `endoftestwithupdates`, `flagedvalues`, `liketests`, `relationtestinga`, 
+`relationtestingb`, `rollbacktest`, `twintables1`,
+`twintables2`, `weirdtable`;
 
-DROP TABLE IF EXISTS `alltypestable`;
+
+
+SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE `alltypestable` (
   `id` int(11) NOT NULL,
   `stringfield` mediumtext NOT NULL,
@@ -21,7 +26,6 @@ CREATE TABLE `alltypestable` (
   `boolfield` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `counttoonehundo`;
 CREATE TABLE `counttoonehundo` (
   `id` int(11) NOT NULL,
   `cvalue` int(11) NOT NULL
@@ -129,7 +133,6 @@ INSERT INTO `counttoonehundo` (`id`, `cvalue`) VALUES
 (99, 256),
 (100, 512);
 
-DROP TABLE IF EXISTS `endoftestempty`;
 CREATE TABLE `endoftestempty` (
   `id` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
@@ -142,13 +145,11 @@ INSERT INTO `endoftestempty` (`id`, `name`, `value`) VALUES
 (3, 'maybe', 2),
 (4, 'what', -1);
 
-DROP TABLE IF EXISTS `endoftestwithfourentrys`;
 CREATE TABLE `endoftestwithfourentrys` (
   `id` int(11) NOT NULL,
   `value` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `endoftestwithupdates`;
 CREATE TABLE `endoftestwithupdates` (
   `id` int(11) NOT NULL,
   `username` mediumtext NOT NULL,
@@ -159,7 +160,12 @@ CREATE TABLE `endoftestwithupdates` (
 INSERT INTO `endoftestwithupdates` (`id`, `username`, `oldusername`, `banned`) VALUES
 (1, 'Madpeter', 'Madpeter', 0);
 
-DROP TABLE IF EXISTS `liketests`;
+CREATE TABLE `flagedvalues` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `value` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `liketests` (
   `id` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
@@ -172,7 +178,6 @@ INSERT INTO `liketests` (`id`, `name`, `value`) VALUES
 (3, 'Party Advent', 'Song'),
 (4, 'Advent', 'wise');
 
-DROP TABLE IF EXISTS `relationtestinga`;
 CREATE TABLE `relationtestinga` (
   `id` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
@@ -183,7 +188,6 @@ INSERT INTO `relationtestinga` (`id`, `name`, `linkid`) VALUES
 (1, 'group1', 1),
 (2, 'group2', 4);
 
-DROP TABLE IF EXISTS `relationtestingb`;
 CREATE TABLE `relationtestingb` (
   `id` int(11) NOT NULL,
   `extended1` mediumtext NOT NULL,
@@ -197,14 +201,12 @@ INSERT INTO `relationtestingb` (`id`, `extended1`, `extended2`, `extended3`) VAL
 (3, 'd1', 'd2', 'd3'),
 (4, 'c1', 'c2', 'c3');
 
-DROP TABLE IF EXISTS `rollbacktest`;
 CREATE TABLE `rollbacktest` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `value` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `twintables1`;
 CREATE TABLE `twintables1` (
   `id` int(11) NOT NULL,
   `title` mediumtext NOT NULL,
@@ -214,7 +216,6 @@ CREATE TABLE `twintables1` (
 INSERT INTO `twintables1` (`id`, `title`, `message`) VALUES
 (1, 'harry potter', 'is not very good');
 
-DROP TABLE IF EXISTS `twintables2`;
 CREATE TABLE `twintables2` (
   `id` int(11) NOT NULL,
   `title` mediumtext NOT NULL,
@@ -224,7 +225,6 @@ CREATE TABLE `twintables2` (
 INSERT INTO `twintables2` (`id`, `title`, `message`) VALUES
 (1, 'harry potter', 'is great');
 
-DROP TABLE IF EXISTS `weirdtable`;
 CREATE TABLE `weirdtable` (
   `id` int(11) NOT NULL,
   `weirda` set('5','6','7','8') DEFAULT NULL,
@@ -232,9 +232,11 @@ CREATE TABLE `weirdtable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `weirdtable` (`id`, `weirda`, `weirdb`) VALUES
+(-41, '5,6,7,8', '3'),
 (1, '5', '4'),
 (2, '7', '2');
 
+INSERT INTO `flagedvalues` (`id`, `name`, `value`) VALUES (1, 'asdasdasd', '1'), (2, 'asdafsdfsdf', '0');
 
 ALTER TABLE `alltypestable`
   ADD PRIMARY KEY (`id`);
@@ -249,6 +251,9 @@ ALTER TABLE `endoftestwithfourentrys`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `endoftestwithupdates`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `flagedvalues`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `liketests`
@@ -289,6 +294,9 @@ ALTER TABLE `endoftestwithfourentrys`
 ALTER TABLE `endoftestwithupdates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
+ALTER TABLE `flagedvalues`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `liketests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
@@ -313,5 +321,3 @@ ALTER TABLE `weirdtable`
 
 ALTER TABLE `relationtestinga`
   ADD CONSTRAINT `testingb_in_use` FOREIGN KEY (`linkid`) REFERENCES `relationtestingb` (`id`) ON UPDATE NO ACTION;
-
-  INSERT INTO `weirdtable` (`id`, `weirda`, `weirdb`) VALUES ('-41', '5,6,7,8', '3');

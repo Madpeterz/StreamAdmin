@@ -33,9 +33,10 @@ class MysqliUpdateTest extends TestCase
         ];
         $results = $this->sql->updateV2("endoftestwithupdates", $update_config, $where_config);
         // [changes => int, status => bool, message => string]
+        $this->assertSame("ok", $results["message"], "Incorrect update status message: ".$this->sql->getLastSql());
         $this->assertSame($results["status"], true);
         $this->assertSame($results["changes"], 1);
-        $this->assertSame($results["message"], "ok");
+        
     }
 
     public function testUpdateNoTypes()
