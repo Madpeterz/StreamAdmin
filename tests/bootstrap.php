@@ -17,4 +17,7 @@ if(file_exists("src/App/Config/site_installed.php") == true) {
 if(file_exists("src/App/Config/ready.txt") == true) {
     unlink("src/App/Config/ready.txt");
 }
+if (defined("UNITTEST") == false) {
+    define("UNITTEST", "yep");
+}
 include ROOTFOLDER . "/App/Framework/load.php";

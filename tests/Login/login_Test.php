@@ -7,6 +7,8 @@ use App\Endpoint\Control\Login\Resetnow;
 use App\Endpoint\Control\Login\Start as LoginWithPassword;
 use App\Endpoint\View\Login\DefaultView as LoginPage;
 use App\Endpoint\View\Login\Logout;
+use App\Endpoint\View\Login\Reset as LoginReset;
+use App\Endpoint\View\Login\Resetwithtoken;
 use App\R7\Set\MessageSet;
 use App\R7\Model\Staff;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +30,7 @@ class Login extends TestCase
     {
         global $area;
         $area = "reset";
-        $LoginPage = new LoginPage();
+        $LoginPage = new LoginReset();
         $LoginPage->process();
         $statuscheck = $LoginPage->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("SL username or emailaddress",$statuscheck);
@@ -53,7 +55,7 @@ class Login extends TestCase
         $messages->loadAll();
         $this->assertSame(2,$messages->getCount(),"Status check failed");
         $area = "resetwithtoken";
-        $LoginPage = new LoginPage();
+        $LoginPage = new Resetwithtoken();
         $LoginPage->process();
         $statuscheck = $LoginPage->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("Reset token",$statuscheck);
