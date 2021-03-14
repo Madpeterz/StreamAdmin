@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Switchboard\Hud;
+use App\Switchboard\Sys;
 
 if (defined("ROOTFOLDER") == true) {
     include ROOTFOLDER . "/App/Framework/load.php";
@@ -10,4 +10,4 @@ if (defined("ROOTFOLDER") == true) {
     include "../App/Framework/load.php";
 }
 
-new Hud();
+new Sys();

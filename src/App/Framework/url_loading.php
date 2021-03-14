@@ -3,7 +3,10 @@
 function process_uri(string $process): void
 {
     global $module, $area, $page, $optional;
-
+    $module = "";
+    $area = "";
+    $page = "";
+    $optional = "";
     $uri_parts = explode('?', $process, 2);
     $bits = array_values(array_diff(explode("/", $uri_parts[0]), [""]));
     if (count($bits) > 0) {

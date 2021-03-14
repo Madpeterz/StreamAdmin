@@ -26,15 +26,32 @@ abstract class Switchboard
 
     protected function loadPage(): void
     {
+        if ($this->method == "") {
+            $this->method = $this->module;
+        }
+        if ($this->action == "") {
+            $this->action = $this->area;
+        }
         if (install_ok() == false) {
             print json_encode(["status" => "0", "message" => "Setup"]);
             return;
         }
-        $use_class = "\\App\\Endpoint\\" . $this->targetEndpoint . "\\" . $this->method . "\\" . $this->action . "";
-        if (class_exists($use_class) == false) {
-            print json_encode(["status" => "0", "message" => "Not supported"]);
+        $use_class = "\\App\\Endpoint\\" . $this->targetEndpoint . "\\" . $this->method . "";
+        if ($this->method == "") {
+            print json_encode(["status" => "0", "message" => "No control method selected!"]);
             return;
         }
+        if ($this->action != "") {
+            $use_class .= "\\" . $this->action;
+        } else {
+            $use_class .= "\\DefaultView";
+        }
+        if (class_exists($use_class) == false) {
+            print json_encode(["status" => "0", "message" => "[" . $this->method . " | " . $this->action . "] 
+            Unsupported class " . htmlentities($use_class)]);
+            return;
+        }
+
         $obj = new $use_class();
         if ($obj->getLoadOk() == true) {
             $obj->process();

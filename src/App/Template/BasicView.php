@@ -31,9 +31,16 @@ abstract class BasicView
         $this->slconfig = &$slconfig;
         $this->sql = &$sql;
         $this->output = new Template($AutoLoadTemplate);
+        $this->setSwapTag("status", false);
+        $this->setSwapTag("message", "Not processsed yet");
         if ($AutoLoadTemplate == true) {
             $this->output->tempateSidemenu();
         }
+    }
+    protected bool $load_ok = true;
+    public function getLoadOk(): bool
+    {
+        return $this->load_ok;
     }
     public function addVendor(string $vendor): void
     {
@@ -51,9 +58,13 @@ abstract class BasicView
     {
         return $this->output;
     }
-    public function getoutput(): void
+    public function renderPage(): void
     {
         $this->output->renderPage();
+    }
+    public function getoutput(): void
+    {
+        $this->renderPage();
     }
     protected function setSwapTag($tag, $value): void
     {

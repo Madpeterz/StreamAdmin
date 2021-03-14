@@ -146,6 +146,8 @@ class Centova3 extends PublicApi
         }
         return ["status" => $status,"list" => $list];
     }
+
+
     /**
      * serverStatus
      * @return mixed[] [status => bool, loads=>[1,5,15], ram=>[free,max], streams=>[total,active], message=> string]
@@ -175,6 +177,8 @@ class Centova3 extends PublicApi
         }
         return ["status" => $status,"loads" => $loads,"ram" => $ram,"streams" => $streams,"message" => $message];
     }
+
+    // faked
     /**
      * accountData
      * @return mixed[] [status => bool, data=>array]
@@ -206,6 +210,8 @@ class Centova3 extends PublicApi
         }
         return ["status" => $status,"state" => $state];
     }
+
+    // faked
     /**
      * streamState
      * @return mixed[] [status => bool, state=>bool,source=>bool, autodj=>bool]
@@ -286,6 +292,7 @@ class Centova3 extends PublicApi
         return ["status" => $all_ok,"usernames" => $current_usernames,"passwords" => $current_passwords];
     }
 
+    // faked
     protected function syncUsername(string $old_username): bool
     {
         $reply = $this->centovaSystemclassApiCall(
@@ -297,6 +304,7 @@ class Centova3 extends PublicApi
         }
         return false;
     }
+    // faked
     protected function toggleAutodj(): bool
     {
         $reply = $this->centovaServerclassApiCall("getstatus", ["mountpoints" => "all"]);
@@ -330,10 +338,12 @@ class Centova3 extends PublicApi
         }
         return false;
     }
+    // faked
     protected function autodjNext(): bool
     {
         return $this->simpleReplyOk($this->centovaServerclassApiCall("nextsong"));
     }
+    // faked
     protected function stopServer(): bool
     {
         $streamstate = $this->streamState();
@@ -344,6 +354,7 @@ class Centova3 extends PublicApi
             return true;
         }
     }
+    // faked
     protected function startServer(int $skip_auto_dj = 0): bool
     {
         $streamstate = $this->streamState();
@@ -354,6 +365,7 @@ class Centova3 extends PublicApi
             return true;
         }
     }
+    // faked
     protected function susspendServer(): bool
     {
         return $this->simpleReplyOk(
@@ -363,6 +375,7 @@ class Centova3 extends PublicApi
             )
         );
     }
+    // faked
     protected function unSusspendServer(): bool
     {
         return $this->simpleReplyOk(
@@ -372,6 +385,7 @@ class Centova3 extends PublicApi
             )
         );
     }
+    // faked
     protected function changePassword(): bool
     {
         return $this->simpleReplyOk(
@@ -384,6 +398,7 @@ class Centova3 extends PublicApi
             )
         );
     }
+    // faked
     protected function changeTitleNow(string $newtitle = "Not set"): bool
     {
         return $this->simpleReplyOk($this->centovaServerclassApiCall("reconfigure", ["title" => $newtitle]));

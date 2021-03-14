@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoints\SystemApi\Notecard;
+namespace App\Endpoint\SystemApi\Notecard;
 
 use App\Helpers\SwapablesHelper;
 use App\R7\Model\Avatar;
@@ -12,13 +12,12 @@ use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use App\R7\Model\Template;
-use App\Template\ViewAjax;
+use App\Template\SystemApiAjax;
 
-class Next extends ViewAjax
+class Next extends SystemApiAjax
 {
     public function process(): void
     {
-        $load_ok = false;
         $notecard = new Notecard();
         $rental = new Rental();
         $package = new Package();
@@ -41,31 +40,34 @@ class Next extends ViewAjax
         }
         $notecard_set = new NotecardSet();
         $notecard_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
-        if ($notecard_set->getCount() > 0) {
-            $notecard = $notecard_set->getFirst();
-            $load_ok = true;
-            foreach ($load_by as $objectName => $value) {
-                foreach ($value as $source => $linkon) {
-                    $object = $$objectName;
-                    $loadfromobject = $$source;
-                    $loadfromfunction = "get" . ucfirst($linkon);
-                    if ($object->loadID($loadfromobject->$loadfromfunction()) == false) {
-                        $load_ok = false;
-                        break;
-                    }
+        if ($notecard_set->getCount() == 0) {
+            $this->setSwapTag("status", true);
+            $this->setSwapTag("message", "nowork");
+            return;
+        }
+        $notecard = $notecard_set->getFirst();
+        foreach ($load_by as $objectName => $value) {
+            foreach ($value as $source => $linkon) {
+                $object = $$objectName;
+                $loadfromobject = $$source;
+                $loadfromfunction = "get" . ucfirst($linkon);
+                if ($object->loadID($loadfromobject->$loadfromfunction()) == false) {
+                    $this->setSwapTag("message", "Unable to load object: 
+                    " . $source . " using " . $loadfromfunction);
+                    return;
                 }
             }
-        }
-        if ($load_ok == false) {
-            $this->setSwapTag("message", "Unable to load notecard right now");
-            return;
         }
         $notecard_title = "";
         $notecard_content = "";
         $swap_helper = new SwapablesHelper();
         if ($notecard->getAsNotice() == false) {
             $notecard_title = "Streamdetails for " . $avatar->getAvatarName() . " port: " . $stream->getPort() . "";
-            $notecard_content = $swap_helper->get_swapped_text(
+            if ($template->getNotecarddetail() == null) {
+                $this->setSwapTag("message", "Selected template: " . $template->getName() . " is empty");
+                return;
+            }
+            $notecard_content = $swap_helper->getSwappedText(
                 $template->getNotecarddetail(),
                 $avatar,
                 $rental,
@@ -75,7 +77,11 @@ class Next extends ViewAjax
             );
         } else {
             $notecard_title = "Reminder for " . $avatar->getAvatarName() . " port: " . $stream->getPort() . "";
-            $notecard_content = $swap_helper->get_swapped_text(
+            if ($notice->getNotecarddetail() == null) {
+                $this->setSwapTag("message", "Selected notice: " . $notice->getName() . " is empty");
+                return;
+            }
+            $notecard_content = $swap_helper->getSwappedText(
                 $notice->getNotecarddetail(),
                 $avatar,
                 $rental,
