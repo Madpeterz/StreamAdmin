@@ -10,120 +10,162 @@ use YAPF\InputFilter\InputFilter;
 
 class UpdateNotecards extends SecondlifeAjax
 {
-    public function process(): void
+    protected function markMissing(array $active_notecards = []): bool
     {
         $where_config = [
-        "fields" => ["id"],
-        "values" => [1],
-        "types" => ["i"],
-        "matches" => ["!="],
+            "fields" => ["id"],
+            "values" => [1],
+            "types" => ["i"],
+            "matches" => ["!="],
         ];
-        $status = true;
-        $input = new InputFilter();
-        $notice_notecard_set = new NoticenotecardSet();
-        $notice_notecard_set->loadWithConfig($where_config);
-        $notecards = $input->postFilter("notecards");
-        $notecards_list = [];
-        if ($notecards == "none") {
-            if ($notice_notecard_set->getCount() > 0) {
-                $status = $notice_notecard_set->updateFieldInCollection("missing", 1);
-                if ($status["status"] == false) {
-                    $this->setSwapTag("message", "Unable to mark static notecards as missing");
-                    return;
-                }
-            }
-            $this->setSwapTag("status", true);
-            $this->setSwapTag("message", "ok");
-            return;
+        $noticenotecardset = new NoticenotecardSet();
+        if ($noticenotecardset->loadWithConfig($where_config) == false) {
+            $this->setSwapTag("message", "Unable to load notice notecard set [p1]");
+            return false;
         }
-
-        if (strlen($notecards) == 0) {
-            $this->setSwapTag("message", "Expected notecards list not sent!");
-            return;
-        }
-
-        $notecards_list = explode(",", $notecards);
-
         $missing_ids = [];
+        foreach ($noticenotecardset->getAllIds() as $notice_notecard_id) {
+            $noticeNotecard = $noticenotecardset->getObjectByID($notice_notecard_id);
+            if (in_array($noticeNotecard->getName(), $active_notecards) == false) {
+                $missing_ids[] = $notice_notecard_id;
+            }
+        }
+        if (count($missing_ids) == 0) {
+            return true;
+        }
+        $noticenotecardset = new NoticenotecardSet();
+        if ($noticenotecardset->loadIds($missing_ids) == false) {
+            $this->setSwapTag("message", "Unable to load notice notecard set [p2]");
+            return false;
+        }
+        $status = $noticenotecardset->updateFieldInCollection("missing", 1);
+        if ($status["status"] == false) {
+            $this->setSwapTag("message", $status["message"]);
+        }
+        return true;
+    }
+    protected function addNew(array $active_notecards = []): bool
+    {
+        $where_config = [
+            "fields" => ["id"],
+            "values" => [1],
+            "types" => ["i"],
+            "matches" => ["!="],
+        ];
+        $noticenotecardset = new NoticenotecardSet();
+        if ($noticenotecardset->loadWithConfig($where_config) == false) {
+            $this->setSwapTag("message", "Unable to load notice notecard set [p1]");
+            return false;
+        }
+        $known_notecard_names = $noticenotecardset->getUniqueArray("name");
+        foreach ($active_notecards as $new_notecard) {
+            if ($new_notecard != "none") {
+                if (in_array($new_notecard, $known_notecard_names) == false) {
+                    $noticeNotecard = new Noticenotecard();
+                    $noticeNotecard->setName($new_notecard);
+                    $noticeNotecard->setMissing(false);
+                    if ($noticeNotecard->createEntry()["status"] == false) {
+                        $this->setSwapTag("message", "Unable to create new notecard");
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    protected function markFound(array $active_notecards = []): bool
+    {
+        $where_config = [
+            "fields" => ["id","missing"],
+            "values" => [1,1],
+            "types" => ["i","i"],
+            "matches" => ["!=","="],
+        ];
+        $noticenotecardset = new NoticenotecardSet();
+        if ($noticenotecardset->loadWithConfig($where_config) == false) {
+            $this->setSwapTag("message", "Unable to load notice notecard set [p1]");
+            return false;
+        }
         $found_ids = [];
-        // mark alive notecards / missing
-        foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
-            if ($notice_notecard_id != 1) {
-                $notice_notecard = $notice_notecard_set->getObjectByID($notice_notecard_id);
-                if (in_array($notice_notecard->getName(), $notecards_list) == false) {
-                    if ($notice_notecard->getMissing() == 0) {
-                        $missing_ids[] = $notice_notecard_id;
-                    }
-                } else {
-                    if ($notice_notecard->getMissing() == 0) {
-                        $found_ids[] = $notice_notecard_id;
-                    }
-                }
+        foreach ($noticenotecardset->getAllIds() as $notice_notecard_id) {
+            $noticeNotecard = $noticenotecardset->getObjectByID($notice_notecard_id);
+            if (in_array($noticeNotecard->getName(), $active_notecards) == true) {
+                $found_ids[] = $notice_notecard_id;
             }
         }
-
-        $all_updates_ok = true;
-        if (count($missing_ids) > 0) {
-            $all_updates_ok = false;
-            $notice_notecard_set_missing = new NoticenotecardSet();
-            if ($notice_notecard_set_missing->loadIds($missing_ids)["status"] == true) {
-                $all_updates_ok = $notice_notecard_set_missing->updateFieldInCollection("missing", true)["status"];
-            }
+        if (count($found_ids) == 0) {
+            return true;
         }
-        if ($all_updates_ok == true) {
-            if (count($found_ids) > 0) {
-                $all_updates_ok = false;
-                $notice_notecard_set_found = new NoticenotecardSet();
-                if ($notice_notecard_set_found->loadIds($missing_ids)["status"] == true) {
-                    $all_updates_ok = $notice_notecard_set_found->updateFieldInCollection("missing", false)["status"];
-                }
-            }
+        $noticenotecardset = new NoticenotecardSet();
+        if ($noticenotecardset->loadIds($found_ids) == false) {
+            $this->setSwapTag("message", "Unable to load notice notecard set [p2]");
+            return false;
         }
-
-        if ($all_updates_ok == false) {
-            $this->setSwapTag("status", false);
-            $this->setSwapTag("message", "unable to update missing/found status");
+        $status = $noticenotecardset->updateFieldInCollection("missing", 0);
+        if ($status["status"] == false) {
+            $this->setSwapTag("message", $status["message"]);
         }
-
-        // new notecards
-        if ($status == true) {
-            foreach ($notecards_list as $notecardname) {
-                $notice_notecard = new Noticenotecard();
-                $notice_notecard->setName($notecardname);
-                $notice_notecard->setMissing(false);
-                $status = $notice_notecard->createEntry();
-                if ($status == false) {
-                    $this->setSwapTag("message", "Unable to create static notecard entry");
-                    return;
-                }
-                $notice_notecard_set->addToCollected($notice_notecard);
-            }
-        }
-        // remove dead notecards from db
+        return true;
+    }
+    /**
+     * purgeMissingUnused
+     * @return mixed[] [status =>  bool,removed_entrys => integer]
+     */
+    protected function purgeMissingUnused(): array
+    {
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $used_notecard_ids = $notice_set->getUniqueArray("noticeNotecardLink");
-        $notice_notecard_set = new NoticenotecardSet();
-        $notice_notecard_set->loadByField("missing", 1);
-        $purgeids = [];
-        foreach ($notice_notecard_set->getAllIds() as $notice_notecard_id) {
-            if ($notice_notecard_id != 1) {
-                if (in_array($notice_notecard_id, $used_notecard_ids) == false) {
-                    $purgeids[] = $notice_notecard_id;
-                }
+
+        $where_config = [
+            "fields" => ["id","missing"],
+            "values" => [1,1],
+            "types" => ["i","i"],
+            "matches" => ["!=","="],
+        ];
+        $noticenotecardset = new NoticenotecardSet();
+        if ($noticenotecardset->loadWithConfig($where_config) == false) {
+            return ["status" => false,"removed_entrys" => 0];
+        }
+
+        $purge_ids = [];
+        foreach ($noticenotecardset->getAllIds() as $notice_notecard_id) {
+            if (in_array($notice_notecard_id, $used_notecard_ids) == false) {
+                $purge_ids[] = $notice_notecard_id;
             }
         }
 
-        if (count($purgeids) > 0) {
-            $notice_notecard_set = new NoticenotecardSet();
-            $notice_notecard_set->loadIds($purgeids);
-            if ($notice_notecard_set->purgeCollection()["status"] == false) {
-                $this->setSwapTag("status", false);
-                $this->setSwapTag("message", "unable to remove old notecards");
-            }
+        if (count($purge_ids) == 0) {
+            return ["status" => true,"removed_entrys" => 0];
         }
 
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "ok");
+        $noticenotecardset = new NoticenotecardSet();
+        if ($noticenotecardset->loadIds($purge_ids) == false) {
+            return ["status" => false,"removed_entrys" => 0];
+        }
+        return $noticenotecardset->purgeCollection();
+    }
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $notecards = $input->postFilter("notecards");
+        $notecards = explode(",", $notecards);
+        if ($this->markFound($notecards) == false) {
+            return;
+        }
+        $purged = $this->purgeMissingUnused();
+        if ($this->markMissing($notecards) == false) {
+            return;
+        }
+        if ($this->addNew($notecards) == false) {
+            return;
+        }
+        if ($purged["status"] == true) {
+            $this->setSwapTag("status", true);
+            $this->setSwapTag("message", "ok");
+            if ($purged["removed_entrys"] > 0) {
+                $this->setSwapTag("message", "ok - purged: " . $purged["removed_entrys"] . " notecards");
+            }
+        }
     }
 }
