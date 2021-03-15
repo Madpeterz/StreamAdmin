@@ -33,6 +33,11 @@
             <file>tests/Switchboards/MainGrid_Test.php</file>
             <file>tests/Switchboards/Sys_Test.php</file>
             <file>tests/Switchboards/Website_Test.php</file>
+            <file>tests/MediaServer/None_Test.php</file>
+            <file>tests/MediaServer/Secondbot_Test.php</file>
+            <file>tests/MediaServer/WhmSonic_Test.php</file>
+            <file>tests/MediaServer/MediaCp_Test.php</file>
+            <file>tests/MediaServer/Centova3_Test.php</file>
         </testsuite>
   </testsuites>
   <filter>
@@ -44,6 +49,7 @@
               <directory>src/Gen</directory>
               <file>src/public_html/gen.php</file>
               <file>src/public_html/genr4.php</file>
+              <file>src/public_html/fake/centova.php</file>
           </exclude>
       </whitelist>
   </filter>

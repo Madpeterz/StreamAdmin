@@ -21,10 +21,14 @@ class Centova3 extends PublicApi
         $reply = $this->restPost("", $post_data);
         if ($reply["status"] == true) {
             $this->last_api_message = "curl ok";
-            return ["status" => true,"data" => json_decode($reply["message"], true)];
+            if (array_key_exists("message", $reply) == true) {
+                return ["status" => true,"raw" => $reply["message"], "data" => json_decode($reply["message"], true)];
+            } else {
+                return ["status" => true,"raw" => $reply["message"], "data" => json_decode($reply, true)];
+            }
         } else {
             $this->last_api_message = "curl failed with message: " . $reply["message"] . "";
-            return ["status" => false,"data" => []];
+            return ["status" => false,"raw" => $reply["message"], "data" => []];
         }
     }
     /**
@@ -52,7 +56,7 @@ class Centova3 extends PublicApi
         }
         if (array_key_exists("status", $reply) == true) {
             if ($reply["status"] == true) {
-                $this->last_api_message = "Curl ok but badly formated reply";
+                $this->last_api_message = "Curl ok but badly formated reply: " . json_encode($reply) . "";
                 if (array_key_exists("data", $reply) == true) {
                     if (is_array($reply["data"]) == true) {
                         $this->last_api_message = "Curl connected ok but invaild response from server";
@@ -128,7 +132,11 @@ class Centova3 extends PublicApi
         if ($this->simpleReplyOk($reply) == true) {
             $status = true;
             $djlist_data = $reply["data"]["response"]["data"];
+            $this->last_api_message = "No DJ accounts";
             if (is_array($djlist_data) == true) {
+                if (count($djlist_data) > 0) {
+                    $this->last_api_message = "found DJ accounts";
+                }
                 foreach ($djlist_data as $djentry) {
                     $list[] = $djentry["djusername"];
                 }
@@ -201,25 +209,28 @@ class Centova3 extends PublicApi
      * states:
      *  true = enabled
      *  false = disabled
-     * @return mixed[] [status => bool, state=>bool]
+     * @return mixed[] [status => bool, state=>bool, message=>string]
      */
     protected function accountState(): array
     {
         $reply = $this->accountData();
+        $message = "Invaild reply " . json_encode($reply);
         $status = $reply["status"];
-        $state = false;
+        $state = true;
         if ($status == true) {
-            if ($reply["data"]["status"] != "disabled") {
-                $state = true;
+            $message = "Vaild reply " . json_encode($reply);
+            if ($reply["data"]["status"] == "disabled") {
+                $state = false;
+                $message = "Account marked as disabled " . json_encode($reply);
             }
         }
-        return ["status" => $status,"state" => $state];
+        return ["status" => $status,"state" => $state, "message" => $message];
     }
 
     // faked
     /**
      * streamState
-     * @return mixed[] [status => bool, state=>bool,source=>bool, autodj=>bool]
+     * @return mixed[] [status => bool, state=>bool,source=>bool, autodj=>bool, message=>string]
      */
     public function streamState(): array
     {
@@ -230,16 +241,20 @@ class Centova3 extends PublicApi
         $stream_connected = false;
         $auto_dj = false;
         if ($this->simpleReplyOk($reply) == false) {
-            return ["status" => $status,"state" => $server_status,"source" => $stream_connected,"autodj" => $auto_dj];
+            return [
+                "message" => "Failed basic reply tests",
+                "status" => $status,
+                "state" => $server_status,
+                "source" => $stream_connected,
+                "autodj" => $auto_dj,
+            ];
         }
-        $status = true;
         $server_status = $reply["data"]["response"]["data"]["status"];
         $this->last_api_message = "Server appears to be down";
         if ($server_status["serverstate"] == 0) {
             return ["status" => $status,"state" => $server_status,"source" => $stream_connected,"autodj" => $auto_dj];
         }
         // server up
-        $server_status = true;
         $this->last_api_message = "Source/AutoDJ appears to be down";
         if ($server_status["sourcestate"] == 1) {
             $stream_connected = true;
@@ -251,7 +266,13 @@ class Centova3 extends PublicApi
                 $stream_connected = false;
             }
         }
-        return ["status" => $status,"state" => $server_status,"source" => $stream_connected,"autodj" => $auto_dj];
+        return [
+            "message" => "ok",
+            "status" => true,
+            "state" => true,
+            "source" => $stream_connected,
+            "autodj" => $auto_dj,
+        ];
     }
     /**
      * accountNameList

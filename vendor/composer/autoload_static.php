@@ -14,6 +14,10 @@ class ComposerStaticInit9ecaf30cd19bd9d07abbbf09b882b6a9
     );
 
     public static $prefixLengthsPsr4 = array (
+        't' => 
+        array (
+            'tests\\' => 6,
+        ),
         'Y' => 
         array (
             'YAPF\\' => 5,
@@ -37,6 +41,10 @@ class ComposerStaticInit9ecaf30cd19bd9d07abbbf09b882b6a9
     );
 
     public static $prefixDirsPsr4 = array (
+        'tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
+        ),
         'YAPF\\' => 
         array (
             0 => __DIR__ . '/..' . '/madpeterz/yetonemorephpframework/src',

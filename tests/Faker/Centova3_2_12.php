@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Faker;
+namespace tests\Faker;
 
 class Centova3_2_12
 {
     /*
         replys are based on v3.2.12 using real world tests
+        replys are shorted to just what is needed to give a
+        vaild reply not all values are returned.
+
+        no data is loaded from DB for this fake some values
+        will be generated randomly for fun
     */
     protected $required_post_keys = [];
     protected $a_args = [];
@@ -17,25 +22,25 @@ class Centova3_2_12
         $this->load();
     }
 
-    protected function haveAllRequiredArgs(): bool
+    protected function haveAllRequiredArgs(string $functionname): bool
     {
         global $_POST;
         $a_array = $_POST["a"];
         foreach ($this->a_args as $a_arg) {
             if (array_key_exists($a_arg, $a_array) == false) {
-                print "a_arg missing: " . $a_arg;
+                print $functionname." / a_arg missing: " . $a_arg;
                 return false;
             }
         }
         return true;
     }
 
-    protected function hasRequiredPostKeys(): bool
+    protected function hasRequiredPostKeys(string $functionname): bool
     {
         global $_POST;
         foreach ($this->required_post_keys as $postkey) {
             if (array_key_exists($postkey, $_POST) == false) {
-                print "post key missing: " . $postkey;
+                print $functionname." / post key missing: " . $postkey;
                 return false;
             }
         }
@@ -48,7 +53,7 @@ class Centova3_2_12
         $this->required_post_keys[] = "f";
         $this->required_post_keys[] = "a";
         $this->a_args[] = "password";
-        if ($this->hasRequiredPostKeys() == false) {
+        if ($this->hasRequiredPostKeys("first load") == false) {
             return;
         }
         $function_name = "";
@@ -61,7 +66,7 @@ class Centova3_2_12
             }
         }
         if (method_exists($this, $function_name) == false) {
-            print "Function is not mocked";
+            print "Function: ".$function_name." is not mocked";
             return;
         }
         $query = "server";
@@ -73,7 +78,7 @@ class Centova3_2_12
 
     protected function basicReply(string $functionname, array $data_addon = []): void
     {
-        if ($this->haveAllRequiredArgs() == false) {
+        if ($this->haveAllRequiredArgs($functionname) == false) {
             return;
         }
         $reply = [
@@ -91,17 +96,41 @@ class Centova3_2_12
     protected function serverManagedj(): void
     {
         $this->a_args[] = "action";
-        $reply_addon = [
-            "data" => [],
-        ];
-        $this->basicReply(__FUNCTION__,$reply_addon);
+        if($_POST["a"]["action"] == "terminate")
+        {
+            $this->basicReply(__FUNCTION__);
+            return;
+        }
+        else
+        {
+            // flip a weighted coin see if you get the broken api reply :P
+            if(rand(0,6) == 1) {
+                $reply_addon = [
+                    "data" => [],
+                ];
+                $this->basicReply(__FUNCTION__,$reply_addon);
+                return;
+            }
+            $reply = [
+                "type" => "failure",
+                "response" => [
+                    "message" => "Invalid argument supplied for foreach()",
+                ],
+            ];
+            print json_encode($reply);
+            return;
+        }
     }
 
     protected function serverGetaccount(): void
     {
         $reply_addon = [
             "data" => [
-                "status" => true,
+                "account" => [
+                    "status" => "enabled",
+                    "adminPassword" => substr(sha1(microtime()."asdasd"),0,10),
+                    "sourcepassword" => substr(sha1(microtime()."dfhdfhdfg"),0,10),
+                ],
             ],
         ];
         $this->basicReply(__FUNCTION__,$reply_addon);
@@ -113,12 +142,12 @@ class Centova3_2_12
             "data" => [
                 "web" => [
                     "other" => [
-                        "Load (1m)" => rand(0,5),
-                        "Load (5m)" => rand(0,5),
-                        "Load (15m)" => rand(0,5),
+                        "Load (1m)" => [0,rand(0,5),0],
+                        "Load (5m)" => [0,rand(0,5),0],
+                        "Load (15m)" => [0,rand(0,5),0],
                     ],
                     "accounts" => 100,
-                    "activeaccounts" => 83,
+                    "activeaccounts" => rand(50,80),
                     "memfree" => (rand(4,5) * 100000),
                     "memtotal" => ((15+rand(4,5)) * 100000),
                 ],
@@ -131,17 +160,30 @@ class Centova3_2_12
     {
         $this->a_args[] = "start";
         $this->a_args[] = "limit";
-        if ($this->haveAllRequiredArgs() == false) {
+        if ($this->haveAllRequiredArgs(__FUNCTION__) == false) {
             return;
         }
-        $reply_addon = [];
+        $randomnames = [];
+        while(count($randomnames) < 10) {
+            $randomnames[] = ["username" => substr(sha1(microtime()."asdasd"),0,10)];
+        }
+        $reply_addon = [
+            "data" => $randomnames,
+        ];
+        $this->basicReply(__FUNCTION__,$reply_addon);
     }
 
     protected function systemSetstatus(): void
     {
         $this->a_args[] = "username";
-        $this->a_args[] = "limit";
+        $this->a_args[] = "status";
         $this->basicReply(__FUNCTION__);
+    }
+
+    protected function systemTerminate(): void
+    {
+        $this->a_args[] = "username";
+        $this->basicReply(__FUNCTION__); 
     }
 
     protected function serverReconfigure(): void
@@ -175,10 +217,12 @@ class Centova3_2_12
     {
         $this->a_args[] = "mountpoints";
         $this->basicReply(__FUNCTION__, [
-            "status" => [
-                "serverstate" => 1,
-                "sourcestate" => 1,
-                "sourcetype" => "liquidsoap",
+            "data" => [
+                "status" => [
+                    "serverstate" => 1,
+                    "sourcestate" => 1,
+                    "sourcetype" => "liquidsoap",
+                ],
             ],
         ]);
     }
