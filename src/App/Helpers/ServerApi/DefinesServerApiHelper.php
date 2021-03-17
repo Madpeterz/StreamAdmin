@@ -23,20 +23,20 @@ abstract class DefinesServerApiHelper extends SqlConnectedClass
     protected ?Apis $api_config = null;
 
     protected $callable_actions = [
-        "api_enable_account" => ["eventEnableStart"],
-        "api_list_djs" => ["eventClearDjs"],
-        "api_change_title" => ["eventEnableStart"],
-        "api_purge_djs" => ["eventClearDjs"],
-        "api_disable_account" => ["eventDisableRevoke"],
+        "apiEnableAccount" => ["eventEnableStart"],
+        "apiListDjs" => ["eventClearDjs"],
+        "apiChangeTitle" => ["eventEnableStart"],
+        "apiPurgeDjs" => ["eventClearDjs"],
+        "apiDisableAccount" => ["eventDisableRevoke"],
         "apiServerStatus" => ["apiServerStatus"],
-        "api_start" => ["optToggleStatus","eventEnableStart"],
-        "api_stop" => ["optToggleStatus","eventEnableStart"],
-        "api_autodj_toggle" => ["optToggleAutodj"],
-        "api_autodj_next" => ["optAutodjNext"],
-        "api_customize_username" => ["eventStartSyncUsername"],
-        "api_recreate_account" => [],
-        "api_reset_passwords" => ["optPasswordReset"],
-        "api_set_passwords" => ["optPasswordReset","eventResetPasswordRevoke"],
+        "apiStart" => ["optToggleStatus","eventEnableStart"],
+        "apiStop" => ["optToggleStatus","eventEnableStart"],
+        "apiAutodjToggle" => ["optToggleAutodj"],
+        "apiAutodjNext" => ["optAutodjNext"],
+        "apiCustomizeUsername" => ["eventStartSyncUsername"],
+        "apiRecreateAccount" => [],
+        "apiResetPasswords" => ["optPasswordReset"],
+        "apiSetPasswords" => ["optPasswordReset","eventResetPasswordRevoke"],
     ];
 
 
