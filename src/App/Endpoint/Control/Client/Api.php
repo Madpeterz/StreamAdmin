@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\Control\Client;
 
+use App\Helpers\ServerApi\ServerApiHelper;
 use App\R7\Model\Rental;
 use App\R7\Model\Stream;
 use App\Template\ViewAjax;
-use serverapi_helper;
 
 class Api extends ViewAjax
 {
@@ -21,8 +21,8 @@ class Api extends ViewAjax
             $this->setSwapTag("message", "Unable to load stream");
             return;
         }
-        $server_api_helper = new serverapi_helper($stream);
-        $functionname = "api_" . $this->option . "";
+        $server_api_helper = new ServerApiHelper($stream);
+        $functionname = "api" . $this->option . "";
         if (method_exists($server_api_helper, $functionname) == false) {
             $this->setSwapTag("message", "Unable to load api: " . $functionname);
             return;
@@ -32,6 +32,8 @@ class Api extends ViewAjax
         $message = "No message from api helper";
         if (is_string($server_api_helper->getMessage()) == true) {
             $message = $server_api_helper->getMessage();
+        } elseif (is_array($server_api_helper->getMessage()) == true) {
+            $message = json_encode($server_api_helper->getMessage());
         }
         if ($status == false) {
             $this->setSwapTag("message", sprintf("API/Failed => %1\$s", $message));
