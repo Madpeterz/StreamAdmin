@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Helpers\ServerApiHelper;
+use App\Helpers\ServerApi\ServerApiHelper;
 use App\R7\Model\Avatar;
 use App\R7\Set\AvatarSet;
 use App\R7\Model\Package;
@@ -15,8 +15,6 @@ use App\Template\Form;
 use App\Template\Grid;
 use App\R7\Set\TransactionsSet;
 use App\Template\PagedInfo;
-use paged_info;
-use serverapi_helper;
 
 class Manage extends View
 {
@@ -133,29 +131,31 @@ class Manage extends View
         $mygrid = new Grid();
 
         $api_actions = [
-            "stop" => "danger",
-            "start" => "success",
-            "autodj_next" => "info",
-            "autodj_toggle" => "secondary",
-            "customize_username" => "warning",
-            "reset_passwords" => "warning",
-            "enable_account" => "success",
-            "disable_account" => "danger",
-            "list_djs" => "info",
-            "purge_djs" => "danger",
+            "Stop" => "danger",
+            "Start" => "success",
+            "AutodjNext" => "info",
+            "AutodjToggle" => "secondary",
+            "CustomizeUsername" => "warning",
+            "ResetPasswords" => "warning",
+            "EnableAccount" => "success",
+            "DisableAccount" => "danger",
+            "ListDjs" => "info",
+            "PurgeDjs" => "danger",
         ];
         foreach ($api_actions as $key => $value) {
-            if ($serverapi_helper->callableAction("api" . ucfirst($key)) == true) {
+            if ($serverapi_helper->callableAction("api" . $key) == true) {
                 $form = new Form();
                 $form->target("client/api/" . $this->page . "/" . $key);
                 $buttontext = str_replace("_", " ", ucfirst($key));
                 $mygrid->addContent($form->render($buttontext, $value, true), 4);
+            } else {
+                $mygrid->addContent($serverapi_helper->getMessage(), 4);
             }
         }
         $mygrid->addContent("<hr/>", 12);
         if ($serverapi_helper->callableAction("apiSetPasswords") == true) {
             $form = new Form();
-            $form->target("client/api/" . $this->page . "/set_passwords");
+            $form->target("client/api/" . $this->page . "/SetPasswords");
             $form->group("API force set passwords");
             $form->textInput(
                 "set_dj_password",
