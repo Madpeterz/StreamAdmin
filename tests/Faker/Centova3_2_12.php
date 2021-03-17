@@ -142,14 +142,14 @@ class Centova3_2_12
             "data" => [
                 "web" => [
                     "other" => [
-                        "Load (1m)" => [0,rand(0,5),0],
-                        "Load (5m)" => [0,rand(0,5),0],
-                        "Load (15m)" => [0,rand(0,5),0],
+                        "Load (1m)" => [0,rand(0,100)/100,0],
+                        "Load (5m)" => [0,rand(0,100)/100,0],
+                        "Load (15m)" => [0,rand(0,100)/100,0],
                     ],
                     "accounts" => 100,
                     "activeaccounts" => rand(50,80),
-                    "memfree" => (rand(4,5) * 100000),
-                    "memtotal" => ((15+rand(4,5)) * 100000),
+                    "memfree" => (rand(4000,5000) * 120000),
+                    "memtotal" => ((1500+rand(4000,5000)) * 120000),
                 ],
             ],
         ];
