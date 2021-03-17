@@ -6,9 +6,9 @@ use App\MediaServer\None;
 use App\R7\Model\Package;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
-use tests\MediaServer\Framework_Test;
+use tests\MediaServer\TestingFramework;
 
-class None_Test extends Framework_Test
+class None_Test extends TestingFramework
 {
     protected function setUp(): void
     {
@@ -22,6 +22,13 @@ class None_Test extends Framework_Test
     }
     public function test_AdjustServerConfig()
     {
+        $this->server->setApiLink(5);
+        $update = $this->server->updateEntry();
+        if($update["message"] != "No changes made")
+        {
+            $this->assertSame("ok",$update["message"],"Unable to update server settings");
+            $this->assertSame(true,$update["status"],"Unable to update server settings");
+        }
         $this->server->setApiLink(1);
         $this->server->setApiURL("http://127.0.0.1/fake/centova.php");
         $this->server->setApiPassword("fake");

@@ -15,7 +15,6 @@ class Installer extends TestCase
 {
     protected function setUp(): void
     {
-
         if(defined("INSTALLMODE") == false) {
             define("INSTALLMODE",true);
         }

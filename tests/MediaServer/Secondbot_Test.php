@@ -6,9 +6,9 @@ use App\MediaServer\Secondbot;
 use App\R7\Model\Package;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
-use tests\MediaServer\Framework_Test;
+use tests\MediaServer\TestingFramework;
 
-class Secondbot_Test extends Framework_Test
+class Secondbot_Test extends TestingFramework
 {
     protected function setUp(): void
     {
@@ -22,6 +22,17 @@ class Secondbot_Test extends Framework_Test
     }
     public function test_AdjustServerConfig()
     {
+        $this->server->setApiLink(1);
+        $update = $this->server->updateEntry();
+        if($update["message"] != "No changes made")
+        {
+            $this->assertSame("ok",$update["message"],"Unable to update server settings");
+            $this->assertSame(true,$update["status"],"Unable to update server settings");
+        }
+        $this->server = new Server();
+        $this->assertSame(true,$this->server->loadID(1),"Unable to load server");
+        $this->stream = new Stream();
+        $this->assertSame(true,$this->stream->loadID(13),"Unable to load stream");
         $this->server->setApiLink(5);
         $this->server->setApiURL("http://127.0.0.1/fake/centova.php");
         $this->server->setApiPassword("fake");
@@ -39,6 +50,8 @@ class Secondbot_Test extends Framework_Test
         $this->server->setEventClearDjs(true);
         $this->server->setEventRecreateRevoke(true);
         $this->server->getEventCreateStream(true);
-        $this->assertSame(true,$this->server->updateEntry()["status"],"Unable to update server settings");
+        $update = $this->server->updateEntry();
+        $this->assertSame("ok",$update["message"],"Unable to update server settings");
+        $this->assertSame(true,$update["status"],"Unable to update server settings");
     }
 }

@@ -9,7 +9,7 @@ use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use PHPUnit\Framework\TestCase;
 
-abstract class Framework_Test extends TestCase
+abstract class TestingFramework extends TestCase
 {
     protected ?Server $server = null;
     protected ?Stream $stream = null;
@@ -49,10 +49,10 @@ abstract class Framework_Test extends TestCase
     public function test_setAccountState()
     {
         $status = $this->api->setAccountState(false);
-        $this->assertSame("Unable to get account state",$this->api->getLastApiMessage(),"incorrect API reply");
+        $this->assertSame("Unable to get account state: Skipped",$this->api->getLastApiMessage(),"incorrect API reply");
         $this->assertSame(false,$status,"Bad status reply");
         $status = $this->api->setAccountState(true);
-        $this->assertSame("Unable to get account state",$this->api->getLastApiMessage(),"incorrect API reply");
+        $this->assertSame("Unable to get account state: Skipped",$this->api->getLastApiMessage(),"incorrect API reply");
         $this->assertSame(false,$status,"Bad status reply");
     }
 
