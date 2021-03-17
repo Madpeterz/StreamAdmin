@@ -10,6 +10,9 @@
     colors="true"
 >
   <testsuites>
+        <testsuite name="api">
+            <directory>tests/MediaServer</directory>
+        </testsuite>
         <testsuite name="All">
             <directory>tests/Install</directory>
             <directory>tests/Login</directory>
@@ -38,6 +41,7 @@
             <file>tests/MediaServer/WhmSonic_Test.php</file>
             <file>tests/MediaServer/MediaCp_Test.php</file>
             <file>tests/MediaServer/Centova3_Test.php</file>
+            <file>tests/MediaServer/Azurecast_Test.php</file>
         </testsuite>
   </testsuites>
   <filter>
@@ -50,6 +54,7 @@
               <file>src/public_html/gen.php</file>
               <file>src/public_html/genr4.php</file>
               <file>src/public_html/fake/centova.php</file>
+              <file>src/public_html/fake/azurecast.php</file>
           </exclude>
       </whitelist>
   </filter>

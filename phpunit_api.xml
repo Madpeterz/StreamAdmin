@@ -1,0 +1,36 @@
+<phpunit
+    bootstrap="./tests/bootstrap_api.php"
+    convertWarningsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertErrorsToExceptions="true"
+    backupStaticAttributes="false"
+    processIsolation="false"
+    stopOnFailure="true"
+    backupGlobals="false"
+    colors="true"
+>
+  <testsuites>
+        <testsuite name="api">
+            <file>tests/MediaServer/None_Test.php</file>
+            <file>tests/MediaServer/Secondbot_Test.php</file>
+            <file>tests/MediaServer/WhmSonic_Test.php</file>
+            <file>tests/MediaServer/MediaCp_Test.php</file>
+            <file>tests/MediaServer/Centova3_Test.php</file>
+            <file>tests/MediaServer/Azurecast_Test.php</file>
+        </testsuite>
+  </testsuites>
+  <filter>
+      <whitelist>
+          <directory>src</directory>
+          <exclude>
+              <directory>src/App/R4</directory>
+              <directory>src/App/R7</directory>
+              <directory>src/Gen</directory>
+              <file>src/public_html/gen.php</file>
+              <file>src/public_html/genr4.php</file>
+              <file>src/public_html/fake/centova.php</file>
+              <file>src/public_html/fake/azurecast.php</file>
+          </exclude>
+      </whitelist>
+  </filter>
+</phpunit>
