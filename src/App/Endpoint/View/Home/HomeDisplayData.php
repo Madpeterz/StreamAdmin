@@ -167,6 +167,7 @@ abstract class HomeDisplayData extends HomeLoadData
         $this->sub_grid_clients->addContent(
             '<h5><a href="[[url_base]]client/expired"><span class="badge badge-danger">Expired '
             . '<span class="badge badge-light">' . $this->client_expired . '</span></span></a></h5>',
+            4
         );
         $this->sub_grid_clients->addContent(
             '<h5><a href="[[url_base]]client/soon"><span class="badge badge-warning">Expires in 24 '
