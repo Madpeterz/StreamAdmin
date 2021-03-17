@@ -161,13 +161,19 @@ class ServerApiHelper extends FunctionsServerApiHelper
                 "string",
                 ["minLength" => 5,"maxLength" => 12]
             );
-            $set_admin_password = $input->postFilter(
-                "set_admin_password",
-                "string",
-                ["minLength" => 5,"maxLength" => 12]
-            );
-            if (($set_dj_password == null) || ($set_admin_password == null)) {
-                $this->message = "input failed because:" . $input->getWhyFailed();
+            if ($input->getWhyFailed() == "") {
+                $set_admin_password = $input->postFilter(
+                    "set_admin_password",
+                    "string",
+                    ["minLength" => 5,"maxLength" => 12]
+                );
+            }
+            if ($set_dj_password == null) {
+                $this->message = "DJ password is empty because: " . $input->getWhyFailed();
+                return false;
+            }
+            if ($set_admin_password == null) {
+                $this->message = "Admin password is empty because: " . $input->getWhyFailed();
                 return false;
             }
             $new_dj_password = $set_dj_password;
