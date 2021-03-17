@@ -2,31 +2,35 @@
 
 namespace App\Endpoint\Control\Server;
 
+use App\Helpers\ServerApi\ServerApiHelper;
 use App\R7\Model\Server;
 use App\Template\ViewAjax;
-use serverapi_helper;
 
 class ServerLoad extends ViewAjax
 {
     public function process(): void
     {
-        $status = true;
+        $this->setSwapTag("message", "Started server load");
         $server = new Server();
-        $serverapi_helper = new serverapi_helper();
+        $serverapi_helper = new ServerApiHelper();
         if ($server->loadID($this->page) == false) {
             $this->setSwapTag("message", "<span class=\"text-danger\">Unable to find server</span>");
             return;
         }
+        $this->setSwapTag("message", "Loaded server");
         if ($server->getApiServerStatus() == 0) {
             $this->output->addSwapTagString("message", "<span class=\"text-warning\">Not supported</span>");
             return;
         }
-        $serverapi_helper->force_set_server($server);
+        $this->setSwapTag("message", "Fetched getApiServerStatus");
+        $serverapi_helper->forceSetServer($server);
         $apireply = $serverapi_helper->apiServerStatus();
+        $this->setSwapTag("message", "Got apiServerStatus");
         if ($apireply["status"] == false) {
             $this->output->addSwapTagString("message", "<span class=\"text-danger\">Offline</span>");
             return;
         }
+        $this->setSwapTag("message", "");
         $this->output->addSwapTagString("status", "true");
         $addon = $this->getStreamInfo($apireply);
         $addon = $this->getCPUinfo($apireply, $addon);
