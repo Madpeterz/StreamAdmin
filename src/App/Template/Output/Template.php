@@ -139,6 +139,7 @@ class Template extends Cache
             $output = $this->keypairReplace($output, $this->tempalte_parts);
             $output = $this->keypairReplace($output, $this->swaptags);
             $output = $this->keypairReplace($output, $this->swaptags);
+            $output = $this->keypairReplace($output, $this->swaptags);
             $output = strtr($output, ["@NL@" => "\n\r"]);
             print $output;
         }
