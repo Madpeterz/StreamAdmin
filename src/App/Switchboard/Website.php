@@ -25,6 +25,9 @@ class Website extends Switchboard
             $this->module = "Install";
             include "" . ROOTFOLDER . "/App/Flags/InstallMode.php";
         }
+        if ($this->module == "") {
+            $this->module = "Home";
+        }
         $this->loadPage();
     }
 }
