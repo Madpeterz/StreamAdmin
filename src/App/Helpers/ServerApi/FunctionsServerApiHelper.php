@@ -46,18 +46,20 @@ abstract class FunctionsServerApiHelper extends SetServerApiHelper
     }
     public function callableAction(string $action): bool
     {
-        $this->message = "no server api setup";
-        if ($this->serverApi != null) {
-            $this->message = "Not a known callable action";
-            if (array_key_exists($action, $this->callable_actions) == true) {
-                $this->message = $action . " is not callable on this server/api";
-                if ($this->checkFlags($this->callable_actions[$action]) == true) {
-                    $this->message = "Passed callable action checks";
-                    return true;
-                }
-            }
+        if ($this->serverApi == null) {
+            $this->message = "no server api setup";
+            return false;
         }
-        return false;
+        if (array_key_exists($action, $this->callable_actions) == false) {
+            $this->message = "Not a known callable action";
+            return false;
+        }
+        if ($this->checkFlags($this->callable_actions[$action]) == false) {
+            $this->message = $action . " is not callable on this server/api";
+            return false;
+        }
+        $this->message = "Passed callable action checks";
+        return true;
     }
 
     protected $dj_list = [];
