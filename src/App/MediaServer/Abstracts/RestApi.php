@@ -79,7 +79,10 @@ abstract class RestApi extends ErrorLogging
             if ($res->getStatusCode() == 200) {
                 return ["status" => true,"message" => $res->getBody()->getContents()];
             } else {
-                return ["status" => false,"message" => "http error:" . $res->getStatusCode()];
+                return [
+                    "status" => false,
+                    "message" => "http error:" . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
+                ];
             }
         } catch (Exception $e) {
             return ["status" => false,"message" => "Request failed in a fireball"];

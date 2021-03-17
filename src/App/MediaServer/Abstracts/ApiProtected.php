@@ -30,12 +30,12 @@ abstract class ApiProtected extends RestApi
      * states:
      *  true = enabled
      *  false = disabled
-     * @return mixed[] [status => bool, state=>bool]
+     * @return mixed[] [status => bool, state=>bool, "message" => ""]
      */
     protected function accountState(): array
     {
         $this->last_api_message = "Skipped account_state not supported on this api";
-        return ["status" => false,"state" => false];
+        return ["status" => false,"state" => false, "message" => "Skipped"];
     }
 
     protected function syncUsername(string $old_username): bool

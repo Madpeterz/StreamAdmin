@@ -10,10 +10,14 @@ abstract class ApiBasic extends ApiProtected
     public function getLastApiMessage(): string
     {
         if (is_string($this->last_api_message) == false) {
+            if (is_array($this->last_api_message) == true) {
+                return "" . json_encode($this->last_api_message) . "";
+            }
             return "last api message broken";
         }
         return $this->last_api_message;
     }
+
     public function getLastApiNeedRetry(): bool
     {
         return $this->needs_retry;
@@ -77,7 +81,7 @@ abstract class ApiBasic extends ApiProtected
         }
         $account_state = $this->accountState($this->stream, $this->server);
         if ($account_state["status"] == false) {
-            $this->last_api_message = "Unable to get account state";
+            $this->last_api_message = "Unable to get account state: " . $account_state["message"];
             return false;
         }
         if ($account_state["state"] == $state) {
@@ -95,12 +99,13 @@ abstract class ApiBasic extends ApiProtected
         }
         return $this->susspendServer();
     }
-    public function removeAccount(string $old_username): bool
+    public function removeAccount(string $old_username = ""): bool
     {
         return $this->terminateAccount($old_username);
     }
     public function recreateAccount(): bool
     {
+        $this->last_api_message = "Running recreateAccount";
         return $this->createAccount();
     }
 }
