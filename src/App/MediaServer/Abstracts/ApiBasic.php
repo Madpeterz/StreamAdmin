@@ -52,7 +52,13 @@ abstract class ApiBasic extends ApiProtected
     public function streamState(): array
     {
         $this->last_api_message = "Skipped stream_state not supported on this api";
-        return ["message" => "Server appears to be down","status" => false,"state" => false,"source" => false,"autodj" => false];
+        return [
+            "message" => "Server appears to be down",
+            "status" => false,
+            "state" => false,
+            "source" => false,
+            "autodj" => false,
+        ];
     }
     /**
      * djList
