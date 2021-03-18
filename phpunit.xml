@@ -42,6 +42,7 @@
             <file>tests/MediaServer/MediaCp_Test.php</file>
             <file>tests/MediaServer/Centova3_Test.php</file>
             <file>tests/MediaServer/Azurecast_Test.php</file>
+            <file>tests/MediaServerApi/MediaServerApi_Centovacast_Test.php</file>
         </testsuite>
   </testsuites>
   <filter>

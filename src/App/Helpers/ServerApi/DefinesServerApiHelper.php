@@ -38,38 +38,4 @@ abstract class DefinesServerApiHelper extends SqlConnectedClass
         "apiResetPasswords" => ["optPasswordReset"],
         "apiSetPasswords" => ["optPasswordReset","eventResetPasswordRevoke"],
     ];
-
-
-    public function apiAutodjToggle(): bool
-    {
-        return false;
-    }
-    public function apiResetPasswords(): bool
-    {
-        return false;
-    }
-    public function apiAutodjNext(): bool
-    {
-        return false;
-    }
-    public function apiCustomizeUsername(): bool
-    {
-        return false;
-    }
-    public function apiEnableAccount(): bool
-    {
-        return false;
-    }
-    public function apiDisableAccount(): bool
-    {
-        return false;
-    }
-    public function apiPurgeDjs(): bool
-    {
-        return false;
-    }
-    public function apiRecreateAccount(): bool
-    {
-        return false;
-    }
 }

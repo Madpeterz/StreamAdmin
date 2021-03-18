@@ -8,7 +8,7 @@ use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
 
-abstract class LoadServerApiHelper extends GetServerApiHelper
+abstract class LoadServerApiHelper extends DefinesServerApiHelper
 {
     protected function loadApi(): bool
     {
