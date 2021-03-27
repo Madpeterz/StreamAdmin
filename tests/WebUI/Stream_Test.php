@@ -72,7 +72,7 @@ class StreamTest extends TestCase
         $this->assertStringContainsString("Config",$statuscheck,$missing);
         $this->assertStringContainsString("API",$statuscheck,$missing);
         $this->assertStringContainsString("Magic",$statuscheck,$missing);
-        $this->assertStringContainsString("API UID 1 & 2",$statuscheck,$missing);
+        $this->assertStringContainsString("API UID 1,2 and 3",$statuscheck,$missing);
         $this->assertStringContainsString("Note:",$statuscheck,$missing);
     }
 
@@ -121,7 +121,6 @@ class StreamTest extends TestCase
         $this->assertStringContainsString("API UID 1",$statuscheck,$missing);
         $this->assertStringContainsString("Magic",$statuscheck,$missing);
         $this->assertStringContainsString("Centova: Not used",$statuscheck,$missing);
-        $this->assertStringContainsString("Azuracast shit gets weird",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
         $this->assertStringContainsString("8006",$statuscheck,$missing);
         $this->assertStringContainsString("MoreUnitTesting",$statuscheck,$missing);
