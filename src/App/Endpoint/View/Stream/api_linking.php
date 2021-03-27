@@ -3,7 +3,7 @@
 $this->output->addSwapTagString(
     "page_content",
     "<hr/>
-<h4>API UID 1 & 2</h4>
+<h4>API UID 1,2 and 3</h4>
 <ul>
 <li>Azuracast: 1=station id, 2=role id, 3=user id</li>
 <li>Centova: Not used</li>
@@ -11,9 +11,10 @@ $this->output->addSwapTagString(
 <br/>
 <p>Note:
 <br/>
-Not all APIs support create/update on server<br/>
-for Azuracast shit gets weird if you mess up the api UIDs so its better<br/>
-to have the system create it for you :P
+Azuracast does not support station creation due at this time<br/>
+due to the number of requests needed to create a station<br/>
+we hope to add support at a later date.<br/>
+but if you feel like using the API you can add the details in.
 </p>
 "
 );
