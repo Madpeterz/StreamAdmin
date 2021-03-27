@@ -669,3 +669,6 @@ ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `slconfig` ADD `hudLinkCode` VARCHAR(12) NULL AFTER `publicLinkCode`;
+
+UPDATE `apis` SET `eventRecreateRevoke` = '0', `eventCreateStream` = '0', `eventUpdateStream` = '0' WHERE `apis`.`id` = 6;
+UPDATE `apis` SET `eventCreateStream` = '1', `eventUpdateStream` = '1' WHERE `apis`.`id` = 2;

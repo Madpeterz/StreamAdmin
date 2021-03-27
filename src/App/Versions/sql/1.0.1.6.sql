@@ -308,3 +308,5 @@ ALTER TABLE `apirequests` ADD CONSTRAINT `rental_in_use_apirequests` FOREIGN KEY
 ALTER TABLE `apirequests` ADD CONSTRAINT `server_in_use_apirequests` FOREIGN KEY (`serverLink`) REFERENCES `server`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
 ALTER TABLE `apirequests` ADD CONSTRAINT `stream_in_use_apirequests` FOREIGN KEY (`streamLink`) REFERENCES `stream`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
 ALTER TABLE `slconfig` ADD `hudLinkCode` VARCHAR(12) NULL AFTER `publicLinkCode`;
+UPDATE `apis` SET `eventRecreateRevoke` = '0', `eventCreateStream` = '0', `eventUpdateStream` = '0' WHERE `apis`.`id` = 6;
+UPDATE `apis` SET `eventCreateStream` = '1', `eventUpdateStream` = '1' WHERE `apis`.`id` = 2;
