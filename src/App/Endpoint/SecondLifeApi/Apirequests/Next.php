@@ -9,6 +9,7 @@ class Next extends SecondlifeAjax
 {
     public function process(): void
     {
+        $this->setSwapTag("message", "started process");
         if ($this->owner_override == false) {
             $this->setSwapTag("message", "This API is owner only");
             return;
@@ -51,9 +52,10 @@ class Next extends SecondlifeAjax
             return;
         }
 
+        $this->setSwapTag("message", "Handing off to api");
         $obj = new $use_class();
         $obj->attachEvent($api_request);
         $obj->process();
-        $obj->getoutput();
+        $this->output = $obj->getOutputObject();
     }
 }

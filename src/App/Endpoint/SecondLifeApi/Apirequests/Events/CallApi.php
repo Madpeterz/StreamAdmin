@@ -2,10 +2,14 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
+use App\Helpers\ServerApi\ServerApiHelper;
+use App\MediaServer\Logic\ApiLogicBuy;
+use App\MediaServer\Logic\ApiLogicCreate;
+use App\MediaServer\Logic\ApiLogicExpire;
+use App\MediaServer\Logic\ApiLogicRevoke;
 use App\R7\Model\Apirequests;
 use App\R7\Model\Stream;
 use App\Template\SecondlifeAjax;
-use serverapi_helper;
 
 abstract class CallApi extends SecondlifeAjax
 {
@@ -20,6 +24,7 @@ abstract class CallApi extends SecondlifeAjax
     public function process(): void
     {
         $this->configEvent();
+        $this->setSwapTag("message", "Starting process for: " . $this->functionname . " " . $this->logic_step);
         $stream = new Stream();
         $status = false;
         $message = "Started call_api";
@@ -29,7 +34,7 @@ abstract class CallApi extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load stream");
             return;
         }
-        $server_api_helper = new serverapi_helper($stream);
+        $server_api_helper = new ServerApiHelper($stream);
         if (method_exists($server_api_helper, $current_step) == false) {
             $this->setSwapTag(
                 "message",
@@ -37,7 +42,8 @@ abstract class CallApi extends SecondlifeAjax
             );
             return;
         }
-        $status = $server_api_helper->$this->functionname();
+        $call_function = $this->functionname;
+        $status = $server_api_helper->$call_function();
         $message = $server_api_helper->getMessage();
         if ($status == false) {
             $this->setSwapTag(
@@ -62,13 +68,27 @@ abstract class CallApi extends SecondlifeAjax
             $this->setSwapTag("message", "ok");
             return;
         }
-        include "shared/media_server_apis/logic/" . $logic_step . ".php";
-        $status = $api_serverlogic_reply;
-        if ($status == true) {
-            $message = "ok reply from " . $logic_step . " - " . $functionname . "";
-        } else {
-            $message = $why_failed;
+
+        $api_logic_object = null;
+        if ($this->logic_step == "revoke") {
+            $api_logic_object = new ApiLogicRevoke($current_step);
+        } elseif ($this->logic_step == "create") {
+            $api_logic_object = new ApiLogicCreate($current_step);
+        } elseif ($this->logic_step == "expire") {
+            $api_logic_object = new ApiLogicExpire($current_step);
+        } elseif ($this->logic_step == "buy") {
+            $api_logic_object = new ApiLogicBuy($current_step);
+        } elseif ($this->logic_step == "revoke") {
+            $api_logic_object = new ApiLogicRevoke($current_step);
         }
+        if ($api_logic_object == null) {
+            $this->setSwapTag("status", false);
+            $this->setSwapTag("message", "Unknown logic controler: " . $this->logic_step);
+            return;
+        }
+        $reply = $api_logic_object->getApiServerLogicReply();
+        $this->setSwapTag("status", $reply["status"]);
+        $this->setSwapTag("message", $reply["message"]);
     }
     protected function configEvent(): void
     {
