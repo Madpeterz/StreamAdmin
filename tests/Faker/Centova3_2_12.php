@@ -16,6 +16,7 @@ class Centova3_2_12
     protected $a_args = [];
     public function __construct()
     {
+        error_log("inbound centova call ".$_SERVER['REQUEST_URI'].": ".json_encode($_POST));
         if (defined("UNITTEST") == false) {
             die("error - attempting to load faker system while outside of testing");
         }

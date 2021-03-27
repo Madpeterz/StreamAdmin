@@ -8,6 +8,7 @@ class Azurecast
     protected string $authToken = "faked";
     public function __construct($auth_token=null)
     {
+        error_log("inbound Azurecast call ".$_SERVER['REQUEST_URI'].": ".json_encode($_POST));
         if($auth_token != null) {
             $this->authToken = $auth_token;
         }
