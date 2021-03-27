@@ -173,7 +173,7 @@ class ForcedActions extends TestCase
         $this->assertStringContainsString("Config",$statuscheck,$missing);
         $this->assertStringContainsString("API",$statuscheck,$missing);
         $this->assertStringContainsString("Magic",$statuscheck,$missing);
-        $this->assertStringContainsString("API UID 1 & 2",$statuscheck,$missing);
+        $this->assertStringContainsString("API UID 1,2 and 3",$statuscheck,$missing);
         $this->assertStringContainsString("Note:",$statuscheck,$missing);
     }
 
