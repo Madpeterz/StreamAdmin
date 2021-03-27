@@ -43,6 +43,12 @@
             <file>tests/MediaServer/Centova3_Test.php</file>
             <file>tests/MediaServer/Azurecast_Test.php</file>
             <file>tests/MediaServerApi/MediaServerApi_Centovacast_Test.php</file>
+            <file>tests/MediaServerApi/MediaServerApi_Azurecast_Test.php</file>
+            <file>tests/ApiEventsWalker/Create_Test.php</file>
+            <file>tests/ApiEventsWalker/Rental_Start_Test.php</file>
+            <file>tests/ApiEventsWalker/Rental_Expire_Test.php</file>
+            <file>tests/ApiEventsWalker/Rental_Renew_Test.php</file>
+            <file>tests/ApiEventsWalker/Rental_End_Test.php</file>
         </testsuite>
   </testsuites>
   <filter>
