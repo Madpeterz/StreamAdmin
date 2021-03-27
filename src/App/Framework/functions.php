@@ -34,7 +34,7 @@ function createPendingApiRequest(
         $create_status = $detail->createEntry();
         $status = $create_status["status"];
         if ($status == false) {
-            $why_failed = $errormessage;
+            $why_failed = "Failed creating detail:" . sprintf($errormessage, $eventname, $create_status["message"]);
         }
         return $status;
     } else {
@@ -55,8 +55,10 @@ function createPendingApiRequest(
             } else {
                 echo sprintf($errormessage, $eventname, $reply["message"]);
             }
+            return false;
         }
-        return $reply["status"];
+        $why_failed = "passed";
+        return true;
     }
 }
 
