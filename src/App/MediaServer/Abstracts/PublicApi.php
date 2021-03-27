@@ -15,6 +15,10 @@ abstract class PublicApi extends ApiBasic
     {
         return $this->accountState();
     }
+    public function eventCreateStream(): bool
+    {
+        return $this->createAccount();
+    }
     public function eventStartSyncUsername(string $old_username): bool
     {
         return $this->syncUsername($old_username);
