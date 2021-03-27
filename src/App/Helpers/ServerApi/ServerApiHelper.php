@@ -8,6 +8,10 @@ class ServerApiHelper extends ServerApiHelperMain
     {
         return $this->message;
     }
+    public function eventCreateStream(): bool
+    {
+        return $this->apiCreateAccount();
+    }
     public function eventRecreateRevoke(): bool
     {
         return $this->apiRecreateAccount();

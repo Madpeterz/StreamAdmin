@@ -26,6 +26,7 @@ class ApiLogicProcess
         $this->server = $server;
         $this->rental = $rental;
         $this->currentStep = $setCurrentStep;
+        $this->whyFailed = "Starting process: " . $setCurrentStep;
         $this->process();
     }
     /**
@@ -36,12 +37,21 @@ class ApiLogicProcess
     {
         return ["status" => $this->status,"message" => $this->whyFailed,"reply" => $this->apiServerlogicReply];
     }
+    public function getGlobalWhyfailed(): string
+    {
+        global $why_failed;
+        if ($why_failed == null) {
+            return "unknown";
+        }
+        return $why_failed;
+    }
     public function getNoAction(): bool
     {
         return $this->noApiAction;
     }
     protected function setupServer(): void
     {
+        $this->whyFailed = "Setting up server";
         if ($this->server != null) {
             return;
         }
@@ -53,6 +63,7 @@ class ApiLogicProcess
     }
     protected function setupRental(): void
     {
+        $this->whyFailed = "Setting up rental";
         if ($this->rental != null) {
             return;
         }
@@ -67,37 +78,44 @@ class ApiLogicProcess
     }
     protected function getStepAction(): string
     {
-        if (array_key_exists($this->current_step, $this->steps) == true) {
-            return $this->steps[$this->current_step];
+        if (array_key_exists($this->currentStep, $this->steps) == true) {
+            return $this->steps[$this->currentStep];
         } else {
             return "none";
         }
     }
     protected function processLoop(): void
     {
-        $this->current_step = $this->getStepAction();
-        if ($this->current_step == "none") {
+        $this->whyFailed = "in process loop";
+        $this->currentStep = $this->getStepAction();
+        if ($this->currentStep == "none") {
+            $this->status = true;
+            $this->whyFailed = "exited current step is: none";
             return;
         }
         $hasApiStep = true;
-        if ($this->current_step != "core_send_details") {
+        if ($this->currentStep != "core_send_details") {
             $hasApiStep = false;
-            $getName = "get" . ucfirst($this->current_step);
-            if (($this->api->$getName() == 1) && ($this->server->$getName() == 1)) {
-                $hasApiStep = true;
+            $getName = "get" . ucfirst($this->currentStep);
+            if ($this->api->$getName() == 0) {
+                $this->whyFailed = "Api " . $this->api->getName() . " does not support: " . $getName;
+                return;
             }
-        }
-        if ($hasApiStep == false) {
-            return;
+
+            if ($this->server->$getName() == 0) {
+                $this->whyFailed = "Server does not support: " . $getName;
+                return;
+            }
         }
         $this->status = true;
         $this->whyFailed = "Processing API server logic please check there";
         $this->noApiAction = false;
-        $this->api_serverlogic_reply = createPendingApiRequest(
+        $this->apiServerlogicReply = "Starting";
+        $this->apiServerlogicReply = createPendingApiRequest(
             $this->server,
             $this->stream,
             $this->rental,
-            $this->current_step,
+            $this->currentStep,
             "error: %1\$s %2\$s",
             true
         );

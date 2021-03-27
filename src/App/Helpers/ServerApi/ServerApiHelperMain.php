@@ -7,6 +7,21 @@ use YAPF\InputFilter\InputFilter;
 
 abstract class ServerApiHelperMain extends FunctionsServerApiHelper
 {
+    public function apiCreateAccount(): bool
+    {
+        global $sql;
+        $this->stream->setAdminUsername($this->stream->getOriginalAdminUsername());
+        $this->stream->setAdminPassword($this->randString(7 + rand(1, 6)));
+        $this->stream->setDjPassword($this->randString(5 + rand(1, 3)));
+        $this->stream->setNeedWork(false);
+        $update_status = $this->stream->updateEntry();
+        if ($update_status["status"] == false) {
+            $sql->flagError();
+            $this->message = "Unable to update password in db: " . $update_status["message"];
+            return false;
+        }
+        return $this->serverApi->eventCreateStream();
+    }
     public function apiRecreateAccount(): bool
     {
         global $sql;
