@@ -13,6 +13,7 @@ class Create extends ViewAjax
 {
     public function process(): void
     {
+        global $stream;
         $package = new Package();
         $server = new Server();
         $input = new InputFilter();
@@ -122,19 +123,29 @@ class Create extends ViewAjax
             return;
         }
 
+        $this->setSwapTag("status", true);
+        $this->setSwapTag("message", "Stream created");
+
         $api_serverlogic_reply = true;
         $apilogic = null;
-        if ($api_create == 1) {
-            $apilogic = new ApiLogicCreate();
-        }
-        if ($api_serverlogic_reply == false) {
-            $this->setSwapTag("message", $apilogic->getApiServerLogicReply()["message"]);
+        if ($api_create == 0) {
+            $this->setSwapTag("redirect", "stream");
             return;
         }
-        $this->setSwapTag("status", $api_serverlogic_reply);
-        $this->setSwapTag("message", "Stream created");
-        if ($api_serverlogic_reply == true) {
-            $this->setSwapTag("redirect", "stream");
+        $apilogic = new ApiLogicCreate();
+        $reply = $apilogic->getApiServerLogicReply();
+        $api_serverlogic_reply = false;
+        if ($reply["message"] != "Processing API server logic please check there") {
+            $this->setSwapTag("status", false);
+            $this->setSwapTag("message", "Bad reply:" . $reply["message"]);
+            return;
         }
+        $api_serverlogic_reply = $reply["reply"];
+        if ($api_serverlogic_reply == false) {
+            $this->setSwapTag("status", false);
+            $this->setSwapTag("message", json_encode($reply));
+            return;
+        }
+        $this->setSwapTag("redirect", "stream");
     }
 }
