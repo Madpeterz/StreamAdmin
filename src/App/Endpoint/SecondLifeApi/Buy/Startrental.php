@@ -52,7 +52,7 @@ class Startrental extends SecondlifeAjax
         $apirequests_set = new ApirequestsSet();
         $apirequests_set->loadAll();
         $used_stream_ids = $apirequests_set->getUniqueArray("streamLink");
-        $where_config = [
+        $whereconfig = [
             "fields" => ["rentalLink","packageLink","needWork"],
             "values" => [null,$package->getId(),0],
             "types" => ["i","i","i"],
@@ -65,10 +65,10 @@ class Startrental extends SecondlifeAjax
             $whereconfig["types"][] = "i";
         }
         $stream_set = new StreamSet();
-        $stream_set->loadWithConfig($where_config);
+        $stream_set->loadWithConfig($whereconfig);
         if ($stream_set->getCount() > 0) {
-            $stream_id = $stream_set->getAllIds()[rand(0, $stream_set->getCount() - 1)];
-            return $stream_set->getObjectByID($stream_id);
+            $entrys = $stream_set->getAllIds();
+            return $stream_set->getObjectByID($entrys[rand(0, count($entrys) - 1)]);
         }
         return null;
     }
@@ -87,7 +87,7 @@ class Startrental extends SecondlifeAjax
 
         $package = $this->getPackage($input->postFilter("packageuid"));
         if ($package == null) { // find package
-            $this->setSwapTag("message", "Unable to find");
+            $this->setSwapTag("message", "Unable to find package");
             return;
         }
 
