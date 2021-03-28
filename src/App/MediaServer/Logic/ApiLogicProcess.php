@@ -111,6 +111,7 @@ class ApiLogicProcess
         $this->whyFailed = "Processing API server logic please check there";
         $this->noApiAction = false;
         $this->apiServerlogicReply = "Starting";
+        global $why_failed;
         $this->apiServerlogicReply = createPendingApiRequest(
             $this->server,
             $this->stream,
@@ -119,6 +120,8 @@ class ApiLogicProcess
             "error: %1\$s %2\$s",
             true
         );
+        $this->whyFailed = $why_failed;
+        $this->status = $this->apiServerlogicReply;
     }
     protected function process(): void
     {
