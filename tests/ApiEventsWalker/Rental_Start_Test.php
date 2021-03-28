@@ -6,6 +6,7 @@ use App\Endpoint\SecondLifeApi\Apirequests\Next;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
 use App\R7\Model\Package;
 use App\R7\Set\ApirequestsSet;
+use App\R7\Set\DetailSet;
 use App\R7\Set\PackageSet;
 use App\R7\Set\StreamSet;
 use PHPUnit\Framework\TestCase;
