@@ -4,9 +4,13 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Stream\Create;
 use App\Endpoint\SecondLifeApi\Apirequests\Next;
+use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
+use App\R7\Model\Transactions;
 use App\R7\Set\ApirequestsSet;
+use App\R7\Set\DetailSet;
+use App\R7\Set\TransactionsSet;
 use PHPUnit\Framework\TestCase;
 
 class Create_Test extends TestCase
@@ -43,6 +47,7 @@ class Create_Test extends TestCase
         $this->server->setEventRecreateRevoke(true);
         $this->server->setEventCreateStream(true);
         $this->server->setEventUpdateStream(true);
+        $this->server->setEventStartSyncUsername(true);
         $update = $this->server->updateEntry();
         $this->assertSame("ok",$update["message"],"Invaild message state");
         $this->assertSame(true,$update["status"],"Unable to update server settings");
@@ -64,6 +69,26 @@ class Create_Test extends TestCase
         $stream = new Stream();
         if($stream->loadByField("port",9998) == true)
         {
+            if($stream->getRentalLink() != null) {
+                $rentalid = $stream->getRentalLink();
+                $stream->setRentalLink(null);
+                $stream->updateEntry();
+                $detail = new DetailSet();
+                $detail->loadByField("rentalLink",$rentalid);
+                if($detail->getCount() > 0) {
+                    $detail->purgeCollection();
+                }
+
+                $rental = new Rental();
+                $this->assertSame(true,$rental->loadID($rentalid),"Failed to load rental to clear");
+                $this->assertSame(true,$rental->removeEntry()["status"],"Failed to remove rental");
+            }
+            $transactions = new TransactionsSet();
+            $transactions->loadByField("streamLink",$stream->getId());
+            if($transactions->getCount() > 0) {
+                $purgestatus = $transactions->purgeCollection();
+                $this->assertSame(true,$purgestatus["status"],"Failed to purge transactions");
+            }
             $remove_status = $stream->removeEntry();
             $this->assertSame("ok",$remove_status["message"],"Status check failed");
             $this->assertSame(true,$remove_status["status"],"Status check failed");
@@ -138,6 +163,10 @@ class Create_Test extends TestCase
         
         $exit = false;
         $loops=0;
+        $expected_replys = [
+            "exited current step is: none",
+            "passed"
+        ];
         while($exit == false)
         {
             $apiRequests = new ApirequestsSet();
@@ -156,7 +185,8 @@ class Create_Test extends TestCase
             $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
             $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
             $Next->process();
-            $this->assertSame("exited current step is: none",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply on loop: ".$loops."");
+            
+            $this->assertSame(true,in_array($Next->getOutputObject()->getSwapTagString("message"),$expected_replys),"incorrect reply on loop: ".$loops."");
             $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed");
             if($Next->getOutputObject()->getSwapTagBool("status") == false)
             {
