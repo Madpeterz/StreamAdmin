@@ -135,9 +135,9 @@ class Create extends ViewAjax
         $apilogic = new ApiLogicCreate();
         $reply = $apilogic->getApiServerLogicReply();
         $api_serverlogic_reply = false;
-        if ($reply["message"] != "Processing API server logic please check there") {
+        if ($reply["message"] != "passed") {
             $this->setSwapTag("status", false);
-            $this->setSwapTag("message", "Bad reply:" . $reply["message"]);
+            $this->setSwapTag("message", "Bad reply: " . $reply["message"]);
             return;
         }
         $api_serverlogic_reply = $reply["reply"];
