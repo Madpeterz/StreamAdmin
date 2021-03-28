@@ -66,7 +66,6 @@ class Next extends SecondlifeAjax
 
         $rental_set->loadWithConfig($where_config);
         if ($rental_set->getCount() == 0) {
-            die("No rentals in scope: " . $rental_set->getLastSql());
             $this->setSwapTag("status", true);
             $this->setSwapTag("message", "nowork");
             return;
