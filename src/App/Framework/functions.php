@@ -11,8 +11,7 @@ function createPendingApiRequest(
     Stream $stream,
     ?Rental $rental,
     string $eventname,
-    string $errormessage = "error: %1\$s %2\$s",
-    bool $save_to_why_failed = false
+    string $errormessage = "error: %1\$s %2\$s"
 ): bool {
     global $why_failed, $no_api_action;
     if ($server == null) {
@@ -23,12 +22,17 @@ function createPendingApiRequest(
     }
     if ($server->isLoaded() == false) {
         $why_failed = "Server is missing and unable to be loaded";
-        if ($save_to_why_failed == false) {
-            echo sprintf($errormessage, $eventname, $why_failed);
-        }
         return false;
     }
     if ($eventname == "core_send_details") {
+        if ($rental == null) {
+            $rental = new Rental();
+            $rental->loadByField("streamLink", $stream->getId());
+        }
+        if ($rental == null) {
+            $why_failed = "Attempting to api create details but no rental found";
+            return false;
+        }
         $detail = new Detail();
         $detail->setRentalLink($rental->getId());
         $create_status = $detail->createEntry();
@@ -50,11 +54,7 @@ function createPendingApiRequest(
         $api_request->setLastAttempt(time());
         $reply = $api_request->createEntry();
         if ($reply["status"] == false) {
-            if ($save_to_why_failed == true) {
-                $why_failed = sprintf($errormessage, $eventname, $reply["message"]);
-            } else {
-                echo sprintf($errormessage, $eventname, $reply["message"]);
-            }
+            $why_failed = sprintf($errormessage, $eventname, $reply["message"]);
             return false;
         }
         $why_failed = "passed";
