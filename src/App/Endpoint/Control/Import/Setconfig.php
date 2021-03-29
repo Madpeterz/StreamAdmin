@@ -12,6 +12,7 @@ class Setconfig extends ViewAjax
         if ($this->session->getOwnerLevel() != 1) {
             $this->setSwapTag("message", "Only the system owner can access this area");
             $this->setSwapTag("redirect", "");
+            return;
         }
         $input = new InputFilter();
         $db_host = $input->postFilter("db_host");
