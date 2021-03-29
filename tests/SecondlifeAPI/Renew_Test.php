@@ -79,7 +79,7 @@ class SecondlifeApiRenew extends TestCase
         $this->assertSame(true,$Renewnow->getLoadOk(),"Load ok failed");
         $Renewnow->process();
         $this->assertStringStartsWith(
-            "Payment accepted there is now: 27 days, 23 hours remaining you will next need to renew",
+            "Payment accepted there is now:",
             $Renewnow->getOutputObject()->getSwapTagString("message"),
             "Incorrect message"
         );

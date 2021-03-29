@@ -39,6 +39,7 @@ class Create_Test extends TestCase
         $this->server->setOptToggleAutodj(true);
         $this->server->setOptToggleStatus(true);
         $this->server->setEventEnableStart(true);
+        $this->server->setEventEnableRenew(true);
         $this->server->setEventDisableExpire(true);
         $this->server->setEventDisableRevoke(true);
         $this->server->setEventRevokeResetUsername(true);
@@ -110,7 +111,7 @@ class Create_Test extends TestCase
         $_POST["api_create"] = 1;
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
-        $this->assertStringContainsString("Stream created",$statuscheck->getSwapTagString("message"),"incorrect reply");
+        $this->assertStringContainsString("Stream creation underway",$statuscheck->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
@@ -164,8 +165,9 @@ class Create_Test extends TestCase
         $exit = false;
         $loops=0;
         $expected_replys = [
-            "exited current step is: none",
-            "passed"
+            "ok",
+            "passed",
+            "none"
         ];
         while($exit == false)
         {
@@ -185,7 +187,6 @@ class Create_Test extends TestCase
             $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
             $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
             $Next->process();
-            
             $this->assertSame(true,in_array($Next->getOutputObject()->getSwapTagString("message"),$expected_replys),"incorrect reply on loop: ".$loops."");
             $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed");
             if($Next->getOutputObject()->getSwapTagBool("status") == false)

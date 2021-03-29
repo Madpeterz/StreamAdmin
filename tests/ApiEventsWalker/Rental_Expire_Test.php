@@ -79,8 +79,9 @@ class RentalExpire_Test extends TestCase
         $exit = false;
         $loops=0;
         $expected_replys = [
-            "exited current step is: none",
+            "ok",
             "passed",
+            "none"
         ];
         while($exit == false)
         {
