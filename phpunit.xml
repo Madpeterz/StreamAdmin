@@ -6,6 +6,7 @@
     backupStaticAttributes="false"
     processIsolation="false"
     stopOnFailure="true"
+    cacheResult="false"
     backupGlobals="false"
     colors="true"
 >
