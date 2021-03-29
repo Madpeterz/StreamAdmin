@@ -52,7 +52,7 @@ class MediaServerApi_Centovacast_Test extends TestCase
         $this->server->setEventResetPasswordRevoke(true);
         $this->server->setEventClearDjs(true);
         $this->server->setEventRecreateRevoke(true);
-        $this->server->getEventCreateStream(true);
+        $this->server->setEventCreateStream(true);
         $update = $this->server->updateEntry();
         $this->assertSame("ok",$update["message"],"Invaild message state");
         $this->assertSame(true,$update["status"],"Unable to update server settings");
