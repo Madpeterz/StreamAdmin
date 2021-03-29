@@ -20,13 +20,13 @@ class DefaultView extends HomeDisplayData
 
     protected function unsafeWorkspace(): void
     {
-        $need_cleanup = true;
+        $need_cleanup = false;
         $why_unsafe = "";
-        if (is_dir(ROOTFOLDER . '/App/public_html/fake') == true) {
+        if (is_dir('fake') == true) {
             $need_cleanup = true;
             $why_unsafe = "faker public folder found";
         }
-        if (is_dir(ROOTFOLDER . 'tests') == true) {
+        if (is_dir(DEEPFOLDERPATH . '/tests') == true) {
             $need_cleanup = true;
             if ($why_unsafe != "") {
                 $why_unsafe .= " , ";

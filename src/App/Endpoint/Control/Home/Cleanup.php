@@ -18,8 +18,8 @@ class Cleanup extends ViewAjax
             $this->setSwapTag("message", "Unable to run cleanup code (it would delete unit tests...)");
             return;
         }
-        $this->delTree(ROOTFOLDER . '/App/public_html/fake');
-        $this->delTree(ROOTFOLDER . 'tests');
+        $this->delTree('fake');
+        $this->delTree(DEEPFOLDERPATH . '/tests');
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Deleted " . $this->deleleted_entrys . " entrys");
         $this->setSwapTag("redirect", "home");
@@ -27,6 +27,7 @@ class Cleanup extends ViewAjax
 
     protected function delTree($dir): bool
     {
+        error_log($dir);
         $files = array_diff(scandir($dir), ['.','..']);
         foreach ($files as $file) {
             if (is_dir("$dir/$file") == true) {
