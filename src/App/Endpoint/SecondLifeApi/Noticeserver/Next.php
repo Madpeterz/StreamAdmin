@@ -203,7 +203,10 @@ class Next extends SecondlifeAjax
 
         if ($notice->getHoursRemaining() == 0) {
             $apilogic = new ApiLogicExpire();
-            $reply = $apilogic->getApiServerLogicReply();
+            $apilogic->setStream($stream);
+            $apilogic->setServer($server);
+            $apilogic->setRental($rental);
+            $reply = $apilogic->createNextApiRequest();
             if ($reply["status"] == false) {
                 $this->setSwapTag("message", "API server logic has failed on ApiLogicExpire: " . $reply["message"]);
                 return;
