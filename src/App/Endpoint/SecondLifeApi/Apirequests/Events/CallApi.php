@@ -6,6 +6,7 @@ use App\Helpers\ServerApi\ServerApiHelper;
 use App\MediaServer\Logic\ApiLogicBuy;
 use App\MediaServer\Logic\ApiLogicCreate;
 use App\MediaServer\Logic\ApiLogicExpire;
+use App\MediaServer\Logic\ApiLogicRenew;
 use App\MediaServer\Logic\ApiLogicRevoke;
 use App\R7\Model\Apirequests;
 use App\R7\Model\Stream;
@@ -80,13 +81,17 @@ abstract class CallApi extends SecondlifeAjax
             $api_logic_object = new ApiLogicBuy($current_step);
         } elseif ($this->logic_step == "revoke") {
             $api_logic_object = new ApiLogicRevoke($current_step);
+        } elseif ($this->logic_step == "renew") {
+            $api_logic_object = new ApiLogicRenew($current_step);
         }
+
         if ($api_logic_object == null) {
             $this->setSwapTag("status", false);
             $this->setSwapTag("message", "Unknown logic controler: " . $this->logic_step);
             return;
         }
-        $reply = $api_logic_object->getApiServerLogicReply();
+        $api_logic_object->setStream($stream);
+        $reply = $api_logic_object->createNextApiRequest();
         $this->setSwapTag("status", $reply["status"]);
         $this->setSwapTag("message", $reply["message"]);
     }
