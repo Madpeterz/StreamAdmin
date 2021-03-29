@@ -1,6 +1,6 @@
 <?php
 
-namespace YAPF\Core;
+namespace YAPF\Core\ErrorControl;
 
 abstract class ErrorLogging
 {

@@ -53,6 +53,7 @@ class ModelFactory extends GeneratorWriter
             $this->createModelDataset($target_table, $results);
             $this->createModelGetters($target_table, $results);
             $this->createModelSetters($target_table, $results);
+            $this->createModelLoaders($target_table, $results);
             $this->createModelFooter();
             $create_file = $GEN_SAVE_MODELS_TO . $class_name . ".php";
             if ($this->use_output == true) {
@@ -121,6 +122,7 @@ class ModelFactory extends GeneratorWriter
 
     protected function createModelSetters(string $target_table, array $data_two): void
     {
+        $this->file_lines[] = "// Setters";
         foreach ($data_two as $row_two) {
             if ($row_two["COLUMN_NAME"] != "id") {
                 $return_type_addon = "";
@@ -150,8 +152,36 @@ class ModelFactory extends GeneratorWriter
         }
     }
 
+    protected function createModelLoaders(string $target_table, array $data_two): void
+    {
+        $this->file_lines[] = "// Loaders";
+        foreach ($data_two as $row_two) {
+            if ($row_two["COLUMN_NAME"] != "id") {
+                $use_type = $this->getColType(
+                    $row_two["DATA_TYPE"],
+                    $row_two["COLUMN_TYPE"],
+                    $target_table,
+                    $row_two["COLUMN_NAME"]
+                );
+                if ($use_type == "str") {
+                    $use_type = "string";
+                }
+                $load_function = 'public function loadBy' . ucfirst($row_two["COLUMN_NAME"]);
+                $load_function .= '(' . $use_type . ' $' . $row_two["COLUMN_NAME"] . '): bool';
+                $this->file_lines[] = $load_function;
+                $this->file_lines[] = '{';
+                $this->file_lines[] = [2];
+                $this->file_lines[] = 'return $this->loadByField("' . $row_two["COLUMN_NAME"] . '", $'
+                . $row_two["COLUMN_NAME"] . ');';
+                $this->file_lines[] = [1];
+                $this->file_lines[] = '}';
+            }
+        }
+    }
+
     protected function createModelGetters(string $target_table, array $data_two): void
     {
+        $this->file_lines[] = "// Getters";
         foreach ($data_two as $row_two) {
             if ($row_two["COLUMN_NAME"] != "id") {
                 $return_type_addon = "";
@@ -179,6 +209,7 @@ class ModelFactory extends GeneratorWriter
 
     protected function createModelDataset(string $target_table, array $data_two): void
     {
+        $this->file_lines[] = "// Data Design";
         $this->file_lines[] = 'protected $dataset = [';
         $this->file_lines[] = [2];
         foreach ($data_two as $row_two) {

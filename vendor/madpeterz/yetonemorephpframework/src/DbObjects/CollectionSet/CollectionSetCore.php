@@ -2,7 +2,7 @@
 
 namespace YAPF\DbObjects\CollectionSet;
 
-use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
+use YAPF\Core\SQLi\SqlConnectedClass as SqlConnectedClass;
 
 abstract class CollectionSetCore extends SqlConnectedClass
 {

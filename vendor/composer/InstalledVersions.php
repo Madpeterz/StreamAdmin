@@ -19,19 +19,19 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '90f6f5decf31f521fc92e98fce7997e7985ba0cb',
+    'reference' => 'b26b9a1fc3e41a0f89a22203677feae62150ee9d',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
   array (
     'guzzlehttp/guzzle' => 
     array (
-      'pretty_version' => '7.2.0',
-      'version' => '7.2.0.0',
+      'pretty_version' => '7.3.0',
+      'version' => '7.3.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0aa74dfb41ae110835923ef10a9d803a22d50e79',
+      'reference' => '7008573787b430c1c1f650e3722d9bba59967628',
     ),
     'guzzlehttp/promises' => 
     array (
@@ -44,12 +44,12 @@ private static $installed = array (
     ),
     'guzzlehttp/psr7' => 
     array (
-      'pretty_version' => '1.7.0',
-      'version' => '1.7.0.0',
+      'pretty_version' => '1.8.1',
+      'version' => '1.8.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '53330f47520498c0ae1f61f7e2c90f55690c06a3',
+      'reference' => '35ea11d335fd638b5882ff1725228b3d35496ab1',
     ),
     'madpeterz/streamadmin' => 
     array (
@@ -58,16 +58,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '90f6f5decf31f521fc92e98fce7997e7985ba0cb',
+      'reference' => 'b26b9a1fc3e41a0f89a22203677feae62150ee9d',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => '1.1.5',
-      'version' => '1.1.5.0',
+      'pretty_version' => '1.2.0',
+      'version' => '1.2.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '18b819ed54160f535d156f85bb3614e1df6d6ec1',
+      'reference' => '205ccd7787a908e6aa3e1e1b8f321e30e2c4ced4',
     ),
     'phpmailer/phpmailer' => 
     array (

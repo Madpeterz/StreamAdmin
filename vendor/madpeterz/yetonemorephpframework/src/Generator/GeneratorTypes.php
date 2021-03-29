@@ -2,7 +2,7 @@
 
 namespace YAPF\Generator;
 
-use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
+use YAPF\Core\SQLi\SqlConnectedClass as SqlConnectedClass;
 
 abstract class GeneratorTypes extends SqlConnectedClass
 {

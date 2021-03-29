@@ -276,6 +276,15 @@ abstract class MysqliFunctions extends MysqliCore
             return false;
         }
     }
+
+    protected function endSQL(bool $shouldStop, bool $returnStatus): bool
+    {
+        if ($shouldStop == true) {
+            $this->sqlStop();
+        }
+        return $returnStatus;
+    }
+
     /**
      * sqlSave
      * if there has been no errors and its marked as need to save
@@ -288,23 +297,22 @@ abstract class MysqliFunctions extends MysqliCore
      */
     public function sqlSave(bool $stop = true): bool
     {
-        $commit_status = false;
-        if (($this->hadErrors == false) && ($this->needToSave == true)) {
-            $commit_status = $this->sqlConnection->commit();
-            if ($commit_status == false) {
-                $error_msg = "SQL error [Commit]: " . $this->sqlConnection->error;
-                $this->addError(__FILE__, __FUNCTION__, $error_msg);
-            }
-        } elseif (($this->hadErrors == true) && ($this->needToSave == true)) {
-            $this->sqlRollBack();
-        } else {
+        if ($this->needToSave == false) {
             $this->myLastErrorBasic = "No changes made";
-            $commit_status = true; // no changes (save ok)
+            return $this->endSQL($stop, true);
         }
-        if ($stop == true) {
-            $this->sqlStop();
+        if ($this->hadErrors == true) {
+            $this->addError(__FILE__, __FUNCTION__, "Unable to save there are reported errors - attempting rollback");
+            $this->sqlRollBack();
+            return $this->endSQL($stop, false);
         }
-        return $commit_status;
+        $commit_status = $this->sqlConnection->commit();
+        if ($commit_status == false) {
+            $this->myLastErrorBasic = "Commit error";
+            $error_msg = "SQL error [Commit]: " . $this->sqlConnection->error;
+            $this->addError(__FILE__, __FUNCTION__, $error_msg);
+        }
+        return $this->endSQL($stop, $commit_status);
     }
     /**
      * sqlRollBack

@@ -2,7 +2,7 @@
 
 namespace YAPF\InputFilter\Worker;
 
-use YAPF\Core\ErrorLogging as ErrorLogging;
+use YAPF\Core\ErrorControl\ErrorLogging as ErrorLogging;
 
 abstract class InputFilterWorkerBase extends ErrorLogging
 {

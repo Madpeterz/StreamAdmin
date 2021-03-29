@@ -108,7 +108,7 @@ class mysqli_remove_test extends TestCase
     {
         $where_config = [
         "fields" => ["id"],
-        "values" => [2],
+        "values" => [-1],
         "matches" => ["!="],
         "types" => ["i"]
         ];
@@ -117,6 +117,7 @@ class mysqli_remove_test extends TestCase
         $this->assertSame($results["status"], true);
         $this->assertSame($results["rowsDeleted"], 2);
         $this->assertSame($results["message"], "ok");
+
     }
 
     public function testRemoveLike()
