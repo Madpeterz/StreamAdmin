@@ -3,6 +3,7 @@
 namespace App\Endpoint\SecondLifeApi\Buy;
 
 use App\Helpers\AvatarHelper;
+use App\Helpers\PendingAPI;
 use App\Helpers\TransactionsHelper;
 use App\MediaServer\Logic\ApiLogicBuy;
 use App\R7\Set\ApirequestsSet;
@@ -207,21 +208,20 @@ class Startrental extends SecondlifeAjax
         $this->setSwapTag("message", "ok");
 
         $apilogic = new ApiLogicBuy();
-        $reply = $apilogic->getApiServerLogicReply();
+        $apilogic->setStream($stream);
+        $apilogic->setRental($rental);
+        $reply = $apilogic->createNextApiRequest();
         if ($reply["status"] == false) {
             $this->setSwapTag("message", "API server logic has failed on ApiLogicBuy: " . $reply["message"]);
             return;
         }
-        if ($apilogic->getNoAction() == true) {
-            $status = createPendingApiRequest(
-                null,
-                $stream,
-                $rental,
-                "core_send_details",
-                "Unable to create pending api request"
-            );
-            $this->setSwapTag("status", $status);
-            if ($status == false) {
+        if ($apilogic->getnoApiAction() == true) {
+            $pendingAPI = new PendingAPI();
+            $pendingAPI->setStream($stream);
+            $pendingAPI->setRental($rental);
+            $status = $pendingAPI->create("core_send_details");
+            $this->setSwapTag("status", $status["status"]);
+            if ($status["status"] == false) {
                 $this->setSwapTag("message", "unable to create pending API request to send details");
             }
             return;
