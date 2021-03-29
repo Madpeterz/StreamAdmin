@@ -68,7 +68,7 @@ class MediaServerApi_Centovacast_Test extends TestCase
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $this->assertSame("Avatar loaded",$ServerApiHelper->getMessage(),"Unable to auto load avatar");
         $status = $ServerApiHelper->apiRecreateAccount();
-        $this->assertSame("apiRecreateAccount is not callable on this server/api",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame("Reply from server: This is a faked reply for: systemSetstatus",$ServerApiHelper->getMessage(),"Invaild message state");
         $this->assertSame(true,$status,"incorrect status reply");
     }
 
