@@ -25,7 +25,7 @@ class ServerLoad extends ViewAjax
         $this->setSwapTag("message", "Fetched getApiServerStatus");
         $serverapi_helper->forceSetServer($server);
         $apireply = $serverapi_helper->apiServerStatus();
-        $this->setSwapTag("message", "Got apiServerStatus");
+        $this->setSwapTag("message", "");
         if ($apireply["status"] == false) {
             $this->output->addSwapTagString("message", "<span class=\"text-danger\">Offline</span>");
             return;
