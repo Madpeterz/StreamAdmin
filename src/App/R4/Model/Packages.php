@@ -8,6 +8,7 @@ use YAPF\DbObjects\GenClass\GenClass as GenClass;
 class Packages extends genClass
 {
     protected $use_table = "packages";
+    // Data Design
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],
@@ -37,6 +38,7 @@ class Packages extends genClass
         "enable_invites" => ["type" => "int", "value" => 0],
         "use_vender_config_id" => ["type" => "int", "value" => null],
     ];
+    // Getters
     public function getName(): ?string
     {
         return $this->getField("name");
@@ -141,6 +143,7 @@ class Packages extends genClass
     {
         return $this->getField("use_vender_config_id");
     }
+    // Setters
     /**
     * setName
     * @return mixed[] [status =>  bool, message =>  string]
@@ -348,6 +351,111 @@ class Packages extends genClass
     public function setUse_vender_config_id(?int $newvalue): array
     {
         return $this->updateField("use_vender_config_id", $newvalue);
+    }
+    // Loaders
+    public function loadByName(string $name): bool
+    {
+        return $this->loadByField("name", $name);
+    }
+    public function loadByStreamtype(string $streamtype): bool
+    {
+        return $this->loadByField("streamtype", $streamtype);
+    }
+    public function loadByStreamrate(string $streamrate): bool
+    {
+        return $this->loadByField("streamrate", $streamrate);
+    }
+    public function loadByUsers(float $users): bool
+    {
+        return $this->loadByField("users", $users);
+    }
+    public function loadByLcost(float $Lcost): bool
+    {
+        return $this->loadByField("Lcost", $Lcost);
+    }
+    public function loadBySublength(int $sublength): bool
+    {
+        return $this->loadByField("sublength", $sublength);
+    }
+    public function loadByMaintexture(string $maintexture): bool
+    {
+        return $this->loadByField("maintexture", $maintexture);
+    }
+    public function loadByInfotexture(string $infotexture): bool
+    {
+        return $this->loadByField("infotexture", $infotexture);
+    }
+    public function loadBySoldouttexture(string $soldouttexture): bool
+    {
+        return $this->loadByField("soldouttexture", $soldouttexture);
+    }
+    public function loadByAutoDJ(int $autoDJ): bool
+    {
+        return $this->loadByField("autoDJ", $autoDJ);
+    }
+    public function loadByUse_addon_field_1(int $use_addon_field_1): bool
+    {
+        return $this->loadByField("use_addon_field_1", $use_addon_field_1);
+    }
+    public function loadByUse_addon_field_2(int $use_addon_field_2): bool
+    {
+        return $this->loadByField("use_addon_field_2", $use_addon_field_2);
+    }
+    public function loadByUse_addon_field_3(int $use_addon_field_3): bool
+    {
+        return $this->loadByField("use_addon_field_3", $use_addon_field_3);
+    }
+    public function loadByUse_addon_field_4(int $use_addon_field_4): bool
+    {
+        return $this->loadByField("use_addon_field_4", $use_addon_field_4);
+    }
+    public function loadByAddon_field_1(string $addon_field_1): bool
+    {
+        return $this->loadByField("addon_field_1", $addon_field_1);
+    }
+    public function loadByAddon_field_2(string $addon_field_2): bool
+    {
+        return $this->loadByField("addon_field_2", $addon_field_2);
+    }
+    public function loadByAddon_field_3(string $addon_field_3): bool
+    {
+        return $this->loadByField("addon_field_3", $addon_field_3);
+    }
+    public function loadByAddon_field_4(string $addon_field_4): bool
+    {
+        return $this->loadByField("addon_field_4", $addon_field_4);
+    }
+    public function loadByAddon_field1_default(string $addon_field1_default): bool
+    {
+        return $this->loadByField("addon_field1_default", $addon_field1_default);
+    }
+    public function loadByAddon_field2_default(string $addon_field2_default): bool
+    {
+        return $this->loadByField("addon_field2_default", $addon_field2_default);
+    }
+    public function loadByAddon_field3_default(string $addon_field3_default): bool
+    {
+        return $this->loadByField("addon_field3_default", $addon_field3_default);
+    }
+    public function loadByAddon_field4_default(string $addon_field4_default): bool
+    {
+        return $this->loadByField("addon_field4_default", $addon_field4_default);
+    }
+    public function loadByEnable_ans(int $enable_ans): bool
+    {
+        return $this->loadByField("enable_ans", $enable_ans);
+    }
+    public function loadByAns_product_id(int $ans_product_id): bool
+    {
+        return $this->loadByField("ans_product_id", $ans_product_id);
+    }
+    public function loadByEnable_invites(int $enable_invites): bool
+    {
+        return $this->loadByField("enable_invites", $enable_invites);
+    }
+    public function loadByUse_vender_config_id(int $use_vender_config_id): bool
+    {
+        return $this->loadByField("use_vender_config_id", $use_vender_config_id);
     }
 }
 // please do not edit this file
