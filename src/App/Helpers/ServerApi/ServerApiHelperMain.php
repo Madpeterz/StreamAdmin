@@ -37,18 +37,16 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
         $this->stream->setNeedWork(false);
         $update_status = $this->stream->updateEntry();
         if ($update_status["status"] == false) {
-            $sql->flagError();
             $this->message = "Unable to update password in db: " . $update_status["message"];
             return false;
         }
         $status = $this->serverApi->removeAccount($old_username);
-        if ($status == true) {
-            $status = $this->serverApi->recreateAccount();
-        }
         $this->message = $this->serverApi->getLastApiMessage();
         if ($status == false) {
-            $sql->flagError();
+            return false;
         }
+        $status = $this->serverApi->recreateAccount();
+        $this->message = $this->serverApi->getLastApiMessage();
         return $status;
     }
 
