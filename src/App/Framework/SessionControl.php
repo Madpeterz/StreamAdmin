@@ -3,7 +3,7 @@
 namespace App\Framework;
 
 use App\R7\Model\Staff;
-use YAPF\Core\SqlConnectedClass as SqlConnectedClass;
+use YAPF\Core\SQLi\SqlConnectedClass;
 
 class SessionControl extends SqlConnectedClass
 {

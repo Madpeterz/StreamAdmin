@@ -6,7 +6,7 @@ use App\R7\Model\Package;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use Exception;
-use YAPF\Core\ErrorLogging;
+use YAPF\Core\ErrorControl\ErrorLogging;
 
 abstract class RestApi extends ErrorLogging
 {

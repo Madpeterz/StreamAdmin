@@ -2,7 +2,7 @@
 
 namespace App;
 
-use YAPF\Core\ErrorLogging as ErrorLogging;
+use YAPF\Core\ErrorControl\ErrorLogging as ErrorLogging;
 
 class Db extends ErrorLogging
 {

@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Import;
 
+use App\R4\Set\UsersSet;
 use App\R7\Set\AvatarSet;
 use App\R7\Set\NoticeSet;
 use App\R7\Model\Rental;
 use App\R7\Set\StreamSet;
-use App\R4\UsersSet;
 
 class Clients extends View
 {

@@ -3,13 +3,13 @@
 namespace App\Endpoint\View\Import;
 
 use App\Helpers\AvatarHelper;
-use App\R4\UsersSet;
+use App\R4\Set\UsersSet as SetUsersSet;
 
 class Avatars extends View
 {
     public function process(): void
     {
-        $r4_users_set = new UsersSet();
+        $r4_users_set = new SetUsersSet();
         $r4_users_set->reconnectSql($this->oldSqlDB);
         $r4_users_set->loadAll();
 

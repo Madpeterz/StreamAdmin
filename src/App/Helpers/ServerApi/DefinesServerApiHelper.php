@@ -9,7 +9,7 @@ use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
-use YAPF\Core\SqlConnectedClass;
+use YAPF\Core\SQLi\SqlConnectedClass;
 
 abstract class DefinesServerApiHelper extends SqlConnectedClass
 {
