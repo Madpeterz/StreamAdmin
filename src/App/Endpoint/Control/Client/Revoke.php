@@ -93,12 +93,15 @@ class Revoke extends ViewAjax
 
         $api_serverlogic_reply = true;
         $apilogic = new ApiLogicRevoke();
-        if ($api_serverlogic_reply == false) {
-            $this->setSwapTag("message", $apilogic->getApiServerLogicReply()["message"]);
+        $apilogic->setStream($stream);
+        $apilogic->setServer($server);
+        $reply = $apilogic->createNextApiRequest();
+        if ($reply["status"] == false) {
+            $this->setSwapTag("message", $reply["message"]);
             return;
         }
 
-        $this->setSwapTag("status", $api_serverlogic_reply);
+        $this->setSwapTag("status", $reply["status"]);
         if ($api_serverlogic_reply == true) {
             $this->setSwapTag("redirect", "client");
         }
