@@ -94,6 +94,7 @@ class ApiLogicProcess
     protected function nextStep(): void
     {
         // add next step
+        $this->noApiAction = true;
         $this->whyFailed = "in process loop";
         $this->currentStep = $this->getStepAction();
         if ($this->currentStep == "none") {
@@ -112,9 +113,9 @@ class ApiLogicProcess
                 return;
             }
         }
+        $this->noApiAction = false;
         $this->status = true;
         $this->whyFailed = "Processing API server logic please check there";
-        $this->noApiAction = false;
         $this->apiServerlogicReply = "Starting";
         $pending = new PendingAPI();
         $pending->setStream($this->stream);
@@ -132,6 +133,7 @@ class ApiLogicProcess
     public function createNextApiRequest(): array
     {
         $this->autoLoad();
+        $this->noApiAction = true;
         if ($this->server == null) {
             $this->status = false;
             $this->whyFailed = "Server object not loaded / Unable to load server";
@@ -152,7 +154,6 @@ class ApiLogicProcess
             $this->status = true;
             $this->whyFailed = "No api usage needed";
         }
-        $this->noApiAction = false;
         $this->nextStep();
         return ["status" => $this->status,"message" => $this->whyFailed];
     }

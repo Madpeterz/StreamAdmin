@@ -10,9 +10,9 @@ use App\R7\Model\Stream;
 
 class PendingAPI
 {
-    protected ?Server $server;
-    protected ?Stream $stream;
-    protected ?Rental $rental;
+    protected ?Server $server = null;
+    protected ?Stream $stream = null;
+    protected ?Rental $rental = null;
 
     /**
      * create
