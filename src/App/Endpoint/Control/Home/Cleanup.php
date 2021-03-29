@@ -27,7 +27,6 @@ class Cleanup extends ViewAjax
 
     protected function delTree($dir): bool
     {
-        error_log($dir);
         $files = array_diff(scandir($dir), ['.','..']);
         foreach ($files as $file) {
             if (is_dir("$dir/$file") == true) {
