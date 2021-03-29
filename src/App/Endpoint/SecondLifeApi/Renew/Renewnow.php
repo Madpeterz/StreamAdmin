@@ -154,14 +154,13 @@ class Renewnow extends SecondlifeAjax
         );
         $this->setSwapTag("status", false);
         $apilogic = new ApiLogicRenew();
-        $reply = $apilogic->getApiServerLogicReply();
+        $apilogic->setStream($stream);
+        $apilogic->setRental($rental);
+        $reply = $apilogic->createNextApiRequest();
         if ($reply["status"] == false) {
             $this->setSwapTag("message", "API server logic has failed on ApiLogicRenew: " . $reply["message"]);
             return;
         }
         $this->setSwapTag("status", true);
-        if ($apilogic->getNoAction() == false) {
-            return;
-        }
     }
 }
