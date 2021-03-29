@@ -126,26 +126,21 @@ class Create extends ViewAjax
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Stream created");
 
-        $api_serverlogic_reply = true;
         $apilogic = null;
         if ($api_create == 0) {
             $this->setSwapTag("redirect", "stream");
             return;
         }
         $apilogic = new ApiLogicCreate();
-        $reply = $apilogic->getApiServerLogicReply();
-        $api_serverlogic_reply = false;
-        if ($reply["message"] != "passed") {
+        $apilogic->setStream($stream);
+        $apilogic->setServer($server);
+        $reply = $apilogic->createNextApiRequest();
+        if ($reply["status"] == false) {
             $this->setSwapTag("status", false);
             $this->setSwapTag("message", "Bad reply: " . $reply["message"]);
             return;
         }
-        $api_serverlogic_reply = $reply["reply"];
-        if ($api_serverlogic_reply == false) {
-            $this->setSwapTag("status", false);
-            $this->setSwapTag("message", json_encode($reply));
-            return;
-        }
+        $this->setSwapTag("message", "Stream creation underway");
         $this->setSwapTag("redirect", "stream");
     }
 }
