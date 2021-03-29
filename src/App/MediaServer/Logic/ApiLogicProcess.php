@@ -2,6 +2,7 @@
 
 namespace App\MediaServer\Logic;
 
+use App\Helpers\PendingAPI;
 use App\R7\Model\Apis;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
@@ -27,28 +28,34 @@ class ApiLogicProcess
         $this->rental = $rental;
         $this->currentStep = $setCurrentStep;
         $this->whyFailed = "Starting process: " . $setCurrentStep;
-        $this->process();
     }
-    /**
-     * getApiServerLogicReply
-     * @return mixed[] [status => bool, message=>string,reply=>array]
-     */
-    public function getApiServerLogicReply(): array
-    {
-        return ["status" => $this->status,"message" => $this->whyFailed,"reply" => $this->apiServerlogicReply];
-    }
-    public function getGlobalWhyfailed(): string
-    {
-        global $why_failed;
-        if ($why_failed == null) {
-            return "unknown";
-        }
-        return $why_failed;
-    }
-    public function getNoAction(): bool
+
+    public function getnoApiAction(): bool
     {
         return $this->noApiAction;
     }
+
+    public function setServer(Server $server): void
+    {
+        $this->server = $server;
+    }
+
+    public function setStream(Stream $stream): void
+    {
+        $this->stream = $stream;
+    }
+
+    public function setRental(Rental $rental): void
+    {
+        $this->rental = $rental;
+    }
+
+    public function autoLoad(): void
+    {
+        $this->setupServer();
+        $this->setupRental();
+    }
+
     protected function setupServer(): void
     {
         $this->whyFailed = "Setting up server";
@@ -71,7 +78,7 @@ class ApiLogicProcess
             return;
         }
         $this->rental = new Rental();
-        $this->rental->loadByField("StreamLink", $this->stream->getId());
+        $this->rental->loadByField("streamLink", $this->stream->getId());
         if ($this->rental->isLoaded() == false) {
             $this->rental = null;
         }
@@ -84,25 +91,23 @@ class ApiLogicProcess
             return "none";
         }
     }
-    protected function processLoop(): void
+    protected function nextStep(): void
     {
+        // add next step
         $this->whyFailed = "in process loop";
         $this->currentStep = $this->getStepAction();
         if ($this->currentStep == "none") {
             $this->status = true;
-            $this->whyFailed = "exited current step is: none";
+            $this->whyFailed = "none";
             return;
         }
-        $hasApiStep = true;
         if ($this->currentStep != "core_send_details") {
-            $hasApiStep = false;
             $getName = "get" . ucfirst($this->currentStep);
-            if ($this->api->$getName() == 0) {
+            if ($this->api->$getName() == false) {
                 $this->whyFailed = "Api " . $this->api->getName() . " does not support: " . $getName;
                 return;
             }
-
-            if ($this->server->$getName() == 0) {
+            if ($this->server->$getName() == false) {
                 $this->whyFailed = "Server does not support: " . $getName;
                 return;
             }
@@ -111,43 +116,44 @@ class ApiLogicProcess
         $this->whyFailed = "Processing API server logic please check there";
         $this->noApiAction = false;
         $this->apiServerlogicReply = "Starting";
-        global $why_failed;
-        $this->apiServerlogicReply = createPendingApiRequest(
-            $this->server,
-            $this->stream,
-            $this->rental,
-            $this->currentStep,
-            "error: %1\$s %2\$s",
-            true
-        );
-        $this->whyFailed = $why_failed;
-        $this->status = $this->apiServerlogicReply;
+        $pending = new PendingAPI();
+        $pending->setStream($this->stream);
+        $pending->setServer($this->server);
+        $pending->setRental($this->rental);
+        $reply = $pending->create($this->currentStep);
+        $this->whyFailed = $reply["message"];
+        $this->status = $reply["status"];
     }
-    protected function process(): void
+
+    /**
+     * createNextApiRequest
+     * @return mixed[] [status => bool, message=>string]
+     */
+    public function createNextApiRequest(): array
     {
-        $this->setupServer();
-        $this->setupRental();
+        $this->autoLoad();
         if ($this->server == null) {
             $this->status = false;
             $this->whyFailed = "Server object not loaded / Unable to load server";
-            return;
+            return ["status" => $this->status,"message" => $this->whyFailed];
         }
         if ($this->server->isLoaded() == false) {
             $this->status = false;
             $this->whyFailed = "Unable to load a vaild server";
-            return;
+            return ["status" => $this->status,"message" => $this->whyFailed];
         }
         $this->api = new Apis();
         if ($this->api->loadID($this->server->getApiLink()) == false) {
             $this->status = false;
             $this->whyFailed = "Unable to load API controler";
-            return;
+            return ["status" => $this->status,"message" => $this->whyFailed];
         }
         if ($this->api->getId() <= 1) {
             $this->status = true;
             $this->whyFailed = "No api usage needed";
-            return;
         }
-        $this->processLoop();
+        $this->noApiAction = false;
+        $this->nextStep();
+        return ["status" => $this->status,"message" => $this->whyFailed];
     }
 }
