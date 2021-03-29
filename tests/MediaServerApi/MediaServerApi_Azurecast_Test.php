@@ -77,8 +77,8 @@ class MediaServerApi_Azurecast_Test extends TestCase
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $this->assertSame("Avatar loaded",$ServerApiHelper->getMessage(),"Unable to auto load avatar");
         $status = $ServerApiHelper->apiRecreateAccount();
-        $this->assertSame("apiRecreateAccount is not callable on this server/api",$ServerApiHelper->getMessage(),"Invaild message state");
-        $this->assertSame(true,$status,"incorrect status reply");
+        $this->assertSame("Skipped terminateAccount not supported on this api",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame(false,$status,"incorrect status reply");
     }
 
     /**
@@ -217,7 +217,7 @@ class MediaServerApi_Azurecast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->apiCustomizeUsername();
-        $this->assertSame("apiCustomizeUsername is not callable on this server/api",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame("API flag eventStartSyncUsername disallowed by api_config",$ServerApiHelper->getMessage(),"Invaild message state");
         $this->assertSame(false,$status,"incorrect status reply");
     }
 
@@ -228,8 +228,8 @@ class MediaServerApi_Azurecast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->eventRecreateRevoke();
-        $this->assertSame("apiRecreateAccount is not callable on this server/api",$ServerApiHelper->getMessage(),"Invaild message state");
-        $this->assertSame(true,$status,"incorrect status reply");
+        $this->assertSame("Skipped terminateAccount not supported on this api",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame(false,$status,"incorrect status reply");
     }
 
     /**
@@ -305,7 +305,7 @@ class MediaServerApi_Azurecast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->eventStartSyncUsername();
-        $this->assertSame("apiCustomizeUsername is not callable on this server/api",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame("API flag eventStartSyncUsername disallowed by api_config",$ServerApiHelper->getMessage(),"Invaild message state");
         $this->assertSame(false,$status,"incorrect status reply");
     }
 
@@ -316,7 +316,7 @@ class MediaServerApi_Azurecast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->eventRevokeResetUsername();
-        $this->assertSame("apiCustomizeUsername is not callable on this server/api",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame("API flag eventStartSyncUsername disallowed by api_config",$ServerApiHelper->getMessage(),"Invaild message state");
         $this->assertSame(false,$status,"incorrect status reply");
     }
 
