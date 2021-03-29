@@ -7,18 +7,24 @@ abstract class FunctionsServerApiHelper extends SetServerApiHelper
     protected function flagCheck(string $flagname): bool
     {
         $functionname = "get" . ucfirst($flagname);
-        if (($this->api_config->$functionname() == 1) && ($this->server->$functionname() == 1)) {
+        if (($this->api_config->$functionname() == true) && ($this->server->$functionname() == true)) {
             $this->message = "API flag " . $flagname . " allowed";
             return true;
+        }
+        if ($this->api_config->$functionname() == false) {
+            $this->message = "API flag " . $flagname . " disallowed by api_config";
+        }
+        if ($this->server->$functionname() == false) {
+            $this->message = "API flag " . $flagname . " disallowed by server";
         }
         return false;
     }
     protected function checkFlags(array $flags): bool
     {
-        $flag_accepted = false;
+        $flag_accepted = true;
         foreach ($flags as $flag) {
-            $flag_accepted = $this->flagCheck($flag);
-            if ($flag_accepted == true) {
+            if ($this->flagCheck($flag) == false) {
+                $flag_accepted = false;
                 break;
             }
         }
@@ -55,7 +61,6 @@ abstract class FunctionsServerApiHelper extends SetServerApiHelper
             return false;
         }
         if ($this->checkFlags($this->callable_actions[$action]) == false) {
-            $this->message = $action . " is not callable on this server/api";
             return false;
         }
         $this->message = "Passed callable action checks";
