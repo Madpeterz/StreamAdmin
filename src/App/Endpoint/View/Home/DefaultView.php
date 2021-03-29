@@ -10,17 +10,17 @@ class DefaultView extends HomeDisplayData
     public function process(): void
     {
         $this->main_grid = new Grid();
-        $this->loadDatasets();
-        $this->displayDatasets();
         if ($this->session->getOwnerLevel() == 1) {
             $this->unsafeWorkspace();
         }
+        $this->loadDatasets();
+        $this->displayDatasets();
         $this->output->addSwapTagString("page_content", $this->main_grid->getOutput());
     }
 
     protected function unsafeWorkspace(): void
     {
-        $need_cleanup = false;
+        $need_cleanup = true;
         $why_unsafe = "";
         if (is_dir(ROOTFOLDER . '/App/public_html/fake') == true) {
             $need_cleanup = true;
@@ -37,7 +37,7 @@ class DefaultView extends HomeDisplayData
             $form = new Form();
             $form->mode("post");
             $form->target("home/cleanup");
-            $formcode = $form->render("Cleanup", "Danger");
+            $formcode = $form->render("Cleanup", "danger");
             $this->main_grid->addContent('<div class="jumbotron">
             <h1 class="display-4">Secure install</h1>
             <p class="lead">' . $why_unsafe . '</p>
