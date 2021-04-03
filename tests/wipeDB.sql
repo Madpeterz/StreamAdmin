@@ -1,3 +1,10 @@
+CREATE DATABASE IF NOT EXISTS `r4test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+USE r4test;
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS  `items`, `packages`, `sales_tracking`, `users`;
+SET FOREIGN_KEY_CHECKS = 1;
 USE test;
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS  `apirequests`, `apis`, `avatar`, `banlist`,

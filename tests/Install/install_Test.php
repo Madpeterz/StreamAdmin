@@ -56,7 +56,7 @@ class Installer extends TestCase
             die("Error - Running test_InstallDatabase / test_ClearDatabase via unit test not on the test database!");
         }
         $status = $sql->rawSQL("tests/wipeDB.sql");
-        $this->assertSame(true,$status["status"]);
+        $this->assertSame(true,$status["status"],"Unable to wipe DB: ".$status["message"]);
     }
     public function test_InstallDatabase()
     {
