@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Server;
 
+use App\Helpers\ServerApi\ServerApiHelper;
 use App\R7\Model\Apis;
 use App\R7\Model\Server;
 use App\R7\Set\StreamSet;
@@ -16,7 +17,7 @@ class SyncAccounts extends ViewAjax
         $server = new Server();
         $stream_set = new StreamSet();
         $api = new Apis();
-        $serverapi_helper = new serverapi_helper();
+        $serverapi_helper = new ServerApiHelper();
 
         if ($server->loadID($this->page) == false) {
             $this->setSwapTag("message", "Unable to find server");
@@ -30,7 +31,7 @@ class SyncAccounts extends ViewAjax
             $this->setSwapTag("message", "Server or API have sync accounts disabled");
             return;
         }
-        if ($serverapi_helper->force_set_server($server) == false) {
+        if ($serverapi_helper->forceSetServer($server) == false) {
             $this->setSwapTag("message", "Unable to attach server to api helper");
             return;
         }
@@ -54,7 +55,7 @@ class SyncAccounts extends ViewAjax
             );
             return;
         }
-        $accounts_found = $serverapi_helper->get_all_accounts(true, $stream_set);
+        $accounts_found = $serverapi_helper->getAllAccounts(true, $stream_set);
         if ($accounts_found["status"] == false) {
             $this->setSwapTag("message", $serverapi_helper->getMessage());
             return;
