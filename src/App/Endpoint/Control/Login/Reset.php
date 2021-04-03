@@ -21,21 +21,6 @@ class Reset extends ViewAjax
     <a href=\"%2\$s\">Reset now</a><br/>
     This link expires after 1 hour.";
 
-    protected function sendEmailReset(Staff $staff, string $resetCode): bool
-    {
-        global $template_parts;
-        $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $resetCode;
-        $email_helper = new EmailHelper();
-        $status_reply = $email_helper->sendEmail(
-            $staff->getEmail(),
-            "StreamAdmin password reset",
-            sprintf($this->reset_message, $resetCode, $reset_url)
-        );
-        if ($status_reply["status"] == true) {
-            return true;
-        }
-        return false;
-    }
     protected function sendMessageReset(Staff $staff, Avatar $avatar, string $resetCode): bool
     {
         global $template_parts;
@@ -58,22 +43,15 @@ class Reset extends ViewAjax
         $staff = new Staff();
 
         $slusername = $input->postFilter("slusername");
-        $bits = explode("@", $slusername);
-        $contact_via = "sl";
         $status = false;
 
-        if (count($bits) == 2) {
-            $contact_via = "email";
-            $status = $staff->loadByField("email", $slusername);
-        } else {
-            $username_bits = explode(" ", $slusername);
-            if (count($username_bits) == 1) {
-                $username_bits[] = "Resident";
-            }
-            $slusername = implode(" ", $username_bits);
-            if ($avatar->loadByField("avatarName", $slusername) == true) {
-                $status = $staff->loadByField("avatarLink", $avatar->getId());
-            }
+        $username_bits = explode(" ", $slusername);
+        if (count($username_bits) == 1) {
+            $username_bits[] = "Resident";
+        }
+        $slusername = implode(" ", $username_bits);
+        if ($avatar->loadByField("avatarName", $slusername) == true) {
+            $status = $staff->loadByField("avatarLink", $avatar->getId());
         }
         if ($status == true) {
             if ($staff->getId() > 0) {
@@ -83,11 +61,7 @@ class Reset extends ViewAjax
                     $staff->setEmailResetExpires((time() + $unixtime_hour));
                     $update_status = $staff->updateEntry();
                     if ($update_status["status"] == true) {
-                        if ($contact_via == "email") {
-                            $status = $this->sendEmailReset($staff, $uid["uid"]);
-                        } else {
-                            $status = $this->sendMessageReset($staff, $avatar, $uid["uid"]);
-                        }
+                        $status = $this->sendMessageReset($staff, $avatar, $uid["uid"]);
                     }
                 }
             }
