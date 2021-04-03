@@ -305,11 +305,11 @@ class Centova3 extends PublicApi
                 }
                 if ($include_passwords == true) {
                     foreach ($stream_set->getAllIds() as $streamid) {
-                        $stream = $stream_set->getObjectByID($streamid);
+                        $this->stream = $stream_set->getObjectByID($streamid);
                         $reply = $this->centovaServerclassApiCall("getaccount");
                         if ($this->simpleReplyOk($reply) == true) {
                             $accountinfo = $reply["data"]["response"]["data"]["account"];
-                            $current_passwords[$stream->getAdminUsername()] = [
+                            $current_passwords[$this->stream->getAdminUsername()] = [
                                 "admin" => $accountinfo["adminPassword"],
                                 "dj" => $accountinfo["sourcepassword"],
                             ];
