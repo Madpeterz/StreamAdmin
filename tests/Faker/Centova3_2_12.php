@@ -166,7 +166,7 @@ class Centova3_2_12
         }
         $randomnames = [];
         while(count($randomnames) < 10) {
-            $randomnames[] = ["username" => substr(sha1(microtime()."asdasd"),0,10)];
+            $randomnames[] = ["username" => "fake".substr(sha1(microtime()."asdasd"),0,10)];
         }
         $reply_addon = [
             "data" => $randomnames,
