@@ -33,7 +33,7 @@ class Login extends TestCase
         $LoginPage = new LoginReset();
         $LoginPage->process();
         $statuscheck = $LoginPage->getOutputObject()->getSwapTagString("page_content");
-        $this->assertStringContainsString("SL username or emailaddress",$statuscheck);
+        $this->assertStringContainsString("SL username",$statuscheck);
         $this->assertStringContainsString("Oh snap you forgot your details",$statuscheck);
     }
 

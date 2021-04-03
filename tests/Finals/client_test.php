@@ -9,7 +9,7 @@ use App\R7\Set\DetailSet;
 use App\R7\Set\RentalSet;
 use PHPUnit\Framework\TestCase;
 
-class FinalsClientApi extends TestCase
+class FinalsClient extends TestCase
 {
     public function test_ClientApi()
     {
