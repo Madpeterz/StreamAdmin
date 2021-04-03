@@ -16,7 +16,7 @@ class MediaServerApi_Centovacast_Test extends TestCase
     public function setUp(): void
     {
         $this->rental = new Rental();
-        $this->assertSame(true,$this->rental->loadID(3),"Unable to load rental");
+        $this->assertSame(true,$this->rental->loadID(4),"Unable to load rental");
         $this->stream = new Stream();
         $this->assertSame(true,$this->stream->loadID($this->rental->getStreamLink()),"Unable to load stream");
         $this->server = new Server();

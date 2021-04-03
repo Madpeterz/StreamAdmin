@@ -86,7 +86,9 @@ class Centova3 extends PublicApi
     protected function createAccount(): bool
     {
         global $slconfig;
+        $this->last_api_message = "running centova3 createAccount";
         if ($this->package->getApiTemplate() == null) {
+            $this->last_api_message = "API template is null";
             return false;
         }
         $post_data = [
@@ -102,6 +104,7 @@ class Centova3 extends PublicApi
             "template" => $this->package->getApiTemplate(),
         ];
         if ($this->package->getAutodj() == true) {
+            $this->last_api_message = "Enabled autoDJ";
             $post_data["autostart"] = 0;
             $post_data["usesource"] = 1;
             $post_data["diskquota"] = $this->package->getAutodjSize() * 1000;

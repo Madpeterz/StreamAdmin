@@ -13,6 +13,7 @@ use App\Endpoint\View\Client\Bynoticelevel;
 use App\Endpoint\View\Client\Create;
 use App\Endpoint\View\Client\DefaultView;
 use App\Endpoint\View\Client\Expired;
+use App\Endpoint\View\Client\ListMode;
 use App\Endpoint\View\Client\Manage;
 use App\Endpoint\View\Client\Revoke;
 use App\Endpoint\View\Client\Soon;
@@ -44,6 +45,21 @@ class ClientTest extends TestCase
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client list by selected notice level element";
+        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
+        $this->assertStringContainsString("Rental UID",$statuscheck,$missing);
+        $this->assertStringContainsString("Port",$statuscheck,$missing);
+        $this->assertStringContainsString("8002",$statuscheck,$missing);
+    }
+
+    /**
+     * @depends test_Default
+     */
+    public function test_ListMode()
+    {
+        $ListMode = new ListMode();
+        $ListMode->process();
+        $statuscheck = $ListMode->getOutputObject()->getSwapTagString("page_content");
+        $missing = "Missing client listmode element";
         $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
         $this->assertStringContainsString("Rental UID",$statuscheck,$missing);
         $this->assertStringContainsString("Port",$statuscheck,$missing);
@@ -305,4 +321,7 @@ class ClientTest extends TestCase
         $this->assertStringContainsString("Avatar",$statuscheck,$missing);
         $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
+
+
+
 }

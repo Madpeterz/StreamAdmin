@@ -21,7 +21,6 @@ class BulkRemove extends RenderList
         "types" => ["i"],
         "matches" => ["<="],
          ];
-        $whereconfig = [];
         $this->rentalSet = new RentalSet();
         $this->rentalSet->loadWithConfig($whereconfig);
         $this->serverSet = new ServerSet();
@@ -57,35 +56,39 @@ class BulkRemove extends RenderList
             $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
             $server = $this->serverSet->getObjectByID($stream->getServerLink());
             $notice = $this->noticeSet->getObjectByID($rental->getNoticeLink());
-            if (strlen($rental->getMessage()) != 0) {
+            if ($rental->getMessage() != null) {
+                if (strlen($rental->getMessage()) > 0) {
+                    $this->hidden_clients[] = [
+                    "why" => "Message on account",
+                    "rentaluid" => $rental->getRentalUid(),
+                    "avatar" => $avatar->getAvatarName(),
+                    "port" => $stream->getPort(),
+                    ];
+                    continue;
+                }
+            }
+            if (in_array($stream->getId(), $used_stream_ids) == true) {
                 $this->hidden_clients[] = [
-                  "why" => "Message on account",
-                  "rentaluid" => $rental->getRentalUid(),
-                  "avatar" => $avatar->getAvatarName(),
-                  "port" => $stream->getPort(),
-                ];
-            } elseif (in_array($stream->getId(), $used_stream_ids) == true) {
-                $this->hidden_clients[] = [
-                "why" => "Pend ing api request",
+                "why" => "Pending api request",
                 "rentaluid" => $rental->getRentalUid(),
                 "avatar" => $avatar->getAvatarName(),
                 "port" => $stream->getPort(),
                 ];
-            } else {
-                $entry = [];
-                $entry[] = $rental->getId();
-                $action = $this->makeButton($rental->getRentalUid(), "", "checked");
-                if (($notice->getId() == 6) && ($rental->getExpireUnixtime() < $unixtime_oneday_ago)) {
-                    $action = $this->makeButton($rental->getRentalUid());
-                }
-                $entry[] = $action;
-                $entry[] = $avatar->getAvatarName();
-                $entry[] = $server->getDomain();
-                $entry[] = $stream->getPort();
-                $entry[] = $notice->getName();
-                $entry[] = expiredAgo($rental->getExpireUnixtime());
-                $table_body[] = $entry;
+                continue;
             }
+            $entry = [];
+            $entry[] = $rental->getId();
+            $action = $this->makeButton($rental->getRentalUid(), "", "checked");
+            if (($notice->getId() == 6) && ($rental->getExpireUnixtime() < $unixtime_oneday_ago)) {
+                $action = $this->makeButton($rental->getRentalUid());
+            }
+            $entry[] = $action;
+            $entry[] = $avatar->getAvatarName();
+            $entry[] = $server->getDomain();
+            $entry[] = $stream->getPort();
+            $entry[] = $notice->getName();
+            $entry[] = expiredAgo($rental->getExpireUnixtime());
+            $table_body[] = $entry;
         }
 
         $this->setSwapTag("page_content", "No clients to remove right now");
@@ -96,6 +99,7 @@ class BulkRemove extends RenderList
               $form->directAdd($this->renderDatatable($table_head, $table_body));
             $this->setSwapTag("page_content", $form->render("Process", "outline-danger"));
         }
+        $this->hiddenClientsView();
     }
 
 
@@ -115,7 +119,7 @@ class BulkRemove extends RenderList
 </div>';
     }
 
-    protected function hiddeenClients(): void
+    protected function hiddenClientsView(): void
     {
         if (count($this->hidden_clients) > 0) {
             $this->output->addSwapTagString("page_content", "<hr/><h4>Unlisted clients</h4>");

@@ -15,6 +15,9 @@ class Servers extends View
 
         $r4_items_servers = $r4_items->getUniqueArray("streamurl");
 
+        global $sql;
+        $sql = $this->realSqlDB;
+
         $all_ok = true;
         $created_servers = 0;
         foreach ($r4_items_servers as $serverurl) {

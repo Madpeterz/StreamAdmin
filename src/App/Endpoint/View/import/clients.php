@@ -16,6 +16,9 @@ class Clients extends View
         $r4_users_set->reconnectSql($this->oldSqlDB);
         $r4_users_set->loadAll();
 
+        global $sql;
+        $sql = $this->realSqlDB;
+
         $avatar_set = new AvatarSet();
         $avatar_set->loadAll();
 

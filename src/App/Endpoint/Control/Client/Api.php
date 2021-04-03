@@ -24,7 +24,7 @@ class Api extends ViewAjax
         $server_api_helper = new ServerApiHelper($stream);
         $functionname = "api" . $this->option . "";
         if (method_exists($server_api_helper, $functionname) == false) {
-            $this->setSwapTag("message", "Unable to load api: " . $functionname);
+            $this->setSwapTag("message", "Unable to load api action: " . $functionname);
             return;
         }
         $status = $server_api_helper->$functionname();

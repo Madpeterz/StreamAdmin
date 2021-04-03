@@ -3,16 +3,19 @@
 namespace App\Endpoint\View\Import;
 
 use App\R4\Set\Sales_trackingSet;
+use App\R7\Model\Transactions as ModelTransactions;
 use App\R7\Set\AvatarSet;
-use App\R7\Model\Transactions;
 
-class Trnasactions extends View
+class Transactions extends View
 {
     public function process(): void
     {
         $r4_sales_tracking_set = new Sales_trackingSet();
         $r4_sales_tracking_set->reconnectSql($this->oldSqlDB);
         $r4_sales_tracking_set->loadAll();
+
+        global $sql;
+        $sql = $this->realSqlDB;
 
         $avatars = new AvatarSet();
         $avatars->loadAll();
@@ -29,7 +32,7 @@ class Trnasactions extends View
             if (array_key_exists($r4_sales_tracking->getSLname(), $avatarName_to_id) == true) {
                 $avatar_id = $avatarName_to_id[$r4_sales_tracking->getSLname()];
             }
-            $transaction = new Transactions();
+            $transaction = new ModelTransactions();
             $uid_transaction = $transaction->createUID("transactionUid", 8, 10);
             if ($uid_transaction["status"] == false) {
                 $this->output->addSwapTagString(

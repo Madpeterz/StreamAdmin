@@ -5,6 +5,7 @@ namespace StreamAdminR7;
 use App\Endpoint\SecondLifeApi\Buy\Checkstock;
 use App\Endpoint\SecondLifeApi\Buy\Getconfig;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
+use App\R7\Model\Package;
 use App\R7\Set\PackageSet;
 use PHPUnit\Framework\TestCase;
 
@@ -112,9 +113,8 @@ class SecondlifeApiBuy extends TestCase
         $_POST["unixtime"] = time();
         $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
-        $packageSet = new PackageSet();
-        $packageSet->loadNewest(1);
-        $this->package = $packageSet->getFirst();
+        $this->package = new Package();
+        $this->package->loadID(1);
         $this->assertSame("UnitTestPackage",$this->package->getName(),"Test package not loaded");
     }
 }

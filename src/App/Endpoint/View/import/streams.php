@@ -18,9 +18,20 @@ class Streams extends View
 
         $r4_packages_set = new PackagesSet();
         $r4_packages_set->reconnectSql($this->oldSqlDB);
-        $r4_packages_set->loadAll();
+        $load_status = $r4_packages_set->loadAll();
+        if ($load_status["status"] == false) {
+            $this->output->addSwapTagString(
+                "page_content",
+                "Unable to load R4 packages because: " . $load_status["message"]
+            );
+            return;
+        }
 
         $r4_package_id_to_name = $r4_packages_set->getLinkedArray("id", "name");
+
+        global $sql;
+        $sql = $this->realSqlDB;
+
         $servers_set = new ServerSet();
         $servers_set->loadAll();
 
@@ -37,7 +48,7 @@ class Streams extends View
 
         foreach ($r4_items_set->getAllIds() as $r4_item_id) {
             $r4_item = $r4_items_set->getObjectByID($r4_item_id);
-            if (array_key_exists($r4_item->getPackageid(), $r4_package_id_to_name) == true) {
+            if (array_key_exists($r4_item->getPackageid(), $r4_package_id_to_name) == false) {
                 $stream_skipped_no_package++;
                 continue;
             }

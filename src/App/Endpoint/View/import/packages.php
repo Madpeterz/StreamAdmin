@@ -14,6 +14,9 @@ class Packages extends View
         $r4_packages_set->reconnectSql($this->oldSqlDB);
         $r4_packages_set->loadAll();
 
+        global $sql;
+        $sql = $this->realSqlDB;
+
         $template_set = new TemplateSet();
         $template_set->loadAll();
 

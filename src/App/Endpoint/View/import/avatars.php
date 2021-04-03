@@ -15,7 +15,8 @@ class Avatars extends View
 
         $all_ok = true;
         $avatars_created = 0;
-
+        global $sql;
+        $sql = $this->realSqlDB;
         $seen_avatarUUIDs = [];
         foreach ($r4_users_set->getAllIds() as $r4_user_id) {
             $r4_user = $r4_users_set->getObjectByID($r4_user_id);
@@ -24,6 +25,7 @@ class Avatars extends View
             }
             $seen_avatarUUIDs[] = $r4_user->getSlkey();
             $avatar_helper = new AvatarHelper();
+
             $status = $avatar_helper->loadOrCreate($r4_user->getSlkey(), $r4_user->getSlname());
             if ($status == false) {
                 $all_ok = false;
