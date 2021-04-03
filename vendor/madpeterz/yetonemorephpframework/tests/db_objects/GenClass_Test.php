@@ -225,7 +225,7 @@ class DbObjectsGenClassTest extends TestCase
     {
         $countto = new Counttoonehundo();
         $countto->loadID(44);
-        $this->assertSame($countto->getHash(), "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3");
+        $this->assertSame($countto->fieldsHash(), "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3");
     }
     public function testObjectToMappedArray()
     {

@@ -128,7 +128,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
     {
         $hash_builder = "";
         foreach ($this->collected as $entry) {
-            $hash_builder .= $entry->getHash();
+            $hash_builder .= $entry->fieldsHash();
         }
         return hash("sha256", $hash_builder);
     }

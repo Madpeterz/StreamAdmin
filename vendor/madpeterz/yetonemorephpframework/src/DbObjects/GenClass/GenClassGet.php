@@ -47,11 +47,11 @@ abstract class GenClassGet extends SqlConnectedClass
         ];
     }
     /**
-     * getHash
+     * fieldsHash
      * creates a sha256 hash imploded by || of the value of all fields
      * that are not in exclude_fields
      */
-    public function getHash(array $exclude_fields = ["id"]): string
+    public function fieldsHash(array $exclude_fields = ["id"]): string
     {
         $bits = [];
         $fields = $this->getFields();

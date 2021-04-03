@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'b26b9a1fc3e41a0f89a22203677feae62150ee9d',
+    'reference' => 'df89fd77a8b7a6d2f9345c7f1eaba0cf8c2399e0',
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -45,25 +45,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'b26b9a1fc3e41a0f89a22203677feae62150ee9d',
+      'reference' => 'df89fd77a8b7a6d2f9345c7f1eaba0cf8c2399e0',
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => '1.2.0',
-      'version' => '1.2.0.0',
+      'pretty_version' => '1.2.1',
+      'version' => '1.2.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '205ccd7787a908e6aa3e1e1b8f321e30e2c4ced4',
-    ),
-    'phpmailer/phpmailer' => 
-    array (
-      'pretty_version' => 'v6.3.0',
-      'version' => '6.3.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '4a08cf4cdd2c38d12ee2b9fa69e5d235f37a6dcb',
+      'reference' => 'a1a0d3f5c029c062a4eec224785b4052c7931018',
     ),
     'psr/http-client' => 
     array (

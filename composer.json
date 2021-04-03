@@ -16,8 +16,7 @@
     "require": {
         "php": ">=7.4",
         "guzzlehttp/guzzle": "^7.2",
-        "madpeterz/yetonemorephpframework": "^1.0",
-        "phpmailer/phpmailer": "^6.2"
+        "madpeterz/yetonemorephpframework": "^1.0"
     },
     "require-dev": {
         "slevomat/coding-standard": "^6.4",
