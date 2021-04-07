@@ -11,7 +11,7 @@ abstract class View extends TemplateView
         if (defined("INSTALLMODE") == false) {
             die("Error attempting to access installer incorrectly");
         }
-        parent::__construct(false);
+        parent::__construct(true);
         $this->output->tempateFull();
         $this->setSwapTag("html_title", "Installer");
         $this->setSwapTag("page_title", "Installer");

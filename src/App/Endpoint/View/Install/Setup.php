@@ -49,7 +49,7 @@ class Setup extends View
         $form = new Form();
         $form->noAjax();
         $form->mode("post");
-        $form->target("setup");
+        $form->target("instal/setup");
         $form->group("System setup");
         if (getenv('DB_HOST') === false) {
             $form->textInput("domain", "Domain", 120, "[[url_base]]", "Site URL (Dont forget the ending /)");
@@ -134,7 +134,7 @@ $site_theme = "streamadminr5";
 $site_lang = "en";
 $template_parts["html_title"] = " Page ";
 $template_parts["html_title_after"] = "[[INSTALL_SITE_NAME]]";
-$template_parts["url_base"] = "[[INSTALL_SITE_URI]];
+$template_parts["url_base"] = "[[INSTALL_SITE_URI]]";
 ';
         $content = str_replace("[[INSTALL_SITE_NAME]]", $input->postFilter("sitename"), $content);
         $content = str_replace("[[INSTALL_SITE_URI]]", $input->postFilter("domain"), $content);

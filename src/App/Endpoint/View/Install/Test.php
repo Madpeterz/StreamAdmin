@@ -31,9 +31,9 @@ class Test extends View
             <span aria-hidden="true">&times;</span>
             </button>
             </div><br/>
-            <a href="install"><button class="btn btn-primary btn-block" type="button">Install</button></a>
+            <a href="[[url_base]]install/install"><button class="btn btn-primary btn-block" type="button">Install</button></a>
             <br/><br/><br/><hr/><p>Do not use this option unless told to!</p>
-            <a href="setup">
+            <a href="[[url_base]]install/setup">
             <button class="btn btn-warning btn-block" type="button">Skip install - Goto setup</button></a>
             ');
     }
