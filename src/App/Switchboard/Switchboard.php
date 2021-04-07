@@ -32,7 +32,7 @@ abstract class Switchboard
         if ($this->action == "") {
             $this->action = $this->area;
         }
-        if ((install_ok() == false) && ($this->method != "install")) {
+        if ((install_ok() == false) && ($this->method != "Install")) {
             print json_encode(["status" => "0", "message" => "Error with setup please contact support"]);
             return;
         }
