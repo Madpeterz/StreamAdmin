@@ -69,7 +69,7 @@ class Setup extends View
         $this->output->addSwapTagString("page_content", $mainform . '
             <br/>
             <br/><br/><br/><hr/><p>Do not use this option unless told to!</p>
-            <a href="finalstep">
+            <a href="[[url_base]]install/Finalstep">
             <button class="btn btn-warning btn-block" type="button">Skip setup goto final</button></a><br/>');
     }
 
