@@ -167,7 +167,7 @@ class Create_Test extends TestCase
         $expected_replys = [
             "ok",
             "passed",
-            "none"
+            "none",
         ];
         while($exit == false)
         {
@@ -187,7 +187,8 @@ class Create_Test extends TestCase
             $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
             $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
             $Next->process();
-            $this->assertSame(true,in_array($Next->getOutputObject()->getSwapTagString("message"),$expected_replys),"incorrect reply on loop: ".$loops."");
+            $message = $Next->getOutputObject()->getSwapTagString("message");
+            $this->assertSame(true,in_array($message,$expected_replys),"incorrect reply on loop: ".$loops." of: ".$message);
             $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed");
             if($Next->getOutputObject()->getSwapTagBool("status") == false)
             {

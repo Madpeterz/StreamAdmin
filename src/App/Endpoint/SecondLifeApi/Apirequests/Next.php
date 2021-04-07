@@ -15,11 +15,17 @@ class Next extends SecondlifeAjax
             return;
         }
 
+        $where_config = [
+            "fields" => ["attempts"],
+            "values" => [10],
+            "types" => ["i"],
+            "matches" => ["<"],
+        ];
         $order_config = ["ordering_enabled" => true,"order_field" => "lastAttempt","order_dir" => "DESC"];
         $limits_config = ["page_number" => 0,"max_entrys" => 1];
         $api_requests_set = new ApirequestsSet();
 
-        if ($api_requests_set->loadWithConfig(null, $order_config, $limits_config)["status"] == false) {
+        if ($api_requests_set->loadWithConfig($where_config, $order_config, $limits_config)["status"] == false) {
             $this->setSwapTag("message", "Unable to load next api request");
             return;
         }
@@ -30,6 +36,14 @@ class Next extends SecondlifeAjax
         }
 
         $api_request = $api_requests_set->getFirst();
+
+        if ($api_request->getAttempts() > 10) {
+            $api_request->setMessage("given up - please contact support");
+            $this->setSwapTag("status", true);
+            $this->setSwapTag("message", "Giving up on api request!");
+            return;
+        }
+
         $api_request->setAttempts($api_request->getAttempts() + 1);
         $api_request->setLastAttempt(time());
         $api_request->setMessage("started processing");
@@ -38,6 +52,8 @@ class Next extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to mark event as processing Obj issue");
             return;
         }
+
+
         $targetclass = ucfirst($api_request->getEventname());
         $targetclass = str_replace("_", "", $targetclass);
         $namespace = "\\App\\Endpoint\\SecondLifeApi\\Apirequests\\Events\\";
@@ -52,6 +68,7 @@ class Next extends SecondlifeAjax
             return;
         }
 
+        $this->setSwapTag("eventname", $api_request->getEventname());
         $this->setSwapTag("message", "Handing off to api");
         $obj = new $use_class();
         $obj->attachEvent($api_request);

@@ -249,10 +249,6 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
-        if ($this->avatar == null) {
-            $this->message = "No avatar setup";
-            return false;
-        }
         if ($this->package == null) {
             $this->message = "No package selected";
             return false;
@@ -268,16 +264,13 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
     public function apiAutodjNext(): bool
     {
         if ($this->callableAction(__FUNCTION__) == true) {
-            $this->message = "No avatar setup";
-            if ($this->avatar != null) {
-                $this->message = "No package selected";
-                if ($this->package != null) {
-                    $this->message = "This package does not support autoDJ";
-                    if ($this->package->getAutodj() == true) {
-                        $status = $this->serverApi->optAutodjNext();
-                        $this->message = $this->serverApi->getLastApiMessage();
-                        return $status;
-                    }
+            $this->message = "No package selected";
+            if ($this->package != null) {
+                $this->message = "This package does not support autoDJ";
+                if ($this->package->getAutodj() == true) {
+                    $status = $this->serverApi->optAutodjNext();
+                    $this->message = $this->serverApi->getLastApiMessage();
+                    return $status;
                 }
             }
         }

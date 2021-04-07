@@ -51,6 +51,7 @@
             <file>tests/ApiEventsWalker/Rental_Expire_Test.php</file>
             <file>tests/ApiEventsWalker/Rental_Renew_Test.php</file>
             <file>tests/ApiEventsWalker/Rental_End_Test.php</file>
+            <file>tests/Finals/SecondlifeApi_Apirequests_test.php</file>
             <file>tests/Finals/server_test.php</file>
             <file>tests/Finals/client_test.php</file>
         </testsuite>
