@@ -10,7 +10,7 @@ class Db extends ErrorLogging
     protected $dbName = "loading";
     protected $dbUser = "loading";
     protected $dbPass = "loading";
-    protected function __construct()
+    public function __construct()
     {
         $this->dbHost = getenv('DB_HOST');
         $this->dbName = getenv('DB_DATABASE');
