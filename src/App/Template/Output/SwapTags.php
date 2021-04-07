@@ -80,17 +80,26 @@ abstract class SwapTags
         $this->swaptags[$tagname] = $newvalue;
         return $this->swaptags[$tagname];
     }
-    public function urlBase(string $newvalue = null): void
+    public function urlBase(string $newvalue = null): string
     {
-        $this->setSwapTag("url_base", $newvalue);
+        if ($newvalue != null) {
+            $this->setSwapTag("url_base", $newvalue);
+        }
+        return $this->getSwapTagString("url_base");
     }
-    public function pageTitle(string $newvalue = null): void
+    public function pageTitle(string $newvalue = null): string
     {
-        $this->setSwapTag("PAGE_TITLE", $newvalue);
+        if ($newvalue != null) {
+            $this->setSwapTag("PAGE_TITLE", $newvalue);
+        }
+        return $this->getSwapTagString("PAGE_TITLE");
     }
-    public function siteName(string $newvalue = null): void
+    public function siteName(string $newvalue = null): string
     {
-        $this->setSwapTag("SITE_NAME", $newvalue);
+        if ($newvalue != null) {
+            $this->setSwapTag("SITE_NAME", $newvalue);
+        }
+        return $this->getSwapTagString("SITE_NAME");
     }
     /**
      * metaTags

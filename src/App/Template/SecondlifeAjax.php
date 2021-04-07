@@ -104,14 +104,14 @@ abstract class SecondlifeAjax extends View
         }
         $this->unixtime = $input->postFilter("unixtime");
         if ($this->unixtime === null) {
+            $this->setSwapTag("message", "Missing unixtime value");
             $this->load_ok = false;
+            return;
         }
         $this->hash = $input->postFilter("hash");
         if ($this->hash === null) {
             $this->load_ok = false;
-        }
-        if ($this->load_ok == false) {
-            $this->setSwapTag("message", "One or more required values are missing");
+            $this->setSwapTag("message", "Missing hash value");
             return;
         }
     }

@@ -33,6 +33,10 @@ abstract class BasicView
         $this->output = new Template($AutoLoadTemplate);
         $this->setSwapTag("status", false);
         $this->setSwapTag("message", "Not processsed yet");
+        $this->setSwapTag("html_title", "");
+        $this->setSwapTag("page_title", " not set");
+        $this->setSwapTag("page_actions", "");
+        $this->setSwapTag("page_content", "Not Loaded");
         if ($AutoLoadTemplate == true) {
             $this->output->tempateSidemenu();
         }
@@ -45,14 +49,6 @@ abstract class BasicView
     public function addVendor(string $vendor): void
     {
         $this->output->addVendor($vendor);
-    }
-    public function process(): void
-    {
-        $this->output->addSwapTagString("html_title", "");
-        $this->setSwapTag("page_title", " not set");
-        $this->setSwapTag("page_actions", "");
-        $this->output->addSwapTagString("page_content", "Not Loaded");
-        $this->setSwapTag("status", false);
     }
     public function getOutputObject(): Template
     {
