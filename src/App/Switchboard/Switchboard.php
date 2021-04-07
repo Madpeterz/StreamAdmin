@@ -32,8 +32,8 @@ abstract class Switchboard
         if ($this->action == "") {
             $this->action = $this->area;
         }
-        if (install_ok() == false) {
-            print json_encode(["status" => "0", "message" => "Setup"]);
+        if ((install_ok() == false) && ($this->method != "install")) {
+            print json_encode(["status" => "0", "message" => "Error with setup please contact support"]);
             return;
         }
         $use_class = "\\App\\Endpoint\\" . $this->targetEndpoint . "\\" . $this->method . "";
