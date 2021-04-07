@@ -126,6 +126,7 @@ abstract class SecondlifeAjax extends View
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
             $this->setSwapTag("message", "Unable to vaildate request to API endpoint: ");
+            $this->setSwapTag("raw", $raw);
             return;
         }
         $this->continueHashChecks(false);

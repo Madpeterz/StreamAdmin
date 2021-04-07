@@ -63,12 +63,7 @@ abstract class SwapTags
     }
     public function setSwapTag($tagname, $newvalue): void
     {
-        $current = $this->getSwapTagString($tagname);
-        if ($current != $newvalue) {
-            if ($newvalue !== null) {
-                $this->swaptags[$tagname] = $newvalue;
-            }
-        }
+        $this->swaptags[$tagname] = $newvalue;
     }
     /**
      * setSwapTagArray
