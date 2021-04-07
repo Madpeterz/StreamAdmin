@@ -99,7 +99,7 @@ abstract class SecondlifeAjax extends View
             } else {
                 $this->load_ok = false;
                 $this->setSwapTag("message", "Value: " . $slvalue . " is missing");
-                break;
+                return;
             }
         }
         $this->unixtime = $input->postFilter("unixtime");
