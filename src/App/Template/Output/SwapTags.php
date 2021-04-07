@@ -7,17 +7,19 @@ use App\R7\Model\Slconfig;
 abstract class SwapTags
 {
     protected ?Slconfig $slconfig = null;
-    protected $swaptags = [
-        "@NL@" => "\r\n",
-        "PAGE_TITLE" => "",
-        "SITE_NAME" => "",
-        "url_base" => null,
-        "META_TAGS" => "",
-    ];
+    protected $swaptags = [];
     public function __construct(bool $with_defaults = false)
     {
         global $slconfig;
         $this->slconfig = &$slconfig;
+        if ($with_defaults == true) {
+            $this->swaptags = [
+            "@NL@" => "\r\n",
+            "PAGE_TITLE" => "",
+            "SITE_NAME" => "",
+            "url_base" => null,
+            "META_TAGS" => ""];
+        }
     }
     public function getSwapTagString(string $tagname): ?string
     {

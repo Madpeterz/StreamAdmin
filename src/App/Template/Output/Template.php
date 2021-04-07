@@ -80,10 +80,6 @@ class Template extends Cache
     }
     public function renderAjax(): void
     {
-        global $page,$module,$area;
-        $this->setSwapTag("MODULE", $module);
-        $this->setSwapTag("AREA", $area);
-        $this->setSwapTag("PAGE", $page);
         print json_encode($this->swaptags);
     }
     public function renderSecondlifeAjax(): void

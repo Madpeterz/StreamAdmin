@@ -2,6 +2,7 @@
 
 namespace App\Switchboard;
 
+use App\Endpoint\SecondLifeApi\Apirequests\Next;
 use App\Framework\SessionControl;
 use YAPF\InputFilter\InputFilter;
 
@@ -56,6 +57,8 @@ abstract class Switchboard
 
         $obj = new $use_class();
         if ($obj->getLoadOk() == true) {
+            $obj->getOutputObject()->setSwapTag("method", $this->method);
+            $obj->getOutputObject()->setSwapTag("action", $this->action);
             $obj->process();
         }
         $obj->getoutput();

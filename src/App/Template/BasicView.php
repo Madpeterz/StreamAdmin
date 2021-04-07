@@ -33,10 +33,6 @@ abstract class BasicView
         $this->output = new Template($AutoLoadTemplate);
         $this->setSwapTag("status", false);
         $this->setSwapTag("message", "Not processsed yet");
-        $this->setSwapTag("html_title", "");
-        $this->setSwapTag("page_title", " not set");
-        $this->setSwapTag("page_actions", "");
-        $this->setSwapTag("page_content", "Not Loaded");
         if ($AutoLoadTemplate == true) {
             $this->output->tempateSidemenu();
         }
