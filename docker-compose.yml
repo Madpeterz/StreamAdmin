@@ -1,96 +1,71 @@
-# Step 1: replace {EMAIL} with your email address (Used for SSL certs)
-# Step 2: replace {DOMAIN} with your domain (Example: streamadmin.madpeter.xyz)
-# Step 3: replace {MySQLRootPW} with a random password
-# Step 4: replace {MySQLDBPW} with a random password you want to use for logging in to phpmyadmin
-# Step 5: replace {MySQLDBUser} with the username you want to use for logging in to phpmyadmin
-# Step 6: replace {DBadminDomain} with the domain you wish to use to access phpmyadmin (Example: phpmyadmin.madpeter.xyz)
-
-version: '2'
+version: '3'
 services:
-    proxy:
-        container_name: SA7Proxy
-        privileged: true
-        restart: always
-        image: jwilder/nginx-proxy:latest
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - streamadmin-certs:/etc/nginx/certs
-            - streamadmin-vhost:/etc/nginx/vhost.d
-            - streamadmin-html:/usr/share/nginx/html
-            - /var/run/docker.sock:/tmp/docker.sock:ro
-
-    letsencrypt:
-        container_name: SA7letsencrypt
-        restart: always
-        image: jrcs/letsencrypt-nginx-proxy-companion:latest
-        environment:
-            NGINX_PROXY_CONTAINER: SA7Proxy
-            DEFAULT_EMAIL: '{EMAIL}'
-        depends_on:
-            - proxy
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-            - streamadmin-certs:/etc/nginx/certs
-            - streamadmin-vhost:/etc/nginx/vhost.d
-            - streamadmin-html:/usr/share/nginx/html
     app:
         container_name: SA7Website
         restart: always
-        image: madpeter/streamadmin_r7:latest
+        image: madpeter/streamadmin_r7:azurecastdev
+        networks:
+        - streamadmin_network
+        - bridge
+        ports:
+        - 8082:80
         expose:
-            - 8881:80
-        links:
-            - proxy
-            - db
-            - redis
+        - '8882/tcp'
+        depends_on:
+        - db
+        - redis
         environment:
-            VIRTUAL_PORT: 8881
-            VIRTUAL_HOST: '{DOMAIN}'
-            LETSENCRYPT_HOST: '{DOMAIN}'
-            LETSENCRYPT_EMAIL: '{EMAIL}'
-            SITE_HOST: 'https://{DOMAIN}/'
-            SITE_TITLE: StreamAdmin
-            SITE_LANG: en
-            DB_HOST: db
-            DB_DATABASE: streamadmin
-            DB_USERNAME: '{MySQLDBUser}'
-            DB_PASSWORD: '{MySQLDBPW}'
-            REDIS_HOST: redis
-            SESSION_DRIVER: redis
-            CACHE_DRIVER: redis
-            INSTALL_OK: 0
+        - SITE_HOST="https://streamadmin.magicmadpeter.xyz/"
+        - SITE_TITLE="StreamAdmin"
+        - SITE_LANG="en"
+        - DB_HOST=db
+        - DB_DATABASE="streamadmin"
+        - DB_USERNAME="streamadminDBuser"
+        - DB_PASSWORD="zZ2apJxqo3uJHc"
+        - REDIS_HOST=redis
+        - SESSION_DRIVER=redis
+        - CACHE_DRIVER=redis
+        - INSTALL_OK=0
 
     db:
         container_name: SA7Db
         image: mariadb
         restart: always
+        networks:
+        - streamadmin_network
         environment:
-            MYSQL_ROOT_PASSWORD: '{MySQLRootPW}'
-            MYSQL_USER: '{MySQLDBUser}'
-            MYSQL_PASSWORD: '{MySQLDBPW}'
-            MYSQL_DATABASE: streamadmin
+        - MYSQL_RANDOM_ROOT_PASSWORD="yes"
+        - MYSQL_ALLOW_EMPTY_PASSWORD="no"
+        - MYSQL_USER="streamadminDBuser"
+        - MYSQL_PASSWORD="zZ2apJxqo3uJHc"
+        - MYSQL_DATABASE=streamadmin
         volumes:
-            - streamadmin-db:/var/lib/mysql
+        - streamadmin-db:/var/lib/mysql
 
     phpmyadmin:
         container_name: SA7PHPmyAdmin
         environment:
-            PMA_HOST: db
-            VIRTUAL_PORT: 8882
-            VIRTUAL_HOST: '{DBadminDomain}'
-            LETSENCRYPT_HOST: '{DBadminDomain}'
-            LETSENCRYPT_EMAIL: '{EMAIL}'
+        - PMA_HOST=db
+        networks:
+        - streamadmin_network
+        - bridge
         image: 'phpmyadmin/phpmyadmin:latest'
+        ports:
+        - 8081:80
         expose:
-            - '8882:80'
-        links:
-            - proxy
-            - db
+        - '8881/tcp'
+        depends_on:
+        - db
 
     redis:
         container_name: SA7Redis
         image: redis:4.0-alpine
-        expose:
-            - 16379:6379
+        networks:
+        - streamadmin_network
+
+networks:
+  streamadmin_network:
+  bridge:
+
+volumes:
+  streamadmin-db:
