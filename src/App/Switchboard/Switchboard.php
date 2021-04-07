@@ -32,6 +32,8 @@ abstract class Switchboard
         if ($this->action == "") {
             $this->action = $this->area;
         }
+        $this->method = ucfirst($this->method);
+        $this->action = ucfirst($this->action);
         if ((install_ok() == false) && ($this->method != "Install")) {
             print json_encode(["status" => "0", "message" => "Error with setup please contact support"]);
             return;
