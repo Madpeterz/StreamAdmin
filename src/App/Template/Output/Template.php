@@ -80,10 +80,12 @@ class Template extends Cache
     }
     public function renderAjax(): void
     {
+        $this->swaptags["render"] = "Ajax";
         print json_encode($this->swaptags);
     }
     public function renderSecondlifeAjax(): void
     {
+        $this->swaptags["render"] = "secondlifeAjax";
         foreach ($this->swaptags as $tag => $value) {
             if (in_array($value, ["true",true,1,"yes","True","TRUE"], true)) {
                 $value = "1";
@@ -92,11 +94,12 @@ class Template extends Cache
             }
             $this->swaptags[$tag] = $value;
         }
-        $this->renderAjax();
+        print json_encode($this->swaptags);
     }
     public function renderPage(): void
     {
         global $page,$module,$area;
+        $this->swaptags["render"] = "View";
         $this->setSwapTag("MODULE", $module);
         $this->setSwapTag("AREA", $area);
         $this->setSwapTag("PAGE", $page);
