@@ -26,7 +26,7 @@ services:
         - REDIS_HOST=redis
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
-        - INSTALL_OK=1
+        - INSTALL_OK=0
 
     db:
         container_name: SA7Db
