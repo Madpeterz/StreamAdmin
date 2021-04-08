@@ -25,20 +25,25 @@ class Details extends SecondlifeAjax
 
         $bits = explode(" ", $targetuid);
         $load_status = false;
+        $matchWith = "None";
         if (count($bits) == 2) {
-            $firstname = strtolower($bits[0]);
-            $firstname = ucfirst($firstname);
-            $lastname = strtolower($bits[1]);
-            $lastname = ucfirst($lastname);
+            $matchWith = "Name";
+            $firstname = $bits[0];
+            $lastname = $bits[1];
             $targetuid = "" . $firstname . " " . $lastname . "";
             $load_status = $avatar->loadByField("avatarName", $targetuid);
         } elseif (strlen($targetuid) == 36) {
+            $matchWith = "UUID";
             $load_status = $avatar->loadByField("avatarUUID", $targetuid);
+        } else {
+            $this->setSwapTag("message", "UUID or Firstname Lastname must be given");
+            return;
         }
 
         $this->setSwapTag("dataset_count", 0);
         if ($load_status == false) {
-            $this->setSwapTag("message", "Unable to find avatar");
+            $this->setSwapTag("status", true);
+            $this->setSwapTag("message", "Unable to find avatar! attempted to match with: " . $matchWith);
             return;
         }
 
