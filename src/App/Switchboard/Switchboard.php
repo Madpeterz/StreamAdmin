@@ -50,9 +50,16 @@ abstract class Switchboard
             $use_class .= "\\DefaultView";
         }
         if (class_exists($use_class) == false) {
-            print json_encode(["status" => "0", "message" => "[" . $this->method . " | " . $this->action . "] 
-            Unsupported class " . htmlentities($use_class)]);
-            return;
+            $old_use_class = $use_class;
+            $use_class = "\\App\\Endpoint\\" . $this->targetEndpoint . "\\DefaultView";
+            if (class_exists($use_class) == false) {
+                print json_encode(["status" => "0", "message" => "[" . $this->method . " | " . $this->action . "] 
+                Unsupported class " . htmlentities($old_use_class)]);
+                error_log("Warning unable to load: " . $old_use_class . " and DefaultView is not supported");
+                return;
+            } else {
+                error_log("Warning unable to load: " . $old_use_class . " redirected to DefaultView");
+            }
         }
 
         $obj = new $use_class();
