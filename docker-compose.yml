@@ -1,3 +1,6 @@
+# Replace {DOMAIN} with your domain example: https://streamadmin.magicmadpeter.xyz/
+# Replace {DBPASSWORD} with a random password used to sign into phpmyadmin
+
 version: '3'
 services:
     app:
@@ -5,8 +8,7 @@ services:
         restart: always
         image: madpeter/streamadmin_r7:azurecastdev
         networks:
-        - streamadmin_network
-        - bridge
+        - streamadmin
         ports:
         - 8082:80
         expose:
@@ -15,28 +17,28 @@ services:
         - db
         - redis
         environment:
-        - SITE_HOST=https://streamadmin.magicmadpeter.xyz/
+        - SITE_HOST={DOMAIN}
         - SITE_TITLE=StreamAdmin
         - DB_HOST=db
         - DB_DATABASE=streamadmin
         - DB_USERNAME=streamadminDBuser
-        - DB_PASSWORD=zZ2apJxqo3uJHc
+        - DB_PASSWORD={DBPASSWORD}
         - REDIS_HOST=redis
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
-        - INSTALL_OK=0
+        - INSTALL_OK=1
 
     db:
         container_name: SA7Db
         image: mariadb
         restart: always
         networks:
-        - streamadmin_network
+        - streamadmin
         environment:
         - MYSQL_RANDOM_ROOT_PASSWORD=yes
         - MYSQL_ALLOW_EMPTY_PASSWORD=no
         - MYSQL_USER=streamadminDBuser
-        - MYSQL_PASSWORD=zZ2apJxqo3uJHc
+        - MYSQL_PASSWORD={DBPASSWORD}
         - MYSQL_DATABASE=streamadmin
         volumes:
         - streamadmin-db:/var/lib/mysql
@@ -46,8 +48,7 @@ services:
         environment:
         - PMA_HOST=db
         networks:
-        - streamadmin_network
-        - bridge
+        - streamadmin
         image: 'phpmyadmin/phpmyadmin:latest'
         ports:
         - 8081:80
@@ -60,11 +61,10 @@ services:
         container_name: SA7Redis
         image: redis:4.0-alpine
         networks:
-        - streamadmin_network
+        - streamadmin
 
 networks:
-  streamadmin_network:
-  bridge:
+  streamadmin:
 
 volumes:
   streamadmin-db:
