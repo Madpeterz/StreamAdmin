@@ -31,11 +31,14 @@ abstract class BasicView
         $this->slconfig = &$slconfig;
         $this->sql = &$sql;
         $this->output = new Template($AutoLoadTemplate);
-        $this->setSwapTag("status", false);
-        $this->setSwapTag("message", "Not processsed yet");
         if ($AutoLoadTemplate == true) {
             $this->output->tempateSidemenu();
         }
+    }
+    public function process(): void
+    {
+        $this->setSwapTag("status", false);
+        $this->setSwapTag("message", "Not processsed yet");
     }
     protected bool $load_ok = true;
     public function getLoadOk(): bool

@@ -30,7 +30,8 @@ class DefaultView extends View
             <span aria-hidden="true">&times;</span>
             </button>
             </div><br/>
-            <a href="[[url_base]]Instal/test"><button class="btn btn-primary btn-block" type="button">Test config</button></a>'
+            <a href="[[url_base]]Instal/test"><button class="btn btn-primary btn-block" type="button">
+            Test config</button></a>'
         );
     }
     protected function getConfigFromUser(): void
