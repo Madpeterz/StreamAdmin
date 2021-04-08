@@ -40,7 +40,7 @@ class Setup extends View
             <span aria-hidden="true">&times;</span>
             </button>
             </div><br/>
-            <a href="final"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>'
+            <a href="[[url_base]]install/Finalstep"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>'
         );
     }
 
