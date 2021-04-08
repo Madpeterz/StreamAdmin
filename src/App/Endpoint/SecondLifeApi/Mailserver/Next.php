@@ -18,6 +18,7 @@ class Next extends SecondlifeAjax
         $message_set = new MessageSet();
         $message_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
         if ($message_set->getCount() == 0) {
+            $this->setSwapTag("status", true);
             $this->setSwapTag("message", "nowork");
             return;
         }
