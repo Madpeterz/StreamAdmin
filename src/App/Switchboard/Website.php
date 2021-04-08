@@ -17,6 +17,10 @@ class Website extends Switchboard
         if (install_ok() == true) {
             if ($this->session->getLoggedIn() == false) {
                 $this->module = "Login";
+                $allowed_login_areas = ["DefaultView","Logout","Reset","Resetwithtoken","Resetnow","Start"];
+                if (in_array($this->area, $allowed_login_areas) == false) {
+                    $this->area = "DefaultView";
+                }
             }
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->targetEndpoint = "Control";
