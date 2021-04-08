@@ -10,7 +10,7 @@ use YAPF\InputFilter\InputFilter;
 
 class Getpackages extends SecondlifeAjax
 {
-    protected function valueOrZero(string $value): string
+    protected function valueOrZero(?string $value): string
     {
         if ($value !== null) {
             return $value;
