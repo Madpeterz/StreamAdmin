@@ -194,7 +194,7 @@ abstract class HomeDisplayData extends HomeLoadData
             4
         );
         $this->sub_grid_streams->addContent(
-            '<h5><a href="[[url_base]]stream/needWork"><span class="badge badge-warning">'
+            '<h5><a href="[[url_base]]stream/Needwork"><span class="badge badge-warning">'
             . 'NeedWork <span class="badge badge-light">' . $this->stream_total_needWork . '</span></span></a></h5>',
             4
         );
