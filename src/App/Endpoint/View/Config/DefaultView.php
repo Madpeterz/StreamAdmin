@@ -11,11 +11,12 @@ class DefaultView extends View
         $check_objects = ["Server","Template","Package","Stream","Slconfig","Textureconfig"];
         $all_ok = true;
         foreach ($check_objects as $check) {
-            $check = "App\\R7\\Model\\" . $check;
-            $obj = new $check();
+            $checkObj = "App\\R7\\Model\\" . $check;
+            $obj = new $checkObj();
             if ($obj->HasAny() == false) {
                 $all_ok = false;
-                $this->output->redirect($check);
+                $this->output->redirect($check
+                . "?bubblemessage=Please%20create%20a%" . $check . "%20first!&bubbletype=warning");
                 break;
             }
         }

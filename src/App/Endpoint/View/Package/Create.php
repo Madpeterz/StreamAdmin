@@ -37,9 +37,19 @@ class Create extends View
         $form->split();
         $form->col(6);
         $form->group("Textures");
-        $form->uuidInput("textureSoldout", "Sold out", "", "UUID of texture");
-        $form->uuidInput("textureInstockSmall", "In stock [Small]", "", "UUID of texture");
-        $form->uuidInput("textureInstockSelected", "In stock [Selected]", "", "UUID of texture");
+        $form->uuidInput("textureSoldout", "Sold out", "e39e011c-a45a-b4a6-942a-adc1ecee43f7", "UUID of texture");
+        $form->uuidInput(
+            "textureInstockSmall",
+            "In stock [Small]",
+            "d7dae774-fd0a-3f46-0b7f-e2ac57996b23",
+            "UUID of texture"
+        );
+        $form->uuidInput(
+            "textureInstockSelected",
+            "In stock [Selected]",
+            "6bbbddce-93bf-a15d-9346-ba320d2eda27",
+            "UUID of texture"
+        );
         $form->col(6);
         $form->group("Auto DJ");
         $form->select("autodj", "Enabled", false, [false => "No",true => "Yes"]);
