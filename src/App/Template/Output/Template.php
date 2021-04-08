@@ -257,7 +257,7 @@ class Template extends Cache
         foreach ($menu_items as $menu_key => $menu_config) {
             $output .= '<li class="nav-item">';
             $output .= '<a href="[[url_base]]' . $menu_config["target"] . '" class="nav-link';
-            if (in_array($module, $menu_config["active_on"]) == true) {
+            if (in_array(strtolower($module), $menu_config["active_on"]) == true) {
                 $output .= " active";
                 $this->addSwapTagString(
                     "page_breadcrumb_icon",
