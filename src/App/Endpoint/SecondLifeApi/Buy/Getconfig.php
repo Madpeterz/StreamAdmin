@@ -60,14 +60,14 @@ class Getconfig extends SecondlifeAjax
         if ($count_data["count"] > 0) {
             $this->setSwapTag("package_instock", true);
         }
-        $this->setSwapTag("texture_offline", $textureconfig->getOffline());
-        $this->setSwapTag("texture_waitingforowner", $textureconfig->getWaitOwner());
-        $this->setSwapTag("texture_fetchingdetails", $textureconfig->getGettingDetails());
-        $this->setSwapTag("texture_request_payment", $textureconfig->getMakePayment());
+        $this->setSwapTag("Texture-Offline", $textureconfig->getOffline());
+        $this->setSwapTag("Texture-WaitOwner", $textureconfig->getWaitOwner());
+        $this->setSwapTag("Texture-GettingDetails", $textureconfig->getGettingDetails());
+        $this->setSwapTag("Texture-MakePayment", $textureconfig->getMakePayment());
         $this->setSwapTag("package_cost", $package->getCost());
-        $this->setSwapTag("texture_package_small", $package->getTextureInstockSmall());
-        $this->setSwapTag("texture_package_big", $package->getTextureInstockSelected());
-        $this->setSwapTag("texture_package_soldout", $package->getTextureSoldout());
+        $this->setSwapTag("Texture-PackageSmall", $package->getTextureInstockSmall());
+        $this->setSwapTag("Texture-PackageBig", $package->getTextureInstockSelected());
+        $this->setSwapTag("Texture-PackageSoldout", $package->getTextureSoldout());
         $this->setSwapTag("reseller_rate", 100);
         $this->setSwapTag("reseller_mode", "System owner mode");
         if ($this->owner_override == false) {
