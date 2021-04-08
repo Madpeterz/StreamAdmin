@@ -16,7 +16,7 @@ class DefaultView extends View
             if ($obj->HasAny() == false) {
                 $all_ok = false;
                 $this->output->redirect($check
-                . "?bubblemessage=Please%20create%20a%" . $check . "%20first!&bubbletype=warning");
+                . "?bubblemessage=Please%20create%20a%20" . $check . "%20first!&bubbletype=warning");
                 break;
             }
         }
