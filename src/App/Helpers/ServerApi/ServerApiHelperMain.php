@@ -20,7 +20,10 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
             $this->message = "Unable to update password in db: " . $update_status["message"];
             return false;
         }
-        return $this->serverApi->eventCreateStream();
+        $this->message = "Update ok passing onto server API now";
+        $status = $this->serverApi->eventCreateStream();
+        $this->message =  $this->serverApi->getLastApiMessage();
+        return $status;
     }
     public function apiRecreateAccount(): bool
     {
@@ -93,8 +96,9 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
             return false;
         }
         $this->message = "Calling change title now";
-        $reply = $this->serverApi->changeTitle($this->avatar->getAvatarName() . " stream");
-        return $reply;
+        $status = $this->serverApi->changeTitle($this->avatar->getAvatarName() . " stream");
+        $this->message =  $this->serverApi->getLastApiMessage();
+        return $status;
     }
     public function apiPurgeDjs(): bool
     {
@@ -151,7 +155,9 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
                 "message" => "No api",
             ];
         }
-        return $this->serverApi->serverStatus();
+        $status = $this->serverApi->serverStatus();
+        $this->message =  $this->serverApi->getLastApiMessage();
+        return $status;
     }
 
 
@@ -263,18 +269,21 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
     }
     public function apiAutodjNext(): bool
     {
-        if ($this->callableAction(__FUNCTION__) == true) {
-            $this->message = "No package selected";
-            if ($this->package != null) {
-                $this->message = "This package does not support autoDJ";
-                if ($this->package->getAutodj() == true) {
-                    $status = $this->serverApi->optAutodjNext();
-                    $this->message = $this->serverApi->getLastApiMessage();
-                    return $status;
-                }
-            }
+        if ($this->callableAction(__FUNCTION__) == false) {
+            $this->message = "apiAutodjNext is not supported";
+            return false;
         }
-        return false;
+        if ($this->package == null) {
+            $this->message = "No package selected";
+            return false;
+        }
+        if ($this->package->getAutodj() == false) {
+            $this->message = "This package does not support autoDJ";
+            return false;
+        }
+        $status = $this->serverApi->optAutodjNext();
+        $this->message = $this->serverApi->getLastApiMessage();
+        return $status;
     }
     /**
      * getAllAccounts
