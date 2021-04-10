@@ -77,30 +77,38 @@ abstract class HomeDisplayData extends HomeLoadData
             $region = $this->region_set->getObjectByID($object->getRegionLink());
             $entry = [];
             $color = "text-light";
+            $dif = time() - $object->getLastSeen();
+            $hide_output = false;
             if (in_array($object->getObjectMode(), $seen_objects) == true) {
-                $color = "text-danger";
-                $issues++;
+                if ($dif > (30 * 60)) {
+                    $hide_output = true;
+                } else {
+                    $color = "text-danger";
+                    $issues++;
+                }
             } else {
                 $seen_objects[] = $object->getObjectMode();
             }
-            $entry[] = '<span class="' . $color . '">'
-            . str_replace("server", "", $object->getObjectMode()) . '</span>';
-            $color = "text-success";
-            $dif = time() - $object->getLastSeen();
-            if ($dif > 240) {
-                $issues += 5;
-                $color = "text-danger";
-            } elseif ($dif > 65) {
-                $issues++;
-                $color = "text-warning";
+            if ($hide_output == false) {
+                $entry[] = '<span class="' . $color . '">'
+                . str_replace("server", "", $object->getObjectMode()) . '</span>';
+                $color = "text-success";
+
+                if ($dif > 240) {
+                    $issues += 5;
+                    $color = "text-danger";
+                } elseif ($dif > 65) {
+                    $issues++;
+                    $color = "text-warning";
+                }
+                $entry[] = '<span class="' . $color . '">' . expiredAgo($object->getLastSeen(), true) . '</span>';
+                $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
+                . implode("/", explode(",", $object->getObjectXYZ())) . "";
+                $tp_url = str_replace(' ', '%20', $tp_url);
+                $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
+                . $region->getName() . "</a>";
+                $table_body[] = $entry;
             }
-            $entry[] = '<span class="' . $color . '">' . expiredAgo($object->getLastSeen(), true) . '</span>';
-            $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
-             . implode("/", explode(",", $object->getObjectXYZ())) . "";
-            $tp_url = str_replace(' ', '%20', $tp_url);
-            $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
-            . $region->getName() . "</a>";
-            $table_body[] = $entry;
         }
         foreach ($this->owner_objects_list as $objecttype) {
             if (in_array($objecttype, $seen_objects) == false) {

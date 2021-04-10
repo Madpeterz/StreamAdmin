@@ -89,7 +89,12 @@ abstract class HomeLoadData extends View
         "values" => [$this->slconfig->getOwnerAvatarLink(),$one_hour_ago,$this->owner_objects_list],
         "types" => ["i","i","s"],
         ];
-        $this->objects_set->loadWithConfig($where_config);
+        $order_config = [
+            "ordering_enabled" => true,
+            "order_field" => "id",
+            "order_dir" => "DESC",
+        ];
+        $this->objects_set->loadWithConfig($where_config, $order_config);
         $this->region_set = new RegionSet();
         $this->region_set->loadAll();
     }
