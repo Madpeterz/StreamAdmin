@@ -246,20 +246,20 @@ class Centova3 extends PublicApi
         if ($this->simpleReplyOk($reply) == false) {
             return [
                 "message" => "Failed basic reply tests",
-                "status" => $status,
-                "state" => $server_status,
-                "source" => $stream_connected,
-                "autodj" => $auto_dj,
+                "status" => false,
+                "state" => false,
+                "source" => false,
+                "autodj" => false,
             ];
         }
         $server_status = $reply["data"]["response"]["data"]["status"];
-        $this->last_api_message = "Server appears to be down";
         if ($server_status["serverstate"] == 0) {
-            return ["status" => $status,"state" => $server_status,"source" => $stream_connected,"autodj" => $auto_dj];
+            $this->last_api_message = "Server appears to be down";
+            return ["status" => true,"state" => $server_status,"source" => false,"autodj" => false];
         }
-        // server up
-        $this->last_api_message = "Source/AutoDJ appears to be down";
-        if ($server_status["sourcestate"] == 1) {
+        if ($server_status["sourcestate"] == 0) {
+            $this->last_api_message = "Source/AutoDJ appears to be down";
+        } else {
             $stream_connected = true;
             $this->last_api_message = "Stream open";
             $autodj_source_types = ["liquidsoap","icescc"];
