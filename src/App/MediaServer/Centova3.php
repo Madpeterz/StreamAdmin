@@ -94,7 +94,7 @@ class Centova3 extends PublicApi
         $post_data = [
             "port" => $this->stream->getPort(),
             "maxclients" => $this->package->getListeners(),
-            "adminPassword" => $this->stream->getAdminPassword(),
+            "adminpassword" => $this->stream->getAdminPassword(),
             "sourcepassword" => $this->stream->getDjPassword(),
             "maxbitrate" => $this->package->getBitrate(),
             "username" => $this->stream->getAdminUsername(),
@@ -310,7 +310,7 @@ class Centova3 extends PublicApi
                         if ($this->simpleReplyOk($reply) == true) {
                             $accountinfo = $reply["data"]["response"]["data"]["account"];
                             $current_passwords[$this->stream->getAdminUsername()] = [
-                                "admin" => $accountinfo["adminPassword"],
+                                "admin" => $accountinfo["adminpassword"],
                                 "dj" => $accountinfo["sourcepassword"],
                             ];
                         }
@@ -421,7 +421,7 @@ class Centova3 extends PublicApi
             $this->centovaServerclassApiCall(
                 "reconfigure",
                 [
-                    "adminPassword" => $this->stream->getAdminPassword(),
+                    "adminpassword" => $this->stream->getAdminPassword(),
                     "sourcepassword" => $this->stream->getDjPassword(),
                 ]
             )
