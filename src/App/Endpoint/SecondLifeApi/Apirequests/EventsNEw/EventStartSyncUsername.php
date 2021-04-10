@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
-class Eventstartsyncusername extends CallApi
+class EventStartSyncUsername extends CallApi
 {
     protected function configEvent(): void
     {
