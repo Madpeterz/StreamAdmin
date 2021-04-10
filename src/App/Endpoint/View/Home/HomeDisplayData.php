@@ -146,7 +146,7 @@ abstract class HomeDisplayData extends HomeLoadData
                 $serverstatus .= '<div data-loading="<div class=\'spinner-border spinner-border-sm '
                 . 'text-primary\' role=\'status\'>'
                 . '<span class=\'sr-only\'>Loading...</span></div>" data-repeatingrate="7000" class="ajaxonpageload" '
-                . 'data-loadmethod="post" data-loadurl="[[url_base]]server/Serverload/'
+                . 'data-loadmethod="post" data-loadurl="[[url_base]]server/ServerLoad/'
                 . $server->getId() . '"></div>';
             } else {
                 $serverstatus .= '<sub> </sub>';
