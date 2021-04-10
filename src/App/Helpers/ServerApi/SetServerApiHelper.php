@@ -35,10 +35,9 @@ abstract class SetServerApiHelper extends LoadServerApiHelper
             return;
         }
         $this->serverApi->updatePackage($this->package);
-        if ($this->loadRental() == false) {
-            return;
+        if ($this->loadRental() == true) {
+            $this->loadAvatar();
         }
-        $this->loadAvatar();
     }
     public function forceSetServer(Server $server): bool
     {
