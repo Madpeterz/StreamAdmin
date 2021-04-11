@@ -19,19 +19,20 @@ abstract class Switchboard
     protected SessionControl $session;
     public function __construct()
     {
-        $input = new InputFilter();
-        $this->method = $input->postFilter("method");
-        $this->action = $input->postFilter("action");
+        global $module, $area;
+        $this->module = $module;
+        $this->area = $area;
         $this->loadPage();
     }
 
     protected function loadPage(): void
     {
+        $input = new InputFilter();
         if ($this->method == "") {
-            $this->method = $this->module;
+            $this->method = $input->postFilter("method");
         }
         if ($this->action == "") {
-            $this->action = $this->area;
+            $this->action = $input->postFilter("action");
         }
         $this->method = ucfirst($this->method);
         $this->action = ucfirst($this->action);

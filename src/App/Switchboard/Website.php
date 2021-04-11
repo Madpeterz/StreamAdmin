@@ -6,10 +6,8 @@ class Website extends Switchboard
 {
     public function __construct()
     {
-        global $page, $module, $area, $session, $_SERVER;
+        global $page, $session, $_SERVER;
         $this->page = $page;
-        $this->module = $module;
-        $this->area = $area;
         $this->session = &$session;
         $this->targetEndpoint = "View";
         $this->module = ucfirst($this->module);
