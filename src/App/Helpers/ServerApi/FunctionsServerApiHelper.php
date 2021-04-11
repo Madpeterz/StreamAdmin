@@ -6,21 +6,23 @@ abstract class FunctionsServerApiHelper extends SetServerApiHelper
 {
     protected function flagCheck(string $flagname): bool
     {
+        $this->setMessage("starting function " . __FUNCTION__);
         $functionname = "get" . ucfirst($flagname);
         if (($this->api_config->$functionname() == true) && ($this->server->$functionname() == true)) {
-            $this->message = "API flag " . $flagname . " allowed";
+            $this->setMessage("API flag " . $flagname . " allowed");
             return true;
         }
         if ($this->api_config->$functionname() == false) {
-            $this->message = "API flag " . $flagname . " disallowed by api_config";
+            $this->setMessage("API flag " . $flagname . " disallowed by api_config");
         }
         if ($this->server->$functionname() == false) {
-            $this->message = "API flag " . $flagname . " disallowed by server";
+            $this->setMessage("API flag " . $flagname . " disallowed by server");
         }
         return false;
     }
     protected function checkFlags(array $flags): bool
     {
+        $this->setMessage("starting function " . __FUNCTION__);
         $flag_accepted = true;
         foreach ($flags as $flag) {
             if ($this->flagCheck($flag) == false) {
@@ -44,7 +46,7 @@ abstract class FunctionsServerApiHelper extends SetServerApiHelper
             // flag to set rental to $state
         }
         $update_status = $this->serverApi->setAccountState($state);
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if ($update_status == false) {
             // rollback here rental here as it failed
         }
@@ -52,18 +54,19 @@ abstract class FunctionsServerApiHelper extends SetServerApiHelper
     }
     public function callableAction(string $action): bool
     {
+        $this->setMessage("starting function " . __FUNCTION__);
         if ($this->serverApi == null) {
-            $this->message = "no server api setup";
+            $this->setMessage("no server api setup");
             return false;
         }
         if (array_key_exists($action, $this->callable_actions) == false) {
-            $this->message = "Not a known callable action";
+            $this->setMessage("Not a known callable action");
             return false;
         }
         if ($this->checkFlags($this->callable_actions[$action]) == false) {
             return false;
         }
-        $this->message = "Passed callable action checks";
+        $this->setMessage("Passed callable action checks");
         return true;
     }
 

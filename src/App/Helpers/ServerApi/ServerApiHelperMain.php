@@ -7,11 +7,7 @@ use YAPF\InputFilter\InputFilter;
 
 abstract class ServerApiHelperMain extends FunctionsServerApiHelper
 {
-    protected function setMessage(string $message): void
-    {
-        error_log($message);
-        $this->message = $message;
-    }
+
     public function apiCreateAccount(): bool
     {
         global $sql;

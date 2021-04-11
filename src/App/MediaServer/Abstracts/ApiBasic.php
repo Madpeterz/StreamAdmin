@@ -95,14 +95,10 @@ abstract class ApiBasic extends ApiProtected
             return true;
         }
         if ($state == true) {
-            if ($this->unSusspendServer() == false) {
-                return false;
-            }
-            if ($this->package->getAutodj() == false) {
-                return $this->startServer();
-            }
-            return true;
+            $this->last_api_message = "Attempting to unSusspendServer";
+            return $this->unSusspendServer();
         }
+        $this->last_api_message = "Attempting to susspendServer";
         return $this->susspendServer();
     }
     public function removeAccount(string $old_username = ""): bool

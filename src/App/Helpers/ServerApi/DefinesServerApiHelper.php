@@ -22,6 +22,12 @@ abstract class DefinesServerApiHelper extends SqlConnectedClass
     protected ?PublicApi $serverApi = null;
     protected ?Apis $api_config = null;
 
+    protected function setMessage(string $message): void
+    {
+        error_log($message);
+        $this->message = $message;
+    }
+
     protected $callable_actions = [
         "apiEnableAccount" => ["eventEnableStart"],
         "apiListDjs" => ["eventClearDjs"],
