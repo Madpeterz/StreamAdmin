@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
-class Optpasswordreset extends CallApi
+class OptPasswordReset extends CallApi
 {
     protected function configEvent(): void
     {

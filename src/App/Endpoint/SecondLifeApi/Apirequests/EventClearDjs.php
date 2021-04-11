@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
-class Eventdisablerevoke extends CallApi
+class EventClearDjs extends CallApi
 {
     protected function configEvent(): void
     {
         $this->logic_step = "revoke";
-        $this->functionname = "eventDisableRevoke";
+        $this->functionname = "eventClearDjs";
     }
 }

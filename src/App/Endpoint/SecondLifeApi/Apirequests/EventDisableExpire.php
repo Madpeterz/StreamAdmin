@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
-class Eventdisableexpire extends CallApi
+class EventDisableExpire extends CallApi
 {
     protected function configEvent(): void
     {

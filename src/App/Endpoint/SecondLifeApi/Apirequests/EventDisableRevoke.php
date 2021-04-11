@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests\Events;
 
-class Eventrevokeresetusername extends CallApi
+class EventDisableRevoke extends CallApi
 {
     protected function configEvent(): void
     {
         $this->logic_step = "revoke";
-        $this->functionname = "eventRevokeResetUsername";
+        $this->functionname = "eventDisableRevoke";
     }
 }
