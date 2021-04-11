@@ -253,9 +253,10 @@ class Centova3 extends PublicApi
             ];
         }
         $server_status = $reply["data"]["response"]["data"]["status"];
+        error_log(json_encode($server_status));
         if ($server_status["serverstate"] == 0) {
             $this->last_api_message = "Server appears to be down";
-            return ["status" => true,"state" => $server_status,"source" => false,"autodj" => false];
+            return ["status" => true,"state" => false,"source" => false,"autodj" => false];
         }
         $state = true;
         if ($server_status["sourcestate"] == 0) {
