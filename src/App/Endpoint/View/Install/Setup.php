@@ -40,7 +40,8 @@ class Setup extends View
             <span aria-hidden="true">&times;</span>
             </button>
             </div><br/>
-            <a href="[[url_base]]install/Finalstep"><button class="btn btn-primary btn-block" type="button">Final changes</button></a>'
+            <a href="[[url_base]]install/Finalstep"><button class="btn btn-primary btn-block" type="button">
+            Final changes</button></a>'
         );
     }
 
@@ -62,8 +63,6 @@ class Setup extends View
         $form->textInput("av_username", "Login username", 120, "", "Does not have to match SL name");
         $form->uuidInput("av_uuid", "Avatar UUID", "", "Secondlife avatar UUID");
         $form->textInput("av_name", "Avatar name", 120, "", "Secondlife Resident");
-        $form->split();
-        $form->textInput("av_email", "Email address", 120, "", "recovery@email.address.com");
         $mainform = $form->render("Finalize", "primary");
 
         $this->output->addSwapTagString("page_content", $mainform . '
@@ -84,10 +83,9 @@ class Setup extends View
             return false;
         }
         $staff->setUsername($input->postFilter("av_username"));
-        $staff->setEmail($input->postFilter("av_email"));
         $update_status = $staff->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag("page_content", "unable to update staff entry");
+            $this->setSwapTag("page_content", "unable to update staff entry because: " . $update_status["message"]);
             return false;
         }
 
@@ -101,7 +99,7 @@ class Setup extends View
         $avatar->setAvatarUid($avatar->createUID("avatarUid", 8)["uid"]);
         $update_status = $avatar->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag("page_content", "Unable to update avatar entry");
+            $this->setSwapTag("page_content", "Unable to update avatar entry  because: " . $update_status["message"]);
             return false;
         }
 

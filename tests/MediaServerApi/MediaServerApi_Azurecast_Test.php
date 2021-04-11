@@ -99,7 +99,7 @@ class MediaServerApi_Azurecast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->apiChangeTitle();
-        $this->assertSame("Calling change title now",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame("Skipped changeTitle not supported on this api",$ServerApiHelper->getMessage(),"Invaild message state");
         $this->assertSame(false,$status,"incorrect status reply");
     }
 
@@ -135,7 +135,7 @@ class MediaServerApi_Azurecast_Test extends TestCase
         $this->assertSame(true,is_array($status),"Expected an array but got not an array");
         $this->assertSame(true,$status["status"],"Invaild status");
         $this->assertSame("Limited reply",$status["message"],"Invaild message");
-        $this->assertSame("Passed callable action checks",$ServerApiHelper->getMessage(),"invaild message");
+        $this->assertSame("Limited reply",$ServerApiHelper->getMessage(),"invaild message");
     }
 
     /**

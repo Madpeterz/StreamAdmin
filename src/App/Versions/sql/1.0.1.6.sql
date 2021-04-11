@@ -330,3 +330,6 @@ ALTER TABLE `slconfig`
   DROP `smtpReplyTo`;
 
 DROP TABLE `event`;
+
+ALTER TABLE `staff`
+  DROP `email`;

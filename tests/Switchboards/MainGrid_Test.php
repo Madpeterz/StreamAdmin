@@ -14,11 +14,11 @@ class MainGrid extends TestCase
         new SwitchboardMainGrid();
         $json_obj = json_decode($this->getActualOutputForAssertion(),true);
         $this->assertSame(true,array_key_exists("message",$json_obj),"Message missing from output: ".$this->getActualOutputForAssertion());
-        $this->assertSame(true,array_key_exists("texture_offline",$json_obj),"texture_offline missing from output: ".$this->getActualOutputForAssertion());
+        $this->assertSame(true,array_key_exists("Texture-Offline",$json_obj),"Texture-Offline missing from output: ".$this->getActualOutputForAssertion());
         $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
 
         $this->assertSame("ok",$json_obj["message"],"incorrect reply");
-        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["texture_offline"],"incorrect reply");
+        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["Texture-Offline"],"incorrect reply");
         $this->assertSame("1",$json_obj["status"],"marked as failed");
 
     }
@@ -29,11 +29,11 @@ class MainGrid extends TestCase
         include "src/public_html/api.php";
         $json_obj = json_decode($this->getActualOutputForAssertion(),true);
         $this->assertSame(true,array_key_exists("message",$json_obj),"Message missing from output: ".$this->getActualOutputForAssertion());
-        $this->assertSame(true,array_key_exists("texture_offline",$json_obj),"texture_offline missing from output: ".$this->getActualOutputForAssertion());
+        $this->assertSame(true,array_key_exists("Texture-Offline",$json_obj),"Texture-Offline missing from output: ".$this->getActualOutputForAssertion());
         $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
 
         $this->assertSame("ok",$json_obj["message"],"incorrect reply");
-        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["texture_offline"],"incorrect reply");
+        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["Texture-Offline"],"incorrect reply");
         $this->assertSame("1",$json_obj["status"],"marked as failed");
     }
 

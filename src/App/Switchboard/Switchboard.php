@@ -46,16 +46,16 @@ abstract class Switchboard
         $this->area = $area;
         $input = new InputFilter();
         if ($this->notSet($this->method) == true) {
-            $this->method = $this->module;
-        }
-        if ($this->notSet($this->action) == true) {
-            $this->action = $this->area;
-        }
-        if ($this->notSet($this->method) == true) {
             $this->method = $input->postFilter("method");
         }
         if ($this->notSet($this->action) == true) {
             $this->action = $input->postFilter("action");
+        }
+        if ($this->notSet($this->method) == true) {
+            $this->method = $this->module;
+        }
+        if ($this->notSet($this->action) == true) {
+            $this->action = $this->area;
         }
         if ($this->notSet($this->method) == true) {
             $this->method = "Home";

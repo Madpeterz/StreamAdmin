@@ -2,7 +2,6 @@
 
 namespace App\Endpoint\Control\Login;
 
-use App\Helpers\EmailHelper;
 use App\R7\Model\Avatar;
 use App\R7\Model\Message;
 use App\R7\Model\Staff;
@@ -11,16 +10,6 @@ use YAPF\InputFilter\InputFilter;
 
 class Reset extends ViewAjax
 {
-    protected $reset_message = "
-    You or someone pretending to be you<br/>
-    has requested your password be reset and emailed to your<br/>
-    email address so I said ok<br/>
-    <br/>
-    Your reset token is: %1\$s<br/>
-    <br/>
-    <a href=\"%2\$s\">Reset now</a><br/>
-    This link expires after 1 hour.";
-
     protected function sendMessageReset(Staff $staff, Avatar $avatar, string $resetCode): bool
     {
         global $template_parts;

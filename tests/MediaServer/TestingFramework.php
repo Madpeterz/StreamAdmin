@@ -84,7 +84,7 @@ abstract class TestingFramework extends TestCase
     public function test_streamState()
     {
         $status = $this->api->streamState();
-        $this->assertSame("Server appears to be down",$status["message"],"expected a vaild reply");
+        $this->assertSame("Server appears to be down [streamState default]",$status["message"],"expected a vaild reply");
         $this->assertSame("Skipped stream_state not supported on this api",$this->api->getLastApiMessage(),"incorrect API reply");
         $this->assertSame(true,is_array($status),"Bad reply");
         $this->assertSame(false,$status["status"],"expected a vaild reply");

@@ -129,7 +129,7 @@ class Centova3_2_12
             "data" => [
                 "account" => [
                     "status" => "enabled",
-                    "adminPassword" => substr(sha1(microtime()."asdasd"),0,10),
+                    "adminpassword" => substr(sha1(microtime()."asdasd"),0,10),
                     "sourcepassword" => substr(sha1(microtime()."dfhdfhdfg"),0,10),
                 ],
             ],
@@ -192,7 +192,7 @@ class Centova3_2_12
         if (array_key_exists("title", $_POST["a"]) == true) {
             $this->a_args[] = "title";
         } else {
-            $this->a_args[] = "adminPassword";
+            $this->a_args[] = "adminpassword";
             $this->a_args[] = "sourcepassword";
         }
         $this->basicReply(__FUNCTION__);
@@ -245,7 +245,7 @@ class Centova3_2_12
     {
         $this->a_args[] = "port";
         $this->a_args[] = "maxclients";
-        $this->a_args[] = "adminPassword";
+        $this->a_args[] = "adminpassword";
         $this->a_args[] = "sourcepassword";
         $this->a_args[] = "maxbitrate";
         $this->a_args[] = "username";

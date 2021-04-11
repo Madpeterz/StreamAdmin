@@ -21,8 +21,6 @@ class Create extends ViewAjax
         $input = new inputFilter();
         $avataruid = $input->postFilter("avataruid");
         $username = $input->postFilter("username");
-        $email = $input->postFilter("email");
-        $bits = explode("@", $email);
 
         if (strlen($username) < 5) {
             $this->setSwapTag("message", "username length must be 5 or longer");
@@ -44,22 +42,9 @@ class Create extends ViewAjax
             $this->setSwapTag("message", "Unable to find avatar with matching uid");
             return;
         }
-        if (count($bits) != 2) {
-            $this->setSwapTag("message", "Email address is not formated correctly");
-            return;
-        }
-        if ($staff->loadByField("email", $email) == true) {
-            $this->setSwapTag("message", "There is already a staff member using that email");
-            return;
-        }
-        if (strlen($email) > 100) {
-            $this->setSwapTag("message", "email length must be 100 or less");
-            return;
-        }
         $staff = new Staff();
         $staff->setUsername($username);
         $staff->setAvatarLink($avatar->getId());
-        $staff->setEmail($email);
         $staff->setPhash(sha1("phash install" . microtime() . "" . $username));
         $staff->setLhash(sha1("lhash install" . microtime() . "" . $username));
         $staff->setPsalt(sha1("psalt install" . microtime() . "" . $username));

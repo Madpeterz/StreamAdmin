@@ -34,7 +34,6 @@ class Create extends View
                 null,
                 "Used to login [does not have to be the same as their SL name]"
             );
-            $form->textInput("email", "Email", 200, "", "Used to change their password via email");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
         $this->output->addSwapTagString(
             "page_content",

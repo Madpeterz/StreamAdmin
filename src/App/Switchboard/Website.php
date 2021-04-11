@@ -11,6 +11,7 @@ class Website extends Switchboard
             $this->targetEndpoint = "Control";
         }
         if (install_ok() == false) {
+            $this->targetEndpoint = "View";
             $this->method = "Install";
             $this->module = "Install";
             include "" . ROOTFOLDER . "/App/Flags/InstallMode.php";

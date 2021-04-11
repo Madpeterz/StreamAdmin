@@ -37,7 +37,6 @@ class Manage extends View
             $staff->getUsername(),
             "Used to login [does not have to be the same as their SL name]"
         );
-        $form->textInput("email", "Email", 200, $staff->getEmail(), "Used to change their password via email");
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

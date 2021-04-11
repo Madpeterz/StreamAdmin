@@ -47,7 +47,8 @@ class Install extends View
             <span aria-hidden="true">&times;</span>
             </button>
             </div><br/>
-            <a href="[[url_base]]install/setup"><button class="btn btn-primary btn-block" type="button">Setup</button></a>'
+            <a href="[[url_base]]install/setup"><button class="btn btn-primary btn-block" type="button">
+            Setup</button></a>'
         );
     }
 }

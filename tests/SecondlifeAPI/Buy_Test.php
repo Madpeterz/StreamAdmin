@@ -41,7 +41,7 @@ class SecondlifeApiBuy extends TestCase
         $this->assertSame(true,$Getconfig->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $this->assertSame(true,$Getconfig->getOutputObject()->getSwapTagBool("package_instock"),"Package needs to be in stock!");
         $this->assertSame(50,$Getconfig->getOutputObject()->getSwapTagInt("package_cost"),"Incorrect cost value");
-        $this->assertSame("51d5f381-43cd-84f0-c226-f9f89c12af7e",$Getconfig->getOutputObject()->getSwapTagString("texture_waitingforowner"),"Incorrect texture");
+        $this->assertSame("51d5f381-43cd-84f0-c226-f9f89c12af7e",$Getconfig->getOutputObject()->getSwapTagString("Texture-WaitOwner"),"Incorrect texture");
     }
 
     /**

@@ -39,7 +39,6 @@ class StaffTest extends TestCase
         $missing = "Missing staff create form element";
         $this->assertStringContainsString("Avatar UID",$statuscheck,$missing);
         $this->assertStringContainsString("Username",$statuscheck,$missing);
-        $this->assertStringContainsString("Email",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
     }
 
@@ -64,7 +63,6 @@ class StaffTest extends TestCase
         $createProcess = new StaffCreate();
         $_POST["avataruid"] = $avatar->getAvatarUid();
         $_POST["username"] = "Unittest";
-        $_POST["email"] = "unittest@staff.com";
         $createProcess->process();
         $statuscheck = $createProcess->getOutputObject();
         $this->assertStringContainsString("staff member created",$statuscheck->getSwapTagString("message"));
@@ -93,9 +91,7 @@ class StaffTest extends TestCase
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing staff manage form element";
         $this->assertStringContainsString("Username",$statuscheck,$missing);
-        $this->assertStringContainsString("Email",$statuscheck,$missing);
         $this->assertStringContainsString("Unittest",$statuscheck,$missing);
-        $this->assertStringContainsString("unittest@staff.com",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
     }
 
@@ -112,7 +108,6 @@ class StaffTest extends TestCase
 
         $manageProcess = new Update();
         $_POST["username"] = "UpdatedUsername";
-        $_POST["email"] = "unittest@staff.com";
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("staff member updated passwords reset",$statuscheck->getSwapTagString("message"));

@@ -104,6 +104,7 @@ class Azurecast extends PublicApi
         $reply = $this->restGet("status");
         $this->last_api_message = $reply;
         if ($reply["status"] == true) {
+            $this->last_api_message = "Limited reply";
             $json = json_decode($reply["message"]);
             return [
                 "status" => $json->online,

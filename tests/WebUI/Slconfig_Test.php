@@ -18,7 +18,6 @@ class Slconfigtest extends TestCase
         $this->assertStringContainsString("Core",$statuscheck,$missing);
         $this->assertStringContainsString("Current owner: MadpeterUnit ZondTest",$statuscheck,$missing);
         $this->assertStringContainsString("Link code [SL->Server]",$statuscheck,$missing);
-        $this->assertStringContainsString("Host",$statuscheck,$missing);
         $this->assertStringContainsString("Resellers",$statuscheck,$missing);
         $this->assertStringContainsString("resellers rate (As a %)",$statuscheck,$missing);
         $this->assertStringContainsString("Misc settings",$statuscheck,$missing);

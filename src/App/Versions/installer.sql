@@ -692,3 +692,8 @@ ALTER TABLE `slconfig`
   DROP `smtpReplyTo`;
 
   DROP TABLE `event`;
+
+  ALTER TABLE `staff`
+  DROP `email`;
+
+  UPDATE `staff` SET `username` = 'Installer' WHERE `staff`.`id` = 1;

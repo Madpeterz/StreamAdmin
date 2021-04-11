@@ -16,7 +16,7 @@ class FinalsServer extends TestCase
         $ServerLoad = new ServerLoad();
         $ServerLoad->process();
         $statuscheck = $ServerLoad->getOutputObject();
-        $this->assertStringContainsString("Str: <span class=\"text-",$statuscheck->getSwapTagString("message"));
+        $this->assertStringContainsString("<span class=\"text-",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Unexpected status");
     }
 

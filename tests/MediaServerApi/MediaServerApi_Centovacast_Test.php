@@ -91,7 +91,7 @@ class MediaServerApi_Centovacast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->apiChangeTitle();
-        $this->assertSame("Calling change title now",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame("Reply from server: This is a faked reply for: serverReconfigure",$ServerApiHelper->getMessage(),"Invaild message state");
         $this->assertSame(true,$status,"incorrect status reply");
     }
 
@@ -127,7 +127,7 @@ class MediaServerApi_Centovacast_Test extends TestCase
         $this->assertSame(true,is_array($status),"Expected an array but got not an array");
         $this->assertSame(true,$status["status"],"Invaild status");
         $this->assertSame("loaded",$status["message"],"Invaild message");
-        $this->assertSame("Passed callable action checks",$ServerApiHelper->getMessage(),"invaild message");
+        $this->assertSame("Reply from server: This is a faked reply for: systemVersion",$ServerApiHelper->getMessage(),"invaild message");
     }
 
     /**
@@ -209,8 +209,8 @@ class MediaServerApi_Centovacast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->apiCustomizeUsername();
-        $this->assertSame("Unable to update username right now stopping server!",$ServerApiHelper->getMessage(),"Invaild message state");
-        $this->assertSame(true,$status,"incorrect status reply");
+        $this->assertSame("Reply from server: This is a faked reply for: serverStop",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame(false,$status,"incorrect status reply");
     }
 
     /**
@@ -297,8 +297,8 @@ class MediaServerApi_Centovacast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->eventStartSyncUsername();
-        $this->assertSame("Unable to update username right now stopping server!",$ServerApiHelper->getMessage(),"Invaild message state");
-        $this->assertSame(true,$status,"incorrect status reply");
+        $this->assertSame("Reply from server: This is a faked reply for: serverStop",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame(false,$status,"incorrect status reply");
     }
 
     /**
@@ -308,8 +308,8 @@ class MediaServerApi_Centovacast_Test extends TestCase
     {
         $ServerApiHelper = new ServerApiHelper($this->stream,true);
         $status = $ServerApiHelper->eventRevokeResetUsername();
-        $this->assertSame("Unable to update username right now stopping server!",$ServerApiHelper->getMessage(),"Invaild message state");
-        $this->assertSame(true,$status,"incorrect status reply");
+        $this->assertSame("Reply from server: This is a faked reply for: serverStop",$ServerApiHelper->getMessage(),"Invaild message state");
+        $this->assertSame(false,$status,"incorrect status reply");
     }
 
     /**

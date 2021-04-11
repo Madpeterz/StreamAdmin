@@ -12,7 +12,6 @@ class Staff extends genClass
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "username" => ["type" => "str", "value" => null],
-        "email" => ["type" => "str", "value" => null],
         "emailResetCode" => ["type" => "str", "value" => null],
         "emailResetExpires" => ["type" => "int", "value" => 0],
         "avatarLink" => ["type" => "int", "value" => null],
@@ -25,10 +24,6 @@ class Staff extends genClass
     public function getUsername(): ?string
     {
         return $this->getField("username");
-    }
-    public function getEmail(): ?string
-    {
-        return $this->getField("email");
     }
     public function getEmailResetCode(): ?string
     {
@@ -66,14 +61,6 @@ class Staff extends genClass
     public function setUsername(?string $newvalue): array
     {
         return $this->updateField("username", $newvalue);
-    }
-    /**
-    * setEmail
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setEmail(?string $newvalue): array
-    {
-        return $this->updateField("email", $newvalue);
     }
     /**
     * setEmailResetCode
@@ -135,10 +122,6 @@ class Staff extends genClass
     public function loadByUsername(string $username): bool
     {
         return $this->loadByField("username", $username);
-    }
-    public function loadByEmail(string $email): bool
-    {
-        return $this->loadByField("email", $email);
     }
     public function loadByEmailResetCode(string $emailResetCode): bool
     {

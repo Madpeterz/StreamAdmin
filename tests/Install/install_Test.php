@@ -87,7 +87,6 @@ class Installer extends TestCase
         $_POST["av_username"] = "Madpeter";
         $_POST["av_uuid"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
         $_POST["av_name"] = "MadpeterUnit ZondTest";
-        $_POST["av_email"] = "noemailgiven@gmail.com";
         $step4->process("src/App/Config/site_installed.php");
         $statuscheck = $step4->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("User config applyed",$statuscheck);

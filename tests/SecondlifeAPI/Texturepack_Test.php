@@ -47,7 +47,7 @@ class SecondlifeApiTexturepack extends TestCase
         $this->assertSame(true,$GetPack->getLoadOk(),"Load ok failed");
         $GetPack->process();
         $this->assertSame("ok",$GetPack->getOutputObject()->getSwapTagString("message"),"incorrect reply");
-        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$GetPack->getOutputObject()->getSwapTagString("texture_offline"),"incorrect reply");
+        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$GetPack->getOutputObject()->getSwapTagString("Texture-Offline"),"incorrect reply");
         $this->assertSame(true,$GetPack->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $_POST["texturepack"] = -45;
         $GetPack = new Getpack();
@@ -75,7 +75,7 @@ class SecondlifeApiTexturepack extends TestCase
         $this->assertSame(true,$GetPack->getLoadOk(),"Load ok failed");
         $GetPack->process();
         $this->assertSame("ok",$GetPack->getOutputObject()->getSwapTagString("message"),"incorrect reply");
-        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$GetPack->getOutputObject()->getSwapTagString("texture_offline"),"incorrect reply");
+        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$GetPack->getOutputObject()->getSwapTagString("Texture-Offline"),"incorrect reply");
         $this->assertSame("Reseller mode",$GetPack->getOutputObject()->getSwapTagString("reseller_mode"),"incorrect mode");
     }
 }

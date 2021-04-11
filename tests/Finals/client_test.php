@@ -23,7 +23,7 @@ class FinalsClient extends TestCase
         $Api->process();
         $statuscheck = $Api->getOutputObject();
         $this->assertStringContainsString(
-            "API/Ok => Reply from server: This is a faked reply for: serverStop",
+            "API/Ok => server stopped",
             $statuscheck->getSwapTagString("message"),
             "incorrect reply"
         );
@@ -87,10 +87,10 @@ class FinalsClient extends TestCase
         $bulkRemoveControl->process();
         $statuscheck = $bulkRemoveControl->getOutputObject();
         $this->assertSame(
-            "Removed 2 rentals! and skipped 1",
+            "Bad reply: Api Azurecast does not support: getEventRecreateRevoke",
             $statuscheck->getSwapTagString("message"),
             "incorrect reply"
         );
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        $this->assertSame(false,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 }
