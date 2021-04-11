@@ -24,7 +24,7 @@ abstract class DefinesServerApiHelper extends SqlConnectedClass
 
     protected function setMessage(string $message): void
     {
-        error_log($message);
+        //error_log($message);
         $this->message = $message;
     }
 
