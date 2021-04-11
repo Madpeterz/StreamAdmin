@@ -55,6 +55,8 @@ abstract class Switchboard
             $this->method = "Home";
             $this->module = "Home";
         }
+        $this->method = ucfirst($this->method);
+        $this->action = ucfirst($this->action);
         if ($this->accessChecks() == false) {
             return;
         }
