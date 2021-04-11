@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Stream;
 
+use App\MediaServer\Logic\ApiLogicUpdate;
 use App\R7\Model\Package;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
@@ -27,7 +28,7 @@ class Update extends ViewAjax
         $apiConfigValue1 = $input->postFilter("apiConfigValue1");
         $apiConfigValue2 = $input->postFilter("apiConfigValue2");
         $apiConfigValue3 = $input->postFilter("apiConfigValue3");
-        $api_update = $input->postFilter("api_update", "integer");
+        $api_update = $input->postFilter("api_update", "bool");
 
         if ($port < 1) {
             $this->setSwapTag("message", "Port must be 1 or more");
@@ -130,15 +131,17 @@ class Update extends ViewAjax
             );
             return;
         }
-        $status = true;
-        $why_failed = "";
-        if ($api_update == 1) {
-            include "shared/media_server_apis/logic/update.php";
-            $status = $api_serverlogic_reply;
-        }
-        if ($status == false) {
-            $this->setSwapTag("message", $why_failed);
-            return;
+
+        if ($api_update == true) {
+            $apilogic = new ApiLogicUpdate();
+            $apilogic->setStream($stream);
+            $apilogic->setServer($server);
+            $reply = $apilogic->createNextApiRequest();
+            if ($reply["status"] == false) {
+                $this->setSwapTag("status", false);
+                $this->setSwapTag("message", "Bad reply: " . $reply["message"]);
+                return;
+            }
         }
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Stream updated");

@@ -29,7 +29,7 @@ class Create extends ViewAjax
         $apiConfigValue1 = $input->postFilter("apiConfigValue1");
         $apiConfigValue2 = $input->postFilter("apiConfigValue2");
         $apiConfigValue3 = $input->postFilter("apiConfigValue3");
-        $api_create = $input->postFilter("api_create", "integer");
+        $api_create = $input->postFilter("api_create", "bool");
 
         if ($port < 1) {
             $this->setSwapTag("message", "Port must be 1 or more");
@@ -126,11 +126,13 @@ class Create extends ViewAjax
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "Stream created");
 
-        $apilogic = null;
-        if ($api_create == 0) {
+
+        if ($api_create == false) {
             $this->setSwapTag("redirect", "stream");
             return;
         }
+
+        $apilogic = null;
         $apilogic = new ApiLogicCreate();
         $apilogic->setStream($stream);
         $apilogic->setServer($server);
