@@ -50,34 +50,6 @@ class DefaultView extends View
                 $this->slconfig->getHttpInboundSecret(),
                 "Enter here"
             );
-        if ($this->session->getOwnerLevel() == 1) {
-            $form->col(6);
-                $form->group("SMTP [Email sending support]");
-                $form->textInput("smtpFrom", "From", 30, $this->slconfig->getSmtpFrom(), "From email address");
-                $form->textInput(
-                    "smtp_reply",
-                    "Reply",
-                    30,
-                    $this->slconfig->getSmtpReplyTo(),
-                    "Reply to email address"
-                );
-                $form->textInput("smtpHost", "Host", 30, $this->slconfig->getSmtpHost(), "SMTP host");
-                $form->textInput("smtp_user", "Username", 30, "skip", "SMTP username (leave as skip to not update)");
-                $form->textInput(
-                    "smtp_code",
-                    "Access code",
-                    30,
-                    "skip",
-                    "SMTP access code [or password] (leave as skip to not update)"
-                );
-                $form->textInput(
-                    "smtpPort",
-                    "Port",
-                    30,
-                    $this->slconfig->getSmtpPort(),
-                    "port to connect to for SMTP"
-                );
-        }
         $form->col(6);
             $form->group("Resellers");
             $form->directAdd("<br/>");
@@ -89,10 +61,6 @@ class DefaultView extends View
                 $this->slconfig->getNewResellersRate(),
                 "1 to 100"
             );
-        $form->col(6);
-            $form->directAdd("<br/>");
-            $form->group("Feature packs");
-            $form->select("event_storage", "Event storage", $this->slconfig->getEventStorage(), $this->disableEnable);
         $form->col(6);
             $form->directAdd("<br/>");
             $form->group("Misc settings");

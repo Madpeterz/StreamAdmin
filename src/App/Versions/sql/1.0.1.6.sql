@@ -319,3 +319,14 @@ ALTER TABLE `rental` DROP FOREIGN KEY `package_in_use_rental`;
 ALTER TABLE `rental` ADD CONSTRAINT `package_in_use_rental` FOREIGN KEY (`packageLink`) REFERENCES `package`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
 ALTER TABLE `rental` DROP FOREIGN KEY `stream_in_use_rental`; 
 ALTER TABLE `rental` ADD CONSTRAINT `stream_in_use_rental` FOREIGN KEY (`streamLink`) REFERENCES `stream`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+
+ALTER TABLE `slconfig`
+  DROP `eventStorage`,
+  DROP `smtpHost`,
+  DROP `smtpPort`,
+  DROP `smtpUsername`,
+  DROP `smtpAccesscode`,
+  DROP `smtpFrom`,
+  DROP `smtpReplyTo`;
+
+DROP TABLE `event`;

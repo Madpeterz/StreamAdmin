@@ -22,7 +22,6 @@ class Update extends ViewAjax
         $publicLinkCode = $input->postFilter("publicLinkCode");
         $newResellersRate = $input->postFilter("newResellersRate", "integer");
         $newResellers = $input->postFilter("newResellers", "bool");
-        $event_storage = $input->postFilter("event_storage", "bool");
         $owneravuid = $input->postFilter("owneravuid");
         $ui_tweaks_clients_fulllist = $input->postFilter("ui_tweaks_clients_fulllist", "bool");
         $ui_tweaks_datatableItemsPerPage = $input->postFilter("ui_tweaks_datatableItemsPerPage", "integer");
@@ -95,29 +94,10 @@ class Update extends ViewAjax
         $this->slconfig->setHttpInboundSecret($httpcode);
         $this->slconfig->setNewResellers($newResellers);
         $this->slconfig->setNewResellersRate($newResellersRate);
-        $this->slconfig->setEventStorage($event_storage);
         $this->slconfig->setClientsListMode($ui_tweaks_clients_fulllist);
         $this->slconfig->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
         $this->slconfig->setDisplayTimezoneLink($displayTimezoneLink);
         $this->slconfig->setApiDefaultEmail($apiDefaultEmail);
-        if ($this->session->getOwnerLevel() == 1) {
-            $smtpFrom = $input->postFilter("smtpFrom");
-            $smtp_reply = $input->postFilter("smtp_reply");
-            $smtpHost = $input->postFilter("smtpHost");
-            $smtp_user = $input->postFilter("smtp_user");
-            $smtp_code = $input->postFilter("smtp_code");
-            $smtpPort = $input->postFilter("smtpPort");
-            $this->slconfig->setSmtpHost($smtpHost);
-            $this->slconfig->setSmtpPort($smtpPort);
-            if ($smtp_user != "skip") {
-                $this->slconfig->setSmtpUsername($smtp_user);
-            }
-            if ($smtp_code != "skip") {
-                $this->slconfig->setSmtpAccesscode($smtp_code);
-            }
-            $this->slconfig->setSmtpFrom($smtpFrom);
-            $this->slconfig->setSmtpReplyTo($smtp_reply);
-        }
         $update_status = $this->slconfig->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag(

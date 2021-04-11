@@ -19,15 +19,8 @@ class Slconfig extends genClass
         "publicLinkCode" => ["type" => "str", "value" => null],
         "hudLinkCode" => ["type" => "str", "value" => null],
         "ownerAvatarLink" => ["type" => "int", "value" => null],
-        "eventStorage" => ["type" => "bool", "value" => 0],
         "datatableItemsPerPage" => ["type" => "int", "value" => 10],
         "httpInboundSecret" => ["type" => "str", "value" => null],
-        "smtpHost" => ["type" => "str", "value" => null],
-        "smtpPort" => ["type" => "int", "value" => null],
-        "smtpUsername" => ["type" => "str", "value" => null],
-        "smtpAccesscode" => ["type" => "str", "value" => null],
-        "smtpFrom" => ["type" => "str", "value" => null],
-        "smtpReplyTo" => ["type" => "str", "value" => null],
         "displayTimezoneLink" => ["type" => "int", "value" => 11],
         "apiDefaultEmail" => ["type" => "str", "value" => null],
     ];
@@ -64,10 +57,6 @@ class Slconfig extends genClass
     {
         return $this->getField("ownerAvatarLink");
     }
-    public function getEventStorage(): ?bool
-    {
-        return $this->getField("eventStorage");
-    }
     public function getDatatableItemsPerPage(): ?int
     {
         return $this->getField("datatableItemsPerPage");
@@ -75,30 +64,6 @@ class Slconfig extends genClass
     public function getHttpInboundSecret(): ?string
     {
         return $this->getField("httpInboundSecret");
-    }
-    public function getSmtpHost(): ?string
-    {
-        return $this->getField("smtpHost");
-    }
-    public function getSmtpPort(): ?int
-    {
-        return $this->getField("smtpPort");
-    }
-    public function getSmtpUsername(): ?string
-    {
-        return $this->getField("smtpUsername");
-    }
-    public function getSmtpAccesscode(): ?string
-    {
-        return $this->getField("smtpAccesscode");
-    }
-    public function getSmtpFrom(): ?string
-    {
-        return $this->getField("smtpFrom");
-    }
-    public function getSmtpReplyTo(): ?string
-    {
-        return $this->getField("smtpReplyTo");
     }
     public function getDisplayTimezoneLink(): ?int
     {
@@ -174,14 +139,6 @@ class Slconfig extends genClass
         return $this->updateField("ownerAvatarLink", $newvalue);
     }
     /**
-    * setEventStorage
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setEventStorage(?bool $newvalue): array
-    {
-        return $this->updateField("eventStorage", $newvalue);
-    }
-    /**
     * setDatatableItemsPerPage
     * @return mixed[] [status =>  bool, message =>  string]
     */
@@ -196,54 +153,6 @@ class Slconfig extends genClass
     public function setHttpInboundSecret(?string $newvalue): array
     {
         return $this->updateField("httpInboundSecret", $newvalue);
-    }
-    /**
-    * setSmtpHost
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setSmtpHost(?string $newvalue): array
-    {
-        return $this->updateField("smtpHost", $newvalue);
-    }
-    /**
-    * setSmtpPort
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setSmtpPort(?int $newvalue): array
-    {
-        return $this->updateField("smtpPort", $newvalue);
-    }
-    /**
-    * setSmtpUsername
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setSmtpUsername(?string $newvalue): array
-    {
-        return $this->updateField("smtpUsername", $newvalue);
-    }
-    /**
-    * setSmtpAccesscode
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setSmtpAccesscode(?string $newvalue): array
-    {
-        return $this->updateField("smtpAccesscode", $newvalue);
-    }
-    /**
-    * setSmtpFrom
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setSmtpFrom(?string $newvalue): array
-    {
-        return $this->updateField("smtpFrom", $newvalue);
-    }
-    /**
-    * setSmtpReplyTo
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setSmtpReplyTo(?string $newvalue): array
-    {
-        return $this->updateField("smtpReplyTo", $newvalue);
     }
     /**
     * setDisplayTimezoneLink
@@ -294,10 +203,6 @@ class Slconfig extends genClass
     {
         return $this->loadByField("ownerAvatarLink", $ownerAvatarLink);
     }
-    public function loadByEventStorage(bool $eventStorage): bool
-    {
-        return $this->loadByField("eventStorage", $eventStorage);
-    }
     public function loadByDatatableItemsPerPage(int $datatableItemsPerPage): bool
     {
         return $this->loadByField("datatableItemsPerPage", $datatableItemsPerPage);
@@ -305,30 +210,6 @@ class Slconfig extends genClass
     public function loadByHttpInboundSecret(string $httpInboundSecret): bool
     {
         return $this->loadByField("httpInboundSecret", $httpInboundSecret);
-    }
-    public function loadBySmtpHost(string $smtpHost): bool
-    {
-        return $this->loadByField("smtpHost", $smtpHost);
-    }
-    public function loadBySmtpPort(int $smtpPort): bool
-    {
-        return $this->loadByField("smtpPort", $smtpPort);
-    }
-    public function loadBySmtpUsername(string $smtpUsername): bool
-    {
-        return $this->loadByField("smtpUsername", $smtpUsername);
-    }
-    public function loadBySmtpAccesscode(string $smtpAccesscode): bool
-    {
-        return $this->loadByField("smtpAccesscode", $smtpAccesscode);
-    }
-    public function loadBySmtpFrom(string $smtpFrom): bool
-    {
-        return $this->loadByField("smtpFrom", $smtpFrom);
-    }
-    public function loadBySmtpReplyTo(string $smtpReplyTo): bool
-    {
-        return $this->loadByField("smtpReplyTo", $smtpReplyTo);
     }
     public function loadByDisplayTimezoneLink(int $displayTimezoneLink): bool
     {
