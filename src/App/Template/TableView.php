@@ -21,11 +21,13 @@ class TableView extends BasicView
 
         $output .= '<tbody>';
         foreach ($table_body as $row) {
-            $output .= "<tr>";
-            foreach ($row as $entry) {
-                $output .= "<td>" . $entry . "</td>";
+            if (is_array($row) == true) {
+                $output .= "<tr>";
+                foreach ($row as $entry) {
+                    $output .= "<td>" . $entry . "</td>";
+                }
+                $output .= "</tr>";
             }
-            $output .= "</tr>";
         }
         $output .= '</tbody>';
         $output .= '</table>';
