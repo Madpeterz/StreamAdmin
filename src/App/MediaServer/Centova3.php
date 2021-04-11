@@ -257,8 +257,10 @@ class Centova3 extends PublicApi
             $this->last_api_message = "Server appears to be down";
             return ["status" => true,"state" => $server_status,"source" => false,"autodj" => false];
         }
+        $state = true;
         if ($server_status["sourcestate"] == 0) {
             $this->last_api_message = "Source/AutoDJ appears to be down";
+            $state = false;
         } else {
             $stream_connected = true;
             $this->last_api_message = "Stream open";
@@ -272,7 +274,7 @@ class Centova3 extends PublicApi
         return [
             "message" => "ok",
             "status" => true,
-            "state" => true,
+            "state" => $state,
             "source" => $stream_connected,
             "autodj" => $auto_dj,
         ];
