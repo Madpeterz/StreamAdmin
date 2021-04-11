@@ -76,7 +76,6 @@ abstract class RestApi extends ErrorLogging
                 $body = $this->getPostFormated($postdata);
             }
             $res = $this->client->request($method, $endpoint, $body);
-            error_log(json_encode($postdata));
             if ($res->getStatusCode() == 200) {
                 return ["status" => true,"message" => $res->getBody()->getContents()];
             } else {
