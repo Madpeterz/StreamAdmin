@@ -5,6 +5,7 @@ namespace App\Endpoint\SecondLifeApi\Bot;
 use App\Helpers\BotHelper;
 use App\R7\Model\Avatar;
 use App\R7\Model\Botconfig;
+use App\R7\Model\Message;
 use App\R7\Model\Notecard;
 use App\Template\SecondlifeAjax;
 
@@ -53,12 +54,13 @@ class Notecardsync extends SecondlifeAjax
         }
 
         $this->setSwapTag("hassyncmessage", true);
-        $this->setSwapTag("avatarUUID", $botavatar->getAvatarUUID());
+        $this->setSwapTag("avataruuid", $botavatar->getAvatarUUID());
         $bot_helper = new BotHelper();
+        global $template_parts;
         $message = $bot_helper->sendBotCommand(
             $botconfig,
             "FetchNextNotecard",
-            [$this->output->getSwapTagString("url_base"),$this->slconfig->getHttpInboundSecret()]
+            [$template_parts["url_base"],$this->slconfig->getHttpInboundSecret()]
         );
         $this->setSwapTag("message", $message);
     }
