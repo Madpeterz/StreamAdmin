@@ -31,32 +31,39 @@ abstract class Switchboard
         return true;
     }
 
+    protected function notSet(?string $input): bool
+    {
+        if (($input == "") || ($input == null)) {
+            return true;
+        }
+        return false;
+    }
+
     protected function loadPage(): void
     {
         global $module, $area;
         $this->module = $module;
         $this->area = $area;
         $input = new InputFilter();
-        if ($this->method == "") {
-            $this->method = $input->postFilter("method");
-            $this->module = $this->method;
-        }
-        if ($this->action == "") {
-            $this->action = $input->postFilter("action");
-            $this->area = $this->action;
-        }
-        if ($this->method == "") {
+        if ($this->notSet($this->method) == true) {
             $this->method = $this->module;
         }
-        if ($this->action == "") {
+        if ($this->notSet($this->action) == true) {
             $this->action = $this->area;
         }
-        if ($this->method == "") {
+        if ($this->notSet($this->method) == true) {
+            $this->method = $input->postFilter("method");
+        }
+        if ($this->notSet($this->action) == true) {
+            $this->action = $input->postFilter("action");
+        }
+        if ($this->notSet($this->method) == true) {
             $this->method = "Home";
-            $this->module = "Home";
         }
         $this->method = ucfirst($this->method);
         $this->action = ucfirst($this->action);
+        $this->module = $this->method;
+        $this->area = $this->action;
         if ($this->accessChecks() == false) {
             return;
         }
