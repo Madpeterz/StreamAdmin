@@ -371,18 +371,18 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
         $stream_state_check = $this->serverApi->StreamState();
         $this->setMessage($this->serverApi->getLastApiMessage());
         if ($stream_state_check["status"] == false) {
+            $this->setMessage("Unable to get stream state");
             return false;
         }
         if ($stream_state_check["state"] == true) {
+            $this->setMessage("Marked for retry (server is up)");
             $retry = true;
         }
         if ($retry == true) {
+            $this->setMessage("attempting to stop the server");
             $status = $this->serverApi->optToggleStatus(false);
             $this->setMessage($this->serverApi->getLastApiMessage());
-            if ($status == true) {
-                $this->setMessage("Unable to update username right now stopping server!");
-            }
-            return $status;
+            return false;
         }
         $new_username = $this->getStreamCustomizedUsername();
         if ($new_username == "") {
