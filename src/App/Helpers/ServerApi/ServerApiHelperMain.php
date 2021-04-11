@@ -7,9 +7,15 @@ use YAPF\InputFilter\InputFilter;
 
 abstract class ServerApiHelperMain extends FunctionsServerApiHelper
 {
+    protected function setMessage(string $message): void
+    {
+        error_log($message);
+        $this->message = $message;
+    }
     public function apiCreateAccount(): bool
     {
         global $sql;
+        $this->setMessage("Starting function:" . __FUNCTION__);
         $this->stream->setAdminUsername($this->stream->getOriginalAdminUsername());
         $this->stream->setAdminPassword($this->randString(7 + rand(1, 6)));
         $this->stream->setDjPassword($this->randString(5 + rand(1, 3)));
@@ -17,17 +23,18 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
         $update_status = $this->stream->updateEntry();
         if ($update_status["status"] == false) {
             $sql->flagError();
-            $this->message = "Unable to update password in db: " . $update_status["message"];
+            $this->setMessage("Unable to update password in db: " . $update_status["message"]);
             return false;
         }
-        $this->message = "Update ok passing onto server API now";
+        $this->setMessage("Update ok passing onto server API now");
         $status = $this->serverApi->eventCreateStream();
-        $this->message =  $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
     public function apiRecreateAccount(): bool
     {
         global $sql;
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             global $current_step;
             $current_step = "recreate_not_enabled";
@@ -40,47 +47,49 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
         $this->stream->setNeedWork(false);
         $update_status = $this->stream->updateEntry();
         if ($update_status["status"] == false) {
-            $this->message = "Unable to update password in db: " . $update_status["message"];
+            $this->setMessage("Unable to update password in db: " . $update_status["message"]);
             return false;
         }
         $status = $this->serverApi->removeAccount($old_username);
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if ($status == false) {
             return false;
         }
         $status = $this->serverApi->recreateAccount();
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
 
     public function apiEnableAccount(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
         $status = $this->updateAccountState(true);
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
 
     public function apiListDjs(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         $this->dj_list = [];
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
         $reply = $this->serverApi->getAccountState();
         if ($reply["status"] == false) {
-            $this->message = $this->serverApi->getLastApiMessage();
+            $this->setMessage($this->serverApi->getLastApiMessage());
             return false;
         }
         if ($reply["state"] == false) {
-            $this->message = "Account is disabled";
+            $this->setMessage("Account is disabled");
             return false;
         }
         $reply = $this->serverApi->djList();
         $this->dj_list = $reply["list"];
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if (count($this->loadedDjs()) > 0) {
             $this->message = implode(",", $this->loadedDjs());
         }
@@ -88,30 +97,32 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
     }
     public function apiChangeTitle(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
         if ($this->avatar == null) {
-            $this->message = "Unknown avatar";
+            $this->setMessage("Unknown avatar");
             return false;
         }
-        $this->message = "Calling change title now";
+        $this->setMessage("Calling change title now");
         $status = $this->serverApi->changeTitle($this->avatar->getAvatarName() . " stream");
-        $this->message =  $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
     public function apiPurgeDjs(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
         $reply = $this->serverApi->getAccountState();
         if ($reply["status"] == false) {
-            $this->message = $this->serverApi->getLastApiMessage();
+            $this->setMessage($this->serverApi->getLastApiMessage());
             return false;
         }
         if ($reply["state"] == false) {
-            $this->message = "Account is disabled";
+            $this->setMessage("Account is disabled");
             return false;
         }
         if ($this->apiListDjs() == false) {
@@ -127,14 +138,15 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
             }
             $this->removed_dj_counter++;
         }
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if ($all_ok == true) {
-            $this->message = "Removed " . $this->getRemovedDjCounter() . " dj accounts";
+            $this->setMessage("Removed " . $this->getRemovedDjCounter() . " dj accounts");
         }
         return $all_ok;
     }
     public function apiDisableAccount(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
@@ -146,6 +158,7 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
      */
     public function apiServerStatus(): array
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return [
                 "status" => false,
@@ -156,26 +169,27 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
             ];
         }
         $status = $this->serverApi->serverStatus();
-        $this->message =  $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
 
 
     public function apiSetPasswords(string $new_dj_password = null, string $new_admin_password = null): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         global $sql;
-        $this->message = "started";
+        $this->setMessage("started");
         if ($this->serverApi == null) {
-            $this->message = "Server API is not loaded";
+            $this->setMessage("Server API is not loaded");
             return false;
         }
         if ($this->checkFlags(["optPasswordReset","eventResetPasswordRevoke"]) == false) {
-            $this->message = "Password reset / Password revoke not allowed";
+            $this->setMessage("Password reset / Password revoke not allowed");
             return false;
         }
 
         if (($new_dj_password == null) || ($new_admin_password == null)) {
-            $this->message = "no passwords sent";
+            $this->setMessage("no passwords sent");
             $input = new InputFilter();
             $set_dj_password = $input->postFilter(
                 "set_dj_password",
@@ -190,39 +204,38 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
                 );
             }
             if ($set_dj_password == null) {
-                $this->message = "DJ password is empty because: " . $input->getWhyFailed();
+                $this->setMessage("DJ password is empty because: " . $input->getWhyFailed());
                 return false;
             }
             if ($set_admin_password == null) {
-                $this->message = "Admin password is empty because: " . $input->getWhyFailed();
+                $this->setMessage("Admin password is empty because: " . $input->getWhyFailed());
                 return false;
             }
             $new_dj_password = $set_dj_password;
             $new_admin_password = $set_admin_password;
-            $this->message = "got passwords from input";
+            $this->setMessage("got passwords from input");
         }
         if (($new_dj_password == null) || ($new_admin_password == null)) {
-            $this->message = "Unable to create passwords";
+            $this->setMessage("Unable to create passwords");
             return false;
         }
         if ($new_dj_password == $new_admin_password) {
-            $this->message = "DJ and Admin passwords are not allowed to match";
+            $this->setMessage("DJ and Admin passwords are not allowed to match");
             return false;
         }
-        $this->message = "started api_reset_passwords";
-        $this->message = "passed flag check";
+        $this->setMessage("started api_reset_passwords");
         $this->stream->setAdminPassword($new_admin_password);
         $this->stream->setDjPassword($new_dj_password);
         $this->stream->setNeedWork(false);
         $update_status = $this->stream->updateEntry();
         if ($update_status["status"] == false) {
             $sql->flagError();
-            $this->message = "Unable to update password in db";
+            $this->setMessage("Unable to update password in db");
             return false;
         }
-        $this->message = "calling api";
+        $this->setMessage("calling api");
         $status = $this->serverApi->optPasswordReset();
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if ($status == false) {
             $sql->flagError();
         }
@@ -230,59 +243,64 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
     }
     public function apiResetPasswords(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         return $this->apiSetPasswords($this->randString(5 + rand(1, 3)), $this->randString(7 + rand(1, 6)));
     }
     public function apiStart(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
         $status = $this->serverApi->optToggleStatus(true);
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
     public function apiStop(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
         $status = $this->serverApi->optToggleStatus(false);
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
     public function apiAutodjToggle(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
             return false;
         }
         if ($this->package == null) {
-            $this->message = "No package selected";
+            $this->setMessage("No package selected");
             return false;
         }
         if ($this->package->getAutodj() == false) {
-            $this->message = "This package does not support autoDJ";
+            $this->setMessage("This package does not support autoDJ");
             return false;
         }
         $status = $this->serverApi->optToggleAutodj();
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
     public function apiAutodjNext(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->callableAction(__FUNCTION__) == false) {
-            $this->message = "apiAutodjNext is not supported";
+            $this->setMessage("apiAutodjNext is not supported");
             return false;
         }
         if ($this->package == null) {
-            $this->message = "No package selected";
+            $this->setMessage("No package selected");
             return false;
         }
         if ($this->package->getAutodj() == false) {
-            $this->message = "This package does not support autoDJ";
+            $this->setMessage("This package does not support autoDJ");
             return false;
         }
         $status = $this->serverApi->optAutodjNext();
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         return $status;
     }
     /**
@@ -291,15 +309,17 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
      */
     public function getAllAccounts(bool $include_passwords = false, StreamSet $stream_set = null): array
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->serverApi != null) {
             $status = $this->serverApi->accountNameList($include_passwords, $stream_set);
-            $this->message = $this->serverApi->getLastApiMessage();
+            $this->setMessage($this->serverApi->getLastApiMessage());
             return $status;
         }
         return ["status" => false,"usernames" => [],"passwords" => []];
     }
     protected function getStreamCustomizedUsername(): string
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         if ($this->avatar == null) {
             // reset username
             return $this->stream->getOriginalAdminUsername();
@@ -307,7 +327,7 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
 
         // customize username
         $server_accounts = $this->serverApi->accountNameList();
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if ($server_accounts["status"] == false) {
             return "";
         }
@@ -341,6 +361,7 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
     }
     public function apiCustomizeUsername(): bool
     {
+        $this->setMessage("Starting function:" . __FUNCTION__);
         global $retry;
         $retry = false;
         $status = false;
@@ -348,7 +369,7 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
             return false;
         }
         $stream_state_check = $this->serverApi->StreamState();
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if ($stream_state_check["status"] == false) {
             return false;
         }
@@ -357,31 +378,31 @@ abstract class ServerApiHelperMain extends FunctionsServerApiHelper
         }
         if ($retry == true) {
             $status = $this->serverApi->optToggleStatus(false);
-            $this->message = $this->serverApi->getLastApiMessage();
+            $this->setMessage($this->serverApi->getLastApiMessage());
             if ($status == true) {
-                $this->message = "Unable to update username right now stopping server!";
+                $this->setMessage("Unable to update username right now stopping server!");
             }
             return $status;
         }
         $new_username = $this->getStreamCustomizedUsername();
         if ($new_username == "") {
-            $this->message = "No new username found";
+            $this->setMessage("No new username found");
             return false;
         }
         $old_username = $this->stream->getAdminUsername();
         if ($old_username == $new_username) {
-            $this->message = "No change needed";
+            $this->setMessage("No change needed");
             return true;
         }
         $this->stream->setAdminUsername($new_username);
         $update_status = $this->stream->updateEntry();
         if ($update_status["status"] == false) {
             $this->sql->flagError();
-            $this->message = "failed to save changes to DB";
+            $this->setMessage("failed to save changes to DB");
             return false;
         }
         $status = $this->serverApi->eventStartSyncUsername($old_username);
-        $this->message = $this->serverApi->getLastApiMessage();
+        $this->setMessage($this->serverApi->getLastApiMessage());
         if ($status == false) {
             $this->sql->flagError();
         }
