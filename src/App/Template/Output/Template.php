@@ -197,7 +197,7 @@ class Template extends Cache
             "Dashboard" => [
                 "icon" => "fas fa-home",
                 "target" => "",
-                "active_on" => ["home"],
+                "active_on" => ["home","",null],
             ],
             "Clients" => [
                 "icon" => "fas fa-users",
