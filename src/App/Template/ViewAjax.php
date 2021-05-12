@@ -4,6 +4,8 @@ namespace App\Template;
 
 abstract class ViewAjax extends View
 {
+    protected string $method = "";
+    protected string $action = "";
     public function __construct(bool $AutoLoadTemplate = false)
     {
         parent::__construct($AutoLoadTemplate);
