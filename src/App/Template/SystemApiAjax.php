@@ -6,12 +6,8 @@ use YAPF\InputFilter\InputFilter;
 
 abstract class SystemApiAjax extends ViewAjax
 {
-    protected $method = "";
-    protected $action = "";
-    protected $mode = "";
-    protected $hash = "";
     protected $unixtime = 0;
-
+    protected $token = "";
     protected bool $soft_fail = false;
 
     public function getSoftFail(): bool
@@ -25,6 +21,7 @@ abstract class SystemApiAjax extends ViewAjax
         parent::__construct($AutoLoadTemplate);
         $this->requiredValues();
         $this->timeWindow();
+        $this->hashok();
         if ($this->load_ok == false) {
             $this->setSwapTag("status", false);
             return;
@@ -32,7 +29,32 @@ abstract class SystemApiAjax extends ViewAjax
         $this->setSwapTag("message", "ready");
         $this->output->tempateSecondLifeAjax();
     }
+    protected function hashok(): void
+    {
+        if ($this->load_ok == false) {
+            return;
+        }
+        if (strlen($this->slconfig->getHttpInboundSecret()) < 5) {
+            $this->load_ok = false;
+            $this->setSwapTag("message", "httpcode length must be 5 or longer");
+            return;
+        }
+        if (strlen($this->slconfig->getHttpInboundSecret()) > 30) {
+            $this->setSwapTag("message", "httpcode length must be 30 or less");
+            $this->load_ok = false;
+            return;
+        }
 
+        $bits = [$this->unixtime,$this->method,$this->action,$this->slconfig->getHttpInboundSecret()];
+        error_log(json_encode($bits));
+        $hashcheck = sha1(implode("", $bits));
+        error_log("live raw:" . implode("", $bits));
+        if ($this->token == $hashcheck) {
+            return;
+        }
+        $this->load_ok = false;
+        $this->setSwapTag("message", "Invaild token");
+    }
     protected function timeWindow(): void
     {
         if ($this->load_ok == false) {
@@ -50,7 +72,6 @@ abstract class SystemApiAjax extends ViewAjax
             }
         }
         if ($this->load_ok == false) {
-            $this->setSwapTag("status", false);
             $this->setSwapTag("message", "timewindow is out of scope");
             return;
         }
@@ -61,15 +82,23 @@ abstract class SystemApiAjax extends ViewAjax
         if ($this->load_ok == false) {
             return;
         }
+        $required_values = [
+            "unixtime",
+            "token",
+            "method",
+            "action",
+        ];
         $input = new InputFilter();
-        $this->unixtime = $input->postFilter("unixtime");
-        $this->token = $input->postFilter("token");
-        if ($this->token == $this->slconfig->getHttpInboundSecret()) {
-            $this->load_ok = false;
-        }
-        if ($this->load_ok == false) {
-            $this->setSwapTag("message", "One or more required values are missing");
-            return;
+        $this->staticpart = "";
+        foreach ($required_values as $slvalue) {
+            $value = $input->postFilter($slvalue);
+            if ($value === null) {
+                $this->load_ok = false;
+                $this->setSwapTag("message", "Value: " . $slvalue . " is missing");
+                return;
+            }
+            $this->$slvalue = $value;
+            $this->staticpart .= $value;
         }
     }
 }
