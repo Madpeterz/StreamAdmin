@@ -33,8 +33,6 @@
             <file>tests/SecondlifeAPI/Bot_Test.php</file>
             <file>tests/SecondlifeAPI/Tree_Test.php</file>
             <file>tests/SystemApi/Notecard_Test.php</file>
-            <file>tests/SecondlifeHud/Rentals_Test.php</file>
-            <file>tests/Switchboards/Hud_Test.php</file>
             <file>tests/Switchboards/MainGrid_Test.php</file>
             <file>tests/Switchboards/Sys_Test.php</file>
             <file>tests/Switchboards/Website_Test.php</file>
