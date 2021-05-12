@@ -35,13 +35,12 @@ class Notecardsync extends SecondlifeAjax
         }
         $this->setSwapTag("haserrormessage", false);
         $len = strlen($this->slconfig->getHttpInboundSecret());
-        if (strlen($len) < 5) {
+        if ($len < 5) {
             $this->setSwapTag("status", true);
             $this->setSwapTag("haserrormessage", true);
             $this->setSwapTag("message", "httpcode is to short - unable to continue");
             return;
-        }
-        if (strlen($len) > 30) {
+        } elseif ($len > 30) {
             $this->setSwapTag("status", true);
             $this->setSwapTag("haserrormessage", true);
             $this->setSwapTag("message", "httpcode is to long - unable to continue");
