@@ -4,6 +4,7 @@ namespace App\Endpoint\SecondLifeApi\Tree;
 
 use App\R7\Set\PackageSet;
 use App\R7\Model\Treevender;
+use App\R7\Set\ServertypesSet;
 use App\R7\Set\TreevenderpackagesSet;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
@@ -42,6 +43,9 @@ class Getpackages extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load packages");
             return;
         }
+        $servertypes_set = new ServertypesSet();
+        $servertypes_set->loadAll();
+
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $reply = [];
@@ -52,13 +56,23 @@ class Getpackages extends SecondlifeAjax
         $reply["package_bitrate"] = [];
         $reply["package_days"] = [];
         $reply["package_cost"] = [];
+        $reply["package_servertype"] = [];
+
+        $replaceServerTypes = [
+            "Icecast" => "A",
+            "ShoutcastV1" => "B",
+            "ShoutcastV2" => "C",
+        ];
+
         $package_hashs = [];
         foreach ($treevender_packages_set->getAllIds() as $treevender_package_id) {
             $treevender_package = $treevender_packages_set->getObjectByID($treevender_package_id);
             $package = $package_set->getObjectByID($treevender_package->getPackageLink());
+            $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
             $hash = sha1(implode(
                 " ",
                 [
+                $replaceServerTypes[$servertype->getName()],
                 $package->getAutodj(),
                 $package->getAutodjSize(),
                 $package->getListeners(),
@@ -69,6 +83,7 @@ class Getpackages extends SecondlifeAjax
             ));
             if (in_array($hash, $package_hashs) == false) {
                 $package_hashs[] = $hash;
+                $reply["package_servertype"][] = $replaceServerTypes[$servertype->getName()];
                 $reply["packageUid"][] = $package->getPackageUid();
                 $reply["package_autodj"][] = [true => "Yes",false => "No"][$package->getAutodj()];
                 $reply["package_autodjsize"][] = $this->valueOrZero($package->getAutodjSize());
