@@ -33,6 +33,22 @@ class Notecardsync extends SecondlifeAjax
             $this->setSwapTag("message", "Notecards not enabled on bot");
             return;
         }
+        $this->setSwapTag("haserrormessage", false);
+        $len = strlen($this->slconfig->getHttpInboundSecret());
+        if (strlen($len) < 5) {
+            $this->setSwapTag("status", true);
+            $this->setSwapTag("haserrormessage", true);
+            $this->setSwapTag("message", "httpcode is to short - unable to continue");
+            return;
+        }
+        if (strlen($len) > 30) {
+            $this->setSwapTag("status", true);
+            $this->setSwapTag("haserrormessage", true);
+            $this->setSwapTag("message", "httpcode is to long - unable to continue");
+            return;
+        }
+
+
         $notecard = new Notecard();
         $whereConfig = [
             "fields" => ["id"],
@@ -52,6 +68,8 @@ class Notecardsync extends SecondlifeAjax
             $this->setSwapTag("hassyncmessage", false);
             return;
         }
+
+
 
         $this->setSwapTag("hassyncmessage", true);
         $this->setSwapTag("avataruuid", $botavatar->getAvatarUUID());
