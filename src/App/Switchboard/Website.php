@@ -4,6 +4,7 @@ namespace App\Switchboard;
 
 class Website extends Switchboard
 {
+    protected $targetEndpoint = "View";
     protected function accessChecks(): bool
     {
         global $_SERVER;
@@ -12,7 +13,6 @@ class Website extends Switchboard
         }
         if (install_ok() == false) {
             $this->targetEndpoint = "View";
-            $this->method = "Install";
             $this->module = "Install";
             include "" . ROOTFOLDER . "/App/Flags/InstallMode.php";
             return true;
@@ -20,21 +20,17 @@ class Website extends Switchboard
         if ($this->session->getLoggedIn() == true) {
             return true;
         }
-        $this->method = "Login";
         $this->module = "Login";
         $allowed_login_areas = ["DefaultView","Logout","Reset","Resetwithtoken","Resetnow","Start"];
-        if (in_array($this->action, $allowed_login_areas) == false) {
-            $this->action = "DefaultView";
+        if (in_array($this->area, $allowed_login_areas) == false) {
             $this->area = "DefaultView";
         }
         return true;
     }
     public function __construct()
     {
-        global $page, $session;
-        $this->page = $page;
+        global $session;
         $this->session = &$session;
-        $this->targetEndpoint = "View";
-        $this->loadPage();
+        parent::__construct();
     }
 }
