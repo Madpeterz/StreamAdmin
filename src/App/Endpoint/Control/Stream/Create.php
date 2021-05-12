@@ -82,7 +82,7 @@ class Create extends ViewAjax
             "fields" => ["port","serverLink"],
             "values" => [$port,$serverLink],
             "types" => ["i","i"],
-            "matches" => [">=","="],
+            "matches" => ["=","="],
         ];
         $count_check = $this->sql->basicCountV2($stream->getTable(), $whereConfig);
         if ($count_check["status"] == false) {
