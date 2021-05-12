@@ -11,7 +11,7 @@
             <div class="col-6">
                 <div class="row justify-content-center">
                     <div class="col-6">
-                        <a href="[[url_base]]"><img class="logo" src="[[url_base]]Images/logo.png" alt="logo"/></a>
+                        <a href="[[url_base]]"><img class="logo" src="[[url_base]]Images/logo[[CUSTOMLOGO]].png" alt="logo"/></a>
                     </div>
                 </div>
                 <div class="row">

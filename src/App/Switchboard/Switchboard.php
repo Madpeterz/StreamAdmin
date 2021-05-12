@@ -4,6 +4,7 @@ namespace App\Switchboard;
 
 use App\Endpoint\SecondLifeApi\Apirequests\Next;
 use App\Framework\SessionControl;
+use App\R7\Model\Slconfig;
 use YAPF\InputFilter\InputFilter;
 
 abstract class Switchboard
@@ -86,12 +87,39 @@ abstract class Switchboard
         }
 
         $obj = new $use_class();
+        if ($this->targetEndpoint == "View") {
+            $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "");
+        }
         if ($obj->getLoadOk() == true) {
             $obj->getOutputObject()->setSwapTag("module", $this->module);
             $obj->getOutputObject()->setSwapTag("area", $this->area);
             $obj->getOutputObject()->setSwapTag("UsedPostSources", $usedPostSources);
+            if ($this->targetEndpoint == "View") {
+                $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "");
+                global $slconfig;
+                if ($slconfig->getCustomLogo() == true) {
+                    if ($this->createCustomLogoFile() == true) {
+                        $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "Custom");
+                    }
+                }
+            }
             $obj->process();
         }
         $obj->getoutput();
+    }
+
+    protected function createCustomLogoFile(): bool
+    {
+        global $slconfig;
+        $slconfig = new Slconfig();
+        if (file_exists("Images/logoCustom.png") == true) {
+            return true;
+        }
+        if (strlen($slconfig->getCustomLogoBin()) > 50) {
+            if (file_put_contents("Images/logoCustom.png", $slconfig->getCustomLogoBin()) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 }

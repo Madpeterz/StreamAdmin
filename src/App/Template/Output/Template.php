@@ -12,44 +12,50 @@ class Template extends Cache
     protected $redirect_enabled = false;
     protected $redirect_offsite = false;
     protected $redirect_to = "";
+
+    protected function defaults(): void
+    {
+        global $site_theme, $site_lang, $template_parts;
+        $this->tempalte_parts["topper"] = '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+        <html>';
+        $this->tempalte_parts["header"] = '<head><title>[[PAGE_TITLE]] - [[SITE_NAME]]</title>[[META_TAGS]]</head>';
+        $this->tempalte_parts["body_start"] = "<body>";
+        $this->tempalte_parts["center_content"] = "";
+        $this->tempalte_parts["left_content"] = "";
+        $this->tempalte_parts["right_content"] = "";
+        $this->tempalte_parts["body_end"] = "</body>";
+        $this->tempalte_parts["footer"] = "</html>";
+
+        $this->setSwapTag("site_theme", $site_theme);
+        $this->setSwapTag("site_lang", $site_lang);
+        $this->setSwapTag("html_title", "Page");
+        $this->setSwapTag("html_cs_top", "");
+        $this->setSwapTag("html_js_onready", "");
+        $this->setSwapTag("html_js_bottom", "");
+        $this->setSwapTag("html_title_after", "StreamAdmin R7");
+        $this->siteName("StreamAdmin R7");
+
+        if (is_array($template_parts) == false) {
+            $this->setSwapTag("html_title_after", "StreamAdmin R7");
+            $this->siteName("StreamAdmin R7");
+            return;
+        }
+        if (array_key_exists("url_base", $template_parts) == true) {
+            $this->setSwapTag("url_base", $template_parts["url_base"]);
+            $this->urlBase($template_parts["url_base"]);
+        }
+        if (array_key_exists("html_title_after", $template_parts) == true) {
+            $this->setSwapTag("html_title_after", $template_parts["html_title_after"]);
+            $this->siteName($template_parts["html_title_after"]);
+        }
+    }
+
     public function __construct(bool $with_defaults = true)
     {
         parent::__construct($with_defaults);
         if ($with_defaults == true) {
-            $this->tempalte_parts["topper"] = '<!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html>';
-            $this->tempalte_parts["header"] = '<head><title>[[PAGE_TITLE]] - [[SITE_NAME]]</title>[[META_TAGS]]</head>';
-            $this->tempalte_parts["body_start"] = "<body>";
-            $this->tempalte_parts["center_content"] = "";
-            $this->tempalte_parts["left_content"] = "";
-            $this->tempalte_parts["right_content"] = "";
-            $this->tempalte_parts["body_end"] = "</body>";
-            $this->tempalte_parts["footer"] = "</html>";
-        // global patch (to be phased out)
-            global $site_theme, $site_lang, $template_parts;
-            $this->setSwapTag("site_theme", $site_theme);
-            $this->setSwapTag("site_lang", $site_lang);
-            $this->setSwapTag("html_title", "Page");
-            $this->setSwapTag("html_cs_top", "");
-            $this->setSwapTag("html_js_onready", "");
-            $this->setSwapTag("html_js_bottom", "");
-            if (is_array($template_parts) == true) {
-                if (array_key_exists("html_title_after", $template_parts) == true) {
-                    $this->setSwapTag("html_title_after", $template_parts["html_title_after"]);
-                    $this->siteName($template_parts["html_title_after"]);
-                } else {
-                    $this->setSwapTag("html_title_after", "StreamAdmin R7");
-                    $this->siteName("StreamAdmin R7");
-                }
-                if (array_key_exists("url_base", $template_parts) == true) {
-                    $this->setSwapTag("url_base", $template_parts["url_base"]);
-                    $this->urlBase($template_parts["url_base"]);
-                }
-            } else {
-                $this->setSwapTag("html_title_after", "StreamAdmin R7");
-                $this->siteName("StreamAdmin R7");
-            }
+            $this->defaults();
         }
     }
     public function redirectWithMessage(string $to, string $message, string $level = "info"): void
