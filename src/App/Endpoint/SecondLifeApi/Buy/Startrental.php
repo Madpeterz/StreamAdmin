@@ -226,6 +226,8 @@ class Startrental extends SecondlifeAjax
             }
             return;
         }
+
+        $this->setSwapTag("message", "Details should be with you shortly");
         $this->setSwapTag("status", true);
     }
 }
