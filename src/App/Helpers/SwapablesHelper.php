@@ -48,6 +48,22 @@ class SwapablesHelper
               "PACKAGE_UID" => $package->getPackageUid(),
               "RENTAL_UID" => $rental->getRentalUid(),
               "TIMEZONE" => $timezone_name,
+              "FirstName" => $av_split[0],
+              "LastName" => $av_split[1],
+              "ExpiresAt" => date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime()),
+              "TimeLeft" => timeleftHoursAndDays($rental->getExpireUnixtime()),
+              "PortNum" => $stream->getPort(),
+              "AdminUsername" => $stream->getAdminUsername(),
+              "AdminPassword" => $stream->getAdminPassword(),
+              "DjPassword" => $stream->getDjPassword(),
+              "MountPoint" => $stream->getMountpoint(),
+              "Package" => $package->getName(),
+              "Users" => $package->getListeners(),
+              "Kbps" => $package->getBitrate(),
+              "AutoDJ" => $true_false,
+              "Disk" => $package->getAutodjSize(),
+              "PackUID" => $package->getPackageUid(),
+              "RentUID" => $rental->getRentalUid(),
           ];
           foreach ($swaps as $key => $value) {
                 $template = str_replace("[[" . $key . "]]", $value, $template);
