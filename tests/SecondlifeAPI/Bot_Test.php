@@ -3,6 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\Bot\Notecardsync;
+use App\R7\Model\Slconfig;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiBot extends TestCase
@@ -10,6 +11,10 @@ class SecondlifeApiBot extends TestCase
     public function test_Notecardsync()
     {
         global $_POST, $slconfig;
+        $slconfig->setHttpInboundSecret("httpunit");
+        $this->assertSame(true,$slconfig->updateEntry()["status"],"Unable to set HTTP code as needed");
+        $slconfig = new Slconfig();
+        $this->assertSame(true,$slconfig->loadID(1),"Unable to load updated config");
         $_POST["method"] = "Bot";
         $_POST["action"] = "Notecardsync";
         $_POST["mode"] = "test";
