@@ -55,7 +55,7 @@ class Reset extends ViewAjax
                 }
             }
         }
-        $this->setSwapTag("status", $status);
+        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "here");
         $this->setSwapTag("message", "If the account was found the reset code is on the way.");
     }
