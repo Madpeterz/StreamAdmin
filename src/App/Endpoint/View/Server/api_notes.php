@@ -11,6 +11,6 @@ $this->output->addSwapTagString("page_content", "<hr/>
     <li>
         <h4>Azuracast</h4>
         requires a vaild API key<br/>
-        default url: https://[domain]/api
+        default url: https://[domain]/api/
     </li>
 </ul>");
