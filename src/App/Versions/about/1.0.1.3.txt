@@ -1,0 +1,1 @@
+improves server api sync to only do 10 accounts each time

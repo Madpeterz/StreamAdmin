@@ -1,0 +1,3 @@
+Adds notecard modal to clients list page<br/>
+Clients create / Now supports avatar name or UUID for the avatar and the port for the stream<br/>
+Stream list now displays who it is rented to vs just saying sold.

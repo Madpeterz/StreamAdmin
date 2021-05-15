@@ -1,0 +1,2 @@
+Centova API support in testing<br/>
+new API flag: opt_toggle_status<br/>

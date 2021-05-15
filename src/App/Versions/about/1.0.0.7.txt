@@ -1,0 +1,7 @@
+Improved error messages on pending notecards<br/>
+Fixed minor issues with api lang files<br/>
+Transactions date selector<br/>
+Transactions delete support<br/>
+Site search<br/>
+Reports<br/>
+Ban list.

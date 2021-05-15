@@ -1,0 +1,3 @@
+adds support to send a notecard with a notice change update<br/>
+adds colours to the streams list page for status<br/>
+corrects the swapped lang files for mail and notice<br/>
