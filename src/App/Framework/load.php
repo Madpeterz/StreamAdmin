@@ -41,7 +41,7 @@ if (install_ok() == true) {
             if ($slconfig->loadID(1) == true) {
                 $session->loadFromSession();
             } else {
-                die("Unable to load system config [PANIC]");
+                die("Unable to load system config [PANIC]<br/>" . $slconfig->getLastError());
             }
             if ($slconfig != null) {
                 $catchereader = new Cache();
