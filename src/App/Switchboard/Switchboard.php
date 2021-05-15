@@ -120,7 +120,9 @@ abstract class Switchboard
             return true;
         }
         if (strlen($slconfig->getCustomLogoBin()) > 50) {
-            if (file_put_contents("Images/logoCustom.png", $slconfig->getCustomLogoBin()) !== false) {
+            $img = str_replace('data:image/png;base64,', '', $slconfig->getCustomLogoBin());
+            $data = base64_decode($img);
+            if (file_put_contents("Images/logoCustom.png", $data) !== false) {
                 return true;
             }
         }
