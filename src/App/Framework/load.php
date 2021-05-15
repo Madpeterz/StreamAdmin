@@ -41,7 +41,8 @@ if (install_ok() == true) {
             if ($slconfig->loadID(1) == true) {
                 $session->loadFromSession();
             } else {
-                die("Unable to load system config [PANIC]<br/>" . $slconfig->getLastSql());
+                die("Unable to load system config [PANIC]<br/>DB: " . $sql->getDatabaseName() .
+                " if this is incorrect please check config file");
             }
             if ($slconfig != null) {
                 $catchereader = new Cache();
