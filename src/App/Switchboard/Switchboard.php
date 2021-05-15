@@ -97,9 +97,11 @@ abstract class Switchboard
             if ($this->targetEndpoint == "View") {
                 $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "");
                 global $slconfig;
-                if ($slconfig->getCustomLogo() == true) {
-                    if ($this->createCustomLogoFile() == true) {
-                        $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "Custom");
+                if ($slconfig != null) {
+                    if ($slconfig->getCustomLogo() == true) {
+                        if ($this->createCustomLogoFile() == true) {
+                            $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "Custom");
+                        }
                     }
                 }
             }
@@ -111,7 +113,9 @@ abstract class Switchboard
     protected function createCustomLogoFile(): bool
     {
         global $slconfig;
-        $slconfig = new Slconfig();
+        if ($slconfig == null) {
+            return false;
+        }
         if (file_exists("Images/logoCustom.png") == true) {
             return true;
         }
