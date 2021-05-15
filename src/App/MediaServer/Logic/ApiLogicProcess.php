@@ -105,11 +105,13 @@ class ApiLogicProcess
         if ($this->currentStep != "core_send_details") {
             $getName = "get" . ucfirst($this->currentStep);
             if ($this->api->$getName() == false) {
-                $this->whyFailed = "Api " . $this->api->getName() . " does not support: " . $getName;
+                // skipping (Not supported)
+                $this->nextStep();
                 return;
             }
             if ($this->server->$getName() == false) {
-                $this->whyFailed = "Server does not support: " . $getName;
+                // skipping (Disabled by user)
+                $this->nextStep();
                 return;
             }
         }
