@@ -87,10 +87,10 @@ class FinalsClient extends TestCase
         $bulkRemoveControl->process();
         $statuscheck = $bulkRemoveControl->getOutputObject();
         $this->assertSame(
-            "Bad reply: Api Azurecast does not support: getEventRecreateRevoke",
+            "Removed 2 rentals! and skipped 1",
             $statuscheck->getSwapTagString("message"),
             "incorrect reply"
         );
-        $this->assertSame(false,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 }

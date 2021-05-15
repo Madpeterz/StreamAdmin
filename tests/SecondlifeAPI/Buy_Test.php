@@ -60,7 +60,7 @@ class SecondlifeApiBuy extends TestCase
         $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
         $startRental->process();
-        $this->assertSame("ok",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
+        $this->assertSame("Details should be with you shortly",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$startRental->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $this->assertSame(0,$startRental->getOutputObject()->getSwapTagInt("owner_payment"),"incorrect owner payment");
         
