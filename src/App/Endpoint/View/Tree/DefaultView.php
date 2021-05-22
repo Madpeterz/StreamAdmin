@@ -8,7 +8,7 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        $table_head = ["ID","ID - Name"];
+        $table_head = ["ID","TreeID","Name"];
         $table_body = [];
         $treevender_set = new TreevenderSet();
         $treevender_set->loadAll();
@@ -17,7 +17,8 @@ class DefaultView extends View
             $treevender = $treevender_set->getObjectByID($treevender_id);
             $entry = [];
             $entry[] = $treevender->getId();
-            $entry[] = '' . $treevender->getId() . ' - <a href="[[url_base]]tree/manage/'
+            $entry[] = $treevender->getId();
+            $entry[] = '<a href="[[url_base]]tree/manage/'
             . $treevender->getId() . '">' . $treevender->getName() . '</a>';
             $table_body[] = $entry;
         }
