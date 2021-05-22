@@ -94,18 +94,18 @@ abstract class Switchboard
             $obj->getOutputObject()->setSwapTag("module", $this->module);
             $obj->getOutputObject()->setSwapTag("area", $this->area);
             $obj->getOutputObject()->setSwapTag("UsedPostSources", $usedPostSources);
-            if ($this->targetEndpoint == "View") {
-                $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "");
-                global $slconfig;
-                if ($slconfig != null) {
-                    if ($slconfig->getCustomLogo() == true) {
-                        if ($this->createCustomLogoFile() == true) {
-                            $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "Custom");
-                        }
+            $obj->process();
+        }
+        if ($this->targetEndpoint == "View") {
+            $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "");
+            global $slconfig;
+            if ($slconfig != null) {
+                if ($slconfig->getCustomLogo() == true) {
+                    if ($this->createCustomLogoFile() == true) {
+                        $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "Custom");
                     }
                 }
             }
-            $obj->process();
         }
         $obj->getoutput();
     }
