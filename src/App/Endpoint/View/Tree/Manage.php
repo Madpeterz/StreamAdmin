@@ -86,7 +86,7 @@ class Manage extends View
         }
         $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));
         $unUsed_index = [];
-        foreach ($package_set as $id => $name) {
+        foreach ($package_set->getAllIds() as $id) {
             if (in_array($id, $used_package_ids) == false) {
                 $unUsed_index[$id] = $improved_packageLinker[$id];
             }
