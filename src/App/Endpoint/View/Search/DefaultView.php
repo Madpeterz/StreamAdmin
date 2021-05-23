@@ -76,8 +76,8 @@ class DefaultView extends View
                 $entry[] = '<a class="sold" href="[[url_base]]client/manage/'
                 . $rental->getRentalUid() . '">Sold -> ' . $av_name . '</a>';
             }
+            $table_body[] = $entry;
         }
-        $table_body[] = $entry;
         $this->pages["Streams [" . $search_stream_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
@@ -204,7 +204,7 @@ class DefaultView extends View
     {
         $where_config = [
             "fields" => ["adminUsername","port","streamUid"],
-            "matches" => ["% LIKE %","LIKE","% LIKE %"],
+            "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
             "values" => [$search,$search,$search],
             "types" => ["s","i","s"],
             "join_with" => ["OR","OR"],
