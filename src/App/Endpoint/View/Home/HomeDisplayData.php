@@ -101,7 +101,7 @@ abstract class HomeDisplayData extends HomeLoadData
                     $issues++;
                     $color = "text-warning";
                 }
-                $entry[] = '<span class="' . $color . '">' . expiredAgo($object->getLastSeen(), true) . '</span>';
+                $entry[] = '<span class="' . $color . '">' . expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
                 $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
                 . implode("/", explode(",", $object->getObjectXYZ())) . "";
                 $tp_url = str_replace(' ', '%20', $tp_url);
@@ -140,7 +140,12 @@ abstract class HomeDisplayData extends HomeLoadData
         foreach ($this->server_set->getAllIds() as $server_id) {
             $server = $this->server_set->getObjectByID($server_id);
             $entry = [];
-            $servername = '<a href="[[url_base]]stream/onserver/' . $server->getId() . '"><h5>'
+            $apiType = $this->apis_set->getObjectByID($server->getApiLink());
+            $api_name = "";
+            if ($apiType->getId() != 1) {
+                $api_name = "{" . $apiType->getName() . "} ";
+            }
+            $servername = '<a href="[[url_base]]stream/onserver/' . $server->getId() . '"><h5>' . $api_name . ''
             . $server->getDomain() . '</h5></a>';
             $servername .= '<h6><span class="badge badge-success">Ready <span class="badge badge-light">'
             . $this->server_loads[$server->getId()]["ready"] . '</span></span> ';

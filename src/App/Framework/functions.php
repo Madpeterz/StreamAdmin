@@ -1,18 +1,22 @@
 <?php
 
-function expiredAgo($unixtime = 0, bool $use_secs = false): string
-{
+function expiredAgo(
+    $unixtime = 0,
+    bool $use_secs = false,
+    string $expiredWord = "Expired",
+    string $activeWord = "Active"
+): string {
     $dif = time() - $unixtime;
     if ($dif < 0) {
-        return "Active";
+        return $activeWord;
     }
-    return timeleftHoursAndDays(time() + $dif, $use_secs);
+    return timeleftHoursAndDays(time() + $dif, $use_secs, $expiredWord);
 }
-function timeleftHoursAndDays($unixtime = 0, bool $use_secs = false): string
+function timeleftHoursAndDays($unixtime = 0, bool $use_secs = false, string $expiredWord = "Expired"): string
 {
     $dif = $unixtime - time();
     if ($dif <= 0) {
-        return "Expired";
+        return $expiredWord;
     }
     $mins = floor(($dif / 60));
     $hours = floor(($mins / 60));

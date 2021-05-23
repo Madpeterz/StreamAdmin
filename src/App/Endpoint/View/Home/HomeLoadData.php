@@ -6,6 +6,7 @@ use App\R7\Set\NoticeSet;
 use App\R7\Set\ObjectsSet;
 use App\R7\Set\RegionSet;
 use App\R7\Model\Rental;
+use App\R7\Set\ApisSet;
 use App\R7\Set\ServerSet;
 use App\R7\Set\StreamSet;
 use App\Template\Grid;
@@ -18,6 +19,7 @@ abstract class HomeLoadData extends View
     protected RegionSet $region_set;
     protected ObjectsSet $objects_set;
     protected ServerSet $server_set;
+    protected ApisSet $apis_set;
     protected $server_loads = [];
     protected $owner_objects_list = [];
     protected Grid $main_grid;
@@ -70,6 +72,8 @@ abstract class HomeLoadData extends View
             $server = $this->server_set->getObjectByID($server_id);
             $this->server_loads[$server_id] = ["ready" => 0,"sold" => 0,"needWork" => 0];
         }
+        $this->apis_set = new ApisSet();
+        $this->apis_set->loadIds($this->server_set->getAllByField("ApiLink"));
     }
     protected function loadObjects(): void
     {
