@@ -34,7 +34,7 @@ abstract class RenderList extends View
 
             $name = $avatar->getAvatarName();
             if ($av_detail[1] == "Resident") {
-                $entry[] = $av_detail[0];
+                $name = $av_detail[0];
             }
             $entry[] = $name;
             $entry[] = $stream->getPort();
