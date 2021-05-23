@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
+use App\R7\Model\Botconfig;
 use App\R7\Set\AvatarSet;
 use App\R7\Set\MessageSet;
 
@@ -16,6 +17,8 @@ class Mail extends View
         $message_set->loadAll();
         $avatar_set = new AvatarSet();
         $avatar_set->loadIds($message_set->getAllByField("avatarLink"));
+        $botConfig = new Botconfig();
+        $botConfig->loadID(1);
         foreach ($message_set->getAllIds() as $message_id) {
             $message = $message_set->getObjectByID($message_id);
             $avatar = $avatar_set->getObjectByID($message->getAvatarLink());
@@ -23,7 +26,15 @@ class Mail extends View
             if (strlen($message_content) > 24) {
                 $message_content = substr($message_content, 0, 24) . " ...";
             }
-            $table_body[] = [$message->getId(),$avatar->getAvatarName(),$message_content];
+            $boticon = "";
+            if ($avatar->getId() == $botConfig->getAvatarLink()) {
+                $boticon = '<i class="fas fa-robot"></i> ';
+            }
+            $table_body[] = [
+                $message->getId(),
+                $boticon . $avatar->getAvatarName(),
+                $message_content,
+            ];
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }
