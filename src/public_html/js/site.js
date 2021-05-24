@@ -5,7 +5,7 @@ $(document).ready(function () {
     });
     $(".avatarfinderajax").submit(function (e) {
         e.preventDefault();
-        if (ajax_busy == false) {
+        if (ajax_busy === false) {
             ajax_busy = true;
             var form = $(this);
             var url = form.attr('action');
@@ -56,7 +56,7 @@ $(document).ready(function () {
             var url = form.attr('action');
             var method = form.attr('method');
             var timeout = 3000;
-            if ($(this).hasClass("slow") == true) {
+            if ($(this).hasClass("slow") === true) {
                 alert_info("Please wait this request can be slow");
                 timeout = 25000;
             }
@@ -71,7 +71,7 @@ $(document).ready(function () {
                         var redirectdelay = 1500;
                         if (jsondata.hasOwnProperty('status')) {
                             if (jsondata.hasOwnProperty('message')) {
-                                if (jsondata.status == true) {
+                                if (jsondata.status === true) {
                                     if (jsondata.message != "") alert_success(jsondata.message);
                                 }
                                 else {
@@ -80,12 +80,11 @@ $(document).ready(function () {
                                 }
                             }
                             if (jsondata.hasOwnProperty('redirect')) {
-                                if(jsondata.redirect != null)
-                                {
-                                	jsondata.redirect = jsondata.redirect.replace("here", "");
-                                	var urlgoto = url_base + jsondata.redirect;
-                                	setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
-				}
+                                if (jsondata.redirect != null) {
+                                    jsondata.redirect = jsondata.redirect.replace("here", "");
+                                    var urlgoto = url_base + jsondata.redirect;
+                                    setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
+                                }
                             }
                             else {
                                 setTimeout(function () { ajax_busy = false }, 1000);
@@ -163,7 +162,7 @@ function dynamic_ajax_load(jqueryobject) {
                     jsondata = JSON.parse(data);
                     var redirectdelay = 1500;
                     if (jsondata.hasOwnProperty('status')) {
-                        if (jsondata.hasOwnProperty('message') == true) {
+                        if (jsondata.hasOwnProperty('message') === true) {
                             jqueryobject.html(jsondata.message);
                         }
                         else {

@@ -24,7 +24,7 @@ function sync_api_flags(json) {
     $.each(flags, function (index, value) {
         if (json.hasOwnProperty(value)) {
             var newval = 0;
-            if (json[value] == true) newval = 1;
+            if (json[value] === true) newval = 1;
             $('select[name=\"' + value + '\"]').val(newval);
         }
     });
