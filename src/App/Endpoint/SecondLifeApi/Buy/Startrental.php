@@ -92,26 +92,21 @@ class Startrental extends SecondlifeAjax
         global $unixtime_hour;
         $input = new InputFilter();
         $package = null;
-        global $stream;
         $stream = null;
         $avatar = null;
         $hours_remain = 0;
         $amountpaid = 0;
         $use_notice_index = 0;
 
+        $avatar = $this->getAvatar($input->postFilter("avatarUUID"), $input->postFilter("avatarName"));
         $package = $this->getPackage($input->postFilter("packageuid"));
         if ($package == null) { // find package
             $this->setSwapTag("message", "Unable to find package");
             return;
-        }
-
-        $avatar = $this->getAvatar($input->postFilter("avatarUUID"), $input->postFilter("avatarName"));
-        if ($avatar == null) {
+        } elseif ($avatar == null) {
             $this->setSwapTag("message", "Unable to attach avatar");
             return;
-        }
-
-        if ($this->notBanned($avatar) == false) {
+        } elseif ($this->notBanned($avatar) == false) {
             $this->setSwapTag("message", "Unable to attach avatar");
             return;
         }
