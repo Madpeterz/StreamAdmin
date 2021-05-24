@@ -147,8 +147,8 @@ class ForcedActions extends TestCase
         $_POST["eventUpdateStream"] = 0;
         $serverCreateHandler->process();
         $statuscheck = $serverCreateHandler->getOutputObject();
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertStringContainsString("Server created",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
     public function test_ShowStreamsPackageSelect()
