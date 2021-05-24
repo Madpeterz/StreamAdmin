@@ -31,10 +31,10 @@ class Cleanup extends ViewAjax
         foreach ($files as $file) {
             if (is_dir("$dir/$file") == true) {
                 $this->delTree("$dir/$file");
-            } else {
-                unlink("$dir/$file");
-                $this->deleleted_entrys++;
+                continue;
             }
+            unlink("$dir/$file");
+            $this->deleleted_entrys++;
         }
         $this->deleleted_entrys++;
         return rmdir($dir);
