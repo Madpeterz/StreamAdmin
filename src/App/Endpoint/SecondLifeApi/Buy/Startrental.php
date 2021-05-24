@@ -74,6 +74,19 @@ class Startrental extends SecondlifeAjax
         return null;
     }
 
+    protected function getNoticeLevelIndex(array $sorted_linked, int $hours_remain): int
+    {
+        $use_notice_index = 0;
+        foreach ($sorted_linked as $hours => $index) {
+            if ($hours > $hours_remain) {
+                break;
+            } else {
+                $use_notice_index = $index;
+            }
+        }
+        return $use_notice_index;
+    }
+
     public function process(): void
     {
         global $unixtime_hour;
@@ -127,14 +140,7 @@ class Startrental extends SecondlifeAjax
         ksort($sorted_linked, SORT_NUMERIC);
         $multipler = $accepted_payment_amounts[$amountpaid];
         $hours_remain = ($package->getDays() * 24) * $multipler;
-        $use_notice_index = 0;
-        foreach ($sorted_linked as $hours => $index) {
-            if ($hours > $hours_remain) {
-                break;
-            } else {
-                $use_notice_index = $index;
-            }
-        }
+        $use_notice_index = $this->getNoticeLevelIndex($sorted_linked, $hours_remain);
         $unixtime = time() + ($hours_remain * $unixtime_hour);
 
         $rental = new Rental();

@@ -31,7 +31,6 @@ class Update extends ViewAjax
         $apiTemplate = $input->postFilter("apiTemplate");
         $servertypeLink = $input->postFilter("servertypeLink", "integer");
 
-        $failed_on = "";
         if (strlen($name) < 5) {
             $this->setSwapTag("message", "Name length must be 5 or longer");
             return;

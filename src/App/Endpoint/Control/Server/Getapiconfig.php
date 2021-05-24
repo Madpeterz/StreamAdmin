@@ -13,7 +13,6 @@ class Getapiconfig extends ViewAjax
         $input = new InputFilter();
         $apiLink = $input->postFilter("apiLink", "integer");
         $api = new Apis();
-        $status = false;
         if ($apiLink == 0) {
             $this->setSwapTag("message", "Invaild API selected");
             return;

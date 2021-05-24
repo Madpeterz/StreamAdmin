@@ -14,87 +14,111 @@ use YAPF\InputFilter\InputFilter;
 
 class Revoke extends ViewAjax
 {
+    protected InputFilter $input;
+    protected Rental $rental;
+    protected ApirequestsSet $api_requests;
+    protected Stream $stream;
+    protected Server $server;
+    protected Package $package;
+    protected Avatar $avatar;
+
     public function process(): void
     {
-        $input = new InputFilter();
-        $rental = new Rental();
-        $api_requests = new ApirequestsSet();
-        $stream = new Stream();
-        $server = new Server();
-        $package = new Package();
-        $avatar = new Avatar();
+        $this->input = new InputFilter();
+        $this->rental = new Rental();
+        $this->api_requests = new ApirequestsSet();
+        $this->stream = new Stream();
+        $this->server = new Server();
+        $this->package = new Package();
+        $this->avatar = new Avatar();
 
-        $accept = $input->postFilter("accept");
-        $status = false;
-        $redirect = "client/manage/" . $this->page . "";
+        $accept = $this->input->postFilter("accept");
         $this->setSwapTag("redirect", null);
         if ($accept != "Accept") {
             $this->setSwapTag("message", "Did not Accept");
             return;
         }
-
-        if ($rental->loadByField("rentalUid", $this->page) == false) {
-            $this->setSwapTag("message", "Unable to find client");
+        if ($this->load() == false) {
             return;
         }
+        if ($this->revoke() == false) {
+            return;
+        }
+        $this->processAPI();
+    }
 
-        if ($api_requests->loadByField("rentalLink", $rental->getId()) == false) {
+    protected function load(): bool
+    {
+        if ($this->rental->loadByField("rentalUid", $this->page) == false) {
+            $this->setSwapTag("message", "Unable to find client");
+            return false;
+        }
+
+        if ($this->api_requests->loadByField("rentalLink", $this->rental->getId()) == false) {
             $this->setSwapTag(
                 "message",
                 "Unable to check for pending api requests attached to the client"
             );
-            return;
+            return false;
         }
 
-        if ($api_requests->getCount() > 0) {
+        if ($this->api_requests->getCount() > 0) {
             $this->setSwapTag(
                 "message",
-                sprintf("There are %1\$s pending api requests attached to the client", $api_requests->getCount())
+                sprintf("There are %1\$s pending api requests attached to the client", $this->api_requests->getCount())
             );
-            return;
+            return false;
         }
 
-        if ($stream->loadID($rental->getStreamLink()) == false) {
+        if ($this->stream->loadID($this->rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to find attached stream");
-            return;
+            return false;
         }
 
-        if ($server->loadID($stream->getServerLink()) == false) {
+        if ($this->server->loadID($this->stream->getServerLink()) == false) {
             $this->setSwapTag("message", "Unable to load server");
-            return;
+            return false;
         }
 
-        $stream->setRentalLink(null);
-        $stream->setNeedWork(1);
-        $update_status = $stream->updateEntry();
+        if ($this->package->loadID($this->rental->getPackageLink()) == false) {
+            $this->setSwapTag("message", "Unable to load package");
+            return false;
+        }
+        if ($this->avatar->loadID($this->rental->getAvatarLink()) == false) {
+            $this->setSwapTag("message", "Unable to load avatar");
+            return false;
+        }
+        return true;
+    }
+
+    protected function revoke(): bool
+    {
+        $this->stream->setRentalLink(null);
+        $this->stream->setNeedWork(1);
+        $update_status = $this->stream->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag("message", "Unable to mark stream as needs work");
-            return;
+            return false;
         }
 
-        if ($package->loadID($rental->getPackageLink()) == false) {
-            $this->setSwapTag("message", "Unable to load package");
-            return;
-        }
-        if ($avatar->loadID($rental->getAvatarLink()) == false) {
-            $this->setSwapTag("message", "Unable to load avatar");
-            return;
-        }
-
-        $remove_status = $rental->removeEntry();
+        $remove_status = $this->rental->removeEntry();
         $all_ok = $remove_status["status"];
         if ($remove_status["status"] == false) {
             $this->setSwapTag(
                 "message",
                 sprintf("Unable to remove client: %1\$s", $remove_status["message"])
             );
-            return;
+            return false;
         }
+        return true;
+    }
 
+    protected function processAPI(): void
+    {
         $api_serverlogic_reply = true;
         $apilogic = new ApiLogicRevoke();
-        $apilogic->setStream($stream);
-        $apilogic->setServer($server);
+        $apilogic->setStream($this->stream);
+        $apilogic->setServer($this->server);
         $reply = $apilogic->createNextApiRequest();
         if ($reply["status"] == false) {
             $this->setSwapTag("message", $reply["message"]);
