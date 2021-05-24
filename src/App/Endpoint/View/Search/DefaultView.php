@@ -12,8 +12,8 @@ use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View
 {
-    protected Array $pages = [];
-    protected Array $seenAvatarIds = [];
+    protected array $pages = [];
+    protected array $seenAvatarIds = [];
     public function process(): void
     {
         $input = new InputFilter();
