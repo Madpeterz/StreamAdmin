@@ -28,6 +28,7 @@ class ServerLoad extends ViewAjax
         $this->setSwapTag("message", "");
         if ($apireply["status"] == false) {
             $this->output->addSwapTagString("message", "<span class=\"text-danger\">Offline</span>");
+            $this->output->addSwapTagString("json", json_encode($apireply));
             return;
         }
         $this->setSwapTag("message", "");
