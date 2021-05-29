@@ -63,7 +63,7 @@ class DbObjectsSupportTest extends TestCase
     {
         $testing = new Counttoonehundo();
         $result = $testing->setup(["fake" => true]);
-        $this->assertSame($result, false);
+        $this->assertSame($result, true); // invaild fields are ignored
     }
     public function testSetTable()
     {

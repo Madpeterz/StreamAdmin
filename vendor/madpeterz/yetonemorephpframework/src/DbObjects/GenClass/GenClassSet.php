@@ -36,18 +36,17 @@ abstract class GenClassSet extends GenClassGet
      * Fills in the dataset with a key => value array
      * used when first loading a object
      * returns true if there was no errors
+     * unknown keys are skipped
      */
     public function setup(array $keyvalues): bool
     {
         $hasErrors = false;
         $saveDataset = $this->dataset;
         foreach ($keyvalues as $key => $value) {
-            if (array_key_exists($key, $this->dataset) == true) {
-                $this->dataset[$key]["value"] = $value;
-            } else {
-                $hasErrors = true;
-                break;
+            if (array_key_exists($key, $this->dataset) == false) {
+                continue;
             }
+            $this->dataset[$key]["value"] = $value;
         }
         if ($hasErrors == true) {
             $this->dataset = $saveDataset;

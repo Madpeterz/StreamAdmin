@@ -23,8 +23,6 @@ class Servers extends View
             );
             return;
         }
-
-
         $r4_items = new ItemsSet();
         $r4_items->reconnectSql($this->oldSqlDB);
         $r4_items->loadAll();

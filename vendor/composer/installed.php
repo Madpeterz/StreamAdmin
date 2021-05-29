@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => '1.0.0+no-version-set',
+    'version' => '1.0.0.0',
     'aliases' => 
     array (
     ),
-    'reference' => 'ac74634b79dbbe7b86ad87b5ebe4dad3328ead3b',
+    'reference' => NULL,
     'name' => 'madpeterz/streamadmin',
   ),
   'versions' => 
@@ -40,21 +40,21 @@
     ),
     'madpeterz/streamadmin' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => '1.0.0+no-version-set',
+      'version' => '1.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'ac74634b79dbbe7b86ad87b5ebe4dad3328ead3b',
+      'reference' => NULL,
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => '1.2.1',
-      'version' => '1.2.1.0',
+      'pretty_version' => '1.2.2',
+      'version' => '1.2.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a1a0d3f5c029c062a4eec224785b4052c7931018',
+      'reference' => 'e1f7026e3b79605f976ef7c02e961a755881263c',
     ),
     'psr/http-client' => 
     array (
