@@ -9,12 +9,21 @@ class Servers extends View
 {
     public function process(): void
     {
+        if ($this->attemptedRead == false) {
+            $this->output->addSwapTagString(
+                "page_content",
+                " -  Config not loaded"
+            );
+            return;
+        }
         if ($this->sqlReady == false) {
             $this->output->addSwapTagString(
                 "page_content",
                 "SQL config error: " . $this->sql->getLastError()
             );
+            return;
         }
+
 
         $r4_items = new ItemsSet();
         $r4_items->reconnectSql($this->oldSqlDB);
