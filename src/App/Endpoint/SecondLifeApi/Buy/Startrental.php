@@ -145,7 +145,6 @@ class Startrental extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to create rental uid");
             return;
         }
-
         $rental->setRentalUid($uid_rental["uid"]);
         $rental->setAvatarLink($avatar->getId());
         $rental->setPackageLink($stream->getPackageLink());

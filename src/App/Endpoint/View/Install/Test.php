@@ -49,16 +49,16 @@ class Test extends View
             </div><br/>
         <a href=""><button class="btn btn-success btn-block" type="button">Back</button></a>
         ');
-        } else {
-            $this->output->addSwapTagString("page_content", '
+            return;
+        }
+        $this->output->addSwapTagString("page_content", '
             <div class="alert alert-warning" role="alert">Docker ENV config invaild
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
             </div><br/>
-        Your installer has failed - Please contact support
-        ');
-        }
+            Your installer has failed - Please contact support
+            ');
     }
     protected function noConfig(): void
     {

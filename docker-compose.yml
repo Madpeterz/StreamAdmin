@@ -6,7 +6,7 @@ services:
     app:
         container_name: SA7Website
         restart: always
-        image: madpeter/streamadmin_r7:azurecastdev
+        image: madpeter/streamadmin_r7:latest
         networks:
         - streamadmin
         ports:

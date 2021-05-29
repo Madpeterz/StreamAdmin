@@ -93,12 +93,12 @@ class BreakdownMonth extends View
                 $month_datasets[$month_id]["amount_renew"] += $transaction->getAmount();
                 $renewed_rentals++;
                 $amount_renew += $transaction->getAmount();
-            } else {
-                $month_datasets[$month_id]["new"] += 1;
-                $month_datasets[$month_id]["amount_new"] += $transaction->getAmount();
-                $new_rentals++;
-                $amount_new += $transaction->getAmount();
+                continue;
             }
+            $month_datasets[$month_id]["new"] += 1;
+            $month_datasets[$month_id]["amount_new"] += $transaction->getAmount();
+            $new_rentals++;
+            $amount_new += $transaction->getAmount();
         }
 
 

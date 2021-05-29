@@ -232,9 +232,7 @@ class Next extends SecondlifeAjax
         if ($notice->getNoticeNotecardLink() <= 1) {
             return;
         }
-
         $notice_notecard = new Noticenotecard();
-
         if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
             $this->setSwapTag("message", "Unable to find static notecard!");
             return;

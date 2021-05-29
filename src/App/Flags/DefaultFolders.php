@@ -2,5 +2,5 @@
 
 namespace App;
 
-define("ROOTFOLDER", "..");
-define("DEEPFOLDERPATH", "../..");
+define("ROOTFOLDER", "../");
+define("DEEPFOLDERPATH", "../../");
