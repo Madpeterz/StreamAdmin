@@ -9,6 +9,8 @@ abstract class View extends TemplateView
 {
     protected ?MysqliEnabled $oldSqlDB = null;
     protected ?MysqliEnabled $realSqlDB = null;
+    protected $sqlReady = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -20,7 +22,13 @@ abstract class View extends TemplateView
             global $sql;
             $this->realSqlDB = $sql;
             $this->oldSqlDB = new MysqliEnabled();
-            $this->oldSqlDB->sqlStartConnection($r4_db_username, $r4_db_pass, $r4_db_name, false, $r4_db_host);
+            $sqlReady = $this->oldSqlDB->sqlStartConnection(
+                $r4_db_username,
+                $r4_db_pass,
+                $r4_db_name,
+                false,
+                $r4_db_host
+            );
         }
     }
 }

@@ -15,10 +15,23 @@ class Setup extends View
         $form->required(true);
         $form->col(6);
         $form->group("DB");
-        $form->textInput("db_host", "Host", 999, "localhost", "Host");
-        $form->textInput("db_name", "Name", 999, "streamadminr4database", "Database name");
-        $form->textInput("db_username", "Username", 999, "dbusername", "Database username");
-        $form->textInput("db_pass", "Password", 999, "dbpass", "Database password");
+
+        $useDB = "";
+        $useUsername = "";
+        $usePass = "";
+        $useHost = "";
+
+        if (file_exists("" . ROOTFOLDER . "/App/Config/r4.php") == true) {
+            include "" . ROOTFOLDER . "/App/Config/r4.php";
+            $useHost = $r4_db_host;
+            $useUsername = $r4_db_username;
+            $usePass = $r4_db_pass;
+            $useDB = $r4_db_name;
+        }
+        $form->textInput("db_host", "Host", 999, $useHost, "Host");
+        $form->textInput("db_name", "Name", 999, $useDB, "Database name");
+        $form->textInput("db_username", "Username", 999, $useUsername, "Database username");
+        $form->textInput("db_pass", "Password", 999, $usePass, "Database password");
         $this->output->addSwapTagString("page_content", $form->render("Setup", "primary"));
     }
 }
