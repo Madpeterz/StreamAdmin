@@ -9,7 +9,7 @@ WORKDIR /srv/app
 
 RUN apt-get update \
     && apt-get install -qq -y curl \
-    && apt-get install -qq -y php7.4-curl \
+    && apt-get install -qq -y php-curl \
     && docker-php-ext-install calendar curl mysqli \
     && chown -R www-data:www-data /srv/website \
     && a2enmod rewrite
