@@ -2,18 +2,28 @@
 
 namespace App\Endpoint\View\Client;
 
+use App\R7\Set\NoticeSet;
+
 class Soon extends Withstatus
 {
     public function process(): void
     {
-        global $unixtime_day;
-        $this->whereconfig = [
-        "fields" => ["expireUnixtime","expireUnixtime"],
-        "values" => [time() + $unixtime_day,time()],
-        "types" => ["i","i"],
-        "matches" => ["<=",">"],
+        $noticeSet = new NoticeSet();
+        $whereConfig = [
+            "fields" => ["hoursRemaining","hoursRemaining"],
+            "values" => [24,0],
+            "types" => ["i","i"],
+            "matches" => ["<=",">"],
         ];
-        $this->output->addSwapTagString("page_title", "With status: Soon");
+        $noticeSet->loadWithConfig($whereConfig);
+
+        $this->whereconfig = [
+            "fields" => ["noticeLink"],
+            "values" => [$noticeSet->getAllIds()],
+            "types" => ["i"],
+            "matches" => ["IN"],
+        ];
+        $this->output->addSwapTagString("page_title", "With notice status: Soon");
         parent::process();
     }
 }

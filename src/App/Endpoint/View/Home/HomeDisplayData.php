@@ -10,6 +10,7 @@ abstract class HomeDisplayData extends HomeLoadData
     protected Grid $sub_grid_clients;
     protected Grid $sub_grid_servers;
     protected Grid $sub_grid_objects;
+    protected Grid $sub_grid_Health;
     protected function displayDatasets(): void
     {
         $this->displayStreams();
@@ -41,6 +42,7 @@ abstract class HomeDisplayData extends HomeLoadData
         $this->main_grid->closeRow();
         $this->main_grid->addContent($this->sub_grid_streams->getOutput(), 6);
         $this->main_grid->addContent($this->sub_grid_clients->getOutput(), 6);
+        $this->main_grid->closeRow();
         $this->main_grid->addContent("<br/>", 12);
         $this->main_grid->closeRow();
         $this->main_grid->addContent($this->sub_grid_servers->getOutput(), 6);
@@ -72,6 +74,28 @@ abstract class HomeDisplayData extends HomeLoadData
         $table_head = ["Object type","Last connected","Region"];
         $table_body = [];
         $issues = 0;
+
+        $total = $this->venderHealthGood + $this->venderHealthBad;
+        $pcent = ($total / 100) * $this->venderHealthGood;
+        $statusreport = "success";
+        if ($pcent < 75) {
+            $statusreport = "warning";
+            $issues += 1;
+        }
+        if ($pcent < 50) {
+            $statusreport = "danger";
+            $issues += 5;
+        }
+        $entry = [];
+        $entry[] = "<a href=\"[[url_base]]health\">Vender status</a>";
+        $entry[] = "<span class=\"text-" . $statusreport . "\">
+        <i class=\"fas fa-heartbeat\"></i> " . $pcent . "%</span>";
+        $entry[] = "";
+        $table_body[] = $entry;
+
+
+
+
         foreach ($this->objects_set->getAllIds() as $object_id) {
             $object = $this->objects_set->getObjectByID($object_id);
             $region = $this->region_set->getObjectByID($object->getRegionLink());
@@ -90,8 +114,12 @@ abstract class HomeDisplayData extends HomeLoadData
                 $seen_objects[] = $object->getObjectMode();
             }
             if ($hide_output == false) {
+                $name = $object->getObjectMode();
+                $name = strtolower($name);
+                $name = str_replace("server", " ", $name);
+                $name = ucfirst($name);
                 $entry[] = '<span class="' . $color . '">'
-                . str_replace("server", "", $object->getObjectMode()) . '</span>';
+                . $name . '</span>';
                 $color = "text-success";
 
                 if ($dif > 240) {
@@ -101,7 +129,8 @@ abstract class HomeDisplayData extends HomeLoadData
                     $issues++;
                     $color = "text-warning";
                 }
-                $entry[] = '<span class="' . $color . '">' . expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
+                $entry[] = '<span class="' . $color . '">'
+                . expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
                 $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
                 . implode("/", explode(",", $object->getObjectXYZ())) . "";
                 $tp_url = str_replace(' ', '%20', $tp_url);
@@ -114,12 +143,17 @@ abstract class HomeDisplayData extends HomeLoadData
             if (in_array($objecttype, $seen_objects) == false) {
                 $issues += 5;
                 $entry = [];
+                $objecttype = strtolower($objecttype);
+                $objecttype = str_replace("server", " ", $objecttype);
+                $objecttype = ucfirst($objecttype);
                 $entry[] = $objecttype;
                 $entry[] = "<span class=\"text-warning\">Not connected in the last hour!</span>";
                 $entry[] = "/";
                 $table_body[] = $entry;
             }
         }
+
+
         $this->sub_grid_objects = new Grid();
         $issues_badge = "";
         if ($issues == 0) {
@@ -129,7 +163,7 @@ abstract class HomeDisplayData extends HomeLoadData
         } else {
             $issues_badge = '<span class="badge badge-warning"><i class="far fa-caret-square-right"></i></span>';
         }
-        $this->sub_grid_objects->addContent('<h4>SL health ' . $issues_badge . '</h4>', 12);
+        $this->sub_grid_objects->addContent('<h4>System health ' . $issues_badge . '</h4>', 12);
         $this->sub_grid_objects->addContent($this->renderTable($table_head, $table_body, "", false), 12);
     }
 

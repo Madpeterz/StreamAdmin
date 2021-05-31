@@ -7,6 +7,7 @@ use App\R7\Set\ObjectsSet;
 use App\R7\Set\RegionSet;
 use App\R7\Model\Rental;
 use App\R7\Set\ApisSet;
+use App\R7\Set\ResellerSet;
 use App\R7\Set\ServerSet;
 use App\R7\Set\StreamSet;
 use App\Template\Grid;
@@ -28,6 +29,9 @@ abstract class HomeLoadData extends View
     protected $stream_total_needWork = 0;
     protected StreamSet $stream_set;
 
+    protected $venderHealthGood = 0;
+    protected $venderHealthBad = 0;
+
     protected function loadDatasets(): void
     {
         $this->loadServers();
@@ -35,6 +39,37 @@ abstract class HomeLoadData extends View
         $this->loadObjects();
         $this->loadNotices();
         $this->loadStreamStatus();
+        $this->loadVenderHealth();
+    }
+
+    protected function loadVenderHealth(): void
+    {
+        $this->owner_objects_list = [
+            "apirequests",
+            "mailserver",
+            "noticeserver",
+            "detailsserver",
+            "notecardsserver",
+        ];
+        $resellers = new ResellerSet();
+        $resellers->loadAll();
+        $venderHealth = new ObjectsSet();
+        $whereConfig = [
+            "fields" => ["avatarLink","objectMode"],
+            "matches" => ["IN","NOT IN"],
+            "values" => [$resellers->getUniqueArray("avatarLink"),$this->owner_objects_list],
+            "types" => ["i","s"],
+        ];
+        $venderHealth->loadWithConfig($whereConfig);
+        $goodMinTime = time() - 120;
+        foreach ($venderHealth->getAllIds() as $objectid) {
+            $object = $venderHealth->getObjectByID($objectid);
+            if ($object->getLastSeen() >= $goodMinTime) {
+                $this->venderHealthGood++;
+                continue;
+            }
+            $this->venderHealthBad++;
+        }
     }
 
     protected function loadServers(): void
@@ -110,16 +145,19 @@ abstract class HomeLoadData extends View
         $group_count = $this->sql->groupCountV2($rental->getTable(), "noticeLink");
         if ($group_count["status"] == true) {
             foreach ($group_count["dataset"] as $entry) {
-                if ($entry["Entrys"] > 0) {
-                    $notice = $notice_set->getObjectByID($entry["noticeLink"]);
-                    if ($notice->getHoursRemaining() <= 0) {
-                        $this->client_expired += $entry["Entrys"];
-                    } elseif ($notice->getHoursRemaining() > 24) {
-                        $this->client_ok += $entry["Entrys"];
-                    } else {
-                        $this->client_expires_soon += $entry["Entrys"];
-                    }
+                if ($entry["Entrys"] <= 0) {
+                    continue;
                 }
+                $notice = $notice_set->getObjectByID($entry["noticeLink"]);
+                if ($notice->getHoursRemaining() <= 0) {
+                    $this->client_expired += $entry["Entrys"];
+                    continue;
+                }
+                if ($notice->getHoursRemaining() < 24) {
+                    $this->client_expires_soon += $entry["Entrys"];
+                    continue;
+                }
+                $this->client_ok += $entry["Entrys"];
             }
         }
     }
