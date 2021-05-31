@@ -3,6 +3,7 @@
 namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
 use App\R7\Model\Noticenotecard;
+use App\R7\Set\NotecardmailSet;
 use App\R7\Set\NoticenotecardSet;
 use App\R7\Set\NoticeSet;
 use App\Template\SecondlifeAjax;
@@ -113,15 +114,18 @@ class UpdateNotecards extends SecondlifeAjax
      */
     protected function purgeMissingUnused(): array
     {
+        $noticenotecardset = new NotecardmailSet();
+        $noticenotecardset->loadAll();
+
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $used_notecard_ids = $notice_set->getUniqueArray("noticeNotecardLink");
 
         $where_config = [
-            "fields" => ["id","missing"],
-            "values" => [1,1],
-            "types" => ["i","i"],
-            "matches" => ["!=","="],
+            "fields" => ["id","missing","id"],
+            "values" => [1,1,$noticenotecardset->getUniqueArray("noticenotecardLink")],
+            "types" => ["i","i","i"],
+            "matches" => ["!=","=","NOT IN"],
         ];
         $noticenotecardset = new NoticenotecardSet();
         if ($noticenotecardset->loadWithConfig($where_config) == false) {
