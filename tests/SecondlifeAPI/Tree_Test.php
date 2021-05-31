@@ -27,6 +27,8 @@ class SecondlifeApiTree extends TestCase
         $_POST["autodjSize"] = 0;
         $_POST["apiTemplate"] = "None";
         $_POST["servertypeLink"] = 1;
+        $_POST["welcomeNotecardLink"] = 1;
+        $_POST["setupNotecardLink"] = 1;
         $PackageCreateHandler->process();
         $statuscheck = $PackageCreateHandler->getOutputObject();
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
