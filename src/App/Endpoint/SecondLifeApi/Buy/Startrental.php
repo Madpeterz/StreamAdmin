@@ -95,7 +95,7 @@ class Startrental extends SecondlifeAjax
         if ($staticNotecardid <= 1) {
             return;
         }
-        if ($avatar->getId() <= 1) {
+        if ($avatar->getId() < 1) {
             return;
         }
         $noticeNotecard = new Noticenotecard();
