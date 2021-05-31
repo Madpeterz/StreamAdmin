@@ -2,9 +2,11 @@
 
 namespace App\Endpoint\Control\Package;
 
+use App\MediaServer\Abstracts\ApiProtected;
 use App\R7\Model\Package;
 use App\R7\Model\Servertypes;
 use App\R7\Model\Template;
+use App\R7\Set\NoticenotecardSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -29,6 +31,10 @@ class Update extends ViewAjax
     protected ?int $autodjSize;
     protected ?string $apiTemplate;
     protected ?int $servertypeLink;
+    protected ?int $welcomeNotecardLink;
+    protected ?int $setupNotecardLink;
+
+    protected array $noticeNotecardIds;
 
     public function process(): void
     {
@@ -48,6 +54,10 @@ class Update extends ViewAjax
 
     protected function setup(): void
     {
+        $noticeNotecards = new NoticenotecardSet();
+        $noticeNotecards->loadAll();
+        $this->noticeNotecardIds = $noticeNotecards->getAllIds();
+
         $this->template = new Template();
         $this->servertype = new Servertypes();
         $this->input = new InputFilter();
@@ -69,10 +79,20 @@ class Update extends ViewAjax
         $this->autodjSize = $this->input->postFilter("autodjSize", "integer");
         $this->apiTemplate = $this->input->postFilter("apiTemplate");
         $this->servertypeLink = $this->input->postFilter("servertypeLink", "integer");
+        $this->welcomeNotecardLink = $this->input->postFilter("welcomeNotecardLink", "integer");
+        $this->setupNotecardLink = $this->input->postFilter("setupNotecardLink", "integer");
     }
 
     protected function tests(): bool
     {
+        if (in_array($this->welcomeNotecardLink, $this->noticeNotecardIds) == false) {
+            $this->setSwapTag("message", "Welcome notecard not selected");
+            return false;
+        }
+        if (in_array($this->setupNotecardLink, $this->noticeNotecardIds) == false) {
+            $this->setSwapTag("message", "Setup notecard not selected");
+            return false;
+        }
         if (strlen($this->name) < 5) {
             $this->setSwapTag("message", "Name length must be 5 or longer");
             return false;
@@ -155,6 +175,8 @@ class Update extends ViewAjax
         $this->package->setTextureInstockSelected($this->textureInstockSelected);
         $this->package->setApiTemplate($this->apiTemplate);
         $this->package->setServertypeLink($this->servertypeLink);
+        $this->package->setWelcomeNotecardLink($this->welcomeNotecardLink);
+        $this->package->setSetupNotecardLink($this->setupNotecardLink);
     }
 
     protected function savePackage(): bool
