@@ -153,15 +153,15 @@ class UpdateNotecards extends SecondlifeAjax
     {
         $input = new InputFilter();
         $notecards = $input->postFilter("notecards");
-        $notecards = explode(",", $notecards);
-        if ($this->markFound($notecards) == false) {
+        $notecardsList = explode(",", $notecards);
+        if ($this->markFound($notecardsList) == false) {
             return;
         }
         $purged = $this->purgeMissingUnused();
-        if ($this->markMissing($notecards) == false) {
+        if ($this->markMissing($notecardsList) == false) {
             return;
         }
-        if ($this->addNew($notecards) == false) {
+        if ($this->addNew($notecardsList) == false) {
             return;
         }
         if ($purged["status"] == true) {
