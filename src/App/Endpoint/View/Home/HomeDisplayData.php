@@ -76,7 +76,11 @@ abstract class HomeDisplayData extends HomeLoadData
         $issues = 0;
 
         $total = $this->venderHealthGood + $this->venderHealthBad;
-        $pcent = ($total / 100) * $this->venderHealthGood;
+        $pcent = 0;
+        if ($this->venderHealthGood > 0) {
+            $pcent = ($total / $this->venderHealthGood) * 100;
+        }
+
         $statusreport = "success";
         if ($pcent < 75) {
             $statusreport = "warning";

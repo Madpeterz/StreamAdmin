@@ -16,6 +16,9 @@ class Detailed extends View
             $this->setSwapTag("page_content", "Unknown region please go back and select a option");
             return;
         }
+        $this->setSwapTag("html_title", "Health / Detailed");
+        $this->setSwapTag("page_title", "<i class=\"fas fa-heartbeat\"></i> Health / Detailed / Region: "
+        . $region->getName());
 
         $this->owner_objects_list = [
             "apirequests",
