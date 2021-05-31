@@ -9,10 +9,13 @@ use App\MediaServer\Logic\ApiLogicBuy;
 use App\R7\Set\ApirequestsSet;
 use App\R7\Model\Avatar;
 use App\R7\Model\Banlist;
+use App\R7\Model\Notecardmail as ModelNotecardmail;
+use App\R7\Model\Noticenotecard;
 use App\R7\Set\NoticeSet;
 use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Model\Stream;
+use App\R7\Set\RentalSet;
 use App\R7\Set\StreamSet;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
@@ -87,6 +90,27 @@ class Startrental extends SecondlifeAjax
         return $use_notice_index;
     }
 
+    protected function sendStaticNotecard(int $staticNotecardid, Avatar $avatar): void
+    {
+        if ($staticNotecardid <= 1) {
+            return;
+        }
+        if ($avatar->getId() <= 1) {
+            return;
+        }
+        $noticeNotecard = new Noticenotecard();
+        if ($noticeNotecard->loadID($staticNotecardid) == false) {
+            return;
+        }
+        if ($noticeNotecard->getMissing() == true) {
+            return;
+        }
+        $notecardmail = new ModelNotecardmail();
+        $notecardmail->setAvatarLink($avatar->getId());
+        $notecardmail->setNoticenotecardLink($noticeNotecard->getId());
+        $notecardmail->createEntry();
+    }
+
     public function process(): void
     {
         global $unixtime_hour;
@@ -100,7 +124,7 @@ class Startrental extends SecondlifeAjax
 
         $avatar = $this->getAvatar($input->postFilter("avatarUUID"), $input->postFilter("avatarName"));
         $package = $this->getPackage($input->postFilter("packageuid"));
-        if ($package == null) { // find package
+        if ($package == null) {
             $this->setSwapTag("message", "Unable to find package");
             return;
         } elseif ($avatar == null) {
@@ -138,6 +162,10 @@ class Startrental extends SecondlifeAjax
         $use_notice_index = $this->getNoticeLevelIndex($sorted_linked, $hours_remain);
         $unixtime = time() + ($hours_remain * $unixtime_hour);
 
+        $rentals = new RentalSet();
+        $rentals->loadByField("avatarLink", $avatar->getId());
+
+
         $rental = new Rental();
         $uid_rental = $rental->createUID("rentalUid", 8, 10);
         $status = $uid_rental["status"];
@@ -165,6 +193,13 @@ class Startrental extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to update rental link for stream");
             return;
         }
+
+        $this->sendStaticNotecard($package->getSetupNotecardLink(), $avatar);
+
+        if ($rentals->getCount() == 0) {
+            $this->sendStaticNotecard($package->getWelcomeNotecardLink(), $avatar);
+        }
+
 
         $TransactionsHelper = new TransactionsHelper();
 
