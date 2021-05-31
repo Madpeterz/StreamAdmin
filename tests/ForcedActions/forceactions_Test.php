@@ -32,7 +32,7 @@ class ForcedActions extends TestCase
         $dashboard->process();
         $statuscheck = $dashboard->getOutputObject()->getSwapTagString("page_content");
         $missing_dashboard = "Missing dashboard element";
-        $this->assertStringContainsString("SL health",$statuscheck,$missing_dashboard);
+        $this->assertStringContainsString("System health",$statuscheck,$missing_dashboard);
         $this->assertStringContainsString("servers",$statuscheck,$missing_dashboard);
         $this->assertStringContainsString("Clients",$statuscheck,$missing_dashboard);
         $this->assertStringContainsString("Streams",$statuscheck,$missing_dashboard);
