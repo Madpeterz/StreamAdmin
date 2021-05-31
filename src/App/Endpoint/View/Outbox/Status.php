@@ -2,6 +2,8 @@
 
 namespace App\Endpoint\View\Outbox;
 
+use App\R7\Set\NotecardmailSet;
+
 class Status extends View
 {
     public function process(): void
@@ -9,10 +11,11 @@ class Status extends View
         global $pages;
         $this->output->addSwapTagString("page_title", " Status");
         $services = [
-        "notecard" => ["timeper" => 30,"classname" => "App\R7\Set\NotecardSet"],
-        "details" => ["timeper" => 15,"classname" => "App\R7\Set\DetailSet"],
-        "mail" => ["timeper" => 15,"classname" => "App\R7\Set\MessageSet"],
-        "api" => ["timeper" => 10,"classname" => "App\R7\Set\ApirequestsSet"],
+        "Notecard" => ["timeper" => 20,"classname" => "App\R7\Set\NotecardSet"],
+        "Docs" => ["timeper" => 20,"classname" => "App\R7\Set\NotecardmailSet"],
+        "Details" => ["timeper" => 15,"classname" => "App\R7\Set\DetailSet"],
+        "Mail" => ["timeper" => 15,"classname" => "App\R7\Set\MessageSet"],
+        "Api" => ["timeper" => 10,"classname" => "App\R7\Set\ApirequestsSet"],
         ];
         $table_head = ["Outbox name","Pending","TTC"];
         $table_body = [];
