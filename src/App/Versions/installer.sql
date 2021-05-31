@@ -1,6 +1,5 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
-DROP TABLE IF EXISTS `apirequests`;
 CREATE TABLE `apirequests` (
   `id` int(11) NOT NULL,
   `serverLink` int(11) NOT NULL,
@@ -12,7 +11,6 @@ CREATE TABLE `apirequests` (
   `message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `apis`;
 CREATE TABLE `apis` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
@@ -37,13 +35,12 @@ CREATE TABLE `apis` (
 
 INSERT INTO `apis` (`id`, `name`, `apiServerStatus`, `apiSyncAccounts`, `optToggleStatus`, `optPasswordReset`, `optAutodjNext`, `optToggleAutodj`, `eventEnableStart`, `eventStartSyncUsername`, `eventEnableRenew`, `eventDisableExpire`, `eventDisableRevoke`, `eventRevokeResetUsername`, `eventResetPasswordRevoke`, `eventClearDjs`, `eventRecreateRevoke`, `eventCreateStream`, `eventUpdateStream`) VALUES
 (1, 'None', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(2, 'Centova3', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+(2, 'Centova3', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 (3, 'MediaCp', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (4, 'WhmSonic', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (5, 'Secondbot', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(6, 'Azurecast', 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1);
+(6, 'Azurecast', 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0);
 
-DROP TABLE IF EXISTS `avatar`;
 CREATE TABLE `avatar` (
   `id` int(11) NOT NULL,
   `avatarUUID` varchar(36) NOT NULL,
@@ -54,13 +51,11 @@ CREATE TABLE `avatar` (
 INSERT INTO `avatar` (`id`, `avatarUUID`, `avatarName`, `avatarUid`) VALUES
 (1, 'system', 'Madpeter Zond', 'system');
 
-DROP TABLE IF EXISTS `banlist`;
 CREATE TABLE `banlist` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `botconfig`;
 CREATE TABLE `botconfig` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -72,29 +67,11 @@ CREATE TABLE `botconfig` (
 INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`) VALUES
 (1, 1, 'notsetup', 0, 0);
 
-DROP TABLE IF EXISTS `detail`;
 CREATE TABLE `detail` (
   `id` int(11) NOT NULL,
   `rentalLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `event`;
-CREATE TABLE `event` (
-  `id` int(11) NOT NULL,
-  `avatarUUID` varchar(36) NOT NULL,
-  `avatarName` text NOT NULL,
-  `rentalUid` varchar(8) NOT NULL,
-  `packageUid` varchar(8) NOT NULL,
-  `eventNew` tinyint(1) NOT NULL DEFAULT 0,
-  `eventRenew` tinyint(1) NOT NULL DEFAULT 0,
-  `eventExpire` tinyint(1) NOT NULL DEFAULT 0,
-  `eventRemove` tinyint(1) NOT NULL DEFAULT 0,
-  `unixtime` int(11) NOT NULL,
-  `expireUnixtime` int(11) NOT NULL,
-  `port` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -104,7 +81,6 @@ CREATE TABLE `message` (
 INSERT INTO `message` (`id`, `avatarLink`, `message`) VALUES
 (1, 1, 'Web panel setup finished please reset your password');
 
-DROP TABLE IF EXISTS `notecard`;
 CREATE TABLE `notecard` (
   `id` int(11) NOT NULL,
   `rentalLink` int(11) NOT NULL,
@@ -112,7 +88,6 @@ CREATE TABLE `notecard` (
   `noticeLink` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -133,7 +108,6 @@ INSERT INTO `notice` (`id`, `name`, `imMessage`, `useBot`, `sendNotecard`, `note
 (6, 'Expired', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]]  has now expired please renew asap or risk losing the assigned port.', 1, 0, '', 0, 1),
 (10, 'Active', '', 0, 0, '', 999, 1);
 
-DROP TABLE IF EXISTS `noticenotecard`;
 CREATE TABLE `noticenotecard` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -143,7 +117,6 @@ CREATE TABLE `noticenotecard` (
 INSERT INTO `noticenotecard` (`id`, `name`, `missing`) VALUES
 (1, 'none', 0);
 
-DROP TABLE IF EXISTS `objects`;
 CREATE TABLE `objects` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -155,7 +128,6 @@ CREATE TABLE `objects` (
   `lastSeen` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `package`;
 CREATE TABLE `package` (
   `id` int(11) NOT NULL,
   `packageUid` varchar(8) NOT NULL,
@@ -174,13 +146,11 @@ CREATE TABLE `package` (
   `apiTemplate` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `region`;
 CREATE TABLE `region` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `rental`;
 CREATE TABLE `rental` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -195,7 +165,6 @@ CREATE TABLE `rental` (
   `rentalUid` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `reseller`;
 CREATE TABLE `reseller` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -203,7 +172,6 @@ CREATE TABLE `reseller` (
   `rate` int(3) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `server`;
 CREATE TABLE `server` (
   `id` int(11) NOT NULL,
   `domain` varchar(100) NOT NULL,
@@ -232,7 +200,6 @@ CREATE TABLE `server` (
   `eventUpdateStream` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `servertypes`;
 CREATE TABLE `servertypes` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
@@ -243,7 +210,6 @@ INSERT INTO `servertypes` (`id`, `name`) VALUES
 (1, 'ShoutcastV1'),
 (2, 'ShoutcastV2');
 
-DROP TABLE IF EXISTS `slconfig`;
 CREATE TABLE `slconfig` (
   `id` int(11) NOT NULL,
   `dbVersion` varchar(12) NOT NULL DEFAULT 'install',
@@ -252,28 +218,22 @@ CREATE TABLE `slconfig` (
   `slLinkCode` varchar(10) NOT NULL,
   `clientsListMode` tinyint(1) NOT NULL DEFAULT 0,
   `publicLinkCode` varchar(12) DEFAULT NULL,
+  `hudLinkCode` varchar(12) DEFAULT NULL,
   `ownerAvatarLink` int(11) NOT NULL,
-  `eventStorage` tinyint(1) NOT NULL DEFAULT 0,
   `datatableItemsPerPage` int(3) NOT NULL DEFAULT 10,
   `httpInboundSecret` text NOT NULL,
-  `smtpHost` text DEFAULT NULL,
-  `smtpPort` int(11) DEFAULT NULL,
-  `smtpUsername` text DEFAULT NULL,
-  `smtpAccesscode` text DEFAULT NULL,
-  `smtpFrom` text DEFAULT NULL,
-  `smtpReplyTo` text DEFAULT NULL,
   `displayTimezoneLink` int(11) NOT NULL DEFAULT 11,
-  `apiDefaultEmail` text NOT NULL
+  `apiDefaultEmail` text NOT NULL,
+  `customLogo` tinyint(1) NOT NULL DEFAULT 0,
+  `customLogoBin` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `ownerAvatarLink`, `eventStorage`, `datatableItemsPerPage`, `httpInboundSecret`, `smtpHost`, `smtpPort`, `smtpUsername`, `smtpAccesscode`, `smtpFrom`, `smtpReplyTo`, `displayTimezoneLink`, `apiDefaultEmail`) VALUES
-(1, '1.0.1.7', 0, 0, 'asdasdasd', 0, NULL, 1, 0, 10, '', NULL, NULL, NULL, NULL, NULL, NULL, 11, 'noone@no.email.com');
+INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`) VALUES
+(1, '1.0.1.8', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '');
 
-DROP TABLE IF EXISTS `staff`;
 CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
   `username` varchar(40) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
   `emailResetCode` varchar(8) DEFAULT NULL,
   `emailResetExpires` int(11) NOT NULL DEFAULT 0,
   `avatarLink` int(11) NOT NULL,
@@ -283,10 +243,9 @@ CREATE TABLE `staff` (
   `ownerLevel` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `staff` (`id`, `username`, `email`, `emailResetCode`, `emailResetExpires`, `avatarLink`, `phash`, `lhash`, `psalt`, `ownerLevel`) VALUES
-(1, 'Madpeter', NULL, NULL, 1585832870, 1, '876138b3b30082989dc3f61f607c5ba0a3adceaace', 'ea8acdc5deff970b901ccd2ee3ff60326bc746fcf3', '1063b99b60639e90d9cfc2ae1abd38e783ee90b891', 1);
+INSERT INTO `staff` (`id`, `username`, `emailResetCode`, `emailResetExpires`, `avatarLink`, `phash`, `lhash`, `psalt`, `ownerLevel`) VALUES
+(1, 'Installer', NULL, 1585832870, 1, '876138b3b30082989dc3f61f607c5ba0a3adceaace', 'ea8acdc5deff970b901ccd2ee3ff60326bc746fcf3', '1063b99b60639e90d9cfc2ae1abd38e783ee90b891', 1);
 
-DROP TABLE IF EXISTS `stream`;
 CREATE TABLE `stream` (
   `id` int(11) NOT NULL,
   `serverLink` int(11) NOT NULL,
@@ -306,7 +265,6 @@ CREATE TABLE `stream` (
   `apiConfigValue3` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `template`;
 CREATE TABLE `template` (
   `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
@@ -318,7 +276,6 @@ INSERT INTO `template` (`id`, `name`, `detail`, `notecardDetail`) VALUES
 (1, 'Shoutcast', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS]][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS]][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]] \r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] [[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]'),
 (2, 'Icecast', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS]][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS]][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] \r\n[[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]');
 
-DROP TABLE IF EXISTS `textureconfig`;
 CREATE TABLE `textureconfig` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
@@ -337,7 +294,6 @@ CREATE TABLE `textureconfig` (
 INSERT INTO `textureconfig` (`id`, `name`, `offline`, `waitOwner`, `stockLevels`, `makePayment`, `inUse`, `renewHere`, `treevendWaiting`, `proxyRenew`, `gettingDetails`, `requestDetails`) VALUES
 (1, 'SA7 defaults', '718fdaf8-df99-5c7f-48fb-feb94db12675', '51d5f381-43cd-84f0-c226-f9f89c12af7e', '257c594e-41d8-53d8-5280-5329a259a5d8', '19e57cf0-254f-32d7-fc9f-0d698aca4dc2', '10b68027-7e7f-fbbc-0c9f-6afabbfc636c', '0e99005c-526e-468c-7c0c-2569096f6162', 'c2b33611-f114-7415-0919-ffa18841c892', 'cc1c1124-b5d0-595b-12b6-016c61b82456', 'bc14cd11-edca-4bd2-3a21-46d870966edd', 'c724a9ea-ee79-6d80-3249-ff016de063b0');
 
-DROP TABLE IF EXISTS `timezones`;
 CREATE TABLE `timezones` (
   `id` int(11) NOT NULL,
   `name` varchar(125) NOT NULL,
@@ -357,7 +313,6 @@ INSERT INTO `timezones` (`id`, `name`, `code`) VALUES
 (10, 'Europe / Paris', 'Europe/Paris'),
 (11, 'Europe / London', 'Europe/London');
 
-DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -371,13 +326,11 @@ CREATE TABLE `transactions` (
   `renew` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `treevender`;
 CREATE TABLE `treevender` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `treevenderpackages`;
 CREATE TABLE `treevenderpackages` (
   `id` int(11) NOT NULL,
   `treevenderLink` int(11) NOT NULL,
@@ -410,9 +363,6 @@ ALTER TABLE `botconfig`
 ALTER TABLE `detail`
   ADD PRIMARY KEY (`id`),
   ADD KEY `rentalLink` (`rentalLink`);
-
-ALTER TABLE `event`
-  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `message`
   ADD PRIMARY KEY (`id`),
@@ -480,7 +430,6 @@ ALTER TABLE `staff`
   ADD UNIQUE KEY `psalt` (`psalt`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `avatarLink` (`avatarLink`),
-  ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `emailResetCode` (`emailResetCode`);
 
 ALTER TABLE `stream`
@@ -523,34 +472,31 @@ ALTER TABLE `apirequests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `apis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 ALTER TABLE `avatar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `banlist`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `botconfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `detail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 ALTER TABLE `message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `notecard`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `notice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `noticenotecard`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `objects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -571,25 +517,25 @@ ALTER TABLE `server`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `servertypes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `slconfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `staff`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `stream`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `textureconfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `timezones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 ALTER TABLE `transactions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -634,10 +580,10 @@ ALTER TABLE `package`
   ADD CONSTRAINT `template_in_use_package` FOREIGN KEY (`templateLink`) REFERENCES `template` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `rental`
-  ADD CONSTRAINT `avatar_in_use_rental` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`),
-  ADD CONSTRAINT `notice_in_use_rental` FOREIGN KEY (`noticeLink`) REFERENCES `notice` (`id`),
-  ADD CONSTRAINT `package_in_use_rental` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`),
-  ADD CONSTRAINT `stream_in_use_rental` FOREIGN KEY (`streamLink`) REFERENCES `stream` (`id`);
+  ADD CONSTRAINT `avatar_in_use_rental` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `notice_in_use_rental` FOREIGN KEY (`noticeLink`) REFERENCES `notice` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `package_in_use_rental` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `stream_in_use_rental` FOREIGN KEY (`streamLink`) REFERENCES `stream` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `reseller`
   ADD CONSTRAINT `avatar_in_use_reseller` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION;
@@ -667,33 +613,3 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
-
-ALTER TABLE `slconfig` ADD `hudLinkCode` VARCHAR(12) NULL AFTER `publicLinkCode`;
-
-UPDATE `apis` SET `eventRecreateRevoke` = '0', `eventCreateStream` = '0', `eventUpdateStream` = '0' WHERE `apis`.`id` = 6;
-UPDATE `apis` SET `eventCreateStream` = '1', `eventUpdateStream` = '1' WHERE `apis`.`id` = 2;
-
-ALTER TABLE `rental` DROP FOREIGN KEY `avatar_in_use_rental`; 
-ALTER TABLE `rental` ADD CONSTRAINT `avatar_in_use_rental` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
-ALTER TABLE `rental` DROP FOREIGN KEY `notice_in_use_rental`; 
-ALTER TABLE `rental` ADD CONSTRAINT `notice_in_use_rental` FOREIGN KEY (`noticeLink`) REFERENCES `notice`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
-ALTER TABLE `rental` DROP FOREIGN KEY `package_in_use_rental`; 
-ALTER TABLE `rental` ADD CONSTRAINT `package_in_use_rental` FOREIGN KEY (`packageLink`) REFERENCES `package`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
-ALTER TABLE `rental` DROP FOREIGN KEY `stream_in_use_rental`; 
-ALTER TABLE `rental` ADD CONSTRAINT `stream_in_use_rental` FOREIGN KEY (`streamLink`) REFERENCES `stream`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
-
-ALTER TABLE `slconfig`
-  DROP `eventStorage`,
-  DROP `smtpHost`,
-  DROP `smtpPort`,
-  DROP `smtpUsername`,
-  DROP `smtpAccesscode`,
-  DROP `smtpFrom`,
-  DROP `smtpReplyTo`;
-
-  DROP TABLE `event`;
-
-  ALTER TABLE `staff`
-  DROP `email`;
-
-  UPDATE `staff` SET `username` = 'Installer' WHERE `staff`.`id` = 1;
