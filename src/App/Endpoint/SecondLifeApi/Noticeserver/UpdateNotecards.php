@@ -65,8 +65,9 @@ class UpdateNotecards extends SecondlifeAjax
                     $noticeNotecard = new Noticenotecard();
                     $noticeNotecard->setName($new_notecard);
                     $noticeNotecard->setMissing(false);
-                    if ($noticeNotecard->createEntry()["status"] == false) {
-                        $this->setSwapTag("message", "Unable to create new notecard");
+                    $createStatus = $noticeNotecard->createEntry();
+                    if ($createStatus["status"] == false) {
+                        $this->setSwapTag("message", "Unable to create new notecard: " . $createStatus["message"]);
                         return false;
                     }
                 }
