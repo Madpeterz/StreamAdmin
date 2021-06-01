@@ -146,7 +146,7 @@ class Renewnow extends SecondlifeAjax
         $this->rental->setTotalAmount(($this->rental->getTotalAmount() + $this->amountpaid));
         $unixtime_remain = $new_expires_time - time();
         if ($unixtime_remain <= 0) {
-            $this->processNoticeChange();
+            $this->processNoticeChange($unixtime_remain);
         }
     }
 
