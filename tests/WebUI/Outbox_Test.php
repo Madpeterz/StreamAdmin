@@ -22,7 +22,7 @@ class OutboxText extends TestCase
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("Status",$statuscheck,$missing);
         $this->assertStringContainsString("Pending",$statuscheck,$missing);
-        $this->assertStringContainsString("api",$statuscheck,$missing);
+        $this->assertStringContainsString("Api",$statuscheck,$missing);
         $this->assertStringContainsString("object is running normaly",$statuscheck,$missing);
         $this->assertStringContainsString("Package",$statuscheck,$missing);
         $this->assertStringContainsString("Server",$statuscheck,$missing);

@@ -5,6 +5,7 @@ namespace App\Endpoint\Control\Package;
 use App\R7\Model\Package;
 use App\R7\Model\Servertypes;
 use App\R7\Model\Template;
+use App\R7\Set\NoticenotecardSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -16,6 +17,10 @@ class Create extends ViewAjax
         $servertype = new Servertypes();
         $input = new InputFilter();
         $package = new Package();
+
+        $noticeNotecards = new NoticenotecardSet();
+        $noticeNotecards->loadAll();
+        $noticeNotecardIds = $noticeNotecards->getAllIds();
 
         $name = $input->postFilter("name");
         $templateLink = $input->postFilter("templateLink", "integer");
@@ -30,6 +35,17 @@ class Create extends ViewAjax
         $autodjSize = $input->postFilter("autodjSize", "integer");
         $apiTemplate = $input->postFilter("apiTemplate");
         $servertypeLink = $input->postFilter("servertypeLink", "integer");
+        $welcomeNotecardLink = $input->postFilter("welcomeNotecardLink", "integer");
+        $setupNotecardLink = $input->postFilter("setupNotecardLink", "integer");
+
+        if (in_array($welcomeNotecardLink, $noticeNotecardIds) == false) {
+            $this->setSwapTag("message", "Welcome notecard not selected");
+            return;
+        }
+        if (in_array($setupNotecardLink, $noticeNotecardIds) == false) {
+            $this->setSwapTag("message", "Setup notecard not selected");
+            return;
+        }
 
         if (strlen($name) < 5) {
             $this->setSwapTag("message", "Name length must be 5 or longer");
@@ -124,6 +140,8 @@ class Create extends ViewAjax
         $package->setTextureInstockSelected($textureInstockSelected);
         $package->setApiTemplate($apiTemplate);
         $package->setServertypeLink($servertypeLink);
+        $package->setWelcomeNotecardLink($welcomeNotecardLink);
+        $package->setSetupNotecardLink($setupNotecardLink);
         $create_status = $package->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag(

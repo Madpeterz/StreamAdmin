@@ -3,6 +3,7 @@
 namespace App\Endpoint\View\Package;
 
 use App\R7\Model\Package;
+use App\R7\Set\NoticenotecardSet;
 use App\R7\Set\ServertypesSet;
 use App\Template\Form;
 use App\R7\Set\TemplateSet;
@@ -11,6 +12,8 @@ class Manage extends View
 {
     public function process(): void
     {
+        $noticeNotecards = new NoticenotecardSet();
+        $noticeNotecards->loadAll();
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing package");
         $this->setSwapTag("page_actions", "<a href='[[url_base]]package/remove/" . $this->page
@@ -45,7 +48,6 @@ class Manage extends View
                 $package->getServertypeLink(),
                 $servertypes_set->getLinkedArray("id", "name")
             );
-            $form->textInput("apiTemplate", "API template", 50, $package->getApiTemplate(), "API template name");
         $form->col(6);
             $form->group("Terms");
             $form->numberInput("cost", "Cost L$", $package->getCost(), 5, "Max L$ 99999");
@@ -80,6 +82,22 @@ class Manage extends View
             $form->group("Auto DJ");
             $form->select("autodj", "Enabled", $package->getAutodj(), [false => "No",true => "Yes"]);
             $form->numberInput("autodjSize", "Storage GB", $package->getAutodjSize(), 3, "Max GB storage 9999");
+        $form->split();
+        $form->col(6);
+            $form->group("Ext");
+            $form->textInput("apiTemplate", "API template", 50, $package->getApiTemplate(), "API template name");
+            $form->select(
+                "welcomeNotecardLink",
+                "Welcome notecard",
+                $package->getWelcomeNotecardLink(),
+                $noticeNotecards->getLinkedArray("id", "name")
+            );
+            $form->select(
+                "setupNotecardLink",
+                "Setup notecard",
+                $package->getSetupNotecardLink(),
+                $noticeNotecards->getLinkedArray("id", "name")
+            );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

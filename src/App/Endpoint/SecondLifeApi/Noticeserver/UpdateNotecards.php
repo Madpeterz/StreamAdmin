@@ -3,6 +3,7 @@
 namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
 use App\R7\Model\Noticenotecard;
+use App\R7\Set\NotecardmailSet;
 use App\R7\Set\NoticenotecardSet;
 use App\R7\Set\NoticeSet;
 use App\Template\SecondlifeAjax;
@@ -64,8 +65,9 @@ class UpdateNotecards extends SecondlifeAjax
                     $noticeNotecard = new Noticenotecard();
                     $noticeNotecard->setName($new_notecard);
                     $noticeNotecard->setMissing(false);
-                    if ($noticeNotecard->createEntry()["status"] == false) {
-                        $this->setSwapTag("message", "Unable to create new notecard");
+                    $createStatus = $noticeNotecard->createEntry();
+                    if ($createStatus["status"] == false) {
+                        $this->setSwapTag("message", "Unable to create new notecard: " . $createStatus["message"]);
                         return false;
                     }
                 }
@@ -113,15 +115,18 @@ class UpdateNotecards extends SecondlifeAjax
      */
     protected function purgeMissingUnused(): array
     {
+        $noticenotecardset = new NotecardmailSet();
+        $noticenotecardset->loadAll();
+
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $used_notecard_ids = $notice_set->getUniqueArray("noticeNotecardLink");
 
         $where_config = [
-            "fields" => ["id","missing"],
-            "values" => [1,1],
-            "types" => ["i","i"],
-            "matches" => ["!=","="],
+            "fields" => ["id","missing","id"],
+            "values" => [1,1,$noticenotecardset->getUniqueArray("noticenotecardLink")],
+            "types" => ["i","i","i"],
+            "matches" => ["!=","=","NOT IN"],
         ];
         $noticenotecardset = new NoticenotecardSet();
         if ($noticenotecardset->loadWithConfig($where_config) == false) {
@@ -149,15 +154,15 @@ class UpdateNotecards extends SecondlifeAjax
     {
         $input = new InputFilter();
         $notecards = $input->postFilter("notecards");
-        $notecards = explode(",", $notecards);
-        if ($this->markFound($notecards) == false) {
+        $notecardsList = explode(",", $notecards);
+        if ($this->markFound($notecardsList) == false) {
             return;
         }
         $purged = $this->purgeMissingUnused();
-        if ($this->markMissing($notecards) == false) {
+        if ($this->markMissing($notecardsList) == false) {
             return;
         }
-        if ($this->addNew($notecards) == false) {
+        if ($this->addNew($notecardsList) == false) {
             return;
         }
         if ($purged["status"] == true) {

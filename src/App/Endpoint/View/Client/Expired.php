@@ -2,19 +2,29 @@
 
 namespace App\Endpoint\View\Client;
 
+use App\R7\Set\NoticeSet;
+
 class Expired extends Withstatus
 {
     public function process(): void
     {
-        $this->whereconfig = [
-            "fields" => ["expireUnixtime"],
-            "values" => [time()],
+        $noticeSet = new NoticeSet();
+        $whereConfig = [
+            "fields" => ["hoursRemaining"],
+            "values" => [0],
             "types" => ["i"],
             "matches" => ["<="],
         ];
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]client/BulkRemove'>"
-        . "<button type='button' class='btn btn-outline-danger btn-sm'>Bulk remove</button></a>");
-        $this->output->addSwapTagString("page_title", "With status: Expired");
+        $noticeSet->loadWithConfig($whereConfig);
+
+        $this->whereconfig = [
+            "fields" => ["noticeLink"],
+            "values" => [$noticeSet->getAllIds()],
+            "types" => ["i"],
+            "matches" => ["IN"],
+        ];
+        $this->output->addSwapTagString("page_title", "With notice status: Expired (or worse)");
+
         parent::process();
     }
 }

@@ -82,7 +82,7 @@ class Installer extends TestCase
     {
         global $_POST;
         $step4 = new InstallerStep4();
-        $_POST["domain"] = "http://localhost";
+        $_POST["domain"] = "http://localhost/";
         $_POST["sitename"] = "streamadmin test units";
         $_POST["av_username"] = "Madpeter";
         $_POST["av_uuid"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
