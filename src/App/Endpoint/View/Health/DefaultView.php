@@ -55,8 +55,8 @@ class DefaultView extends View
             }
             $total = $dataset["up"] + $dataset["down"];
             $pcent = 0;
-            if ($dataset["up"] > 0) {
-                $pcent = ($total / $dataset["up"]) * 100;
+            if ($total > 0) {
+                $pcent = ($dataset["up"] / $total) * 100;
             }
             $statustext = "Good";
             $statuscolor = "success";
