@@ -35,6 +35,14 @@ abstract class BasicView
             $this->output->tempateSidemenu();
         }
     }
+    public function forceSave(): void
+    {
+        if ($this->output->getSwapTagBool("status") == false) {
+            $this->sql->sqlRollBack();
+            return;
+        }
+        $this->sql->sqlSave(true);
+    }
     public function process(): void
     {
         $this->setSwapTag("status", false);

@@ -17,6 +17,7 @@ abstract class ViewAjax extends View
     }
     public function renderPage(): void
     {
+        $this->forceSave();
         $this->output->renderAjax();
     }
 }
