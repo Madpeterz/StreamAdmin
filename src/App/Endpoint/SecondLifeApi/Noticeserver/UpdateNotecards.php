@@ -120,17 +120,26 @@ class UpdateNotecards extends SecondlifeAjax
 
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
-        $used_notecard_ids = $notice_set->getUniqueArray("noticeNotecardLink");
+        $used_notecard_ids = array_merge(
+            $notice_set->getUniqueArray("noticeNotecardLink"),
+            $noticenotecardset->getUniqueArray("noticenotecardLink")
+        );
 
         $where_config = [
-            "fields" => ["id","missing","id"],
-            "values" => [1,1,$noticenotecardset->getUniqueArray("noticenotecardLink")],
-            "types" => ["i","i","i"],
-            "matches" => ["!=","=","NOT IN"],
+            "fields" => ["id","missing"],
+            "values" => [1,1],
+            "types" => ["i","i"],
+            "matches" => ["!=","="],
         ];
+
         $noticenotecardset = new NoticenotecardSet();
         if ($noticenotecardset->loadWithConfig($where_config) == false) {
-            return ["status" => false,"removed_entrys" => 0];
+            return [
+                "status" => false,
+                "removed_entrys" => 0,
+                "message" => "Unable to load notice notecard set because: "
+                . $noticenotecardset->getLastError(),
+            ];
         }
 
         $purge_ids = [];
@@ -159,6 +168,10 @@ class UpdateNotecards extends SecondlifeAjax
             return;
         }
         $purged = $this->purgeMissingUnused();
+        if ($purged["status"] == false) {
+            $this->setSwapTag("message", $purged["message"]);
+            return;
+        }
         if ($this->markMissing($notecardsList) == false) {
             return;
         }
