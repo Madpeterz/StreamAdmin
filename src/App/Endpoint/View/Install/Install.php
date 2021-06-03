@@ -50,5 +50,7 @@ class Install extends View
             <a href="[[url_base]]install/setup"><button class="btn btn-primary btn-block" type="button">
             Setup</button></a>'
         );
+        $this->setSwapTag("status", true);
+        $this->forceSave();
     }
 }

@@ -114,8 +114,12 @@ class Setup extends View
             $this->setSwapTag("page_content", "Unable to update config entry");
             return false;
         }
-
-        return $this->writeConfigFile();
+        $this->setSwapTag("status", true);
+        if ($this->writeConfigFile() == true) {
+            $this->forceSave();
+            return true;
+        }
+        return false;
     }
 
     protected function writeConfigFile(): bool
