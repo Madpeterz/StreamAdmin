@@ -16,14 +16,14 @@ use App\Template\SystemApiAjax;
 
 class Next extends SystemApiAjax
 {
-    protected $notecard = new Notecard();
-    protected $rental = new Rental();
-    protected $package = new Package();
-    protected $avatar = new Avatar();
-    protected $template = new Template();
-    protected $stream = new Stream();
-    protected $server = new Server();
-    protected $notice = new Notice();
+    protected Notecard $notecard;
+    protected Rental $rental;
+    protected Package $package;
+    protected Avatar $avatar;
+    protected Template $template;
+    protected Stream $stream;
+    protected Server $server;
+    protected Notice $notice;
 
     protected $notecard_title = "";
     protected $notecard_content = "";
@@ -60,7 +60,7 @@ class Next extends SystemApiAjax
         . $this->stream->getPort() . "";
         if ($this->notice->getNotecarddetail() == null) {
             $this->setSwapTag("message", "Selected notice: " . $this->notice->getName() . " is empty");
-            return;
+            return false;
         }
         $this->notecard_content = $swap_helper->getSwappedText(
             $this->notice->getNotecarddetail(),
@@ -70,10 +70,18 @@ class Next extends SystemApiAjax
             $this->server,
             $this->stream
         );
+        return true;
     }
 
     protected function loadData(): bool
     {
+        $this->rental = new Rental();
+        $this->package = new Package();
+        $this->avatar = new Avatar();
+        $this->template = new Template();
+        $this->stream = new Stream();
+        $this->server = new Server();
+        $this->notice = new Notice();
         if ($this->rental->loadID($this->notecard->getRentalLink()) == false) {
             return $this->failedLoad("Rental");
         }
@@ -89,11 +97,11 @@ class Next extends SystemApiAjax
         if ($this->package->loadID($this->stream->getPackageLink()) == false) {
             return $this->failedLoad("Package");
         }
-        if ($this->notecard->getAsNotice() == true) {
+        if ($this->notecard->getAsNotice() == false) {
             if ($this->template->loadID($this->package->getTemplateLink()) == false) {
                 return $this->failedLoad("Template");
             }
-            return;
+            return true;
         }
         if ($this->notice->loadID($this->notecard->getNoticeLink()) == false) {
             return $this->failedLoad("Template");
@@ -102,12 +110,13 @@ class Next extends SystemApiAjax
     }
     public function process(): void
     {
+        $this->notecard = new Notecard();
         $notecard_set = new NotecardSet();
         $notecard_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
         if ($notecard_set->getCount() == 0) {
             $this->setSwapTag("status", true);
             $this->setSwapTag("message", "nowork");
-            return true;
+            return;
         }
         $this->notecard = $notecard_set->getFirst();
         if ($this->loadData() == false) {
