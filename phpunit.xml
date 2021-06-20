@@ -47,6 +47,7 @@
             <file>tests/Finals/server_test.php</file>
             <file>tests/Finals/client_test.php</file>
             <file>tests/BugReports/Issue12_test.php</file>
+            <file>tests/BugReports/Issue28_test.php</file>
         </testsuite>
   </testsuites>
   <filter>
