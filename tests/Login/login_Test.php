@@ -69,8 +69,8 @@ class Login extends TestCase
         $this->assertSame(true,$staff->loadID(1),"Unable to load staff account");
         $Resetnow = new Resetnow();
         $_POST["slusername"] = "MadpeterUnit ZondTest";
-        $_POST["newpassword1"] = "asdasdasd1";
-        $_POST["newpassword2"] = "asdasdasd1";
+        $_POST["newpassword1"] = "YfBqfxs8LSiuny";
+        $_POST["newpassword2"] = "YfBqfxs8LSiuny";
         $_POST["token"] = $staff->getEmailResetCode();
         $Resetnow->process();
         $statuscheck = $Resetnow->getOutputObject();
@@ -83,7 +83,7 @@ class Login extends TestCase
         global $_POST;
         $LoginWithPassword = new LoginWithPassword();
         $_POST["staffusername"] = "Madpeter";
-        $_POST["staffpassword"] = "asdasdasd1";
+        $_POST["staffpassword"] = "YfBqfxs8LSiuny";
         $LoginWithPassword->process();
         $statuscheck = $LoginWithPassword->getOutputObject();
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
