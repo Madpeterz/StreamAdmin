@@ -11,7 +11,7 @@ class Slconfig extends genClass
     // Data Design
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
-        "dbVersion" => ["type" => "str", "value" => 'install'],
+        "dbVersion" => ["type" => "str", "value" => "install"],
         "newResellers" => ["type" => "bool", "value" => 0],
         "newResellersRate" => ["type" => "int", "value" => 0],
         "slLinkCode" => ["type" => "str", "value" => null],
