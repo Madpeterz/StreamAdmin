@@ -26,3 +26,8 @@
     color: #2b66c4;
 }
 html{overflow-y:scroll}
+
+.form-control[readonly] {
+    background-color: rgba(48,48,48,0.5);
+    color: #ff0000;
+}

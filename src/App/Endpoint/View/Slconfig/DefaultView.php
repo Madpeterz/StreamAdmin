@@ -5,6 +5,7 @@ namespace App\Endpoint\View\Slconfig;
 use App\R7\Model\Avatar;
 use App\Template\Form;
 use App\R7\Set\TimezonesSet;
+use App\Template\Grid;
 
 class DefaultView extends View
 {
@@ -12,6 +13,17 @@ class DefaultView extends View
     {
         $avatar = new Avatar();
         $avatar->loadID($this->slconfig->getOwnerAvatarLink());
+        if (strlen($this->slconfig->getPublicLinkCode()) < 6) {
+            $this->slconfig->setPublicLinkCode("! Needs Reissue !");
+        } elseif (strlen($this->slconfig->getPublicLinkCode()) > 12) {
+            $this->slconfig->setPublicLinkCode("! Needs Reissue !");
+        }
+        if (strlen($this->slconfig->getHttpInboundSecret()) < 5) {
+            $this->slconfig->setHttpInboundSecret("! Needs Reissue !");
+        } elseif (strlen($this->slconfig->getHttpInboundSecret()) > 30) {
+            $this->slconfig->setHttpInboundSecret("! Needs Reissue !");
+        }
+
         $timezones_set = new TimezonesSet();
         $timezones_set->loadAll();
 
@@ -31,25 +43,35 @@ class DefaultView extends View
             );
             $form->textInput(
                 "slLinkCode",
-                "Link code [SL->Server]",
+                "Secondlife code",
                 30,
                 $this->slconfig->getSlLinkCode(),
-                "The code shared by your vendors to connet"
+                "The code shared by your vendors to connet",
+                "",
+                "text",
+                true
             );
             $form->textInput(
                 "publicLinkCode",
-                "Public Link code [SL->Server]",
+                "Hud access code",
                 30,
                 $this->slconfig->getPublicLinkCode(),
-                "The code shared by your user hud"
+                "The code shared by your user hud",
+                "",
+                "text",
+                true
             );
             $form->textInput(
                 "httpcode",
-                "HTTP code [Apps->Server]",
+                "Apps access code",
                 36,
                 $this->slconfig->getHttpInboundSecret(),
-                "Enter here"
+                "Enter here",
+                "",
+                "text",
+                true
             );
+
         $form->col(6);
             $form->group("Resellers");
             $form->directAdd("<br/>");
@@ -90,6 +112,12 @@ class DefaultView extends View
                 $this->slconfig->getDisplayTimezoneLink(),
                 $timezones_set->getLinkedArray("id", "name")
             );
-        $this->setSwapTag("page_content", $form->render("Update", "primary"));
+
+        $this->setSwapTag("page_content", $form->render("Update", "primary", false, true));
+
+        $this->setSwapTag(
+            "page_actions",
+            "<a href='[[url_base]]slconfig/reissue'><button type='button' class='btn btn-danger'>Reissue</button></a>"
+        );
     }
 }

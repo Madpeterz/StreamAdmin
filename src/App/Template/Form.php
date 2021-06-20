@@ -131,7 +131,8 @@ class Form
         ?string $value,
         string $placeholder,
         string $mask = "",
-        string $mode = "text"
+        string $mode = "text",
+        bool $readonly = false
     ): void {
         if ($mode != "hidden") {
             $this->enableGridRender();
@@ -141,6 +142,9 @@ class Form
         $this->mygrid->addContent('<input type="' . $mode . '" class="form-control" name="' . $name . '"');
         $this->mygrid->addContent(' value="' . $value . '" placeholder="'
         . $placeholder . '" ' . $this->requiredAddon() . '');
+        if ($readonly == true) {
+            $this->mygrid->addContent(' readonly');
+        }
         $this->mygrid->addContent(' >@NL@');
         if ($mode != "hidden") {
             $this->endField();

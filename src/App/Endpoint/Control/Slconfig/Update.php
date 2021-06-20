@@ -11,15 +11,21 @@ class Update extends ViewAjax
 {
     public function process(): void
     {
+        if ($this->session->getOwnerLevel() == false) {
+            $this->setSwapTag("status", false);
+            $this->setSwapTag("message", "Only system owner can adjust settings");
+            return;
+        }
+
         $this->output->purgeCacheFile("current_timezone", false);
 
         $avatar = new Avatar();
         $timezone = new Timezones();
         $input = new InputFilter();
 
-        $slLinkCode = $input->postFilter("slLinkCode");
-        $httpcode = $input->postFilter("httpcode");
-        $publicLinkCode = $input->postFilter("publicLinkCode");
+        //$slLinkCode = $input->postFilter("slLinkCode");
+        //$httpcode = $input->postFilter("httpcode");
+        //$publicLinkCode = $input->postFilter("publicLinkCode");
         $newResellersRate = $input->postFilter("newResellersRate", "integer");
         $newResellers = $input->postFilter("newResellers", "bool");
         $owneravuid = $input->postFilter("owneravuid");
@@ -28,22 +34,6 @@ class Update extends ViewAjax
         $apiDefaultEmail = $input->postFilter("apiDefaultEmail", "email");
         $displayTimezoneLink = $input->postFilter("displayTimezoneLink", "integer");
 
-        if (strlen($slLinkCode) < 5) {
-            $this->setSwapTag("message", "slLinkCode length must be 5 or longer");
-            return;
-        }
-        if (strlen($slLinkCode) > 10) {
-            $this->setSwapTag("message", "slLinkCode length must be 10 or less");
-            return;
-        }
-        if (strlen($httpcode) < 5) {
-            $this->setSwapTag("message", "httpcode length must be 5 or longer");
-            return;
-        }
-        if (strlen($httpcode) > 30) {
-            $this->setSwapTag("message", "httpcode length must be 30 or less");
-            return;
-        }
         if ($newResellersRate < 0) {
             $this->setSwapTag("message", "newResellersRate must be 1 or more");
             return;
@@ -76,22 +66,11 @@ class Update extends ViewAjax
             $this->setSwapTag("message", "API default email address does not appear to be vaild");
             return;
         }
-        if (strlen($publicLinkCode) < 6) {
-            $this->setSwapTag("message", "Public link code min length is 6");
-            return;
-        }
-        if (strlen($publicLinkCode) > 12) {
-            $this->setSwapTag("message", "Public link code max length is 12");
-            return;
-        }
 
         $this->setSwapTag("redirect", "slconfig");
         if ($avatar->getId() != $this->slconfig->getOwnerAvatarLink()) {
             $this->slconfig->setOwnerAvatarLink($avatar->getId());
         }
-        $this->slconfig->setSlLinkCode($slLinkCode);
-        $this->slconfig->setPublicLinkCode($publicLinkCode);
-        $this->slconfig->setHttpInboundSecret($httpcode);
         $this->slconfig->setNewResellers($newResellers);
         $this->slconfig->setNewResellersRate($newResellersRate);
         $this->slconfig->setClientsListMode($ui_tweaks_clients_fulllist);
