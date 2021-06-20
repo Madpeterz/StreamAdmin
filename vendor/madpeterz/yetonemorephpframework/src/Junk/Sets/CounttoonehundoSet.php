@@ -30,4 +30,12 @@ class CounttoonehundoSet extends CollectionSet
     {
         return parent::getFirst();
     }
+    /**
+     * getObjectByField
+     * returns the first object in a collection that matchs the field and value checks
+     */
+    public function getObjectByField(string $fieldname, $value): ?Counttoonehundo
+    {
+        return parent::getObjectByField($fieldname, $value);
+    }
 }

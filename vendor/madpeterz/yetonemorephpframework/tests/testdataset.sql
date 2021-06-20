@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS  `apirequests`, `apis`, `avatar`, `banlist`,
 `alltypestable`, `counttoonehundo`, `endoftestempty`, 
 `endoftestwithfourentrys`, `endoftestwithupdates`, `flagedvalues`, `liketests`, `relationtestinga`, 
 `relationtestingb`, `rollbacktest`, `twintables1`,
-`twintables2`, `weirdtable`;
+`twintables2`, `weirdtable`, `notecardmail`;
 
 
 

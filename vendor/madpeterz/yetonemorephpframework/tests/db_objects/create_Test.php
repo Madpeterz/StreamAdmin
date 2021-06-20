@@ -45,8 +45,8 @@ class DbObjectsCreateTest extends TestCase
     {
         $testing = new Endoftestwithfourentrys();
         $result = $testing->createEntry();
-        $this->assertSame($result["status"], false);
         $this->assertSame($result["message"], "unable to execute because: Column 'value' cannot be null");
+        $this->assertSame($result["status"], false);
         $this->assertSame($testing->getId(), null);
     }
 

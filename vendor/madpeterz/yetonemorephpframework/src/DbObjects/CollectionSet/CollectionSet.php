@@ -205,11 +205,19 @@ abstract class CollectionSet extends CollectionSetBulkRemove
         if (count($uids) == 0) {
             return $this->addError(__FILE__, __FUNCTION__, "No ids sent!", ["count" => 0]);
         }
+        $typecheck = $this->worker->getFieldType($fieldname, true);
+        if ($typecheck == null) {
+            return [
+                "status" => false,
+                "count" => 0,
+                "message" => "Invaild field",
+            ];
+        }
         return $this->loadWithConfig([
             "fields" => [$fieldname],
             "matches" => ["IN"],
             "values" => [$uids],
-            "types" => [$this->worker->getFieldType($fieldname, true)],
+            "types" => [$typecheck],
         ]);
     }
     /**

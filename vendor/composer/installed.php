@@ -49,12 +49,12 @@
     ),
     'madpeterz/yetonemorephpframework' => 
     array (
-      'pretty_version' => '1.2.2',
-      'version' => '1.2.2.0',
+      'pretty_version' => '1.2.8',
+      'version' => '1.2.8.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e1f7026e3b79605f976ef7c02e961a755881263c',
+      'reference' => 'a7484dac637975b0aab9e68bc61eef59f732f027',
     ),
     'psr/http-client' => 
     array (

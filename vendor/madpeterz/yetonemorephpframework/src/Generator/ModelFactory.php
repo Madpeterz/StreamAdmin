@@ -109,6 +109,16 @@ class ModelFactory extends GeneratorWriter
         $this->file_lines[] = 'return parent::getFirst();';
         $this->file_lines[] = [1];
         $this->file_lines[] = '}';
+        $this->file_lines[] = '/**';
+        $this->file_lines[] = ' * getObjectByField';
+        $this->file_lines[] = ' * returns the first object in a collection that matchs the field and value checks';
+        $this->file_lines[] = ' */';
+        $this->file_lines[] = 'public function getObjectByField(string $fieldname, $value): ?' . $class_name . '';
+        $this->file_lines[] = '{';
+        $this->file_lines[] = [2];
+        $this->file_lines[] = 'return parent::getObjectByField($fieldname, $value);';
+        $this->file_lines[] = [1];
+        $this->file_lines[] = '}';
         $this->file_lines[] = [0];
         $this->file_lines[] = '}';
     }
@@ -222,6 +232,14 @@ class ModelFactory extends GeneratorWriter
             $detected_default = $row_two["COLUMN_DEFAULT"];
             if (($row_two["COLUMN_DEFAULT"] == null) || ($row_two["COLUMN_DEFAULT"] == "NULL")) {
                 $detected_default = "null";
+            }
+            if ($use_type == "str") {
+                $detected_default = str_replace("'", "", $detected_default);
+                if ((strlen($detected_default) > 0) && ($detected_default !== "null")) {
+                    if (strpos($detected_default, '"') === false) {
+                        $detected_default = '"' . $detected_default . '"';
+                    }
+                }
             }
             $line = '"' . $row_two["COLUMN_NAME"] . '" => ["type" => "';
             $line .= $use_type . '", "value" => ' . $detected_default . '],';

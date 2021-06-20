@@ -31,14 +31,20 @@ abstract class CollectionSetIndex extends CollectionSetCore
                 $this->fast_get_object_array_indexs[] = $fieldname;
                 $index = [];
                 foreach ($this->collected as $key => $object) {
-                    if (array_key_exists($object->$loadstring(), $index) == false) {
-                        $index[$object->$loadstring()] = [];
+                    $indexValue = $object->$loadstring();
+                    if ($indexValue === true) {
+                        $indexValue = 1;
+                    } elseif ($indexValue == false) {
+                        $indexValue = 0;
+                    }
+                    if (array_key_exists($indexValue, $index) == false) {
+                        $index[$indexValue] = [];
                     }
                     $storeitem = $object;
                     if ($this->worker->bad_id == false) {
                         $storeitem = $object->getId();
                     }
-                    $index[$object->$loadstring()][] = $storeitem;
+                    $index[$indexValue][] = $storeitem;
                 }
                 $this->fast_get_object_array_dataset[$fieldname] = $index;
             }

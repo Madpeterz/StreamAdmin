@@ -34,8 +34,6 @@
     ],
     "scripts": {
         "dev-test": [
-            "@phpcbf",
-            "@phpcs",
             "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "
         ],
         "dev-test-objects": [
