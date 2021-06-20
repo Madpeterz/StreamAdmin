@@ -119,9 +119,16 @@ class Renewnow extends SecondlifeAjax
         return true;
     }
 
-    protected function getNoticeLevelIndex(array $sorted_linked, int $hours_remain): int
+    protected function getNoticeLevelIndex(int $hours_remain): int
     {
-        $use_notice_index = 0;
+        if ($hours_remain <= 0) {
+            return 6;
+        }
+        $notice_set = new NoticeSet();
+        $notice_set->loadAll();
+        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
+        ksort($sorted_linked, SORT_NUMERIC);
+        $use_notice_index = 10;
         $break_next = false;
         foreach ($sorted_linked as $hours => $index) {
             if ($hours > $hours_remain) {
@@ -145,24 +152,19 @@ class Renewnow extends SecondlifeAjax
         $this->rental->setRenewals(($this->rental->getRenewals() + $this->multipler));
         $this->rental->setTotalAmount(($this->rental->getTotalAmount() + $this->amountpaid));
         $unixtime_remain = $new_expires_time - time();
-        if ($unixtime_remain <= 0) {
-            $this->processNoticeChange($unixtime_remain);
-        }
+        $this->processNoticeChange($unixtime_remain);
     }
 
     protected function processNoticeChange($unixtime_remain): void
     {
         global $unixtime_hour;
         $hours_remain = ceil($unixtime_remain / $unixtime_hour);
-        $notice_set = new NoticeSet();
-        $notice_set->loadAll();
-        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
-        ksort($sorted_linked, SORT_NUMERIC);
-        $use_notice_index = $this->getNoticeLevelIndex($sorted_linked, $hours_remain);
+        $use_notice_index = $this->getNoticeLevelIndex($hours_remain);
+        if ($use_notice_index == $this->rental->getNoticeLink()) {
+            return;
+        }
         if ($use_notice_index != 0) {
-            if ($this->rental->getNoticeLink() != $use_notice_index) {
-                $this->rental->setNoticeLink($use_notice_index);
-            }
+            $this->rental->setNoticeLink($use_notice_index);
         }
         return;
     }
