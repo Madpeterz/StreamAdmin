@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Transactions;
 
 use YAPF\InputFilter\InputFilter;
 
-class Inrange extends RangeForm
+class Inrange extends Forms
 {
     public function process(): void
     {
@@ -42,9 +42,6 @@ class Inrange extends RangeForm
         ];
 
         $this->transaction_set->loadWithConfig($whereconfig);
-        $this->package_set->loadIds($this->transaction_set->getAllByField("packageLink"));
-        $this->region_set->loadIds($this->transaction_set->getAllByField("regionLink"));
-        $this->avatar_set->loadIds($this->transaction_set->getAllByField("avatarLink"));
         parent::process();
     }
 }

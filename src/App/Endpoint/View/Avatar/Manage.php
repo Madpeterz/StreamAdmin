@@ -2,8 +2,10 @@
 
 namespace App\Endpoint\View\Avatar;
 
+use App\Endpoint\View\Transactions\DefaultView;
 use App\R7\Model\Avatar;
 use App\Template\Form as Form;
+use App\Template\Grid;
 
 class Manage extends View
 {
@@ -41,6 +43,18 @@ class Manage extends View
             $avatar->getAvatarUUID(),
             "SecondLife UUID [found on their SL profile]"
         );
-        $this->setSwapTag("page_content", $form->render("Update", "primary"));
+
+        $grid = new Grid();
+        $grid->addContent($form->render("Update", "primary"), 12);
+        $grid->addContent("<hr><h4>Transactions</h4>", 12);
+        $grid->addContent($this->getTransactionsForAvatar($avatar), 12);
+        $this->setSwapTag("page_content", $grid->getOutput());
+    }
+
+    protected function getTransactionsForAvatar(Avatar $av): string
+    {
+        $renderList = new DefaultView();
+        $renderList->loadTransactionsFromAvatar($av);
+        return $renderList->renderTransactionTable();
     }
 }

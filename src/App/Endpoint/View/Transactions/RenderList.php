@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\View\Transactions;
 
+use App\R7\Model\Avatar;
 use App\R7\Set\AvatarSet;
 use App\R7\Set\PackageSet;
 use App\R7\Set\RegionSet;
@@ -23,8 +24,22 @@ abstract class RenderList extends View
         $this->avatar_set = new AvatarSet();
     }
 
-    public function process(): void
+    public function loadRequired(): void
     {
+        $this->avatar_set = new AvatarSet();
+        $this->avatar_set->loadIds($this->transaction_set->getAllByField("avatarLink"));
+        $this->package_set->loadIds($this->transaction_set->getAllByField("packageLink"));
+        $this->region_set->loadIds($this->transaction_set->getAllByField("regionLink"));
+    }
+
+    public function loadTransactionsFromAvatar(Avatar $avatar): void
+    {
+        $this->transaction_set->loadByField("avatarLink", $avatar->getId());
+    }
+
+    public function renderTransactionTable(): string
+    {
+        $this->loadRequired();
         $table_head = ["id","Transaction UID","Client","Package","Region","Amount","Datetime","Mode"];
         if ($this->session->getOwnerLevel() == 1) {
             $table_head[] = "Remove";
@@ -63,6 +78,11 @@ abstract class RenderList extends View
             }
             $table_body[] = $entry;
         }
-        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
+        return $this->renderDatatable($table_head, $table_body);
+    }
+
+    public function process(): void
+    {
+        $this->setSwapTag("page_content", $this->renderTransactionTable());
     }
 }
