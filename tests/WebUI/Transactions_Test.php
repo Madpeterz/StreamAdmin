@@ -65,7 +65,7 @@ class TransactionsTest extends TestCase
         $missing = "Missing transactions list element";
         $this->assertStringContainsString("Client",$statuscheck,$missing);
         $this->assertStringContainsString("Region",$statuscheck,$missing);
-        $this->assertStringContainsString("Mode",$statuscheck,$missing);
+        $this->assertStringContainsString("Type",$statuscheck,$missing);
         $this->assertStringContainsString("transactions/remove/",$statuscheck,$missing);
         $this->assertStringContainsString("Select transation period",$statuscheck,$missing);
         $this->assertStringContainsString("2021",$statuscheck,$missing);

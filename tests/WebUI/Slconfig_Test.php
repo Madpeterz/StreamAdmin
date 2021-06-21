@@ -17,11 +17,14 @@ class Slconfigtest extends TestCase
         $missing = "Missing slconfig form element";
         $this->assertStringContainsString("Core",$statuscheck,$missing);
         $this->assertStringContainsString("Current owner: MadpeterUnit ZondTest",$statuscheck,$missing);
-        $this->assertStringContainsString("Link code [SL->Server]",$statuscheck,$missing);
+        $this->assertStringContainsString("Venders & Servers",$statuscheck,$missing);
         $this->assertStringContainsString("Resellers",$statuscheck,$missing);
         $this->assertStringContainsString("resellers rate (As a %)",$statuscheck,$missing);
         $this->assertStringContainsString("Misc settings",$statuscheck,$missing);
         $this->assertStringContainsString("API default email",$statuscheck,$missing);
+        $this->assertStringContainsString("Discord join link",$statuscheck,$missing);
+        $this->assertStringContainsString("SL group url",$statuscheck,$missing);
+        $this->assertStringContainsString("Renter hud",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
     }
 
@@ -36,9 +39,6 @@ class Slconfigtest extends TestCase
         $status = $avatar->loadID($updateHandler->getSlConfigObject()->getOwnerAvatarLink());
         $this->assertSame(true,$status,"Unable to load system owner avatar");
         
-        $_POST["slLinkCode"] = "1345tfgred";
-        $_POST["httpcode"] = "asdas231a3241";
-        $_POST["publicLinkCode"] = "4gfj6fd3frty";
         $_POST["newResellersRate"] = 5;
         $_POST["newResellers"] = 1;
         $_POST["event_storage"] = 0;
@@ -47,6 +47,15 @@ class Slconfigtest extends TestCase
         $_POST["ui_tweaks_datatableItemsPerPage"] = 25;
         $_POST["apiDefaultEmail"] = "unittest@gmail.com";
         $_POST["displayTimezoneLink"] = 1;
+
+
+        $_POST["hudAllowDiscord"] = 0;
+        $_POST["hudDiscordLink"] = "testing";
+        $_POST["hudAllowGroup"] = 1;
+        $_POST["hudGroupLink"] = "more testing";
+        $_POST["hudAllowDetails"] = 0;
+        $_POST["hudAllowRenewal"] = 1;
+
         $updateHandler->process();
         $statuscheck = $updateHandler->getOutputObject();
         $this->assertStringContainsString("system config updated",$statuscheck->getSwapTagString("message"));
