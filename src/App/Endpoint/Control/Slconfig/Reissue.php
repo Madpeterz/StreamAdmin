@@ -20,6 +20,14 @@ class Reissue extends ViewAjax
         }
         return $str;
     }
+
+    public function reissueKeys(): void
+    {
+        $this->slconfig->setSlLinkCode($this->lazyPW(8));
+        $this->slconfig->setHttpInboundSecret($this->lazyPW(8));
+        $this->slconfig->setPublicLinkCode($this->lazyPW(8));
+        $this->slconfig->setHudLinkCode($this->lazyPW(8));
+    }
     public function process(): void
     {
         if ($this->session->getOwnerLevel() == false) {
@@ -27,9 +35,7 @@ class Reissue extends ViewAjax
             $this->setSwapTag("message", "Only system owner can adjust settings");
             return;
         }
-        $this->slconfig->setSlLinkCode($this->lazyPW(8));
-        $this->slconfig->setHttpInboundSecret($this->lazyPW(8));
-        $this->slconfig->setPublicLinkCode($this->lazyPW(8));
+        $this->reissueKeys();
         $update_status = $this->slconfig->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag(
