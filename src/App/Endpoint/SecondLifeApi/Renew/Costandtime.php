@@ -37,6 +37,12 @@ class Costandtime extends SecondlifeAjax
                 return;
             }
         }
+        $masterAvatar = new Avatar();
+        if ($masterAvatar->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
+            $this->setSwapTag("message", "Unable to load system owner");
+            return;
+        }
+        $this->setSwapTag("systemowner", $masterAvatar->getAvatarUUID());
         $this->setSwapTag("status", true);
         $this->setSwapTag("cost", $package->getCost());
         $this->setSwapTag("message", timeleftHoursAndDays($rental->getExpireUnixtime()));
