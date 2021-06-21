@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\Details;
 
+use App\R7\Model\Avatar;
 use App\R7\Model\Detail;
 use App\R7\Model\Rental;
 use App\Template\SecondlifeAjax;
@@ -9,7 +10,7 @@ use YAPF\InputFilter\InputFilter;
 
 class Resend extends SecondlifeAjax
 {
-    public function process(): void
+    public function process(?Avatar $forceAv = null): void
     {
         $input = new InputFilter();
         $rentalUid = $input->postFilter("rentalUid");
@@ -17,6 +18,12 @@ class Resend extends SecondlifeAjax
         if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return;
+        }
+        if ($forceAv != null) {
+            if ($rental->getAvatarLink() != $forceAv->getId()) {
+                $this->setSwapTag("message", "You can not request someone else's rental details via the hud!");
+                return;
+            }
         }
         $detail = new Detail();
         $whereConfig = [
