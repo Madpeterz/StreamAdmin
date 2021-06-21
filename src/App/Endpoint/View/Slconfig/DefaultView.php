@@ -5,24 +5,29 @@ namespace App\Endpoint\View\Slconfig;
 use App\R7\Model\Avatar;
 use App\Template\Form;
 use App\R7\Set\TimezonesSet;
-use App\Template\Grid;
 
 class DefaultView extends View
 {
+    protected function reissueNeeded(?string $input, int $minlen, int $maxlen): ?string
+    {
+        if ($input === null) {
+            return null;
+        }
+        if (strlen($input) < $minlen) {
+            return "! Needs Reissue !";
+        } elseif (strlen($input) > $maxlen) {
+            return "! Needs Reissue !";
+        }
+        return $input;
+    }
     public function process(): void
     {
         $avatar = new Avatar();
         $avatar->loadID($this->slconfig->getOwnerAvatarLink());
-        if (strlen($this->slconfig->getPublicLinkCode()) < 6) {
-            $this->slconfig->setPublicLinkCode("! Needs Reissue !");
-        } elseif (strlen($this->slconfig->getPublicLinkCode()) > 12) {
-            $this->slconfig->setPublicLinkCode("! Needs Reissue !");
-        }
-        if (strlen($this->slconfig->getHttpInboundSecret()) < 5) {
-            $this->slconfig->setHttpInboundSecret("! Needs Reissue !");
-        } elseif (strlen($this->slconfig->getHttpInboundSecret()) > 30) {
-            $this->slconfig->setHttpInboundSecret("! Needs Reissue !");
-        }
+        $this->slconfig->setPublicLinkCode($this->reissueNeeded($this->slconfig->getPublicLinkCode(), 6, 12));
+        $this->slconfig->setHttpInboundSecret($this->reissueNeeded($this->slconfig->getHttpInboundSecret(), 6, 12));
+        $this->slconfig->setHudLinkCode($this->reissueNeeded($this->slconfig->getHudLinkCode(), 6, 12));
+        $this->slconfig->setSlLinkCode($this->reissueNeeded($this->slconfig->getSlLinkCode(), 6, 10));
 
         $timezones_set = new TimezonesSet();
         $timezones_set->loadAll();
@@ -41,37 +46,19 @@ class DefaultView extends View
                 $avatar->getAvatarUid(),
                 "Not a SL uuid!"
             );
-            $form->textInput(
-                "slLinkCode",
-                "Secondlife code",
-                30,
-                $this->slconfig->getSlLinkCode(),
-                "The code shared by your vendors to connet",
-                "",
-                "text",
-                true
+            $form->select(
+                "ui_tweaks_clients_fulllist",
+                "Clients [Full list]",
+                $this->slconfig->getClientsListMode(),
+                $this->disableEnable
             );
             $form->textInput(
-                "publicLinkCode",
-                "Hud access code",
-                30,
-                $this->slconfig->getPublicLinkCode(),
-                "The code shared by your user hud",
-                "",
-                "text",
-                true
+                "ui_tweaks_datatableItemsPerPage",
+                "Datatables items per page",
+                3,
+                $this->slconfig->getDatatableItemsPerPage(),
+                "10 to 200"
             );
-            $form->textInput(
-                "httpcode",
-                "Apps access code",
-                36,
-                $this->slconfig->getHttpInboundSecret(),
-                "Enter here",
-                "",
-                "text",
-                true
-            );
-
         $form->col(6);
             $form->group("Resellers");
             $form->directAdd("<br/>");
@@ -86,19 +73,6 @@ class DefaultView extends View
         $form->col(6);
             $form->directAdd("<br/>");
             $form->group("Misc settings");
-            $form->select(
-                "ui_tweaks_clients_fulllist",
-                "Clients [Full list]",
-                $this->slconfig->getClientsListMode(),
-                $this->disableEnable
-            );
-            $form->textInput(
-                "ui_tweaks_datatableItemsPerPage",
-                "Datatables items per page",
-                3,
-                $this->slconfig->getDatatableItemsPerPage(),
-                "10 to 200"
-            );
             $form->textInput(
                 "apiDefaultEmail",
                 "API default email",
@@ -112,8 +86,95 @@ class DefaultView extends View
                 $this->slconfig->getDisplayTimezoneLink(),
                 $timezones_set->getLinkedArray("id", "name")
             );
-
-        $this->setSwapTag("page_content", $form->render("Update", "primary", false, true));
+        $form->col(6);
+            $form->directAdd("<br/>");
+            $form->group("Access keys");
+            $form->textInput(
+                "slLinkCode",
+                "Venders & Servers",
+                30,
+                $this->slconfig->getSlLinkCode(),
+                "The code shared by your vendors to connect",
+                "",
+                "text",
+                true
+            );
+            /*
+            $form->textInput(
+                "publicLinkCode",
+                "= Not in use =",
+                30,
+                $this->slconfig->getPublicLinkCode(),
+                "Not used yet",
+                "",
+                "text",
+                true
+            );
+            */
+            $form->textInput(
+                "hudLinkCode",
+                "Renter hud",
+                30,
+                $this->slconfig->getHudLinkCode(),
+                "Used to connect the hud",
+                "",
+                "text",
+                true
+            );
+            /*
+            $form->textInput(
+                "httpcode",
+                "Secondbot ect",
+                36,
+                $this->slconfig->getHttpInboundSecret(),
+                "Enter here"
+            );
+            */
+        $form->col(6);
+            $form->directAdd("<br/>");
+            $form->group("Renter hud");
+            $form->select(
+                "hudAllowDiscord",
+                "Show discord link",
+                $this->slconfig->getHudAllowDiscord(),
+                $this->yesNo
+            );
+            $form->textInput(
+                "hudDiscordLink",
+                "Discord join link",
+                128,
+                $this->slconfig->getHudDiscordLink(),
+                "Discord invite URL"
+            );
+            $form->select(
+                "hudAllowGroup",
+                "Show group link",
+                $this->slconfig->getHudAllowGroup(),
+                $this->yesNo
+            );
+            $form->textInput(
+                "hudGroupLink",
+                "SL group url",
+                128,
+                $this->slconfig->getHudGroupLink(),
+                "SL grouplink URL"
+            );
+        $form->col(6);
+        $form->directAdd("<br/>");
+        $form->group("-");
+            $form->select(
+                "hudAllowDetails",
+                "Allow details requests",
+                $this->slconfig->getHudAllowDetails(),
+                $this->yesNo
+            );
+            $form->select(
+                "hudAllowRenewal",
+                "Allow renewals (Requires Allow details)",
+                $this->slconfig->getHudAllowRenewal(),
+                $this->yesNo
+            );
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
 
         $this->setSwapTag(
             "page_actions",
