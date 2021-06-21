@@ -56,15 +56,18 @@ abstract class HomeDisplayData extends HomeLoadData
             $this->main_grid->addContent("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
             . "<br/> please run \"App/Versions/sql/" . $this->slconfig->getDbVersion() . ".sql\"</div>", 12);
         }
-        if (file_exists("" . ROOTFOLDER . "/App/Versions/about/" . $this->slconfig->getDbVersion() . ".txt") == true) {
+        $infofile = ROOTFOLDER . "/App/Versions/about/" . $this->slconfig->getDbVersion() . ".txt";
+        if (file_exists($infofile) == true) {
             $this->main_grid->closeRow();
             $this->main_grid->addContent("<br/>Version: " . $this->slconfig->getDbVersion() . "", 12);
             $this->main_grid->addContent(
-                file_get_contents("" . ROOTFOLDER . "/App/Versions/about/" . $this->slconfig->getDbVersion() . ".txt"),
+                file_get_contents($infofile),
                 12
             );
         } else {
-            $this->main_grid->addContent("Version: " . $this->slconfig->getDbVersion() . "", 12);
+            $this->main_grid->addContent("Version: " . $this->slconfig->getDbVersion() . "<br/>
+            Unable to read version info file: " . $infofile . "
+            ", 12);
         }
     }
 
