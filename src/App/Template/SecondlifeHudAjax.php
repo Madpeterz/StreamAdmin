@@ -4,6 +4,8 @@ namespace App\Template;
 
 abstract class SecondlifeHudAjax extends SecondlifeAjax
 {
+    protected bool $trackObject = false; // disable object tracking for the hud
+    // its creepy, regions are fine thou :P
     protected function hashCheck(): void
     {
         if ($this->load_ok == false) {
