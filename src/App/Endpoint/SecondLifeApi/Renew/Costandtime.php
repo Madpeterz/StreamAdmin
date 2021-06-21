@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\Renew;
 
+use App\R7\Model\Avatar;
 use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Model\Stream;
@@ -10,10 +11,10 @@ use YAPF\InputFilter\InputFilter;
 
 class Costandtime extends SecondlifeAjax
 {
-    public function process(): void
+    public function getCostOfRental(?Avatar $forceCheckAv): void
     {
-        $input = new InputFilter();
-        $rentalUid = $input->postFilter("rentalUid");
+        $inputF = new InputFilter();
+        $rentalUid = $inputF->postString("rentalUid");
         $rental = new Rental();
         if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
@@ -29,8 +30,19 @@ class Costandtime extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find package");
             return;
         }
+        if ($forceCheckAv != null) {
+            if ($forceCheckAv->getId() != $rental->getAvatarLink()) {
+                $this->setSwapTag("message", "Unable to renew someone elses rental via your hud, 
+                please use the proxy pay!");
+                return;
+            }
+        }
         $this->setSwapTag("status", true);
         $this->setSwapTag("cost", $package->getCost());
         $this->setSwapTag("message", timeleftHoursAndDays($rental->getExpireUnixtime()));
+    }
+    public function process(): void
+    {
+        $this->getCostOfRental(null);
     }
 }

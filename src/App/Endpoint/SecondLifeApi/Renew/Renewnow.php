@@ -26,6 +26,12 @@ class Renewnow extends SecondlifeAjax
     protected $multipler = 0;
     protected array $uid_transaction = [];
 
+    protected ?string $rentalUid;
+    protected ?string $avatarUUID;
+    protected ?string $avatarName;
+
+    protected bool $setupRun = false;
+
     protected function setup(): void
     {
         $this->input = new InputFilter();
@@ -34,16 +40,20 @@ class Renewnow extends SecondlifeAjax
         $this->package = new Package();
         $this->avatar = new Avatar();
         $this->transaction = new Transactions();
+        $this->setupRun = true;
     }
 
-    protected function load(): bool
+    protected function loadFromPost(): void
     {
-        $rentalUid = $this->input->postFilter("rentalUid");
-        $avatarUUID = $this->input->postFilter("avatarUUID", "uuid");
-        $avatarName = $this->input->postFilter("avatarName");
+        $this->rentalUid = $this->input->postFilter("rentalUid");
+        $this->avatarUUID = $this->input->postFilter("avatarUUID", "uuid");
+        $this->avatarName = $this->input->postFilter("avatarName");
         $this->amountpaid = $this->input->postFilter("amountpaid", "integer");
+    }
 
-        if ($this->rental->loadByField("rentalUid", $rentalUid) == false) {
+    protected function load(?Avatar $forceMatchAv = null): bool
+    {
+        if ($this->rental->loadByField("rentalUid", $this->rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");
             return false;
         }
@@ -59,7 +69,7 @@ class Renewnow extends SecondlifeAjax
         }
 
         $avatar_helper = new AvatarHelper();
-        $get_av_status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
+        $get_av_status = $avatar_helper->loadOrCreate($this->avatarUUID, $this->avatarName);
         if ($get_av_status == false) {
             $this->setSwapTag("message", "Unable to find avatar");
             return false;
@@ -70,6 +80,13 @@ class Renewnow extends SecondlifeAjax
         if ($banlist->loadByField("avatarLink", $this->avatar->getId()) == true) {
             $this->setSwapTag("message", "Unable to find avatar");
             return false;
+        }
+
+        if ($forceMatchAv != null) {
+            if ($this->avatar->getId() != $forceMatchAv->getId()) {
+                $this->setSwapTag("message", "You can not renew other peoples rentals via the hud!");
+                return false;
+            }
         }
 
         return true;
@@ -101,7 +118,7 @@ class Renewnow extends SecondlifeAjax
         return true;
     }
 
-    protected function finalizeTransaction(): bool
+    protected function finalizeTransaction(?string $sltransactionUUID = null): bool
     {
         $this->transaction->setAvatarLink($this->avatar->getId());
         $this->transaction->setPackageLink($this->package->getId());
@@ -112,6 +129,10 @@ class Renewnow extends SecondlifeAjax
         $this->transaction->setUnixtime(time());
         $this->transaction->setTransactionUid($this->uid_transaction["uid"]);
         $this->transaction->setRenew(true);
+        if ($sltransactionUUID != null) {
+            $this->transaction->setViaHud(true);
+            $this->transaction->setSLtransactionUUID($sltransactionUUID);
+        }
         if ($this->transaction->createEntry()["status"] == false) {
             $this->setSwapTag("message", "Unable to create transaction");
             return false;
@@ -119,16 +140,9 @@ class Renewnow extends SecondlifeAjax
         return true;
     }
 
-    protected function getNoticeLevelIndex(int $hours_remain): int
+    protected function getNoticeLevelIndex(array $sorted_linked, int $hours_remain): int
     {
-        if ($hours_remain <= 0) {
-            return 6;
-        }
-        $notice_set = new NoticeSet();
-        $notice_set->loadAll();
-        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
-        ksort($sorted_linked, SORT_NUMERIC);
-        $use_notice_index = 10;
+        $use_notice_index = 0;
         $break_next = false;
         foreach ($sorted_linked as $hours => $index) {
             if ($hours > $hours_remain) {
@@ -152,19 +166,24 @@ class Renewnow extends SecondlifeAjax
         $this->rental->setRenewals(($this->rental->getRenewals() + $this->multipler));
         $this->rental->setTotalAmount(($this->rental->getTotalAmount() + $this->amountpaid));
         $unixtime_remain = $new_expires_time - time();
-        $this->processNoticeChange($unixtime_remain);
+        if ($unixtime_remain <= 0) {
+            $this->processNoticeChange($unixtime_remain);
+        }
     }
 
     protected function processNoticeChange($unixtime_remain): void
     {
         global $unixtime_hour;
         $hours_remain = ceil($unixtime_remain / $unixtime_hour);
-        $use_notice_index = $this->getNoticeLevelIndex($hours_remain);
-        if ($use_notice_index == $this->rental->getNoticeLink()) {
-            return;
-        }
+        $notice_set = new NoticeSet();
+        $notice_set->loadAll();
+        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
+        ksort($sorted_linked, SORT_NUMERIC);
+        $use_notice_index = $this->getNoticeLevelIndex($sorted_linked, $hours_remain);
         if ($use_notice_index != 0) {
-            $this->rental->setNoticeLink($use_notice_index);
+            if ($this->rental->getNoticeLink() != $use_notice_index) {
+                $this->rental->setNoticeLink($use_notice_index);
+            }
         }
         return;
     }
@@ -237,10 +256,9 @@ class Renewnow extends SecondlifeAjax
         $this->setSwapTag("status", true);
     }
 
-    public function process(): void
+    protected function startRenewal(?Avatar $forceMatchAv = null, ?string $sltransactionUUID = null): void
     {
-        $this->setup();
-        if ($this->load() == false) {
+        if ($this->load($forceMatchAv) == false) {
             return;
         }
         if ($this->acceptPaymentAmount() == false) {
@@ -255,7 +273,7 @@ class Renewnow extends SecondlifeAjax
         if ($this->saveRental() == false) {
             return;
         }
-        if ($this->finalizeTransaction() == false) {
+        if ($this->finalizeTransaction($sltransactionUUID) == false) {
             return;
         }
         if ($this->processResellerCut() == false) {
@@ -263,5 +281,12 @@ class Renewnow extends SecondlifeAjax
         }
 
         $this->userMessage();
+    }
+
+    public function process(?Avatar $forceMatchAv = null, ?string $sltransactionUUID = null): void
+    {
+        $this->setup();
+        $this->loadFromPost();
+        $this->startRenewal($forceMatchAv, $sltransactionUUID);
     }
 }

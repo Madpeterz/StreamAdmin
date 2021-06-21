@@ -12,17 +12,12 @@ use YAPF\InputFilter\InputFilter;
 
 class Details extends SecondlifeAjax
 {
-    public function process(): void
+    /**
+     * getRentalDetailsForAvatar
+     * see output for data
+     */
+    public function getRentalDetailsForAvatar(Avatar $avatar): void
     {
-        $input = new InputFilter();
-        $avatarUUID = $input->postFilter("avatarUUID");
-        $avatar = new Avatar();
-        $this->setSwapTag("dataset_count", 0);
-        if ($avatar->loadByField("avatarUUID", $avatarUUID) == false) {
-            $this->setSwapTag("message", "Unable to find avatar");
-            return;
-        }
-
         $banlist = new Banlist();
         if ($banlist->loadByField("avatarLink", $avatar->getId()) == true) {
             $this->setSwapTag("message", "Unable to find avatar");
@@ -63,5 +58,17 @@ class Details extends SecondlifeAjax
         $this->setSwapTag("dataset_count", count($reply_dataset));
         $this->setSwapTag("dataset", $reply_dataset);
         $this->setSwapTag("message", sprintf("Client account: %1\$s", $avatar->getAvatarName()));
+    }
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $avatarUUID = $input->postFilter("avatarUUID");
+        $avatar = new Avatar();
+        $this->setSwapTag("dataset_count", 0);
+        if ($avatar->loadByField("avatarUUID", $avatarUUID) == false) {
+            $this->setSwapTag("message", "Unable to find avatar");
+            return;
+        }
+        $this->getRentalDetailsForAvatar($avatar);
     }
 }
