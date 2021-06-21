@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Endpoint\HudApi\Config;
+namespace App\Endpoint\HudApi\Rentals;
 
-use App\Endpoint\SecondLifeApi\Renew\Details as RenewDetails;
 use App\Endpoint\SecondLifeApi\Renew\Renewnow;
 use App\Template\SecondlifeHudAjax;
 use YAPF\InputFilter\InputFilter;
