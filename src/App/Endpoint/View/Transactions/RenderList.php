@@ -10,10 +10,10 @@ use App\R7\Set\TransactionsSet;
 
 abstract class RenderList extends View
 {
-    protected $transaction_set = null;
-    protected $package_set = null;
-    protected $region_set = null;
-    protected $avatar_set = null;
+    protected TransactionsSet $transaction_set;
+    protected PackageSet $package_set;
+    protected RegionSet $region_set;
+    protected AvatarSet $avatar_set;
 
     public function __construct()
     {
@@ -39,9 +39,19 @@ abstract class RenderList extends View
 
     public function renderTransactionTable(): string
     {
-        $this->loadRequired();
         $table_head = ["id","Transaction UID","Client","Package","Region","Amount","Datetime","Mode"];
-        if ($this->session->getOwnerLevel() == 1) {
+        $this->loadRequired();
+        $table_head = [
+            "id",
+            "Transaction UID",
+            "Client",
+            "Package",
+            "Region",
+            "Amount",
+            "Datetime",
+            "Type",
+        ];
+        if ($this->session->getOwnerLevel() == true) {
             $table_head[] = "Remove";
         }
         $table_body = [];
@@ -65,10 +75,14 @@ abstract class RenderList extends View
             $entry[] = $packagename;
             $entry[] = $regionname;
             $entry[] = $transaction->getAmount();
-            $entry[] = date('l jS \of F Y h:i:s A', $transaction->getUnixtime());
-            $type = "New";
+            $entry[] = date('d/m/Y @ G:i:s', $transaction->getUnixtime());
+            $type = "<i class=\"fas fa-user-plus\"></i> New";
             if ($transaction->getRenew() == 1) {
-                $type = "Renew";
+                $type = "<i class=\"fas fa-redo-alt\"></i> Renew";
+            }
+            if ($transaction->getViaHud() == true) {
+                $type = '<span data-toggle="tooltip" data-placement="bottom" title="
+                ' . $transaction->getSLtransactionUUID() . '"><i class="fab fa-quinscape"></i> Hud</span>';
             }
             $entry[] = $type;
             if ($this->session->getOwnerLevel() == 1) {
