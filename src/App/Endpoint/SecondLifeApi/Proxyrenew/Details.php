@@ -45,11 +45,8 @@ class Details extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find avatar! attempted to match with: " . $matchWith);
             return;
         }
-        global $_POST;
-        $_POST["avatarUUID"] = $avatar->getAvatarUUID();
-
         $Details = new RenewDetails();
-        $Details->process();
+        $Details->getRentalDetailsForAvatar($avatar);
         $this->output = $Details->getOutputObject();
     }
 }
