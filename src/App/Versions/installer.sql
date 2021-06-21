@@ -252,11 +252,17 @@ CREATE TABLE `slconfig` (
   `displayTimezoneLink` int(11) NOT NULL DEFAULT 11,
   `apiDefaultEmail` text NOT NULL,
   `customLogo` tinyint(1) NOT NULL DEFAULT 0,
-  `customLogoBin` text NOT NULL
+  `customLogoBin` text NOT NULL,
+  `hudAllowDiscord` tinyint(1) NOT NULL DEFAULT 0,
+  `hudDiscordLink` text NOT NULL DEFAULT 'Not setup yet',
+  `hudAllowGroup` tinyint(1) NOT NULL DEFAULT 0,
+  `hudGroupLink` text NOT NULL DEFAULT 'Not setup yet',
+  `hudAllowDetails` tinyint(1) NOT NULL DEFAULT 0,
+  `hudAllowRenewal` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`) VALUES
-(1, '1.0.1.9', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '');
+INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`) VALUES
+(1, '1.0.2.0', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0);
 
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE `staff` (
@@ -658,3 +664,8 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
+
+ALTER TABLE `transactions` 
+  ADD `SLtransactionUUID` VARCHAR(36) NULL AFTER `renew`, 
+  ADD `ViaHud` TINYINT(1) NOT NULL DEFAULT '0' AFTER `SLtransactionUUID`, 
+  ADD UNIQUE (`SLtransactionUUID`);
