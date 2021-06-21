@@ -9,23 +9,56 @@ use YAPF\InputFilter\InputFilter;
 
 class Update extends ViewAjax
 {
+    protected function forceReissue(): bool
+    {
+        $reissued = false;
+        if (strlen($this->slconfig->getSlLinkCode()) > 10) {
+            $reissued = true;
+        }
+        if (strlen($this->slconfig->getPublicLinkCode()) > 12) {
+            $reissued = true;
+        }
+        if (strlen($this->slconfig->getHudLinkCode()) > 12) {
+            $reissued = true;
+        }
+        if (strlen($this->slconfig->getHttpInboundSecret()) > 12) {
+            $reissued = true;
+        }
+        if ($reissued == true) {
+            $reissueKeys = new Reissue();
+            $reissueKeys->reissueKeys();
+        }
+        return $reissued;
+    }
+
+    protected function updateHudSettings(): void
+    {
+        $input = new InputFilter();
+        $hudAllowDiscord = $input->postFilter("hudAllowDiscord", "bool");
+        $hudDiscordLink = $input->postFilter("hudDiscordLink");
+        $hudAllowGroup = $input->postFilter("hudAllowGroup", "bool");
+        $hudGroupLink = $input->postFilter("hudGroupLink");
+        $hudAllowDetails = $input->postFilter("hudAllowDetails", "bool");
+        $hudAllowRenewal = $input->postFilter("hudAllowRenewal", "bool");
+        if ($hudAllowRenewal == 1) {
+            $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
+        }
+        $this->slconfig->setHudAllowDiscord($hudAllowDiscord);
+        $this->slconfig->setHudDiscordLink($hudDiscordLink);
+        $this->slconfig->setHudAllowGroup($hudAllowGroup);
+        $this->slconfig->setHudGroupLink($hudGroupLink);
+        $this->slconfig->setHudAllowDetails($hudAllowDetails);
+        $this->slconfig->setHudAllowRenewal($hudAllowRenewal);
+    }
+
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() == false) {
-            $this->setSwapTag("status", false);
-            $this->setSwapTag("message", "Only system owner can adjust settings");
-            return;
-        }
-
         $this->output->purgeCacheFile("current_timezone", false);
 
         $avatar = new Avatar();
         $timezone = new Timezones();
         $input = new InputFilter();
 
-        //$slLinkCode = $input->postFilter("slLinkCode");
-        //$httpcode = $input->postFilter("httpcode");
-        //$publicLinkCode = $input->postFilter("publicLinkCode");
         $newResellersRate = $input->postFilter("newResellersRate", "integer");
         $newResellers = $input->postFilter("newResellers", "bool");
         $owneravuid = $input->postFilter("owneravuid");
@@ -77,6 +110,9 @@ class Update extends ViewAjax
         $this->slconfig->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
         $this->slconfig->setDisplayTimezoneLink($displayTimezoneLink);
         $this->slconfig->setApiDefaultEmail($apiDefaultEmail);
+
+        $this->updateHudSettings();
+        $reissuedKeys = $this->forceReissue();
         $update_status = $this->slconfig->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag(
@@ -85,7 +121,11 @@ class Update extends ViewAjax
             );
             return;
         }
+
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "system config updated");
+        if ($reissuedKeys == true) {
+            $this->output->addSwapTagString("message", " [Forced key reissue due to bug]");
+        }
     }
 }
