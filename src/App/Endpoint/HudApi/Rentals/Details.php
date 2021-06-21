@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Endpoint\HudApi\Config;
+
+use App\Endpoint\SecondLifeApi\Renew\Details as RenewDetails;
+use App\Template\SecondlifeHudAjax;
+
+class Details extends SecondlifeHudAjax
+{
+    public function process(): void
+    {
+        if ($this->slconfig->getHudAllowDetails() == false) {
+            $this->setSwapTag("message", "Failed - Hud details are currently disabled");
+            return;
+        }
+        $Details = new RenewDetails();
+        $Details->getRentalDetailsForAvatar($this->Object_OwnerAvatar);
+        $this->output = $Details->getOutputObject();
+    }
+}
