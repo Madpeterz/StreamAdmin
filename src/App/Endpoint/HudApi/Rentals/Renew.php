@@ -38,6 +38,7 @@ class Renew extends SecondlifeHudAjax
         }
         $renew = new Renewnow();
         $renew->setReseller($reseller_helper->getReseller());
+        $renew->setRegion($this->region);
         $renew->setOwnerOverride(true);
         $renew->process($this->Object_OwnerAvatar, $SLtransactionUUID);
         $this->output = $renew->getOutputObject();
