@@ -140,19 +140,19 @@ class Renewnow extends SecondlifeAjax
         return true;
     }
 
-    protected function getNoticeLevelIndex(array $sorted_linked, int $hours_remain): int
+    public function getNoticeLevelIndex(int $hours_remain): int
     {
-        $use_notice_index = 0;
-        $break_next = false;
+        $notice_set = new NoticeSet();
+        $notice_set->loadAll();
+        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
+        ksort($sorted_linked, SORT_NUMERIC);
+        $use_notice_index = 6;
         foreach ($sorted_linked as $hours => $index) {
-            if ($hours > $hours_remain) {
-                if ($break_next == false) {
-                    $break_next = true;
-                    $use_notice_index = $index;
-                } else {
-                    break;
-                }
+            if ($hours <= $hours_remain) {
+                $use_notice_index = $index;
+                continue;
             }
+            break;
         }
         return $use_notice_index;
     }
@@ -166,7 +166,8 @@ class Renewnow extends SecondlifeAjax
         $this->rental->setRenewals(($this->rental->getRenewals() + $this->multipler));
         $this->rental->setTotalAmount(($this->rental->getTotalAmount() + $this->amountpaid));
         $unixtime_remain = $new_expires_time - time();
-        if ($unixtime_remain <= 0) {
+        $this->rental->setNoticeLink(6);
+        if ($unixtime_remain > 0) {
             $this->processNoticeChange($unixtime_remain);
         }
     }
@@ -175,11 +176,7 @@ class Renewnow extends SecondlifeAjax
     {
         global $unixtime_hour;
         $hours_remain = ceil($unixtime_remain / $unixtime_hour);
-        $notice_set = new NoticeSet();
-        $notice_set->loadAll();
-        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
-        ksort($sorted_linked, SORT_NUMERIC);
-        $use_notice_index = $this->getNoticeLevelIndex($sorted_linked, $hours_remain);
+        $use_notice_index = $this->getNoticeLevelIndex($hours_remain);
         if ($use_notice_index != 0) {
             if ($this->rental->getNoticeLink() != $use_notice_index) {
                 $this->rental->setNoticeLink($use_notice_index);
