@@ -2,8 +2,8 @@
 
 namespace YAPF\InputFilter;
 
-use YAPF\InputFilter\Worker\InputFilterWorkerPost as InputFilterWorkerPost;
+use YAPF\InputFilter\Alias\PostAlias;
 
-class InputFilter extends InputFilterWorkerPost
+class InputFilter extends PostAlias
 {
 }

@@ -36,7 +36,17 @@ abstract class InputFilterWorkerBase extends ErrorLogging
         return true;
     }
 
-        /**
+    /**
+     * varFilter
+     * see: valueFilter
+     * @return mixed or null
+     */
+    public function varFilter($currentvalue, string $filter = "string", array $args = [])
+    {
+        return "Warning using base varFilter should be overrided";
+    }
+
+    /**
      * SharedInputFilter
      * Overridden in InputFilterWorkerValue
      * @return mixed

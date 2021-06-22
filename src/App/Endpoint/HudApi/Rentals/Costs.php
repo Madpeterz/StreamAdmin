@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\HudApi\Config;
+namespace App\Endpoint\HudApi\Rentals;
 
 use App\Endpoint\SecondLifeApi\Renew\Costandtime;
 use App\Template\SecondlifeHudAjax;

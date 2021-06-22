@@ -24,7 +24,7 @@ abstract class InputFilterTypeCheckbox extends InputFilterTypeVector
             }
         }
         if ($filter_as != "checkbox") {
-            return $this->valueFilter($value, $filter_as);
+            return $this->varFilter($value, $filter_as);
         }
         $this->whyfailed = "filter self loop detected";
         return null;

@@ -9,3 +9,4 @@ End user hud is now running settings can be adjusted via the config area. (Optio
 <br/>
 Have a feature/bug you want fixed/added then 
 <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
+ 

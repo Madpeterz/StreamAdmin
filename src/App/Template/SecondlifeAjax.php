@@ -13,6 +13,7 @@ use YAPF\InputFilter\InputFilter;
 
 abstract class SecondlifeAjax extends View
 {
+    protected bool $trackObject = true;
     protected $method = "";
     protected $action = "";
     protected $mode = "";
@@ -150,44 +151,46 @@ abstract class SecondlifeAjax extends View
             return;
         }
         $this->region = $region_helper->getRegion();
-        $reseller_helper = new ResellerHelper();
-        $get_reseller_status = $reseller_helper->loadOrCreate(
-            $this->Object_OwnerAvatar->getId(),
-            $this->slconfig->getNewResellers(),
-            $this->slconfig->getNewResellersRate()
-        );
-        if ($get_reseller_status == false) {
-            $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to load reseller");
-            return;
-        }
-        if ($skip_reseller == false) {
-            $this->reseller = $reseller_helper->getReseller();
-            if ($this->slconfig->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
-                $this->owner_override = true;
-            }
-            if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
+        if ($this->trackObject == true) {
+            $reseller_helper = new ResellerHelper();
+            $get_reseller_status = $reseller_helper->loadOrCreate(
+                $this->Object_OwnerAvatar->getId(),
+                $this->slconfig->getNewResellers(),
+                $this->slconfig->getNewResellersRate()
+            );
+            if ($get_reseller_status == false) {
                 $this->load_ok = false;
-                $this->setSwapTag("message", "Unable to access this api - please contact owner");
+                $this->setSwapTag("message", "Unable to load reseller");
                 return;
             }
+            if ($skip_reseller == false) {
+                $this->reseller = $reseller_helper->getReseller();
+                if ($this->slconfig->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
+                    $this->owner_override = true;
+                }
+                if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
+                    $this->load_ok = false;
+                    $this->setSwapTag("message", "Unable to access this api - please contact owner");
+                    return;
+                }
+            }
+            $object_helper = new ObjectHelper();
+            $get_object_status = $object_helper->loadOrCreate(
+                $this->Object_OwnerAvatar->getId(),
+                $this->region->getId(),
+                $this->objectuuid,
+                $this->objectname,
+                $this->objecttype,
+                $this->pos,
+                true
+            );
+            if ($get_object_status == false) {
+                $this->load_ok = false;
+                $this->setSwapTag("message", "Unable to attach object: " . $object_helper->getLastWhyFailed());
+                return;
+            }
+            $this->object = $object_helper->getObject();
         }
-        $object_helper = new ObjectHelper();
-        $get_object_status = $object_helper->loadOrCreate(
-            $this->Object_OwnerAvatar->getId(),
-            $this->region->getId(),
-            $this->objectuuid,
-            $this->objectname,
-            $this->objecttype,
-            $this->pos,
-            true
-        );
-        if ($get_object_status == false) {
-            $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to attach object: " . $object_helper->getLastWhyFailed());
-            return;
-        }
-        $this->object = $object_helper->getObject();
     }
 
     protected function timeWindow(): void

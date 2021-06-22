@@ -83,6 +83,19 @@ class Issue28 extends TestCase
     /**
      * @depends test_ImportStreamsFromR4
     */
+    public function test_DetailedTestNoticeLevelIndex()
+    {
+        $Renewnow = new Renewnow();
+        //  {"0":6,"5":5,"24":4,"72":3,"120":2,"168":1,"999":10}
+        $test1 = $Renewnow->getNoticeLevelIndex(5);
+        $this->assertSame(5,$test1,"Incorrect notice index");
+        $test2 = $Renewnow->getNoticeLevelIndex(169);
+        $this->assertSame(1,$test2,"Incorrect notice index");
+    }
+
+    /**
+     * @depends test_DetailedTestNoticeLevelIndex
+    */
     public function test_RenewAccountFromExpired()
     {
         $avatars = new Avatar();
