@@ -24,7 +24,10 @@ class Expired extends Withstatus
             "matches" => ["IN"],
         ];
         $this->output->addSwapTagString("page_title", "With notice status: Expired (or worse)");
-
+        $this->setSwapTag(
+            "page_actions",
+            "<a href='[[url_base]]client/BulkRemove'><button type='button' class='btn btn-danger'>Bulk remove</button></a>"
+        );
         parent::process();
     }
 }

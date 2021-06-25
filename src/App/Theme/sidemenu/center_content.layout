@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="row mt-1 justify-content-between">
                 <div class="col-5">[[page_title]]</div>
-                <div class="col-1 justify-content-end">[[page_actions]]</div>
+                <div class="d-flex col-2 justify-content-end">[[page_actions]]</div>
             </div>
         </div>
         <div class="card-body">
