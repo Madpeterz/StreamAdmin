@@ -7,6 +7,7 @@ use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
 use App\R7\Model\Avatar;
+use App\R7\Model\Objects;
 use App\R7\Model\Region;
 use App\R7\Model\Reseller;
 use YAPF\InputFilter\InputFilter;
@@ -34,7 +35,7 @@ abstract class SecondlifeAjax extends View
     protected ?Region $region;
     protected ?Reseller $reseller;
     protected bool $owner_override = false;
-    protected ?Object $object;
+    protected ?Objects $object;
     protected bool $soft_fail = false;
 
     public function setReseller(Reseller $reseller): void
