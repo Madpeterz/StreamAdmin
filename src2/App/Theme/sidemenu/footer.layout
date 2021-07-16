@@ -1,0 +1,10 @@
+[[html_js_bottom]]
+<script type="text/javascript" src="[[url_base]]js/site.js"></script>
+<script type="text/javascript">
+    var url_base = '[[url_base]]';
+    $( document ).ready(function() {
+        [[html_js_onready]]
+    });
+</script>
+</body>
+</html>

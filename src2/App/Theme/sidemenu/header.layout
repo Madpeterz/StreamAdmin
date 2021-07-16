@@ -1,0 +1,7 @@
+<head>
+    <title>[[html_title]] - [[SITE_NAME]]</title>
+    [[html_cs_top]]
+    <meta content='maximum-scale=1.0, initial-scale=1.0, width=device-width' name='viewport'>
+    <link rel="icon" type="image/png" href="[[url_base]]Images/favicon-32x32.png">
+    <link rel="stylesheet" type="text/css" href="[[url_base]]css/site.css">
+</head>
