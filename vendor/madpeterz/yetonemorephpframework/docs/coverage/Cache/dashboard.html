@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for D:\php projects\yetonemorephpframework\src\Cache</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">D:\php projects\yetonemorephpframework\src</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Cache</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Drivers/Redis.php.html#11">YAPF\Cache\Drivers\Redis</a></td><td class="text-right">56%</td></tr>
+       <tr><td><a href="Cache.php.html#5">YAPF\Cache\Cache</a></td><td class="text-right">73%</td></tr>
+       <tr><td><a href="CacheWorker.php.html#5">YAPF\Cache\CacheWorker</a></td><td class="text-right">89%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Drivers/Redis.php.html#11">YAPF\Cache\Drivers\Redis</a></td><td class="text-right">139</td></tr>
+       <tr><td><a href="Cache.php.html#5">YAPF\Cache\Cache</a></td><td class="text-right">104</td></tr>
+       <tr><td><a href="CacheWorker.php.html#5">YAPF\Cache\CacheWorker</a></td><td class="text-right">23</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Cache.php.html#21"><abbr title="YAPF\Cache\Cache::getKeys">getKeys</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Cache.php.html#64"><abbr title="YAPF\Cache\Cache::purge">purge</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#35"><abbr title="YAPF\Cache\Drivers\Redis::connectUnix">connectUnix</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#21"><abbr title="YAPF\Cache\Drivers\Redis::setTimeout">setTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#136"><abbr title="YAPF\Cache\Drivers\Redis::readKey">readKey</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#176"><abbr title="YAPF\Cache\Drivers\Redis::getKeys">getKeys</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#118"><abbr title="YAPF\Cache\Drivers\Redis::writeKeyReal">writeKeyReal</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Cache.php.html#77"><abbr title="YAPF\Cache\Cache::getChangeID">getChangeID</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Cache.php.html#86"><abbr title="YAPF\Cache\Cache::cleanup">cleanup</abbr></a></td><td class="text-right">51%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#96"><abbr title="YAPF\Cache\Drivers\Redis::deleteKey">deleteKey</abbr></a></td><td class="text-right">53%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#81"><abbr title="YAPF\Cache\Drivers\Redis::hasKey">hasKey</abbr></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#63"><abbr title="YAPF\Cache\Drivers\Redis::connectNow">connectNow</abbr></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="Cache.php.html#188"><abbr title="YAPF\Cache\Cache::cacheVaild">cacheVaild</abbr></a></td><td class="text-right">65%</td></tr>
+       <tr><td><a href="Cache.php.html#244"><abbr title="YAPF\Cache\Cache::writeHash">writeHash</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#149"><abbr title="YAPF\Cache\Drivers\Redis::purge">purge</abbr></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="Cache.php.html#171"><abbr title="YAPF\Cache\Cache::markChangeToTable">markChangeToTable</abbr></a></td><td class="text-right">72%</td></tr>
+       <tr><td><a href="CacheWorker.php.html#65"><abbr title="YAPF\Cache\CacheWorker::loadLastChanged">loadLastChanged</abbr></a></td><td class="text-right">73%</td></tr>
+       <tr><td><a href="Cache.php.html#137"><abbr title="YAPF\Cache\Cache::setAccountHash">setAccountHash</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Drivers/Disk.php.html#19"><abbr title="YAPF\Cache\Drivers\Disk::setupCache">setupCache</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Drivers/Disk.php.html#75"><abbr title="YAPF\Cache\Drivers\Disk::purge">purge</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="CacheWorker.php.html#124"><abbr title="YAPF\Cache\CacheWorker::getKeyInfo">getKeyInfo</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="Cache.php.html#159"><abbr title="YAPF\Cache\Cache::addTableToCache">addTableToCache</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Drivers/Disk.php.html#41"><abbr title="YAPF\Cache\Drivers\Disk::writeKeyReal">writeKeyReal</abbr></a></td><td class="text-right">88%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Cache.php.html#86"><abbr title="YAPF\Cache\Cache::cleanup">cleanup</abbr></a></td><td class="text-right">18</td></tr>
+       <tr><td><a href="Cache.php.html#188"><abbr title="YAPF\Cache\Cache::cacheVaild">cacheVaild</abbr></a></td><td class="text-right">10</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#176"><abbr title="YAPF\Cache\Drivers\Redis::getKeys">getKeys</abbr></a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#136"><abbr title="YAPF\Cache\Drivers\Redis::readKey">readKey</abbr></a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="CacheWorker.php.html#65"><abbr title="YAPF\Cache\CacheWorker::loadLastChanged">loadLastChanged</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#96"><abbr title="YAPF\Cache\Drivers\Redis::deleteKey">deleteKey</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#149"><abbr title="YAPF\Cache\Drivers\Redis::purge">purge</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#118"><abbr title="YAPF\Cache\Drivers\Redis::writeKeyReal">writeKeyReal</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Cache.php.html#21"><abbr title="YAPF\Cache\Cache::getKeys">getKeys</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#81"><abbr title="YAPF\Cache\Drivers\Redis::hasKey">hasKey</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Drivers/Disk.php.html#41"><abbr title="YAPF\Cache\Drivers\Disk::writeKeyReal">writeKeyReal</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Cache.php.html#244"><abbr title="YAPF\Cache\Cache::writeHash">writeHash</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Cache.php.html#171"><abbr title="YAPF\Cache\Cache::markChangeToTable">markChangeToTable</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="CacheWorker.php.html#124"><abbr title="YAPF\Cache\CacheWorker::getKeyInfo">getKeyInfo</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Drivers/Disk.php.html#75"><abbr title="YAPF\Cache\Drivers\Disk::purge">purge</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Cache.php.html#77"><abbr title="YAPF\Cache\Cache::getChangeID">getChangeID</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Drivers/Redis.php.html#63"><abbr title="YAPF\Cache\Drivers\Redis::connectNow">connectNow</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Cache.php.html#137"><abbr title="YAPF\Cache\Cache::setAccountHash">setAccountHash</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Drivers/Disk.php.html#19"><abbr title="YAPF\Cache\Drivers\Disk::setupCache">setupCache</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Cache.php.html#159"><abbr title="YAPF\Cache\Cache::addTableToCache">addTableToCache</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 7.0.14</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.21</a> with <a href="https://xdebug.org/">Xdebug 2.9.7</a> and <a href="https://phpunit.de/">PHPUnit 8.0.0</a> at Fri Jul 16 1:02:24 CEST 2021.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js" type="text/javascript"></script>
+  <script src="../_js/d3.min.js" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,1,0,1,1,1,1], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([4,0,0,0,2,0,6,2,7,2,1,32], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[73.64864864864865,53,"<a href=\"Cache.php.html#5\">YAPF\\Cache\\Cache<\/a>"],[100,8,"<a href=\"CacheRequired.php.html#5\">YAPF\\Cache\\CacheRequired<\/a>"],[89.87341772151899,23,"<a href=\"CacheWorker.php.html#5\">YAPF\\Cache\\CacheWorker<\/a>"],[92,33,"<a href=\"Drivers\/Disk.php.html#8\">YAPF\\Cache\\Drivers\\Disk<\/a>"],[56.97674418604651,36,"<a href=\"Drivers\/Redis.php.html#11\">YAPF\\Cache\\Drivers\\Redis<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Cache.php.html#11\">YAPF\\Cache\\Cache::__destruct<\/a>"],[0,2,"<a href=\"Cache.php.html#21\">YAPF\\Cache\\Cache::getKeys<\/a>"],[100,2,"<a href=\"Cache.php.html#34\">YAPF\\Cache\\Cache::start<\/a>"],[100,3,"<a href=\"Cache.php.html#44\">YAPF\\Cache\\Cache::finalizeWrites<\/a>"],[0,1,"<a href=\"Cache.php.html#64\">YAPF\\Cache\\Cache::purge<\/a>"],[100,1,"<a href=\"Cache.php.html#69\">YAPF\\Cache\\Cache::forceWrite<\/a>"],[50,2,"<a href=\"Cache.php.html#77\">YAPF\\Cache\\Cache::getChangeID<\/a>"],[51.724137931034484,9,"<a href=\"Cache.php.html#86\">YAPF\\Cache\\Cache::cleanup<\/a>"],[100,1,"<a href=\"Cache.php.html#130\">YAPF\\Cache\\Cache::shutdown<\/a>"],[75,2,"<a href=\"Cache.php.html#137\">YAPF\\Cache\\Cache::setAccountHash<\/a>"],[85.71428571428571,2,"<a href=\"Cache.php.html#159\">YAPF\\Cache\\Cache::addTableToCache<\/a>"],[72.72727272727273,4,"<a href=\"Cache.php.html#171\">YAPF\\Cache\\Cache::markChangeToTable<\/a>"],[65.51724137931035,8,"<a href=\"Cache.php.html#188\">YAPF\\Cache\\Cache::cacheVaild<\/a>"],[100,3,"<a href=\"Cache.php.html#234\">YAPF\\Cache\\Cache::readHash<\/a>"],[66.66666666666666,4,"<a href=\"Cache.php.html#244\">YAPF\\Cache\\Cache::writeHash<\/a>"],[100,3,"<a href=\"Cache.php.html#276\">YAPF\\Cache\\Cache::giveArrayOnNull<\/a>"],[100,5,"<a href=\"Cache.php.html#284\">YAPF\\Cache\\Cache::getHash<\/a>"],[100,2,"<a href=\"CacheRequired.php.html#9\">YAPF\\Cache\\CacheRequired::addErrorlog<\/a>"],[100,1,"<a href=\"CacheRequired.php.html#16\">YAPF\\Cache\\CacheRequired::setupCache<\/a>"],[100,1,"<a href=\"CacheRequired.php.html#18\">YAPF\\Cache\\CacheRequired::hasKey<\/a>"],[100,1,"<a href=\"CacheRequired.php.html#20\">YAPF\\Cache\\CacheRequired::writeKeyReal<\/a>"],[100,2,"<a href=\"CacheRequired.php.html#22\">YAPF\\Cache\\CacheRequired::readKey<\/a>"],[100,1,"<a href=\"CacheRequired.php.html#24\">YAPF\\Cache\\CacheRequired::deleteKey<\/a>"],[100,1,"<a href=\"CacheWorker.php.html#16\">YAPF\\Cache\\CacheWorker::removeKey<\/a>"],[100,2,"<a href=\"CacheWorker.php.html#24\">YAPF\\Cache\\CacheWorker::saveLastChanged<\/a>"],[100,1,"<a href=\"CacheWorker.php.html#36\">YAPF\\Cache\\CacheWorker::writeKey<\/a>"],[100,1,"<a href=\"CacheWorker.php.html#50\">YAPF\\Cache\\CacheWorker::getLastChangedPath<\/a>"],[100,2,"<a href=\"CacheWorker.php.html#55\">YAPF\\Cache\\CacheWorker::getWorkerPath<\/a>"],[73.91304347826086,7,"<a href=\"CacheWorker.php.html#65\">YAPF\\Cache\\CacheWorker::loadLastChanged<\/a>"],[100,2,"<a href=\"CacheWorker.php.html#99\">YAPF\\Cache\\CacheWorker::intLastChanged<\/a>"],[100,1,"<a href=\"CacheWorker.php.html#112\">YAPF\\Cache\\CacheWorker::getHashInfo<\/a>"],[77.77777777777779,3,"<a href=\"CacheWorker.php.html#124\">YAPF\\Cache\\CacheWorker::getKeyInfo<\/a>"],[100,3,"<a href=\"CacheWorker.php.html#139\">YAPF\\Cache\\CacheWorker::getkeyPath<\/a>"],[100,1,"<a href=\"Drivers\/Disk.php.html#11\">YAPF\\Cache\\Drivers\\Disk::__construct<\/a>"],[75,2,"<a href=\"Drivers\/Disk.php.html#19\">YAPF\\Cache\\Drivers\\Disk::setupCache<\/a>"],[100,1,"<a href=\"Drivers\/Disk.php.html#27\">YAPF\\Cache\\Drivers\\Disk::hasKey<\/a>"],[100,2,"<a href=\"Drivers\/Disk.php.html#33\">YAPF\\Cache\\Drivers\\Disk::deleteKey<\/a>"],[88.23529411764706,5,"<a href=\"Drivers\/Disk.php.html#41\">YAPF\\Cache\\Drivers\\Disk::writeKeyReal<\/a>"],[100,3,"<a href=\"Drivers\/Disk.php.html#66\">YAPF\\Cache\\Drivers\\Disk::readKey<\/a>"],[77.77777777777779,3,"<a href=\"Drivers\/Disk.php.html#75\">YAPF\\Cache\\Drivers\\Disk::purge<\/a>"],[100,6,"<a href=\"Drivers\/Disk.php.html#90\">YAPF\\Cache\\Drivers\\Disk::cleanFolders<\/a>"],[100,2,"<a href=\"Drivers\/Disk.php.html#117\">YAPF\\Cache\\Drivers\\Disk::getKeys<\/a>"],[94.11764705882352,8,"<a href=\"Drivers\/Disk.php.html#127\">YAPF\\Cache\\Drivers\\Disk::mapKeysInFolder<\/a>"],[0,1,"<a href=\"Drivers\/Redis.php.html#21\">YAPF\\Cache\\Drivers\\Redis::setTimeout<\/a>"],[100,2,"<a href=\"Drivers\/Redis.php.html#26\">YAPF\\Cache\\Drivers\\Redis::shutdown<\/a>"],[0,1,"<a href=\"Drivers\/Redis.php.html#35\">YAPF\\Cache\\Drivers\\Redis::connectUnix<\/a>"],[100,1,"<a href=\"Drivers\/Redis.php.html#46\">YAPF\\Cache\\Drivers\\Redis::connectTCP<\/a>"],[100,1,"<a href=\"Drivers\/Redis.php.html#58\">YAPF\\Cache\\Drivers\\Redis::setConnectionSettings<\/a>"],[57.14285714285714,2,"<a href=\"Drivers\/Redis.php.html#63\">YAPF\\Cache\\Drivers\\Redis::connectNow<\/a>"],[100,1,"<a href=\"Drivers\/Redis.php.html#76\">YAPF\\Cache\\Drivers\\Redis::setupCache<\/a>"],[57.14285714285714,4,"<a href=\"Drivers\/Redis.php.html#81\">YAPF\\Cache\\Drivers\\Redis::hasKey<\/a>"],[53.84615384615385,5,"<a href=\"Drivers\/Redis.php.html#96\">YAPF\\Cache\\Drivers\\Redis::deleteKey<\/a>"],[50,4,"<a href=\"Drivers\/Redis.php.html#118\">YAPF\\Cache\\Drivers\\Redis::writeKeyReal<\/a>"],[33.33333333333333,4,"<a href=\"Drivers\/Redis.php.html#136\">YAPF\\Cache\\Drivers\\Redis::readKey<\/a>"],[71.42857142857143,6,"<a href=\"Drivers\/Redis.php.html#149\">YAPF\\Cache\\Drivers\\Redis::purge<\/a>"],[33.33333333333333,4,"<a href=\"Drivers\/Redis.php.html#176\">YAPF\\Cache\\Drivers\\Redis::getKeys<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

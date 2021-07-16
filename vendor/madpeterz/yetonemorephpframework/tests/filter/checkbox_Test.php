@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_checkbox_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -102,5 +102,16 @@ class inputFilter_checkbox_test extends TestCase
         $this->assertSame($results1, 0);
         $results1 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results1, "Unknown filter: magic");
+    }
+
+    public function test_checkbox_via_get_and_post()
+    {
+        $_GET["popcorn3"] = 5;
+        $results1 = $this->_testingobject->getCheckbox("popcorn3");
+        $this->assertSame(5, $results1);
+
+        $_POST["magic3"] = [54,22];
+        $results2 = $this->_testingobject->postCheckbox("magic3","array");
+        $this->assertSame([54,22], $results2);
     }
 }

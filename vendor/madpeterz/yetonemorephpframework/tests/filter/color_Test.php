@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_color_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -166,5 +166,19 @@ class inputFilter_color_test extends TestCase
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results2, "Require 3 parts split with , example: 23,42,55");
+    }
+
+    public function test_color_via_get_and_post()
+    {
+        $_GET["popcorn3"] = "<1,0.2,0.6>";
+        $results1 = $this->_testingobject->getColour("popcorn3",false,true);
+        $results2 = $this->_testingobject->getColor("popcorn3",false,true);
+        $this->assertSame($results1, "<1,0.2,0.6>");
+        $this->assertSame($results2, "<1,0.2,0.6>");
+        $_POST["popcorn4"] = "<212,34,55>";
+        $results3 = $this->_testingobject->postColour("popcorn4",false,true);
+        $results4 = $this->_testingobject->postColor("popcorn4",false,true);
+        $this->assertSame("<212,34,55>", $results3);
+        $this->assertSame("<212,34,55>",$results4);
     }
 }

@@ -48,4 +48,14 @@ class inputFilter_array_test extends TestCase
         $results1 = $this->testingobject->getWhyFailed();
         $this->assertSame($results1, "Not an array");
     }
+    public function test_array_via_get_and_post()
+    {
+        $_GET["popcorn3"] = ["yes","no"];
+        $results1 = $this->testingobject->getArray("popcorn3");
+        $this->assertSame($results1, ["yes","no"]);
+
+        $_POST["magic3"] = ["up","down","left"];
+        $results2 = $this->testingobject->postArray("magic3");
+        $this->assertSame($results2, ["up","down","left"]);
+    }
 }

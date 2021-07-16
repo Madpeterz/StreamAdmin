@@ -19,6 +19,8 @@ services:
         environment:
         - SITE_HOST={DOMAIN}
         - SITE_TITLE=StreamAdmin
+        - CACHE_ENABLED=true
+        - CACHE_VIA_REDIS=true
         - DB_HOST=db
         - DB_DATABASE=streamadmin
         - DB_USERNAME=streamadminDBuser

@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_email_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -69,5 +69,16 @@ class inputFilter_email_test extends TestCase
         $results2 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results2, "Failed vaildation after removing mailbox");
         $this->assertSame($results1, null);
+    }
+
+    public function test_email_via_get_post()
+    {
+        $_GET["popcorn3"] = "you@email.com";
+        $results1 = $this->_testingobject->getEmail("popcorn3");
+        $this->assertSame($results1, "you@email.com");
+
+        $_POST["popcorn5"] = "magic@email.com";
+        $results2 = $this->_testingobject->postEmail("popcorn5",true);
+        $this->assertSame($results2, "magic@email.com");
     }
 }

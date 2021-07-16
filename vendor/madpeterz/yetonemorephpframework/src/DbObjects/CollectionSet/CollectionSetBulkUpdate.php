@@ -142,6 +142,9 @@ abstract class CollectionSetBulkUpdate extends CollectionSetGet
         unset($ready_update_config);
         $update_status = $this->sql->updateV2($table, $update_config, $where_config, $total_changes);
         if ($update_status["status"] == true) {
+            if ($this->cache != null) {
+                $this->cache->markChangeToTable($this->getTable());
+            }
             $this->updateMultipleApplyChanges($update_fields, $new_values);
             return $update_status;
         }

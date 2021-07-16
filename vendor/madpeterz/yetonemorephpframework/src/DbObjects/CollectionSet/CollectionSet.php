@@ -159,6 +159,8 @@ abstract class CollectionSet extends CollectionSetBulkRemove
             ["ordering_enabled" => true,"order_field" => $order_by,"order_dir" => $by_direction]
         );
     }
+
+
    /**
      * loadWithConfig
      * Uses the select V2 system to load data
@@ -173,6 +175,26 @@ abstract class CollectionSet extends CollectionSetBulkRemove
         ?array $join_tables = null
     ): array {
         $this->makeWorker();
+
+        // Cache support
+        $hitCache = false;
+        $hashme = "";
+        if ($this->cache != null) {
+            $hashme = $this->cache->getHash(
+                $where_config,
+                $order_config,
+                $options_config,
+                $join_tables,
+                $this->getTable(),
+                count($this->worker->getFields())
+            );
+            $hitCache = $this->cache->cacheVaild($this->getTable(), $hashme);
+        }
+        if ($hitCache == true) {
+            // wooo vaild data from cache!
+            return $this->processLoad($this->cache->readHash($this->getTable(), $hashme));
+        }
+        // Cache missed, read from the DB
         $load_data = $this->sql->selectV2(
             ["table" => $this->worker->getTable()],
             $order_config,
@@ -183,6 +205,10 @@ abstract class CollectionSet extends CollectionSetBulkRemove
         if ($load_data["status"] == false) {
             $error_msg = get_class($this) . " Unable to load data: " . $load_data["message"];
             return $this->addError(__FILE__, __FUNCTION__, $error_msg, ["count" => 0]);
+        }
+        if ($this->cache != null) {
+            // push data to cache so we can avoid reading from DB as much
+            $this->cache->writeHash($this->worker->getTable(), $hashme, $load_data, $this->cacheAllowChanged);
         }
         return $this->processLoad($load_data);
     }

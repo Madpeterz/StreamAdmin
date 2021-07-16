@@ -4,6 +4,12 @@ namespace YAPF\MySQLi;
 
 abstract class MysqliSelect extends MysqliRemove
 {
+    protected int $sql_selects = 0;
+    public function getSQLselectsCount(): int
+    {
+        return $this->sql_selects;
+    }
+
     /**
      * selectV2
      * for a full breakdown of all the magic
@@ -71,6 +77,7 @@ abstract class MysqliSelect extends MysqliRemove
                 $loop++;
             }
         }
+        $this->sql_selects++;
         return ["status" => true, "dataset" => $dataset ,"message" => "ok"];
     }
 }

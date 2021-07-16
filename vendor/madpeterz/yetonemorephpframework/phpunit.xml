@@ -10,6 +10,10 @@
     colors="true"
 >
   <testsuites>
+      <testsuite name="cache">
+        <file>tests/cache/DiskCacheTests.php</file>
+        <file>tests/cache/RedisCacheTests.php</file>
+      </testsuite>
       <testsuite name="All">
         <directory>tests/core</directory>
         <directory>tests/filter</directory>
@@ -29,15 +33,8 @@
         <file>tests/db_objects/support_Test.php</file>
         <file>tests/db_objects/GenClass_Test.php</file>
         <file>tests/db_objects/CollectionSet_Test.php</file>
-      </testsuite>
-      <testsuite name="Objects">
-        <file>tests/db_objects/load_Test.php</file>
-        <file>tests/db_objects/update_Test.php</file>
-        <file>tests/db_objects/create_Test.php</file>
-        <file>tests/db_objects/remove_Test.php</file>
-        <file>tests/db_objects/support_Test.php</file>
-        <file>tests/db_objects/GenClass_Test.php</file>
-        <file>tests/db_objects/CollectionSet_Test.php</file>
+        <file>tests/cache/DiskCacheTests.php</file>
+        <file>tests/cache/RedisCacheTests.php</file>
       </testsuite>
   </testsuites>
   <filter>

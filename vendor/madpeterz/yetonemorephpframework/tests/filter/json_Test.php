@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_json_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -39,6 +39,7 @@ class inputFilter_json_test extends TestCase
         $results2 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results2, "");
     }
+
     public function test_json_invaild()
     {
         $_GET["popcorn4"] = new inputFilter();
@@ -52,4 +53,21 @@ class inputFilter_json_test extends TestCase
         $results1 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results1, "Not a vaild json object string");
     }
+
+    public function test_json_via_get_post()
+    {
+        $test_string = '{"menu": {"id": "file","value": "File","popup": {"menuitem": ';
+        $test_string .= '[{"value": "New", "onclick": "CreateNewDoc()"},{"value": "Open",';
+        $test_string .= '"onclick": "OpenDoc()"}, {"value": ';
+        $test_string .= '"Close", "onclick": "CloseDoc()"}]}}}';
+        $_GET["popcorn3"] = $test_string;
+        $_POST["popcorn4"] = $test_string;
+        $results1 = $this->_testingobject->getJson("popcorn3");
+        $this->assertSame($results1, json_decode($test_string, true));
+
+        $results2 = $this->_testingobject->postJson("popcorn4");
+        $this->assertSame($results2, json_decode($test_string, true));
+    }
+    
+
 }

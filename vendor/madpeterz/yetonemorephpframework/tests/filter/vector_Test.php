@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_vector_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -65,5 +65,16 @@ class inputFilter_vector_test extends TestCase
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results2, "Strict mode: Required <  & > Missing");
+    }
+
+    public function test_vector_via_get_post()
+    {
+        $_GET["vector1"] = "<1,2,4>";
+        $results1 = $this->_testingobject->getVector("vector1");
+        $this->assertSame($results1, "<1,2,4>");
+
+        $_POST["vector2"] = "<4,5,6>";
+        $results2 = $this->_testingobject->postVector("vector2");
+        $this->assertSame($results2, "<4,5,6>");
     }
 }

@@ -4,7 +4,7 @@ namespace App\Template\Output;
 
 use YAPF\InputFilter\InputFilter;
 
-class Template extends Cache
+class Template extends AddonProvider
 {
     protected $tempalte_parts = [];
     protected $render_layout = "[[topper]][[header]][[body_start]][[left_content]]"

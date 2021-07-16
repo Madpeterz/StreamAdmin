@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_string_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -93,5 +93,16 @@ class inputFilter_string_test extends TestCase
         $this->assertSame($results1, "pass");
         $results1 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results1, "");
+    }
+
+    public function test_string_via_get_post()
+    {
+        $_GET["popcorn3"] = "ready";
+        $results1 = $this->_testingobject->getString("popcorn3");
+        $this->assertSame("ready", $results1);
+
+        $_POST["popcorn4"] = "sure am";
+        $results2 = $this->_testingobject->postString("popcorn4");
+        $this->assertSame("sure am", $results2);
     }
 }

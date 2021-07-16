@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_uuid_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -52,5 +52,16 @@ class inputFilter_uuid_test extends TestCase
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results2, "Not a vaild v1 or v4 uuid");
+    }
+
+    public function test_uuid_via_get_post()
+    {
+        $_GET["Auuidv1"] = "62cfb6ea-1f3e-11eb-adc1-0242ac120002";
+        $results1 = $this->_testingobject->getUUID("Auuidv1");
+        $this->assertSame($results1, "62cfb6ea-1f3e-11eb-adc1-0242ac120002");
+
+        $_POST["Buuidv1"] = "11cfb6ea-1f3e-11eb-adc1-0242ac120002";
+        $results1 = $this->_testingobject->postUUID("Buuidv1");
+        $this->assertSame($results1, "11cfb6ea-1f3e-11eb-adc1-0242ac120002");
     }
 }
