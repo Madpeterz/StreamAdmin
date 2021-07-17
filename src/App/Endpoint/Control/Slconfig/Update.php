@@ -53,8 +53,6 @@ class Update extends ViewAjax
 
     public function process(): void
     {
-        $this->output->purgeCacheFile("current_timezone", false);
-
         $avatar = new Avatar();
         $timezone = new Timezones();
         $input = new InputFilter();

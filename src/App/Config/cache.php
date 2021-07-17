@@ -58,4 +58,5 @@ if ($cache != null) {
     $cache->addTableToCache("timezones", 120, true);
     $cache->addTableToCache("treevender", 120, true);
     $cache->addTableToCache("treevenderpackages", 120, true);
+    $cache->start(true);
 }

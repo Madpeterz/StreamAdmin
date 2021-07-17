@@ -295,10 +295,10 @@ abstract class Cache extends CacheWorker implements CacheInterface
         string $tableName,
         int $fields
     ): string {
-        $bit1 = sha1("bit1" . implode("|", $this->giveArrayOnNull($where_config)));
-        $bit2 = sha1("bit2" . implode("|", $this->giveArrayOnNull($order_config)));
-        $bit3 = sha1("bit3" . implode("|", $this->giveArrayOnNull($options_config)));
-        $bit4 = sha1("bit4" . implode("|", $this->giveArrayOnNull($join_tables)));
+        $bit1 = sha1("bit1" . json_encode($this->giveArrayOnNull($where_config)));
+        $bit2 = sha1("bit2" . json_encode($this->giveArrayOnNull($order_config)));
+        $bit3 = sha1("bit3" . json_encode($this->giveArrayOnNull($options_config)));
+        $bit4 = sha1("bit4" . json_encode($this->giveArrayOnNull($join_tables)));
         $shaHash = sha1(
             $bit1 .
             $bit2 .

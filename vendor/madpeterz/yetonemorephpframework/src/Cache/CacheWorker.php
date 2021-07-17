@@ -33,7 +33,7 @@ abstract class CacheWorker extends CacheRequired
         $yesno = [true => "Yes", false => "No"];
         $this->addErrorlog("Save last changed: " . $yesno[$this->lastChangedUpdated]);
         if ($this->lastChangedUpdated == true) {
-            $this->tableLastChanged["updatedUnixtime"] = time();
+            $this->tableLastChanged["lastChanged"] = time();
             $lastChangedfile = json_encode($this->tableLastChanged);
             $this->addErrorlog("Saving last changed: " . $lastChangedfile);
             $this->writeKey($this->getLastChangedPath(), $lastChangedfile, "lastChanged", time() + (60 * 60));
@@ -83,11 +83,11 @@ abstract class CacheWorker extends CacheRequired
             return;
         }
         $info_file = json_decode($cacheInfoRead, true);
-        if (array_key_exists("updatedUnixtime", $info_file) == false) {
+        if (array_key_exists("lastChanged", $info_file) == false) {
             $this->addErrorlog("loadLastChanged: missing updated unixtime");
             return;
         }
-        $dif = time() - $info_file["updatedUnixtime"];
+        $dif = time() - $info_file["lastChanged"];
         if ($dif > (60 * 60)) {
             // info dataset is to old to be used
             // everything is marked as changed right now
@@ -106,6 +106,7 @@ abstract class CacheWorker extends CacheRequired
     protected function intLastChanged(): void
     {
         $this->lastChangedUpdated = true;
+        $this->tableLastChanged["lastChanged"] = time();
         foreach (array_keys($this->tablesConfig) as $table) {
             $this->tableLastChanged[$table] = 1;
         }
