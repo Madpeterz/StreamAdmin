@@ -61,15 +61,39 @@ abstract class GenClassLoad extends GenClassSet
      */
     public function loadWithConfig(array $whereconfig): bool
     {
-        if ($this->disabled == false) {
-            $basic = ["table" => $this->getTable()];
-            $this->sql->setExpectedErrorFlag($this->expectedSqlLoadError);
-            $load_data = $this->sql->selectV2($basic, null, $whereconfig);
-            $this->sql->setExpectedErrorFlag(false);
-            return $this->processLoad($load_data);
+        if ($this->disabled == true) {
+            $this->addError(__FILE__, __FUNCTION__, "unable to loadData this class is disabled");
+            return false;
         }
-        $this->addError(__FILE__, __FUNCTION__, "unable to loadData this class is disabled");
-        return false;
+
+        // Cache support
+        $hitCache = false;
+        $hashme = "";
+        if ($this->cache != null) {
+            $hashme = $this->cache->getHash(
+                $whereconfig,
+                ["single" => true],
+                ["single" => true],
+                ["single" => true],
+                $this->getTable(),
+                count($this->getFields())
+            );
+            $hitCache = $this->cache->cacheVaild($this->getTable(), $hashme, true);
+        }
+        if ($hitCache == true) {
+            // wooo vaild data from cache!
+            return $this->processLoad($this->cache->readHash($this->getTable(), $hashme));
+        }
+        error_log("Reading from DB for single");
+        $basic = ["table" => $this->getTable()];
+        $this->sql->setExpectedErrorFlag($this->expectedSqlLoadError);
+        $load_data = $this->sql->selectV2($basic, null, $whereconfig);
+        $this->sql->setExpectedErrorFlag(false);
+        if ($this->cache != null) {
+            // push data to cache so we can avoid reading from DB as much
+            $this->cache->writeHash($this->getTable(), $hashme, $load_data, $this->cacheAllowChanged);
+        }
+        return $this->processLoad($load_data);
     }
     /**
      * processLoad

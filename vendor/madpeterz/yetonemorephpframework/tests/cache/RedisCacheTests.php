@@ -236,46 +236,104 @@ not get hit until after this run has finished.
 
     /**
      * @depends testCacheFinalPurge
-     */
-    public function testSpeed(): void
+     **/
+    public function testSingles(): void
     {
-        $time_start = microtime(true); 
-        $loop = 0;
-        while($loop < 1000)
-        {
-            $setObject = new CounttoonehundoSet();
-            $setObject->loadAll();
-            $loop++;
-        }
-        $time_end = microtime(true); 
-        $dif_time = $time_end - $time_start;
-        error_log("1000 load alls (No cache) = ".$dif_time);
-
-        $countto = new CounttoonehundoSet();
+        global $sql;
+        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero");
+        $countto = new Counttoonehundo();
         $cache = $this->getCache();
-        $cache->addTableToCache($countto->getTable(), 10, true);
+        $cache->purge();
+        $cache->addTableToCache($countto->getTable(), 10, false,true);
         $cache->start();
         $countto->attachCache($cache);
-        $countto->loadAll();
+        $countto->loadID(44);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one");
         $cache->shutdown();
 
+        $countto = new Counttoonehundo();
+        $cache = $this->getCache();
+        $cache->addTableToCache($countto->getTable(), 10, false,true);
+        $cache->start();
+        $countto->attachCache($cache);
+        $countto->loadID(44);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one");
+        $cache->shutdown();
+    }
+
+    /**
+     * @depends testSingles
+     */
+    public function testSinglesAccountHash(): void
+    {
+        global $sql;
+        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero");
+        $countto = new Counttoonehundo();
+        $cache = $this->getCache();
+        $cache->addTableToCache($countto->getTable(), 10, false,true);
+        $cache->start();
+        $cache->setAccountHash("magic");
+        $countto->attachCache($cache);
+        $countto->loadID(44);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one");
+        $cache->shutdown();
+
+        $countto = new Counttoonehundo();
+        $cache = $this->getCache();
+        $cache->addTableToCache($countto->getTable(), 10, false,true);
+        $cache->start();
+        $cache->setAccountHash("magic");
+        $countto->attachCache($cache);
+        $countto->loadID(44);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one");
+        $cache->shutdown();
+    }
+
+    /**
+     * @depends testSinglesAccountHash
+     */
+    public function testSingleCacheHitButChanged(): void
+    {
+        global $sql;
+        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero");
+        $countto = new Counttoonehundo();
+        $cache = $this->getCache();
+        $cache->addTableToCache($countto->getTable(), 10, false,true);
+        $cache->start();
+        $cache->setAccountHash("magic");
+        $countto->attachCache($cache);
+        $countto->loadID(44);
+        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero (cache should be hit)");
+        $countto->setCvalue($countto->getCvalue()+1);
+        $countto->updateEntry();
+        $countto = new Counttoonehundo();
+        $countto->attachCache($cache);
+        $countto->loadID(44);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one due to cache miss due to change live");
+        $cache->shutdown();
 
         $cache = $this->getCache();
-        $cache->addTableToCache($countto->getTable(), 10, true);
+        $cache->addTableToCache($countto->getTable(), 10, false,true);
         $cache->start();
-        $time_start = microtime(true); 
-        $loop = 0;
-        while($loop < 1000)
-        {
-            $setObject = new CounttoonehundoSet();
-            $setObject->attachCache($cache);
-            $setObject->loadAll();
-            $loop++;
-        }
-        $time_end = microtime(true); 
-        $dif_time = $time_end - $time_start;
-        error_log("1000 load alls (With Redis cache) = ".$dif_time);
-        $this->assertSame(true,true,"Speed test failed");
+        $cache->setAccountHash("magic");
+        $countto->attachCache($cache);
+        $countto->loadID(44);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one from the updated cache entry");
+        $countto = new Counttoonehundo();
+        $countto->attachCache($cache);
+        $countto->loadID(11);
+        $this->assertSame(2, $sql->getSQLselectsCount(), "DB reads should be two from the read");
+        $countto->setCvalue($countto->getCvalue()+1);
+        $countto->updateEntry();
+        $cache->shutdown();
+
+        $cache = $this->getCache();
+        $cache->addTableToCache($countto->getTable(), 10, false,true);
+        $cache->start();
+        $cache->setAccountHash("magic");
+        $countto->attachCache($cache);
+        $countto->loadID(44);
+        $this->assertSame(3, $sql->getSQLselectsCount(), "DB reads should be three due to the cache table having changes");
     }
 
 

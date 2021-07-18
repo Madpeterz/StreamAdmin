@@ -41,21 +41,21 @@ if ($use_disk_cache == true) {
 }
 
 if ($cache != null) {
-    $cache->addTableToCache("apis", 120, true);
+    $cache->addTableToCache("apis", 120, true, true);
     $cache->addTableToCache("banlist", 120, true);
     $cache->addTableToCache("botconfig", 120, true);
     $cache->addTableToCache("noticenotecard", 120, true);
-    $cache->addTableToCache("notice", 120, true);
-    $cache->addTableToCache("package", 120, true);
+    $cache->addTableToCache("notice", 120, true, true);
+    $cache->addTableToCache("package", 120, true, true);
     $cache->addTableToCache("region", 120, true);
-    $cache->addTableToCache("reseller", 120, true);
-    $cache->addTableToCache("server", 120, true);
+    $cache->addTableToCache("reseller", 120, true, true);
+    $cache->addTableToCache("server", 120, true, true);
     $cache->addTableToCache("servertypes", 120, true);
-    $cache->addTableToCache("slconfig", 120, true);
-    $cache->addTableToCache("staff", 120, true);
-    $cache->addTableToCache("template", 120, true);
-    $cache->addTableToCache("textureconfig", 120, true);
-    $cache->addTableToCache("timezones", 120, true);
+    $cache->addTableToCache("slconfig", 120, true, true);
+    $cache->addTableToCache("staff", 120, true, true);
+    $cache->addTableToCache("template", 120, true, true);
+    $cache->addTableToCache("textureconfig", 120, true, true);
+    $cache->addTableToCache("timezones", 120, true, true);
     $cache->addTableToCache("treevender", 120, true);
     $cache->addTableToCache("treevenderpackages", 120, true);
     $cache->start(true);

@@ -145,6 +145,11 @@ abstract class Cache extends CacheWorker implements CacheInterface
 
     /*
         addTableToCache
+        $tablename: name of the table to enable the cache for.
+        $autoExpireMins: How long in mins should the cache live for (unless there is a change)
+        $sharedDataset: if true account hash is ignored and loads will be for everyone.
+        $enableSingleLoads: if true single class loads will also hit the cache.
+
         - Tables that might have personalized data inside should not be
         set to shared mode and setAccountHash should be setup with a
         idhash for the account!
@@ -157,8 +162,12 @@ abstract class Cache extends CacheWorker implements CacheInterface
 
         $autoExpireMins of less than 3 are set to 3.
     */
-    public function addTableToCache(string $tableName, int $autoExpireMins = 15, bool $sharedDataset = false): void
-    {
+    public function addTableToCache(
+        string $tableName,
+        int $autoExpireMins = 15,
+        bool $sharedDataset = false,
+        bool $enableSingleLoads = false
+    ): void {
         $this->addErrorlog("addTableToCache: enabled cache for: " . $tableName . " with expires: " . $autoExpireMins);
         if ($autoExpireMins < 3) {
             $autoExpireMins = 3;
@@ -166,6 +175,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
         $this->tablesConfig[$tableName] = [
             "shared" => $sharedDataset,
             "autoExpire" => $autoExpireMins,
+            "singlesEnabled" => $enableSingleLoads,
         ];
     }
 
@@ -186,7 +196,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
         }
     }
 
-    public function cacheVaild(string $tableName, string $hash): bool
+    public function cacheVaild(string $tableName, string $hash, bool $asSingle = false): bool
     {
         $this->addErrorlog("cacheVaild: checking: " . $tableName . " " . $hash);
         if (array_key_exists($tableName, $this->tablesConfig) == false) {
@@ -200,6 +210,12 @@ abstract class Cache extends CacheWorker implements CacheInterface
         if (in_array($tableName, $this->changedTables) == true) {
             $this->addErrorlog("cacheVaild: table has had changes from startup");
             return false; // table has had a change at some point miss the cache for now
+        }
+        if ($asSingle == true) {
+            if ($this->tablesConfig[$tableName]["singlesEnabled"] == false) {
+                $this->addErrorlog("cacheVaild: table " . $tableName . " does not allow singles");
+                return false;
+            }
         }
         $this->addErrorlog("cacheVaild: attempting to get info blob");
         $info_file = $this->getHashInfo($tableName, $hash);

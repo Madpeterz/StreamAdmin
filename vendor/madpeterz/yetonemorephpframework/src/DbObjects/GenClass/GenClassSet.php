@@ -7,11 +7,18 @@ use YAPF\Cache\Cache;
 abstract class GenClassSet extends GenClassGet
 {
     protected ?Cache $cache = null;
-    protected bool $expectedSqlLoadError = false;
+    protected bool $cacheAllowChanged = false;
+
     public function attachCache(Cache $forceAttach): void
     {
         $this->cache = $forceAttach;
     }
+    public function setCacheAllowChanged(bool $status = true): void
+    {
+        $this->cacheAllowChanged = $status;
+    }
+    protected bool $expectedSqlLoadError = false;
+
     public function expectedSqlLoadError(bool $setFlag = false): void
     {
         $this->expectedSqlLoadError = $setFlag;

@@ -18,11 +18,16 @@ interface CacheInterface
 
     public function setAccountHash(string $acHash): void;
 
-    public function addTableToCache(string $tablename, int $autoExpireMins = 15, bool $sharedDataset = false): void;
+    public function addTableToCache(
+        string $tablename,
+        int $autoExpireMins = 15,
+        bool $sharedDataset = false,
+        bool $enableSingleLoads = false
+    ): void;
 
     public function markChangeToTable(string $tableName): void;
 
-    public function cacheVaild(string $tableName, string $hash): bool;
+    public function cacheVaild(string $tableName, string $hash, bool $asSingle = false): bool;
 
     public function getChangeID(string $tableName): int;
 
