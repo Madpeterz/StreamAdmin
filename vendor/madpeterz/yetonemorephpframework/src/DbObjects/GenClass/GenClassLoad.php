@@ -84,7 +84,6 @@ abstract class GenClassLoad extends GenClassSet
             // wooo vaild data from cache!
             return $this->processLoad($this->cache->readHash($this->getTable(), $hashme));
         }
-        error_log("Reading from DB for single");
         $basic = ["table" => $this->getTable()];
         $this->sql->setExpectedErrorFlag($this->expectedSqlLoadError);
         $load_data = $this->sql->selectV2($basic, null, $whereconfig);

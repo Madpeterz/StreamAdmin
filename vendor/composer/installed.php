@@ -47,12 +47,12 @@
             'dev_requirement' => false,
         ),
         'madpeterz/yetonemorephpframework' => array(
-            'pretty_version' => '2.0.5',
-            'version' => '2.0.5.0',
+            'pretty_version' => '2.0.6',
+            'version' => '2.0.6.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../madpeterz/yetonemorephpframework',
             'aliases' => array(),
-            'reference' => 'ce691db04c004a48738dd880e9fd1cbb3463998e',
+            'reference' => 'f386854136e06fbbab8b4faab52b324302b628be',
             'dev_requirement' => false,
         ),
         'predis/predis' => array(
