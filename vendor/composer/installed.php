@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '167241846a45f74dfa053971aa61a3c8d59560f6',
+        'reference' => 'a5bf2771f43a0184dc2ab3a92b154c01a5ec9b6e',
         'name' => 'madpeterz/streamadmin',
         'dev' => false,
     ),
@@ -43,7 +43,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '167241846a45f74dfa053971aa61a3c8d59560f6',
+            'reference' => 'a5bf2771f43a0184dc2ab3a92b154c01a5ec9b6e',
             'dev_requirement' => false,
         ),
         'madpeterz/yetonemorephpframework' => array(
