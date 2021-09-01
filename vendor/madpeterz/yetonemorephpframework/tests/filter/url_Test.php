@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_url_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -99,5 +99,16 @@ class inputFilter_url_test extends TestCase
         $this->assertSame($results1, null);
         $results1 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results1, "https:// is missing from the start of the value!");
+    }
+
+    public function test_url_via_get_post()
+    {
+        $_GET["popcorn3"] = "https://google.com";
+        $results1 = $this->_testingobject->getUrl("popcorn3");
+        $this->assertSame($results1, "https://google.com");
+
+        $_POST["popcorn4"] = "https://reddit.com";
+        $results2 = $this->_testingobject->postUrl("popcorn4");
+        $this->assertSame($results2, "https://reddit.com");
     }
 }

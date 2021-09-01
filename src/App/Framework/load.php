@@ -5,7 +5,6 @@ namespace App;
 use App\Framework\SessionControl;
 use App\R7\Model\Slconfig;
 use App\R7\Model\Timezones;
-use App\Template\Output\Cache;
 use YAPF\MySQLi\MysqliEnabled;
 
 global $slconfig, $session, $sql, $timezone_name;
@@ -45,21 +44,10 @@ if (install_ok() == true) {
                 " if this is incorrect please check config file");
             }
             if ($slconfig != null) {
-                $catchereader = new Cache();
-                $timezone_config_from_cache =  $catchereader->getCacheFile("current_timezone", false);
-                if ($timezone_config_from_cache == null) {
-                    $timezone = new Timezones();
-                    if ($timezone->loadID($slconfig->getDisplayTimezoneLink()) == true) {
-                        $cooked = $timezone->getName() . "###" . $timezone->getCode();
-                        $catchereader->setCacheFile($cooked, "current_timezone", false);
-                    }
-                    $timezone_config_from_cache = $catchereader->getCacheFile("current_timezone", false);
-                }
-                if ($timezone_config_from_cache != null) {
-                    $bits = explode("###", $timezone_config_from_cache);
-                    $timezone_name = $bits[0];
-                    date_default_timezone_set($bits[1]);
-                }
+                $timeszone = new Timezones();
+                $timeszone->loadID($slconfig->getDisplayTimezoneLink());
+                $timezone_name = $timeszone->getName();
+                date_default_timezone_set($timeszone->getCode());
             }
         }
     }

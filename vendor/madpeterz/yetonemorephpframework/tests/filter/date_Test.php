@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_date_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -84,5 +84,16 @@ class inputFilter_date_test extends TestCase
         $this->assertSame($results1, "Thursday 2nd of November 1972");
         $results2 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results2, "");
+    }
+
+    public function test_date_via_get_post()
+    {
+        $_GET["popcorn3"] = "11/02/1972";
+        $results1 = $this->_testingobject->getDate("popcorn3",true);
+        $this->assertSame($results1, '66614400');
+
+        $_POST["popcorn4"] = "11/02/1972";
+        $results2 = $this->_testingobject->postDate("popcorn4");
+        $this->assertSame($results2, "11/02/1972");
     }
 }

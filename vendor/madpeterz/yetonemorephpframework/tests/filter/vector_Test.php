@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_vector_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -51,7 +51,7 @@ class inputFilter_vector_test extends TestCase
         $results1 = $this->_testingobject->getFilter("popcorn4", "vector");
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
-        $this->assertSame($results2, "Require 3 parts split with , example: 23,42,55");
+        $this->assertSame($results2, "Did not match any vaild Vector patterns");
     }
     public function testVectorSetStrictMode()
     {
@@ -64,6 +64,17 @@ class inputFilter_vector_test extends TestCase
         $results1 = $this->_testingobject->getFilter("vectorwithout", "vector", ["strict" => true]);
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
-        $this->assertSame($results2, "Strict mode: Required <  & > Missing");
+        $this->assertSame($results2, "Did not match any vaild Vector patterns");
+    }
+
+    public function test_vector_via_get_post()
+    {
+        $_GET["vector1"] = "<1,2,4>";
+        $results1 = $this->_testingobject->getVector("vector1");
+        $this->assertSame($results1, "<1,2,4>");
+
+        $_POST["vector2"] = "<4,5,6>";
+        $results2 = $this->_testingobject->postVector("vector2");
+        $this->assertSame($results2, "<4,5,6>");
     }
 }

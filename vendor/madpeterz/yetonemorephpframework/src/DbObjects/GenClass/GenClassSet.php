@@ -2,9 +2,23 @@
 
 namespace YAPF\DbObjects\GenClass;
 
+use YAPF\Cache\Cache;
+
 abstract class GenClassSet extends GenClassGet
 {
+    protected ?Cache $cache = null;
+    protected bool $cacheAllowChanged = false;
+
+    public function attachCache(Cache $forceAttach): void
+    {
+        $this->cache = $forceAttach;
+    }
+    public function setCacheAllowChanged(bool $status = true): void
+    {
+        $this->cacheAllowChanged = $status;
+    }
     protected bool $expectedSqlLoadError = false;
+
     public function expectedSqlLoadError(bool $setFlag = false): void
     {
         $this->expectedSqlLoadError = $setFlag;
@@ -26,8 +40,12 @@ abstract class GenClassSet extends GenClassGet
      */
     public function __construct(array $defaults = [])
     {
+        global $cache;
         if (count($defaults) > 0) {
             $this->setup($defaults);
+        }
+        if (isset($cache) == true) {
+            $this->cache = $cache;
         }
         parent::__construct();
     }

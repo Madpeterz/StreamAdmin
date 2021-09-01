@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_float_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -60,5 +60,16 @@ class inputFilter_float_test extends TestCase
         $this->assertSame($results1, 22.22);
         $results1 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results1, "");
+    }
+
+    public function test_float_via_get_post()
+    {
+        $_GET["popcorn3"] = "5.24";
+        $results1 = $this->_testingobject->getFloat("popcorn3");
+        $this->assertSame($results1, 5.24);
+
+        $_POST["popcorn4"] = "11.44";
+        $results1 = $this->_testingobject->postFloat("popcorn4");
+        $this->assertSame($results1, 11.44);
     }
 }

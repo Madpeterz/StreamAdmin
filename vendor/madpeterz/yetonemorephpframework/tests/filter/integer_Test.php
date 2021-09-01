@@ -7,7 +7,7 @@ use YAPF\InputFilter\InputFilter as inputFilter;
 
 class inputFilter_integer_test extends TestCase
 {
-    protected $_testingobject;
+    protected ?inputFilter $_testingobject;
     protected function setUp(): void
     {
         $this->_testingobject = new inputFilter();
@@ -73,5 +73,16 @@ class inputFilter_integer_test extends TestCase
         $this->assertSame($results1, 22);
         $results1 = $this->_testingobject->getWhyFailed();
         $this->assertSame($results1, "");
+    }
+
+    public function test_integer_via_get_post()
+    {
+        $_GET["popcorn2"] = "5";
+        $results1 = $this->_testingobject->getInteger("popcorn2");
+        $this->assertSame($results1, 5);
+
+        $_POST["popcorn3"] = "77";
+        $results1 = $this->_testingobject->postInteger("popcorn3");
+        $this->assertSame($results1, 77);
     }
 }

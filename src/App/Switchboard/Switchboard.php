@@ -2,9 +2,7 @@
 
 namespace App\Switchboard;
 
-use App\Endpoint\SecondLifeApi\Apirequests\Next;
 use App\Framework\SessionControl;
-use App\R7\Model\Slconfig;
 use YAPF\InputFilter\InputFilter;
 
 abstract class Switchboard

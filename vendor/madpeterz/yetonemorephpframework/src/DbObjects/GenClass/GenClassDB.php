@@ -23,6 +23,9 @@ abstract class GenClassDB extends GenClassLoad
                 $remove_status = $this->sql->removeV2($this->getTable(), $where_config);
                 if ($remove_status["status"] == true) {
                     $this->dataset["id"]["value"] = -1;
+                    if ($this->cache != null) {
+                        $this->cache->markChangeToTable($this->getTable());
+                    }
                 }
                 return $remove_status;
             }
@@ -68,6 +71,9 @@ abstract class GenClassDB extends GenClassLoad
                         ];
                         $return_dataset = $this->sql->addV2($config);
                         if ($return_dataset["status"] == true) {
+                            if ($this->cache != null) {
+                                $this->cache->markChangeToTable($this->getTable());
+                            }
                             $this->dataset["id"]["value"] = $return_dataset["newID"];
                             $this->save_dataset["id"]["value"] = $return_dataset["newID"];
                         }
@@ -143,7 +149,13 @@ abstract class GenClassDB extends GenClassLoad
         if ($had_error == false) {
             $expected_changes = count($update_config["fields"]);
             if ($expected_changes > 0) {
-                return $this->sql->updateV2($this->getTable(), $update_config, $where_config, 1);
+                $reply = $this->sql->updateV2($this->getTable(), $update_config, $where_config, 1);
+                if ($reply["status"] == true) {
+                    if ($this->cache != null) {
+                        $this->cache->markChangeToTable($this->getTable());
+                    }
+                }
+                return $reply;
             }
             $error_msg = "No changes made";
             return ["status" => false, "changes" => 0, "message" => $error_msg];

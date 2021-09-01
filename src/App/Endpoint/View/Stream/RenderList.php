@@ -11,7 +11,7 @@ abstract class RenderList extends View
 {
     protected RentalSet $rentalSet;
     protected StreamSet $streamSet;
-    protected Array $rental_set_ids = [];
+    protected array $rental_set_ids = [];
     public function process(): void
     {
         $table_head = ["id","UID","Server","Port","Status"];

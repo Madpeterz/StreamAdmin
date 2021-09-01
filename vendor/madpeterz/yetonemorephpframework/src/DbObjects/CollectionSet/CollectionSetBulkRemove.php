@@ -28,6 +28,9 @@ abstract class CollectionSetBulkRemove extends CollectionSetBulkUpdate
 
         $error_msg = "Failed to remove entrys from database because: " . $remove_status["message"];
         if ($remove_status["status"] == true) {
+            if ($this->cache != null) {
+                $this->cache->markChangeToTable($this->getTable());
+            }
             $error_msg = "Incorrect number of entrys removed expected " . $this->getCount();
             $error_msg = " got " . $remove_status["rowsDeleted"];
             if ($remove_status["rowsDeleted"] == $this->getCount()) {

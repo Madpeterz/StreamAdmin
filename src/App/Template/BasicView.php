@@ -9,9 +9,9 @@ use YAPF\MySQLi\MysqliEnabled;
 
 abstract class BasicView
 {
-    protected Array $allowDisallow = [0 => "Disabled",1 => "Allow"];
-    protected Array $yesNo = [0 => "No",1 => "Yes"];
-    protected Array $disableEnable = [false => "Disabled",true => "Enabled"];
+    protected array $allowDisallow = [0 => "Disabled",1 => "Allow"];
+    protected array $yesNo = [0 => "No",1 => "Yes"];
+    protected array $disableEnable = [false => "Disabled",true => "Enabled"];
     protected Template $output;
     protected string $page;
     protected string $module;

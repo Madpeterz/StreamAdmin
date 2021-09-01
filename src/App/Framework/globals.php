@@ -14,4 +14,5 @@ $unixtime_day = $unixtime_hour * 24;
 $unixtime_week = $unixtime_day * 7;
 $yearandhalf_unixtime = (($unixtime_day * 31) * 18);
 $timezone_name = "Europe / London";
+$cache = null;
 date_default_timezone_set("Europe/London");

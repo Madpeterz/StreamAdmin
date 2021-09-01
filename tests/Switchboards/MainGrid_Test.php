@@ -12,6 +12,7 @@ class MainGrid extends TestCase
     {
         $this->SetupPost();
         new SwitchboardMainGrid();
+        
         $json_obj = json_decode($this->getActualOutputForAssertion(),true);
         $this->assertSame(true,array_key_exists("message",$json_obj),"Message missing from output: ".$this->getActualOutputForAssertion());
         $this->assertSame(true,array_key_exists("Texture-Offline",$json_obj),"Texture-Offline missing from output: ".$this->getActualOutputForAssertion());

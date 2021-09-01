@@ -67,4 +67,15 @@ class inputFilter_bool_test extends TestCase
         $results2 = $this->testingobject->getFilter("popcorn5", "truefalse");
         $this->assertSame($results2, 0);
     }
+
+    public function test_bool_via_get_and_post()
+    {
+        $_GET["popcorn3"] = 1;
+        $results1 = $this->testingobject->getBool("popcorn3");
+        $this->assertSame($results1, true);
+
+        $_POST["magic3"] = 0;
+        $results2 = $this->testingobject->postBool("magic3");
+        $this->assertSame($results2, false);
+    }
 }
