@@ -9,6 +9,10 @@ abstract class Base extends ErrorLogging
     protected $failure = false;
     protected $testOK = true;
     protected $whyfailed = "";
+
+    protected bool $filterIsString = true;
+    protected bool $filterAllowUnsafeNext = false;
+
     /**
      * getWhyFailed
      * returns the last stored fail message
@@ -105,6 +109,7 @@ abstract class Base extends ErrorLogging
     {
         if ($value === null) {
             if (in_array($filter, ["checkbox", "truefalse"]) == true) {
+                $this->filterIsString = false;
                 return 0;
             }
         }
@@ -131,6 +136,19 @@ abstract class Base extends ErrorLogging
         $this->whyfailed = "No get value found with name: " . $inputName;
         return $this->sharedInputFilter($inputName, $_GET, $filter, $args);
     }
+
+    /*
+        safemode
+        if set to false the input filter for strings for the next
+        input only will skip htmlentities, this should only be used
+        when you are working in a trusted user mode and not for anything
+        that the public can access!
+    */
+    public function safemode(bool $setto = true): void
+    {
+        $this->filterAllowUnsafeNext = !$setto;
+    }
+
     /**
      * SharedInputFilter
      * fetchs the value from get or post
@@ -143,13 +161,23 @@ abstract class Base extends ErrorLogging
         string $filter = "string",
         array $args = []
     ) {
+        $this->filterIsString = true;
         $not_set = false;
         $value = $this->fetchTestingValue($not_set, $source_dataset, $inputName);
-        if ($not_set == false) {
-            $this->whyfailed = "";
-            $value = $this->valueFilter($value, $filter, $args);
-            if ($this->whyfailed != "") {
-                $this->addError(__FILE__, __FUNCTION__, $this->whyfailed);
+        if ($not_set == true) {
+            return $this->failureExpectedReplyValue($value, $filter);
+        }
+        $this->whyfailed = "";
+        $value = $this->valueFilter($value, $filter, $args);
+        if ($this->whyfailed != "") {
+            $this->addError(__FILE__, __FUNCTION__, $this->whyfailed);
+        }
+        if ($value !== null) {
+            if ($this->filterIsString == true) {
+                if ($this->filterAllowUnsafeNext == false) {
+                    $value = htmlentities($value);
+                }
+                $this->filterAllowUnsafeNext = false;
             }
         }
         return $this->failureExpectedReplyValue($value, $filter);

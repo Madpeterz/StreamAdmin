@@ -11,8 +11,9 @@ abstract class Filters extends Base
      */
     protected function filterArray($value, array $args = []): ?array
     {
+        $this->filterIsString = false;
         return $value; // :) tests are done before we get to me
-    }  
+    }
     /**
      * filterBool
      * Checks if the value is in the array
@@ -20,6 +21,7 @@ abstract class Filters extends Base
      */
     protected function filterBool(string $value, array $args = []): bool
     {
+        $this->filterIsString = false;
         $this->failure = false;
         $this->testOK = true;
         return in_array($value, ["1","true",true,1,"yes","True","TRUE"], true);
@@ -30,6 +32,7 @@ abstract class Filters extends Base
      */
     protected function filterTruefalse(string $value, array $args = []): int
     {
+        $this->filterIsString = false;
         $invalue = $value;
         $value = $this->filterBool($value);
         if ($value === true) {
@@ -157,7 +160,7 @@ abstract class Filters extends Base
         }
         return $value;
     }
-    
+
     /**
      * filterEmail
      * Checks to see if a given string appears to be a vaild email
@@ -214,6 +217,7 @@ abstract class Filters extends Base
      */
     protected function filterFloat(string $value, array $args = []): ?float
     {
+        $this->filterIsString = false;
         $this->failure = false;
         $this->testOK = true;
         $value = floatval($value);
@@ -269,6 +273,7 @@ abstract class Filters extends Base
      */
     protected function filterInteger(string $value, array $args = []): ?int
     {
+        $this->filterIsString = false;
         $this->failure = false;
         $this->testOK = true;
         if (array_key_exists("zeroCheck", $args)) {
@@ -297,6 +302,7 @@ abstract class Filters extends Base
      */
     protected function filterJson(string $value, array $args = []): ?array
     {
+        $this->filterIsString = false;
         $this->whyfailed = "";
         $json = json_decode($value, true);
         if (($json === false) || ($json === null)) {
@@ -377,25 +383,29 @@ abstract class Filters extends Base
      */
     protected function filterVector(string $inputvalue, array $args = []): ?string
     {
-        $vectorTest = explode(",", str_replace(["<", " ", ">", "(", ")"], "", $inputvalue));
-        if (count($vectorTest) != 3) {
-            $this->whyfailed = "Require 3 parts split with , example: 23,42,55";
-            return null;
+        $vector_specs = [
+            '/^<(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)>$/i',
+            // float/int vector with starting < and ending >
+        ];
+        $allow_no_arrows = true;
+        if (array_key_exists("strict", $args) == true) {
+            if ($args["strict"] == true) {
+                $allow_no_arrows = false;
+            }
+        }
+        if ($allow_no_arrows == true) {
+            $vector_specs[] = '/^(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/i';
+            // float/int vector without starting < and ending >
         }
 
-        $tests = [];
-        $tests[] = $this->isNotEmpty($vectorTest[0]); // R
-        $tests[] = $this->isNotEmpty($vectorTest[1]); // G
-        $tests[] = $this->isNotEmpty($vectorTest[2]); // B
-
-
-        if (array_key_exists("strict", $args) == true) {
-            if ((substr_count($inputvalue, '<') != 1) || (substr_count($inputvalue, '>') != 1)) {
-                $this->whyfailed = "Strict mode: Required <  & > Missing";
-                return null;
+        $this->filterIsString = false;
+        foreach ($vector_specs as $spec) {
+            if (preg_match($spec, $inputvalue)) {
+                return $inputvalue;
             }
         }
 
-        return $inputvalue;
+        $this->whyfailed = "Did not match any vaild Vector patterns";
+        return null;
     }
 }

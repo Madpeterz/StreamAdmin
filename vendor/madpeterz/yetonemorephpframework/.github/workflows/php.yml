@@ -39,6 +39,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
+      - uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: '6.x'
+          auto-start: "true"
+      - run: redis-cli ping
       - name: Validate composer.json and composer.lock
         run: composer validate
       - name: Cache Composer packages

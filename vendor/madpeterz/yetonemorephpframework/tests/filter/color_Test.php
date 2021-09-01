@@ -108,12 +108,12 @@ class inputFilter_color_test extends TestCase
         $results1 = $this->_testingobject->getFilter("popcorn6", "color");
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
-        $this->assertSame($results2, "Require 3 parts split with , example: 23,42,55");
+        $this->assertSame($results2, "Did not match any vaild Vector patterns");
         $_GET["popcorn7"] = "99";
         $results1 = $this->_testingobject->getFilter("popcorn7", "color");
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
-        $this->assertSame($results2, "Require 3 parts split with , example: 23,42,55");
+        $this->assertSame($results2, "Did not match any vaild Vector patterns");
     }
 
     public function test_color_notset_rgb()
@@ -160,12 +160,12 @@ class inputFilter_color_test extends TestCase
         $results1 = $this->_testingobject->getFilter("popcorn6", "color", ["isRGB" => true]);
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
-        $this->assertSame($results2, "Require 3 parts split with , example: 23,42,55");
+        $this->assertSame($results2, "Did not match any vaild Vector patterns");
         $_GET["popcorn7"] = "99";
         $results1 = $this->_testingobject->getFilter("popcorn7", "color", ["isRGB" => true]);
         $this->assertSame($results1, null);
         $results2 = $this->_testingobject->getWhyFailed();
-        $this->assertSame($results2, "Require 3 parts split with , example: 23,42,55");
+        $this->assertSame($results2, "Did not match any vaild Vector patterns");
     }
 
     public function test_color_via_get_and_post()

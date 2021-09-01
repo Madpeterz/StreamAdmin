@@ -105,4 +105,18 @@ class inputFilter_string_test extends TestCase
         $results2 = $this->_testingobject->postString("popcorn4");
         $this->assertSame("sure am", $results2);
     }
+
+    public function test_string_safemode_and_unsafe()
+    {
+        $_GET["this"] = "<script>alert(\"xss\")</script>";
+        $expected = "&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;";
+        $results1 = $this->_testingobject->getString("this");
+        $this->assertSame($expected,$results1,"safemode protection not as expected");
+
+        $_GET["that"] = "<script>alert(\"xss\")</script>";
+        $expected = "<script>alert(\"xss\")</script>";
+        $this->_testingobject->safemode(false);
+        $results1 = $this->_testingobject->getString("that");
+        $this->assertSame($expected,$results1,"safemode protection not disabled as expected");
+    }
 }
