@@ -57,15 +57,19 @@ abstract class RenderList extends View
         $table_body = [];
         foreach ($this->transaction_set->getAllIds() as $transaction_id) {
             $transaction = $this->transaction_set->getObjectByID($transaction_id);
-            $packagename = "";
+            $packagename = "?";
             if ($transaction->getPackageLink() != null) {
                 $package = $this->package_set->getObjectByID($transaction->getPackageLink());
-                $packagename = $package->getName();
+                if ($package != null) {
+                    $packagename = $package->getName();
+                }
             }
-            $regionname = "";
+            $regionname = "?";
             if ($transaction->getRegionLink() != null) {
                 $region = $this->region_set->getObjectByID($transaction->getRegionLink());
-                $regionname = $region->getName();
+                if ($region != null) {
+                    $regionname = $region->getName();
+                }
             }
             $avatar = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
             $entry = [];
