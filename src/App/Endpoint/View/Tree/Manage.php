@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\View\Tree;
 
+use App\Endpoint\SecondLifeApi\Tree\Getpackages;
 use App\R7\Set\PackageSet;
 use App\Template\Form;
 use App\R7\Model\Treevender;
@@ -58,6 +59,16 @@ class Manage extends View
             $improved_packageLinker[$package->getId()] = $info;
         }
 
+        $testOutput = new Getpackages();
+        $testOutput->ProcessWithTreevenderID($treevender->getId());
+        $testing = $testOutput->getOutputObject()->getSecondlifeAjax();
+        if (strlen($testing) > 9000) {
+            $this->output->addSwapTagString(
+                "page_content",
+                '<div class="alert alert-danger" role="alert">The current setup will fail to talk with SL<br/>
+                Please use less packages!</div>'
+            );
+        }
 
         $this->output->addSwapTagString("page_title", ":" . $treevender->getName());
         $form = new Form();
