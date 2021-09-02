@@ -18,14 +18,8 @@ class Getpackages extends SecondlifeAjax
         }
         return "0";
     }
-    public function process(): void
+    public function processWithTreevenderID($tree_vender_id): void
     {
-        $input = new InputFilter();
-        $tree_vender_id = $input->postFilter("tree_vender_id", "integer");
-        if ($tree_vender_id < 1) {
-            $this->setSwapTag("message", "Invaild tree vender id given or none sent!");
-            return;
-        }
         $treevender = new Treevender();
         if ($treevender->loadID($tree_vender_id) == false) {
             $this->setSwapTag("message", "Unable to load selected tree vender");
@@ -96,5 +90,15 @@ class Getpackages extends SecondlifeAjax
         foreach ($reply as $key => $value) {
             $this->setSwapTag($key, $value);
         }
+    }
+    public function process(): void
+    {
+        $input = new InputFilter();
+        $tree_vender_id = $input->postFilter("tree_vender_id", "integer");
+        if ($tree_vender_id < 1) {
+            $this->setSwapTag("message", "Invaild tree vender id given or none sent!");
+            return;
+        }
+        $this->processWithTreevenderID($tree_vender_id);
     }
 }
