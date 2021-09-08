@@ -38,4 +38,23 @@ class TimezonesSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Timezones
+    {
+        return parent::current();
+    }
+    // Loaders
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByName(string $name, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByCode(string $code, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("code", $code, $limit, $orderBy, $orderDir);
+    }
 }

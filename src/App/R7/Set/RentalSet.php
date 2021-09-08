@@ -38,4 +38,63 @@ class RentalSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Rental
+    {
+        return parent::current();
+    }
+    // Loaders
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByAvatarLink(int $avatarLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByStreamLink(int $streamLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("streamLink", $streamLink, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByPackageLink(int $packageLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("packageLink", $packageLink, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByNoticeLink(int $noticeLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("noticeLink", $noticeLink, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByStartUnixtime(int $startUnixtime, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("startUnixtime", $startUnixtime, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByExpireUnixtime(int $expireUnixtime, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("expireUnixtime", $expireUnixtime, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByRenewals(int $renewals, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("renewals", $renewals, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByTotalAmount(int $totalAmount, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("totalAmount", $totalAmount, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByMessage(string $message, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("message", $message, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByRentalUid(string $rentalUid, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("rentalUid", $rentalUid, $limit, $orderBy, $orderDir);
+    }
 }

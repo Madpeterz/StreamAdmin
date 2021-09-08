@@ -38,4 +38,103 @@ class ApisSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Apis
+    {
+        return parent::current();
+    }
+    // Loaders
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByName(string $name, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByApiServerStatus(bool $apiServerStatus, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("apiServerStatus", $apiServerStatus, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByApiSyncAccounts(bool $apiSyncAccounts, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("apiSyncAccounts", $apiSyncAccounts, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByOptToggleStatus(bool $optToggleStatus, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("optToggleStatus", $optToggleStatus, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByOptPasswordReset(bool $optPasswordReset, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("optPasswordReset", $optPasswordReset, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByOptAutodjNext(bool $optAutodjNext, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("optAutodjNext", $optAutodjNext, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByOptToggleAutodj(bool $optToggleAutodj, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("optToggleAutodj", $optToggleAutodj, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventEnableStart(bool $eventEnableStart, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventEnableStart", $eventEnableStart, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventStartSyncUsername(bool $eventStartSyncUsername, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventStartSyncUsername", $eventStartSyncUsername, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventEnableRenew(bool $eventEnableRenew, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventEnableRenew", $eventEnableRenew, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventDisableExpire(bool $eventDisableExpire, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventDisableExpire", $eventDisableExpire, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventDisableRevoke(bool $eventDisableRevoke, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventDisableRevoke", $eventDisableRevoke, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventRevokeResetUsername(bool $eventRevokeResetUsername, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventRevokeResetUsername", $eventRevokeResetUsername, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventResetPasswordRevoke(bool $eventResetPasswordRevoke, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventResetPasswordRevoke", $eventResetPasswordRevoke, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventClearDjs(bool $eventClearDjs, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventClearDjs", $eventClearDjs, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventRecreateRevoke(bool $eventRecreateRevoke, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventRecreateRevoke", $eventRecreateRevoke, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventCreateStream(bool $eventCreateStream, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventCreateStream", $eventCreateStream, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByEventUpdateStream(bool $eventUpdateStream, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("eventUpdateStream", $eventUpdateStream, $limit, $orderBy, $orderDir);
+    }
 }

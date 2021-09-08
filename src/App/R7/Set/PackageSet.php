@@ -38,4 +38,93 @@ class PackageSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Package
+    {
+        return parent::current();
+    }
+    // Loaders
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByPackageUid(string $packageUid, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("packageUid", $packageUid, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByName(string $name, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByAutodj(bool $autodj, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("autodj", $autodj, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByAutodjSize(string $autodjSize, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("autodjSize", $autodjSize, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByListeners(int $listeners, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("listeners", $listeners, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByBitrate(int $bitrate, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("bitrate", $bitrate, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByTemplateLink(int $templateLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("templateLink", $templateLink, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByServertypeLink(int $servertypeLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("servertypeLink", $servertypeLink, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByCost(int $cost, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("cost", $cost, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByDays(int $days, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("days", $days, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByTextureSoldout(string $textureSoldout, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("textureSoldout", $textureSoldout, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByTextureInstockSmall(string $textureInstockSmall, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("textureInstockSmall", $textureInstockSmall, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByTextureInstockSelected(string $textureInstockSelected, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("textureInstockSelected", $textureInstockSelected, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByApiTemplate(string $apiTemplate, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("apiTemplate", $apiTemplate, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadByWelcomeNotecardLink(int $welcomeNotecardLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("welcomeNotecardLink", $welcomeNotecardLink, $limit, $orderBy, $orderDir);
+    }
+    //@return mixed[] [status =>  bool, count => integer, message =>  string]
+    public function loadBySetupNotecardLink(int $setupNotecardLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    {
+        return $this->loadByField("setupNotecardLink", $setupNotecardLink, $limit, $orderBy, $orderDir);
+    }
 }
