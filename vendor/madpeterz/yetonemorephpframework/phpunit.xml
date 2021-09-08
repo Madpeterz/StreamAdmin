@@ -35,6 +35,9 @@
         <file>tests/db_objects/CollectionSet_Test.php</file>
         <file>tests/cache/DiskCacheTests.php</file>
         <file>tests/cache/RedisCacheTests.php</file>
+        <file>tests/issues/issue3.php</file>
+        <file>tests/issues/issue4.php</file>
+        <file>tests/issues/issue5.php</file>
       </testsuite>
   </testsuites>
   <filter>

@@ -9,10 +9,12 @@ use YAPF\DbObjects\GenClass\GenClass;
 abstract class CollectionSetCore extends SqlConnectedClass
 {
     protected array $collected = [];
+    protected $indexs = [];
     protected ?string $worker_class = null;
     protected ?GenClass $worker = null;
     protected ?Cache $cache = null;
     protected bool $cacheAllowChanged = false;
+
     /**
      * __construct
      * sets up the worker class
@@ -29,6 +31,11 @@ abstract class CollectionSetCore extends SqlConnectedClass
         }
         $this->worker_class = $worker_class;
         parent::__construct();
+    }
+
+    protected function rebuildIndex(): void
+    {
+        $this->indexs = array_keys($this->collected);
     }
 
     public function attachCache(Cache $forceAttach): void
@@ -58,6 +65,7 @@ abstract class CollectionSetCore extends SqlConnectedClass
     public function addToCollected($object): void
     {
         $this->collected[$object->getId()] = $object;
+        $this->rebuildIndex();
     }
 
     //* - Added so git would save the line ending change

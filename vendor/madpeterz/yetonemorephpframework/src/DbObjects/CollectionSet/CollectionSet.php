@@ -264,6 +264,7 @@ abstract class CollectionSet extends CollectionSetBulkRemove
                 $this->collected[$entry[$use_field]] = $new_object;
             }
         }
+        $this->rebuildIndex();
         return ["status" => true, "count" => count($this->collected), "message" => "ok"];
     }
 }

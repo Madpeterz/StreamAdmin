@@ -39,7 +39,7 @@ class ModelFactory extends GeneratorWriter
         $results = $this->getTableColumns($target_table, $target_database);
         if ($results != null) {
             $this->file_lines = [];
-            $this->createCollectionSetFile($class_name, $target_database, $target_table);
+            $this->createCollectionSetFile($class_name, $target_database, $target_table, $results);
             $create_file = $GEN_SAVE_SET_MODELS_TO . $class_name . "Set.php";
             if ($this->use_output == true) {
                 $this->output .=  "<td>";
@@ -65,8 +65,12 @@ class ModelFactory extends GeneratorWriter
             }
         }
     }
-    protected function createCollectionSetFile(string $class_name, string $target_table, string $target_database): void
-    {
+    protected function createCollectionSetFile(
+        string $class_name,
+        string $target_table,
+        string $target_database,
+        array $results
+    ): void {
         global $GEN_NAMESPACE_SET, $GEN_NAMESPACE_SINGLE;
 
         $this->file_lines[] = '<?php';
@@ -119,6 +123,23 @@ class ModelFactory extends GeneratorWriter
         $this->file_lines[] = 'return parent::getObjectByField($fieldname, $value);';
         $this->file_lines[] = [1];
         $this->file_lines[] = '}';
+        $this->file_lines[] = '/**';
+        $this->file_lines[] = ' * current';
+        $this->file_lines[] = ' * used by foreach to get the object should not be called directly';
+        $this->file_lines[] = ' */';
+        $this->file_lines[] = 'public function current(): ' . $class_name . '';
+        $this->file_lines[] = '{';
+        $this->file_lines[] = [2];
+        $this->file_lines[] = 'return parent::current();';
+        $this->file_lines[] = [1];
+        $this->file_lines[] = '}';
+        $this->createModelLoaders(
+            $target_table,
+            $results,
+            "array",
+            "//@return mixed[] [status =>  bool, count => integer, message =>  string]",
+            true
+        );
         $this->file_lines[] = [0];
         $this->file_lines[] = '}';
     }
@@ -162,8 +183,13 @@ class ModelFactory extends GeneratorWriter
         }
     }
 
-    protected function createModelLoaders(string $target_table, array $data_two): void
-    {
+    protected function createModelLoaders(
+        string $target_table,
+        array $data_two,
+        string $returnType = "bool",
+        string $returnHint = "",
+        bool $enableLimits = false
+    ): void {
         $this->file_lines[] = "// Loaders";
         foreach ($data_two as $row_two) {
             if ($row_two["COLUMN_NAME"] != "id") {
@@ -177,12 +203,26 @@ class ModelFactory extends GeneratorWriter
                     $use_type = "string";
                 }
                 $load_function = 'public function loadBy' . ucfirst($row_two["COLUMN_NAME"]);
-                $load_function .= '(' . $use_type . ' $' . $row_two["COLUMN_NAME"] . '): bool';
+                $functionSetup = '(' . $use_type . ' $' . $row_two["COLUMN_NAME"] . '): ' . $returnType . '';
+                if ($enableLimits == true) {
+                    $functionSetup = '(' . $use_type . ' $' . $row_two["COLUMN_NAME"]
+                    . ', int $limit=0, string $orderBy="id", string $orderDir="DESC"): ' . $returnType;
+                }
+                $load_function .= $functionSetup;
+                if ($returnType == "array") {
+                    $this->file_lines[] = $returnHint;
+                }
                 $this->file_lines[] = $load_function;
                 $this->file_lines[] = '{';
                 $this->file_lines[] = [2];
-                $this->file_lines[] = 'return $this->loadByField("' . $row_two["COLUMN_NAME"] . '", $'
-                . $row_two["COLUMN_NAME"] . ');';
+                $finalLine = 'return $this->loadByField("' . $row_two["COLUMN_NAME"] . '", $' . $row_two["COLUMN_NAME"];
+                if ($enableLimits == true) {
+                    $finalLine .= ', $' . 'limit';
+                    $finalLine .= ', $' . 'orderBy';
+                    $finalLine .= ', $' . 'orderDir';
+                }
+                $finalLine .= ');';
+                $this->file_lines[] = $finalLine;
                 $this->file_lines[] = [1];
                 $this->file_lines[] = '}';
             }

@@ -2,8 +2,42 @@
 
 namespace YAPF\DbObjects\CollectionSet;
 
-abstract class CollectionSetGet extends CollectionSetIndex
+use Iterator;
+use YAPF\DbObjects\GenClass\GenClass;
+
+abstract class CollectionSetGet extends CollectionSetIndex implements Iterator
 {
+    protected $position = 0;
+    public function rewind(): void
+    {
+        $this->position = 0;
+    }
+
+    public function current(): GenClass
+    {
+        return $this->collected[$this->indexs[$this->position]];
+    }
+
+    public function key(): int
+    {
+        return $this->indexs[$this->position];
+    }
+
+    public function next(): void
+    {
+        ++$this->position;
+    }
+
+    public function valid(): bool
+    {
+        if (isset($this->indexs[$this->position]) == true) {
+            $index = $this->indexs[$this->position];
+            return isset($this->collected[$index]);
+        }
+        return false;
+    }
+
+
     /**
      * getCount
      * returns the number of objects in this collection set
@@ -15,7 +49,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
     /**
      * getCollection
      * please use: getAllIds and getObjectByID
-     * as this mehtod duplicates objects increasing memory usage
+     * as this method duplicates objects increasing memory usage
      * returns an array of objects in this collection
      * @return object[] [object,...]
      */
@@ -23,6 +57,7 @@ abstract class CollectionSetGet extends CollectionSetIndex
     {
         return array_values($this->collected);
     }
+
     /**
      * getLinkedArray
      * returns a key value pair array for all objects in collection
@@ -103,12 +138,10 @@ abstract class CollectionSetGet extends CollectionSetIndex
      */
     public function getFirst(): ?object
     {
-        $return_obj = null;
         foreach ($this->collected as $key => $value) {
-            $return_obj = $value;
-            break;
+            return $value;
         }
-        return $return_obj;
+        return null;
     }
     /**
      * getWorkerClass

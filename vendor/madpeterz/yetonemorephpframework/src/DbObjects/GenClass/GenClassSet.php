@@ -2,6 +2,7 @@
 
 namespace YAPF\DbObjects\GenClass;
 
+use Exception;
 use YAPF\Cache\Cache;
 
 abstract class GenClassSet extends GenClassGet
@@ -141,5 +142,105 @@ abstract class GenClassSet extends GenClassGet
             }
         }
         return ["status" => true, "message" => "value set"];
+    }
+
+    /*
+        bulkChange
+        takes in a name => value pairs as an array
+        passes that to the set function
+
+        on failure rolls back any changes to the object
+    */
+    public function bulkChange(array $namevaluepairs): bool
+    {
+        $rollback_savedataset = $this->save_dataset;
+        $rollback_dataset = $this->dataset;
+        $all_ok = true;
+        $why_failed = "";
+        try {
+            foreach ($namevaluepairs as $key => $value) {
+                $functionname = "set" . ucfirst($key);
+                if (method_exists($this, $functionname) == false) {
+                    $why_failed = "Unknown key " . $key;
+                    $all_ok = false;
+                    break;
+                }
+                $status = $this->$functionname($value);
+                if (is_array($status) == false) {
+                    $why_failed = "reply from function " . $functionname . " should be an array";
+                    $all_ok = false;
+                    break;
+                }
+                if ($status["status"] == false) {
+                    $why_failed = $status["message"];
+                    $all_ok = false;
+                    break;
+                }
+            }
+        } catch (Exception $e) {
+            $why_failed = $e->getMessage();
+            $all_ok = false;
+        }
+        if ($all_ok == false) {
+            $this->addError(__FILE__, __FUNCTION__, $why_failed);
+            $this->save_dataset = $rollback_savedataset;
+            $this->dataset = $rollback_dataset;
+        }
+        return $all_ok;
+    }
+
+    /*
+        defaultValues
+
+        forces the object to return to default values for all
+        fields apart from id and any excluded fields
+
+        on failure rolls back any changes to the object
+    */
+    public function defaultValues(array $excludeFields = []): bool
+    {
+        $rollback_savedataset = $this->save_dataset;
+        $rollback_dataset = $this->dataset;
+        $excludeFields[] = "id";
+        $class = get_class($this);
+        $copy = new $class();
+        $fields = $this->getFields();
+        $all_ok = true;
+        $why_failed = "";
+        foreach ($fields as $field) {
+            if (in_array($field, $excludeFields) == true) {
+                continue;
+            }
+            $functionnameset = "set" . ucfirst($field);
+            $functionnameget = "get" . ucfirst($field);
+            if (method_exists($this, $functionnameset) == false) {
+                $all_ok = false;
+                $why_failed = "Missing function: " . $functionnameset;
+                break;
+            }
+            if (method_exists($this, $functionnameget) == false) {
+                $all_ok = false;
+                $why_failed = "Missing function: " . $functionnameget;
+                break;
+            }
+            $value = $copy->$functionnameget();
+            $status = $this->$functionnameset($value);
+            if (is_array($status) == false) {
+                $why_failed = "reply from function " . $functionnameset . " should be an array";
+                $all_ok = false;
+                break;
+            }
+            if ($status["status"] == false) {
+                $why_failed = $status["message"];
+                $all_ok = false;
+                break;
+            }
+        }
+        if ($all_ok == false) {
+            $this->addError(__FILE__, __FUNCTION__, $why_failed);
+            $this->save_dataset = $rollback_savedataset;
+            $this->dataset = $rollback_dataset;
+        }
+        return $all_ok;
     }
 }
