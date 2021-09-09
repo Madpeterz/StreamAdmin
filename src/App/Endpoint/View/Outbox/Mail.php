@@ -19,8 +19,7 @@ class Mail extends View
         $avatar_set->loadIds($message_set->getAllByField("avatarLink"));
         $botConfig = new Botconfig();
         $botConfig->loadID(1);
-        foreach ($message_set->getAllIds() as $message_id) {
-            $message = $message_set->getObjectByID($message_id);
+        foreach ($message_set as $message) {
             $avatar = $avatar_set->getObjectByID($message->getAvatarLink());
             $message_content = $message->getMessage();
             if (strlen($message_content) > 24) {

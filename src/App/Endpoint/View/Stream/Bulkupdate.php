@@ -32,8 +32,7 @@ class Bulkupdate extends View
         $table_head = ["id","Action","Server","Port","Encoder/Stream password","Admin Password"];
         $table_body = [];
 
-        foreach ($stream_set->getAllIds() as $streamid) {
-            $stream = $stream_set->getObjectByID($streamid);
+        foreach ($stream_set as $stream) {
             $server = $server_set->getObjectByID($stream->getServerLink());
             if ($stream->getOriginalAdminUsername() == $stream->getAdminUsername()) {
                 $action = '

@@ -19,8 +19,7 @@ class Details extends View
         $rental_set->loadIds($detail_set->getAllByField("rentalLink"));
         $avatar_set = new AvatarSet();
         $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
-        foreach ($detail_set->getAllIds() as $detail_id) {
-            $detail = $detail_set->getObjectByID($detail_id);
+        foreach ($detail_set as $detail) {
             $rental = $rental_set->getObjectByID($detail->getRentalLink());
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
             $table_body[] = [$detail->getId(),$rental->getRentalUid(),$avatar->getAvatarName()];

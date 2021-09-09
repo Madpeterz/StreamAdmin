@@ -14,8 +14,7 @@ class DefaultView extends View
         $template_set = new TemplateSet();
         $template_set->loadAll();
 
-        foreach ($template_set->getAllIds() as $template_id) {
-            $tempalte = $template_set->getObjectByID($template_id);
+        foreach ($template_set as $tempalte) {
             $entry = [];
             $entry[] = $tempalte->getId();
             $entry[] = '<a href="[[url_base]]template/manage/' . $tempalte->getId() . '">'

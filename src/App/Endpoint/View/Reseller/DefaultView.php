@@ -19,8 +19,7 @@ class DefaultView extends View
         $table_head = ["id","Name","Allow","Rate"];
         $table_body = [];
 
-        foreach ($reseller_set->getAllIds() as $reseller_id) {
-            $reseller = $reseller_set->getObjectByID($reseller_id);
+        foreach ($reseller_set as $reseller) {
             $avatar = $avatar_set->getObjectByID($reseller->getAvatarLink());
             $entry = [];
             $entry[] = $reseller->getId();

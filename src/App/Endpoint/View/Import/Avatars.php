@@ -18,8 +18,7 @@ class Avatars extends View
         global $sql;
         $sql = $this->realSqlDB;
         $seen_avatarUUIDs = [];
-        foreach ($r4_users_set->getAllIds() as $r4_user_id) {
-            $r4_user = $r4_users_set->getObjectByID($r4_user_id);
+        foreach ($r4_users_set as $r4_user) {
             if (in_array($r4_user->getSlkey(), $seen_avatarUUIDs) == true) {
                 continue;
             }

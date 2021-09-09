@@ -2,8 +2,6 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\NotecardmailSet;
-
 class Status extends View
 {
     public function process(): void
@@ -30,7 +28,7 @@ class Status extends View
                 $mins = floor($time_to_clear / 60);
                 if ($mins > 60) {
                     $hours = floor($mins / 60);
-                    $entry[] = $mins . " hours";
+                    $entry[] = $hours . " hours";
                 } else {
                     $entry[] = $mins . " mins";
                 }

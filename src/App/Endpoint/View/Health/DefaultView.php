@@ -31,8 +31,7 @@ class DefaultView extends View
         $regionsSet->loadIds($venderHealth->getUniqueArray("regionLink"));
         $goodMinTime = time() - 120;
         $regions_report = [];
-        foreach ($venderHealth->getAllIds() as $objectid) {
-            $object = $venderHealth->getObjectByID($objectid);
+        foreach ($venderHealth as $object) {
             if (array_key_exists($object->getRegionLink(), $regions_report) == false) {
                 $regions_report[$object->getRegionLink()] = [
                     "up" => 0,

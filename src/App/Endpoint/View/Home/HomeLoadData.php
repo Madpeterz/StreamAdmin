@@ -62,8 +62,7 @@ abstract class HomeLoadData extends View
         ];
         $venderHealth->loadWithConfig($whereConfig);
         $goodMinTime = time() - 120;
-        foreach ($venderHealth->getAllIds() as $objectid) {
-            $object = $venderHealth->getObjectByID($objectid);
+        foreach ($venderHealth as $object) {
             if ($object->getLastSeen() >= $goodMinTime) {
                 $this->venderHealthGood++;
                 continue;
@@ -82,8 +81,7 @@ abstract class HomeLoadData extends View
     {
         $this->stream_set = new StreamSet();
         $this->stream_set->loadAll();
-        foreach ($this->stream_set->getAllIds() as $stream_id) {
-            $stream = $this->stream_set->getObjectByID($stream_id);
+        foreach ($this->stream_set as $stream) {
             $server = $this->server_set->getObjectByID($stream->getServerLink());
             if ($stream->getRentalLink() == null) {
                 if ($stream->getNeedWork() == false) {
@@ -104,7 +102,6 @@ abstract class HomeLoadData extends View
     {
         $this->server_loads = [];
         foreach ($this->server_set->getAllIds() as $server_id) {
-            $server = $this->server_set->getObjectByID($server_id);
             $this->server_loads[$server_id] = ["ready" => 0,"sold" => 0,"needWork" => 0];
         }
         $this->apis_set = new ApisSet();

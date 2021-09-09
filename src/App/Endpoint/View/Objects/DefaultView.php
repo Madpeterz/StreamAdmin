@@ -5,13 +5,19 @@ namespace App\Endpoint\View\Objects;
 use App\R7\Set\AvatarSet;
 use App\R7\Set\ObjectsSet;
 use App\R7\Set\RegionSet;
+use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View
 {
     public function process(): void
     {
+        $inputFilter = new InputFilter();
+        $pagenum = $inputFilter->varFilter($this->page, "integer");
+        if ($pagenum == null) {
+            $pagenum = 0;
+        }
         $objects_set = new ObjectsSet();
-        $objects_set->loadAll();
+        $objects_set->loadLimited(1000, "id", "DESC", [], [], "AND", $pagenum);
         $region_set = new RegionSet();
         $region_set->loadIds($objects_set->getAllByField("regionLink"));
         $avatar_set = new AvatarSet();
@@ -22,8 +28,7 @@ class DefaultView extends View
         if ($objects_set->getCount() == 0) {
             $template_parts["page_actions"] = "";
         }
-        foreach ($objects_set->getAllIds() as $object_id) {
-            $object = $objects_set->getObjectByID($object_id);
+        foreach ($objects_set as $object) {
             $avatar = $avatar_set->getObjectByID($object->getAvatarLink());
             $region = $region_set->getObjectByID($object->getRegionLink());
             $entry = [];

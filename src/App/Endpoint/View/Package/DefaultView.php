@@ -18,8 +18,7 @@ class DefaultView extends View
         $table_head = ["id","UID","Name","Type","Listeners","Days","Kbps","Cost","AutoDJ [GB]"];
         $table_body = [];
 
-        foreach ($package_set->getAllIds() as $package_id) {
-            $package = $package_set->getObjectByID($package_id);
+        foreach ($package_set as $package) {
             $type = $servertypes_set->getObjectByID($package->getServertypeLink());
             $entry = [];
             $entry[] = $package->getId();

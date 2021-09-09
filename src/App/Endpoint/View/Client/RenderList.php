@@ -22,8 +22,7 @@ abstract class RenderList extends View
         $table_head = ["id","Rental UID","Avatar","Port","Notecard","Timeleft/Expired","Renewals"];
         $table_body = [];
 
-        foreach ($this->rentalSet->getAllIds() as $rental_id) {
-            $rental = $this->rentalSet->getObjectByID($rental_id);
+        foreach ($this->rentalSet as $rental) {
             $avatar = $this->avatarSet->getObjectByID($rental->getAvatarLink());
             $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
             $entry = [];

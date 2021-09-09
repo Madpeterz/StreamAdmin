@@ -19,24 +19,22 @@ class DefaultView extends View
         foreach ($package_set->getAllIds() as $package_id) {
             $streams_in_package[$package_id] = ["sold" => 0,"work" => 0,"ready" => 0];
         }
-        foreach ($stream_set->getAllIds() as $stream_id) {
-            $stream = $stream_set->getObjectByID($stream_id);
-            if ($stream->getRentalLink() == null) {
-                if ($stream->getNeedWork() == false) {
-                    $streams_in_package[$stream->getPackageLink()]["ready"]++;
-                } else {
-                    $streams_in_package[$stream->getPackageLink()]["work"]++;
-                }
-            } else {
+        foreach ($stream_set as $stream) {
+            if ($stream->getRentalLink() != null) {
                 $streams_in_package[$stream->getPackageLink()]["sold"]++;
+                continue;
             }
+            if ($stream->getNeedWork() == false) {
+                $streams_in_package[$stream->getPackageLink()]["ready"]++;
+                continue;
+            }
+            $streams_in_package[$stream->getPackageLink()]["work"]++;
         }
 
         $table_head = ["id","Name","Sold","Need work","Ready"];
         $table_body = [];
 
-        foreach ($package_set->getAllIds() as $package_id) {
-            $package = $package_set->getObjectByID($package_id);
+        foreach ($package_set as $package) {
             $entry = [];
             $entry[] = $package->getId();
             $entry[] = '<a href="[[url_base]]stream/inpackage/' . $package->getPackageUid() . '">'

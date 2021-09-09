@@ -15,8 +15,7 @@ class DefaultView extends View
         $staff_set->loadAll();
         $table_head = ["id","Username","Owner"];
         $table_body = [];
-        foreach ($staff_set->getAllIds() as $staff_id) {
-            $staff = $staff_set->getObjectByID($staff_id);
+        foreach ($staff_set as $staff) {
             $entry = [];
             $entry[] = $staff->getId();
             $username = $staff->getUsername();

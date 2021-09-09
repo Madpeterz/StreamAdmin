@@ -91,14 +91,13 @@ class Bulk extends View
         $table_body = [];
 
         $banned_ids = $banlist_set->getAllByField("avatarLink");
-        foreach ($avatar_set->getAllIds() as $avatar_id) {
-            if (in_array($avatar_id, $banned_ids) == false) {
-                $avatar = $avatar_set->getObjectByID($avatar_id);
+        foreach ($avatar_set as $avatar) {
+            if (in_array($avatar->getId(), $banned_ids) == false) {
                 $entry = [];
-                $entry[] = '<div class="checkbox"><input checked type="checkbox" id="avatarmail' . $avatar_id
-                . '" name="avatarids[]" value="' . $avatar_id . '"></div>';
+                $entry[] = '<div class="checkbox"><input checked type="checkbox" id="avatarmail' . $avatar->getId()
+                . '" name="avatarids[]" value="' . $avatar->getId() . '"></div>';
                 $entry[] = '<div class="checkbox"><label for="avatarmail'
-                . $avatar_id . '">' . $avatar->getAvatarName() . '</label></div>';
+                . $avatar->getId() . '">' . $avatar->getAvatarName() . '</label></div>';
                 $table_body[] = $entry;
             }
         }

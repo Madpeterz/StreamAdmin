@@ -77,8 +77,7 @@ class BreakdownMonth extends View
         ];
 
 
-        foreach ($transactions_set->getAllIds() as $transaction_id) {
-            $transaction = $transactions_set->getObjectByID($transaction_id);
+        foreach ($transactions_set as $transaction) {
             $month_id = 1;
             foreach ($lookups as $max_unixtime => $month_num) {
                 if ($transaction->getUnixtime() < $max_unixtime) {
@@ -106,7 +105,7 @@ class BreakdownMonth extends View
         $best_month = $last_month;
 
         $best_month_total = 0;
-        foreach ($month_datasets as $index => $dataset) {
+        foreach ($month_datasets as $dataset) {
             $sum = $dataset["amount_new"] + $dataset["amount_renew"];
             if ($sum > $best_month_total) {
                 $best_month = $dataset;
@@ -125,7 +124,7 @@ class BreakdownMonth extends View
             "Change from best week",
         ];
         $table_body = [];
-        foreach ($month_datasets as $index => $dataset) {
+        foreach ($month_datasets as $dataset) {
             $entry = [];
             if ($dataset["sum"] > 0) {
                 $entry[] = $dataset["title"];

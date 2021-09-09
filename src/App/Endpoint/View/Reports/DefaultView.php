@@ -30,7 +30,6 @@ class DefaultView extends View
             $year = date("Y");
         }
 
-        $start_unixtime = mktime(0, 0, 1, $month, 1, $year);
         $end_month = $month + 1;
         $end_year = $year;
         if ($end_month > 12) {
@@ -113,15 +112,14 @@ class DefaultView extends View
         ];
 
         $transactions_set->loadWithConfig($whereconfig);
-        foreach ($transactions_set->getAllIds() as $transaction_id) {
-            $transaction = $transactions_set->getObjectByID($transaction_id);
+        foreach ($transactions_set as $transaction) {
             if ($transaction->getRenew() == 1) {
                 $renewed_rentals++;
                 $amount_renew += $transaction->getAmount();
-            } else {
-                $new_rentals++;
-                $amount_new += $transaction->getAmount();
+                continue;
             }
+            $new_rentals++;
+            $amount_new += $transaction->getAmount();
         }
         $mygrid = new Grid();
         $table = $this->renderTable(

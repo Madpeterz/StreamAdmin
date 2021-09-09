@@ -119,8 +119,7 @@ class ComapreYears extends View
         $year_a_count = 0;
         $year_b_total = 0;
         $year_b_count = 0;
-        foreach ($transactions_set_a->getAllIds() as $transaction_id) {
-            $transaction = $transactions_set_a->getObjectByID($transaction_id);
+        foreach ($transactions_set_a as $transaction) {
             $month_id = 1;
             foreach ($lookups_yeara as $max_unixtime => $month_num) {
                 if ($transaction->getUnixtime() < $max_unixtime) {
@@ -135,8 +134,7 @@ class ComapreYears extends View
         }
         $yeara_month_datasets[13] = ["title" => "Total","sum" => $year_a_total,"counted" => $year_a_count];
 
-        foreach ($transactions_set_b->getAllIds() as $transaction_id) {
-            $transaction = $transactions_set_b->getObjectByID($transaction_id);
+        foreach ($transactions_set_b as $transaction) {
             $month_id = 1;
             foreach ($lookups_yearb as $max_unixtime => $month_num) {
                 if ($transaction->getUnixtime() < $max_unixtime) {

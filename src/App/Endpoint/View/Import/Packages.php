@@ -24,8 +24,7 @@ class Packages extends View
 
         $all_ok = true;
         $packages_created = 0;
-        foreach ($r4_packages_set->getAllIds() as $r4_package_id) {
-            $r4_package = $r4_packages_set->getObjectByID($r4_package_id);
+        foreach ($r4_packages_set as $r4_package) {
             $package = new Package();
             $uid = $package->createUID("packageUid", 8, 10);
             if ($uid["status"] == false) {
@@ -42,21 +41,17 @@ class Packages extends View
             $package->setTemplateLink($template->getId());
             $package->setCost($r4_package->getLcost());
             $package->setDays($r4_package->getSublength());
-            if ($r4_package->getSoldouttexture() == null) {
-                $package->setTextureSoldout("00000000-0000-0000-0000-000000000000");
-            } else {
+            $package->setTextureSoldout("00000000-0000-0000-0000-000000000000");
+            $package->setTextureInstockSmall("00000000-0000-0000-0000-000000000000");
+            $package->setTextureInstockSelected("00000000-0000-0000-0000-000000000000");
+
+            if ($r4_package->getSoldouttexture() != null) {
                 $package->setTextureSoldout($r4_package->getSoldouttexture());
             }
-
-            if ($r4_package->getInfotexture() == null) {
-                $package->setTextureInstockSmall("00000000-0000-0000-0000-000000000000");
-            } else {
+            if ($r4_package->getInfotexture() != null) {
                 $package->setTextureInstockSmall($r4_package->getInfotexture());
             }
-
-            if ($r4_package->getMaintexture() == null) {
-                $package->setTextureInstockSelected("00000000-0000-0000-0000-000000000000");
-            } else {
+            if ($r4_package->getMaintexture() != null) {
                 $package->setTextureInstockSelected($r4_package->getMaintexture());
             }
 
