@@ -52,11 +52,12 @@ class NoticenotecardSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByName(
-        string $name,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $name, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
     }
     /**
@@ -64,11 +65,12 @@ class NoticenotecardSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByMissing(
-        bool $missing,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    bool $missing, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("missing", $missing, $limit, $orderBy, $orderDir);
     }
 }

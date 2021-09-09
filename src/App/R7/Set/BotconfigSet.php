@@ -52,11 +52,12 @@ class BotconfigSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAvatarLink(
-        int $avatarLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
     }
     /**
@@ -64,11 +65,12 @@ class BotconfigSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadBySecret(
-        string $secret,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $secret, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("secret", $secret, $limit, $orderBy, $orderDir);
     }
     /**
@@ -76,11 +78,12 @@ class BotconfigSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByNotecards(
-        bool $notecards,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    bool $notecards, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("notecards", $notecards, $limit, $orderBy, $orderDir);
     }
     /**
@@ -88,11 +91,12 @@ class BotconfigSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByIms(
-        bool $ims,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    bool $ims, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("ims", $ims, $limit, $orderBy, $orderDir);
     }
 }

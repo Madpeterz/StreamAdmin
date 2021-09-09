@@ -52,11 +52,12 @@ class NoticeSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByName(
-        string $name,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $name, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
     }
     /**
@@ -64,11 +65,12 @@ class NoticeSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByImMessage(
-        string $imMessage,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $imMessage, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("imMessage", $imMessage, $limit, $orderBy, $orderDir);
     }
     /**
@@ -76,11 +78,12 @@ class NoticeSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByUseBot(
-        bool $useBot,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    bool $useBot, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("useBot", $useBot, $limit, $orderBy, $orderDir);
     }
     /**
@@ -88,11 +91,12 @@ class NoticeSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadBySendNotecard(
-        bool $sendNotecard,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    bool $sendNotecard, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("sendNotecard", $sendNotecard, $limit, $orderBy, $orderDir);
     }
     /**
@@ -100,11 +104,12 @@ class NoticeSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByNotecardDetail(
-        string $notecardDetail,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $notecardDetail, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("notecardDetail", $notecardDetail, $limit, $orderBy, $orderDir);
     }
     /**
@@ -112,11 +117,12 @@ class NoticeSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByHoursRemaining(
-        int $hoursRemaining,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $hoursRemaining, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("hoursRemaining", $hoursRemaining, $limit, $orderBy, $orderDir);
     }
     /**
@@ -124,11 +130,12 @@ class NoticeSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByNoticeNotecardLink(
-        int $noticeNotecardLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $noticeNotecardLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("noticeNotecardLink", $noticeNotecardLink, $limit, $orderBy, $orderDir);
     }
 }

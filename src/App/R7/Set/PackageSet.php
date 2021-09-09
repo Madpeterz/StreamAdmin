@@ -52,11 +52,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByPackageUid(
-        string $packageUid,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $packageUid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("packageUid", $packageUid, $limit, $orderBy, $orderDir);
     }
     /**
@@ -64,11 +65,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByName(
-        string $name,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $name, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
     }
     /**
@@ -76,11 +78,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAutodj(
-        bool $autodj,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    bool $autodj, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("autodj", $autodj, $limit, $orderBy, $orderDir);
     }
     /**
@@ -88,11 +91,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAutodjSize(
-        string $autodjSize,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $autodjSize, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("autodjSize", $autodjSize, $limit, $orderBy, $orderDir);
     }
     /**
@@ -100,11 +104,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByListeners(
-        int $listeners,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $listeners, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("listeners", $listeners, $limit, $orderBy, $orderDir);
     }
     /**
@@ -112,11 +117,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByBitrate(
-        int $bitrate,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $bitrate, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("bitrate", $bitrate, $limit, $orderBy, $orderDir);
     }
     /**
@@ -124,11 +130,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByTemplateLink(
-        int $templateLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $templateLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("templateLink", $templateLink, $limit, $orderBy, $orderDir);
     }
     /**
@@ -136,11 +143,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByServertypeLink(
-        int $servertypeLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $servertypeLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("servertypeLink", $servertypeLink, $limit, $orderBy, $orderDir);
     }
     /**
@@ -148,11 +156,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByCost(
-        int $cost,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $cost, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("cost", $cost, $limit, $orderBy, $orderDir);
     }
     /**
@@ -160,11 +169,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByDays(
-        int $days,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $days, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("days", $days, $limit, $orderBy, $orderDir);
     }
     /**
@@ -172,11 +182,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByTextureSoldout(
-        string $textureSoldout,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $textureSoldout, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("textureSoldout", $textureSoldout, $limit, $orderBy, $orderDir);
     }
     /**
@@ -184,11 +195,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByTextureInstockSmall(
-        string $textureInstockSmall,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $textureInstockSmall, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("textureInstockSmall", $textureInstockSmall, $limit, $orderBy, $orderDir);
     }
     /**
@@ -196,11 +208,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByTextureInstockSelected(
-        string $textureInstockSelected,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $textureInstockSelected, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("textureInstockSelected", $textureInstockSelected, $limit, $orderBy, $orderDir);
     }
     /**
@@ -208,11 +221,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByApiTemplate(
-        string $apiTemplate,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $apiTemplate, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("apiTemplate", $apiTemplate, $limit, $orderBy, $orderDir);
     }
     /**
@@ -220,11 +234,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByWelcomeNotecardLink(
-        int $welcomeNotecardLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $welcomeNotecardLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("welcomeNotecardLink", $welcomeNotecardLink, $limit, $orderBy, $orderDir);
     }
     /**
@@ -232,11 +247,12 @@ class PackageSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadBySetupNotecardLink(
-        int $setupNotecardLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $setupNotecardLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("setupNotecardLink", $setupNotecardLink, $limit, $orderBy, $orderDir);
     }
 }

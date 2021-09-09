@@ -52,11 +52,12 @@ class NotecardSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByRentalLink(
-        int $rentalLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $rentalLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("rentalLink", $rentalLink, $limit, $orderBy, $orderDir);
     }
     /**
@@ -64,11 +65,12 @@ class NotecardSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAsNotice(
-        bool $asNotice,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    bool $asNotice, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("asNotice", $asNotice, $limit, $orderBy, $orderDir);
     }
     /**
@@ -76,11 +78,12 @@ class NotecardSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByNoticeLink(
-        int $noticeLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $noticeLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("noticeLink", $noticeLink, $limit, $orderBy, $orderDir);
     }
 }

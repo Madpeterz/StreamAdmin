@@ -52,11 +52,12 @@ class BanlistSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAvatarLink(
-        int $avatarLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
     }
 }

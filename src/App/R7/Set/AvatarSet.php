@@ -52,11 +52,12 @@ class AvatarSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAvatarUUID(
-        string $avatarUUID,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $avatarUUID, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("avatarUUID", $avatarUUID, $limit, $orderBy, $orderDir);
     }
     /**
@@ -64,11 +65,12 @@ class AvatarSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAvatarName(
-        string $avatarName,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $avatarName, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("avatarName", $avatarName, $limit, $orderBy, $orderDir);
     }
     /**
@@ -76,11 +78,12 @@ class AvatarSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAvatarUid(
-        string $avatarUid,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    string $avatarUid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("avatarUid", $avatarUid, $limit, $orderBy, $orderDir);
     }
 }

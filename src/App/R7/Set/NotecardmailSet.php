@@ -52,11 +52,12 @@ class NotecardmailSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByAvatarLink(
-        int $avatarLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
     }
     /**
@@ -64,11 +65,12 @@ class NotecardmailSet extends CollectionSet
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
     public function loadByNoticenotecardLink(
-        int $noticenotecardLink,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): array {
+                    int $noticenotecardLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
         return $this->loadByField("noticenotecardLink", $noticenotecardLink, $limit, $orderBy, $orderDir);
     }
 }
