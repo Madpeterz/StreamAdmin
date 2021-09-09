@@ -11,18 +11,25 @@ class DbObjectsFactory extends ModelFactory
             $this->start();
         }
     }
+    public function setOutputToHTML(): void
+    {
+        $this->use_output = true;
+        $this->console_output = false;
+    }
     public function start(): void
     {
         global $GEN_DATABASES;
         if ($this->use_output == true) {
-            $this->output .=  '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/';
-            $this->output .=  'bootstrap/4.5.2/css/bootstrap.min.css"';
-            $this->output .=  ' integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"';
-            $this->output .=  ' crossorigin="anonymous">';
-            $this->output .=  '<link rel="stylesheet" ';
-            $this->output .=  'href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css"';
-            $this->output .=  ' integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN"';
-            $this->output .=  ' crossorigin="anonymous">';
+            if ($this->console_output == false) {
+                $this->output .=  '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/';
+                $this->output .=  'bootstrap/4.5.2/css/bootstrap.min.css"';
+                $this->output .=  ' integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"';
+                $this->output .=  ' crossorigin="anonymous">';
+                $this->output .=  '<link rel="stylesheet" ';
+                $this->output .=  'href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css"';
+                $this->output .=  ' integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN"';
+                $this->output .=  ' crossorigin="anonymous">';
+            }
         }
         if (isset($GEN_DATABASES) == true) {
             if (count($GEN_DATABASES) > 0) {
@@ -37,9 +44,13 @@ class DbObjectsFactory extends ModelFactory
         global $GEN_SELECTED_TABLES_ONLY;
         $this->sql->dbName = $target_database;
         if ($this->use_output == true) {
-            $this->output .= "<h4>database: " . $target_database . "</h4>";
-            $this->output .= "<table class=\"table\"><thead><tr><th>Table</th>";
-            $this->output .= "<th>Set</th><th>Single</th></tr></thead><tbody>";
+            if ($this->console_output == true) {
+                echo "Starting database: " . $target_database . "\n";
+            } else {
+                $this->output .= "<h4>database: " . $target_database . "</h4>";
+                $this->output .= "<table class=\"table\"><thead><tr><th>Table</th>";
+                $this->output .= "<th>Set</th><th>Single</th></tr></thead><tbody>";
+            }
         }
         $where_config = [
             "fields" => ["TABLE_SCHEMA"],
@@ -54,7 +65,11 @@ class DbObjectsFactory extends ModelFactory
         $results = $this->sql->selectV2($basic_config, null, $where_config);
         if ($results["status"] == false) {
             if ($this->use_output == true) {
-                $this->output .= "<tr><td>Error</td><td>Unable to get tables</td><td>from db</td></tr>";
+                if ($this->console_output == true) {
+                    echo "\033[31mError: Unable to get tables from DB\033[0m\n";
+                } else {
+                    $this->output .= "<tr><td>Error</td><td>Unable to get tables</td><td>from db</td></tr>";
+                }
             }
             $error_msg = "Error ~ Unable to get tables for " . $target_database . "";
             $this->addError(__FILE__, __FUNCTION__, $error_msg);
@@ -70,11 +85,19 @@ class DbObjectsFactory extends ModelFactory
             if ($process == true) {
                 $this->CreateModel($row["TABLE_NAME"], $target_database);
             } else {
-                $this->output .= "<tr><td>" . $row["TABLE_NAME"] . "</td><td>Skipped</td><td>Skipped</td></tr>";
+                if ($this->console_output == true) {
+                    echo "Skipped table: " . $row["TABLE_NAME"] . "\n";
+                } else {
+                    $this->output .= "<tr><td>" . $row["TABLE_NAME"] . "</td><td>Skipped</td><td>Skipped</td></tr>";
+                }
             }
         }
         if ($this->use_output == true) {
-            $this->output .= "</tbody></table>";
+            if ($this->console_output == true) {
+                echo "finished database \n";
+            } else {
+                $this->output .= "</tbody></table>";
+            }
         }
     }
 }

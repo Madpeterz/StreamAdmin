@@ -47,14 +47,28 @@ class NoticenotecardSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByName(string $name, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByName
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByName(
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByMissing(bool $missing, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByMissing
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByMissing(
+        bool $missing,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("missing", $missing, $limit, $orderBy, $orderDir);
     }
 }

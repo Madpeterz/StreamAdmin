@@ -47,43 +47,107 @@ class StaffSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByUsername(string $username, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByUsername
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByUsername(
+                    string $username, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("username", $username, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByEmailResetCode(string $emailResetCode, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByEmailResetCode
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByEmailResetCode(
+                    string $emailResetCode, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("emailResetCode", $emailResetCode, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByEmailResetExpires(int $emailResetExpires, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByEmailResetExpires
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByEmailResetExpires(
+                    int $emailResetExpires, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("emailResetExpires", $emailResetExpires, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAvatarLink(int $avatarLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByAvatarLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAvatarLink(
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByPhash(string $phash, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByPhash
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPhash(
+                    string $phash, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("phash", $phash, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByLhash(string $lhash, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByLhash
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByLhash(
+                    string $lhash, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("lhash", $lhash, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByPsalt(string $psalt, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByPsalt
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPsalt(
+                    string $psalt, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("psalt", $psalt, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByOwnerLevel(bool $ownerLevel, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByOwnerLevel
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByOwnerLevel(
+                    bool $ownerLevel, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("ownerLevel", $ownerLevel, $limit, $orderBy, $orderDir);
     }

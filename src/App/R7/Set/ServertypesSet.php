@@ -47,8 +47,16 @@ class ServertypesSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByName(string $name, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByName
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByName(
+                    string $name, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
     }

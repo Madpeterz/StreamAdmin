@@ -47,19 +47,40 @@ class NotecardSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByRentalLink(int $rentalLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByRentalLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRentalLink(
+        int $rentalLink,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("rentalLink", $rentalLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAsNotice(bool $asNotice, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByAsNotice
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAsNotice(
+        bool $asNotice,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("asNotice", $asNotice, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByNoticeLink(int $noticeLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByNoticeLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByNoticeLink(
+        int $noticeLink,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("noticeLink", $noticeLink, $limit, $orderBy, $orderDir);
     }
 }

@@ -47,9 +47,16 @@ class DetailSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByRentalLink(int $rentalLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByRentalLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRentalLink(
+        int $rentalLink,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("rentalLink", $rentalLink, $limit, $orderBy, $orderDir);
     }
 }

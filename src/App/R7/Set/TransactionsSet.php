@@ -47,58 +47,146 @@ class TransactionsSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAvatarLink(int $avatarLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByAvatarLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAvatarLink(
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByPackageLink(int $packageLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByPackageLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPackageLink(
+                    int $packageLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("packageLink", $packageLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByStreamLink(int $streamLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByStreamLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByStreamLink(
+                    int $streamLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("streamLink", $streamLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByResellerLink(int $resellerLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByResellerLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByResellerLink(
+                    int $resellerLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("resellerLink", $resellerLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByRegionLink(int $regionLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByRegionLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRegionLink(
+                    int $regionLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("regionLink", $regionLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAmount(int $amount, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByAmount
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAmount(
+                    int $amount, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("amount", $amount, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByUnixtime(int $unixtime, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByUnixtime
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByUnixtime(
+                    int $unixtime, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("unixtime", $unixtime, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByTransactionUid(string $transactionUid, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByTransactionUid
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByTransactionUid(
+                    string $transactionUid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("transactionUid", $transactionUid, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByRenew(bool $renew, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByRenew
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRenew(
+                    bool $renew, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("renew", $renew, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadBySLtransactionUUID(string $SLtransactionUUID, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadBySLtransactionUUID
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadBySLtransactionUUID(
+                    string $SLtransactionUUID, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("SLtransactionUUID", $SLtransactionUUID, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByViaHud(bool $ViaHud, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByViaHud
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByViaHud(
+                    bool $ViaHud, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("ViaHud", $ViaHud, $limit, $orderBy, $orderDir);
     }

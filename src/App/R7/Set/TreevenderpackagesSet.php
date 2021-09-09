@@ -47,13 +47,29 @@ class TreevenderpackagesSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByTreevenderLink(int $treevenderLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByTreevenderLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByTreevenderLink(
+                    int $treevenderLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("treevenderLink", $treevenderLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByPackageLink(int $packageLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByPackageLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPackageLink(
+                    int $packageLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("packageLink", $packageLink, $limit, $orderBy, $orderDir);
     }

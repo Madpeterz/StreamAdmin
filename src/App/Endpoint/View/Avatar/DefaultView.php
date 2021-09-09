@@ -51,8 +51,7 @@ class DefaultView extends View
         }
         $table_head = ["id","UID","Name"];
         $table_body = [];
-        foreach ($avatarSet->getAllIds() as $avatar_id) {
-            $avatar = $avatarSet->getObjectByID($avatar_id);
+        foreach ($avatarSet as $avatar) {
             $entry = [];
             $entry[] = $avatar->getId();
             $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'

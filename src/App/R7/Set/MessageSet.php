@@ -47,14 +47,28 @@ class MessageSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAvatarLink(int $avatarLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByAvatarLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAvatarLink(
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByMessage(string $message, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByMessage
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByMessage(
+        string $message,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("message", $message, $limit, $orderBy, $orderDir);
     }
 }

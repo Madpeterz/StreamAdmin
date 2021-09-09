@@ -47,18 +47,42 @@ class TemplateSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByName(string $name, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByName
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByName(
+                    string $name, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByDetail(string $detail, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByDetail
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByDetail(
+                    string $detail, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("detail", $detail, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByNotecardDetail(string $notecardDetail, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByNotecardDetail
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByNotecardDetail(
+                    string $notecardDetail, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("notecardDetail", $notecardDetail, $limit, $orderBy, $orderDir);
     }

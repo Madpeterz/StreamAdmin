@@ -47,18 +47,42 @@ class ResellerSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAvatarLink(int $avatarLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByAvatarLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAvatarLink(
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAllowed(bool $allowed, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByAllowed
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAllowed(
+                    bool $allowed, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("allowed", $allowed, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByRate(int $rate, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
+    /**
+     * loadByRate
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRate(
+                    int $rate, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
     {
         return $this->loadByField("rate", $rate, $limit, $orderBy, $orderDir);
     }

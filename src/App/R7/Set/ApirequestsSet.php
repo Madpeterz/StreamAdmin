@@ -47,39 +47,88 @@ class ApirequestsSet extends CollectionSet
         return parent::current();
     }
     // Loaders
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByServerLink(int $serverLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByServerLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByServerLink(
+        int $serverLink,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("serverLink", $serverLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByRentalLink(int $rentalLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByRentalLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRentalLink(
+        int $rentalLink,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("rentalLink", $rentalLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByStreamLink(int $streamLink, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByStreamLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByStreamLink(
+        int $streamLink,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("streamLink", $streamLink, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByEventname(string $eventname, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByEventname
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByEventname(
+        string $eventname,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("eventname", $eventname, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByAttempts(int $attempts, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByAttempts
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAttempts(
+        int $attempts,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("attempts", $attempts, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByLastAttempt(int $lastAttempt, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByLastAttempt
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByLastAttempt(
+        int $lastAttempt,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("lastAttempt", $lastAttempt, $limit, $orderBy, $orderDir);
     }
-    //@return mixed[] [status =>  bool, count => integer, message =>  string]
-    public function loadByMessage(string $message, int $limit=0, string $orderBy="id", string $orderDir="DESC"): array
-    {
+    /**
+     * loadByMessage
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByMessage(
+        string $message,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): array {
         return $this->loadByField("message", $message, $limit, $orderBy, $orderDir);
     }
 }
