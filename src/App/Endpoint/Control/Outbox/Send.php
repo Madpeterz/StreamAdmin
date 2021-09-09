@@ -39,7 +39,7 @@ class Send extends ViewAjax
         $source_id = $input_filter->postFilter("source_id", "integer");
         $avatarids = $input_filter->postFilter("avatarids", "array");
         if (count($avatarids) > $max_avatars) {
-            $this->setSwapTag("message", "To many avatars sent vs what was expected");
+            $this->failed("To many avatars sent vs what was expected");
             return;
         }
         if ($source == "notice") {
@@ -51,7 +51,7 @@ class Send extends ViewAjax
             $rental_set->loadOnField("packageLink", $source_id);
         }
         if ($rental_set->getCount() == 0) {
-            $this->setSwapTag("message", "No rentals found with selected source/id pair");
+            $this->failed("No rentals found with selected source/id pair");
             return;
         }
         $stream_set = new StreamSet();
@@ -61,7 +61,7 @@ class Send extends ViewAjax
         $banned_ids = $banlist_set->getAllByField("avatarLink");
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
-            $this->setSwapTag("message", "No avatars found to send to");
+            $this->failed("No avatars found to send to");
             return;
         }
         $package_set->loadAll();
@@ -72,32 +72,33 @@ class Send extends ViewAjax
 
         $sent_counter = 0;
         $seen_avatars = [];
-        foreach ($rental_set->getAllIds() as $rental_id) {
-            $rental = $rental_set->getObjectByID($rental_id);
-            if (in_array($rental->getAvatarLink(), $avatarids) == true) {
-                if (in_array($rental->getAvatarLink(), $seen_avatars) == false) {
-                        $seen_avatars[] = $rental->getAvatarLink();
-                        $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
-                    if (in_array($avatar->getId(), $banned_ids) == false) {
-                        $stream = $stream_set->getObjectByID($rental->getStreamLink());
-                        $package = $package_set->getObjectByID($stream->getPackageLink());
-                        $server = $server_set->getObjectByID($stream->getServerLink());
-                        $sendmessage = $swapables_helper->getSwappedText(
-                            $message,
-                            $avatar,
-                            $rental,
-                            $package,
-                            $server,
-                            $stream
-                        );
-                        $bot_helper->sendMessage($botconfig, $botavatar, $avatar, $sendmessage, true);
-                        $sent_counter++;
-                    }
-                }
+        foreach ($rental_set as $rental) {
+            if (in_array($rental->getAvatarLink(), $avatarids) == false) {
+                continue;
             }
+            if (in_array($rental->getAvatarLink(), $seen_avatars) == true) {
+                continue;
+            }
+            $seen_avatars[] = $rental->getAvatarLink();
+            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
+            if (in_array($avatar->getId(), $banned_ids) == true) {
+                continue;
+            }
+            $stream = $stream_set->getObjectByID($rental->getStreamLink());
+            $package = $package_set->getObjectByID($stream->getPackageLink());
+            $server = $server_set->getObjectByID($stream->getServerLink());
+            $sendmessage = $swapables_helper->getSwappedText(
+                $message,
+                $avatar,
+                $rental,
+                $package,
+                $server,
+                $stream
+            );
+            $bot_helper->sendMessage($botconfig, $botavatar, $avatar, $sendmessage, true);
+            $sent_counter++;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", sprintf("Sent to %1\$s avatars", $sent_counter));
+        $this->ok(sprintf("Sent to %1\$s avatars", $sent_counter));
         $this->setSwapTag("redirect", "outbox");
     }
 }

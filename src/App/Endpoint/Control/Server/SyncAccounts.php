@@ -7,32 +7,30 @@ use App\R7\Model\Apis;
 use App\R7\Model\Server;
 use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
-use serverapi_helper;
 
 class SyncAccounts extends ViewAjax
 {
     public function process(): void
     {
-        $status = false;
         $server = new Server();
         $stream_set = new StreamSet();
         $api = new Apis();
         $serverapi_helper = new ServerApiHelper();
 
         if ($server->loadID($this->page) == false) {
-            $this->setSwapTag("message", "Unable to find server");
+            $this->failed("Unable to find server");
             return;
         }
         if ($api->loadID($server->getApiLink()) == false) {
-            $this->setSwapTag("message", "Unable to find api used by server");
+            $this->failed("Unable to find api used by server");
             return;
         }
         if (($server->getApiSyncAccounts() == false) || ($api->getApiSyncAccounts() == false)) {
-            $this->setSwapTag("message", "Server or API have sync accounts disabled");
+            $this->failed("Server or API have sync accounts disabled");
             return;
         }
         if ($serverapi_helper->forceSetServer($server) == false) {
-            $this->setSwapTag("message", "Unable to attach server to api helper");
+            $this->failed("Unable to attach server to api helper");
             return;
         }
         $oneday_ago = time() - ((60 * 60) * 24);
@@ -57,7 +55,7 @@ class SyncAccounts extends ViewAjax
         }
         $accounts_found = $serverapi_helper->getAllAccounts(true, $stream_set);
         if ($accounts_found["status"] == false) {
-            $this->setSwapTag("message", $serverapi_helper->getMessage());
+            $this->failed($serverapi_helper->getMessage());
             return;
         }
         $accounts_updated = 0;
@@ -65,8 +63,7 @@ class SyncAccounts extends ViewAjax
         $accounts_missing_global = 0;
         $accounts_missing_passwords = 0;
         $all_ok = true;
-        foreach ($stream_set->getAllIds() as $streamid) {
-            $stream = $stream_set->getObjectByID($streamid);
+        foreach ($stream_set as $stream) {
             if (in_array($stream->getAdminUsername(), $accounts_found["usernames"]) == false) {
                 $accounts_missing_global++;
                 continue;
@@ -87,7 +84,7 @@ class SyncAccounts extends ViewAjax
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
                 $all_ok = false;
-                $this->setSwapTag("message", "failed to sync password to db");
+                $this->failed("failed to sync password to db");
                 break;
             }
             $accounts_updated++;
@@ -98,11 +95,10 @@ class SyncAccounts extends ViewAjax
         $server->setLastApiSync(time());
         $update_status = $server->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to update server last sync time");
+            $this->failed("Unable to update server last sync time");
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");
+        $this->ok("Updated: " . $accounts_updated . " / Ok: " . $accounts_insync . "");
         if ($accounts_missing_passwords > 0) {
             $this->output->addSwapTagString("message", " / Missing PW dataset: " . $accounts_missing_passwords);
         }

@@ -46,7 +46,7 @@ abstract class BasicView
     public function process(): void
     {
         $this->setSwapTag("status", false);
-        $this->setSwapTag("message", "Not processsed yet");
+        $this->failed("Not processsed yet");
     }
     protected bool $load_ok = true;
     public function getLoadOk(): bool

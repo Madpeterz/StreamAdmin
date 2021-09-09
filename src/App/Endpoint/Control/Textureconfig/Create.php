@@ -13,65 +13,39 @@ class Create extends ViewAjax
         $input = new InputFilter();
         $textureconfig = new Textureconfig();
 
-        $name = $input->postFilter("name");
-        $gettingDetails = $input->postFilter("gettingDetails", "uuid");
-        $requestDetails = $input->postFilter("requestDetails", "uuid");
-        $offline = $input->postFilter("offline", "uuid");
-        $waitOwner = $input->postFilter("waitOwner", "uuid");
-        $inUse = $input->postFilter("inUse", "uuid");
-        $makePayment = $input->postFilter("makePayment", "uuid");
-        $stockLevels = $input->postFilter("stockLevels", "uuid");
-        $renewHere = $input->postFilter("renewHere", "uuid");
-        $proxyRenew = $input->postFilter("proxyRenew", "uuid");
-        $treevendWaiting = $input->postFilter("treevendWaiting", "uuid");
-
-        if (strlen($name) < 4) {
-            $this->setSwapTag("message", "name length must be 4 or more");
+        $name = $input->postString("name", 30, 4);
+        if ($name == null) {
+            $this->failed("Name failed:" . $input->getWhyFailed());
             return;
         }
-        if (strlen($name) > 30) {
-            $this->setSwapTag("message", "name length must be 30 or less");
-            return;
-        }
-        if (strlen($gettingDetails) != 36) {
-            $this->setSwapTag("message", "gettingDetails is not a uuid");
-            return;
-        }
-        if (strlen($requestDetails) != 36) {
-            $this->setSwapTag("message", "requestDetails is not a uuid");
-            return;
-        }
-        if (strlen($offline) != 36) {
-            $this->setSwapTag("message", "offline is not a uuid");
-            return;
-        }
-        if (strlen($waitOwner) != 36) {
-            $this->setSwapTag("message", "waitOwner is not a uuid");
-            return;
-        }
-        if (strlen($inUse) != 36) {
-            $this->setSwapTag("message", "inUse is not a uuid");
-            return;
-        }
-        if (strlen($makePayment) != 36) {
-            $this->setSwapTag("message", "makePayment is not a uuid");
-            return;
-        }
-        if (strlen($stockLevels) != 36) {
-            $this->setSwapTag("message", "stockLevels is not a uuid");
-            return;
-        }
-        if (strlen($renewHere) != 36) {
-            $this->setSwapTag("message", "renewHereis not a uuid");
-            return;
-        }
-        if (strlen($proxyRenew) != 36) {
-            $this->setSwapTag("message", "proxyRenew not a uuid");
-            return;
-        }
-        if (strlen($treevendWaiting) != 36) {
-            $this->setSwapTag("message", "treevendWaiting not a uuid");
-            return;
+        $gettingDetails = $input->postUUID("gettingDetails");
+        $requestDetails = $input->postUUID("requestDetails");
+        $offline = $input->postUUID("offline");
+        $waitOwner = $input->postUUID("waitOwner");
+        $inUse = $input->postUUID("inUse");
+        $makePayment = $input->postUUID("makePayment");
+        $stockLevels = $input->postUUID("stockLevels");
+        $renewHere = $input->postUUID("renewHere");
+        $proxyRenew = $input->postUUID("proxyRenew");
+        $treevendWaiting = $input->postUUID("treevendWaiting");
+        $testing = [
+            "gettingDetail" => $gettingDetails,
+            "requestDetails" => $requestDetails,
+            "offline" => $offline,
+            "waitOwner" => $waitOwner,
+            "inUse" => $inUse,
+            "makePayment" => $makePayment,
+            "stockLevels" => $stockLevels,
+            "renewHere" => $renewHere,
+            "proxyRenew" => $proxyRenew,
+            "treevendWaiting" => $treevendWaiting,
+        ];
+        $testing = array_reverse($testing, true);
+        foreach ($testing as $key => $value) {
+            if ($value == null) {
+                $this->failed("Entry: " . $key . " is not set - " . $input->getWhyFailed());
+                return;
+            }
         }
         $textureconfig->setName($name);
         $textureconfig->setOffline($offline);
@@ -86,14 +60,12 @@ class Create extends ViewAjax
         $textureconfig->setTreevendWaiting($treevendWaiting);
         $create_status = $textureconfig->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to create Texture pack: %1\$s", $create_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Texture pack created");
+        $this->ok("Texture pack created");
         $this->setSwapTag("redirect", "textureconfig");
     }
 }

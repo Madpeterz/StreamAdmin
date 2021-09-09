@@ -11,27 +11,25 @@ class Remove extends ViewAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $accept = $input->postFilter("accept");
+        $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "textureconfig");
         if ($accept != "Accept") {
-            $this->setSwapTag("message", "Did not Accept");
+            $this->failed("Did not Accept");
             $this->setSwapTag("redirect", "textureconfig/manage/" . $this->page . "");
             return;
         }
         $textureconfig = new Textureconfig();
         if ($textureconfig->loadID($this->page) == false) {
-            $this->setSwapTag("message", "Unable to find texture pack");
+            $this->failed("Unable to find texture pack");
             return;
         }
         $remove_status = $textureconfig->removeEntry();
         if ($remove_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to remove texture pack: %1\$s", $remove_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "texture pack removed");
+        $this->ok("Texture pack removed");
     }
 }

@@ -14,27 +14,23 @@ class Update extends ViewAjax
         $input = new InputFilter();
 
         if ($this->session->getOwnerLevel() == false) {
-            $this->setSwapTag("message", "Owner level access required");
+            $this->failed("Owner level access required");
             $this->setSwapTag("redirect", "staff/manage/" . $this->page . "");
         }
 
-        $username = $input->postFilter("username");
-        if (strlen($username) < 5) {
-            $this->setSwapTag("message", "username length must be 5 or longer");
-            return;
+        $username = $input->postString("username", 40, 5);
+        if ($username == null) {
+            $this->failed("Username failed:" . $input->getWhyFailed());
         }
-        if (strlen($username) > 40) {
-            $this->setSwapTag("message", "username length must be 40 or less");
-            return;
-        }
-        if ($staff->loadByField("username", $username) == true) {
-            $this->setSwapTag("message", "There is already a staff member with that username");
+
+        if ($staff->loadByUsername($username) == true) {
+            $this->failed("There is already a staff member with that username");
             return;
         }
 
         $staff = new Staff();
         if ($staff->loadID($this->page) == false) {
-            $this->setSwapTag("message", "Unable to load staff member");
+            $this->failed("Unable to load staff member");
             return;
         }
         $staff->setUsername($username);
@@ -43,13 +39,11 @@ class Update extends ViewAjax
         $staff->setPsalt(sha1("psalt install" . microtime() . "" . $username));
         $update_status = $staff->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to update staff member: %1\$s", $update_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "staff member updated passwords reset");
+        $this->ok("Staff member updated passwords reset");
     }
 }

@@ -18,7 +18,6 @@ class Bulkupdate extends ViewAjax
         ];
         $stream_set = new StreamSet();
         $stream_set->loadWithConfig($whereconfig);
-        $status = true;
         $this->setSwapTag("redirect", "stream/bulkupdate");
         $input = new InputFilter();
         $streams_updated = 0;
@@ -29,12 +28,12 @@ class Bulkupdate extends ViewAjax
                 $streams_skipped_originalAdminUsername++;
                 continue;
             }
-            $accept = $input->postFilter("stream" . $stream->getStreamUid() . "");
+            $accept = $input->postString("stream" . $stream->getStreamUid() . "");
             if ($accept != "update") {
                 continue;
             }
-            $newadminpw = $input->postFilter('stream' . $stream->getStreamUid() . 'adminpw');
-            $newdjpw = $input->postFilter('stream' . $stream->getStreamUid() . 'djpw');
+            $newadminpw = $input->postString('stream' . $stream->getStreamUid() . 'adminpw');
+            $newdjpw = $input->postString('stream' . $stream->getStreamUid() . 'djpw');
             if (($stream->getAdminPassword() == $newadminpw) || ($stream->getDjPassword() == $newdjpw)) {
                 continue;
             }
@@ -43,32 +42,22 @@ class Bulkupdate extends ViewAjax
             $stream->setNeedWork(0);
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
-                $this->setSwapTag(
-                    "message",
-                    sprintf(
-                        "Unable to update stream %1\$s",
-                        $update_status["message"]
-                    )
-                );
-                $status = false;
-                break;
+                $this->failed(sprintf(
+                    "Unable to update stream %1\$s",
+                    $update_status["message"]
+                ));
+                return;
             }
             $streams_updated++;
         }
-        if ($status == false) {
-            return;
-        }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag(
-            "message",
+        $this->ok(
             sprintf(
                 "%1\$s streams updated",
                 $streams_updated
             )
         );
         if ($streams_skipped_originalAdminUsername > 0) {
-            $this->setSwapTag(
-                "message",
+            $this->ok(
                 sprintf(
                     "%1\$s streams updated and %2\$s skipped due to admin username not matching",
                     $streams_updated,

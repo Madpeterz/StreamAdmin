@@ -14,15 +14,15 @@ class Create extends ViewAjax
         $input = new InputFilter();
         $name = $input->postFilter("name");
         if (strlen($name) < 5) {
-            $this->setSwapTag("message", "Name length must be 5 or longer");
+            $this->failed("Name length must be 5 or longer");
             return;
         }
         if (strlen($name) > 100) {
-            $this->setSwapTag("message", "Name length must be 200 or less");
+            $this->failed("Name length must be 200 or less");
             return;
         }
         if ($treevender->loadByField("name", $name) == true) {
-            $this->setSwapTag("message", "There is already a tree vender assigned to that name");
+            $this->failed("There is already a tree vender assigned to that name");
             return;
         }
         $treevender = new Treevender();
@@ -35,8 +35,7 @@ class Create extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", true);
+        $this->ok("Tree vender created");
         $this->setSwapTag("redirect", "tree");
-        $this->setSwapTag("message", "Tree vender created");
     }
 }

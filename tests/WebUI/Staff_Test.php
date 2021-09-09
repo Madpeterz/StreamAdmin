@@ -65,7 +65,7 @@ class StaffTest extends TestCase
         $_POST["username"] = "Unittest";
         $createProcess->process();
         $statuscheck = $createProcess->getOutputObject();
-        $this->assertStringContainsString("staff member created",$statuscheck->getSwapTagString("message"));
+        $this->assertSame("Staff member created",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
         $staff = new Staff();
@@ -110,7 +110,7 @@ class StaffTest extends TestCase
         $_POST["username"] = "UpdatedUsername";
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
-        $this->assertStringContainsString("staff member updated passwords reset",$statuscheck->getSwapTagString("message"));
+        $this->assertStringContainsString("Staff member updated passwords reset",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 

@@ -10,7 +10,7 @@ class Setconfig extends ViewAjax
     public function process(): void
     {
         if ($this->session->getOwnerLevel() != 1) {
-            $this->setSwapTag("message", "Only the system owner can access this area");
+            $this->failed("Only the system owner can access this area");
             $this->setSwapTag("redirect", "");
             return;
         }
@@ -27,8 +27,7 @@ class Setconfig extends ViewAjax
             unlink("" . ROOTFOLDER . "/App/Config/r4.php");
         }
         file_put_contents("" . ROOTFOLDER . "/App/Config/r4.php", $saveconfig);
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "ok");
         $this->setSwapTag("redirect", "import");
+        $this->ok("Ok");
     }
 }

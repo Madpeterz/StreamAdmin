@@ -18,16 +18,16 @@ class Addpackage extends ViewAjax
         $treevender = new Treevender();
         $this->setSwapTag("redirect", "tree");
         if ($treevender->loadID($this->page) == false) {
-            $this->setSwapTag("message", "Unable to find tree vender");
+            $this->failed("Unable to find tree vender");
             return;
         }
         if ($package_id <= 0) {
-            $this->setSwapTag("message", "Unable to find package");
+            $this->failed("Unable to find package");
             return;
         }
         $package = new Package();
         if ($package->loadID($package_id) == false) {
-            $this->setSwapTag("message", "Unable to load package");
+            $this->failed("Unable to load package");
             return;
         }
         $treevender_package = new Treevenderpackages();
@@ -38,7 +38,7 @@ class Addpackage extends ViewAjax
         "matches" => ["=","="],
         ];
         if ($treevender_package->loadWithConfig($where_fields) == true) {
-            $this->setSwapTag("message", "This package is already assigend to this tree vender");
+            $this->failed("This package is already assigend to this tree vender");
             $this->setSwapTag("redirect", "");
             return;
         }
@@ -47,11 +47,10 @@ class Addpackage extends ViewAjax
         $treevender_package->setTreevenderLink($treevender->getId());
         $create_status = $treevender_package->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to attach package to tree vender");
+            $this->failed("Unable to attach package to tree vender");
             return;
         }
-        $this->setSwapTag("status", true);
+        $this->ok("Package added to tree vender");
         $this->setSwapTag("redirect", "tree/manage/" . $treevender->getId() . "");
-        $this->setSwapTag("message", "Package added to tree vender");
     }
 }

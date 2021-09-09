@@ -11,28 +11,17 @@ class Create extends ViewAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $name = $input->postFilter("name");
-        $detail = $input->postFilter("detail");
-        $notecardDetail = $input->postFilter("notecardDetail");
-        if (strlen($name) < 5) {
-            $this->setSwapTag("message", "Name length must be 5 or longer");
-            return;
+        $name = $input->postString("name", 30, 5);
+        if ($name == null) {
+            $this->failed("Name failed:" . $input->getWhyFailed());
         }
-        if (strlen($name) > 30) {
-            $this->setSwapTag("message", "Name length must be 30 or less");
-            return;
+        $detail = $input->postString("detail", 800, 5);
+        if ($detail == null) {
+            $this->failed("Template failed:" . $input->getWhyFailed());
         }
-        if (strlen($detail) < 5) {
-            $this->setSwapTag("message", "template length must be 5 or more");
-            return;
-        }
-        if (strlen($detail) > 800) {
-            $this->setSwapTag("message", "template length must be 800 or less");
-            return;
-        }
-        if (strlen($notecardDetail) < 5) {
-            $this->setSwapTag("message", "Notecard template length must be 5 or more");
-            return;
+        $notecardDetail = $input->postString("notecardDetail", 1600, 5);
+        if ($notecardDetail == null) {
+            $this->failed("Template failed:" . $input->getWhyFailed());
         }
         $template = new Template();
         $template->setName($name);
@@ -40,8 +29,7 @@ class Create extends ViewAjax
         $template->setNotecardDetail($notecardDetail);
         $create_status = $template->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf(
                     "Unable to create Template: %1\$s",
                     $create_status["message"]
@@ -49,8 +37,7 @@ class Create extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Template created");
+        $this->ok("Template created");
         $this->setSwapTag("redirect", "template");
     }
 }

@@ -47,96 +47,96 @@ class Create extends ViewAjax
     }
     protected function formData(): void
     {
-        $this->domain = $this->input->postFilter("domain");
-        $this->controlPanelURL = $this->input->postFilter("controlPanelURL");
-        $this->apiLink = $this->input->postFilter("apiLink", "integer");
-        $this->apiURL = $this->input->postFilter("apiURL");
-        $this->apiUsername = $this->input->postFilter("apiUsername");
-        $this->apiPassword = $this->input->postFilter("apiPassword");
-        $this->optPasswordReset = $this->input->postFilter("optPasswordReset", "bool");
-        $this->optAutodjNext = $this->input->postFilter("optAutodjNext", "bool");
-        $this->optToggleAutodj = $this->input->postFilter("optToggleAutodj", "bool");
-        $this->eventEnableStart = $this->input->postFilter("eventEnableStart", "bool");
-        $this->eventDisableExpire = $this->input->postFilter("eventDisableExpire", "bool");
-        $this->eventDisableRevoke = $this->input->postFilter("eventDisableRevoke", "bool");
-        $this->eventResetPasswordRevoke = $this->input->postFilter("eventResetPasswordRevoke", "bool");
-        $this->eventEnableRenew = $this->input->postFilter("eventEnableRenew", "bool");
-        $this->optToggleStatus = $this->input->postFilter("optToggleStatus", "bool");
-        $this->eventStartSyncUsername = $this->input->postFilter("eventStartSyncUsername", "bool");
-        $this->apiServerStatus = $this->input->postFilter("apiServerStatus", "bool");
-        $this->eventClearDjs = $this->input->postFilter("eventClearDjs", "bool");
-        $this->eventRevokeResetUsername = $this->input->postFilter("eventRevokeResetUsername", "bool");
-        $this->eventRecreateRevoke = $this->input->postFilter("eventRecreateRevoke", "bool");
-        $this->apiSyncAccounts = $this->input->postFilter("apiSyncAccounts", "bool");
-        $this->eventCreateStream = $this->input->postFilter("eventCreateStream", "bool");
-        $this->eventUpdateStream = $this->input->postFilter("eventUpdateStream", "bool");
+        $this->domain = $this->input->postString("domain");
+        $this->controlPanelURL = $this->input->postString("controlPanelURL");
+        $this->apiLink = $this->input->postInteger("apiLink");
+        $this->apiURL = $this->input->postString("apiURL");
+        $this->apiUsername = $this->input->postString("apiUsername");
+        $this->apiPassword = $this->input->postString("apiPassword");
+        $this->optPasswordReset = $this->input->postBool("optPasswordReset");
+        $this->optAutodjNext = $this->input->postBool("optAutodjNext");
+        $this->optToggleAutodj = $this->input->postBool("optToggleAutodj");
+        $this->eventEnableStart = $this->input->postBool("eventEnableStart");
+        $this->eventDisableExpire = $this->input->postBool("eventDisableExpire");
+        $this->eventDisableRevoke = $this->input->postBool("eventDisableRevoke");
+        $this->eventResetPasswordRevoke = $this->input->postBool("eventResetPasswordRevoke");
+        $this->eventEnableRenew = $this->input->postBool("eventEnableRenew");
+        $this->optToggleStatus = $this->input->postBool("optToggleStatus");
+        $this->eventStartSyncUsername = $this->input->postBool("eventStartSyncUsername");
+        $this->apiServerStatus = $this->input->postBool("apiServerStatus");
+        $this->eventClearDjs = $this->input->postBool("eventClearDjs");
+        $this->eventRevokeResetUsername = $this->input->postBool("eventRevokeResetUsername");
+        $this->eventRecreateRevoke = $this->input->postBool("eventRecreateRevoke");
+        $this->apiSyncAccounts = $this->input->postBool("apiSyncAccounts");
+        $this->eventCreateStream = $this->input->postBool("eventCreateStream");
+        $this->eventUpdateStream = $this->input->postBool("eventUpdateStream");
     }
 
     protected function tests(): bool
     {
         $yesno_array = [false,true];
         if (strlen($this->domain) > 100) {
-            $this->setSwapTag("message", "Domain length can not be more than 200");
+            $this->failed("Domain length can not be more than 200");
             return false;
         } elseif (strlen($this->domain) < 5) {
-            $this->setSwapTag("message", "Domain length can not be less than 5");
+            $this->failed("Domain length can not be less than 5");
             return false;
         } elseif (strlen($this->controlPanelURL) < 5) {
-            $this->setSwapTag("message", "controlpanel url length can not be less than 5");
+            $this->failed("controlpanel url length can not be less than 5");
             return false;
         } elseif (in_array($this->apiLink, $this->apis->getAllIds()) == false) {
-            $this->setSwapTag("message", "Not a supported api");
+            $this->failed("Not a supported api");
             return false;
         } elseif (in_array($this->optPasswordReset, $yesno_array) == false) {
-            $this->setSwapTag("message", "optPasswordReset not vaild");
+            $this->failed("optPasswordReset not vaild");
             return false;
         } elseif (in_array($this->optAutodjNext, $yesno_array) == false) {
-            $this->setSwapTag("message", "optAutodjNext not vaild");
+            $this->failed("optAutodjNext not vaild");
             return false;
         } elseif (in_array($this->optToggleAutodj, $yesno_array) == false) {
-            $this->setSwapTag("message", "optToggleAutodj not vaild");
+            $this->failed("optToggleAutodj not vaild");
             return false;
         } elseif (in_array($this->eventEnableStart, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventEnableStart not vaild");
+            $this->failed("eventEnableStart not vaild");
             return false;
         } elseif (in_array($this->eventDisableExpire, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventDisableExpire not vaild");
+            $this->failed("eventDisableExpire not vaild");
             return false;
         } elseif (in_array($this->eventDisableRevoke, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventDisableRevoke not vaild");
+            $this->failed("eventDisableRevoke not vaild");
             return false;
         } elseif (in_array($this->eventResetPasswordRevoke, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventResetPasswordRevoke not vaild");
+            $this->failed("eventResetPasswordRevoke not vaild");
             return false;
         } elseif (in_array($this->eventEnableRenew, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventEnableRenew not vaild");
+            $this->failed("eventEnableRenew not vaild");
             return false;
         } elseif (in_array($this->optToggleStatus, $yesno_array) == false) {
-            $this->setSwapTag("message", "optToggleStatus not vaild");
+            $this->failed("optToggleStatus not vaild");
             return false;
         } elseif (in_array($this->eventStartSyncUsername, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventStartSyncUsername not vaild");
+            $this->failed("eventStartSyncUsername not vaild");
             return false;
         } elseif (in_array($this->apiServerStatus, $yesno_array) == false) {
-            $this->setSwapTag("message", "apiServerStatus not vaild");
+            $this->failed("apiServerStatus not vaild");
             return false;
         } elseif (in_array($this->eventClearDjs, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventClearDjs not vaild");
+            $this->failed("eventClearDjs not vaild");
             return false;
         } elseif (in_array($this->eventRevokeResetUsername, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventRevokeResetUsername not vaild");
+            $this->failed("eventRevokeResetUsername not vaild");
             return false;
         } elseif (in_array($this->eventRecreateRevoke, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventRecreateRevoke not vaild");
+            $this->failed("eventRecreateRevoke not vaild");
             return false;
         } elseif (in_array($this->apiSyncAccounts, $yesno_array) == false) {
-            $this->setSwapTag("message", "apiSyncAccounts not vaild");
+            $this->failed("apiSyncAccounts not vaild");
             return false;
         } elseif (in_array($this->eventCreateStream, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventCreateStream not vaild");
+            $this->failed("eventCreateStream not vaild");
             return false;
         } elseif (in_array($this->eventUpdateStream, $yesno_array) == false) {
-            $this->setSwapTag("message", "eventUpdateStream not vaild");
+            $this->failed("eventUpdateStream not vaild");
             return false;
         }
         return true;
@@ -176,15 +176,14 @@ class Create extends ViewAjax
     protected function createServer(): bool
     {
         if ($this->server->loadByField("domain", $this->domain) == true) {
-            $this->setSwapTag("message", "There is already a server assigned to that domain");
+            $this->failed("There is already a server assigned to that domain");
             return false;
         }
         $this->server = new Server();
         $this->setupServer();
         $create_status = $this->server->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to create server: %1\$s", $create_status["message"])
             );
             return false;
@@ -201,8 +200,7 @@ class Create extends ViewAjax
         } elseif ($this->createServer() == false) {
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Server created");
+        $this->ok("Server created");
         $this->setSwapTag("redirect", "server");
     }
 }

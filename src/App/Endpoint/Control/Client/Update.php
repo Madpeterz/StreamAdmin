@@ -17,7 +17,7 @@ class Update extends ViewAjax
     {
         $avatar = new Avatar();
         $avatar_from = new Avatar();
-        if ($avatar->loadByField("avatarUid", $transfer_avataruid) == false) {
+        if ($avatar->loadByAvatarUid($transfer_avataruid) == false) {
             $this->issues .= "Unable to find avatar to transfer to";
             return;
         }
@@ -93,8 +93,7 @@ class Update extends ViewAjax
 
         $notice_set->loadAll();
         $dif_array = [];
-        foreach ($notice_set->getAllIds() as $notice_id) {
-            $notice = $notice_set->getObjectByID($notice_id);
+        foreach ($notice_set as $notice) {
             if ($notice->getHoursRemaining() > 0) {
                 $dif_array[$notice->getId()] = (time() + ($notice->getHoursRemaining() * $unixtime_hour));
             }
@@ -131,19 +130,19 @@ class Update extends ViewAjax
         $this->issues = "";
 
         // adjustment
-        $adjustment_days = $input->postFilter("adjustment_days", "integer");
-        $adjustment_hours = $input->postFilter("adjustment_hours", "integer");
-        $adjustment_dir = $input->postFilter("adjustment_dir", "bool"); // array(false=>"Remove",true=>"Add")
+        $adjustment_days = $input->postInteger("adjustment_days");
+        $adjustment_hours = $input->postInteger("adjustment_hours");
+        $adjustment_dir = $input->postBool("adjustment_dir");
         // transfer
-        $transfer_avataruid = $input->postFilter("transfer_avataruid");
+        $transfer_avataruid = $input->postString("transfer_avataruid");
         // message
-        $this->message = $input->postFilter("message");
+        $this->message = $input->postString("message");
         if (strlen($this->message) < 1) {
             $this->message = null;
         }
 
-        if ($rental->loadByField("rentalUid", $this->page) == false) {
-            $this->setSwapTag("message", "Unable to find client");
+        if ($rental->loadByRentalUid($this->page) == false) {
+            $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;
         }
@@ -151,7 +150,7 @@ class Update extends ViewAjax
         if (strlen($transfer_avataruid) == 8) {
             $this->transerRental($rental, $transfer_avataruid);
             if ($this->issues != "") {
-                $this->setSwapTag("message", $this->issues);
+                $this->failed($this->issues);
                 return;
             }
         }
@@ -159,7 +158,7 @@ class Update extends ViewAjax
         if (($adjustment_days > 0) || ($adjustment_hours > 0)) {
             $this->adjustTimeleft($rental, $adjustment_days, $adjustment_hours, $adjustment_dir);
             if ($this->issues != "") {
-                $this->setSwapTag("message", $this->issues);
+                $this->failed($this->issues);
                 return;
             }
         }
@@ -168,26 +167,22 @@ class Update extends ViewAjax
             $this->actions_taken .= "\n Message Updated";
         }
         if ($this->actions_taken == "") {
-            $this->setSwapTag("message", "? No actions taken ? ");
+            $this->ok("? No actions taken ? ");
             return;
         }
         if ($this->issues != "") {
-            $this->setSwapTag("message", $this->issues);
+            $this->failed($this->issues);
             return;
         }
         $change_status = $rental->updateEntry();
         if ($change_status["status"] != true) {
-            $this->setSwapTag(
-                "message",
-                sprintf(
-                    "Unable to update because: %1\$s",
-                    $change_status["message"]
-                )
-            );
+            $this->failed(sprintf(
+                "Unable to update because: %1\$s",
+                $change_status["message"]
+            ));
             return;
         }
-        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "client/manage/" . $this->page);
-        $this->setSwapTag("message", $this->actions_taken);
+        $this->ok($this->actions_taken);
     }
 }

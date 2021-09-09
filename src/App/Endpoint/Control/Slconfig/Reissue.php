@@ -2,10 +2,7 @@
 
 namespace App\Endpoint\Control\Slconfig;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Timezones;
 use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Reissue extends ViewAjax
 {
@@ -32,20 +29,18 @@ class Reissue extends ViewAjax
     {
         if ($this->session->getOwnerLevel() == false) {
             $this->setSwapTag("status", false);
-            $this->setSwapTag("message", "Only system owner can adjust settings");
+            $this->failed("Only system owner can adjust settings");
             return;
         }
         $this->reissueKeys();
         $update_status = $this->slconfig->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to update system config: %1\$s", $update_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "keys reissued!");
+        $this->ok("keys reissued!");
         $this->setSwapTag("redirect", "slconfig");
     }
 }

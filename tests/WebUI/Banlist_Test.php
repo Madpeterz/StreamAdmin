@@ -44,7 +44,7 @@ class BanlistTest extends TestCase
         $createProcess = new Create();
         $createProcess->process();
         $statuscheck = $createProcess->getOutputObject();
-        $this->assertStringContainsString("Banlist entry created",$statuscheck->getSwapTagString("message"));
+        $this->assertStringContainsString("Entry created",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
@@ -94,7 +94,7 @@ class BanlistTest extends TestCase
         $removeProcess = new Clear();
         $removeProcess->process();
         $statuscheck = $removeProcess->getOutputObject();
-        $this->assertStringContainsString("entry removed",$statuscheck->getSwapTagString("message"));
+        $this->assertStringContainsString("Entry removed",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 }

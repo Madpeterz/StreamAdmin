@@ -10,19 +10,18 @@ class Cleanup extends ViewAjax
     public function process(): void
     {
         if ($this->session->getOwnerLevel() != 1) {
-            $this->setSwapTag("message", "Only the system owner can access this area");
+            $this->failed("Only the system owner can access this area");
             $this->setSwapTag("redirect", "");
             return;
         }
         if (defined("UNITTEST") == true) {
-            $this->setSwapTag("message", "Unable to run cleanup code (it would delete unit tests...)");
+            $this->failed("Unable to run cleanup code (it would delete unit tests...)");
             return;
         }
         $this->delTree('fake');
         $this->delTree(DEEPFOLDERPATH . '/tests');
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Deleted " . $this->deleleted_entrys . " entrys");
         $this->setSwapTag("redirect", "home");
+        $this->ok("Deleted " . $this->deleleted_entrys . " entrys");
     }
 
     protected function delTree($dir): bool

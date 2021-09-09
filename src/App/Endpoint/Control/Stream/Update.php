@@ -17,71 +17,51 @@ class Update extends ViewAjax
         $server = new Server();
         $input = new InputFilter();
 
-        $port = $input->postFilter("port", "integer");
-        $packageLink = $input->postFilter("packageLink", "integer");
-        $serverLink = $input->postFilter("serverLink", "integer");
-        $mountpoint = $input->postFilter("mountpoint");
-        $adminUsername = $input->postFilter("adminUsername");
-        $adminPassword = $input->postFilter("adminPassword");
-        $djPassword = $input->postFilter("djPassword");
-        $originalAdminUsername = $input->postFilter("originalAdminUsername");
-        $apiConfigValue1 = $input->postFilter("apiConfigValue1");
-        $apiConfigValue2 = $input->postFilter("apiConfigValue2");
-        $apiConfigValue3 = $input->postFilter("apiConfigValue3");
-        $api_update = $input->postFilter("api_update", "bool");
+        $port = $input->postInteger("port");
+        $packageLink = $input->postInteger("packageLink");
+        $serverLink = $input->postInteger("serverLink");
+        $mountpoint = $input->postString("mountpoint");
+        $adminUsername = $input->postString("adminUsername", 50, 3);
+        if ($adminUsername == null) {
+            $this->failed("Admin username failed:" . $input->getWhyFailed());
+        }
+        $adminPassword = $input->postString("adminPassword", 20, 4);
+        if ($adminUsername == null) {
+            $this->failed("Admin password failed:" . $input->getWhyFailed());
+        }
+        $djPassword = $input->postString("djPassword", 20, 4);
+        if ($adminUsername == null) {
+            $this->failed("DJ password failed:" . $input->getWhyFailed());
+        }
+        $originalAdminUsername = $input->postString("originalAdminUsername", 50, 3);
+        if ($originalAdminUsername == null) {
+            $this->failed("Original admin username failed:" . $input->getWhyFailed());
+        }
+        $apiConfigValue1 = $input->postString("apiConfigValue1");
+        $apiConfigValue2 = $input->postString("apiConfigValue2");
+        $apiConfigValue3 = $input->postString("apiConfigValue3");
+        $api_update = $input->postBool("api_update");
 
         if ($port < 1) {
-            $this->setSwapTag("message", "Port must be 1 or more");
+            $this->failed("Port must be 1 or more");
             return;
         }
         if ($port > 99999) {
-            $this->setSwapTag("message", "Port must be 99999 or less");
+            $this->failed("Port must be 99999 or less");
             return;
         }
         if ($package->loadID($packageLink) == false) {
-            $this->setSwapTag("message", "Unable to find package");
+            $this->failed("Unable to find package");
             return;
         }
         if ($server->loadID($serverLink) == false) {
-            $this->setSwapTag("message", "Unable to find server");
-            return;
-        }
-        if (strlen($adminUsername) < 3) {
-            $this->setSwapTag("message", "Admin username length must be 3 or more");
-            return;
-        }
-        if (strlen($adminUsername) >= 50) {
-            $this->setSwapTag("message", "Admin username length must be 50 or less");
-            return;
-        }
-        if (strlen($adminPassword) < 4) {
-            $this->setSwapTag("message", "Admin password length must be 4 or more");
-            return;
-        }
-        if (strlen($adminPassword) > 20) {
-            $this->setSwapTag("message", "Admin password length must be 20 or less");
-            return;
-        }
-        if (strlen($djPassword) < 4) {
-            $this->setSwapTag("message", "DJ password length must be 4 or more");
-            return;
-        }
-        if (strlen($djPassword) > 20) {
-            $this->setSwapTag("message", "DJ password length must be 20 or less");
-            return;
-        }
-        if (strlen($originalAdminUsername) < 3) {
-            $this->setSwapTag("message", "Original admin username length must be 3 or more");
-            return;
-        }
-        if (strlen($originalAdminUsername) >= 50) {
-            $this->setSwapTag("message", "Original admin username length must be 50 or less");
+            $this->failed("Unable to find server");
             return;
         }
 
         $stream = new Stream();
         if ($stream->loadByField("streamUid", $this->page) == false) {
-            $this->setSwapTag("message", "Unable to find stream with that uid");
+            $this->failed("Unable to find stream with that uid");
             return;
         }
         $whereConfig = [
@@ -98,7 +78,7 @@ class Update extends ViewAjax
             }
         }
         if ($count_check["status"] == false) {
-            $this->setSwapTag("message", "Unable to check if there is a stream on that port already!");
+            $this->failed("Unable to check if there is a stream on that port already!");
             return;
         }
         if ($count_check["count"] != $expected_count) {
@@ -122,8 +102,7 @@ class Update extends ViewAjax
         $stream->setApiConfigValue3($apiConfigValue3);
         $update_status = $stream->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf(
                     "Unable to update stream: %1\$s",
                     $update_status["message"]
@@ -138,13 +117,11 @@ class Update extends ViewAjax
             $apilogic->setServer($server);
             $reply = $apilogic->createNextApiRequest();
             if ($reply["status"] == false) {
-                $this->setSwapTag("status", false);
-                $this->setSwapTag("message", "Bad reply: " . $reply["message"]);
+                $this->failed("Bad reply: " . $reply["message"]);
                 return;
             }
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Stream updated");
+        $this->ok("Stream updated");
         $this->setSwapTag("redirect", "stream");
     }
 }

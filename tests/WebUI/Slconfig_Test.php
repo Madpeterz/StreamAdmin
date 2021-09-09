@@ -58,7 +58,7 @@ class Slconfigtest extends TestCase
 
         $updateHandler->process();
         $statuscheck = $updateHandler->getOutputObject();
-        $this->assertStringContainsString("system config updated",$statuscheck->getSwapTagString("message"));
+        $this->assertSame("System config updated [Forced key reissue due to bug]",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 }

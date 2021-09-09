@@ -18,15 +18,14 @@ class Update extends Create
         } elseif ($this->updateServer() == false) {
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Server updated");
+        $this->ok("Server updated");
         $this->setSwapTag("redirect", "server");
     }
 
     protected function loadServer(): bool
     {
         if ($this->server->loadID($this->page) == false) {
-            $this->setSwapTag("message", "Unable to find server");
+            $this->failed("Unable to find server");
             $this->setSwapTag("redirect", "server");
             return false;
         }
@@ -68,7 +67,7 @@ class Update extends Create
             return false;
         }
         if ($count_check["count"] != $expected_count) {
-            $this->setSwapTag("message", "There is already a server with that domain");
+            $this->failed("There is already a server with that domain");
             return false;
         }
         return true;

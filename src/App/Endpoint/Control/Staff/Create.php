@@ -13,33 +13,28 @@ class Create extends ViewAjax
     {
         $this->setSwapTag("redirect", "staff");
         if ($this->session->getOwnerLevel() == false) {
-            $this->setSwapTag("message", "Owner level access required");
+            $this->failed("Owner level access required");
             $this->setSwapTag("redirect", "");
         }
         $staff = new Staff();
         $avatar = new Avatar();
         $input = new inputFilter();
-        $avataruid = $input->postFilter("avataruid");
-        $username = $input->postFilter("username");
+        $avataruid = $input->postString("avataruid", 8, 8);
+        if ($avataruid == null) {
+            $this->failed("Avatar UID failed:" . $input->getWhyFailed());
+        }
+        $username = $input->postString("username", 40, 5);
+        if ($username == null) {
+            $this->failed("Username failed:" . $input->getWhyFailed());
+        }
 
-        if (strlen($username) < 5) {
-            $this->setSwapTag("message", "username length must be 5 or longer");
+
+        if ($staff->loadByUsername($username) == true) {
+            $this->failed("There is already a staff member with that username");
             return;
         }
-        if (strlen($username) > 40) {
-            $this->setSwapTag("message", "username length must be 40 or less");
-            return;
-        }
-        if (strlen($avataruid) != 8) {
-            $this->setSwapTag("message", "avataruid length must be 8");
-            return;
-        }
-        if ($staff->loadByField("username", $username) == true) {
-            $this->setSwapTag("message", "There is already a staff member with that username");
-            return;
-        }
-        if ($avatar->loadByField("avatarUid", $avataruid) == false) {
-            $this->setSwapTag("message", "Unable to find avatar with matching uid");
+        if ($avatar->loadByAvatarUid($avataruid) == false) {
+            $this->failed("Unable to find avatar with matching uid");
             return;
         }
         $staff = new Staff();
@@ -51,13 +46,11 @@ class Create extends ViewAjax
         $staff->setOwnerLevel(false);
         $create_status = $staff->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to create staff member: %1\$s", $create_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "staff member created");
+        $this->ok("Staff member created");
     }
 }

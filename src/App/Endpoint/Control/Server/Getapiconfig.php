@@ -14,11 +14,11 @@ class Getapiconfig extends ViewAjax
         $apiLink = $input->postFilter("apiLink", "integer");
         $api = new Apis();
         if ($apiLink == 0) {
-            $this->setSwapTag("message", "Invaild API selected");
+            $this->failed("Invaild API selected");
             return;
         }
         if ($api->loadID($apiLink) == false) {
-            $this->setSwapTag("message", "Unknown API selected");
+            $this->failed("Unknown API selected");
             return;
         }
         foreach ($api->getFields() as $apifield) {
@@ -26,7 +26,6 @@ class Getapiconfig extends ViewAjax
             $this->setSwapTag($apifield, $api->$getter());
         }
         $this->setSwapTag("update_api_flags", "true");
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "API config loaded");
+        $this->ok("API config loaded");
     }
 }

@@ -12,16 +12,14 @@ class Clear extends ViewAjax
         $banlist = new Banlist();
         $this->setSwapTag("redirect", "banlist");
         if ($banlist->loadID($this->page) == false) {
-            $this->setSwapTag("message", "unable to find entry");
+            $this->failed("unable to find entry");
             return;
         }
         $remove_status = $banlist->removeEntry();
         if ($remove_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to remove entry");
+            $this->failed("Unable to remove entry");
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "entry removed");
-        return;
+        $this->ok("Entry removed");
     }
 }

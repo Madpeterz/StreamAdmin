@@ -74,8 +74,9 @@ class Login extends TestCase
         $_POST["token"] = $staff->getEmailResetCode();
         $Resetnow->process();
         $statuscheck = $Resetnow->getOutputObject();
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertStringContainsString("Password updated please login",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        
     }
 
     public function test_LoginWithPassword()

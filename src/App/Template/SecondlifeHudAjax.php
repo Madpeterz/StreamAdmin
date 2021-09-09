@@ -15,7 +15,7 @@ abstract class SecondlifeHudAjax extends SecondlifeAjax
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to vaildate request to API endpoint: ");
+            $this->failed("Unable to vaildate request to API endpoint: ");
             return;
         }
         $this->continueHashChecks(true);
