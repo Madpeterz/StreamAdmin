@@ -22,14 +22,21 @@ abstract class Aliases extends Filters
         }
         return $this->sharedInputFilter($inputName, $_POST, "string", $args);
     }
-    public function postInteger(string $inputName, bool $zeroCheck = false, bool $greaterThanZero = false): ?int
-    {
+    public function postInteger(
+        string $inputName,
+        bool $zeroCheck = false,
+        bool $greaterThanZero = false,
+        ?int $max = null,
+        ?int $min = null
+    ): ?int {
         $args  = [];
         if ($zeroCheck != false) {
             $args["zeroCheck"] = "Enabled";
         } elseif ($greaterThanZero != false) {
             $args["gtr0"] = "Enabled";
         }
+        $args["min"] = $min;
+        $args["max"] = $max;
         return $this->sharedInputFilter($inputName, $_POST, "integer", $args);
     }
     public function postFloat(string $inputName, bool $zeroCheck = false): ?float
@@ -145,14 +152,21 @@ abstract class Aliases extends Filters
         }
         return $this->sharedInputFilter($inputName, $_GET, "string", $args);
     }
-    public function getInteger(string $inputName, bool $zeroCheck = false, bool $greaterThanZero = false): ?int
-    {
+    public function getInteger(
+        string $inputName,
+        bool $zeroCheck = false,
+        bool $greaterThanZero = false,
+        ?int $max = null,
+        ?int $min = null
+    ): ?int {
         $args  = [];
         if ($zeroCheck != false) {
             $args["zeroCheck"] = "Enabled";
         } elseif ($greaterThanZero != false) {
             $args["gtr0"] = "Enabled";
         }
+        $args["min"] = $min;
+        $args["max"] = $max;
         return $this->sharedInputFilter($inputName, $_GET, "integer", $args);
     }
     public function getFloat(string $inputName, bool $zeroCheck = false): ?float
