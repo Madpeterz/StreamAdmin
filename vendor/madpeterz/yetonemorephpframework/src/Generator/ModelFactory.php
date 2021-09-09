@@ -34,19 +34,31 @@ class ModelFactory extends GeneratorWriter
         $this->found_id = false;
         $class_name = ucfirst(strtolower($target_table));
         if ($this->use_output == true) {
-            $this->output .=  "<tr><td>" . $class_name . "</td>";
+            if ($this->console_output == true) {
+                echo "starting class " . $class_name;
+            } else {
+                $this->output .=  "<tr><td>" . $class_name . "</td>";
+            }
         }
         $results = $this->getTableColumns($target_table, $target_database);
         if ($results != null) {
             $this->file_lines = [];
-            $this->createCollectionSetFile($class_name, $target_database, $target_table);
+            $this->createCollectionSetFile($class_name, $target_database, $target_table, $results);
             $create_file = $GEN_SAVE_SET_MODELS_TO . $class_name . "Set.php";
             if ($this->use_output == true) {
-                $this->output .=  "<td>";
+                if ($this->console_output == true) {
+                    echo " - Set: ";
+                } else {
+                    $this->output .=  "<td>";
+                }
             }
             $this->writeModelFile($create_file);
             if ($this->use_output == true) {
-                $this->output .=  "</td>";
+                if ($this->console_output == true) {
+                    echo " - Single: ";
+                } else {
+                    $this->output .=  "</td>";
+                }
             }
             $this->file_lines = [];
             $this->createModelHeader($class_name, $target_database, $target_table);
@@ -57,16 +69,28 @@ class ModelFactory extends GeneratorWriter
             $this->createModelFooter();
             $create_file = $GEN_SAVE_MODELS_TO . $class_name . ".php";
             if ($this->use_output == true) {
-                $this->output .=  "<td>";
+                if ($this->console_output == true) {
+                    echo " - ";
+                } else {
+                    $this->output .=  "<td>";
+                }
             }
             $this->writeModelFile($create_file);
             if ($this->use_output == true) {
-                $this->output .=  "</td></tr>";
+                if ($this->console_output == true) {
+                    echo " \n ";
+                } else {
+                    $this->output .=  "</td></tr>";
+                }
             }
         }
     }
-    protected function createCollectionSetFile(string $class_name, string $target_table, string $target_database): void
-    {
+    protected function createCollectionSetFile(
+        string $class_name,
+        string $target_table,
+        string $target_database,
+        array $results
+    ): void {
         global $GEN_NAMESPACE_SET, $GEN_NAMESPACE_SINGLE;
 
         $this->file_lines[] = '<?php';
@@ -119,6 +143,22 @@ class ModelFactory extends GeneratorWriter
         $this->file_lines[] = 'return parent::getObjectByField($fieldname, $value);';
         $this->file_lines[] = [1];
         $this->file_lines[] = '}';
+        $this->file_lines[] = '/**';
+        $this->file_lines[] = ' * current';
+        $this->file_lines[] = ' * used by foreach to get the object should not be called directly';
+        $this->file_lines[] = ' */';
+        $this->file_lines[] = 'public function current(): ' . $class_name . '';
+        $this->file_lines[] = '{';
+        $this->file_lines[] = [2];
+        $this->file_lines[] = 'return parent::current();';
+        $this->file_lines[] = [1];
+        $this->file_lines[] = '}';
+        $this->createModelLoaders(
+            $target_table,
+            $results,
+            "array",
+            true
+        );
         $this->file_lines[] = [0];
         $this->file_lines[] = '}';
     }
@@ -162,8 +202,12 @@ class ModelFactory extends GeneratorWriter
         }
     }
 
-    protected function createModelLoaders(string $target_table, array $data_two): void
-    {
+    protected function createModelLoaders(
+        string $target_table,
+        array $data_two,
+        string $returnType = "bool",
+        bool $enableLimits = false
+    ): void {
         $this->file_lines[] = "// Loaders";
         foreach ($data_two as $row_two) {
             if ($row_two["COLUMN_NAME"] != "id") {
@@ -176,13 +220,37 @@ class ModelFactory extends GeneratorWriter
                 if ($use_type == "str") {
                     $use_type = "string";
                 }
-                $load_function = 'public function loadBy' . ucfirst($row_two["COLUMN_NAME"]);
-                $load_function .= '(' . $use_type . ' $' . $row_two["COLUMN_NAME"] . '): bool';
+                $functionloadname = 'loadBy' . ucfirst($row_two["COLUMN_NAME"]);
+                $load_function = 'public function ' . $functionloadname;
+                $functionSetup = '(' . $use_type . ' $' . $row_two["COLUMN_NAME"] . '): ' . $returnType . '';
+                if ($enableLimits == true) {
+                    $functionSetup = '(
+                    ' . $use_type . ' $' . $row_two["COLUMN_NAME"] . ', 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): ' . $returnType;
+                }
+                $load_function .= $functionSetup;
+                if ($returnType == "array") {
+                    $this->file_lines[] = "/**";
+                    $this->file_lines[] = " * " . $functionloadname;
+                    $joined = " * " . "@return mixed[] ";
+                    $joined .= "[status =>  bool, count => integer, message =>  string]";
+                    $this->file_lines[] = $joined;
+                    $this->file_lines[] = "*/";
+                }
                 $this->file_lines[] = $load_function;
                 $this->file_lines[] = '{';
                 $this->file_lines[] = [2];
-                $this->file_lines[] = 'return $this->loadByField("' . $row_two["COLUMN_NAME"] . '", $'
-                . $row_two["COLUMN_NAME"] . ');';
+                $finalLine = 'return $this->loadByField("' . $row_two["COLUMN_NAME"] . '", $' . $row_two["COLUMN_NAME"];
+                if ($enableLimits == true) {
+                    $finalLine .= ', $' . 'limit';
+                    $finalLine .= ', $' . 'orderBy';
+                    $finalLine .= ', $' . 'orderDir';
+                }
+                $finalLine .= ');';
+                $this->file_lines[] = $finalLine;
                 $this->file_lines[] = [1];
                 $this->file_lines[] = '}';
             }

@@ -104,6 +104,33 @@ class CollectionSetTest extends TestCase
         $this->assertSame($result["changes"], 0);
         $this->assertSame($result["status"], false);
     }
+    public function testForeach()
+    {
+        $testing = new CounttoonehundoSet();
+        $testing->loadLimited(4);
+        $seen_entrys = 0;
+        $expected_keys = [1,2,3,4];
+        $seen_keys = [];
+        foreach($testing as $key => $value)
+        {
+            if($value->isLoaded() == true)
+            {
+                $seen_entrys++;
+                $seen_keys[] = $key;
+            }
+        }
+        $this->assertSame(4,$seen_entrys,"Foreach with key has failed");
+        $this->assertSame(implode(",",$seen_keys),implode(",",$expected_keys),"Keys do not match as expected");
+        $seen_entrys = 0;
+        foreach($testing as $value)
+        {
+            if($value->isLoaded() == true)
+            {
+                $seen_entrys++;
+            }
+        }
+        $this->assertSame(4,$seen_entrys,"Foreach without key has failed");
+    }
     public function testGetCollection()
     {
         $testing = new CounttoonehundoSet();

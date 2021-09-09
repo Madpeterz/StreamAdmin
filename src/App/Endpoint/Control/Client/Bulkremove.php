@@ -37,42 +37,40 @@ class Bulkremove extends ViewAjax
         $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
         $package_set->loadIds($rental_set->getAllByField("packageLink"));
         $stream_set->loadIds($rental_set->getAllByField("streamLink"));
-        $api_requests_set->loadIds($rental_set->getAllByField("id"), "rentalLink");
+        $api_requests_set->loadIds($rental_set->getAllIds(), "rentalLink");
         $apis_set->loadAll();
         $server_set->loadAll();
         $removed_counter = 0;
         $skipped_counter = 0;
         $this->setSwapTag("redirect", "client/bulkremove");
-        foreach ($rental_set->getAllIds() as $rental_id) {
-            $rental = $rental_set->getObjectByID($rental_id);
+        foreach ($rental_set as $rental) {
             if ($rental->getMessage() != null) {
                 if (strlen($rental->getMessage()) > 0) {
                     $skipped_counter++;
                     continue;
                 }
             }
-            if ($api_requests_set->getObjectByField("rentalLink", $rental_id) != null) {
+            if ($api_requests_set->getObjectByField("rentalLink", $rental->getId()) != null) {
                 $skipped_counter++;
                 continue;
             }
-            $accept = $input->postFilter("rental" . $rental->getRentalUid());
+            $accept = $input->postString("rental" . $rental->getRentalUid());
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;
             }
             $stream = $stream_set->getObjectByID($rental->getStreamLink());
             if ($stream == null) {
-                $this->setSwapTag(
-                    "message",
-                    sprintf("Unable to find stream attached to rental %1\$s", $rental->getRentalUid())
-                );
+                $this->failed(sprintf("Unable to find stream attached to rental %1\$s", $rental->getRentalUid()));
                 return;
             }
             $server = new Server();
             if ($server->loadID($stream->getServerLink()) == false) {
-                $this->setSwapTag(
-                    "message",
-                    sprintf("Unable to find server attached to stream for rental %1\$s", $rental->getRentalUid())
+                $this->failed(
+                    sprintf(
+                        "Unable to find server attached to stream for rental %1\$s",
+                        $rental->getRentalUid()
+                    )
                 );
                 return;
             }
@@ -80,20 +78,14 @@ class Bulkremove extends ViewAjax
             $stream->setNeedWork(1);
             $update_status = $stream->updateEntry();
             if ($update_status["status"] == false) {
-                $this->setSwapTag(
-                    "message",
-                    sprintf("Error releasing stream from rental %1\$s", $rental->getRentalUid())
-                );
+                $this->failed(sprintf("Error releasing stream from rental %1\$s", $rental->getRentalUid()));
                 return;
             }
             $all_ok = true;
             $remove_status = $rental->removeEntry();
             $all_ok = $remove_status["status"];
             if ($all_ok == false) {
-                $this->setSwapTag(
-                    "message",
-                    sprintf("Error removing old rental %1\$s", $remove_status["message"])
-                );
+                $this->failed(sprintf("Error removing old rental %1\$s", $remove_status["message"]));
                 return;
             }
             // Server API support
@@ -102,17 +94,12 @@ class Bulkremove extends ViewAjax
             $apilogic->setServer($server);
             $reply = $apilogic->createNextApiRequest();
             if ($reply["status"] == false) {
-                $this->setSwapTag("status", false);
-                $this->setSwapTag("message", "Bad reply: " . $reply["message"]);
+                $this->failed("Bad reply: " . $reply["message"]);
                 return;
             }
             $removed_counter++;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag(
-            "message",
-            sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter)
-        );
+        $this->ok(sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter));
         $this->setSwapTag("redirect", "client");
     }
 }

@@ -55,8 +55,7 @@ abstract class RenderList extends View
             $table_head[] = "Remove";
         }
         $table_body = [];
-        foreach ($this->transaction_set->getAllIds() as $transaction_id) {
-            $transaction = $this->transaction_set->getObjectByID($transaction_id);
+        foreach ($this->transaction_set as $transaction) {
             $packagename = "?";
             if ($transaction->getPackageLink() != null) {
                 $package = $this->package_set->getObjectByID($transaction->getPackageLink());

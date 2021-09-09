@@ -38,4 +38,39 @@ class TreevenderpackagesSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Treevenderpackages
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByTreevenderLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByTreevenderLink(
+                    int $treevenderLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("treevenderLink", $treevenderLink, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByPackageLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPackageLink(
+                    int $packageLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("packageLink", $packageLink, $limit, $orderBy, $orderDir);
+    }
 }

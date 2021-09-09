@@ -53,7 +53,7 @@ class ImportTest extends TestCase
         $Setconfig = new Setconfig();
         $Setconfig->process();
         $statuscheck = $Setconfig->getOutputObject();
-        $this->assertSame("ok",$statuscheck->getSwapTagString("message"),"Incorrect reply");
+        $this->assertSame("Ok",$statuscheck->getSwapTagString("message"),"Incorrect reply");
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertSame(true,file_exists("" . ROOTFOLDER . "/App/Config/r4.php"),"Did not create R4 config file!");
     }

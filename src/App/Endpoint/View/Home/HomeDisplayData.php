@@ -103,8 +103,7 @@ abstract class HomeDisplayData extends HomeLoadData
 
 
 
-        foreach ($this->objects_set->getAllIds() as $object_id) {
-            $object = $this->objects_set->getObjectByID($object_id);
+        foreach ($this->objects_set as $object) {
             $region = $this->region_set->getObjectByID($object->getRegionLink());
             $entry = [];
             $color = "text-light";
@@ -178,8 +177,7 @@ abstract class HomeDisplayData extends HomeLoadData
     {
         $table_head = ["Server","Status"];
         $table_body = [];
-        foreach ($this->server_set->getAllIds() as $server_id) {
-            $server = $this->server_set->getObjectByID($server_id);
+        foreach ($this->server_set as $server) {
             $entry = [];
             $apiType = $this->apis_set->getObjectByID($server->getApiLink());
             $api_name = "";

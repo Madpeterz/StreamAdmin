@@ -17,67 +17,52 @@ class Create extends ViewAjax
         $package = new Package();
         $server = new Server();
         $input = new InputFilter();
-
-        $port = $input->postFilter("port", "integer");
-        $packageLink = $input->postFilter("packageLink", "integer");
-        $serverLink = $input->postFilter("serverLink", "integer");
-        $mountpoint = $input->postFilter("mountpoint");
-        $adminUsername = $input->postFilter("adminUsername");
-        $adminPassword = $input->postFilter("adminPassword");
-        $djPassword = $input->postFilter("djPassword");
-        $needswork = $input->postFilter("needswork", "bool");
-        $apiConfigValue1 = $input->postFilter("apiConfigValue1");
-        $apiConfigValue2 = $input->postFilter("apiConfigValue2");
-        $apiConfigValue3 = $input->postFilter("apiConfigValue3");
-        $api_create = $input->postFilter("api_create", "bool");
-
+        $port = $input->postInteger("port");
+        $packageLink = $input->postInteger("packageLink");
+        $serverLink = $input->postInteger("serverLink");
+        $mountpoint = $input->postString("mountpoint");
+        $adminUsername = $input->postString("adminUsername", 50, 3);
+        if ($adminUsername == null) {
+            $this->failed("Admin username failed:" . $input->getWhyFailed());
+            return;
+        }
+        $adminPassword = $input->postString("adminPassword", 20, 4);
+        if ($adminPassword == null) {
+            $this->failed("Admin password failed:" . $input->getWhyFailed());
+            return;
+        }
+        $djPassword = $input->postString("djPassword", 20, 4);
+        if ($djPassword == null) {
+            $this->failed("DJ password failed:" . $input->getWhyFailed());
+            return;
+        }
+        $needswork = $input->postBool("needswork");
+        $apiConfigValue1 = $input->postString("apiConfigValue1");
+        $apiConfigValue2 = $input->postString("apiConfigValue2");
+        $apiConfigValue3 = $input->postString("apiConfigValue3");
+        $api_create = $input->postBool("api_create");
         if ($port < 1) {
-            $this->setSwapTag("message", "Port must be 1 or more");
+            $this->failed("Port must be 1 or more");
             return;
         }
         if ($port > 99999) {
-            $this->setSwapTag("message", "Port must be 99999 or less");
+            $this->failed("Port must be 99999 or less");
             return;
         }
         if ($package->loadID($packageLink) == false) {
-            $this->setSwapTag("message", "Unable to find package");
+            $this->failed("Unable to find package");
             return;
         }
         if ($server->loadID($serverLink) == false) {
-            $this->setSwapTag("message", "Unable to find server");
-            return;
-        }
-        if (strlen($adminUsername) < 3) {
-            $this->setSwapTag("message", "Admin username length must be 3 or more");
-            return;
-        }
-        if (strlen($adminUsername) >= 50) {
-            $this->setSwapTag("message", "Admin username length must be 50 or less");
-            return;
-        }
-        if (strlen($adminPassword) < 4) {
-            $this->setSwapTag("message", "Admin password length must be 4 or more");
-            return;
-        }
-        if (strlen($adminPassword) > 20) {
-            $this->setSwapTag("message", "Admin password length must be 20 or less");
-            return;
-        }
-        if (strlen($djPassword) < 4) {
-            $this->setSwapTag("message", "DJ password length must be 4 or more");
-            return;
-        }
-        if (strlen($djPassword) > 20) {
-            $this->setSwapTag("message", "DJ password length must be 20 or less");
+            $this->failed("Unable to find server");
             return;
         }
         $stream = new Stream();
-        $uid = $stream->createUID("streamUid", 8, 10);
+        $uid = $stream->createUID("streamUid", 8);
         if ($uid["status"] == false) {
-            $this->setSwapTag("message", "Unable to assign a new UID to the stream");
+            $this->failed("Unable to assign a new UID to the stream");
             return;
         }
-
         $whereConfig = [
             "fields" => ["port","serverLink"],
             "values" => [$port,$serverLink],
@@ -86,17 +71,15 @@ class Create extends ViewAjax
         ];
         $count_check = $this->sql->basicCountV2($stream->getTable(), $whereConfig);
         if ($count_check["status"] == false) {
-            $this->setSwapTag("message", "Unable to check if there is a stream on that port already!");
+            $this->failed("Unable to check if there is a stream on that port already!");
             return;
         }
         if ($count_check["count"] != 0) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 "There is already a stream on that port for the selected server!"
             );
             return;
         }
-
         $stream->setStreamUid($uid["uid"]);
         $stream->setPackageLink($packageLink);
         $stream->setServerLink($serverLink);
@@ -111,10 +94,8 @@ class Create extends ViewAjax
         $stream->setApiConfigValue2($apiConfigValue2);
         $stream->setApiConfigValue3($apiConfigValue3);
         $create_status = $stream->createEntry();
-
         if ($create_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf(
                     "Unable to create stream: %1\$s",
                     $create_status["message"]
@@ -122,27 +103,20 @@ class Create extends ViewAjax
             );
             return;
         }
-
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Stream created");
-
-
+        $this->ok("Stream created");
         if ($api_create == false) {
             $this->setSwapTag("redirect", "stream");
             return;
         }
-
         $apilogic = null;
         $apilogic = new ApiLogicCreate();
         $apilogic->setStream($stream);
         $apilogic->setServer($server);
         $reply = $apilogic->createNextApiRequest();
         if ($reply["status"] == false) {
-            $this->setSwapTag("status", false);
-            $this->setSwapTag("message", "Bad reply: " . $reply["message"]);
+            $this->failed("Bad reply: " . $reply["message"]);
             return;
         }
-        $this->setSwapTag("message", "Stream creation underway");
-        $this->setSwapTag("redirect", "stream");
+        $this->ok("Stream creation underway");
     }
 }

@@ -157,7 +157,7 @@ class TextureconfigTest extends TestCase
         $_POST["accept"] = "Accept";
         $removeProcess->process();
         $statuscheck = $removeProcess->getOutputObject();
-        $this->assertStringContainsString("texture pack removed",$statuscheck->getSwapTagString("message"));
+        $this->assertSame("Texture pack removed",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 }

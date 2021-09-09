@@ -39,8 +39,7 @@ class Clients extends View
         $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
 
-        foreach ($r4_users_set->getAllIds() as $r4_user_id) {
-            $r4_user = $r4_users_set->getObjectByID($r4_user_id);
+        foreach ($r4_users_set as $r4_user) {
             $find_stream = "r4|" . $r4_user->getItemid() . "";
             if (array_key_exists($find_stream, $stream_set_oldid_to_id) == false) {
                 $clients_skipped_no_stream++;

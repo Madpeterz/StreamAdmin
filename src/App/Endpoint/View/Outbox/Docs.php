@@ -24,8 +24,7 @@ class Docs extends View
         $avatar_set->loadIds($notecardmail->getUniqueArray("avatarLink"));
         $botConfig = new Botconfig();
         $botConfig->loadID(1);
-        foreach ($notecardmail->getAllIds() as $notecardmailid) {
-            $staticnotecard = $notecardmail->getObjectByID($notecardmailid);
+        foreach ($notecardmail as $staticnotecard) {
             $avatar = $avatar_set->getObjectByID($staticnotecard->getAvatarLink());
             $notecard = $noticenotecards->getObjectByID($staticnotecard->getNoticenotecardLink());
             $table_body[] = [

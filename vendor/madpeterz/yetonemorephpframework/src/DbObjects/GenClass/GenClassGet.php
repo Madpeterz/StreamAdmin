@@ -67,12 +67,14 @@ abstract class GenClassGet extends SqlConnectedClass
      * returns an key => value array for all fields and their values
      * @return mixed[] [mixed => mixed,...]
      */
-    public function objectToMappedArray(): array
+    public function objectToMappedArray(array $ignoreFields = []): array
     {
         $reply = [];
         $keys = array_keys($this->dataset);
         foreach ($keys as $fieldname) {
-            $reply[$fieldname] = $this->getField($fieldname);
+            if (in_array($fieldname, $ignoreFields) == false) {
+                $reply[$fieldname] = $this->getField($fieldname);
+            }
         }
         return $reply;
     }
@@ -82,9 +84,9 @@ abstract class GenClassGet extends SqlConnectedClass
      * knida pointless I might remove this later
      * @return mixed[] [mixed,...]
      */
-    public function objectToValueArray(): array
+    public function objectToValueArray(array $ignoreFields = []): array
     {
-        return array_values($this->objectToMappedArray());
+        return array_values($this->objectToMappedArray($ignoreFields));
     }
     /**
      * hasField

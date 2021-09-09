@@ -36,8 +36,7 @@ class Manage extends View
         $api_set->loadAll();
 
         $improved_serverLinker = [];
-        foreach ($server_set->getAllIds() as $server_id) {
-            $server = $server_set->getObjectByID($server_id);
+        foreach ($server_set as $server) {
             $api = $api_set->getObjectByID($server->getApiLink());
             $improved_serverLinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
         }
@@ -47,8 +46,7 @@ class Manage extends View
 
         $autodjflag = [true => "{AutoDJ}",false => "{StreamOnly}"];
         $improved_packageLinker = [];
-        foreach ($package_set->getAllIds() as $package_id) {
-            $package = $package_set->getObjectByID($package_id);
+        foreach ($package_set as $package) {
             $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
             $saddon = "";
             if ($package->getDays() > 1) {

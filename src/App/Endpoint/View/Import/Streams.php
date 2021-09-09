@@ -46,8 +46,7 @@ class Streams extends View
         $stream_skipped_no_server = 0;
         $all_ok = true;
 
-        foreach ($r4_items_set->getAllIds() as $r4_item_id) {
-            $r4_item = $r4_items_set->getObjectByID($r4_item_id);
+        foreach ($r4_items_set as $r4_item) {
             if (array_key_exists($r4_item->getPackageid(), $r4_package_id_to_name) == false) {
                 $stream_skipped_no_package++;
                 continue;

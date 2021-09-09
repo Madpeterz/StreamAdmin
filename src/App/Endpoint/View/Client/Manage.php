@@ -87,8 +87,7 @@ class Manage extends View
         );
         $table_head = ["id","Transaction UID","Avatar","Reseller","Region","Amount","Datetime"];
         $table_body = [];
-        foreach ($transactions_set->getAllIds() as $transaction_id) {
-            $transaction = $transactions_set->getObjectByID($transaction_id);
+        foreach ($transactions_set as $transaction) {
             $avatar = $avatar_set->getObjectByID($transaction->getAvatarLink());
             $region = $region_set->getObjectByID($transaction->getRegionLink());
             $reseller = $reseller_set->getObjectByID($transaction->getResellerLink());

@@ -22,108 +22,109 @@ class Create extends ViewAjax
         $noticeNotecards->loadAll();
         $noticeNotecardIds = $noticeNotecards->getAllIds();
 
-        $name = $input->postFilter("name");
-        $templateLink = $input->postFilter("templateLink", "integer");
-        $cost = $input->postFilter("cost", "integer");
-        $days = $input->postFilter("days", "integer");
-        $bitrate = $input->postFilter("bitrate", "integer");
-        $listeners = $input->postFilter("listeners", "integer");
-        $textureSoldout = $input->postFilter("textureSoldout", "uuid");
-        $textureInstockSmall = $input->postFilter("textureInstockSmall", "uuid");
-        $textureInstockSelected = $input->postFilter("textureInstockSelected", "uuid");
-        $autodj = $input->postFilter("autodj", "bool");
-        $autodjSize = $input->postFilter("autodjSize", "integer");
-        $apiTemplate = $input->postFilter("apiTemplate");
-        $servertypeLink = $input->postFilter("servertypeLink", "integer");
-        $welcomeNotecardLink = $input->postFilter("welcomeNotecardLink", "integer");
-        $setupNotecardLink = $input->postFilter("setupNotecardLink", "integer");
+        $name = $input->postString("name", 30, 5);
+        $templateLink = $input->postInteger("templateLink", false, true);
+        $cost = $input->postInteger("cost", false, true);
+        $days = $input->postInteger("days", false, true);
+        $bitrate = $input->postInteger("bitrate", false, true);
+        $listeners = $input->postInteger("listeners", false, true);
+        $textureSoldout = $input->postUUID("textureSoldout");
+        $textureInstockSmall = $input->postUUID("textureInstockSmall");
+        $textureInstockSelected = $input->postUUID("textureInstockSelected");
+        $testing = [
+            "name" => $name,
+            "template" => $templateLink,
+            "cost" => $cost,
+            "days" => $days,
+            "bitrate" => $bitrate,
+            "listeners" => $listeners,
+            "texture soldout" => $textureSoldout,
+            "texture small" => $textureInstockSmall,
+            "texture selected" => $textureInstockSelected,
+        ];
+        $testing = array_reverse($testing, true);
+        foreach ($testing as $key => $value) {
+            if ($value == null) {
+                $this->failed("Entry: " . $key . " is not set - " . $input->getWhyFailed());
+                return;
+            }
+        }
+
+
+        $autodj = $input->postBool("autodj");
+        $autodjSize = $input->postInteger("autodjSize");
+        $apiTemplate = $input->postString("apiTemplate");
+        $servertypeLink = $input->postInteger("servertypeLink");
+        $welcomeNotecardLink = $input->postInteger("welcomeNotecardLink");
+        $setupNotecardLink = $input->postInteger("setupNotecardLink");
+
 
         if (in_array($welcomeNotecardLink, $noticeNotecardIds) == false) {
-            $this->setSwapTag("message", "Welcome notecard not selected");
+            $this->failed("Welcome notecard not selected");
             return;
         }
         if (in_array($setupNotecardLink, $noticeNotecardIds) == false) {
-            $this->setSwapTag("message", "Setup notecard not selected");
+            $this->failed("Setup notecard not selected");
             return;
         }
 
-        if (strlen($name) < 5) {
-            $this->setSwapTag("message", "Name length must be 5 or longer");
-            return;
-        }
-        if (strlen($name) > 60) {
-            $this->setSwapTag("message", "Name must be 30 or less");
-            return;
-        }
-        if ($cost < 1) {
-            $this->setSwapTag("message", "Cost must be 1 or more");
-            return;
-        }
         if ($cost > 99999) {
-            $this->setSwapTag("message", "Cost must be 99999 or less");
-            return;
-        }
-        if ($days < 1) {
-            $this->setSwapTag("message", "Days must be 1 or more");
+            $this->failed("Cost must be 99999 or less");
             return;
         }
         if ($days > 999) {
-            $this->setSwapTag("message", "Days must be 999 or less");
+            $this->failed("Days must be 999 or less");
             return;
         }
         if ($bitrate < 56) {
-            $this->setSwapTag("message", "bitrate must be 56 or more");
+            $this->failed("bitrate must be 56 or more");
             return;
         }
         if ($bitrate > 999) {
-            $this->setSwapTag("message", "bitrate must be 999 or less");
-            return;
-        }
-        if ($listeners < 1) {
-            $this->setSwapTag("message", "listeners must be 1 or more");
+            $this->failed("bitrate must be 999 or less");
             return;
         }
         if ($listeners > 999) {
-            $this->setSwapTag("message", "listeners must be 999 or less");
+            $this->failed("listeners must be 999 or less");
             return;
         }
         if (strlen($textureSoldout) != 36) {
-            $this->setSwapTag("message", "Texture sold out must be a uuid");
+            $this->failed("Texture sold out must be a uuid");
             return;
         }
         if (strlen($textureInstockSmall) != 36) {
-            $this->setSwapTag("message", "Texture instock small out must be a uuid");
+            $this->failed("Texture instock small out must be a uuid");
             return;
         }
         if (strlen($textureInstockSelected) != 36) {
-            $this->setSwapTag("message", "Texture instock selected out must be a uuid");
+            $this->failed("Texture instock selected out must be a uuid");
             return;
         }
         if ($autodjSize > 9999) {
-            $this->setSwapTag("message", "AutoDJ size must be 9999 or less");
+            $this->failed("AutoDJ size must be 9999 or less");
             return;
         }
         if ($template->loadID($templateLink) == false) {
-            $this->setSwapTag("message", "Unable to find template");
+            $this->failed("Unable to find template");
             return;
         }
         if (strlen($apiTemplate) > 50) {
-            $this->setSwapTag("message", "API template name can not be longer than 50");
+            $this->failed("API template name can not be longer than 50");
             return;
         }
         if (strlen($apiTemplate) < 3) {
-            $this->setSwapTag("message", "API template name can not be shorter than 3");
+            $this->failed("API template name can not be shorter than 3");
             return;
         }
         if ($servertype->loadID($servertypeLink) == false) {
-            $this->setSwapTag("message", "Unable to find server type");
+            $this->failed("Unable to find server type");
             return;
         }
 
         $this->setSwapTag("redirect", "package");
         $uid = $package->createUID("packageUid", 8, 10);
         if ($uid["status"] == false) {
-            $this->setSwapTag("message", "Unable to assign a new UID to the package");
+            $this->failed("Unable to assign a new UID to the package");
             return;
         }
         $package->setPackageUid($uid["uid"]);
@@ -144,13 +145,11 @@ class Create extends ViewAjax
         $package->setSetupNotecardLink($setupNotecardLink);
         $create_status = $package->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to create package: %1\$s", $create_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Package created");
+        $this->ok("Package created");
     }
 }

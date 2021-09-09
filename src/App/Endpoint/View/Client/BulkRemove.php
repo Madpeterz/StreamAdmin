@@ -50,8 +50,7 @@ class BulkRemove extends RenderList
 
         $unixtime_oneday_ago = time() - $unixtime_day;
 
-        foreach ($this->rentalSet->getAllIds() as $rental_id) {
-            $rental = $this->rentalSet->getObjectByID($rental_id);
+        foreach ($this->rentalSet as $rental) {
             $avatar = $this->avatarSet->getObjectByID($rental->getAvatarLink());
             $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
             $server = $this->serverSet->getObjectByID($stream->getServerLink());

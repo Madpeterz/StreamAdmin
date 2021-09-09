@@ -38,4 +38,104 @@ class ObjectsSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Objects
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByAvatarLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAvatarLink(
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByRegionLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRegionLink(
+                    int $regionLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("regionLink", $regionLink, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByObjectUUID
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByObjectUUID(
+                    string $objectUUID, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("objectUUID", $objectUUID, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByObjectName
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByObjectName(
+                    string $objectName, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("objectName", $objectName, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByObjectMode
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByObjectMode(
+                    string $objectMode, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("objectMode", $objectMode, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByObjectXYZ
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByObjectXYZ(
+                    string $objectXYZ, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("objectXYZ", $objectXYZ, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByLastSeen
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByLastSeen(
+                    int $lastSeen, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("lastSeen", $lastSeen, $limit, $orderBy, $orderDir);
+    }
 }

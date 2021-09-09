@@ -11,30 +11,28 @@ class Remove extends ViewAjax
     public function process(): void
     {
         if ($this->session->getOwnerLevel() != 1) {
-            $this->setSwapTag("message", "Do not dont have permission todo this");
+            $this->failed("Do not dont have permission todo this");
             return;
         }
         $input = new InputFilter();
-        $accept = $input->postFilter("accept");
+        $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "transactions");
         if ($accept != "Accept") {
-            $this->setSwapTag("message", "Did not Accept");
+            $this->failed("Did not Accept");
             return;
         }
         $transaction = new Transactions();
-        if ($transaction->loadByField("transactionUid", $this->page) == false) {
-            $this->setSwapTag("message", "Unable to find transaction");
+        if ($transaction->loadByTransactionUid($this->page) == false) {
+            $this->failed("Unable to find transaction");
             return;
         }
         $remove_status = $transaction->removeEntry();
         if ($remove_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to remove transaction: %1\$s", $remove_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Transaction removed");
+        $this->ok("Transaction removed");
     }
 }

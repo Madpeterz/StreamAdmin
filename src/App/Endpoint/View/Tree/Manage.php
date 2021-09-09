@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\View\Tree;
 
+use App\Endpoint\SecondLifeApi\Tree\Getpackages;
 use App\R7\Set\PackageSet;
 use App\Template\Form;
 use App\R7\Model\Treevender;
@@ -28,8 +29,7 @@ class Manage extends View
 
         $autodjflag = [true => "{AutoDJ}",false => "{StreamOnly}"];
         $improved_packageLinker = [];
-        foreach ($package_set->getAllIds() as $package_id) {
-            $package = $package_set->getObjectByID($package_id);
+        foreach ($package_set as $package) {
             $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
             $saddon = "";
             if ($package->getDays() > 1) {
@@ -58,6 +58,16 @@ class Manage extends View
             $improved_packageLinker[$package->getId()] = $info;
         }
 
+        $testOutput = new Getpackages();
+        $testOutput->ProcessWithTreevenderID($treevender->getId());
+        $testing = $testOutput->getOutputObject()->getSecondlifeAjax();
+        if (strlen($testing) > 9000) {
+            $this->output->addSwapTagString(
+                "page_content",
+                '<div class="alert alert-danger" role="alert">The current setup will fail to talk with SL<br/>
+                Please use less packages!</div>'
+            );
+        }
 
         $this->output->addSwapTagString("page_title", ":" . $treevender->getName());
         $form = new Form();
@@ -73,8 +83,7 @@ class Manage extends View
         $table_body = [];
         $used_package_ids = [];
 
-        foreach ($treevender_packages_set->getAllIds() as $treevender_packages_id) {
-            $treevender_package = $treevender_packages_set->getObjectByID($treevender_packages_id);
+        foreach ($treevender_packages_set as $treevender_package) {
             $entry = [];
             $used_package_ids[] = $treevender_package->getPackageLink();
             $entry[] = $treevender_package->getId();

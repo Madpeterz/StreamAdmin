@@ -51,8 +51,7 @@ class DefaultView extends View
         $avatar_set = new AvatarSet();
         $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
         $rental_set_ids = $rental_set->getAllIds();
-        foreach ($search_stream_set->getAllIds() as $streamid) {
-            $stream = $search_stream_set->getObjectByID($streamid);
+        foreach ($search_stream_set as $stream) {
             $server = $server_set->getObjectByID($stream->getServerLink());
             $entry = [];
             $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStreamUid() . '">'
@@ -85,8 +84,7 @@ class DefaultView extends View
     {
         $table_head = ["UID","Name"];
         $table_body = [];
-        foreach ($avatar_set->getAllIds() as $avatar_id) {
-            $avatar = $avatar_set->getObjectByID($avatar_id);
+        foreach ($avatar_set as $avatar) {
             $entry = [];
             $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'
             . $avatar->getAvatarUid() . '</a>';
@@ -100,8 +98,7 @@ class DefaultView extends View
     {
         $table_head = ["Rental UID","Avatar","Port","Notecard","Timeleft/Expired","Renewals"];
         $table_body = [];
-        foreach ($search_rental_set->getAllIds() as $rental_id) {
-            $rental = $search_rental_set->getObjectByID($rental_id);
+        foreach ($search_rental_set as $rental) {
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
             $stream = $stream_set->getObjectByID($rental->getStreamLink());
             $entry = [];

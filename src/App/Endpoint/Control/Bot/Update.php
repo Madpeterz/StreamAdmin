@@ -13,31 +13,38 @@ class Update extends ViewAjax
     {
         $this->setSwapTag("redirect", "config");
         if ($this->session->getOwnerLevel() == false) {
-            $this->setSwapTag("message", "Sorry only owners can make changes to the bot config");
+            $this->failed("Sorry only owners can make changes to the bot config");
             return;
         }
         $input = new InputFilter();
-        $avataruid = $input->postFilter("avataruid");
-        $secret = $input->postFilter("secret");
-        $notecards = $input->postFilter("notecards", "bool");
-        $ims = $input->postFilter("ims", "bool");
+        $avataruid = $input->postString("avataruid", 8, 8);
+        if ($avataruid == null) {
+            $this->failed("Avatar UID failed:" . $input->getWhyFailed());
+        }
+        $secret = $input->postString("secret", 30, 8);
+        if ($avataruid == null) {
+            $this->failed("Secret failed:" . $input->getWhyFailed());
+        }
+        $notecards = $input->postBool("notecards");
+        $ims = $input->postBool("ims");
+
         $this->setSwapTag("redirect", null);
         if (strlen($avataruid) != 8) {
-            $this->setSwapTag("message", "avataruid length must be 8");
+            $this->failed("avataruid length must be 8");
             return;
         }
         if (strlen($secret) < 8) {
-            $this->setSwapTag("message", "secret length can not be less than 8");
+            $this->failed("secret length can not be less than 8");
             return;
         }
         $botconfig = new Botconfig();
         if ($botconfig->loadID(1) == false) {
-            $this->setSwapTag("message", "Unable to find bot config");
+            $this->failed("Unable to find bot config");
             return;
         }
         $avatar = new Avatar();
         if ($avatar->loadByField("avatarUid", $avataruid) == false) {
-            $this->setSwapTag("message", "Unable to load avatar to attach bot to");
+            $this->failed("Unable to load avatar to attach bot to");
             return;
         }
         $botconfig->setAvatarLink($avatar->getId());
@@ -52,8 +59,7 @@ class Update extends ViewAjax
             );
             return;
         }
-        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", null);
-        $this->setSwapTag("message", "Changes saved");
+        $this->ok("Changes saved");
     }
 }

@@ -38,4 +38,39 @@ class NoticenotecardSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Noticenotecard
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByName
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByName(
+                    string $name, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByMissing
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByMissing(
+                    bool $missing, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("missing", $missing, $limit, $orderBy, $orderDir);
+    }
 }

@@ -13,56 +13,47 @@ class Update extends ViewAjax
     {
         $input = new InputFilter();
         $static_notecard = new Noticenotecard();
-        $name = $input->postFilter("name");
-        $hoursRemaining = $input->postFilter("hoursRemaining", "integer");
-        $imMessage = $input->postFilter("imMessage");
-        $useBot = $input->postFilter("useBot", "bool");
-        $sendNotecard = $input->postFilter("sendNotecard", "bool");
-        $notecardDetail = $input->postFilter("notecardDetail");
-        $noticeNotecardLink = $input->postFilter("noticeNotecardLink", "integer");
+        $name = $input->postString("name", 100, 5);
+        if ($name == null) {
+            $this->failed("Name failed:" . $input->getWhyFailed());
+            return;
+        }
+        $hoursRemaining = $input->postInteger("hoursRemaining");
+        $imMessage = $input->postString("imMessage", 800, 5);
+        if ($imMessage == null) {
+            $this->failed("IM message failed:" . $input->getWhyFailed());
+            return;
+        }
+        $useBot = $input->postBool("useBot");
+        $sendNotecard = $input->postBool("sendNotecard");
+        $notecardDetail = $input->postString("notecardDetail");
+        $noticeNotecardLink = $input->postInteger("noticeNotecardLink");
         if ($sendNotecard == false) {
             if (strlen($notecardDetail) < 1) {
                 $notecardDetail = "";
             }
         }
-        $failed_on = "";
         $this->setSwapTag("redirect", null);
-        if (strlen($name) < 5) {
-            $this->setSwapTag("message", "Name length must be 5 or longer");
-            return;
-        }
-        if (strlen($name) > 100) {
-            $this->setSwapTag("message", "Name length must be 100 or less");
-            return;
-        }
-        if (strlen($imMessage) < 5) {
-            $this->setSwapTag("message", "imMessage length must be 5 or more");
-            return;
-        }
-        if (strlen($imMessage) > 800) {
-            $this->setSwapTag("message", "imMessage length must be 800 or less");
-            return;
-        }
         if (strlen($hoursRemaining) < 0) {
-            $this->setSwapTag("message", "hoursRemaining must be 0 or more");
+            $this->failed("hoursRemaining must be 0 or more");
             return;
         }
         if (strlen($hoursRemaining) > 999) {
-            $this->setSwapTag("message", "hoursRemaining must be 999 or less");
+            $this->failed("hoursRemaining must be 999 or less");
             return;
         }
         if ($static_notecard->loadID($noticeNotecardLink) == false) {
-            $this->setSwapTag("message", "Unable to find selected static notecard");
+            $this->failed("Unable to find selected static notecard");
             return;
         }
         if ($static_notecard->getMissing() == true) {
-            $this->setSwapTag("message", "Selected static notecard is marked as missing");
+            $this->failed("Selected static notecard is marked as missing");
             return;
         }
 
         $notice = new Notice();
         if ($notice->loadID($this->page) == false) {
-            $this->setSwapTag("message", "Unable to find notice");
+            $this->failed("Unable to find notice");
             $this->setSwapTag("redirect", "notice");
             return;
         }
@@ -78,11 +69,11 @@ class Update extends ViewAjax
             $expected_count = 1;
         }
         if ($count_check["status"] == false) {
-            $this->setSwapTag("message", "Unable to check if there is a notice assigned already");
+            $this->failed("Unable to check if there is a notice assigned already");
             return;
         }
         if ($count_check["count"] != $expected_count) {
-            $this->setSwapTag("message", "There is already a notice with that hours remaining trigger");
+            $this->failed("There is already a notice with that hours remaining trigger");
             return;
         }
         if ($notecardDetail == null) {
@@ -99,14 +90,12 @@ class Update extends ViewAjax
         }
         $update_status = $notice->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 sprintf("Unable to update notice: %1\$s", $update_status["message"])
             );
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Notice updated");
+        $this->ok("Notice updated");
         $this->setSwapTag("redirect", "notice");
     }
 }

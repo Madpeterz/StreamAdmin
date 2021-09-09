@@ -10,28 +10,28 @@ class ServerLoad extends ViewAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("message", "Started server load");
+        $this->failed("Started server load");
         $server = new Server();
         $serverapi_helper = new ServerApiHelper();
         if ($server->loadID($this->page) == false) {
-            $this->setSwapTag("message", "<span class=\"text-danger\">Unable to find server</span>");
+            $this->failed("<span class=\"text-danger\">Unable to find server</span>");
             return;
         }
-        $this->setSwapTag("message", "Loaded server");
+        $this->failed("Loaded server");
         if ($server->getApiServerStatus() == 0) {
             $this->output->addSwapTagString("message", "<span class=\"text-warning\">Not supported</span>");
             return;
         }
-        $this->setSwapTag("message", "Fetched getApiServerStatus");
+        $this->failed("Fetched getApiServerStatus");
         $serverapi_helper->forceSetServer($server);
         $apireply = $serverapi_helper->apiServerStatus();
-        $this->setSwapTag("message", "");
+        $this->failed("");
         if ($apireply["status"] == false) {
             $this->output->addSwapTagString("message", "<span class=\"text-danger\">Offline</span>");
             $this->output->addSwapTagString("json", json_encode($apireply));
             return;
         }
-        $this->setSwapTag("message", "");
+        $this->failed("");
         $this->output->addSwapTagString("status", "true");
         $addon = $this->getStreamInfo($apireply);
         $addon = $this->getCPUinfo($apireply, $addon);

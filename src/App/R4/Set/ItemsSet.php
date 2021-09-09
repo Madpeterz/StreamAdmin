@@ -30,4 +30,203 @@ class ItemsSet extends CollectionSet
     {
         return parent::getFirst();
     }
+    /**
+     * getObjectByField
+     * returns the first object in a collection that matchs the field and value checks
+     */
+    public function getObjectByField(string $fieldname, $value): ?Items
+    {
+        return parent::getObjectByField($fieldname, $value);
+    }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Items
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByPackageid
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPackageid(
+                    int $packageid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("packageid", $packageid, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadBySold
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadBySold(
+                    int $sold, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("sold", $sold, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByStreamurl
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByStreamurl(
+                    string $streamurl, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("streamurl", $streamurl, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByStreamport
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByStreamport(
+                    string $streamport, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("streamport", $streamport, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByStreampassword
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByStreampassword(
+                    string $streampassword, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("streampassword", $streampassword, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByBaditem
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByBaditem(
+                    int $baditem, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("baditem", $baditem, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAdminurl
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAdminurl(
+                    string $adminurl, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("adminurl", $adminurl, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAdminusername
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAdminusername(
+                    string $adminusername, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("adminusername", $adminusername, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAdminpassword
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAdminpassword(
+                    string $adminpassword, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("adminpassword", $adminpassword, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByServerlocid
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByServerlocid(
+                    int $serverlocid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("serverlocid", $serverlocid, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAddon1
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAddon1(
+                    string $addon1, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("addon1", $addon1, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAddon2
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAddon2(
+                    string $addon2, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("addon2", $addon2, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAddon3
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAddon3(
+                    string $addon3, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("addon3", $addon3, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAddon4
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAddon4(
+                    string $addon4, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("addon4", $addon4, $limit, $orderBy, $orderDir);
+    }
 }

@@ -13,8 +13,7 @@ class DefaultView extends View
         $treevender_set = new TreevenderSet();
         $treevender_set->loadAll();
 
-        foreach ($treevender_set->getAllIds() as $treevender_id) {
-            $treevender = $treevender_set->getObjectByID($treevender_id);
+        foreach ($treevender_set as $treevender) {
             $entry = [];
             $entry[] = $treevender->getId();
             $entry[] = $treevender->getId();

@@ -14,68 +14,67 @@ class Resetnow extends ViewAjax
     {
         sleep(1);
         $input = new InputFilter();
-        $slusername = $input->postFilter("slusername");
-        $token = $input->postFilter("token");
-        $newpw1 = $input->postFilter("newpassword1");
-        $newpw2 = $input->postFilter("newpassword2");
-
-        $status = false;
+        $slusername = $input->postString("slusername");
+        $token = $input->postString("token");
+        $newpw1 = $input->postString("newpassword1", 30, 7);
+        if ($newpw1 == null) {
+            $this->failed("New password failed:" . $input->getWhyFailed());
+            return;
+        }
+        $newpw2 = $input->postString("newpassword2", 30, 7);
+        if ($newpw2 == null) {
+            $this->failed("New password (Repeated) failed:" . $input->getWhyFailed());
+            return;
+        }
         if ($newpw1 != $newpw2) {
-            $this->setSwapTag(
-                "message",
+            $this->failed(
                 "New passwords do not match"
             );
             return;
         }
-        if (strlen($newpw1) < 7) {
-            $this->setSwapTag(
-                "message",
-                "New password is to short min length 7"
-            );
-            return;
-        }
 
-        $this->setSwapTag("message", "Something went wrong with your request");
+        $this->failed("Something went wrong with your request");
         $username_bits = explode(" ", $slusername);
         if (count($username_bits) == 1) {
             $username_bits[] = "Resident";
         }
         $slusername = implode(" ", $username_bits);
         $avatar = new Avatar();
-        $status = false;
-        if ($avatar->loadByField("avatarName", $slusername) == true) {
-            $staff = new Staff();
-            if ($staff->loadByField("avatarLink", $avatar->getId()) == true) {
-                if ($staff->getEmailResetCode() == $token) {
-                    if ($staff->getEmailResetExpires() <= time()) {
-                        $this->setSwapTag(
-                            "message",
-                            "Your token has expired, please request a new one"
-                        );
-                        return;
-                    }
-                    $this->applyNewPassword($staff, $newpw1);
-                }
-            }
+        if ($avatar->loadByAvatarName($slusername) == false) {
+            return;
         }
+        $staff = new Staff();
+        if ($staff->loadByField("avatarLink", $avatar->getId()) == false) {
+            return;
+        }
+        if ($staff->getEmailResetCode() != $token) {
+            return;
+        }
+        if ($staff->getEmailResetExpires() <= time()) {
+            $this->failed(
+                "Your token has expired, please request a new one"
+            );
+            return;
+        }
+        $this->applyNewPassword($staff, $newpw1);
     }
-    protected function applyNewPassword(Staff $staff, string $newpw1): string
+    protected function applyNewPassword(Staff $staff, string $newpw1): void
     {
         $session_helper = new SessionControl();
         $session_helper->attachStaffMember($staff);
         $update_status = $session_helper->updatePassword($newpw1);
         if ($update_status["status"] == false) {
-            return "Something went wrong updating your password";
+            $this->failed("Something went wrong updating your password");
+            return;
         }
         $staff->setEmailResetCode(null);
         $staff->setEmailResetExpires(time() - 1);
         $update_status = $staff->updateEntry();
         if ($update_status["status"] == false) {
-            return "Unable to finalize changes to your account";
+            $this->failed("Unable to finalize changes to your account");
+            return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Password updated please login");
+        $this->ok("Password updated please login");
         $this->setSwapTag("redirect", "login");
-        return "";
     }
 }

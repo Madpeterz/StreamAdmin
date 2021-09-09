@@ -14,8 +14,7 @@ class DefaultView extends View
         $textureconfig_set = new TextureconfigSet();
         $textureconfig_set->loadAll();
 
-        foreach ($textureconfig_set->getAllIds() as $textureconfig_id) {
-            $textureconfig = $textureconfig_set->getObjectByID($textureconfig_id);
+        foreach ($textureconfig_set as $textureconfig) {
             $entry = [];
             $entry[] = $textureconfig->getId();
             $entry[] = $textureconfig->getId();

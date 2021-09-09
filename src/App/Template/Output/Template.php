@@ -91,6 +91,10 @@ class Template extends AddonProvider
     }
     public function renderSecondlifeAjax(): void
     {
+        print $this->getSecondlifeAjax();
+    }
+    public function getSecondlifeAjax(): string
+    {
         $this->swaptags["render"] = "secondlifeAjax";
         foreach ($this->swaptags as $tag => $value) {
             if (in_array($value, ["true",true,1,"yes","True","TRUE"], true)) {
@@ -100,7 +104,7 @@ class Template extends AddonProvider
             }
             $this->swaptags[$tag] = $value;
         }
-        print json_encode($this->swaptags);
+        return json_encode($this->swaptags);
     }
     public function renderPage(): void
     {

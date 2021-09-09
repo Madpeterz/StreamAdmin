@@ -12,7 +12,6 @@ include("vendor/autoload.php");
 include("tests/test.db.php");
 
 // load DB
-use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
 use YAPF\Core\ErrorControl\ErrorLogging as ErrorLogging;
 
 class ErrorLoggingTestClass extends ErrorLogging

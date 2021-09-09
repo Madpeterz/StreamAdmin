@@ -279,15 +279,40 @@ abstract class Filters extends Base
         if (array_key_exists("zeroCheck", $args)) {
             if ($value == "0") {
                 $this->testOK = false;
-                $this->whyfailed = "Zero value detected";
+                $this->whyfailed = "rejected: Must not be zero";
+                return null;
             }
         }
         $testValue = intval($value);
         if (array_key_exists("gtr0", $args)) {
             if ($testValue <= 0) {
                 $this->testOK = false;
-                $this->whyfailed = "Value must be more than zero";
+                $this->whyfailed = "To low ~ Min value: anything higher than zero";
+                return null;
             }
+        }
+        $min = null;
+        $max = null;
+        if (array_key_exists("min", $args) == true) {
+            $min = $args["min"];
+        }
+        if (array_key_exists("max", $args) == true) {
+            $max = $args["max"];
+        }
+        if (($min != null) && ($max != null)) {
+            if (($max < $min) && ($max != 0)) {
+                $a = $min;
+                $min = $max;
+                $max = $a;
+            }
+        }
+        if (($value < $min) && ($min != null)) {
+            $this->whyfailed = "To low ~ Min value: " . $min;
+            return null;
+        }
+        if (($value > $max) && ($max != null)) {
+            $this->whyfailed = "To high ~ Max value: " . $max;
+            return null;
         }
         if ($this->testOK) {
             return $testValue;
@@ -327,30 +352,29 @@ abstract class Filters extends Base
     {
         $this->failure = false;
         $this->testOK = true;
-        if ((array_key_exists("maxLength", $args) == true) && (array_key_exists("minLength", $args)  == true)) {
-            if ($args["minLength"] > $args["maxLength"]) {
-                $this->whyfailed = "Length values are mixed up";
-                $this->testOK = false;
-            }
+        $min = 0;
+        $max = 0;
+        if (array_key_exists("minLength", $args) == true) {
+            $min = $args["minLength"];
         }
-        if ($this->testOK) {
-            if (array_key_exists("minLength", $args) == true) {
-                if (strlen($value) < $args["minLength"]) {
-                    $this->whyfailed = "Failed min length check";
-                    $this->testOK = false;
-                }
-            }
-            if (array_key_exists("maxLength", $args) == true) {
-                if (strlen($value) > $args["maxLength"]) {
-                    $this->whyfailed = "Failed max length check";
-                    $this->testOK = false;
-                }
-            }
+        if (array_key_exists("maxLength", $args) == true) {
+            $max = $args["maxLength"];
         }
-        if ($this->testOK) {
-            return $value;
+        if (($max < $min) && ($max != 0)) {
+            $a = $min;
+            $min = $max;
+            $max = $a;
         }
-        return null;
+        $len = strlen($value);
+        if ($len < $min) {
+            $this->whyfailed = "To short ~ Min length: " . $min;
+            return null;
+        }
+        if (($max > 0) && ($len > $max)) {
+            $this->whyfailed = "To Long ~ Max length: " . $max;
+            return null;
+        }
+        return $value;
     }
 
     /**

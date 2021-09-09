@@ -11,27 +11,20 @@ class Update extends ViewAjax
     public function process(): void
     {
         $input = new inputFilter();
-        $avatarName = $input->postFilter("avatarName");
-        $avatarUUID = $input->postFilter("avatarUUID", "uuid");
-        if (count(explode(" ", $avatarName)) == 1) {
-            $avatarName .= " Resident";
-        }
-        if (strlen($avatarName) < 5) {
-            $this->setSwapTag("message", "avatarName length must be 5 or longer");
+        $avatarName = $input->postString("avatarName", 125, 5);
+        $avatarUUID = $input->postUUID("avatarUUID");
+        if ($avatarName == null) {
+            $this->failed("Avatar name failed:" . $input->getWhyFailed());
             return;
         }
-        if (strlen($avatarName) > 125) {
-            $this->setSwapTag("message", "avatarName length must be 125 or less");
-            return;
-        }
-        if (strlen($avatarUUID) != 36) {
-            $this->setSwapTag("message", "avatarUUID must be a uuid");
+        if ($avatarUUID == null) {
+            $this->failed("Avatar UUID failed:" . $input->getWhyFailed());
             return;
         }
         $this->setSwapTag("redirect", "avatar");
         $avatar = new Avatar();
-        if ($avatar->loadByField("avatarUid", $this->page) == false) {
-            $this->setSwapTag("message", "Unable to find the avatar");
+        if ($avatar->loadByAvatarUid($this->page) == false) {
+            $this->failed("Unable to find the avatar");
             return;
         }
         $whereConfig = [
@@ -46,24 +39,20 @@ class Update extends ViewAjax
             $expected_count = 1;
         }
         if ($count_check["status"] == false) {
-            $this->setSwapTag("message", "Unable to check if UUID in use");
+            $this->failed("Unable to check if UUID in use");
             return;
         }
         if ($count_check["count"] != $expected_count) {
-            $this->setSwapTag("message", "Selected UUID is already in use");
+            $this->failed("Selected UUID is already in use");
             return;
         }
         $avatar->setAvatarName($avatarName);
         $avatar->setAvatarUUID($avatarUUID);
         $update_status = $avatar->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
-                sprintf("Unable to update avatar: %1\$s", $update_status["message"])
-            );
+            $this->failed(sprintf("Unable to update avatar: %1\$s", $update_status["message"]));
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Avatar updated");
+        $this->ok("Avatar updated");
     }
 }

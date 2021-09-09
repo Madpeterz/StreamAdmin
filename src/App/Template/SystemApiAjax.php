@@ -26,7 +26,7 @@ abstract class SystemApiAjax extends ViewAjax
             $this->setSwapTag("status", false);
             return;
         }
-        $this->setSwapTag("message", "ready");
+        $this->failed("ready");
         $this->output->tempateSecondLifeAjax();
     }
     protected function hashok(): void
@@ -36,11 +36,11 @@ abstract class SystemApiAjax extends ViewAjax
         }
         if (strlen($this->slconfig->getHttpInboundSecret()) < 5) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "httpcode length must be 5 or longer");
+            $this->failed("httpcode length must be 5 or longer");
             return;
         }
         if (strlen($this->slconfig->getHttpInboundSecret()) > 30) {
-            $this->setSwapTag("message", "httpcode length must be 30 or less");
+            $this->failed("httpcode length must be 30 or less");
             $this->load_ok = false;
             return;
         }
@@ -53,7 +53,7 @@ abstract class SystemApiAjax extends ViewAjax
             return;
         }
         $this->load_ok = false;
-        $this->setSwapTag("message", "Invaild token");
+        $this->failed("Invaild token");
     }
     protected function timeWindow(): void
     {
@@ -72,7 +72,7 @@ abstract class SystemApiAjax extends ViewAjax
             }
         }
         if ($this->load_ok == false) {
-            $this->setSwapTag("message", "timewindow is out of scope");
+            $this->failed("timewindow is out of scope");
             return;
         }
     }
@@ -94,7 +94,7 @@ abstract class SystemApiAjax extends ViewAjax
             $value = $input->postFilter($slvalue);
             if ($value === null) {
                 $this->load_ok = false;
-                $this->setSwapTag("message", "Value: " . $slvalue . " is missing");
+                $this->failed("Value: " . $slvalue . " is missing");
                 return;
             }
             $this->$slvalue = $value;

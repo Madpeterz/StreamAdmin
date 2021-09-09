@@ -43,8 +43,7 @@ class Detailed extends View
         $table_head = ["id","Object","Last seen","Type","Status","Owner"];
         $table_body = [];
         $goodMinTime = time() - 120;
-        foreach ($venderHealth->getAllIds() as $objectid) {
-            $object = $venderHealth->getObjectByID($objectid);
+        foreach ($venderHealth as $object) {
             $avatar = $avatars->getObjectByID($object->getAvatarLink());
             $entry = [];
             $entry[] = $object->getId();

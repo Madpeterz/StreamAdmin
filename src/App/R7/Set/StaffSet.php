@@ -38,4 +38,117 @@ class StaffSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Staff
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByUsername
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByUsername(
+                    string $username, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("username", $username, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByEmailResetCode
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByEmailResetCode(
+                    string $emailResetCode, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("emailResetCode", $emailResetCode, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByEmailResetExpires
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByEmailResetExpires(
+                    int $emailResetExpires, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("emailResetExpires", $emailResetExpires, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAvatarLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAvatarLink(
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByPhash
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPhash(
+                    string $phash, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("phash", $phash, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByLhash
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByLhash(
+                    string $lhash, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("lhash", $lhash, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByPsalt
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPsalt(
+                    string $psalt, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("psalt", $psalt, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByOwnerLevel
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByOwnerLevel(
+                    bool $ownerLevel, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("ownerLevel", $ownerLevel, $limit, $orderBy, $orderDir);
+    }
 }

@@ -17,16 +17,14 @@ class DefaultView extends View
         $apis_set = new ApisSet();
         $apis_set->loadAll();
         $has_api_sync = false;
-        foreach ($server_set->getAllIds() as $server_id) {
-            $server = $server_set->getObjectByID($server_id);
+        foreach ($server_set as $server) {
             if ($server->getApiSyncAccounts() == true) {
                 $has_api_sync = true;
                 $table_head = ["id","Domain","Last sync","Sync"];
                 break;
             }
         }
-        foreach ($server_set->getAllIds() as $server_id) {
-            $server = $server_set->getObjectByID($server_id);
+        foreach ($server_set as $server) {
             $api = $apis_set->getObjectByID($server->getApiLink());
             $entry = [];
             $entry[] = $server->getId();

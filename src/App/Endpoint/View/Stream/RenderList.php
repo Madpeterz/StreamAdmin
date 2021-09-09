@@ -22,8 +22,7 @@ abstract class RenderList extends View
         $server_set = new ServerSet();
         $server_set->loadAll();
 
-        foreach ($this->streamSet->getAllIds() as $streamid) {
-            $stream = $this->streamSet->getObjectByID($streamid);
+        foreach ($this->streamSet as $stream) {
             $server = $server_set->getObjectByID($stream->getServerLink());
 
 

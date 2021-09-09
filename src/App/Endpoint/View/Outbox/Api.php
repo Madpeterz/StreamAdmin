@@ -33,8 +33,7 @@ class Api extends View
         "eventCreateStream" => "Create stream on server",
         "eventUpdateStream" => "Update stream on server",
         ];
-        foreach ($api_requests_set->getAllIds() as $request_id) {
-            $request = $api_requests_set->getObjectByID($request_id);
+        foreach ($api_requests_set as $request) {
             $stream = $stream_set->getObjectByID($request->getStreamLink());
             $table_body[] = [$request->getId(),$event_names[$request->getEventname()],
             $stream->getPort(),expiredAgo($request->getLastAttempt()),

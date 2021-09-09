@@ -38,4 +38,52 @@ class NotecardSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Notecard
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByRentalLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByRentalLink(
+                    int $rentalLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("rentalLink", $rentalLink, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAsNotice
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAsNotice(
+                    bool $asNotice, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("asNotice", $asNotice, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByNoticeLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByNoticeLink(
+                    int $noticeLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("noticeLink", $noticeLink, $limit, $orderBy, $orderDir);
+    }
 }

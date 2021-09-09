@@ -38,4 +38,39 @@ class NotecardmailSet extends CollectionSet
     {
         return parent::getObjectByField($fieldname, $value);
     }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Notecardmail
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByAvatarLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAvatarLink(
+                    int $avatarLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("avatarLink", $avatarLink, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByNoticenotecardLink
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByNoticenotecardLink(
+                    int $noticenotecardLink, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("noticenotecardLink", $noticenotecardLink, $limit, $orderBy, $orderDir);
+    }
 }

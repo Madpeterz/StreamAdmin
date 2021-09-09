@@ -24,12 +24,24 @@ class Create extends ViewAjax
         $input = new InputFilter();
         $stream_set = new StreamSet();
 
-        $avataruid = $input->postFilter("avataruid");
-        $streamuid = $input->postFilter("streamuid");
-        $daysremaining = $input->postFilter("daysremaining", "integer");
-        $status = false;
+        $avataruid = $input->postString("avataruid");
+        if ($avataruid  == null) {
+            $this->failed("Avatar failed:" . $input->getWhyFailed());
+        }
+        $streamuid = $input->postString("streamuid");
+        if ($streamuid == null) {
+            $this->failed("Stream UID failed:" . $input->getWhyFailed());
+        }
+        $daysremaining = $input->postInteger("daysremaining", false, true);
+        if ($daysremaining == null) {
+            $this->failed("Days remaining failed:" . $input->getWhyFailed());
+            return;
+        }
+        if ($daysremaining > 360) {
+            $this->failed("Attempt to create a client with more than 360 days remaining");
+            return;
+        }
         $this->setSwapTag("redirect", "client");
-        $failed_on = "";
 
         $avatar_where_config = [
             "fields" => ["avatarUid","avatarName","avatarUUID"],
@@ -41,7 +53,7 @@ class Create extends ViewAjax
 
         $avatar_set->loadWithConfig($avatar_where_config);
         if ($avatar_set->getCount() != 1) {
-            $this->setSwapTag("message", "Unable to find avatar: " . $avatar_set->getLastSql());
+            $this->failed("Unable to find avatar");
             return;
         }
 
@@ -55,19 +67,11 @@ class Create extends ViewAjax
 
         $stream_set->loadWithConfig($stream_where_config);
         if ($stream_set->getCount() != 1) {
-            $this->setSwapTag("message", "Unable to find stream");
-            return;
-        }
-        if ($daysremaining > 999) {
-            $this->setSwapTag("message", "daysremaining must be 999 or less");
-            return;
-        }
-        if ($daysremaining < 1) {
-            $this->setSwapTag("message", "daysremaining must be 1 or more");
+            $this->failed("Unable to find stream");
             return;
         }
         if ($stream->getRentalLink() > 0) {
-            $this->setSwapTag("message", "Stream already has a rental attached");
+            $this->failed("Stream already has a rental attached");
             return;
         }
         if ($stream_set->getCount() == 1) {
@@ -89,9 +93,9 @@ class Create extends ViewAjax
         $avatar = $avatar_set->getFirst();
         $unixtime = time() + ($daysremaining * $unixtime_day);
         $rental = new Rental();
-        $uid = $rental->createUID("rentalUid", 8, 10);
+        $uid = $rental->createUID("rentalUid", 8);
         if ($uid["status"] == false) {
-            $this->setSwapTag("message", "Unable to create a new Client uid");
+            $this->failed("Unable to create a new Client uid");
             return;
         }
         $rental->setRentalUid($uid["uid"]);
@@ -103,20 +107,16 @@ class Create extends ViewAjax
         $rental->setNoticeLink($use_notice_index);
         $create_status = $rental->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag(
-                "message",
-                sprintf("Unable to create a new Client: %1\$s", $create_status["message"])
-            );
+            $this->failed(sprintf("Unable to create a new Client: %1\$s", $create_status["message"]));
             return;
         }
         $stream->setRentalLink($rental->getId());
         $stream->setNeedWork(0);
         $update_status = $stream->updateEntry();
         if ($update_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to mark stream as linked to rental");
+            $this->failed("Unable to mark stream as linked to rental");
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Client created");
+        $this->ok("Client created");
     }
 }

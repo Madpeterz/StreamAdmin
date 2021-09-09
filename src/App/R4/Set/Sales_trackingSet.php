@@ -30,4 +30,125 @@ class Sales_trackingSet extends CollectionSet
     {
         return parent::getFirst();
     }
+    /**
+     * getObjectByField
+     * returns the first object in a collection that matchs the field and value checks
+     */
+    public function getObjectByField(string $fieldname, $value): ?Sales_tracking
+    {
+        return parent::getObjectByField($fieldname, $value);
+    }
+    /**
+     * current
+     * used by foreach to get the object should not be called directly
+     */
+    public function current(): Sales_tracking
+    {
+        return parent::current();
+    }
+    // Loaders
+    /**
+     * loadByResellerid
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByResellerid(
+                    int $resellerid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("resellerid", $resellerid, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByVenderid
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByVenderid(
+                    int $venderid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("venderid", $venderid, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByUserid
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByUserid(
+                    int $userid, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("userid", $userid, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadBySalemode
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadBySalemode(
+                    int $salemode, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("salemode", $salemode, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByAmount
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByAmount(
+                    int $amount, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("amount", $amount, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByDate
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByDate(
+                    string $date, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("date", $date, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByTime
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByTime(
+                    string $time, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("time", $time, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadBySLname
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadBySLname(
+                    string $SLname, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("SLname", $SLname, $limit, $orderBy, $orderDir);
+    }
 }

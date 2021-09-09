@@ -10,7 +10,7 @@ use YAPF\InputFilter\InputFilter;
 
 class Reset extends ViewAjax
 {
-    protected function sendMessageReset(Staff $staff, Avatar $avatar, string $resetCode): bool
+    protected function sendMessageReset(Avatar $avatar, string $resetCode): bool
     {
         global $template_parts;
         $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $resetCode;
@@ -27,6 +27,7 @@ class Reset extends ViewAjax
     {
         global $unixtime_hour;
         sleep(1);
+
         $input = new InputFilter();
         $avatar = new Avatar();
         $staff = new Staff();
@@ -39,7 +40,7 @@ class Reset extends ViewAjax
             $username_bits[] = "Resident";
         }
         $slusername = implode(" ", $username_bits);
-        if ($avatar->loadByField("avatarName", $slusername) == true) {
+        if ($avatar->loadByAvatarName($slusername) == true) {
             $status = $staff->loadByField("avatarLink", $avatar->getId());
         }
         if ($status == true) {
@@ -50,13 +51,12 @@ class Reset extends ViewAjax
                     $staff->setEmailResetExpires((time() + $unixtime_hour));
                     $update_status = $staff->updateEntry();
                     if ($update_status["status"] == true) {
-                        $status = $this->sendMessageReset($staff, $avatar, $uid["uid"]);
+                        $status = $this->sendMessageReset($avatar, $uid["uid"]);
                     }
                 }
             }
         }
-        $this->setSwapTag("status", true);
         $this->setSwapTag("redirect", "here");
-        $this->setSwapTag("message", "If the account was found the reset code is on the way.");
+        $this->ok("If the account was found the reset code is on the way.");
     }
 }

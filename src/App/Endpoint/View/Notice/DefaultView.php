@@ -13,8 +13,7 @@ class DefaultView extends View
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
 
-        foreach ($notice_set->getAllIds() as $notice_id) {
-            $notice = $notice_set->getObjectByID($notice_id);
+        foreach ($notice_set as $notice) {
             if ($notice->getHoursRemaining() != 999) {
                 $entry = [];
                 $entry[] = $notice->getHoursRemaining();

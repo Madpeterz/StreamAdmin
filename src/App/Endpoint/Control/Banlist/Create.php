@@ -12,7 +12,11 @@ class Create extends ViewAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $avataruid = $input->postFilter("uid");
+        $avataruid = $input->postString("uid");
+        if ($avataruid == null) {
+            $this->failed("Avatar UID/Name/UUID was not sent!");
+            return;
+        }
         $avatar_where_config = [
             "fields" => ["avatarUid","avatarName","avatarUUID"],
             "matches" => ["=","=","="],
@@ -24,27 +28,23 @@ class Create extends ViewAjax
         $avatar_set->loadWithConfig($avatar_where_config);
 
         if ($avatar_set->getCount() != 1) {
-            $this->setSwapTag(
-                "message",
-                "Unable to find avatar to attach to ban do they exist under avatars?"
-            );
+            $this->failed("Unable to find avatar to attach to ban do they exist under avatars?");
             return;
         }
         $avatar = $avatar_set->getFirst();
         $banlist = new Banlist();
-        if ($banlist->loadByField("avatarLink", $avatar->getId()) == true) {
-            $this->setSwapTag("message", "The target avatar is already banned");
+        if ($banlist->loadByAvatarLink($avatar->getId()) == true) {
+            $this->failed("The target avatar is already banned");
             return;
         }
         $banlist = new Banlist();
         $banlist->setAvatarLink($avatar->getId());
         $create_status = $banlist->createEntry();
         if ($create_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to create a new entry in the ban list");
+            $this->failed("Unable to create a new entry in the ban list");
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Banlist entry created");
         $this->setSwapTag("redirect", "banlist");
+        $this->ok("Entry created");
     }
 }

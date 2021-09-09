@@ -69,7 +69,7 @@ abstract class SecondlifeAjax extends View
             $this->setSwapTag("status", false);
             return;
         }
-        $this->setSwapTag("message", "ready");
+        $this->failed("ready");
         $this->output->tempateSecondLifeAjax();
     }
 
@@ -100,20 +100,20 @@ abstract class SecondlifeAjax extends View
                 $this->staticpart .= $value;
             } else {
                 $this->load_ok = false;
-                $this->setSwapTag("message", "Value: " . $slvalue . " is missing");
+                $this->failed("Value: " . $slvalue . " is missing");
                 return;
             }
         }
         $this->unixtime = $input->postFilter("unixtime");
         if ($this->unixtime === null) {
-            $this->setSwapTag("message", "Missing unixtime value");
+            $this->failed("Missing unixtime value");
             $this->load_ok = false;
             return;
         }
         $this->hash = $input->postFilter("hash");
         if ($this->hash === null) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Missing hash value");
+            $this->failed("Missing hash value");
             return;
         }
     }
@@ -127,7 +127,7 @@ abstract class SecondlifeAjax extends View
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to vaildate request to API endpoint: ");
+            $this->failed("Unable to vaildate request to API endpoint: ");
             return;
         }
         $this->continueHashChecks(false);
@@ -139,7 +139,7 @@ abstract class SecondlifeAjax extends View
         $get_av_status = $avatar_helper->loadOrCreate($this->ownerkey, $this->ownername);
         if ($get_av_status == false) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to load owner avatar for this object!");
+            $this->failed("Unable to load owner avatar for this object!");
             return;
         }
         $this->Object_OwnerAvatar = $avatar_helper->getAvatar();
@@ -147,7 +147,7 @@ abstract class SecondlifeAjax extends View
         $get_region_status = $region_helper->loadOrCreate($this->regionname);
         if ($get_region_status == false) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to load region");
+            $this->failed("Unable to load region");
             return;
         }
         $this->region = $region_helper->getRegion();
@@ -160,7 +160,7 @@ abstract class SecondlifeAjax extends View
             );
             if ($get_reseller_status == false) {
                 $this->load_ok = false;
-                $this->setSwapTag("message", "Unable to load reseller");
+                $this->failed("Unable to load reseller");
                 return;
             }
             if ($skip_reseller == false) {
@@ -170,7 +170,7 @@ abstract class SecondlifeAjax extends View
                 }
                 if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
                     $this->load_ok = false;
-                    $this->setSwapTag("message", "Unable to access this api - please contact owner");
+                    $this->failed("Unable to access this api - please contact owner");
                     return;
                 }
             }
@@ -186,7 +186,7 @@ abstract class SecondlifeAjax extends View
             );
             if ($get_object_status == false) {
                 $this->load_ok = false;
-                $this->setSwapTag("message", "Unable to attach object: " . $object_helper->getLastWhyFailed());
+                $this->failed("Unable to attach object: " . $object_helper->getLastWhyFailed());
                 return;
             }
             $this->object = $object_helper->getObject();
@@ -211,7 +211,7 @@ abstract class SecondlifeAjax extends View
         }
         if ($this->load_ok == false) {
             $this->setSwapTag("status", false);
-            $this->setSwapTag("message", "timewindow is out of scope");
+            $this->failed("timewindow is out of scope");
             return;
         }
     }

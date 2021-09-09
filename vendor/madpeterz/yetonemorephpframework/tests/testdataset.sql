@@ -28,7 +28,7 @@ CREATE TABLE `alltypestable` (
 
 CREATE TABLE `counttoonehundo` (
   `id` int(11) NOT NULL,
-  `cvalue` int(11) NOT NULL
+  `cvalue` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `counttoonehundo` (`id`, `cvalue`) VALUES
@@ -166,6 +166,10 @@ CREATE TABLE `flagedvalues` (
   `value` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `flagedvalues` (`id`, `name`, `value`) VALUES
+(1, 'asdasdasd', '1'),
+(2, 'asdafsdfsdf', '0');
+
 CREATE TABLE `liketests` (
   `id` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
@@ -236,7 +240,6 @@ INSERT INTO `weirdtable` (`id`, `weirda`, `weirdb`) VALUES
 (1, '5', '4'),
 (2, '7', '2');
 
-INSERT INTO `flagedvalues` (`id`, `name`, `value`) VALUES (1, 'asdasdasd', '1'), (2, 'asdafsdfsdf', '0');
 
 ALTER TABLE `alltypestable`
   ADD PRIMARY KEY (`id`);
@@ -295,7 +298,7 @@ ALTER TABLE `endoftestwithupdates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `flagedvalues`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `liketests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;

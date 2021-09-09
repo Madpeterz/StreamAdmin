@@ -25,9 +25,7 @@ class Transactions extends View
         $all_ok = true;
         $transactions_created = 0;
 
-        foreach ($r4_sales_tracking_set->getAllIds() as $r4_sales_tracking_id) {
-            $r4_sales_tracking = $r4_sales_tracking_set->getObjectByID($r4_sales_tracking_id);
-
+        foreach ($r4_sales_tracking_set as $r4_sales_tracking) {
             $avatar_id = 1;
             if (array_key_exists($r4_sales_tracking->getSLname(), $avatarName_to_id) == true) {
                 $avatar_id = $avatarName_to_id[$r4_sales_tracking->getSLname()];
