@@ -3,7 +3,6 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Stream\Update;
-use App\Helpers\AvatarHelper;
 use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Set\PackageSet;
