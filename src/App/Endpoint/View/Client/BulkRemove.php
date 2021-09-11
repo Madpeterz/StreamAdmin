@@ -4,6 +4,7 @@ namespace App\Endpoint\View\Client;
 
 use App\R7\Set\ApirequestsSet;
 use App\R7\Set\AvatarSet;
+use App\R7\Set\DetailSet;
 use App\R7\Set\NoticeSet;
 use App\R7\Set\RentalSet;
 use App\R7\Set\ServerSet;
@@ -13,6 +14,7 @@ use App\Template\Form;
 class BulkRemove extends RenderList
 {
     protected array $hidden_clients = [];
+    protected DetailSet $detailsRequestsSet;
     protected function loader(): void
     {
         $whereconfig = [
@@ -33,6 +35,8 @@ class BulkRemove extends RenderList
         $this->noticeSet->loadIds($this->rentalSet->getAllByField("noticeLink"));
         $this->apiRequestsSet = new ApirequestsSet();
         $this->apiRequestsSet->loadAll();
+        $this->detailsRequestsSet = new DetailSet();
+        $this->detailsRequestsSet->loadIds($this->rentalSet->getAllIds(), "rentalLink");
     }
     public function process(): void
     {
@@ -55,6 +59,16 @@ class BulkRemove extends RenderList
             $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
             $server = $this->serverSet->getObjectByID($stream->getServerLink());
             $notice = $this->noticeSet->getObjectByID($rental->getNoticeLink());
+            $detail = $this->detailsRequestsSet->getObjectByField("rentalLink", $rental->getId());
+            if ($detail != null) {
+                $this->hidden_clients[] = [
+                    "why" => "Pending details request",
+                    "rentaluid" => $rental->getRentalUid(),
+                    "avatar" => $avatar->getAvatarName(),
+                    "port" => $stream->getPort(),
+                    ];
+                    continue;
+            }
             if ($rental->getMessage() != null) {
                 if (strlen($rental->getMessage()) > 0) {
                     $this->hidden_clients[] = [
@@ -75,6 +89,7 @@ class BulkRemove extends RenderList
                 ];
                 continue;
             }
+
             $entry = [];
             $entry[] = $rental->getId();
             $action = $this->makeButton($rental->getRentalUid(), "", "checked");
