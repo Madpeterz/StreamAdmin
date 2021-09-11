@@ -2,9 +2,7 @@
 
 namespace YAPF\MySQLi;
 
-use Exception;
-
-abstract class MysqliProcess extends MysqliOptions
+abstract class MysqliProcess extends MysqliWhere
 {
     /**
      * processSqlRequest

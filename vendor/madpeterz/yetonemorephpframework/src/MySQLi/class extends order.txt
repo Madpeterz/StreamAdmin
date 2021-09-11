@@ -1,3 +1,6 @@
-MysqliEnabled -> MysqliSearch -> MysqliCount -> MysqliSelect ->
-MysqliRemove -> MysqliUpdate -> MysqliAdd -> MysqliProcess ->
-MysqliOptions -> MysqliWhere -> MysqliFunctions -> MysqliCore
+MysqliEnabled -> 
+MysqliQuery ->
+MysqliChange ->
+MysqliProcess -> 
+MysqliWhere -> 
+MysqliFunctions

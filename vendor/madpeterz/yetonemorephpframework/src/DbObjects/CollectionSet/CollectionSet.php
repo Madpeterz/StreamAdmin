@@ -2,7 +2,7 @@
 
 namespace YAPF\DbObjects\CollectionSet;
 
-abstract class CollectionSet extends CollectionSetBulkRemove
+abstract class CollectionSet extends CollectionSetBulk
 {
     /**
      * loadIds

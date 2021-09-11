@@ -5,7 +5,7 @@ namespace YAPF\DbObjects\CollectionSet;
 use Iterator;
 use YAPF\DbObjects\GenClass\GenClass;
 
-abstract class CollectionSetGet extends CollectionSetIndex implements Iterator
+abstract class CollectionSetGet extends CollectionSetCore implements Iterator
 {
     protected $position = 0;
     public function rewind(): void
