@@ -4,6 +4,7 @@ namespace App\Endpoint\Control\Stream;
 
 use App\MediaServer\Logic\ApiLogicUpdate;
 use App\R7\Model\Package;
+use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use App\Template\ViewAjax;
@@ -88,6 +89,7 @@ class Update extends ViewAjax
             );
             return;
         }
+
         $stream->setPackageLink($packageLink);
         $stream->setServerLink($serverLink);
         $stream->setPort($port);
@@ -110,7 +112,10 @@ class Update extends ViewAjax
             );
             return;
         }
-
+        if ($this->transferRentalPackage($stream, $package) == false) {
+            $this->failed("Unable to transfer rental to new package");
+            return;
+        }
         if ($api_update == true) {
             $apilogic = new ApiLogicUpdate();
             $apilogic->setStream($stream);
@@ -123,5 +128,19 @@ class Update extends ViewAjax
         }
         $this->ok("Stream updated");
         $this->setSwapTag("redirect", "stream");
+    }
+
+    protected function transferRentalPackage(Stream $stream, Package $package): bool
+    {
+        $rental = new Rental();
+        if ($rental->loadByStreamLink($stream->getId()) == null) {
+            return true;
+        }
+        if ($package->getId() == $rental->getPackageLink()) {
+            return true;
+        }
+        $rental->setPackageLink($package->getId());
+        $status = $rental->updateEntry();
+        return $status["status"];
     }
 }
