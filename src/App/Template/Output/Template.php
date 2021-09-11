@@ -2,6 +2,8 @@
 
 namespace App\Template\Output;
 
+use PHP_CodeSniffer\Util\Cache;
+use YAPF\Cache\Drivers\Redis;
 use YAPF\InputFilter\InputFilter;
 
 class Template extends AddonProvider
@@ -34,6 +36,7 @@ class Template extends AddonProvider
         $this->setSwapTag("html_js_onready", "");
         $this->setSwapTag("html_js_bottom", "");
         $this->setSwapTag("html_title_after", "StreamAdmin R7");
+        $this->setSwapTag("cache_status", "Not used");
         $this->siteName("StreamAdmin R7");
 
         if (is_array($template_parts) == false) {
@@ -106,6 +109,19 @@ class Template extends AddonProvider
         }
         return json_encode($this->swaptags);
     }
+    protected function getCacheStatusMessage(): string
+    {
+        global $cache;
+        if ($cache == null) {
+            return "Not used";
+        }
+        if ($cache->getStatusConnected() == false) {
+            return "Not connected";
+        }
+        $output = "Connected - ";
+        $output .= json_encode($cache->getStatusCounters());
+        return $output;
+    }
     public function renderPage(): void
     {
         global $page,$module,$area;
@@ -113,6 +129,8 @@ class Template extends AddonProvider
         $this->setSwapTag("MODULE", $module);
         $this->setSwapTag("AREA", $area);
         $this->setSwapTag("PAGE", $page);
+        $this->setSwapTag("cache_status", "Cache: " . $this->getCacheStatusMessage());
+
 
         $inputfilter = new InputFilter();
         $bubblemessage = htmlspecialchars($inputfilter->getFilter("bubblemessage"));
