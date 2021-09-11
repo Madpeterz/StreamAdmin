@@ -249,17 +249,17 @@
         },
         {
             "name": "madpeterz/yetonemorephpframework",
-            "version": "2.3.1",
-            "version_normalized": "2.3.1.0",
+            "version": "2.3.2",
+            "version_normalized": "2.3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-                "reference": "b85904fa8bb0e04ceb5fd3d9877ae1f236749c96"
+                "reference": "d57d0f2925a6c1166b3015231af34708a346c6b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/b85904fa8bb0e04ceb5fd3d9877ae1f236749c96",
-                "reference": "b85904fa8bb0e04ceb5fd3d9877ae1f236749c96",
+                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/d57d0f2925a6c1166b3015231af34708a346c6b6",
+                "reference": "d57d0f2925a6c1166b3015231af34708a346c6b6",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
                 "slevomat/coding-standard": "^6.4",
                 "squizlabs/php_codesniffer": "*"
             },
-            "time": "2021-09-11T22:21:51+00:00",
+            "time": "2021-09-11T23:01:46+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
