@@ -17,7 +17,6 @@ class Remove extends ViewAjax
         $input = new InputFilter();
         $package = new Package();
         $stream_set = new StreamSet();
-        $transaction_set = new TransactionsSet();
         $rental_set = new RentalSet();
         $treevender_packages_set = new TreevenderpackagesSet();
 
@@ -46,20 +45,11 @@ class Remove extends ViewAjax
             );
             return;
         }
-        $load_status = $transaction_set->loadByPackageLink($package->getId());
-        if ($load_status["status"] == false) {
-            $this->failed("Unable to check if package is being used by any transactions");
+
+        if ($this->unlinkTransactions($package) == false) {
             return;
         }
-        if ($transaction_set->getCount() != 0) {
-            $this->failed(
-                sprintf(
-                    "Unable to remove package it is currently being used by: %1\$s transaction('s)",
-                    $transaction_set->getCount()
-                )
-            );
-            return;
-        }
+
         $load_status = $rental_set->loadByPackageLink($package->getId());
         if ($load_status["status"] == false) {
             $this->failed("Unable to check if package is being used by any clients");
@@ -100,5 +90,24 @@ class Remove extends ViewAjax
         }
 
         $this->ok("Package removed");
+    }
+
+    protected function unlinkTransactions(Package $package): bool
+    {
+        $transaction_set = new TransactionsSet();
+        $load_status = $transaction_set->loadByPackageLink($package->getId());
+        if ($load_status["status"] == false) {
+            $this->failed("Unable to check if package is being used by any transactions");
+            return false;
+        }
+        if ($transaction_set->getCount() == 0) {
+            return true;
+        }
+        $reply = $transaction_set->updateFieldInCollection("packageLink", null);
+        if ($reply["status"] == false) {
+            $this->failed("Unable to unattach transactions from package because: " . $reply["message"]);
+            return false;
+        }
+        return true;
     }
 }
