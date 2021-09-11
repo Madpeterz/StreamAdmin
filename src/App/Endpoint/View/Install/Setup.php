@@ -105,7 +105,7 @@ class Setup extends View
 
         $slconfig = new Slconfig();
         if ($slconfig->loadID(1) == false) {
-            $this->setSwapTag("page_content", "Unable to load config entry");
+            $this->setSwapTag("page_content", "Error loading config: " . $slconfig->getLastError());
             return false;
         }
         $slconfig->setSlLinkCode($slconfig->createUID("slLinkCode", 10, 10)["uid"]);
