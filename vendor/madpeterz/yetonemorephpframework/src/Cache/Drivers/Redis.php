@@ -10,6 +10,7 @@ use YAPF\Cache\CacheInterface;
 
 class Redis extends Cache implements CacheInterface
 {
+    protected string $driverName = "Redis";
     protected $tempStorage = [];
     // writes cache to mem first, and then to disk at the end
     // saves unneeded writes if we make a change after loading.

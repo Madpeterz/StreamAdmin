@@ -7,7 +7,7 @@ use YAPF\Cache\CacheInterface;
 
 class Disk extends Cache implements CacheInterface
 {
-
+    protected string $driverName = "Disk";
     public function __construct(
         string $cacheFolder = "cacheTmp"
     ) {

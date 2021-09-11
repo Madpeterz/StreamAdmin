@@ -7,6 +7,35 @@ abstract class Cache extends CacheWorker implements CacheInterface
     protected $tempStorage = [];
     protected bool $allowCleanup = false;
 
+    protected bool $connected = false; // set to true when a read/write passes ok
+    protected int $counter_reads = 0;
+    protected int $counter_writes = 0;
+    protected int $counter_miss_expired = 0;
+    protected int $counter_miss_notfound = 0;
+    protected int $counter_miss_changed = 0;
+    protected string $driverName = "NoDriver";
+
+    public function getStatusConnected(): bool
+    {
+        return $this->connected;
+    }
+
+    /**
+     * statusCounters
+     * @return mixed[]
+    */
+    public function getStatusCounters(): array
+    {
+        return [
+            "driver" => $this->driverName,
+            "reads" => $this->counter_reads,
+            "writes" => $this->counter_writes,
+            "expired" => $this->counter_miss_expired,
+            "notfound" => $this->counter_miss_notfound,
+            "changed" => $this->counter_miss_changed,
+        ];
+    }
+
     // writes cache to mem first, and then to disk at the end
     // saves unneeded writes if we make a change after loading.
     public function __destruct()
@@ -205,10 +234,12 @@ abstract class Cache extends CacheWorker implements CacheInterface
         }
         if (array_key_exists($tableName, $this->tableLastChanged) == false) {
             $this->addErrorlog("cacheVaild: Table last changed is missed (new table?)");
+            $this->counter_miss_changed++;
             return false; // last changed entry missing (maybe its new)
         }
         if (in_array($tableName, $this->changedTables) == true) {
             $this->addErrorlog("cacheVaild: table has had changes from startup");
+            $this->counter_miss_changed++;
             return false; // table has had a change at some point miss the cache for now
         }
         if ($asSingle == true) {
@@ -222,12 +253,14 @@ abstract class Cache extends CacheWorker implements CacheInterface
         $this->addErrorlog("cacheVaild: info_file: " . json_encode($info_file));
         if (array_key_exists("expires", $info_file) == false) {
             $this->addErrorlog("cacheVaild: expires info is missing");
+            $this->counter_miss_notfound++;
             $this->removeKey($this->getkeyPath($tableName, $hash));
             return false;
         }
         if ($info_file["expires"] < time()) {
             $dif = time() - $info_file["expires"];
             $this->addErrorlog("cacheVaild: entry has expired " . $dif . " secs ago");
+            $this->counter_miss_expired++;
             $this->removeKey($this->getkeyPath($tableName, $hash));
             return false; // cache has expired
         }
@@ -235,6 +268,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
             if ($info_file["allowChanged"] == false) {
                 // cache is old
                 $this->addErrorlog("cacheVaild: entry is old");
+                $this->counter_miss_expired++;
                 $this->removeKey($this->getkeyPath($tableName, $hash));
                 return false;
             }
@@ -259,7 +293,9 @@ abstract class Cache extends CacheWorker implements CacheInterface
         if ($reply == null) {
             return null;
         }
+        $this->counter_reads++;
         $this->keyData[$key] = $reply;
+        $this->connected = true;
         return json_decode($reply, true);
     }
 
@@ -287,6 +323,8 @@ abstract class Cache extends CacheWorker implements CacheInterface
             $this->removeKey($path . ".dat");
             return false;
         }
+        $this->counter_writes++;
+        $this->connected = true;
         return $writeOne;
     }
 
