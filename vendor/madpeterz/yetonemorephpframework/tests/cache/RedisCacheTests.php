@@ -337,6 +337,22 @@ not get hit until after this run has finished.
     }
 
 
+    /**
+     * @depends testSingleCacheHitButChanged
+     */
+    public function testCatcheNotThere(): void
+    {
+        global $sql;
+        $cache = new Redis();
+        $cache->connectTCP("127.0.0.1",7777);
+        $countto = new Counttoonehundo();
+        $countto->attachCache($cache);
+        $countto->loadID(11);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one from the failed read");
+        $this->assertSame(false,$cache->getStatusConnected(),"Cache should not be connected");
+    }
+
+
     protected function getCacheHashId(Cache $cache): string
     {
         $singleCount = new Counttoonehundo();

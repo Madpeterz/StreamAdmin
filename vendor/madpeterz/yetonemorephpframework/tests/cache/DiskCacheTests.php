@@ -2,7 +2,6 @@
 
 namespace YAPF\Junk;
 
-use PHPUnit\Framework\Constraint\Count;
 use PHPUnit\Framework\TestCase;
 use YAPF\Cache\Cache;
 use YAPF\Cache\Drivers\Disk;

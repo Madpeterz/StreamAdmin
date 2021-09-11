@@ -13,7 +13,7 @@ abstract class CacheRequired
         }
     }
 
-    abstract protected function setupCache(): void;
+    abstract protected function setupCache(): bool;
 
     abstract protected function hasKey(string $key): bool;
 
