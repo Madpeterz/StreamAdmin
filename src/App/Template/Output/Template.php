@@ -116,7 +116,7 @@ class Template extends AddonProvider
             return "Not used";
         }
         if ($cache->getStatusConnected() == false) {
-            return "Not connected";
+            return "Not connected (If you dont have cache you should disable it!)";
         }
         $output = "Connected - ";
         $output .= json_encode($cache->getStatusCounters());
