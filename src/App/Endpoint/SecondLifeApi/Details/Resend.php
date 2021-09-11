@@ -38,7 +38,7 @@ class Resend extends SecondlifeAjax
             return;
         }
         if ($count_data["count"] != 0) {
-            $this->setSwapTag("message", "You already have a pending details request please wait!");
+            $this->ok("You already have a pending details request - please wait for it or contact support.");
             return;
         }
         $detail = new Detail();
