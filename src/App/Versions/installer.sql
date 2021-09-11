@@ -669,3 +669,5 @@ ALTER TABLE `transactions`
   ADD `SLtransactionUUID` VARCHAR(36) NULL AFTER `renew`, 
   ADD `ViaHud` TINYINT(1) NOT NULL DEFAULT '0' AFTER `SLtransactionUUID`, 
   ADD UNIQUE (`SLtransactionUUID`);
+
+UPDATE `slconfig` SET `dbVersion` = '1.0.2.1' WHERE `slconfig`.`id` = 1;

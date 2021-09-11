@@ -1,0 +1,32 @@
+<div class="row">
+<div class="col-sm-6">
+<ul>
+<li>Updated tests - Current coverage: 73.35%</li>
+<li>Updated config area to correctly highlight if reissue is needed</li>
+<li>Update framework and vendor [New cache support if enabled]</li>
+<li>Updated homepage display if unable to read this about file</li>
+<li>Updated switchboard logic to be less bad</li>
+<li>Corrected namespace for requests via the hud.</li>
+<li>Updated hud resend request to share code with the vender resend</li>
+<li>Add a check to renewels for loading system owner that was missing</li>
+</ul>
+</div>
+<div class="col-sm-6">
+<ul>
+<li>Improved renew via hud logic to share code with vender renewal</li>
+<li><a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/35">Fixed missing bulk remove (issue 34)</a></li>
+<li><a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/36">Fixed usernames not updating (issue 36)</a></li>
+<li>Correct transactions display when package or region are missing</li>
+<li>Cleanedup control endpoint to share code (ok and fail status)</li>
+<li><a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/40">Added display to treevender for failure check (issue 40)</a></li>
+<li><a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/43">Transfering rented stream to new package (issue 43)</a></li>
+<li><a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/44">Removing a package does not unlink transactions (issue 44)</a></li>
+</ul>
+</div>
+<div class="col-sm-12">
+</div>
+<p>
+Have a feature/bug you want fixed/added then <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
+</p>
+</div>
+</div>

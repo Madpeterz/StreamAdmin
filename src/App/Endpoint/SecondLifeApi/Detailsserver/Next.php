@@ -14,6 +14,7 @@ use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use App\R7\Model\Template;
 use App\Template\SecondlifeAjax;
+use YAPF\InputFilter\InputFilter;
 
 class Next extends SecondlifeAjax
 {
@@ -34,13 +35,23 @@ class Next extends SecondlifeAjax
             return;
         }
         $detail_set = new DetailSet();
-        $detail_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
+        $input = new InputFilter();
+        $markFailed = $input->postBool("failed");
+        if ($markFailed == null) {
+            $markFailed = false;
+        }
+        $loadAmount = 1;
+        if ($markFailed == true) {
+            $loadAmount = 20;
+        }
+        $detail_set->loadNewest($loadAmount, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
         if ($detail_set->getCount() == 0) {
             $this->setSwapTag("status", true);
             $this->setSwapTag("message", "nowork");
             return;
         }
-        $detail = $detail_set->getFirst();
+        $ids = $detail_set->getAllIds();
+        $detail = $detail_set->getObjectByID($ids[array_rand($ids)]);
         $rental = new Rental();
         if ($rental->loadID($detail->getRentalLink()) == false) {
             $this->setSwapTag("message", "Unable to load rental");
