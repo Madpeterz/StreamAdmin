@@ -141,7 +141,7 @@ class Redis extends Cache implements CacheInterface
             return false;
         }
         try {
-            $reply = $this->client->set($key, $data, 'EXAT', $expiresUnixtime);
+            $reply = $this->client->setex($key, $expiresUnixtime - time(), $data);
             $this->addErrorlog("writeKeyReal: " . $reply . " for " . $key);
             if ($reply == "OK") {
                 return true;

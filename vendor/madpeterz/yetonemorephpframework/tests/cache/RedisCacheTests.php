@@ -180,19 +180,19 @@ not get hit until after this run has finished.
             $hashid,
             json_encode($content_data),
             json_encode($reply),
-            time() - 10
+            time() + 1
         );
         $cache->shutdown();
-
+        sleep(2);
         $cache = $this->getCache();
         $cache->addTableToCache($countto->getTable(), 10, true);
         $cache->start();
 
-        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero");
+        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero as the cache was used");
         $countto = new CounttoonehundoSet();
         $countto->attachCache($cache);
         $countto->loadNewest(1);
-        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one");
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one as the cache should be expired");
     }
 
 /**
