@@ -75,7 +75,7 @@ class Disk extends Cache implements CacheInterface
         if ($writeFile === false) {
             return false;
         }
-        $this->connected = true; // mark disk as connected
+        $this->markConnected();
         return true;
     }
 

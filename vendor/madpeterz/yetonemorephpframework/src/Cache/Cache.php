@@ -7,12 +7,18 @@ abstract class Cache extends CacheWorker implements CacheInterface
     protected $tempStorage = [];
     protected bool $allowCleanup = false;
 
-    protected bool $connected = false; // set to true when a read/write passes ok
+
     protected int $counter_reads = 0;
     protected int $counter_writes = 0;
     protected int $counter_miss_expired = 0;
     protected int $counter_miss_notfound = 0;
     protected int $counter_miss_changed = 0;
+    protected int $counter_miss_notused = 0;
+    protected int $counter_miss_nosingles  = 0;
+    protected int $counter_table_version_updates = 0;
+    protected int $counter_hit_check_cache = 0;
+    protected int $counter_pending_writes = 0;
+    protected int $counter_hash_fetchs = 0;
     protected string $driverName = "NoDriver";
 
     protected bool $disconnected = false;
@@ -29,12 +35,24 @@ abstract class Cache extends CacheWorker implements CacheInterface
     public function getStatusCounters(): array
     {
         return [
-            "driver" => $this->driverName,
-            "reads" => $this->counter_reads,
-            "writes" => $this->counter_writes,
-            "expired" => $this->counter_miss_expired,
-            "notfound" => $this->counter_miss_notfound,
-            "changed" => $this->counter_miss_changed,
+            "config" => [
+                "driver" => $this->driverName,
+            ],
+            "actions" => [
+                "reads" => $this->counter_reads,
+                "writes" => $this->counter_writes,
+            ],
+            "checks" => [
+                "expired" => $this->counter_miss_expired,
+                "notfound" => $this->counter_miss_notfound,
+                "changed" => $this->counter_miss_changed,
+                "notused" => $this->counter_miss_notused,
+                "nosingles" => $this->counter_miss_nosingles,
+                "versionchanges" => $this->counter_table_version_updates,
+                "readQ" => $this->counter_hit_check_cache,
+                "pendingW" => $this->counter_pending_writes,
+                "hashs" => $this->counter_hash_fetchs,
+            ],
         ];
     }
 
@@ -102,7 +120,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
                 break;
             }
             $this->counter_writes++;
-            $this->connected = true;
+            $this->markConnected();
         }
         $this->tempStorage = [];
     }
@@ -239,6 +257,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
             $this->addErrorlog("markChangeToTable: " . $tableName . " is not tracked");
             return;
         }
+        $this->counter_table_version_updates++;
         $this->tableLastChanged[$tableName] = $this->tableLastChanged[$tableName] + 1;
         if ($this->tableLastChanged[$tableName] >= 9999) {
             $this->tableLastChanged[$tableName] = 1;
@@ -258,6 +277,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
         $this->addErrorlog("cacheVaild: checking: " . $tableName . " " . $hash);
         if (array_key_exists($tableName, $this->tablesConfig) == false) {
             $this->addErrorlog("cacheVaild: Table is not supported by cache");
+            $this->counter_miss_notused++;
             return false; // not a table supported by cache
         }
         if (array_key_exists($tableName, $this->tableLastChanged) == false) {
@@ -273,6 +293,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
         if ($asSingle == true) {
             if ($this->tablesConfig[$tableName]["singlesEnabled"] == false) {
                 $this->addErrorlog("cacheVaild: table " . $tableName . " does not allow singles");
+                $this->counter_miss_nosingles++;
                 return false;
             }
         }
@@ -301,7 +322,8 @@ abstract class Cache extends CacheWorker implements CacheInterface
                 return false;
             }
         }
-        $this->connected = true;
+        $this->markConnected();
+        $this->counter_hit_check_cache++;
         $this->addErrorlog("cacheVaild: ok");
         return true; // cache is vaild
     }
@@ -319,7 +341,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
         $this->addErrorlog("readHash: " . $tableName . " " . $hash);
         $key = $this->getkeyPath($tableName, $hash) . ".dat";
         if (in_array($key, $this->keyData) == true) {
-            $this->connected = true;
+            $this->markConnected();
             return json_decode($this->keyData[$key], true);
         }
         $reply = $this->readKey($key);
@@ -328,7 +350,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
         }
         $this->counter_reads++;
         $this->keyData[$key] = $reply;
-        $this->connected = true;
+        $this->markConnected();
         return json_decode($reply, true);
     }
 
@@ -358,6 +380,9 @@ abstract class Cache extends CacheWorker implements CacheInterface
             $this->removeKey($path . ".inf");
             $this->removeKey($path . ".dat");
             return false;
+        }
+        if ($writeOne == true) {
+            $this->counter_pending_writes++;
         }
         return $writeOne;
     }
@@ -396,6 +421,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
             $tableName .
             $fields
         );
+        $this->counter_hash_fetchs++;
         return substr($shaHash, 0, 7);
     }
 }

@@ -82,7 +82,10 @@ abstract class GenClassDB extends GenClassControl
         }
         if ($hitCache == true) {
             // wooo vaild data from cache!
-            return $this->processLoad($this->cache->readHash($this->getTable(), $hashme));
+            $loadme = $this->cache->readHash($this->getTable(), $hashme);
+            if (is_array($loadme) == true) {
+                return $this->processLoad($loadme);
+            }
         }
         $basic = ["table" => $this->getTable()];
         $this->sql->setExpectedErrorFlag($this->expectedSqlLoadError);

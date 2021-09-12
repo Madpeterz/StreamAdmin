@@ -192,7 +192,10 @@ abstract class CollectionSet extends CollectionSetBulk
         }
         if ($hitCache == true) {
             // wooo vaild data from cache!
-            return $this->processLoad($this->cache->readHash($this->getTable(), $hashme));
+            $loadme = $this->cache->readHash($this->getTable(), $hashme);
+            if (is_array($loadme) == true) {
+                return $this->processLoad($loadme);
+            }
         }
         // Cache missed, read from the DB
         $load_data = $this->sql->selectV2(

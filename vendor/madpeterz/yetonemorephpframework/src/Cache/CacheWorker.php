@@ -87,6 +87,7 @@ abstract class CacheWorker extends CacheRequired
             $this->addErrorlog("loadLastChanged: missing updated unixtime");
             return;
         }
+        $this->markConnected();
         $dif = time() - $info_file["lastChanged"];
         if ($dif > (60 * 60)) {
             // info dataset is to old to be used
@@ -137,6 +138,7 @@ abstract class CacheWorker extends CacheRequired
         }
         $cacheInfoRead = "";
         if (in_array($key, $this->keyInfo) == true) {
+            $this->markConnected();
             return json_decode($this->keyInfo[$key], true);
         }
         $cacheInfoRead = $this->readKey($key . ".inf");
@@ -146,6 +148,7 @@ abstract class CacheWorker extends CacheRequired
         }
         $this->addErrorlog("getKeyInfo: " . $key . " data: " . $cacheInfoRead);
         $this->keyInfo[$key] = $cacheInfoRead;
+        $this->markConnected();
         return json_decode($cacheInfoRead, true);
     }
 
