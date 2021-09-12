@@ -113,12 +113,13 @@ class Template extends AddonProvider
     {
         global $cache;
         if ($cache == null) {
-            return "Not used";
+            return "N/A";
         }
+        $cache->shutdown();
+        $output = "Connected - Yes - ";
         if ($cache->getStatusConnected() == false) {
-            return "Not connected (If you dont have cache you should disable it!)";
+            $output = "Connected - No - ";
         }
-        $output = "Connected - ";
         $output .= json_encode($cache->getStatusCounters());
         return $output;
     }
