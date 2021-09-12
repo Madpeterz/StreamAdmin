@@ -1,3 +1,4 @@
+<div class="row">
 <div class="col-sm-6">
 <ul>
 <li>Updated tests - Current coverage: 73.35%</li>
@@ -26,4 +27,5 @@
 <p>
 Have a feature/bug you want fixed/added then <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
 </p>
+</div>
 </div>
