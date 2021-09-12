@@ -26,7 +26,8 @@ RUN \
         calendar \
         opcache \
     && chown -R www-data:www-data /srv/website \
-    && a2enmod rewrite
+    && a2enmod rewrite \ 
+    && a2enmod expires
 
 # Setup Zend OP Cache
 RUN { \
