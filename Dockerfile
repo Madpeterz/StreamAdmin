@@ -24,5 +24,18 @@ RUN \
         curl \
         mysqli \
         calendar \
+        opcache \
     && chown -R www-data:www-data /srv/website \
-    && a2enmod rewrite
+    && a2enmod rewrite \ 
+    && a2enmod expires
+
+# Setup Zend OP Cache
+RUN { \
+    echo 'opcache.enable=1'; \
+    echo 'opcache.enable_cli=1'; \
+    echo 'opcache.fast_shutdown=1'; \
+    echo 'opcache.interned_strings_buffer=16'; \
+    echo 'opcache.max_accelerated_files=1500'; \
+    echo 'opcache.memory_consumption=256'; \
+    echo 'opcache.revalidate_freq=0'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
