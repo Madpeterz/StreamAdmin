@@ -24,7 +24,6 @@
 </ul>
 </div>
 <div class="col-sm-12">
-</div>
 <p>
 Have a feature/bug you want fixed/added then <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
 </p>

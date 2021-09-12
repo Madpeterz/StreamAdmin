@@ -8,6 +8,10 @@ abstract class View extends TemplateView
 {
     public function __construct()
     {
+        global $cache;
+        if ($cache != null) {
+            $cache->purge();
+        }
         if (defined("INSTALLMODE") == false) {
             die("Error attempting to access installer incorrectly");
         }

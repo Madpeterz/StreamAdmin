@@ -5,6 +5,15 @@ namespace YAPF\Cache;
 abstract class CacheRequired
 {
     protected bool $useErrorlog = false;
+    protected bool $connected = false; // set to true when a read/write passes ok
+
+    protected function markConnected(): void
+    {
+        if ($this->connected == false) {
+            $this->addErrorlog("Marking connected");
+            $this->connected = true; // mark redis as connected
+        }
+    }
 
     protected function addErrorlog(string $message): void
     {
@@ -13,7 +22,12 @@ abstract class CacheRequired
         }
     }
 
-    abstract protected function setupCache(): void;
+    public function enableErrorLog(): void
+    {
+        $this->useErrorlog = true;
+    }
+
+    abstract protected function setupCache(): bool;
 
     abstract protected function hasKey(string $key): bool;
 

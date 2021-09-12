@@ -7,7 +7,7 @@ use YAPF\Cache\CacheInterface;
 
 class Disk extends Cache implements CacheInterface
 {
-
+    protected string $driverName = "Disk";
     public function __construct(
         string $cacheFolder = "cacheTmp"
     ) {
@@ -16,12 +16,17 @@ class Disk extends Cache implements CacheInterface
         $this->pathStarting = $cacheFolder;
     }
 
-    protected function setupCache(): void
+    protected function setupCache(): bool
     {
         $this->addErrorlog("Cache folder:" . $this->pathStarting);
         if (is_dir($this->pathStarting) == false) {
-            mkdir($this->pathStarting, 0760, true);
+            if (mkdir($this->pathStarting, 0760, true) == false) {
+                $this->addErrorlog("Unable to setup disk cache - marking as disabled");
+                $this->disconnected = true;
+                return false;
+            }
         }
+        return true;
     }
 
     protected function hasKey(string $key): bool
@@ -70,6 +75,7 @@ class Disk extends Cache implements CacheInterface
         if ($writeFile === false) {
             return false;
         }
+        $this->markConnected();
         return true;
     }
 

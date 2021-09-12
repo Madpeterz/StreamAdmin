@@ -19,13 +19,10 @@ $redis_socket = "/var/run/redis/redis.sock";
 
 // Please do not edit below this line.
 $cache = null;
-if (getenv('CACHE_ENABLED') !== false) {
-    // docker driven config
-    $use_disk_cache = true;
-    if (getenv('CACHE_VIA_REDIS') !== false) {
-        $use_disk_cache = false;
-        $use_redis_cache = true;
-    }
+if (getenv('SITE_CACHE_ENABLED') !== false) {
+    $use_disk_cache = false;
+    $use_redis_cache = true;
+    $redis_host = getenv("SITE_CACHE_REDIS_HOST");
 }
 
 if ($use_disk_cache == true) {

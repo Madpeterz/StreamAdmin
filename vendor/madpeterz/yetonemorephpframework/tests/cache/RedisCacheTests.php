@@ -180,19 +180,19 @@ not get hit until after this run has finished.
             $hashid,
             json_encode($content_data),
             json_encode($reply),
-            time() - 10
+            time() + 1
         );
         $cache->shutdown();
-
+        sleep(2);
         $cache = $this->getCache();
         $cache->addTableToCache($countto->getTable(), 10, true);
         $cache->start();
 
-        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero");
+        $this->assertSame(0, $sql->getSQLselectsCount(), "DB reads should be zero as the cache was used");
         $countto = new CounttoonehundoSet();
         $countto->attachCache($cache);
         $countto->loadNewest(1);
-        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one");
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one as the cache should be expired");
     }
 
 /**
@@ -334,6 +334,22 @@ not get hit until after this run has finished.
         $countto->attachCache($cache);
         $countto->loadID(44);
         $this->assertSame(3, $sql->getSQLselectsCount(), "DB reads should be three due to the cache table having changes");
+    }
+
+
+    /**
+     * @depends testSingleCacheHitButChanged
+     */
+    public function testCatcheNotThere(): void
+    {
+        global $sql;
+        $cache = new Redis();
+        $cache->connectTCP("127.0.0.1",7777);
+        $countto = new Counttoonehundo();
+        $countto->attachCache($cache);
+        $countto->loadID(11);
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one from the failed read");
+        $this->assertSame(false,$cache->getStatusConnected(),"Cache should not be connected");
     }
 
 

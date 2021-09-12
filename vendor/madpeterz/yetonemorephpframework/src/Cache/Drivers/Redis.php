@@ -10,6 +10,7 @@ use YAPF\Cache\CacheInterface;
 
 class Redis extends Cache implements CacheInterface
 {
+    protected string $driverName = "Redis";
     protected $tempStorage = [];
     // writes cache to mem first, and then to disk at the end
     // saves unneeded writes if we make a change after loading.
@@ -69,14 +70,17 @@ class Redis extends Cache implements CacheInterface
             $this->client->pipeline();
             return true;
         } catch (ConnectionException $ex) {
-            $this->addErrorlog("Redis failed: " . $ex->getMessage());
+            $this->addErrorlog("Marking cache as disconnected (failed to connect) " . $ex->getMessage());
+            $this->disconnected = true;
+            $this->enabled = false;
             return false;
         }
     }
 
-    protected function setupCache(): void
+    protected function setupCache(): bool
     {
         $this->addErrorlog("Cache server: Redis - Please dont fuck it up");
+        return true;
     }
 
     protected function hasKey(string $key): bool
@@ -100,6 +104,9 @@ class Redis extends Cache implements CacheInterface
 
     protected function deleteKey(string $key): bool
     {
+        if ($this->disconnected == true) {
+            return false;
+        }
         if ($this->enabled == false) {
             $this->addErrorlog("[deleteKey] Skipped redis is not connected");
             return false;
@@ -118,38 +125,48 @@ class Redis extends Cache implements CacheInterface
             }
             $this->addErrorlog("[deleteKey] failed to remove " . $key . " from server");
         } catch (Exception $ex) {
-            $this->addErrorlog("[deleteKey] deleteKey error: " . $ex->getMessage());
+            $this->disconnected = true;
+            $this->addErrorlog("Marking cache as disconnected (failed to delete key) " . $ex->getMessage());
         }
         return false;
     }
 
     protected function writeKeyReal(string $key, string $data, string $table, int $expiresUnixtime): bool
     {
+        if ($this->disconnected == true) {
+            $this->addErrorlog("writeKeyReal: redis is marked is gone");
+            return false;
+        }
         if ($this->enabled == false) {
             $this->addErrorlog("writeKeyReal: error redis not connected");
             return false;
         }
         try {
-            $reply = $this->client->set($key, $data, 'EXAT', $expiresUnixtime);
+            $reply = $this->client->setex($key, $expiresUnixtime - time(), $data);
             $this->addErrorlog("writeKeyReal: " . $reply . " for " . $key);
-            if ($reply == "OK") {
-                return true;
-            }
+            $this->markConnected();
+            return true;
         } catch (Exception $ex) {
-            $this->addErrorlog("writeKeyReal error: " . $ex->getMessage());
+            $this->addErrorlog("Marking cache as disconnected (failed to write key) " . $ex->getMessage() . " Details\n Table: "
+            . $table . " Key: " . $key . " Data: " . $data);
+            $this->disconnected = true;
         }
         return false;
     }
 
     protected function readKey(string $key): ?string
     {
+        if ($this->disconnected == true) {
+            return false;
+        }
         if ($this->enabled == false) {
             return null;
         }
         try {
             return $this->client->get($key);
         } catch (Exception $ex) {
-            $this->addErrorlog("readKey error: " . $ex->getMessage());
+            $this->addErrorlog("Marking cache as disconnected (failed to read key) " . $ex->getMessage());
+            $this->disconnected = true;
         }
         return null;
     }
