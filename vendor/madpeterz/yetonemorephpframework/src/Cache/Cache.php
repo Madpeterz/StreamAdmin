@@ -301,6 +301,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
                 return false;
             }
         }
+        $this->connected = true;
         $this->addErrorlog("cacheVaild: ok");
         return true; // cache is vaild
     }
@@ -318,6 +319,7 @@ abstract class Cache extends CacheWorker implements CacheInterface
         $this->addErrorlog("readHash: " . $tableName . " " . $hash);
         $key = $this->getkeyPath($tableName, $hash) . ".dat";
         if (in_array($key, $this->keyData) == true) {
+            $this->connected = true;
             return json_decode($this->keyData[$key], true);
         }
         $reply = $this->readKey($key);
