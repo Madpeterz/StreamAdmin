@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Client;
 
+use App\Helpers\EventsQHelper;
 use App\MediaServer\Logic\ApiLogicRevoke;
 use App\R7\Set\ApirequestsSet;
 use App\R7\Set\ApisSet;
@@ -43,6 +44,7 @@ class Bulkremove extends ViewAjax
         $removed_counter = 0;
         $skipped_counter = 0;
         $this->setSwapTag("redirect", "client/bulkremove");
+        $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
             if ($rental->getMessage() != null) {
                 if (strlen($rental->getMessage()) > 0) {
@@ -64,16 +66,32 @@ class Bulkremove extends ViewAjax
                 $this->failed(sprintf("Unable to find stream attached to rental %1\$s", $rental->getRentalUid()));
                 return;
             }
-            $server = new Server();
-            if ($server->loadID($stream->getServerLink()) == false) {
-                $this->failed(
-                    sprintf(
-                        "Unable to find server attached to stream for rental %1\$s",
-                        $rental->getRentalUid()
-                    )
-                );
+            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
+            if ($avatar == null) {
+                $this->failed(sprintf("Unable to find avatar attached to rental %1\$s", $rental->getRentalUid()));
                 return;
             }
+            $package = $package_set->getObjectByID($rental->getPackageLink());
+            if ($package == null) {
+                $this->failed(sprintf("Unable to find package attached to rental %1\$s", $rental->getRentalUid()));
+                return;
+            }
+            $server = $server_set->getObjectByID($stream->getServerLink());
+            if ($server == null) {
+                $this->failed(sprintf("Unable to find server attached to stream %1\$s", $stream->getStreamUid()));
+                return;
+            }
+
+            $EventsQHelper->addToEventQ(
+                "RentalEnd",
+                $package,
+                $avatar,
+                $server,
+                $stream,
+                $rental
+            );
+
+
             $stream->setRentalLink(null);
             $stream->setNeedWork(1);
             $update_status = $stream->updateEntry();
