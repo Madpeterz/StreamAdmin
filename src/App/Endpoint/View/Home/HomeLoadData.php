@@ -64,6 +64,11 @@ abstract class HomeLoadData extends View
             "types" => ["i","s"],
         ];
         $venderHealth->loadWithConfig($whereConfig);
+        if ($venderHealth->getCount() == 0) {
+            $this->venderHealthGood = 1;
+            $this->venderHealthBad = 0;
+            return;
+        }
         $goodMinTime = time() - 120;
         foreach ($venderHealth as $object) {
             if ($object->getLastSeen() >= $goodMinTime) {
