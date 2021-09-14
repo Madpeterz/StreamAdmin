@@ -41,8 +41,20 @@ class DefaultView extends View
         );
         $form->col(6);
         $form->group("Actions");
-        $form->select("notecards", "Create notecards", $botconfig->getNotecards(), [false => "No",true => "Yes"]);
-        $form->select("ims", "Send ims", $botconfig->getIms(), [false => "No",true => "Yes"]);
+        $form->select("notecards", "Create notecards", $botconfig->getNotecards(), $this->yesNo);
+        $form->select("ims", "Send ims", $botconfig->getIms(), $this->yesNo);
+        $form->split();
+        $form->col(6);
+        $form->group("Auto inviter");
+        $form->select("invites", "Send invites", $botconfig->getInvites(), $this->yesNo);
+        $form->textInput(
+            "inviteGroupUUID",
+            "Group UUID",
+            36,
+            $botconfig->getInviteGroupUUID(),
+            "Group UUID to invite to [with the everyone role]"
+        );
+        $form->directAdd("<br/> <p>You can disable group invites per package if needed!</p>");
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }
