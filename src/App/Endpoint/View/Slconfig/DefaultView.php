@@ -174,6 +174,11 @@ class DefaultView extends View
                 $this->slconfig->getHudAllowRenewal(),
                 $this->yesNo
             );
+        $form->col(6);
+        $form->directAdd("<br/>");
+        $form->group("Events API <a target=\"_BLANK\" href=\"
+        https://github.com/Madpeterz/StreamAdmin/wiki/Events-API\">?</a>");
+        $form->select("eventsAPI", "", $this->slconfig->getEventsAPI(), $this->disableEnable);
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
 
         $this->setSwapTag(
