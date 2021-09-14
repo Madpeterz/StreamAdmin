@@ -2,6 +2,7 @@
 
 namespace YAPF\DbObjects\CollectionSet;
 
+use Error;
 use YAPF\Cache\Cache;
 use YAPF\Core\SQLi\SqlConnectedClass as SqlConnectedClass;
 use YAPF\DbObjects\GenClass\GenClass;
@@ -14,6 +15,9 @@ abstract class CollectionSetCore extends SqlConnectedClass
     protected ?GenClass $worker = null;
     protected ?Cache $cache = null;
     protected bool $cacheAllowChanged = false;
+
+    protected bool $disableUpdates = false;
+    protected ?array $limitedFields = null;
 
     /**
      * __construct
@@ -31,6 +35,66 @@ abstract class CollectionSetCore extends SqlConnectedClass
         }
         $this->worker_class = $worker_class;
         parent::__construct();
+    }
+
+    /**
+     * countInDB
+     * $where_config: see selectV2.readme
+     * Requires a id field
+     * @return ?int  returns the count or null if failed
+     */
+    public function countInDB(?array $whereConfig = null): ?int
+    {
+        $this->makeWorker();
+        // Cache support
+        $hitCache = false;
+        $hashme = "";
+        if ($this->cache != null) {
+            $hashme = $this->cache->getHash(
+                $whereConfig,
+                ["countDB" => "yep"],
+                ["countDB" => "yep"],
+                ["countDB" => "yep"],
+                $this->worker->getTable(),
+                count($this->worker->getFields())
+            );
+            $hitCache = $this->cache->cacheVaild($this->worker->getTable(), $hashme);
+        }
+
+        $reply = [];
+        $loadedFromCache = false;
+        if ($hitCache == true) {
+            $reply = $this->cache->readHash($this->worker->getTable(), $hashme);
+            if (is_array($reply) == true) {
+                $loadedFromCache = true;
+            }
+        }
+        if ($loadedFromCache == false) {
+            $reply = $this->sql->basicCountV2($this->worker->getTable(), $whereConfig);
+            if (($this->cache != null) && ($reply["status"] == true)) {
+                // push data to cache so we can avoid reading from DB as much
+                $this->cache->writeHash($this->worker->getTable(), $hashme, $reply, false);
+            }
+        }
+        if ($reply["status"] == false) {
+            $this->addError(__FILE__, __FUNCTION__, $reply["message"]);
+            return null;
+        }
+        return $reply["count"];
+    }
+
+    public function limitFields(array $fields): void
+    {
+        $this->makeWorker();
+        if (in_array($this->worker->use_id_field, $fields) == false) {
+            $fields = array_merge([$this->worker->use_id_field], $fields);
+        }
+        $this->limitedFields = $fields;
+        $this->disableUpdates = true;
+    }
+    public function getUpdatesStatus(): bool
+    {
+        return $this->disableUpdates;
     }
 
     protected function rebuildIndex(): void
@@ -68,7 +132,7 @@ abstract class CollectionSetCore extends SqlConnectedClass
         $this->rebuildIndex();
     }
 
-    protected $fast_get_object_array_indexs = [];
+    protected $fastObjectArrayIndex = [];
     protected $fast_get_object_array_dataset = [];
     /**
      * buildObjectGetIndex
@@ -89,10 +153,10 @@ abstract class CollectionSetCore extends SqlConnectedClass
     protected function buildObjectGetIndex(string $fieldname, bool $force_rebuild = false): void
     {
         $this->makeWorker();
-        if ((in_array($fieldname, $this->fast_get_object_array_indexs) == false) || ($force_rebuild == true)) {
+        if ((in_array($fieldname, $this->fastObjectArrayIndex) == false) || ($force_rebuild == true)) {
             $loadstring = "get" . ucfirst($fieldname);
             if (method_exists($this->worker, $loadstring)) {
-                $this->fast_get_object_array_indexs[] = $fieldname;
+                $this->fastObjectArrayIndex[] = $fieldname;
                 $index = [];
                 foreach ($this->collected as $key => $object) {
                     $indexValue = $object->$loadstring();

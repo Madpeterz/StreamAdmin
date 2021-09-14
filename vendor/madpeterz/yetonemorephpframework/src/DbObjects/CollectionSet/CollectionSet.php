@@ -175,16 +175,23 @@ abstract class CollectionSet extends CollectionSetBulk
         ?array $join_tables = null
     ): array {
         $this->makeWorker();
-
+        $basic_config = ["table" => $this->worker->getTable()];
+        if ($this->disableUpdates == true) {
+            $basic_config["fields"] = $this->limitedFields;
+        }
         // Cache support
         $hitCache = false;
         $hashme = "";
         if ($this->cache != null) {
+            $mergeddata = $basic_config;
+            if (is_array($join_tables) == true) {
+                $mergeddata = array_merge($basic_config, $join_tables);
+            }
             $hashme = $this->cache->getHash(
                 $where_config,
                 $order_config,
                 $options_config,
-                $join_tables,
+                $mergeddata,
                 $this->getTable(),
                 count($this->worker->getFields())
             );
@@ -198,8 +205,9 @@ abstract class CollectionSet extends CollectionSetBulk
             }
         }
         // Cache missed, read from the DB
+
         $load_data = $this->sql->selectV2(
-            ["table" => $this->worker->getTable()],
+            $basic_config,
             $order_config,
             $where_config,
             $options_config,
@@ -263,6 +271,9 @@ abstract class CollectionSet extends CollectionSetBulk
         }
         foreach ($load_data["dataset"] as $entry) {
             $new_object = new $this->worker_class($entry);
+            if ($this->disableUpdates == true) {
+                $new_object->noUpdates();
+            }
             if ($new_object->isLoaded() == true) {
                 $this->collected[$entry[$use_field]] = $new_object;
             }

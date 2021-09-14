@@ -6,7 +6,9 @@ use PHPUnit\Framework\TestCase;
 use YAPF\Cache\Cache;
 use YAPF\Cache\Drivers\Redis;
 use YAPF\Junk\Models\Counttoonehundo;
+use YAPF\Junk\Models\Liketests;
 use YAPF\Junk\Sets\CounttoonehundoSet;
+use YAPF\Junk\Sets\LiketestsSet;
 use YAPF\MySQLi\MysqliEnabled;
 
 class RedisCacheTests extends TestCase
@@ -352,33 +354,124 @@ not get hit until after this run has finished.
         $this->assertSame(false,$cache->getStatusConnected(),"Cache should not be connected");
     }
 
+    /**
+     * @depends testSingleCacheHitButChanged
+     */
+    public function testLimitedMode()
+    {
+        global $sql;
+        $cache = $this->getCache();
+        $LiketestsSet = new LiketestsSet();
+        $cache->addTableToCache($LiketestsSet->getTable(), 15, false, true);
+        $cache->start();
+        $LiketestsSet->limitFields(["name"]);
+        $LiketestsSet->attachCache($cache);
+        $LiketestsSet->loadAll();
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one due to cache miss");
+        $cache->shutdown();
+        $reply = $LiketestsSet->updateFieldInCollection("value","failme");
+        $this->assertSame(false,$reply["status"],"bulk set value incorrectly");
+
+        $cache = $this->getCache();
+        $LiketestsSet = new LiketestsSet();
+        $cache->addTableToCache($LiketestsSet->getTable(), 15, false, true);
+        $cache->start();
+        $LiketestsSet->limitFields(["name"]);
+        $LiketestsSet->attachCache($cache);
+        $LiketestsSet->loadAll();
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should still be one due to the hit");
+        $cache->shutdown();
+        $reply = $LiketestsSet->updateFieldInCollection("value","failme");
+        $this->assertSame(false,$reply["status"],"bulk set value incorrectly");
+
+        $obj = $LiketestsSet->getObjectByID(1);
+        $this->assertSame("redpondblue 1",$obj->getName(),"Value is not set as expected");
+        $this->assertSame(null,$obj->getValue(),"Value is not what is expected");
+
+
+        $cache = $this->getCache();
+        $testing = new Liketests();
+        $cache->addTableToCache($testing->getTable(), 15, false, true);
+        $cache->start();
+        $testing->attachCache($cache);
+        $testing->limitFields(["name"]);
+        $this->assertSame(true,$testing->getUpdatesStatus(),"Set should be marked as update disabled");
+        $testing->loadID(1);
+        $sqlExpected = "SELECT id, name FROM test.liketests  WHERE `id` = ?";
+        $this->assertSame($sqlExpected,$testing->getLastSql(),"SQL is not what was expected");
+        $this->assertSame("redpondblue 1",$testing->getName(),"Value is not set as expected");
+        $this->assertSame(null,$testing->getValue(),"Value is not what is expected");
+        $this->assertSame(2, $sql->getSQLselectsCount(), "DB reads should be two due to the miss");
+        $cache->shutdown();
+
+
+        $cache = $this->getCache();
+        $testing = new Liketests();
+        $cache->addTableToCache($testing->getTable(), 15, false, true);
+        $cache->start();
+        $testing->attachCache($cache);
+        $testing->limitFields(["name"]);
+        $this->assertSame(true,$testing->getUpdatesStatus(),"Single should be marked as update disabled");
+        $testing->loadID(1);
+        $sqlExpected = "SELECT id, name FROM test.liketests  WHERE `id` = ?";
+        $this->assertSame($sqlExpected,$testing->getLastSql(),"SQL is not what was expected");
+        $this->assertSame("redpondblue 1",$testing->getName(),"Value is not set as expected");
+        $this->assertSame(null,$testing->getValue(),"Value is not what is expected");
+        $this->assertSame(2, $sql->getSQLselectsCount(), "DB reads should still be two due to the hit");
+        $cache->shutdown();
+    }
+
+    /**
+     * @depends testLimitedMode
+     */
+    public function testCountinDb()
+    {
+        global $sql;
+        $cache = $this->getCache();
+        $testing = new LiketestsSet();
+        $cache->addTableToCache($testing->getTable(), 15, false, true);
+        $cache->start();
+        $testing->attachCache($cache);
+        $reply = $testing->countInDB();
+        $expectedSQL = "SELECT COUNT(id) AS sqlCount FROM test.liketests";
+        $this->assertSame($expectedSQL,$sql->getLastSql(),"SQL is not what was expected");
+        $this->assertSame(4,$reply,"incorrect count reply");
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should be one due to the miss");
+        $cache->shutdown();
+
+        $cache = $this->getCache();
+        $testing = new LiketestsSet();
+        $cache->addTableToCache($testing->getTable(), 15, false, true);
+        $cache->start();
+        $testing->attachCache($cache);
+        $reply = $testing->countInDB();
+        $expectedSQL = "SELECT COUNT(id) AS sqlCount FROM test.liketests";
+        $this->assertSame($expectedSQL,$sql->getLastSql(),"SQL is not what was expected");
+        $this->assertSame(4,$reply,"incorrect count reply");
+        $this->assertSame(1, $sql->getSQLselectsCount(), "DB reads should still be one due to the hit");
+        $cache->shutdown();
+    }
+
 
     protected function getCacheHashId(Cache $cache): string
     {
-        $singleCount = new Counttoonehundo();
         $where_config = [
-        "join_with" => "AND",
-        "fields" => [],
-        "matches" => [],
-        "values" => [],
-        "types" => [],
+            "join_with" => "AND",
+             "fields" => [],
+             "matches" => [],
+             "values" => [],
+             "types" => [],
         ];
-        $order_config = [
-        "ordering_enabled" => true,
-        "order_field" => "id",
-        "order_dir" => "DESC"
-        ];
-        $options_config = [
-        "page_number" => 0,
-        "max_entrys" => 1
-        ];
+        $basic_config = ["table" => "test.counttoonehundo"];
+        $order_config = ["ordering_enabled" => true,"order_field" => "id","order_dir" => "DESC"];
+        $limit_config = ["page_number" => 0,"max_entrys" => 1];
         return $cache->getHash(
             $where_config,
             $order_config,
-            $options_config,
-            [],
+            $limit_config,
+            $basic_config,
             "test.counttoonehundo",
-            count($singleCount->getFields())
+            2
         );
     }
 }

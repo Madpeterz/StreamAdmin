@@ -66,21 +66,21 @@ abstract class CollectionSetGet extends CollectionSetCore implements Iterator
      */
     public function getLinkedArray(string $left_side_field, string $right_side_field): array
     {
-        $left_side_field_getter = "get" . ucfirst($left_side_field);
-        $right_side_field_getter = "get" . ucfirst($right_side_field);
+        $keyFieldGetter = "get" . ucfirst($left_side_field);
+        $ValueFieldGetter = "get" . ucfirst($right_side_field);
         $worker = new $this->worker_class();
-        if (method_exists($worker, $left_side_field_getter) == false) {
+        if (method_exists($worker, $keyFieldGetter) == false) {
             $this->addError(__FILE__, __FUNCTION__, "Field: " . $left_side_field . " is missing");
             return [];
         }
-        if (method_exists($worker, $right_side_field_getter) == false) {
+        if (method_exists($worker, $ValueFieldGetter) == false) {
             $this->addError(__FILE__, __FUNCTION__, "Field: " . $right_side_field . " is missing");
             return [];
         }
         $return_array = [];
         foreach ($this->collected as $key => $object) {
             if (is_object($object) == true) {
-                $return_array[$object->$left_side_field_getter()] = $object->$right_side_field_getter();
+                $return_array[$object->$keyFieldGetter()] = $object->$ValueFieldGetter();
             }
         }
         return $return_array;

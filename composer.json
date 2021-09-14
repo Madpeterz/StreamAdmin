@@ -33,12 +33,6 @@
         "dev-test": [
             "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "
         ],
-        "dev-test-api": [
-            "phpunit --colors=always --configuration phpunit_api.xml --testdox --testsuite api "
-        ],
-        "dev-wip": [
-            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite wip "
-        ],
         "phpcs": "phpcs --parallel=4",
         "phpcbf": "phpcbf",
         "phpunit": "phpunit"

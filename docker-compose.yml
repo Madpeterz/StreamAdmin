@@ -19,8 +19,6 @@ services:
         environment:
         - SITE_HOST={DOMAIN}
         - SITE_TITLE=StreamAdmin
-        - CACHE_ENABLED=true
-        - CACHE_VIA_REDIS=true
         - DB_HOST=db
         - DB_DATABASE=streamadmin
         - DB_USERNAME=streamadminDBuser
@@ -29,6 +27,8 @@ services:
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
         - INSTALL_OK=0
+        - SITE_CACHE_ENABLED=true
+        - SITE_CACHE_REDIS_HOST=redis
 
     db:
         container_name: SA7Db

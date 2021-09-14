@@ -50,6 +50,9 @@ abstract class CollectionSetBulk extends CollectionSetGet
      */
     public function updateFieldInCollection(string $update_field, $new_value): array
     {
+        if ($this->disableUpdates == true) {
+            return $this->addError(__FILE__, __FUNCTION__, "Attempt to update with limitFields enabled!");
+        }
         return $this->updateMultipleFieldsForCollection([$update_field], [$new_value]);
     }
     /**
@@ -148,6 +151,9 @@ abstract class CollectionSetBulk extends CollectionSetGet
      */
     public function updateMultipleFieldsForCollection(array $update_fields, array $new_values): array
     {
+        if ($this->disableUpdates == true) {
+            return $this->addError(__FILE__, __FUNCTION__, "Attempt to update with limitFields enabled!");
+        }
         $this->makeWorker();
         if ($this->getCount() <= 0) {
             $error_msg = "Nothing loaded in collection";
