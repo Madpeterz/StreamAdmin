@@ -51,6 +51,9 @@ abstract class HomeLoadData extends View
             "detailsserver",
             "notecardsserver",
         ];
+        if ($this->slconfig->getEventsAPI() == true) {
+            $this->owner_objects_list[] = "eventsserver";
+        }
         $resellers = new ResellerSet();
         $resellers->loadAll();
         $venderHealth = new ObjectsSet();
@@ -117,6 +120,9 @@ abstract class HomeLoadData extends View
         "detailsserver",
         "notecardsserver",
         ];
+        if ($this->slconfig->getEventsAPI() == true) {
+            $this->owner_objects_list[] = "eventsserver";
+        }
         $one_hour_ago = (time() - $unixtime_hour);
         $this->objects_set = new ObjectsSet();
         $where_config = [
