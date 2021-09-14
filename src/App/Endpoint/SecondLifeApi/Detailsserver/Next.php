@@ -5,7 +5,6 @@ namespace App\Endpoint\SecondLifeApi\Detailsserver;
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
 use App\R7\Model\Avatar;
-use App\R7\Model\Botconfig;
 use App\R7\Set\DetailSet;
 use App\R7\Model\Notecard;
 use App\R7\Model\Package;
@@ -25,16 +24,6 @@ class Next extends SecondlifeAjax
     {
         if ($this->owner_override == false) {
             $this->setSwapTag("message", "SystemAPI access only - please contact support");
-            return;
-        }
-        $botconfig = new Botconfig();
-        if ($botconfig->loadID(1) != 1) {
-            $this->setSwapTag("message", "Unable to load bot config");
-            return;
-        }
-        $botavatar = new Avatar();
-        if ($botavatar->loadID($botconfig->getAvatarLink()) == false) {
-            $this->setSwapTag("message", "Unable to load bot avatar");
             return;
         }
         $detail_set = new DetailSet();
@@ -100,12 +89,12 @@ class Next extends SecondlifeAjax
             $server,
             $stream
         );
-        $sendMessage_status = $bot_helper->sendMessage($botconfig, $botavatar, $avatar, $sendmessage, true);
+        $sendMessage_status = $bot_helper->sendMessage($avatar, $sendmessage, true);
         if ($sendMessage_status["status"] == false) {
             $this->setSwapTag("message", "Unable to put message into mailbox for sending!");
             return;
         }
-        if ($botconfig->getNotecards() == true) {
+        if ($bot_helper->getNotecards() == true) {
             $notecard = new Notecard();
             $notecard->setRentalLink($rental->getId());
             $create_status = $notecard->createEntry();

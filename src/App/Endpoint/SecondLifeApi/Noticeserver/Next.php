@@ -3,11 +3,11 @@
 namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
 use App\Helpers\BotHelper;
+use App\Helpers\EventsQHelper;
 use App\Helpers\SwapablesHelper;
 use App\MediaServer\Logic\ApiLogicExpire;
 use App\R7\Model\Apis;
 use App\R7\Model\Avatar;
-use App\R7\Model\Botconfig;
 use App\R7\Model\Notecard;
 use App\R7\Model\Notice;
 use App\R7\Model\Noticenotecard;
@@ -26,23 +26,6 @@ class Next extends SecondlifeAjax
         global $unixtime_hour;
         if ($this->owner_override == false) {
             $this->setSwapTag("message", "SystemAPI access only - please contact support");
-            return;
-        }
-
-        $botconfig = new Botconfig();
-        if ($botconfig->loadID(1) == false) {
-            $this->setSwapTag("message", "Unable to load bot config");
-            return;
-        }
-
-        if ($botconfig->getAvatarLink() <= 0) {
-            $this->setSwapTag("message", "Assigned avatar to bot is not vaild");
-            return;
-        }
-
-        $botavatar = new Avatar();
-        if ($botavatar->loadID($botconfig->getAvatarLink()) == false) {
-            $this->setSwapTag("message", "Unable to load avatar attached to bot");
             return;
         }
 
@@ -80,9 +63,7 @@ class Next extends SecondlifeAjax
                 $rental,
                 $expired_notice,
                 $notice_set,
-                $botconfig,
-                $sorted_linked,
-                $botavatar
+                $sorted_linked
             );
             if ($stop == true) {
                 break;
@@ -94,9 +75,7 @@ class Next extends SecondlifeAjax
         Rental $rental,
         Notice $expired_notice,
         NoticeSet $notice_set,
-        Botconfig $botconfig,
-        array $sorted_linked,
-        Avatar $botavatar
+        array $sorted_linked
     ): bool {
         global $unixtime_hour;
         $server = new Server();
@@ -118,9 +97,7 @@ class Next extends SecondlifeAjax
                 $package,
                 $avatar,
                 $stream,
-                $server,
-                $botconfig,
-                $botavatar
+                $server
             );
             return true;
         }
@@ -156,9 +133,7 @@ class Next extends SecondlifeAjax
             $package,
             $avatar,
             $stream,
-            $server,
-            $botconfig,
-            $botavatar
+            $server
         );
         return true;
     }
@@ -169,9 +144,7 @@ class Next extends SecondlifeAjax
         Package $package,
         Avatar $avatar,
         Stream $stream,
-        Server $server,
-        Botconfig $botconfig,
-        Avatar $botavatar
+        Server $server
     ): void {
         $bot_helper = new BotHelper();
         $swapables_helper = new SwapablesHelper();
@@ -184,8 +157,6 @@ class Next extends SecondlifeAjax
             $stream
         );
         $sendMessage_status = $bot_helper->sendMessage(
-            $botconfig,
-            $botavatar,
             $avatar,
             $sendmessage,
             $notice->getUseBot()
@@ -202,6 +173,9 @@ class Next extends SecondlifeAjax
         }
 
         if ($notice->getHoursRemaining() == 0) {
+            $EventsQHelper = new EventsQHelper();
+            $EventsQHelper->addToEventQ("RentalExpire", $package, $avatar, $server, $stream, $rental);
+
             $apilogic = new ApiLogicExpire();
             $apilogic->setStream($stream);
             $apilogic->setServer($server);
@@ -214,7 +188,7 @@ class Next extends SecondlifeAjax
         }
 
         if ($notice->getSendNotecard() == true) {
-            if ($botconfig->getNotecards() == true) {
+            if ($bot_helper->getNotecards() == true) {
                 $notecard = new Notecard();
                 $notecard->setRentalLink($rental->getId());
                 $notecard->setAsNotice(1);
