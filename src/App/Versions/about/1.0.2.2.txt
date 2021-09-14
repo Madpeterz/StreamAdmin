@@ -15,7 +15,7 @@
 <div class="col-sm-6">
 <ul>
 <li>Add the new <a href="https://github.com/Madpeterz/StreamAdmin/wiki/Events-API" target="_blank">eventsQ</a> service</li>
-<li>Improved outbox status page to use count vs loadAll<li>
+<li>Improved outbox status page to use count vs loadAll</li>
 <li>Added support to disable group invite per package (if enabled in bot)</li>
 <li>Added group invite support via <a href="https://github.com/Madpeterz/SecondBot" target="_blank">SecondBot</a></li>
 </ul>
