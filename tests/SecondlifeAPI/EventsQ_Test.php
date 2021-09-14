@@ -2,16 +2,16 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Mailserver\Next;
-use App\R7\Set\MessageSet;
+use App\Endpoint\SecondLifeApi\EventQ\Next;
+use App\R7\Set\EventsqSet;
 use PHPUnit\Framework\TestCase;
 
-class SecondlifeApiMailserver extends TestCase
+class SecondlifeApiEventsQserver extends TestCase
 {
     public function test_Next()
     {
         global $_POST, $slconfig, $sql;
-        $_POST["method"] = "Mailserver";
+        $_POST["method"] = "EventQ";
         $_POST["action"] = "Next";
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
@@ -42,21 +42,22 @@ class SecondlifeApiMailserver extends TestCase
         $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
-        $messageSet = new MessageSet();
-        $this->assertSame(true,$messageSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(6,$messageSet->getCount(),"Incorrect number of messages in the Q");
+        $EventsqSet = new EventsqSet();
+        $this->assertSame(true,$EventsqSet->loadAll()["status"],"Unable to load message set to check workspace");
+        $this->assertSame(2,$EventsqSet->getCount(),"Incorrect number of messages in the Q");
 
         $Next = new Next();
         $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
         $Next->process();
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("hasmessage"),"No message detected but I was expecting one");
-        $this->assertSame("289c3e36-69b3-40c5-9229-0c6a5d230766",$Next->getOutputObject()->getSwapTagString("avatarUUID"),"Incorrect mail target");
-        $this->assertStringStartsWith("Web panel setup finished",$Next->getOutputObject()->getSwapTagString("message"),"incorrect message loaded");
+        $this->assertSame("RentalStart",$Next->getOutputObject()->getSwapTagString("eventName"),"Incorrect eventname");
+        $this->assertStringStartsWith('{"package":"UnitTestPackage","uuid":"499c3e36-69b3-40e5-9229-0cfa5db30766","name":"Test Buyer"',
+            $Next->getOutputObject()->getSwapTagString("eventMessage"),"incorrect eventmessage");
         $sql->sqlSave();
+        $EventsqSet = new EventsqSet();
+        $this->assertSame(true,$EventsqSet->loadAll()["status"],"Unable to load message set to check workspace");
+        $this->assertSame(1,$EventsqSet->getCount(),"Incorrect number of messages in the Q");
 
-        $messageSet = new MessageSet();
-        $this->assertSame(true,$messageSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(5,$messageSet->getCount(),"Incorrect number of messages in the Q");
     }
 }

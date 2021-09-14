@@ -25,6 +25,7 @@ class Slconfigtest extends TestCase
         $this->assertStringContainsString("Discord join link",$statuscheck,$missing);
         $this->assertStringContainsString("SL group url",$statuscheck,$missing);
         $this->assertStringContainsString("Renter hud",$statuscheck,$missing);
+        $this->assertStringContainsString("Events API",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
     }
 
@@ -55,6 +56,7 @@ class Slconfigtest extends TestCase
         $_POST["hudGroupLink"] = "more testing";
         $_POST["hudAllowDetails"] = 0;
         $_POST["hudAllowRenewal"] = 1;
+        $_POST["eventsAPI"] = 1;
 
         $updateHandler->process();
         $statuscheck = $updateHandler->getOutputObject();
