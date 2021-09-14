@@ -8,36 +8,105 @@ use App\R7\Model\Message;
 
 class BotHelper
 {
-    public function sendBotCommand(Botconfig $botconfig, string $command, array $args): string
+    protected ?Avatar $botAvatar = null;
+    protected ?Botconfig $botconfig = null;
+    public function getBotUUID(): ?string
     {
-        $raw = "" . $command . "" . implode("~#~", $args) . "" . $botconfig->getSecret();
+        if ($this->getBotAvatar() == null) {
+            return null;
+        }
+        return $this->botAvatar->getAvatarUUID();
+    }
+    public function getNotecards(): bool
+    {
+        if ($this->getBotConfig() == false) {
+            return false;
+        }
+        return $this->botconfig->getNotecards();
+    }
+    protected function getBotAvatar(): ?Avatar
+    {
+        if ($this->getBotConfig() == false) {
+            return null;
+        }
+        if ($this->botAvatar == null) {
+            $this->botAvatar = new Avatar();
+            if ($this->botAvatar->loadID($this->botconfig->getAvatarLink()) == false) {
+                $this->botAvatar = null;
+            }
+        }
+        return $this->botAvatar;
+    }
+    protected function getBotConfig(): bool
+    {
+        if ($this->botconfig == null) {
+            $this->botconfig = new Botconfig();
+            return $this->botconfig->loadID(1);
+        }
+        return true;
+    }
+    public function sendBotInvite(Avatar $avatar): void
+    {
+        if ($this->getBotConfig() == false) {
+            return;
+        }
+        if ($this->botconfig->getInvites() == false) {
+            return;
+        }
+        $this->sendBotCommand(
+            "GroupInvite",
+            [$this->botconfig->getInviteGroupUUID(),$avatar->getAvatarUUID(),"everyone"]
+        );
+    }
+    public function sendBotCommand(string $command, array $args): bool
+    {
+        if ($this->getBotConfig() == false) {
+            return false;
+        }
+        $raw = "" . $command . "" . implode("~#~", $args) . "" . $this->botconfig->getSecret();
         $cooked = sha1($raw);
         global $reply;
         $reply["raw"] = $raw;
         $reply["cooked"] = $cooked;
-        return "" . $command . "|||" . implode("~#~", $args) . "@@@" . $cooked . "";
+        $bot_avatar = $this->getBotAvatar();
+        if ($bot_avatar != null) {
+            $status = $this->sendMessageToAvatar(
+                $bot_avatar,
+                "" . $command . "|||" . implode("~#~", $args) . "@@@" . $cooked . ""
+            );
+            return $status["status"];
+        }
+        return false;
+    }
+    public function getBotCommand(string $command, array $args): string
+    {
+        if ($this->getBotConfig() == false) {
+            return false;
+        }
+        $raw = "" . $command . "" . implode("~#~", $args) . "" . $this->botconfig->getSecret();
+        $cooked = sha1($raw);
+        global $reply;
+        $reply["raw"] = $raw;
+        $reply["cooked"] = $cooked;
+        return $command . "|||" . implode("~#~", $args) . "@@@" . $cooked;
     }
     /**
      * sendMessage
      * @return mixed[] [status =>  bool, message =>  string]
      */
     public function sendMessage(
-        Botconfig $botconfig,
-        Avatar $botavatar,
         Avatar $avatar,
         string $message,
         bool $allow_bot = false
     ): array {
+        if ($this->getBotConfig() == false) {
+            return ["status" => false,"message" => "Unable to get bot config"];
+        }
         $reply_status = true;
         $why_failed = "No idea";
         if ($allow_bot == true) {
-            if ($botconfig->getIms() == true) {
-                $bot_sendMessage = $this->sendBotCommand($botconfig, "im", [$avatar->getAvatarUUID(),$message]);
-                $status = $this->sendMessageToAvatar($botavatar, $bot_sendMessage);
-                if ($status["status"] == false) {
-                    $reply_status = false;
-                    $why_failed = $status["message"];
-                }
+            if ($this->botconfig->getIms() == true) {
+                $reply_status = $this->sendBotCommand("im", [$avatar->getAvatarUUID(),$message]);
             }
         }
         if ($reply_status == true) {
