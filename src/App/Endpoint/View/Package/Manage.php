@@ -98,6 +98,9 @@ class Manage extends View
                 $package->getSetupNotecardLink(),
                 $noticeNotecards->getLinkedArray("id", "name")
             );
+        $form->col(6);
+            $form->group("Options");
+            $form->select("enableGroupInvite", "Group Invite", $package->getEnableGroupInvite(), $this->disableEnable);
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }
