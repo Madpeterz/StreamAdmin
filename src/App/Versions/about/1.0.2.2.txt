@@ -1,0 +1,28 @@
+<ul>
+
+
+</ul>
+
+<div class="row">
+<div class="col-sm-6">
+<ul>
+<li><a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/47">Adds support for group invite via the bot (issue 47)</a></li>
+<li>Corrected a bug when cleaning up static notecards</li>
+<li>Added events to outbox status and display</li>
+<li>Added eventsQ server status to homepage</li>
+</ul>
+</div>
+<div class="col-sm-6">
+<ul>
+<li>Add the new <a href="https://github.com/Madpeterz/StreamAdmin/wiki/Events-API" target="_blank">eventsQ</a> service</li>
+<li>Improved outbox status page to use count vs loadAll</li>
+<li>Added support to disable group invite per package (if enabled in bot)</li>
+<li>Added group invite support via <a href="https://github.com/Madpeterz/SecondBot" target="_blank">SecondBot</a></li>
+</ul>
+</div>
+<div class="col-sm-12">
+<p>
+Have a feature/bug you want fixed/added then <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
+</p>
+</div>
+</div>

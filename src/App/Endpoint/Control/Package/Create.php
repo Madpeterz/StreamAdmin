@@ -31,6 +31,7 @@ class Create extends ViewAjax
         $textureSoldout = $input->postUUID("textureSoldout");
         $textureInstockSmall = $input->postUUID("textureInstockSmall");
         $textureInstockSelected = $input->postUUID("textureInstockSelected");
+        $enableGroupInvite = $input->postBool("enableGroupInvite");
         $testing = [
             "name" => $name,
             "template" => $templateLink,
@@ -143,6 +144,7 @@ class Create extends ViewAjax
         $package->setServertypeLink($servertypeLink);
         $package->setWelcomeNotecardLink($welcomeNotecardLink);
         $package->setSetupNotecardLink($setupNotecardLink);
+        $package->setEnableGroupInvite($enableGroupInvite);
         $create_status = $package->createEntry();
         if ($create_status["status"] == false) {
             $this->failed(

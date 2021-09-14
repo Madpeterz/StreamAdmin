@@ -99,4 +99,30 @@ class BotconfigSet extends CollectionSet
     {
         return $this->loadByField("ims", $ims, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByInvites
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByInvites(
+                    bool $invites, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("invites", $invites, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByInviteGroupUUID
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByInviteGroupUUID(
+                    string $inviteGroupUUID, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("inviteGroupUUID", $inviteGroupUUID, $limit, $orderBy, $orderDir);
+    }
 }

@@ -38,6 +38,7 @@ class PackageTest extends TestCase
         $this->assertStringContainsString("Terms",$statuscheck,$missing);
         $this->assertStringContainsString("Auto DJ",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
+        $this->assertStringContainsString("Group Invite",$statuscheck,$missing);
     }
 
     /**
@@ -62,6 +63,7 @@ class PackageTest extends TestCase
         $_POST["servertypeLink"] = 1;
         $_POST["welcomeNotecardLink"] = 1;
         $_POST["setupNotecardLink"] = 1;
+        $_POST["enableGroupInvite"] = 1;
         $PackageCreateHandler->process();
         $statuscheck = $PackageCreateHandler->getOutputObject();
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
@@ -90,6 +92,7 @@ class PackageTest extends TestCase
         $this->assertStringContainsString("None",$statuscheck,$missing);
         $this->assertStringContainsString("289c3e36-69b3-40c5-9229-0c6a5d230766",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
+        $this->assertStringContainsString("Group Invite",$statuscheck,$missing);
     }
 
     /**
@@ -119,6 +122,7 @@ class PackageTest extends TestCase
         $_POST["servertypeLink"] = 1;
         $_POST["welcomeNotecardLink"] = 1;
         $_POST["setupNotecardLink"] = 1;
+        $_POST["enableGroupInvite"] = 0;
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Package updated",$statuscheck->getSwapTagString("message"));

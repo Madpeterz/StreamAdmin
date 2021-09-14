@@ -6,7 +6,7 @@ abstract class Aliases extends Filters
 {
     public function postUUID(string $inputName): ?string
     {
-        return $this->sharedInputFilter($inputName, $_POST, "uuid", []);
+        return $this->sharedInputFilter($inputName, "POST", "uuid", []);
     }
     public function postString(
         string $inputName,
@@ -20,7 +20,7 @@ abstract class Aliases extends Filters
         if ($minlength != null) {
             $args["minLength"] = $minlength;
         }
-        return $this->sharedInputFilter($inputName, $_POST, "string", $args);
+        return $this->sharedInputFilter($inputName, "POST", "string", $args);
     }
     public function postInteger(
         string $inputName,
@@ -37,7 +37,7 @@ abstract class Aliases extends Filters
         }
         $args["min"] = $min;
         $args["max"] = $max;
-        return $this->sharedInputFilter($inputName, $_POST, "integer", $args);
+        return $this->sharedInputFilter($inputName, "POST", "integer", $args);
     }
     public function postFloat(string $inputName, bool $zeroCheck = false): ?float
     {
@@ -45,15 +45,19 @@ abstract class Aliases extends Filters
         if ($zeroCheck != false) {
             $args["zeroCheck"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_POST, "float", $args);
+        return $this->sharedInputFilter($inputName, "POST", "float", $args);
     }
+    /**
+     * postCheckbox
+     * @return mixed return changes based on the selected filter.
+     */
     public function postCheckbox(string $inputName, string $useFilter = "integer")
     {
-        return $this->sharedInputFilter($inputName, $_POST, $useFilter);
+        return $this->sharedInputFilter($inputName, "POST", $useFilter);
     }
     public function postBool(string $inputName): ?bool
     {
-        return $this->sharedInputFilter($inputName, $_POST, "bool", []);
+        return $this->sharedInputFilter($inputName, "POST", "bool", []);
     }
     public function postVector(string $inputName, bool $strictChecks = false): ?string
     {
@@ -61,7 +65,7 @@ abstract class Aliases extends Filters
         if ($strictChecks == true) {
             $args["stricstrictt"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_POST, "vector", $args);
+        return $this->sharedInputFilter($inputName, "POST", "vector", $args);
     }
     public function postDate(string $inputName, bool $asUNIX = false, bool $humanReadable = false): ?string
     {
@@ -71,7 +75,7 @@ abstract class Aliases extends Filters
         } elseif ($humanReadable == true) {
             $args["humanReadable"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_POST, "date", $args);
+        return $this->sharedInputFilter($inputName, "POST", "date", $args);
     }
     public function postEmail(string $inputName, bool $noMailboxs = false): ?string
     {
@@ -79,7 +83,7 @@ abstract class Aliases extends Filters
         if ($noMailboxs == true) {
             $args["no_mailboxs"] = "no_mailboxs";
         }
-        return $this->sharedInputFilter($inputName, $_POST, "email", $args);
+        return $this->sharedInputFilter($inputName, "POST", "email", $args);
     }
     public function postUrl(string $inputName, bool $isHTTPS = false, bool $isHTTP = false): ?string
     {
@@ -89,7 +93,7 @@ abstract class Aliases extends Filters
         } elseif ($isHTTP == true) {
             $args["isHTTP"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_POST, "url", $args);
+        return $this->sharedInputFilter($inputName, "POST", "url", $args);
     }
     /**
      * getColour
@@ -111,7 +115,7 @@ abstract class Aliases extends Filters
         } elseif ($isRGB == true) {
             $args["isRGB"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_POST, "color", $args);
+        return $this->sharedInputFilter($inputName, "POST", "color", $args);
     }
     public function postTrueFalse(string $inputName): ?bool
     {
@@ -123,7 +127,7 @@ abstract class Aliases extends Filters
      */
     public function postJson(string $inputName): ?array
     {
-        return $this->sharedInputFilter($inputName, $_POST, "json", []);
+        return $this->sharedInputFilter($inputName, "POST", "json", []);
     }
     /**
      * getArray
@@ -131,12 +135,12 @@ abstract class Aliases extends Filters
      */
     public function postArray(string $inputName): ?array
     {
-        return $this->sharedInputFilter($inputName, $_POST, "array", []);
+        return $this->sharedInputFilter($inputName, "POST", "array", []);
     }
 
     public function getUUID(string $inputName): ?string
     {
-        return $this->sharedInputFilter($inputName, $_GET, "uuid", []);
+        return $this->sharedInputFilter($inputName, "GET", "uuid", []);
     }
     public function getString(
         string $inputName,
@@ -150,7 +154,7 @@ abstract class Aliases extends Filters
         if ($minlength != null) {
             $args["minLength"] = $minlength;
         }
-        return $this->sharedInputFilter($inputName, $_GET, "string", $args);
+        return $this->sharedInputFilter($inputName, "GET", "string", $args);
     }
     public function getInteger(
         string $inputName,
@@ -167,7 +171,7 @@ abstract class Aliases extends Filters
         }
         $args["min"] = $min;
         $args["max"] = $max;
-        return $this->sharedInputFilter($inputName, $_GET, "integer", $args);
+        return $this->sharedInputFilter($inputName, "GET", "integer", $args);
     }
     public function getFloat(string $inputName, bool $zeroCheck = false): ?float
     {
@@ -175,15 +179,19 @@ abstract class Aliases extends Filters
         if ($zeroCheck != false) {
             $args["zeroCheck"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_GET, "float", $args);
+        return $this->sharedInputFilter($inputName, "GET", "float", $args);
     }
+    /**
+     * getCheckbox
+     * @return mixed return changes based on the selected filter.
+     */
     public function getCheckbox(string $inputName, string $useFilter = "integer")
     {
-        return $this->sharedInputFilter($inputName, $_GET, $useFilter);
+        return $this->sharedInputFilter($inputName, "GET", $useFilter);
     }
     public function getBool(string $inputName): ?bool
     {
-        return $this->sharedInputFilter($inputName, $_GET, "bool", []);
+        return $this->sharedInputFilter($inputName, "GET", "bool", []);
     }
     public function getVector(string $inputName, bool $strictChecks = false): ?string
     {
@@ -191,7 +199,7 @@ abstract class Aliases extends Filters
         if ($strictChecks == true) {
             $args["stricstrictt"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_GET, "vector", $args);
+        return $this->sharedInputFilter($inputName, "GET", "vector", $args);
     }
     public function getDate(string $inputName, bool $asUNIX = false, bool $humanReadable = false): ?string
     {
@@ -201,7 +209,7 @@ abstract class Aliases extends Filters
         } elseif ($humanReadable == true) {
             $args["humanReadable"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_GET, "date", $args);
+        return $this->sharedInputFilter($inputName, "GET", "date", $args);
     }
     public function getEmail(string $inputName, bool $noMailboxs = false): ?string
     {
@@ -209,7 +217,7 @@ abstract class Aliases extends Filters
         if ($noMailboxs == true) {
             $args["no_mailboxs"] = "no_mailboxs";
         }
-        return $this->sharedInputFilter($inputName, $_GET, "email", $args);
+        return $this->sharedInputFilter($inputName, "GET", "email", $args);
     }
     public function getUrl(string $inputName, bool $isHTTPS = false, bool $isHTTP = false): ?string
     {
@@ -219,7 +227,7 @@ abstract class Aliases extends Filters
         } elseif ($isHTTP == true) {
             $args["isHTTP"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_GET, "url", $args);
+        return $this->sharedInputFilter($inputName, "GET", "url", $args);
     }
     /**
      * getColour
@@ -241,7 +249,7 @@ abstract class Aliases extends Filters
         } elseif ($isRGB == true) {
             $args["isRGB"] = "Enabled";
         }
-        return $this->sharedInputFilter($inputName, $_GET, "color", $args);
+        return $this->sharedInputFilter($inputName, "GET", "color", $args);
     }
     public function getTrueFalse(string $inputName): ?bool
     {
@@ -253,7 +261,7 @@ abstract class Aliases extends Filters
      */
     public function getJson(string $inputName): ?array
     {
-        return $this->sharedInputFilter($inputName, $_GET, "json", []);
+        return $this->sharedInputFilter($inputName, "GET", "json", []);
     }
     /**
      * getArray
@@ -261,6 +269,6 @@ abstract class Aliases extends Filters
      */
     public function getArray(string $inputName): ?array
     {
-        return $this->sharedInputFilter($inputName, $_GET, "array", []);
+        return $this->sharedInputFilter($inputName, "GET", "array", []);
     }
 }

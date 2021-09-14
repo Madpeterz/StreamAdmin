@@ -124,7 +124,7 @@ abstract class Base extends ErrorLogging
     public function postFilter(string $inputName, string $filter = "string", array $args = [])
     {
         $this->whyfailed = "No post value found with name: " . $inputName;
-        return $this->sharedInputFilter($inputName, $_POST, $filter, $args);
+        return $this->sharedInputFilter($inputName, "POST", $filter, $args);
     }
         /**
      * getFilter
@@ -134,7 +134,7 @@ abstract class Base extends ErrorLogging
     public function getFilter(string $inputName, string $filter = "string", array $args = [])
     {
         $this->whyfailed = "No get value found with name: " . $inputName;
-        return $this->sharedInputFilter($inputName, $_GET, $filter, $args);
+        return $this->sharedInputFilter($inputName, "GET", $filter, $args);
     }
 
     /*
@@ -157,12 +157,19 @@ abstract class Base extends ErrorLogging
      */
     protected function sharedInputFilter(
         string $inputName,
-        array &$source_dataset,
+        string $target_dataset = "get",
         string $filter = "string",
         array $args = []
     ) {
         $this->filterIsString = true;
         $not_set = false;
+        $source_dataset = [];
+        $target_dataset = strtolower($target_dataset);
+        if ($target_dataset == "get") {
+            $source_dataset = $_GET;
+        } elseif ($target_dataset == "post") {
+            $source_dataset = $_POST;
+        }
         $value = $this->fetchTestingValue($not_set, $source_dataset, $inputName);
         if ($not_set == true) {
             return $this->failureExpectedReplyValue($value, $filter);

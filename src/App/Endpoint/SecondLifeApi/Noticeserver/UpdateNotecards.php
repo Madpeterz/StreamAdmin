@@ -6,6 +6,7 @@ use App\R7\Model\Noticenotecard;
 use App\R7\Set\NotecardmailSet;
 use App\R7\Set\NoticenotecardSet;
 use App\R7\Set\NoticeSet;
+use App\R7\Set\PackageSet;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -150,14 +151,69 @@ class UpdateNotecards extends SecondlifeAjax
         }
 
         if (count($purge_ids) == 0) {
-            return ["status" => true,"removed_entrys" => 0];
+            return [
+                "status" => true,
+                "removed_entrys" => 0,
+                "message" => "Nothing todo",
+            ];
+        }
+
+        if ($this->unlinkPackages("welcomeNotecardLink", $purge_ids) == false) {
+            error_log($this->getLastError());
+            return [
+                "status" => false,
+                "removed_entrys" => 0,
+                "message" => "Unable to unlink notecards from package [Stage1]",
+            ];
+        }
+        if ($this->unlinkPackages("setupNotecardLink", $purge_ids) == false) {
+            error_log($this->getLastError());
+            return [
+                "status" => false,
+                "removed_entrys" => 0,
+                "message" => "Unable to unlink notecards from package [Stage2]",
+            ];
         }
 
         $noticenotecardset = new NoticenotecardSet();
         if ($noticenotecardset->loadIds($purge_ids) == false) {
             return ["status" => false,"removed_entrys" => 0];
         }
-        return $noticenotecardset->purgeCollection();
+        if ($noticenotecardset->getCount() == 0) {
+            return [
+                "status" => false,
+                "removed_entrys" => 0,
+                "message" => "No notecards loaded in the set",
+            ];
+        }
+        $reply = $noticenotecardset->purgeCollection();
+        if ($reply["status"] == false) {
+            return [
+                "status" => false,
+                "removed_entrys" => 0,
+                "message" => "Unable to remove unused notecards because: "
+                . $reply["message"] . " ids: " . implode(",", $purge_ids),
+            ];
+        }
+
+        return $reply;
+    }
+    protected function unlinkPackages(string $onfield, array $ids): bool
+    {
+        $packageSet_welcome = new PackageSet();
+        $reply = $packageSet_welcome->loadIds($ids, $onfield);
+        if ($reply["status"] == false) {
+            $this->addError(__FILE__, __FUNCTION__, "Load:" . $reply["message"]);
+            return false;
+        }
+        if ($packageSet_welcome->getCount() > 0) {
+            $reply = $packageSet_welcome->updateFieldInCollection($onfield, 1);
+            if ($reply["status"] == false) {
+                $this->addError(__FILE__, __FUNCTION__, "Update:" . $reply["message"]);
+                return false;
+            }
+        }
+        return true;
     }
     public function process(): void
     {

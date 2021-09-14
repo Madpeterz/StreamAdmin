@@ -51,6 +51,9 @@ abstract class HomeLoadData extends View
             "detailsserver",
             "notecardsserver",
         ];
+        if ($this->slconfig->getEventsAPI() == true) {
+            $this->owner_objects_list[] = "eventsserver";
+        }
         $resellers = new ResellerSet();
         $resellers->loadAll();
         $venderHealth = new ObjectsSet();
@@ -61,6 +64,11 @@ abstract class HomeLoadData extends View
             "types" => ["i","s"],
         ];
         $venderHealth->loadWithConfig($whereConfig);
+        if ($venderHealth->getCount() == 0) {
+            $this->venderHealthGood = 1;
+            $this->venderHealthBad = 0;
+            return;
+        }
         $goodMinTime = time() - 120;
         foreach ($venderHealth as $object) {
             if ($object->getLastSeen() >= $goodMinTime) {
@@ -117,6 +125,9 @@ abstract class HomeLoadData extends View
         "detailsserver",
         "notecardsserver",
         ];
+        if ($this->slconfig->getEventsAPI() == true) {
+            $this->owner_objects_list[] = "eventsserver";
+        }
         $one_hour_ago = (time() - $unixtime_hour);
         $this->objects_set = new ObjectsSet();
         $where_config = [

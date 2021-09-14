@@ -5,9 +5,10 @@ namespace App\Template;
 use App\Framework\SessionControl;
 use App\R7\Model\Slconfig;
 use App\Template\Output\Template;
+use YAPF\Core\ErrorControl\ErrorLogging;
 use YAPF\MySQLi\MysqliEnabled;
 
-abstract class BasicView
+abstract class BasicView extends ErrorLogging
 {
     protected array $allowDisallow = [0 => "Disabled",1 => "Allow"];
     protected array $yesNo = [0 => "No",1 => "Yes"];

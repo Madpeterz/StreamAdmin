@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Client;
 
+use App\Helpers\EventsQHelper;
 use App\MediaServer\Logic\ApiLogicRevoke;
 use App\R7\Set\ApirequestsSet;
 use App\R7\Model\Avatar;
@@ -85,6 +86,15 @@ class Revoke extends ViewAjax
 
     protected function revoke(): bool
     {
+        $EventsQHelper = new EventsQHelper();
+        $EventsQHelper->addToEventQ(
+            "RentalEnd",
+            $this->package,
+            $this->avatar,
+            $this->server,
+            $this->stream,
+            $this->rental
+        );
         $this->stream->setRentalLink(null);
         $this->stream->setNeedWork(1);
         $update_status = $this->stream->updateEntry();
@@ -115,6 +125,7 @@ class Revoke extends ViewAjax
         if ($api_serverlogic_reply == true) {
             $this->setSwapTag("redirect", "client");
         }
+
         $this->ok("Client rental revoked");
     }
 }

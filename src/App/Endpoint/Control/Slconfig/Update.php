@@ -64,6 +64,7 @@ class Update extends ViewAjax
         $ui_tweaks_datatableItemsPerPage = $input->postInteger("ui_tweaks_datatableItemsPerPage");
         $apiDefaultEmail = $input->postEmail("apiDefaultEmail");
         $displayTimezoneLink = $input->postInteger("displayTimezoneLink");
+        $eventsAPI = $input->postBool("eventsAPI");
 
         if ($newResellersRate < 0) {
             $this->failed("newResellersRate must be 1 or more");
@@ -108,6 +109,7 @@ class Update extends ViewAjax
         $this->slconfig->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
         $this->slconfig->setDisplayTimezoneLink($displayTimezoneLink);
         $this->slconfig->setApiDefaultEmail($apiDefaultEmail);
+        $this->slconfig->setEventsAPI($eventsAPI);
 
         $this->updateHudSettings();
         $reissuedKeys = $this->forceReissue();

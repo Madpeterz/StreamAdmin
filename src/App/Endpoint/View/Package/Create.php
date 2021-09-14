@@ -62,6 +62,9 @@ class Create extends View
         $form->textInput("apiTemplate", "API template", 50, "", "API template name");
         $form->select("welcomeNotecardLink", "Welcome notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
         $form->select("setupNotecardLink", "Setup notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
+        $form->col(6);
+            $form->group("Options");
+            $form->select("enableGroupInvite", "Group Invite", true, $this->disableEnable);
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

@@ -60,25 +60,37 @@ abstract class MysqliQuery extends MysqliChange
         $stmt = $JustDoIt["stmt"];
         $result = $stmt->get_result();
         $stmt->close();
+        $dataset = $this->buildDataset($clean_ids, $result);
+        $this->sql_selects++;
+        return ["status" => true, "dataset" => $dataset ,"message" => "ok"];
+    }
+    /**
+     *  buildDataset
+     *  $result expects mysqli_result or false
+     *  @return mixed[] returns the dataset in keyValue pairs or a empty array
+     */
+    protected function buildDataset(bool $clean_ids, $result): array
+    {
         $dataset = [];
+        if ($result == false) {
+            return $dataset;
+        }
         if ($clean_ids == true) {
-            $dataset = [];
             while ($entry = $result->fetch_assoc()) {
                 $dataset[] = $entry;
             }
-        } else {
-            $loop = 0;
-            while ($entry = $result->fetch_assoc()) {
-                $cleaned_entry = [];
-                foreach ($entry as $field => $value) {
-                    $cleaned_entry[$field] = $value;
-                }
-                $dataset[] = $cleaned_entry;
-                $loop++;
-            }
+            return $dataset;
         }
-        $this->sql_selects++;
-        return ["status" => true, "dataset" => $dataset ,"message" => "ok"];
+        $loop = 0;
+        while ($entry = $result->fetch_assoc()) {
+            $cleaned_entry = [];
+            foreach ($entry as $field => $value) {
+                $cleaned_entry[$field] = $value;
+            }
+            $dataset[] = $cleaned_entry;
+            $loop++;
+        }
+        return $dataset;
     }
     /**
      * searchTables

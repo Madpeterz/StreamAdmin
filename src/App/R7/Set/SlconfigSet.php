@@ -307,4 +307,17 @@ class SlconfigSet extends CollectionSet
     {
         return $this->loadByField("hudAllowRenewal", $hudAllowRenewal, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByEventsAPI
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByEventsAPI(
+                    bool $eventsAPI, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("eventsAPI", $eventsAPI, $limit, $orderBy, $orderDir);
+    }
 }

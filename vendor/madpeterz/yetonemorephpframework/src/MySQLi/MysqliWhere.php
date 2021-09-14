@@ -198,12 +198,11 @@ abstract class MysqliWhere extends MysqliFunctions
         string &$failed_on,
         string &$current_where_code
     ): void {
-        $open_groups = 1;
+        $this->open_groups = 1;
         $current_where_code .= "(";
         $end_group_after = [") AND",") OR"];
         $start_group_before = ["( AND","( OR"];
         $loop = 0;
-        $pending_closer = 0;
         while ($loop < count($where_config["fields"])) {
             $this->whereCaseWriter(
                 $where_config,
@@ -214,27 +213,26 @@ abstract class MysqliWhere extends MysqliFunctions
                 $sql,
                 $failed,
                 $failed_on,
-                $open_groups,
-                $pending_closer
+                $this->open_groups
             );
             if ($failed == true) {
                 break;
             }
             if (in_array($where_config["join_with"][$loop], $start_group_before) == true) {
-                $open_groups++;
+                $this->open_groups++;
                 $current_where_code .= "(";
             }
             if (in_array($where_config["join_with"][$loop], $end_group_after) == true) {
-                $pending_closer = 1;
+                $this->pending_closer = 1;
             }
             if ($sql == "empty_in_array") {
                 break;
             }
             $loop++;
         }
-        while ($open_groups > 0) {
+        while ($this->open_groups > 0) {
             $current_where_code .= ")";
-            $open_groups--;
+            $this->open_groups--;
         }
     }
 
@@ -248,6 +246,8 @@ abstract class MysqliWhere extends MysqliFunctions
         return false;
     }
 
+    protected int $pending_closer = 0;
+    protected int $open_groups = 0;
     protected function whereCaseWriter(
         array $where_config,
         int $loop,
@@ -256,9 +256,7 @@ abstract class MysqliWhere extends MysqliFunctions
         array &$bind_args,
         string &$sql,
         bool &$failed,
-        string &$failed_on,
-        int &$open_groups,
-        int &$pending_closer
+        string &$failed_on
     ): void {
         $match = $where_config["matches"][$loop];
         $type = $where_config["types"][$loop];
@@ -282,9 +280,9 @@ abstract class MysqliWhere extends MysqliFunctions
         if ($failed == true) {
             return;
         }
-        if ($pending_closer == 1) {
-            $pending_closer = 0;
-            $open_groups--;
+        if ($this->pending_closer == 1) {
+            $this->pending_closer = 0;
+            $this->open_groups--;
             $current_where_code .= ")";
         }
         if ($sql != "empty_in_array") {
@@ -323,8 +321,8 @@ abstract class MysqliWhere extends MysqliFunctions
             );
         } else {
             $loop = 0;
-            $open_groups = 0;
-            $pending_closer = 0;
+            $this->open_groups = 0;
+            $this->pending_closer = 0;
             while ($loop < count($where_config["fields"])) {
                 $this->whereCaseWriter(
                     $where_config,
@@ -334,9 +332,7 @@ abstract class MysqliWhere extends MysqliFunctions
                     $bind_args,
                     $sql,
                     $failed,
-                    $failed_on,
-                    $open_groups,
-                    $pending_closer
+                    $failed_on
                 );
                 if ($failed == true) {
                     break;

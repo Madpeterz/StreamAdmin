@@ -18,6 +18,7 @@ class BotTest extends TestCase
         $this->assertStringContainsString("Basic",$statuscheck,$missing);
         $this->assertStringContainsString("Actions",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
+        $this->assertStringContainsString("Auto inviter",$statuscheck,$missing);
     }
     public function test_BotUpdate()
     {
@@ -29,6 +30,8 @@ class BotTest extends TestCase
         $_POST["secret"] = substr(md5(microtime()."bb"),0,8);
         $_POST["notecards"] = 1;
         $_POST["ims"] = 1;
+        $_POST["invites"] = 1;
+        $_POST["inviteGroupUUID"] = $avatar->getAvatarUUID();
         $Update = new Update();
         $Update->process();
         $statuscheck = $Update->getOutputObject();

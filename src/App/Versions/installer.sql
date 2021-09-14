@@ -66,16 +66,26 @@ CREATE TABLE `botconfig` (
   `avatarLink` int(11) NOT NULL,
   `secret` text DEFAULT NULL,
   `notecards` tinyint(1) NOT NULL DEFAULT 0,
-  `ims` tinyint(1) NOT NULL DEFAULT 0
+  `ims` tinyint(1) NOT NULL DEFAULT 0,
+  `invites` tinyint(1) NOT NULL DEFAULT 0,
+  `inviteGroupUUID` varchar(36) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`) VALUES
-(1, 1, 'notsetup', 0, 0);
+INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`, `invites`, `inviteGroupUUID`) VALUES
+(1, 1, 'notsetup', 0, 0, 0, NULL);
 
 DROP TABLE IF EXISTS `detail`;
 CREATE TABLE `detail` (
   `id` int(11) NOT NULL,
   `rentalLink` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `eventsq`;
+CREATE TABLE `eventsq` (
+  `id` int(11) NOT NULL,
+  `eventName` text NOT NULL,
+  `eventMessage` text NOT NULL,
+  `eventUnixtime` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `message`;
@@ -164,7 +174,8 @@ CREATE TABLE `package` (
   `textureInstockSelected` varchar(36) NOT NULL,
   `apiTemplate` text DEFAULT NULL,
   `welcomeNotecardLink` int(11) NOT NULL DEFAULT 1,
-  `setupNotecardLink` int(11) NOT NULL DEFAULT 1
+  `setupNotecardLink` int(11) NOT NULL DEFAULT 1,
+  `enableGroupInvite` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `region`;
@@ -258,11 +269,12 @@ CREATE TABLE `slconfig` (
   `hudAllowGroup` tinyint(1) NOT NULL DEFAULT 0,
   `hudGroupLink` text NOT NULL DEFAULT 'Not setup yet',
   `hudAllowDetails` tinyint(1) NOT NULL DEFAULT 0,
-  `hudAllowRenewal` tinyint(1) NOT NULL DEFAULT 0
+  `hudAllowRenewal` tinyint(1) NOT NULL DEFAULT 0,
+  `eventsAPI` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`) VALUES
-(1, '1.0.2.0', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0);
+INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`, `eventsAPI`) VALUES
+(1, '1.0.2.2', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0);
 
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE `staff` (
@@ -362,7 +374,9 @@ CREATE TABLE `transactions` (
   `amount` int(11) NOT NULL,
   `unixtime` int(11) NOT NULL,
   `transactionUid` varchar(8) NOT NULL,
-  `renew` tinyint(1) NOT NULL DEFAULT 0
+  `renew` tinyint(1) NOT NULL DEFAULT 0,
+  `SLtransactionUUID` varchar(36) DEFAULT NULL,
+  `ViaHud` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `treevender`;
@@ -404,6 +418,9 @@ ALTER TABLE `botconfig`
 ALTER TABLE `detail`
   ADD PRIMARY KEY (`id`),
   ADD KEY `rentalLink` (`rentalLink`);
+
+ALTER TABLE `eventsq`
+  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `message`
   ADD PRIMARY KEY (`id`),
@@ -498,6 +515,7 @@ ALTER TABLE `timezones`
 ALTER TABLE `transactions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `transactionUid` (`transactionUid`),
+  ADD UNIQUE KEY `SLtransactionUUID` (`SLtransactionUUID`),
   ADD KEY `avatarLink` (`avatarLink`),
   ADD KEY `packageLink` (`packageLink`),
   ADD KEY `streamLink` (`streamLink`),
@@ -530,6 +548,9 @@ ALTER TABLE `botconfig`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `eventsq`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `message`
@@ -664,10 +685,3 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
-
-ALTER TABLE `transactions` 
-  ADD `SLtransactionUUID` VARCHAR(36) NULL AFTER `renew`, 
-  ADD `ViaHud` TINYINT(1) NOT NULL DEFAULT '0' AFTER `SLtransactionUUID`, 
-  ADD UNIQUE (`SLtransactionUUID`);
-
-UPDATE `slconfig` SET `dbVersion` = '1.0.2.1' WHERE `slconfig`.`id` = 1;

@@ -11,9 +11,6 @@
     colors="true"
 >
   <testsuites>
-        <testsuite name="api">
-            <directory>tests/MediaServer</directory>
-        </testsuite>
         <testsuite name="All">
             <directory>tests/Install</directory>
             <directory>tests/R4install</directory>
@@ -32,6 +29,7 @@
             <file>tests/SecondlifeAPI/Details_Test.php</file>
             <file>tests/SecondlifeAPI/Bot_Test.php</file>
             <file>tests/SecondlifeAPI/Tree_Test.php</file>
+            <file>tests/SecondlifeAPI/EventsQ_Test.php</file>
             <file>tests/SystemApi/Notecard_Test.php</file>
             <file>tests/Switchboards/MainGrid_Test.php</file>
             <file>tests/Switchboards/Sys_Test.php</file>
@@ -51,6 +49,7 @@
             <file>tests/BugReports/Issue36_test.php</file>
             <file>tests/BugReports/Issue43_test.php</file>
             <file>tests/BugReports/Issue44_test.php</file>
+            <file>tests/BugReports/Issue47_test.php</file>
         </testsuite>
   </testsuites>
   <filter>

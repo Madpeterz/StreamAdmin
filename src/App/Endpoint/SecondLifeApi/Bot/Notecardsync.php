@@ -3,9 +3,6 @@
 namespace App\Endpoint\SecondLifeApi\Bot;
 
 use App\Helpers\BotHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Botconfig;
-use App\R7\Model\Message;
 use App\R7\Model\Notecard;
 use App\Template\SecondlifeAjax;
 
@@ -17,17 +14,8 @@ class Notecardsync extends SecondlifeAjax
             $this->setSwapTag("message", "This API is owner only");
             return;
         }
-        $botconfig = new Botconfig();
-        if ($botconfig->loadID(1) == false) {
-            $this->setSwapTag("message", "Unable to load bot config");
-            return;
-        }
-        $botavatar = new Avatar();
-        if ($botavatar->loadID($botconfig->getAvatarLink()) == false) {
-            $this->setSwapTag("message", "Unable to load bot avatar");
-            return;
-        }
-        if ($botconfig->getNotecards() == false) {
+        $bot_helper = new BotHelper();
+        if ($bot_helper->getNotecards() == false) {
             $this->setSwapTag("status", true);
             $this->setSwapTag("hassyncmessage", "2");
             $this->setSwapTag("message", "Notecards not enabled on bot");
@@ -68,14 +56,18 @@ class Notecardsync extends SecondlifeAjax
             return;
         }
 
-
+        $bot_helper = new BotHelper();
+        $botUUID = $bot_helper->getBotUUID();
+        if ($botUUID == null) {
+            $this->failed("Unable to load bot UUID");
+            return;
+        }
 
         $this->setSwapTag("hassyncmessage", true);
-        $this->setSwapTag("avataruuid", $botavatar->getAvatarUUID());
-        $bot_helper = new BotHelper();
+        $this->setSwapTag("avataruuid", $botUUID);
+
         global $template_parts;
-        $message = $bot_helper->sendBotCommand(
-            $botconfig,
+        $message = $bot_helper->getBotCommand(
             "FetchNextNotecard",
             [$template_parts["url_base"],$this->slconfig->getHttpInboundSecret()]
         );

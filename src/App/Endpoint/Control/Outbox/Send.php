@@ -4,10 +4,8 @@ namespace App\Endpoint\Control\Outbox;
 
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
-use App\R7\Model\Avatar;
 use App\R7\Set\AvatarSet;
 use App\R7\Set\BanlistSet;
-use App\R7\Model\Botconfig;
 use App\R7\Set\NoticeSet;
 use App\R7\Set\PackageSet;
 use App\R7\Set\RentalSet;
@@ -27,8 +25,6 @@ class Send extends ViewAjax
         $banlist_set = new BanlistSet();
         $bot_helper = new BotHelper();
         $swapables_helper = new SwapablesHelper();
-        $botconfig = new Botconfig();
-        $botavatar = new Avatar();
         $notice_set = new NoticeSet();
         $server_set = new ServerSet();
         $package_set = new PackageSet();
@@ -67,8 +63,6 @@ class Send extends ViewAjax
         $package_set->loadAll();
         $server_set->loadAll();
         $notice_set->loadAll();
-        $botconfig->loadID(1);
-        $botavatar->loadID($botconfig->getAvatarLink());
 
         $sent_counter = 0;
         $seen_avatars = [];
@@ -95,7 +89,7 @@ class Send extends ViewAjax
                 $server,
                 $stream
             );
-            $bot_helper->sendMessage($botconfig, $botavatar, $avatar, $sendmessage, true);
+            $bot_helper->sendMessage($avatar, $sendmessage, true);
             $sent_counter++;
         }
         $this->ok(sprintf("Sent to %1\$s avatars", $sent_counter));

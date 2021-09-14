@@ -4,8 +4,10 @@ namespace YAPF\Junk;
 
 use PHPUnit\Framework\TestCase;
 use YAPF\Junk\Models\Counttoonehundo;
+use YAPF\Junk\Models\Liketests;
 use YAPF\Junk\Models\Weirdtable;
 use YAPF\Junk\Sets\CounttoonehundoSet;
+use YAPF\Junk\Sets\LiketestsSet;
 use YAPF\Junk\Sets\Twintables1Set;
 use YAPF\Junk\Sets\WeirdtableSet;
 use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
@@ -193,5 +195,47 @@ class DbObjectsLoadTest extends TestCase
         $this->assertSame($result["status"], false);
         $this->assertSame($result["count"], 0);
         $this->assertSame($result["message"], "getMissing is not supported on worker");
+    }
+
+    public function testCountinDb()
+    {
+        global $sql;
+        $testing = new LiketestsSet();
+        $reply = $testing->countInDB();
+        $expectedSQL = "SELECT COUNT(id) AS sqlCount FROM test.liketests";
+        $this->assertSame($expectedSQL,$sql->getLastSql(),"SQL is not what was expected");
+        $this->assertSame(4,$reply,"incorrect count reply");
+    }
+
+    public function testLimitedMode()
+    {
+        $testing = new LiketestsSet();
+        $testing->limitFields(["name"]);
+        $this->assertSame(true,$testing->getUpdatesStatus(),"Set should be marked as update disabled");
+        $testing->loadAll();
+        $sqlExpected = 'SELECT id, name FROM test.liketests  ORDER BY id ASC';
+        $this->assertSame($sqlExpected,$testing->getLastSql(),"SQL is not what was expected");
+        $this->assertSame(4,$testing->getCount(),"Incorrect number of entrys loaded");
+        $obj = $testing->getObjectByID(1);
+        $this->assertSame("redpondblue 1",$obj->getName(),"Value is not set as expected");
+        $this->assertSame(null,$obj->getValue(),"Value is not what is expected");
+        $reply = $obj->setValue("fail");
+        $this->assertSame(false,$reply["status"],"Set a value incorrectly");
+        $reply = $testing->updateFieldInCollection("value","failme");
+        $this->assertSame(false,$reply["status"],"bulk set value incorrectly");
+        $reply = $obj->createEntry();
+        $this->assertSame(false,$reply["status"],"created object incorrectly");
+        $reply = $obj->setId(44);
+        $this->assertSame(false,$reply["status"],"set object id incorrectly");
+
+        $testing = new Liketests();
+        $testing->limitFields(["name"]);
+        $this->assertSame(true,$testing->getUpdatesStatus(),"Single should be marked as update disabled");
+        $testing->loadID(1);
+        $sqlExpected = "SELECT id, name FROM test.liketests  WHERE `id` = ?";
+        $this->assertSame($sqlExpected,$testing->getLastSql(),"SQL is not what was expected");
+        $this->assertSame("redpondblue 1",$testing->getName(),"Value is not set as expected");
+        $this->assertSame(null,$testing->getValue(),"Value is not what is expected");
+
     }
 }

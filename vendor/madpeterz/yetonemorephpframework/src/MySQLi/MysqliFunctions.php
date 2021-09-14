@@ -12,8 +12,6 @@ abstract class MysqliFunctions extends Db
     protected $hadErrors = false;
     protected $needToSave = false;
     public $lastSql = "";
-    protected $track_table_select_access = false;
-    protected $track_select_from_tables = [];
 
     protected bool $ExpectedErrorFlag = false;
     public function setExpectedErrorFlag(bool $flagStatus = false): void
@@ -136,9 +134,8 @@ abstract class MysqliFunctions extends Db
         }
 
         $current_command = "";
-        foreach ($lines as $line_num => $line) {
+        foreach ($lines as $line) {
             $trimmed = trim($line);
-            $whyskip = "";
             if (
                 (strlen($trimmed) > 0) // not empty
                 && (stripos($trimmed, "--")  === false) // not a SQL comment

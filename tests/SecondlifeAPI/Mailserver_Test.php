@@ -10,7 +10,7 @@ class SecondlifeApiMailserver extends TestCase
 {
     public function test_Next()
     {
-        global $_POST, $slconfig;
+        global $_POST, $slconfig, $sql;
         $_POST["method"] = "Mailserver";
         $_POST["action"] = "Next";
         $_POST["mode"] = "test";
@@ -52,6 +52,11 @@ class SecondlifeApiMailserver extends TestCase
         $Next->process();
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("hasmessage"),"No message detected but I was expecting one");
         $this->assertSame("289c3e36-69b3-40c5-9229-0c6a5d230766",$Next->getOutputObject()->getSwapTagString("avatarUUID"),"Incorrect mail target");
-        $this->stringStartsWith("Web panel setup finished",$Next->getOutputObject()->getSwapTagString("message"),"incorrect message loaded");
+        $this->assertStringStartsWith("Web panel setup finished",$Next->getOutputObject()->getSwapTagString("message"),"incorrect message loaded");
+        $sql->sqlSave();
+
+        $messageSet = new MessageSet();
+        $this->assertSame(true,$messageSet->loadAll()["status"],"Unable to load message set to check workspace");
+        $this->assertSame(5,$messageSet->getCount(),"Incorrect number of messages in the Q");
     }
 }

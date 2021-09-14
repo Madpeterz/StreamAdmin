@@ -65,7 +65,10 @@ abstract class GenClassDB extends GenClassControl
             $this->addError(__FILE__, __FUNCTION__, "unable to loadData this class is disabled");
             return false;
         }
-
+        $basic_config = ["table" => $this->getTable()];
+        if ($this->disableUpdates == true) {
+            $basic_config["fields"] = $this->limitedFields;
+        }
         // Cache support
         $hitCache = false;
         $hashme = "";
@@ -74,12 +77,13 @@ abstract class GenClassDB extends GenClassControl
                 $whereconfig,
                 ["single" => true],
                 ["single" => true],
-                ["single" => true],
+                $basic_config,
                 $this->getTable(),
                 count($this->getFields())
             );
             $hitCache = $this->cache->cacheVaild($this->getTable(), $hashme, true);
         }
+
         if ($hitCache == true) {
             // wooo vaild data from cache!
             $loadme = $this->cache->readHash($this->getTable(), $hashme);
@@ -87,9 +91,8 @@ abstract class GenClassDB extends GenClassControl
                 return $this->processLoad($loadme);
             }
         }
-        $basic = ["table" => $this->getTable()];
         $this->sql->setExpectedErrorFlag($this->expectedSqlLoadError);
-        $load_data = $this->sql->selectV2($basic, null, $whereconfig);
+        $load_data = $this->sql->selectV2($basic_config, null, $whereconfig);
         $this->sql->setExpectedErrorFlag(false);
         if ($this->cache != null) {
             // push data to cache so we can avoid reading from DB as much
@@ -167,6 +170,9 @@ abstract class GenClassDB extends GenClassControl
      */
     public function createEntry(): array
     {
+        if ($this->disableUpdates == true) {
+            return $this->addError(__FILE__, __FUNCTION__, "Attempt to update with limitFields enabled!");
+        }
         if ($this->disabled == false) {
             if (array_key_exists("id", $this->dataset) == true) {
                 if ($this->save_dataset["id"]["value"] == null) {
@@ -220,6 +226,9 @@ abstract class GenClassDB extends GenClassControl
      */
     public function updateEntry(): array
     {
+        if ($this->disableUpdates == true) {
+            return $this->addError(__FILE__, __FUNCTION__, "Attempt to update with limitFields enabled!");
+        }
         if ($this->disabled == true) {
             $error_msg = "this class is disabled.";
             return ["status" => false, "changes" => 0, "message" => $error_msg];

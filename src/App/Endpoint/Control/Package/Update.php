@@ -32,6 +32,7 @@ class Update extends ViewAjax
     protected ?int $servertypeLink;
     protected ?int $welcomeNotecardLink;
     protected ?int $setupNotecardLink;
+    protected ?bool $enableGroupInvite;
 
     protected array $noticeNotecardIds;
 
@@ -79,6 +80,7 @@ class Update extends ViewAjax
         $this->servertypeLink = $this->input->postInteger("servertypeLink");
         $this->welcomeNotecardLink = $this->input->postInteger("welcomeNotecardLink");
         $this->setupNotecardLink = $this->input->postInteger("setupNotecardLink");
+        $this->enableGroupInvite = $this->input->postBool("enableGroupInvite");
     }
 
     protected function tests(): bool
@@ -175,6 +177,7 @@ class Update extends ViewAjax
         $this->package->setServertypeLink($this->servertypeLink);
         $this->package->setWelcomeNotecardLink($this->welcomeNotecardLink);
         $this->package->setSetupNotecardLink($this->setupNotecardLink);
+        $this->package->setEnableGroupInvite($this->enableGroupInvite);
     }
 
     protected function savePackage(): bool

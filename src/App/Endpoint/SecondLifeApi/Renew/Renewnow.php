@@ -3,6 +3,7 @@
 namespace App\Endpoint\SecondLifeApi\Renew;
 
 use App\Helpers\AvatarHelper;
+use App\Helpers\EventsQHelper;
 use App\MediaServer\Logic\ApiLogicRenew;
 use App\R7\Model\Avatar;
 use App\R7\Model\Banlist;
@@ -166,9 +167,22 @@ class Renewnow extends SecondlifeAjax
         $this->rental->setRenewals(($this->rental->getRenewals() + $this->multipler));
         $this->rental->setTotalAmount(($this->rental->getTotalAmount() + $this->amountpaid));
         $unixtime_remain = $new_expires_time - time();
+        $old_notice_level = $this->rental->getNoticeLink();
         $this->rental->setNoticeLink(6);
         if ($unixtime_remain > 0) {
             $this->processNoticeChange($unixtime_remain);
+        }
+
+        if (($old_notice_level == 6) && ($this->rental->getNoticeLink() != 6) && ($unixtime_remain > 0)) {
+            $EventsQHelper = new EventsQHelper();
+            $EventsQHelper->addToEventQ(
+                "RentalRenew",
+                $this->package,
+                $this->avatar,
+                null,
+                $this->stream,
+                $this->rental
+            );
         }
     }
 
