@@ -255,4 +255,17 @@ class PackageSet extends CollectionSet
     {
         return $this->loadByField("setupNotecardLink", $setupNotecardLink, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByEnableGroupInvite
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByEnableGroupInvite(
+                    bool $enableGroupInvite, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("enableGroupInvite", $enableGroupInvite, $limit, $orderBy, $orderDir);
+    }
 }
