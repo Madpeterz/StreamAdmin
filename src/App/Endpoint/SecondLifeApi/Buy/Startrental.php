@@ -3,6 +3,8 @@
 namespace App\Endpoint\SecondLifeApi\Buy;
 
 use App\Helpers\AvatarHelper;
+use App\Helpers\BotHelper;
+use App\Helpers\EventsQHelper;
 use App\Helpers\PendingAPI;
 use App\Helpers\TransactionsHelper;
 use App\MediaServer\Logic\ApiLogicBuy;
@@ -14,6 +16,7 @@ use App\R7\Model\Noticenotecard;
 use App\R7\Set\NoticeSet;
 use App\R7\Model\Package;
 use App\R7\Model\Rental;
+use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use App\R7\Set\RentalSet;
 use App\R7\Set\StreamSet;
@@ -141,6 +144,12 @@ class Startrental extends SecondlifeAjax
             return;
         }
 
+        $server = new Server();
+        if ($server->loadID($stream->getServerLink()) == false) {
+            $this->setSwapTag("message", "Unable to find the server attached to the stream");
+            return;
+        }
+
         $amountpaid = $input->postFilter("amountpaid", "integer");
         $accepted_payment_amounts = [
             $package->getCost() => 1,
@@ -239,6 +248,16 @@ class Startrental extends SecondlifeAjax
             $this->setSwapTag("owner_payment_amount", $left_over);
             $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
+
+        $EventsQHelper = new EventsQHelper();
+        $EventsQHelper->addToEventQ("RentalStart", $package, $avatar, $server, $stream, $rental);
+
+        if ($package->getEnableGroupInvite() == true) {
+            $botHelper = new BotHelper();
+            $botHelper->sendBotInvite($avatar);
+        }
+
+
 
         $this->setSwapTag("message", "ok");
 
