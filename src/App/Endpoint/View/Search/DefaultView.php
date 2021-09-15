@@ -201,7 +201,7 @@ class DefaultView extends View
     {
         $where_config = [
             "fields" => ["adminUsername","port","streamUid"],
-            "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
+            "matches" => ["% LIKE %","=","% LIKE %"],
             "values" => [$search,$search,$search],
             "types" => ["s","i","s"],
             "join_with" => ["OR","OR"],
