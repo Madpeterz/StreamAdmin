@@ -39,9 +39,9 @@ class DefaultView extends View
             $entry[] = $package->getId();
             $entry[] = '<a href="[[url_base]]stream/inpackage/' . $package->getPackageUid() . '">'
             . $package->getName() . '</a>';
-            $entry[] = $streams_in_package[$package_id]["sold"];
-            $entry[] = $streams_in_package[$package_id]["work"];
-            $entry[] = $streams_in_package[$package_id]["ready"];
+            $entry[] = $streams_in_package[$package->getId()]["sold"];
+            $entry[] = $streams_in_package[$package->getId()]["work"];
+            $entry[] = $streams_in_package[$package->getId()]["ready"];
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
