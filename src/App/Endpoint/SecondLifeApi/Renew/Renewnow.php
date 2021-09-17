@@ -243,6 +243,7 @@ class Renewnow extends SecondlifeAjax
         if ($this->rental->getExpireUnixtime() < time()) {
             return;
         }
+        $this->apiProcess();
         $this->setSwapTag(
             "message",
             sprintf(
