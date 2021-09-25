@@ -10,6 +10,8 @@ class Transactions extends View
 {
     public function process(): void
     {
+        ini_set('memory_limit', '256M');
+        set_time_limit(0);
         $r4_sales_tracking_set = new Sales_trackingSet();
         $r4_sales_tracking_set->reconnectSql($this->oldSqlDB);
         $r4_sales_tracking_set->loadAll();
