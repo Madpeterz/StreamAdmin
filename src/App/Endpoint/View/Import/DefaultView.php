@@ -25,6 +25,7 @@ class DefaultView extends View
             $table_body[] = $entry;
             $loop++;
         }
-        $this->output->addSwapTagString("page_content", $this->renderTable($table_head, $table_body));
+        $this->output->addSwapTagString("page_content", "<h4>Please only click the links once!</h4>" .
+        $this->renderTable($table_head, $table_body));
     }
 }
