@@ -6,31 +6,35 @@ services:
     app:
         container_name: SA7Website
         restart: always
-        image: madpeter/streamadmin_r7:latest
+        image: madpeter/streamadmin_r7:dev
         networks:
         - streamadmin
         ports:
         - 8082:80
         expose:
-        - '8882/tcp'
+        - '8082/tcp'
         depends_on:
-        - db
-        - redis
+        - SA7Db
+        - SA7Dbredis
         environment:
         - SITE_HOST={DOMAIN}
         - SITE_TITLE=StreamAdmin
-        - DB_HOST=db
+        - DB_HOST=SA7Db
         - DB_DATABASE=streamadmin
         - DB_USERNAME=streamadminDBuser
         - DB_PASSWORD={DBPASSWORD}
-        - REDIS_HOST=redis
+        - REDIS_HOST=SA7Dbredis
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
-        - INSTALL_OK=0
+        - INSTALL_OK=1
         - SITE_CACHE_ENABLED=true
-        - SITE_CACHE_REDIS_HOST=redis
+        - SITE_CACHE_REDIS_HOST=SA7Redis
+        volumes:
+          - type: bind
+            source: /srv/logs
+            target: /srv/logs
 
-    db:
+    SA7Db:
         container_name: SA7Db
         image: mariadb
         restart: always
@@ -45,10 +49,10 @@ services:
         volumes:
         - streamadmin-db:/var/lib/mysql
 
-    phpmyadmin:
+    SA7Dbphpmyadmin:
         container_name: SA7PHPmyAdmin
         environment:
-        - PMA_HOST=db
+        - PMA_HOST=SA7Db
         networks:
         - streamadmin
         image: 'phpmyadmin/phpmyadmin:latest'
@@ -57,9 +61,9 @@ services:
         expose:
         - '8881/tcp'
         depends_on:
-        - db
+        - SA7Db
 
-    redis:
+    SA7Dbredis:
         container_name: SA7Redis
         image: redis:4.0-alpine
         networks:
