@@ -57,7 +57,7 @@ services:
         - streamadmin
         image: 'phpmyadmin/phpmyadmin:latest'
         ports:
-        - 8081:80
+        - 8881:80
         expose:
         - '8881/tcp'
         depends_on:
