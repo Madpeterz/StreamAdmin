@@ -14,14 +14,17 @@ class Update extends ViewAjax
         $name = $input->postString("name", 30, 5);
         if ($name == null) {
             $this->failed("Name failed:" . $input->getWhyFailed());
+            return;
         }
         $detail = $input->postString("detail", 800, 5);
         if ($detail == null) {
             $this->failed("Template failed:" . $input->getWhyFailed());
+            return;
         }
-        $notecardDetail = $input->postString("notecardDetail", 1600, 5);
+        $notecardDetail = $input->postString("notecardDetail", 5000, 5);
         if ($notecardDetail == null) {
             $this->failed("Template failed:" . $input->getWhyFailed());
+            return;
         }
         $template = new Template();
         if ($template->loadID($this->page) == false) {
