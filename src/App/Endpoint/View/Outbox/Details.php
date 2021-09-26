@@ -22,7 +22,12 @@ class Details extends View
         foreach ($detail_set as $detail) {
             $rental = $rental_set->getObjectByID($detail->getRentalLink());
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
-            $table_body[] = [$detail->getId(),$rental->getRentalUid(),$avatar->getAvatarName()];
+            $entry = [];
+            $entry[] = $detail->getId();
+            $entry[] = $rental->getRentalUid();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
+            $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }

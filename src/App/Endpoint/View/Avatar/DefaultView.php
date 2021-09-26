@@ -56,7 +56,8 @@ class DefaultView extends View
             $entry[] = $avatar->getId();
             $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'
             . $avatar->getAvatarUid() . '</a>';
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));

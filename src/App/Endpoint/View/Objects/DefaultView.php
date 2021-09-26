@@ -48,7 +48,8 @@ class DefaultView extends View
             $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
             . $region->getName() . "</a>";
             $entry[] = $object->getObjectXYZ();
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

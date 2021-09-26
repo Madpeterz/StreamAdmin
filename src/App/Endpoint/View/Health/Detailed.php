@@ -57,7 +57,8 @@ class Detailed extends View
             }
             $entry[] = $object->getObjectMode();
             $entry[] = "<span class=\"text-" . $statusColor . "\">" . $statusText . "</span>";
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }
 

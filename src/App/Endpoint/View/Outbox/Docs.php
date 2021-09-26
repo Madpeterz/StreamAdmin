@@ -3,9 +3,7 @@
 namespace App\Endpoint\View\Outbox;
 
 use App\R7\Model\Botconfig;
-use App\R7\Model\Notecardmail;
 use App\R7\Set\AvatarSet;
-use App\R7\Set\MessageSet;
 use App\R7\Set\NotecardmailSet;
 use App\R7\Set\NoticenotecardSet;
 
@@ -27,11 +25,12 @@ class Docs extends View
         foreach ($notecardmail as $staticnotecard) {
             $avatar = $avatar_set->getObjectByID($staticnotecard->getAvatarLink());
             $notecard = $noticenotecards->getObjectByID($staticnotecard->getNoticenotecardLink());
-            $table_body[] = [
-                $staticnotecard->getId(),
-                $avatar->getAvatarName(),
-                $notecard->getName()
-            ];
+            $entry = [];
+            $entry[] = $staticnotecard->getId();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
+            $entry[] = $notecard->getName();
+            $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }

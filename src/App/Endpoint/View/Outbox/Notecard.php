@@ -22,7 +22,12 @@ class Notecard extends View
         foreach ($notecard_set as $notecard) {
             $rental = $rental_set->getObjectByID($notecard->getRentalLink());
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
-            $table_body[] = [$notecard->getId(),$rental->getRentalUid(),$avatar->getAvatarName()];
+            $entry = [];
+            $entry[] = $notecard->getId();
+            $entry[] = $rental->getRentalUid();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
+            $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }

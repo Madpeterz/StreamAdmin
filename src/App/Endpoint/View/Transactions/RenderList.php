@@ -74,7 +74,8 @@ abstract class RenderList extends View
             $entry = [];
             $entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
             $entry[] = $packagename;
             $entry[] = $regionname;
             $entry[] = $transaction->getAmount();

@@ -29,11 +29,12 @@ class Mail extends View
             if ($avatar->getId() == $botConfig->getAvatarLink()) {
                 $boticon = '<i class="fas fa-robot"></i> ';
             }
-            $table_body[] = [
-                $message->getId(),
-                $boticon . $avatar->getAvatarName(),
-                $message_content,
-            ];
+            $entry = [];
+            $entry[] = $message->getId();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">' . $boticon . '
+            ' . $avatar->getAvatarName() . '</a>';
+            $entry[] = $message_content;
+            $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }
