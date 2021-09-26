@@ -94,6 +94,7 @@ abstract class Switchboard
             $obj->getOutputObject()->setSwapTag("UsedPostSources", $usedPostSources);
             $obj->process();
         }
+
         if ($this->targetEndpoint == "View") {
             $obj->getOutputObject()->setSwapTag("CUSTOMLOGO", "");
             global $slconfig;
@@ -106,6 +107,11 @@ abstract class Switchboard
             }
         }
         $obj->getoutput();
+        $statussql = $obj->getOutputObject()->getSwapTagBool("status");
+        if (($statussql === false) || ($statussql === null)) {
+            global $sql;
+            $sql->flagError();
+        }
     }
 
     protected function createCustomLogoFile(): bool
