@@ -24,6 +24,8 @@ class TreeVendTest extends TestCase
         $createform->process();
         $statuscheck = $createform->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing tree create form element";
+        $this->assertStringContainsString("textureWaiting",$statuscheck,$missing);
+        $this->assertStringContainsString("textureInuse",$statuscheck,$missing);
         $this->assertStringContainsString("Name",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
     }
@@ -36,6 +38,8 @@ class TreeVendTest extends TestCase
         global $_POST;
         $createHandler = new TreeCreate();
         $_POST["name"] = "UnitTestTreeVend";
+        $_POST["textureWaiting"] = "00000000-0000-0000-0000-000000000000";
+        $_POST["textureInuse"] = "00000000-0000-0000-0000-000000000000";
         
         $createHandler->process();
         $statuscheck = $createHandler->getOutputObject();
@@ -73,7 +77,10 @@ class TreeVendTest extends TestCase
         $manageForm->process();
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing tree manage form element";
+        $this->assertStringContainsString("textureWaiting",$statuscheck,$missing);
+        $this->assertStringContainsString("textureInuse",$statuscheck,$missing);
         $this->assertStringContainsString("Name",$statuscheck,$missing);
+        
         $this->assertStringContainsString("Action",$statuscheck,$missing);
         $this->assertStringContainsString("Package",$statuscheck,$missing);
         $this->assertStringContainsString("Add package",$statuscheck,$missing);
@@ -93,6 +100,8 @@ class TreeVendTest extends TestCase
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitUpdatedTreeVend";
+        $_POST["textureWaiting"] = "00000000-0000-0000-0000-000000000000";
+        $_POST["textureInuse"] = "00000000-0000-0000-0000-000000000000";
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Treevender updated",$statuscheck->getSwapTagString("message"));

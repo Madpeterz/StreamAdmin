@@ -76,7 +76,7 @@ class OutboxText extends TestCase
         global $_GET, $page;
         $page = "package";
         $_GET["packageLink"] = 1;
-        $_GET["message"] = "Hello world this is a test";
+        $_GET["messagePackage"] = "Hello world this is a test";
 
         $messagecheck = 'name="message" id="message" value="Hello world this is a test"';
         $sourcecheck = 'id="source" value="package"';
@@ -102,9 +102,9 @@ class OutboxText extends TestCase
         global $_GET, $page;
         $page = "server";
         $_GET["serverLink"] = 1;
-        $_GET["message"] = "Hello world this is a test";
+        $_GET["messageServer"] = "Hello world this is a test";
 
-        $messagecheck = 'id="message" value="'.$_GET["message"].'"';
+        $messagecheck = 'id="message" value="'.$_GET["messageServer"].'"';
         $sourcecheck = 'id="source" value="server"';
         $sourcevaluecheck = 'id="source_id" value="1"';
         $avatarcheck = 'id="max_avatars" value="1"';
@@ -129,9 +129,9 @@ class OutboxText extends TestCase
         global $_GET, $page;
         $page = "notice";
         $_GET["noticeLink"] = 1;
-        $_GET["message"] = "Hello world this is a test";
+        $_GET["messageStatus"] = "Hello world this is a test";
 
-        $messagecheck = 'id="message" value="'.$_GET["message"].'"';
+        $messagecheck = 'id="message" value="'.$_GET["messageStatus"].'"';
         $sourcecheck = 'id="source" value="notice"';
         $sourcevaluecheck = 'id="source_id" value="1"';
         $avatarcheck = 'id="max_avatars" value="1"';
@@ -157,7 +157,7 @@ class OutboxText extends TestCase
         $messages = new MessageSet();
         $messages->loadAll();
         $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox before sending");
-        $_POST["message"] = "Hello world this is a test";
+        $_POST["messagePackage"] = "Hello world this is a test";
         $_POST["source"] = "package";
         $_POST["source_id"] = 1;
         $_POST["max_avatars"] = 1;

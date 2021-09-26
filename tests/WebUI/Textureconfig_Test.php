@@ -59,7 +59,6 @@ class TextureconfigTest extends TestCase
         $_POST["stockLevels"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
         $_POST["renewHere"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
         $_POST["proxyRenew"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
-        $_POST["treevendWaiting"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
         $createHandler->process();
         $statuscheck = $createHandler->getOutputObject();
         $this->assertStringContainsString("Texture pack created",$statuscheck->getSwapTagString("message"));
@@ -111,7 +110,6 @@ class TextureconfigTest extends TestCase
         $_POST["stockLevels"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
         $_POST["renewHere"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
         $_POST["proxyRenew"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
-        $_POST["treevendWaiting"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Texture pack updated",$statuscheck->getSwapTagString("message"));
