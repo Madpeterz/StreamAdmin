@@ -78,24 +78,23 @@ class OutboxText extends TestCase
         $_GET["packageLink"] = 1;
         $_GET["message"] = "Hello world this is a test";
 
-        $messagecheck = 'name="message" value="'.$_GET["message"].'"';
-        $sourcecheck = 'name="source" value="package"';
-        $sourcevaluecheck = 'name="source_id" value="1"';
-        $avatarcheck = 'name="max_avatars" value="1"';
+        $messagecheck = 'name="message" id="message" value="Hello world this is a test"';
+        $sourcecheck = 'id="source" value="package"';
+        $sourcevaluecheck = 'id="source_id" value="1"';
+        $avatarcheck = 'id="max_avatars" value="1"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
         $bulkPackage->process();
-        $missing = "Missing outbox bulk package element";
         $statuscheck = $bulkPackage->getOutputObject()->getSwapTagString("page_content");
-        $this->assertStringContainsString("Name",$statuscheck,$missing);
-        $this->assertStringContainsString("X",$statuscheck,$missing);
-        $this->assertStringContainsString("Send to selected",$statuscheck,$missing);
-        $this->assertStringContainsString($messagecheck,$statuscheck,$missing);
-        $this->assertStringContainsString($sourcecheck,$statuscheck,$missing);
-        $this->assertStringContainsString($sourcevaluecheck,$statuscheck,$missing);
-        $this->assertStringContainsString($avatarcheck,$statuscheck,$missing);
-        $this->assertStringContainsString($checkboxcheck,$statuscheck,$missing);
+        $this->assertStringContainsString("Name",$statuscheck,"Failed check: Name col is missing");
+        $this->assertStringContainsString("X",$statuscheck,"Failed check: X col is missing");
+        $this->assertStringContainsString("Send to selected",$statuscheck,"Failed check: Send to selected text is missing");
+        $this->assertStringContainsString($messagecheck,$statuscheck,"Failed check: message is hidden input");
+        $this->assertStringContainsString($sourcecheck,$statuscheck,"Failed check: Name field is listed");
+        $this->assertStringContainsString($sourcevaluecheck,$statuscheck,"Failed check: Source field is listed");
+        $this->assertStringContainsString($avatarcheck,$statuscheck,"Failed check: max avatar counter");
+        $this->assertStringContainsString($checkboxcheck,$statuscheck,"Failed check: Avatar ids are missing");
     }
 
     public function test_BulkSendToServerForm()
@@ -105,10 +104,10 @@ class OutboxText extends TestCase
         $_GET["serverLink"] = 1;
         $_GET["message"] = "Hello world this is a test";
 
-        $messagecheck = 'name="message" value="'.$_GET["message"].'"';
-        $sourcecheck = 'name="source" value="server"';
-        $sourcevaluecheck = 'name="source_id" value="1"';
-        $avatarcheck = 'name="max_avatars" value="1"';
+        $messagecheck = 'id="message" value="'.$_GET["message"].'"';
+        $sourcecheck = 'id="source" value="server"';
+        $sourcevaluecheck = 'id="source_id" value="1"';
+        $avatarcheck = 'id="max_avatars" value="1"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
@@ -132,10 +131,10 @@ class OutboxText extends TestCase
         $_GET["noticeLink"] = 1;
         $_GET["message"] = "Hello world this is a test";
 
-        $messagecheck = 'name="message" value="'.$_GET["message"].'"';
-        $sourcecheck = 'name="source" value="notice"';
-        $sourcevaluecheck = 'name="source_id" value="1"';
-        $avatarcheck = 'name="max_avatars" value="1"';
+        $messagecheck = 'id="message" value="'.$_GET["message"].'"';
+        $sourcecheck = 'id="source" value="notice"';
+        $sourcevaluecheck = 'id="source_id" value="1"';
+        $avatarcheck = 'id="max_avatars" value="1"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();

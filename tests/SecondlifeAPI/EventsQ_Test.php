@@ -44,7 +44,7 @@ class SecondlifeApiEventsQserver extends TestCase
 
         $EventsqSet = new EventsqSet();
         $this->assertSame(true,$EventsqSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(2,$EventsqSet->getCount(),"Incorrect number of messages in the Q");
+        $this->assertSame(3,$EventsqSet->getCount(),"Incorrect number of messages in the Q");
 
         $Next = new Next();
         $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -57,7 +57,7 @@ class SecondlifeApiEventsQserver extends TestCase
         $sql->sqlSave();
         $EventsqSet = new EventsqSet();
         $this->assertSame(true,$EventsqSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(1,$EventsqSet->getCount(),"Incorrect number of messages in the Q");
+        $this->assertSame(2,$EventsqSet->getCount(),"Incorrect number of messages in the Q");
 
     }
 }
