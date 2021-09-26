@@ -5,6 +5,7 @@ namespace StreamAdminR7;
 use App\Endpoint\Control\Avatar\Create as AvatarCreate;
 use App\Endpoint\Control\Client\Create as ClientCreate;
 use App\Endpoint\Control\Client\Getnotecard;
+use App\Endpoint\Control\Client\Message;
 use App\Endpoint\Control\Client\Revoke as ClientRevoke;
 use App\Endpoint\Control\Client\Update;
 use App\Endpoint\Control\Stream\Create as StreamCreate;
@@ -220,6 +221,28 @@ class ClientTest extends TestCase
 
     /**
      * @depends test_ManageProcess
+     */
+    public function test_MessageClientProcess()
+    {
+        global $_POST, $page;
+        $avatar = new Avatar();
+        $status = $avatar->loadByField("avatarName","OtherTest Avatar");
+        $this->assertSame(true,$status,"Unable to load test avatar");
+        $rental = new Rental();
+        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $this->assertSame(true,$status,"Unable to load test rental");
+        $page = $rental->getRentalUid();
+        // send message to client
+        $sendMessageToClient = new Message();
+        $_POST["mail"] = "This is a test it is only a test";
+        $sendMessageToClient->process();
+        $statuscheck = $sendMessageToClient->getOutputObject();
+        $this->assertStringContainsString("Message added to outbox",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+    }
+
+    /**
+     * @depends test_MessageClientProcess
      */
     public function test_GetNotecard()
     {

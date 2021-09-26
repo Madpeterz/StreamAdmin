@@ -44,7 +44,7 @@ class SecondlifeApiMailserver extends TestCase
 
         $messageSet = new MessageSet();
         $this->assertSame(true,$messageSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(6,$messageSet->getCount(),"Incorrect number of messages in the Q");
+        $this->assertSame(8,$messageSet->getCount(),"Incorrect number of messages in the Q");
 
         $Next = new Next();
         $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -57,6 +57,6 @@ class SecondlifeApiMailserver extends TestCase
 
         $messageSet = new MessageSet();
         $this->assertSame(true,$messageSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(5,$messageSet->getCount(),"Incorrect number of messages in the Q");
+        $this->assertSame(7,$messageSet->getCount(),"Incorrect number of messages in the Q");
     }
 }

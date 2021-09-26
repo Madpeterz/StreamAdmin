@@ -21,6 +21,26 @@ class Manage extends View
     protected array $pages = [];
     protected Rental $rental;
     protected Avatar $avatar;
+    public function process(): void
+    {
+        $this->output->addSwapTagString("html_title", "~ Manage");
+        $this->output->addSwapTagString("page_title", "Editing client");
+        $this->setSwapTag("page_actions", "<a href='[[url_base]]client/revoke/" . $this->page . "'>"
+        . "<button type='button' class='btn btn-danger'>Revoke</button></a>");
+
+        $this->rental = new Rental();
+        if ($this->rental->loadByField("rentalUid", $this->page) == false) {
+            $this->output->redirect("client?bubblemessage=unable to find client "
+            . $this->page . "&bubbletype=warning");
+            return;
+        }
+        $paged_info = new PagedInfo();
+        $this->clientManageForm();
+        $this->clientMessageForm();
+        $this->clientApiActions();
+        $this->clientTransactions();
+        $this->setSwapTag("page_content", $paged_info->render($this->pages));
+    }
     protected function clientManageForm(): void
     {
         $this->avatar = new Avatar();
@@ -49,7 +69,7 @@ class Manage extends View
             );
         $form->split();
         $form->col(6);
-            $form->group("Message");
+            $form->group(" ");
             $form->textarea(
                 "message",
                 "Message",
@@ -58,6 +78,20 @@ class Manage extends View
                 "Any rental with a message will not be listed on the Fast removal system! Max length 9999"
             );
         $this->pages["Config"] = $form->render("Update", "primary");
+    }
+    protected function clientMessageForm(): void
+    {
+        $form = new Form();
+        $form->target("client/message/" . $this->page . "");
+        $form->required(true);
+        $form->textarea(
+            "mail",
+            "Mail",
+            800,
+            "",
+            "Send a IM to the selected avatar"
+        );
+        $this->pages["Message"] = $form->render("Send", "success");
     }
     protected function clientTransactions(): void
     {
@@ -85,7 +119,7 @@ class Manage extends View
             "i",
             false
         );
-        $table_head = ["id","Transaction UID","Avatar","Reseller","Region","Amount","Datetime"];
+        $table_head = ["Transaction UID","Avatar","Reseller","Region","Amount","Datetime"];
         $table_body = [];
         foreach ($transactions_set as $transaction) {
             $avatar = $avatar_set->getObjectByID($transaction->getAvatarLink());
@@ -93,7 +127,7 @@ class Manage extends View
             $reseller = $reseller_set->getObjectByID($transaction->getResellerLink());
             $reseller_av = $avatar_set->getObjectByID($reseller->getAvatarLink());
             $entry = [];
-            $entry[] = $transaction->getId();
+            //$entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
             $entry[] = $avatar->getAvatarName();
             $entry[] = $reseller_av->getAvatarName();
@@ -102,8 +136,7 @@ class Manage extends View
             $entry[]  = date('l jS \of F Y h:i:s A', $transaction->getUnixtime());
             $table_body[] = $entry;
         }
-        $this->output->addSwapTagString("page_content", "<br/><h4>Transactions</h4>");
-        $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));
+        $this->pages["Transactions"] = $this->renderTable($table_head, $table_body);
     }
     protected function clientApiActions(): void
     {
@@ -186,24 +219,5 @@ class Manage extends View
             <li>Firstname RentalUID: \"" . $avname[0] . "_" . $this->rental->getRentalUid() . "\"</li>
             </ol>";
         }
-    }
-    public function process(): void
-    {
-        $this->output->addSwapTagString("html_title", "~ Manage");
-        $this->output->addSwapTagString("page_title", "Editing client");
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]client/revoke/" . $this->page . "'>"
-        . "<button type='button' class='btn btn-danger'>Revoke</button></a>");
-
-        $this->rental = new Rental();
-        if ($this->rental->loadByField("rentalUid", $this->page) == false) {
-            $this->output->redirect("client?bubblemessage=unable to find client "
-            . $this->page . "&bubbletype=warning");
-            return;
-        }
-        $paged_info = new PagedInfo();
-        $this->clientManageForm();
-        $this->clientApiActions();
-        $this->setSwapTag("page_content", $paged_info->render($this->pages));
-        $this->clientTransactions();
     }
 }

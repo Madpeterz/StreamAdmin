@@ -156,7 +156,7 @@ class OutboxText extends TestCase
         global $_POST;
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(2,$messages->getCount(),"Incorrect number of messages in outbox before sending");
+        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox before sending");
         $_POST["message"] = "Hello world this is a test";
         $_POST["source"] = "package";
         $_POST["source_id"] = 1;
@@ -169,6 +169,6 @@ class OutboxText extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox");
+        $this->assertSame(6,$messages->getCount(),"Incorrect number of messages in outbox");
     }
 }
