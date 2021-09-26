@@ -10,6 +10,7 @@ use App\R7\Model\Banlist;
 use App\R7\Set\NoticeSet;
 use App\R7\Model\Package;
 use App\R7\Model\Rental;
+use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use App\R7\Model\Transactions;
 use App\Template\SecondlifeAjax;
@@ -22,6 +23,7 @@ class Renewnow extends SecondlifeAjax
     protected Stream $stream;
     protected Package $package;
     protected Avatar $avatar;
+    protected Server $server;
     protected Transactions $transaction;
     protected $amountpaid = 0;
     protected $multipler = 0;
@@ -41,6 +43,7 @@ class Renewnow extends SecondlifeAjax
         $this->package = new Package();
         $this->avatar = new Avatar();
         $this->transaction = new Transactions();
+        $this->server = new Server();
         $this->setupRun = true;
     }
 
@@ -61,6 +64,11 @@ class Renewnow extends SecondlifeAjax
 
         if ($this->stream->loadID($this->rental->getStreamLink()) == false) {
             $this->setSwapTag("message", "Unable to find stream");
+            return false;
+        }
+
+        if ($this->server->loadID($this->stream->getServerLink()) == false) {
+            $this->setSwapTag("message", "Unable to find server");
             return false;
         }
 
@@ -173,15 +181,29 @@ class Renewnow extends SecondlifeAjax
             $this->processNoticeChange($unixtime_remain);
         }
 
+        $EventsQHelper = new EventsQHelper();
+        $addedEvent = false;
         if (($old_notice_level == 6) && ($this->rental->getNoticeLink() != 6) && ($unixtime_remain > 0)) {
-            $EventsQHelper = new EventsQHelper();
             $EventsQHelper->addToEventQ(
                 "RentalRenew",
                 $this->package,
                 $this->avatar,
-                null,
+                $this->server,
                 $this->stream,
-                $this->rental
+                $this->rental,
+                $this->amountpaid
+            );
+            $addedEvent = true;
+        }
+        if ($addedEvent == false) {
+            $EventsQHelper->addToEventQ(
+                "RentalRenewAny",
+                $this->package,
+                $this->avatar,
+                $this->server,
+                $this->stream,
+                $this->rental,
+                $this->amountpaid
             );
         }
     }
