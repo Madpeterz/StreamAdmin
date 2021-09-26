@@ -9,6 +9,16 @@ class Objects extends genClass
 {
     protected $use_table = "objects";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+        "regionLink",
+        "objectUUID",
+        "objectName",
+        "objectMode",
+        "objectXYZ",
+        "lastSeen",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

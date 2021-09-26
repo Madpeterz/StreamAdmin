@@ -9,6 +9,12 @@ class Template extends genClass
 {
     protected $use_table = "template";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+        "detail",
+        "notecardDetail",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

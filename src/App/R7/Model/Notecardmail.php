@@ -9,6 +9,11 @@ class Notecardmail extends genClass
 {
     protected $use_table = "notecardmail";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+        "noticenotecardLink",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

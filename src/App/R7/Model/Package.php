@@ -9,6 +9,26 @@ class Package extends genClass
 {
     protected $use_table = "package";
     // Data Design
+    protected $fields = [
+        "id",
+        "packageUid",
+        "name",
+        "autodj",
+        "autodjSize",
+        "listeners",
+        "bitrate",
+        "templateLink",
+        "servertypeLink",
+        "cost",
+        "days",
+        "textureSoldout",
+        "textureInstockSmall",
+        "textureInstockSelected",
+        "apiTemplate",
+        "welcomeNotecardLink",
+        "setupNotecardLink",
+        "enableGroupInvite",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "packageUid" => ["type" => "str", "value" => null],

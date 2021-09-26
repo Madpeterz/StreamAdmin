@@ -9,6 +9,16 @@ class Apirequests extends genClass
 {
     protected $use_table = "apirequests";
     // Data Design
+    protected $fields = [
+        "id",
+        "serverLink",
+        "rentalLink",
+        "streamLink",
+        "eventname",
+        "attempts",
+        "lastAttempt",
+        "message",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "serverLink" => ["type" => "int", "value" => null],

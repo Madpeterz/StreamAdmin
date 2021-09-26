@@ -9,6 +9,35 @@ class Packages extends genClass
 {
     protected $use_table = "packages";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+        "streamtype",
+        "streamrate",
+        "users",
+        "Lcost",
+        "sublength",
+        "maintexture",
+        "infotexture",
+        "soldouttexture",
+        "autoDJ",
+        "use_addon_field_1",
+        "use_addon_field_2",
+        "use_addon_field_3",
+        "use_addon_field_4",
+        "addon_field_1",
+        "addon_field_2",
+        "addon_field_3",
+        "addon_field_4",
+        "addon_field1_default",
+        "addon_field2_default",
+        "addon_field3_default",
+        "addon_field4_default",
+        "enable_ans",
+        "ans_product_id",
+        "enable_invites",
+        "use_vender_config_id",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

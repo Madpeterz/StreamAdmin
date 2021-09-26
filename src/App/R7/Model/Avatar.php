@@ -9,6 +9,12 @@ class Avatar extends genClass
 {
     protected $use_table = "avatar";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarUUID",
+        "avatarName",
+        "avatarUid",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarUUID" => ["type" => "str", "value" => null],

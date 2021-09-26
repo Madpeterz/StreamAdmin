@@ -9,6 +9,17 @@ class Sales_tracking extends genClass
 {
     protected $use_table = "sales_tracking";
     // Data Design
+    protected $fields = [
+        "id",
+        "resellerid",
+        "venderid",
+        "userid",
+        "salemode",
+        "amount",
+        "date",
+        "time",
+        "SLname",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "resellerid" => ["type" => "int", "value" => null],

@@ -9,6 +9,27 @@ class Apis extends genClass
 {
     protected $use_table = "apis";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+        "apiServerStatus",
+        "apiSyncAccounts",
+        "optToggleStatus",
+        "optPasswordReset",
+        "optAutodjNext",
+        "optToggleAutodj",
+        "eventEnableStart",
+        "eventStartSyncUsername",
+        "eventEnableRenew",
+        "eventDisableExpire",
+        "eventDisableRevoke",
+        "eventRevokeResetUsername",
+        "eventResetPasswordRevoke",
+        "eventClearDjs",
+        "eventRecreateRevoke",
+        "eventCreateStream",
+        "eventUpdateStream",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

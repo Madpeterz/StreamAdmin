@@ -9,6 +9,20 @@ class Textureconfig extends genClass
 {
     protected $use_table = "textureconfig";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+        "offline",
+        "waitOwner",
+        "stockLevels",
+        "makePayment",
+        "inUse",
+        "renewHere",
+        "treevendWaiting",
+        "proxyRenew",
+        "gettingDetails",
+        "requestDetails",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

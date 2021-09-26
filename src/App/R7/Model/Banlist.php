@@ -9,6 +9,10 @@ class Banlist extends genClass
 {
     protected $use_table = "banlist";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

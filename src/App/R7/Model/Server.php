@@ -9,6 +9,33 @@ class Server extends genClass
 {
     protected $use_table = "server";
     // Data Design
+    protected $fields = [
+        "id",
+        "domain",
+        "controlPanelURL",
+        "apiLink",
+        "apiURL",
+        "apiUsername",
+        "apiPassword",
+        "apiServerStatus",
+        "apiSyncAccounts",
+        "optPasswordReset",
+        "optAutodjNext",
+        "optToggleAutodj",
+        "optToggleStatus",
+        "eventEnableStart",
+        "eventStartSyncUsername",
+        "eventEnableRenew",
+        "eventDisableExpire",
+        "eventDisableRevoke",
+        "eventRevokeResetUsername",
+        "eventResetPasswordRevoke",
+        "eventClearDjs",
+        "eventRecreateRevoke",
+        "lastApiSync",
+        "eventCreateStream",
+        "eventUpdateStream",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "domain" => ["type" => "str", "value" => null],

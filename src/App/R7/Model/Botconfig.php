@@ -9,6 +9,15 @@ class Botconfig extends genClass
 {
     protected $use_table = "botconfig";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+        "secret",
+        "notecards",
+        "ims",
+        "invites",
+        "inviteGroupUUID",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

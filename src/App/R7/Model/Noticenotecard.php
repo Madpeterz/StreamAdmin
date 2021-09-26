@@ -9,6 +9,11 @@ class Noticenotecard extends genClass
 {
     protected $use_table = "noticenotecard";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+        "missing",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

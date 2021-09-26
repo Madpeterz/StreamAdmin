@@ -9,6 +9,16 @@ class Notice extends genClass
 {
     protected $use_table = "notice";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+        "imMessage",
+        "useBot",
+        "sendNotecard",
+        "notecardDetail",
+        "hoursRemaining",
+        "noticeNotecardLink",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

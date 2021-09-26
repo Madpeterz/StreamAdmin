@@ -9,6 +9,23 @@ class Items extends genClass
 {
     protected $use_table = "items";
     // Data Design
+    protected $fields = [
+        "id",
+        "packageid",
+        "sold",
+        "streamurl",
+        "streamport",
+        "streampassword",
+        "baditem",
+        "adminurl",
+        "adminusername",
+        "adminpassword",
+        "serverlocid",
+        "addon1",
+        "addon2",
+        "addon3",
+        "addon4",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "packageid" => ["type" => "int", "value" => null],

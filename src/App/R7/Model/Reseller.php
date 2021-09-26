@@ -9,6 +9,12 @@ class Reseller extends genClass
 {
     protected $use_table = "reseller";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+        "allowed",
+        "rate",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

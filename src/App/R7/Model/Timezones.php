@@ -9,6 +9,11 @@ class Timezones extends genClass
 {
     protected $use_table = "timezones";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+        "code",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

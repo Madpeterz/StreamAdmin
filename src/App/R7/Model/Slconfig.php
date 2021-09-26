@@ -9,6 +9,30 @@ class Slconfig extends genClass
 {
     protected $use_table = "slconfig";
     // Data Design
+    protected $fields = [
+        "id",
+        "dbVersion",
+        "newResellers",
+        "newResellersRate",
+        "slLinkCode",
+        "clientsListMode",
+        "publicLinkCode",
+        "hudLinkCode",
+        "ownerAvatarLink",
+        "datatableItemsPerPage",
+        "httpInboundSecret",
+        "displayTimezoneLink",
+        "apiDefaultEmail",
+        "customLogo",
+        "customLogoBin",
+        "hudAllowDiscord",
+        "hudDiscordLink",
+        "hudAllowGroup",
+        "hudGroupLink",
+        "hudAllowDetails",
+        "hudAllowRenewal",
+        "eventsAPI",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "dbVersion" => ["type" => "str", "value" => "install"],

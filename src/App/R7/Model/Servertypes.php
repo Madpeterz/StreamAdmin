@@ -9,6 +9,10 @@ class Servertypes extends genClass
 {
     protected $use_table = "servertypes";
     // Data Design
+    protected $fields = [
+        "id",
+        "name",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],

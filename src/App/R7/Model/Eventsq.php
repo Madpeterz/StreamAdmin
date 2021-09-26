@@ -9,6 +9,12 @@ class Eventsq extends genClass
 {
     protected $use_table = "eventsq";
     // Data Design
+    protected $fields = [
+        "id",
+        "eventName",
+        "eventMessage",
+        "eventUnixtime",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "eventName" => ["type" => "str", "value" => null],

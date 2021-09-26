@@ -9,6 +9,17 @@ class Staff extends genClass
 {
     protected $use_table = "staff";
     // Data Design
+    protected $fields = [
+        "id",
+        "username",
+        "emailResetCode",
+        "emailResetExpires",
+        "avatarLink",
+        "phash",
+        "lhash",
+        "psalt",
+        "ownerLevel",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "username" => ["type" => "str", "value" => null],

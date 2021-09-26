@@ -9,6 +9,11 @@ class Treevenderpackages extends genClass
 {
     protected $use_table = "treevenderpackages";
     // Data Design
+    protected $fields = [
+        "id",
+        "treevenderLink",
+        "packageLink",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "treevenderLink" => ["type" => "int", "value" => null],

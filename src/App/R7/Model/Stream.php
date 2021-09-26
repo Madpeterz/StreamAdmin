@@ -9,6 +9,24 @@ class Stream extends genClass
 {
     protected $use_table = "stream";
     // Data Design
+    protected $fields = [
+        "id",
+        "serverLink",
+        "rentalLink",
+        "packageLink",
+        "port",
+        "needWork",
+        "originalAdminUsername",
+        "adminUsername",
+        "adminPassword",
+        "djPassword",
+        "streamUid",
+        "mountpoint",
+        "lastApiSync",
+        "apiConfigValue1",
+        "apiConfigValue2",
+        "apiConfigValue3",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "serverLink" => ["type" => "int", "value" => null],

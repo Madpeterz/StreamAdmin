@@ -9,6 +9,11 @@ class Message extends genClass
 {
     protected $use_table = "message";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+        "message",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

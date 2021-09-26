@@ -9,6 +9,19 @@ class Rental extends genClass
 {
     protected $use_table = "rental";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+        "streamLink",
+        "packageLink",
+        "noticeLink",
+        "startUnixtime",
+        "expireUnixtime",
+        "renewals",
+        "totalAmount",
+        "message",
+        "rentalUid",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

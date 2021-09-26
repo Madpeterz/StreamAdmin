@@ -9,6 +9,20 @@ class Transactions extends genClass
 {
     protected $use_table = "transactions";
     // Data Design
+    protected $fields = [
+        "id",
+        "avatarLink",
+        "packageLink",
+        "streamLink",
+        "resellerLink",
+        "regionLink",
+        "amount",
+        "unixtime",
+        "transactionUid",
+        "renew",
+        "SLtransactionUUID",
+        "ViaHud",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarLink" => ["type" => "int", "value" => null],

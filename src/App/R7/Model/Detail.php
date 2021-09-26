@@ -9,6 +9,10 @@ class Detail extends genClass
 {
     protected $use_table = "detail";
     // Data Design
+    protected $fields = [
+        "id",
+        "rentalLink",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "rentalLink" => ["type" => "int", "value" => null],

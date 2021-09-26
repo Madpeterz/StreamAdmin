@@ -9,6 +9,19 @@ class Users extends genClass
 {
     protected $use_table = "users";
     // Data Design
+    protected $fields = [
+        "id",
+        "itemid",
+        "slkey",
+        "slname",
+        "buyfromboxkey",
+        "venderlanddetail",
+        "noticesent",
+        "notes",
+        "expireunix",
+        "packageid",
+        "locktoreseller",
+    ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "itemid" => ["type" => "float", "value" => null],
