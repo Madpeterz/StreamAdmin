@@ -250,7 +250,7 @@ class Startrental extends SecondlifeAjax
         }
 
         $EventsQHelper = new EventsQHelper();
-        $EventsQHelper->addToEventQ("RentalStart", $package, $avatar, $server, $stream, $rental);
+        $EventsQHelper->addToEventQ("RentalStart", $package, $avatar, $server, $stream, $rental, $amountpaid);
 
         if ($package->getEnableGroupInvite() == true) {
             $botHelper = new BotHelper();
