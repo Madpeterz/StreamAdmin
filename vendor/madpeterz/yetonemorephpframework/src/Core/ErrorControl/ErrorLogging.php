@@ -2,13 +2,10 @@
 
 namespace YAPF\Core\ErrorControl;
 
-use Error;
-
 abstract class ErrorLogging
 {
     protected $myLastError = "";
     protected $myLastErrorBasic = "";
-    protected bool $enableErrorLog = false;
     /**
      * addError
      * see getLastError()
@@ -26,7 +23,6 @@ abstract class ErrorLogging
     ): array {
         $this->myLastError = "File: " . $flileHint . " Function: " . $functionHint . " info: " . $errorMessage . "";
         $this->myLastErrorBasic = $errorMessage;
-        error_log($this->myLastError);
         return array_merge($arrayAddon, ["status" => false, "message" => $errorMessage]);
     }
     public function getLastErrorBasic(): string

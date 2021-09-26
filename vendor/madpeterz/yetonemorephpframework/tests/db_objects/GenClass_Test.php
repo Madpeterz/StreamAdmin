@@ -12,6 +12,7 @@ use YAPF\Junk\Models\Counttoonehundo;
 class BrokenDbObject extends genClass
 {
     protected $use_table = "test.counttoonehundo";
+    protected $fields = ["id","cvalue"];
     protected $dataset = [
         "cvalue" => ["type" => "int", "value" => null],
     ];
@@ -36,6 +37,7 @@ class BrokenDbObject extends genClass
 class VeryBrokenDbObject extends genClass
 {
     protected $use_table = "test.counttoonehundo";
+    protected $fields = ["id","cvalue"];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "cvalue" => ["type" => "int", "value" => null],
@@ -59,6 +61,7 @@ class VeryBrokenDbObject extends genClass
 class VeryBrokenDbObjectNoId extends genClass
 {
     protected $use_table = "test.counttoonehundo";
+    protected $fields = ["id","cvalue"];
     protected $dataset = [
         "cvalue" => ["type" => "int", "value" => null],
     ];
@@ -66,6 +69,7 @@ class VeryBrokenDbObjectNoId extends genClass
 class WeirdBrokenObjectWithSaveDatasetButNoLive extends GenClass
 {
     protected $use_table = "test.counttoonehundo";
+    protected $fields = ["id","cvalue"];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "cvalue" => ["type" => "int", "value" => null],
@@ -79,6 +83,7 @@ class WeirdBrokenObjectWithSaveDatasetButNoLive extends GenClass
 class WeirdBrokenObjectWithSaveDatasetButMalformedLive extends GenClass
 {
     protected $use_table = "test.counttoonehundo";
+    protected $fields = ["id","cvalue"];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "cvalue" => ["type" => "int", "value" => null],
@@ -275,8 +280,7 @@ class DbObjectsGenClassTest extends TestCase
         $BrokenDbObject = new BrokenDbObject();
         $result = $BrokenDbObject->getMissingIndex();
         $this->assertSame($result, null);
-        $expected_error = "YAPF\Junk\BrokenDbObject Attempting to read a field ";
-        $expected_error .= "[missing] from a unloaded object, please check the code";
+        $expected_error = "YAPF\Junk\BrokenDbObject Attempting to get field that does not exist";
         $this->assertSame($BrokenDbObject->getLastErrorBasic(), $expected_error);
     }
     public function testGetFieldType()

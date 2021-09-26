@@ -13,6 +13,7 @@ $sql = null;
 class BrokenObjectThatSetsWhatever extends genClass
 {
     protected $use_table = "test.counttoonehundo";
+    protected $fields = ["id","cvalue"];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "cvalue" => ["type" => "int", "value" => null],

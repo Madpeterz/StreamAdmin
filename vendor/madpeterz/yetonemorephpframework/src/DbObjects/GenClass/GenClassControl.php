@@ -13,6 +13,7 @@ abstract class GenClassControl extends SqlConnectedClass
     protected $use_table = "";
     protected $save_dataset = [];
     protected $dataset = [];
+    protected $fields = [];
     protected $allow_set_field = true;
     public $bad_id = false;
     public $use_id_field = "id";
@@ -96,8 +97,7 @@ abstract class GenClassControl extends SqlConnectedClass
     public function objectToMappedArray(array $ignoreFields = []): array
     {
         $reply = [];
-        $keys = array_keys($this->dataset);
-        foreach ($keys as $fieldname) {
+        foreach ($this->fields as $fieldname) {
             if (in_array($fieldname, $ignoreFields) == false) {
                 $reply[$fieldname] = $this->getField($fieldname);
             }
@@ -120,7 +120,7 @@ abstract class GenClassControl extends SqlConnectedClass
      */
     public function hasField(string $fieldname): bool
     {
-        return array_key_exists($fieldname, $this->dataset);
+        return in_array($fieldname, $this->fields);
     }
     /**
      * getFieldType
@@ -129,7 +129,7 @@ abstract class GenClassControl extends SqlConnectedClass
      */
     public function getFieldType(string $fieldname, bool $as_mysqli_code = false): ?string
     {
-        if (array_key_exists($fieldname, $this->dataset) == false) {
+        if (in_array($fieldname, $this->fields) == false) {
             $error_meesage = " Attempting to read a fieldtype [" . $fieldname . "] that does not exist";
             $this->addError(__FILE__, __FUNCTION__, get_class($this) . $error_meesage);
             return null;
@@ -159,7 +159,7 @@ abstract class GenClassControl extends SqlConnectedClass
      */
     public function getFields(): array
     {
-        return array_keys($this->dataset);
+        return $this->fields;
     }
     /**
      * isLoaded
@@ -168,12 +168,13 @@ abstract class GenClassControl extends SqlConnectedClass
      */
     public function isLoaded(): bool
     {
-        if (array_key_exists("id", $this->dataset) == true) {
-            if ($this->getField("id") > 0) {
-                return true;
-            }
+        if (in_array("id", $this->fields) == false) {
+            return false;
         }
-        return false;
+        if ($this->getField("id") < 1) {
+            return false;
+        }
+        return true;
     }
     /**
      * getField
@@ -183,24 +184,22 @@ abstract class GenClassControl extends SqlConnectedClass
      */
     protected function getField(string $fieldname)
     {
-        if (array_key_exists($fieldname, $this->dataset) == true) {
-            $value = $this->dataset[$fieldname]["value"];
-            if ($value === null) {
-                return null;
-            }
-            if ($this->dataset[$fieldname]["type"] == "int") {
-                $value = intval($value);
-            } elseif ($this->dataset[$fieldname]["type"] == "bool") {
-                $value = in_array($value, [1,"1","true",true,"yes"], true);
-            } elseif ($this->dataset[$fieldname]["type"] == "float") {
-                $value = floatval($value);
-            }
-            return $value;
+        if (in_array($fieldname, $this->fields) == false) {
+            $this->addError(__FILE__, __FUNCTION__, get_class($this) . " Attempting to get field that does not exist");
+            return null;
         }
-        $error_message = "Attempting to read a field [" . $fieldname . "]";
-        $error_message .= " from a unloaded object, please check the code";
-        $this->addError(__FILE__, __FUNCTION__, get_class($this) . " " . $error_message);
-        return null;
+        $value = $this->dataset[$fieldname]["value"];
+        if ($value === null) {
+            return null;
+        }
+        if ($this->dataset[$fieldname]["type"] == "int") {
+            $value = intval($value);
+        } elseif ($this->dataset[$fieldname]["type"] == "bool") {
+            $value = in_array($value, [1,"1","true",true,"yes"], true);
+        } elseif ($this->dataset[$fieldname]["type"] == "float") {
+            $value = floatval($value);
+        }
+        return $value;
     }
     /**
      * getTable
@@ -263,7 +262,7 @@ abstract class GenClassControl extends SqlConnectedClass
         $hasErrors = false;
         $saveDataset = $this->dataset;
         foreach ($keyvalues as $key => $value) {
-            if (array_key_exists($key, $this->dataset) == false) {
+            if (in_array($key, $this->fields) == false) {
                 continue;
             }
             $this->dataset[$key]["value"] = $value;
@@ -353,7 +352,7 @@ abstract class GenClassControl extends SqlConnectedClass
             $errored_on = "update_field is not allowed for this object";
             return $this->addError(__FILE__, __FUNCTION__, $errored_on);
         }
-        if (array_key_exists($fieldname, $this->dataset) == false) {
+        if (in_array($fieldname, $this->fields) == false) {
             $errored_on = "Sorry this object does not have the field: " . $fieldname;
             return $this->addError(__FILE__, __FUNCTION__, $errored_on);
         }
