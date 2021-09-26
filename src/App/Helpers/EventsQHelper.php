@@ -24,13 +24,14 @@ class EventsQHelper
         ?Avatar $avatar,
         ?Server $server,
         ?Stream $stream,
-        ?Rental $rental
+        ?Rental $rental,
+        ?int $amountpaid = null
     ): void {
         if ($this->config->getEventsAPI() == false) {
             return;
         }
         $eventq = new Eventsq();
-        $eventq->setEventMessage($this->makeJsonString($package, $avatar, $server, $stream, $rental));
+        $eventq->setEventMessage($this->makeJsonString($package, $avatar, $server, $stream, $rental, $amountpaid));
         $eventq->setEventName($name);
         $eventq->setEventUnixtime(time());
         $eventq->createEntry();
@@ -40,7 +41,8 @@ class EventsQHelper
         ?Avatar $avatar,
         ?Server $server,
         ?Stream $stream,
-        ?Rental $rental
+        ?Rental $rental,
+        ?int $amountpaid = null
     ): string {
         $reply = [];
         if ($package != null) {
@@ -58,6 +60,9 @@ class EventsQHelper
         }
         if ($rental != null) {
             $reply["uid"] = $rental->getRentalUid();
+        }
+        if ($amountpaid != null) {
+            $reply["amount"] = $amountpaid;
         }
         $reply["unixtime"] = time();
         return json_encode($reply);
