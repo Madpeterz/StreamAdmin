@@ -148,7 +148,7 @@ class Form
         }
         $classUsed = "form-control";
         $addon = "";
-        if (($max_length != 9999) && ($max_length > 0) && ($readonly == false)) {
+        if (($mode != "hidden") && ($max_length != 9999) && ($max_length > 0) && ($readonly == false)) {
             $classUsed = "form-control inputwithlimit";
             $addon = 'data-lengthmax="' . $max_length . '"';
         }
