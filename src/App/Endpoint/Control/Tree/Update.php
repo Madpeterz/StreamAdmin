@@ -15,6 +15,16 @@ class Update extends ViewAjax
         if ($name == null) {
             $this->failed("Name failed:" . $input->getWhyFailed());
         }
+        $textureWaiting = $input->postUUID("textureWaiting");
+        if ($textureWaiting == null) {
+            $this->failed("texture waiting is not vaild: " . $input->getLastError());
+            return;
+        }
+        $textureInuse = $input->postUUID("textureInuse");
+        if ($textureInuse == null) {
+            $this->failed("texture inuse is not vaild: " . $input->getLastError());
+            return;
+        }
         $this->setSwapTag("redirect", "");
         $treevender = new Treevender();
         if ($treevender->loadID($this->page) == false) {
@@ -42,6 +52,8 @@ class Update extends ViewAjax
             return;
         }
         $treevender->setName($name);
+        $treevender->setTextureWaiting($textureWaiting);
+        $treevender->setTextureInuse($textureInuse);
         $update_status = $treevender->updateEntry();
         if ($update_status["status"] == false) {
             $this->failed(

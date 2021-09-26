@@ -60,4 +60,30 @@ class TreevenderSet extends CollectionSet
     {
         return $this->loadByField("name", $name, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByTextureWaiting
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByTextureWaiting(
+                    string $textureWaiting, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("textureWaiting", $textureWaiting, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByTextureInuse
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByTextureInuse(
+                    string $textureInuse, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("textureInuse", $textureInuse, $limit, $orderBy, $orderDir);
+    }
 }

@@ -18,7 +18,6 @@ class Textureconfig extends genClass
         "makePayment",
         "inUse",
         "renewHere",
-        "treevendWaiting",
         "proxyRenew",
         "gettingDetails",
         "requestDetails",
@@ -32,7 +31,6 @@ class Textureconfig extends genClass
         "makePayment" => ["type" => "str", "value" => null],
         "inUse" => ["type" => "str", "value" => null],
         "renewHere" => ["type" => "str", "value" => null],
-        "treevendWaiting" => ["type" => "str", "value" => null],
         "proxyRenew" => ["type" => "str", "value" => null],
         "gettingDetails" => ["type" => "str", "value" => null],
         "requestDetails" => ["type" => "str", "value" => null],
@@ -65,10 +63,6 @@ class Textureconfig extends genClass
     public function getRenewHere(): ?string
     {
         return $this->getField("renewHere");
-    }
-    public function getTreevendWaiting(): ?string
-    {
-        return $this->getField("treevendWaiting");
     }
     public function getProxyRenew(): ?string
     {
@@ -140,14 +134,6 @@ class Textureconfig extends genClass
         return $this->updateField("renewHere", $newvalue);
     }
     /**
-    * setTreevendWaiting
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setTreevendWaiting(?string $newvalue): array
-    {
-        return $this->updateField("treevendWaiting", $newvalue);
-    }
-    /**
     * setProxyRenew
     * @return mixed[] [status =>  bool, message =>  string]
     */
@@ -199,10 +185,6 @@ class Textureconfig extends genClass
     public function loadByRenewHere(string $renewHere): bool
     {
         return $this->loadByField("renewHere", $renewHere);
-    }
-    public function loadByTreevendWaiting(string $treevendWaiting): bool
-    {
-        return $this->loadByField("treevendWaiting", $treevendWaiting);
     }
     public function loadByProxyRenew(string $proxyRenew): bool
     {

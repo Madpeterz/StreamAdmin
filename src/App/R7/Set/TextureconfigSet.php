@@ -139,19 +139,6 @@ class TextureconfigSet extends CollectionSet
         return $this->loadByField("renewHere", $renewHere, $limit, $orderBy, $orderDir);
     }
     /**
-     * loadByTreevendWaiting
-     * @return mixed[] [status =>  bool, count => integer, message =>  string]
-    */
-    public function loadByTreevendWaiting(
-                    string $treevendWaiting, 
-                    int $limit = 0, 
-                    string $orderBy = "id", 
-                    string $orderDir = "DESC"
-    ): array
-    {
-        return $this->loadByField("treevendWaiting", $treevendWaiting, $limit, $orderBy, $orderDir);
-    }
-    /**
      * loadByProxyRenew
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */

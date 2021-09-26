@@ -52,13 +52,6 @@ class Manage extends View
                 "UUID of texture"
             );
             $form->textureInput("inUse", "InUse", 36, $textureconfig->getInUse(), "UUID of texture");
-            $form->textureInput(
-                "treevendWaiting",
-                "Tree vend [Wait]",
-                36,
-                $textureconfig->getTreevendWaiting(),
-                "UUID of texture"
-            );
         $form->col(6);
             $form->textureInput(
                 "makePayment",

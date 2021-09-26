@@ -23,7 +23,6 @@ class Create extends View
             $form->textInput("offline", "Offline", 36, "", "UUID of texture");
             $form->textInput("waitOwner", "Waiting for owner", 36, "", "UUID of texture");
             $form->textInput("inUse", "InUse", 36, "", "UUID of texture");
-            $form->textInput("treevendWaiting", "Tree vend [Wait]", 36, "", "UUID of texture");
         $form->col(6);
             $form->textInput("makePayment", "Request payment", 36, "", "UUID of texture");
             $form->textInput("stockLevels", "Stock levels", 36, "", "UUID of texture");

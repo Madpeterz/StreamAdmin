@@ -25,6 +25,9 @@ class Getpackages extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load selected tree vender");
             return;
         }
+        $this->setSwapTag("textureInuse", $treevender->getTextureWaiting());
+        $this->setSwapTag("textureWaiting", $treevender->getTextureInuse());
+
         $treevender_packages_set = new TreevenderpackagesSet();
         $load_status = $treevender_packages_set->loadOnField("treevenderLink", $treevender->getId());
         if ($load_status["status"] == false) {

@@ -31,9 +31,6 @@ class Getpack extends SecondlifeAjax
         $this->setSwapTag("Texture-RequestDetails", $textureconfig->getRequestDetails());
         $this->setSwapTag("Texture-StockLevels", $textureconfig->getStockLevels());
         $this->setSwapTag("Texture-ProxyRenew", $textureconfig->getProxyRenew());
-        $this->setSwapTag("Texture-TreevendWaiting", $textureconfig->getTreevendWaiting());
-
-
         $this->setSwapTag("reseller_rate", 100);
         $this->setSwapTag("reseller_mode", "Owner mode");
         $this->setSwapTag("message", "ok");

@@ -12,21 +12,30 @@ class Create extends ViewAjax
     {
         $treevender = new Treevender();
         $input = new InputFilter();
-        $name = $input->postFilter("name");
-        if (strlen($name) < 5) {
-            $this->failed("Name length must be 5 or longer");
-            return;
-        }
-        if (strlen($name) > 100) {
-            $this->failed("Name length must be 200 or less");
+        $name = $input->postString("name", 100, 5);
+        if ($name == null) {
+            $this->failed("Name is not vaild: " . $input->getLastError());
             return;
         }
         if ($treevender->loadByField("name", $name) == true) {
             $this->failed("There is already a tree vender assigned to that name");
             return;
         }
+        $textureWaiting = $input->postUUID("textureWaiting");
+        if ($textureWaiting == null) {
+            $this->failed("texture waiting is not vaild: " . $input->getLastError());
+            return;
+        }
+        $textureInuse = $input->postUUID("textureInuse");
+        if ($textureInuse == null) {
+            $this->failed("texture inuse is not vaild: " . $input->getLastError());
+            return;
+        }
+
         $treevender = new Treevender();
         $treevender->setName($name);
+        $treevender->setTextureWaiting($textureWaiting);
+        $treevender->setTextureInuse($textureInuse);
         $create_status = $treevender->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag(

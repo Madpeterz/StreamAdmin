@@ -26,7 +26,6 @@ class Update extends ViewAjax
         $stockLevels = $input->postUUID("stockLevels");
         $renewHere = $input->postUUID("renewHere");
         $proxyRenew = $input->postUUID("proxyRenew");
-        $treevendWaiting = $input->postUUID("treevendWaiting");
         $testing = [
             "gettingDetail" => $gettingDetails,
             "requestDetails" => $requestDetails,
@@ -37,7 +36,6 @@ class Update extends ViewAjax
             "stockLevels" => $stockLevels,
             "renewHere" => $renewHere,
             "proxyRenew" => $proxyRenew,
-            "treevendWaiting" => $treevendWaiting,
         ];
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
@@ -62,7 +60,6 @@ class Update extends ViewAjax
         $textureconfig->setGettingDetails($gettingDetails);
         $textureconfig->setRequestDetails($requestDetails);
         $textureconfig->setProxyRenew($proxyRenew);
-        $textureconfig->setTreevendWaiting($treevendWaiting);
         $update_status = $textureconfig->updateEntry();
         if ($update_status["status"] == false) {
             $this->failed(
