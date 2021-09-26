@@ -49,7 +49,6 @@ if ($cache != null) {
     $cache->addTableToCache("server", 120, true, true);
     $cache->addTableToCache("servertypes", 120, true);
     $cache->addTableToCache("slconfig", 120, true, true);
-    $cache->addTableToCache("staff", 120, true, true);
     $cache->addTableToCache("template", 120, true, true);
     $cache->addTableToCache("textureconfig", 120, true, true);
     $cache->addTableToCache("timezones", 120, true, true);
