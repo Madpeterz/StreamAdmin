@@ -29,7 +29,7 @@ class Bulkupdate extends View
         $server_set = new ServerSet();
         $server_set->loadAll();
 
-        $table_head = ["id","Action","Server","Port","Encoder/Stream password","Admin Password"];
+        $table_head = ["Action","Server","Port","Encoder/Stream password","Admin Password"];
         $table_body = [];
 
         foreach ($stream_set as $stream) {
@@ -45,7 +45,7 @@ class Bulkupdate extends View
 </label>
 </div>';
                 $entry = [];
-                $entry[] = $stream->getId();
+                //$entry[] = $stream->getId();
                 $entry[] = $action;
                 $entry[] = $server->getDomain();
                 $entry[] = $stream->getPort();
@@ -67,7 +67,8 @@ class Bulkupdate extends View
         $form = new Form();
         $form->target("stream/bulkupdate");
         $form->col(12);
-        $form->directAdd($this->renderDatatable($table_head, $table_body));
+        $form->directAdd($this->renderTable($table_head, $table_body));
+        $form->directAdd("<a href=\"#\" class=\"bulkactiontoggle\">Toggle</a>");
         $this->setSwapTag("page_content", $form->render("Process", "outline-warning"));
     }
 }

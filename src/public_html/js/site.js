@@ -43,7 +43,31 @@ function updateTextCounterBox(focusedID)
         }
     }
 }
+var lastCheckbox = false;
 $(document).ready(function () {
+    $(".bulksenduncheck").click(function (e) {
+        if(lastCheckbox == true) {
+            $('input:checkbox').attr('checked','checked');
+        } else {
+            $('input:checkbox').removeAttr('checked');
+        }
+        lastCheckbox = !lastCheckbox;
+    });
+    $(".bulkactiontoggle").click(function (e) {
+        $('input:radio').each(function (i, obj) {
+            var skipped = false;
+            var matchon = ["skip"];
+            if(lastCheckbox == true) {
+                matchon = ["update"];
+            }
+            skipped = matchon.includes($(obj).val());
+            if(skipped == false) {
+                $(obj).click();
+            }
+        });
+        lastCheckbox = !lastCheckbox;
+    });
+    
     $(".ajaxonpageload").each(function (i, obj) {
         setTimeout(dynamic_ajax_load, (300 + Math.floor(Math.random() * 400)), $(this));
     });

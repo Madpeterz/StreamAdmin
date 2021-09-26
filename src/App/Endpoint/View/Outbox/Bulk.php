@@ -22,17 +22,15 @@ class Bulk extends View
         $source_id = -1;
         $souce_named = "";
         $ok = false;
-        $message = $input_filter->getFilter("message");
+        $message = "";
 
-        if (strlen($message) < 10) {
-            $this->output->redirect("outbox?message=Message length to short");
-            return;
-        }
-        if (strlen($message) > 800) {
-            $this->output->redirect("outbox?message=Message length to long");
-            return;
-        }
+
         if ($this->page == "notice") {
+            $message = $input_filter->getString("messageStatus", 800, 10);
+            if ($message == null) {
+                $this->failed("message failed:" . $input_filter->getWhyFailed());
+                return;
+            }
             $source_id = $input_filter->getFilter("noticeLink", "integer");
             if ($source_id != null) {
                 $notice = new Notice();
@@ -42,6 +40,11 @@ class Bulk extends View
                 $ok = true;
             }
         } elseif ($this->page == "server") {
+            $message = $input_filter->getString("messageServer", 800, 10);
+            if ($message == null) {
+                $this->failed("message failed:" . $input_filter->getWhyFailed());
+                return;
+            }
             $source_id = $input_filter->getFilter("serverLink", "integer");
             if ($source_id != null) {
                 $server = new Server();
@@ -53,6 +56,11 @@ class Bulk extends View
                 $ok = true;
             }
         } elseif ($this->page == "package") {
+            $message = $input_filter->getString("messagePackage", 800, 10);
+            if ($message == null) {
+                $this->failed("message failed:" . $input_filter->getWhyFailed());
+                return;
+            }
             $source_id = $input_filter->getFilter("packageLink", "integer");
             if ($source_id != null) {
                 $package = new Package();
@@ -62,6 +70,11 @@ class Bulk extends View
                 $ok = true;
             }
         }
+        if (strlen($message) < 10) {
+            $this->failed("message is to short");
+            return;
+        }
+
         if ($ok == false) {
             $this->output->redirect("outbox?message=Filter option not supported");
             return;
@@ -87,7 +100,7 @@ class Bulk extends View
         $form->hiddenInput("source", $this->page);
         $form->hiddenInput("source_id", $source_id);
 
-        $table_head = ["X","Name"];
+        $table_head = ["<a href=\"#\" class=\"bulksenduncheck\">X</a>","Name"];
         $table_body = [];
 
         $banned_ids = $banlist_set->getAllByField("avatarLink");
