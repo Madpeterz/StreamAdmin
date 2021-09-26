@@ -31,6 +31,7 @@ class Create extends ViewAjax
         $streamuid = $input->postString("streamuid");
         if ($streamuid == null) {
             $this->failed("Stream UID failed:" . $input->getWhyFailed());
+            return;
         }
         $daysremaining = $input->postInteger("daysremaining", false, true);
         if ($daysremaining == null) {
