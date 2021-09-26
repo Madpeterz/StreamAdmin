@@ -36,12 +36,25 @@ class Update extends ViewAjax
         $input = new InputFilter();
         $hudAllowDiscord = $input->postBool("hudAllowDiscord");
         $hudDiscordLink = $input->postString("hudDiscordLink");
+        if ($hudAllowDiscord == false) {
+            $hudDiscordLink = null;
+        }
         $hudAllowGroup = $input->postBool("hudAllowGroup");
         $hudGroupLink = $input->postString("hudGroupLink");
+        $hudDiscordLink = $input->postString("hudDiscordLink");
+        if ($hudAllowGroup == false) {
+            $hudGroupLink = null;
+        }
+        if (strlen($hudGroupLink) == 0) {
+            $hudAllowGroup = false;
+        }
         $hudAllowDetails = $input->postBool("hudAllowDetails");
         $hudAllowRenewal = $input->postBool("hudAllowRenewal");
-        if ($hudAllowRenewal == 1) {
+        if ($hudAllowRenewal == false) {
             $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
+        }
+        if (strlen($hudAllowRenewal) == 0) {
+            $hudAllowDetails = false;
         }
         $this->slconfig->setHudAllowDiscord($hudAllowDiscord);
         $this->slconfig->setHudDiscordLink($hudDiscordLink);
