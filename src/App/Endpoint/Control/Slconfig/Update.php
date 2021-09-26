@@ -48,13 +48,13 @@ class Update extends ViewAjax
         if (strlen($hudGroupLink) == 0) {
             $hudAllowGroup = false;
         }
+        if (strlen($hudDiscordLink) == 0) {
+            $hudAllowDiscord = false;
+        }
         $hudAllowDetails = $input->postBool("hudAllowDetails");
         $hudAllowRenewal = $input->postBool("hudAllowRenewal");
         if ($hudAllowRenewal == false) {
             $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
-        }
-        if (strlen($hudAllowRenewal) == 0) {
-            $hudAllowDetails = false;
         }
         $this->slconfig->setHudAllowDiscord($hudAllowDiscord);
         $this->slconfig->setHudDiscordLink($hudDiscordLink);
