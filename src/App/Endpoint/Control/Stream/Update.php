@@ -25,18 +25,22 @@ class Update extends ViewAjax
         $adminUsername = $input->postString("adminUsername", 50, 3);
         if ($adminUsername == null) {
             $this->failed("Admin username failed:" . $input->getWhyFailed());
+            return;
         }
         $adminPassword = $input->postString("adminPassword", 20, 4);
         if ($adminUsername == null) {
             $this->failed("Admin password failed:" . $input->getWhyFailed());
+            return;
         }
         $djPassword = $input->postString("djPassword", 20, 4);
         if ($adminUsername == null) {
             $this->failed("DJ password failed:" . $input->getWhyFailed());
+            return;
         }
         $originalAdminUsername = $input->postString("originalAdminUsername", 50, 3);
         if ($originalAdminUsername == null) {
             $this->failed("Original admin username failed:" . $input->getWhyFailed());
+            return;
         }
         $apiConfigValue1 = $input->postString("apiConfigValue1");
         $apiConfigValue2 = $input->postString("apiConfigValue2");

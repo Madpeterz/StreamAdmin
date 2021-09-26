@@ -119,7 +119,14 @@ class Form
         $this->enableGridRender();
         $this->addLabel($label, $name);
         $this->startField();
-        $this->mygrid->addContent('<textarea class="form-control" name="' . $name . '"');
+        $classUsed = "form-control";
+        $addon = "";
+        if (($max_length != 9999) &&  ($max_length > 0)) {
+            $classUsed = "form-control inputwithlimit";
+            $addon = 'data-lengthmax="' . $max_length . '"';
+        }
+        $this->mygrid->addContent('<textarea class="' . $classUsed . '" '
+        . $addon . ' id="' . $name . '" name="' . $name . '"');
         $this->mygrid->addContent(' placeholder="' . $placeholder . '" ' . $this->requiredAddon() . '');
         $this->mygrid->addContent(' rows="5">' . $value . '</textarea>@NL@');
         $this->endField();
@@ -139,7 +146,15 @@ class Form
             $this->addLabel($label, $name);
             $this->startField();
         }
-        $this->mygrid->addContent('<input type="' . $mode . '" class="form-control" name="' . $name . '"');
+        $classUsed = "form-control";
+        $addon = "";
+        if (($max_length != 9999) && ($max_length > 0) && ($readonly == false)) {
+            $classUsed = "form-control inputwithlimit";
+            $addon = 'data-lengthmax="' . $max_length . '"';
+        }
+
+        $this->mygrid->addContent('<input type="' . $mode . '" ' . $addon . ' class="'
+        . $classUsed . '" name="' . $name . '" id="' . $name . '"');
         $this->mygrid->addContent(' value="' . $value . '" placeholder="'
         . $placeholder . '" ' . $this->requiredAddon() . '');
         if ($readonly == true) {
@@ -164,7 +179,9 @@ class Form
             $this->addLabel($label, $name);
             $this->startField();
         }
-        $this->mygrid->addContent('<input type="' . $mode . '" class="form-control" name="' . $name . '"');
+        $this->mygrid->addContent('<input data-lengthmin="' . $max_length . '" data-lengthmax="'
+        . $max_length . '" type="'
+        . $mode . '" class="form-control inputwithlimit" id="' . $name . '" name="' . $name . '"');
         $this->mygrid->addContent(' value="' . $value . '" placeholder="'
          . $placeholder . '" ' . $this->requiredAddon() . '');
         $this->mygrid->addContent(' > <a href="http://secondlife.com/app/image/' . $value . '/1" target="_blank">'

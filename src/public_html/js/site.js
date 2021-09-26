@@ -1,8 +1,75 @@
 var ajax_busy = false;
+function attachInputFocusCounters()
+{
+    $('.inputwithlimit').change(function (e) { 
+        var focusedID = $(this).attr('id');        
+        updateTextCounterBox(focusedID);
+    });
+    $('.inputwithlimit').keyup(function (e) {
+        var focusedID = $(this).attr('id');        
+        updateTextCounterBox(focusedID);
+    });
+    $('.inputwithlimit').each(function (i, obj) {
+        var focusedID = $(obj).attr('id');        
+        var maxCount = $("#"+focusedID+"").data("lengthmax");
+        var current = $("#"+focusedID+"").val().length;
+        $("#"+focusedID+"current").html(current);
+        $("#"+focusedID+"max").html(maxCount);
+    });
+}
+function updateTextCounterBox(focusedID)
+{
+    var maxCount = $("#"+focusedID+"").data("lengthmax");
+    var hasMin = $("#"+focusedID+"").data("lengthmin");
+    if(hasMin == null) {
+        hasMin = false;
+    } else {
+        hasMin = true;
+    }
+
+    var current = $("#"+focusedID+"").val().length;
+    $("#"+focusedID+"current").html(current);
+    $("#"+focusedID+"usedinput").removeClass("text-danger");
+    $("#"+focusedID+"usedinput").addClass("text-muted");
+    if(current > maxCount) {
+        $("#"+focusedID+"usedinput").addClass("text-danger");
+        $("#"+focusedID+"usedinput").removeClass("text-muted");
+    }
+    if(hasMin == true) {
+        var min = $("#"+focusedID+"").data("lengthmin");
+        if(current < min) {
+            $("#"+focusedID+"usedinput").addClass("text-danger");
+            $("#"+focusedID+"usedinput").removeClass("text-muted");
+        }
+    }
+}
 $(document).ready(function () {
     $(".ajaxonpageload").each(function (i, obj) {
         setTimeout(dynamic_ajax_load, (300 + Math.floor(Math.random() * 400)), $(this));
     });
+    $('.inputwithlimit').each(function (i, obj) {
+        var focusedID = $(obj).attr('id');
+        var hasMin = $("#"+focusedID+"").data("lengthmin");
+        var minCount = -1;
+        if(hasMin == null) {
+            hasMin = false;
+        } else {
+            hasMin = true;
+            minCount = $("#"+focusedID+"").data("lengthmin");
+        }
+        var maxCount = $("#"+focusedID+"").data("lengthmax");
+
+        if(maxCount == minCount) {
+            $(obj).parent().append('</div><div class="input-group"><p class="textcounterblock"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">Requires [<span id="'+$(obj).attr('id')+'max">-</span>]: <span id="'+$(obj).attr('id')+'current">-</span></small></p>');
+        }
+        else if(hasMin == false) {
+            $(obj).parent().append('</div><div class="input-group"><p class="textcounterblock"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">used: <span id="'+$(obj).attr('id')+'current">-</span> of <span id="'+$(obj).attr('id')+'max">-</span></small></p>');
+        } else {
+            $(obj).parent().append('</div><div class="input-group"><p class="textcounterblock"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">used: <span id="'+$(obj).attr('id')+'current">-</span> of <span id="'+$(obj).attr('id')+'max">-</span> [Min: '+minCount+']</small></p>');
+        }
+        
+    });
+    attachInputFocusCounters();
     $(".avatarfinderajax").submit(function (e) {
         e.preventDefault();
         if (ajax_busy === false) {
