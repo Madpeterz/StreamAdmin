@@ -184,8 +184,11 @@ class Form
         . $mode . '" class="form-control inputwithlimit" id="' . $name . '" name="' . $name . '"');
         $this->mygrid->addContent(' value="' . $value . '" placeholder="'
          . $placeholder . '" ' . $this->requiredAddon() . '');
-        $this->mygrid->addContent(' > <a href="http://secondlife.com/app/image/' . $value . '/1" target="_blank">'
-        . '<i class="fas fa-images"></i></a> @NL@');
+         $this->mygrid->addContent(' >');
+        if (($value !== null) && ($value != "00000000-0000-0000-0000-000000000000")) {
+            $this->mygrid->addContent('<a href="http://secondlife.com/app/image/' . $value . '/1" target="_blank">'
+            . '<i class="fas fa-images"></i></a> @NL@');
+        }
         if ($mode != "hidden") {
             $this->endField();
         }
