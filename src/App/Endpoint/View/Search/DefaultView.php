@@ -110,7 +110,8 @@ class DefaultView extends View
                 $avname = $av_detail[0];
             }
             $entry[] = $avname;
-            $entry[] = $stream->getPort();
+            $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStreamUid() . '">'
+            . $stream->getPort() . '</a>';
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
             . $rental->getRentalUid() . "\">View</button>";
