@@ -84,12 +84,12 @@ $(document).ready(function () {
         var maxCount = $("#"+focusedID+"").data("lengthmax");
 
         if(maxCount == minCount) {
-            $(obj).parent().append('</div><div class="input-group"><p class="textcounterblock"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">Requires [<span id="'+$(obj).attr('id')+'max">-</span>]: <span id="'+$(obj).attr('id')+'current">-</span></small></p>');
+            $("#"+focusedID+"label").append('<p class="d-inline textcounterblock ml-4"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">Requires [<span id="'+$(obj).attr('id')+'max">-</span>]: <span id="'+$(obj).attr('id')+'current">-</span></small></p>');
         }
         else if(hasMin == false) {
-            $(obj).parent().append('</div><div class="input-group"><p class="textcounterblock"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">used: <span id="'+$(obj).attr('id')+'current">-</span> of <span id="'+$(obj).attr('id')+'max">-</span></small></p>');
+            $("#"+focusedID+"label").append('<p class="d-inline textcounterblock ml-4"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">used: <span id="'+$(obj).attr('id')+'current">-</span> of <span id="'+$(obj).attr('id')+'max">-</span></small></p>');
         } else {
-            $(obj).parent().append('</div><div class="input-group"><p class="textcounterblock"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">used: <span id="'+$(obj).attr('id')+'current">-</span> of <span id="'+$(obj).attr('id')+'max">-</span> [Min: '+minCount+']</small></p>');
+            $("#"+focusedID+"label").append('<p class="d-inline textcounterblock ml-4"><small id="'+$(obj).attr('id')+'usedinput" class="text-muted">used: <span id="'+$(obj).attr('id')+'current">-</span> of <span id="'+$(obj).attr('id')+'max">-</span> [Min: '+minCount+']</small></p>');
         }
         
     });

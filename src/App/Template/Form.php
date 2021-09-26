@@ -112,7 +112,7 @@ class Form
     protected function addLabel(string $label, string $name): void
     {
         $this->enableGridRender();
-        $this->mygrid->addContent('<label for="' . $name . '" class="col-6 col-form-label">' . $label . '</label>@NL@');
+        $this->mygrid->addContent('<label for="' . $name . '" id="' . $name . 'label" class="col-6 col-form-label">' . $label . '</label>@NL@');
     }
     public function textarea(string $name, string $label, int $max_length, ?string $value, string $placeholder): void
     {
