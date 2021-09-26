@@ -37,6 +37,6 @@ class DefaultView extends View
             $entry[] = $autoDJ;
             $table_body[] = $entry;
         }
-        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body, 6));
     }
 }

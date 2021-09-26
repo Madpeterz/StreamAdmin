@@ -82,6 +82,6 @@ class DefaultView extends View
             $table_body[] = $entry;
         }
 
-        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
+        $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body, 1));
     }
 }

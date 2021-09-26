@@ -54,6 +54,10 @@ class DefaultView extends View
                     "icon" => "fas fa-server",
                     "link" => "server",
                 ],
+                "Datatables" => [
+                    "icon" => "fas fa-table",
+                    "link" => "datatables",
+                ],
             ];
             if ($this->session->getOwnerLevel() == 1) {
                 $config_areas["R4 import"] = [
@@ -73,7 +77,7 @@ class DefaultView extends View
                     "link" => "banlist",
                 ];
             }
-
+            ksort($config_areas);
             $grid = new Grid();
             foreach ($config_areas as $key => $value) {
                 $element = '

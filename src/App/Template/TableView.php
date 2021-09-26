@@ -2,6 +2,8 @@
 
 namespace App\Template;
 
+use App\R7\Model\Datatable;
+
 class TableView extends BasicView
 {
     public function renderTable(
@@ -33,9 +35,41 @@ class TableView extends BasicView
         $output .= '</table>';
         return $output;
     }
-    public function renderDatatable(array $table_head, array $table_body): string
+    public function renderDatatable(array $table_head, array $table_body, ?int $datatableID = null): string
     {
         $this->addVendor("datatable");
-        return $this->renderTable($table_head, $table_body, "datatable-default display responsive");
+        $defaultRender = $this->renderTable($table_head, $table_body, "datatable-default display responsive");
+        if ($datatableID === null) {
+            return $defaultRender;
+        }
+        $datatableDriver = new Datatable();
+        $datatableDriver->limitFields(["hideColZero","col","dir"]);
+        if ($datatableDriver->loadID($datatableID) == false) {
+            return $defaultRender;
+        }
+        $this->output->addSwapTagString("html_js_onready", "
+        $('.customdatatable" . $datatableID . "').DataTable({
+            'order': [[ " . $datatableDriver->getCol() . ", '" . $datatableDriver->getDir() . "' ]],
+            responsive: true,
+                  pageLength: " . $this->slconfig->getDatatableItemsPerPage() . ",
+                  lengthMenu: [[25, 10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
+            language: {
+              searchPlaceholder: 'Search...',
+              sSearch: '',
+              lengthMenu: '_MENU_ items/page',
+              }");
+        if ($datatableDriver->getHideColZero() == true) {
+            $this->output->addSwapTagString(
+                "html_js_onready",
+                ", 'columnDefs': [
+                {
+                    'targets': [ 0 ],
+                    'visible': false,
+                    'searchable': false
+                }]"
+            );
+        }
+        $this->output->addSwapTagString("html_js_onready", "});");
+        return $this->renderTable($table_head, $table_body, "customdatatable" . $datatableID . " display responsive");
     }
 }

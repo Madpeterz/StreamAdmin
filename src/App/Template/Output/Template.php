@@ -278,6 +278,7 @@ class Template extends AddonProvider
                     "notice",
                     "objects",
                     "server",
+                    "datatables",
                 ],
             ],
         ];

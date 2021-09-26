@@ -49,6 +49,6 @@ abstract class RenderList extends View
             $entry[] = $rental->getRenewals();
             $table_body[] = $entry;
         }
-        $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));
+        $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body, 3));
     }
 }
