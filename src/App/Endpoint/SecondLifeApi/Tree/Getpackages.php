@@ -25,8 +25,8 @@ class Getpackages extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load selected tree vender");
             return;
         }
-        $this->setSwapTag("textureInuse", $treevender->getTextureWaiting());
-        $this->setSwapTag("textureWaiting", $treevender->getTextureInuse());
+        $this->setSwapTag("textureInuse", $treevender->getTextureInuse());
+        $this->setSwapTag("textureWaiting", $treevender->getTextureWaiting());
 
         $treevender_packages_set = new TreevenderpackagesSet();
         $load_status = $treevender_packages_set->loadOnField("treevenderLink", $treevender->getId());
@@ -86,7 +86,7 @@ class Getpackages extends SecondlifeAjax
                 $reply["package_autodjsize"][] = $this->valueOrZero($package->getAutodjSize());
                 $reply["package_listeners"][] = $package->getListeners();
                 $reply["package_bitrate"][] = $package->getBitrate();
-                $reply["package_days"][] = $package->getDays();
+                $reply["package_days"][] = $this->smeup($package->getDays());
                 $reply["package_cost"][] = $package->getCost();
             }
         }
@@ -103,5 +103,23 @@ class Getpackages extends SecondlifeAjax
             return;
         }
         $this->processWithTreevenderID($tree_vender_id);
+    }
+    protected function smeup(int $input): string
+    {
+        if ($input > 1) {
+            if ($input == 7) {
+                return "One week";
+            } elseif ($input == 14) {
+                return "Two week's";
+            } elseif ($input == 21) {
+                return "Three week's";
+            } elseif ($input == 28) {
+                return "Four week's";
+            } elseif ($input == 31) {
+                return "Monthly";
+            }
+            return $input . " day's";
+        }
+        return "24 hours";
     }
 }

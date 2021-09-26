@@ -11,9 +11,10 @@ class Update extends ViewAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $name = $input->postString("name", 100, 5);
+        $name = $input->postString("name", 100, 4);
         if ($name == null) {
             $this->failed("Name failed:" . $input->getWhyFailed());
+            return;
         }
         $textureWaiting = $input->postUUID("textureWaiting");
         if ($textureWaiting == null) {
@@ -57,7 +58,7 @@ class Update extends ViewAjax
         $update_status = $treevender->updateEntry();
         if ($update_status["status"] == false) {
             $this->failed(
-                sprintf("Unable to update tree vender: %", $update_status["message"])
+                sprintf("Unable to update tree vender:  %1\$s", $update_status["message"])
             );
             return;
         }
