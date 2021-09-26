@@ -39,7 +39,7 @@ class Manage extends View
             $form->textarea(
                 "notecardDetail",
                 "Notecard template",
-                2000,
+                5000,
                 $template->getNotecardDetail(),
                 "Use swap tags as the placeholder"
             );

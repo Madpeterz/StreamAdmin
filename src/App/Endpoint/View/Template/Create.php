@@ -28,7 +28,7 @@ class Create extends View
             "Use swap tags as the placeholders! max length 800"
         );
         $form->col(6);
-        $form->textarea("notecardDetail", "Notecard template", 2000, "", "Use swap tags as the placeholder");
+        $form->textarea("notecardDetail", "Notecard template", 5000, "", "Use swap tags as the placeholder");
         $pages = [];
         $pages["Create"] = $form->render("Create", "primary");
         include ROOTFOLDER . "/App/Flags/swaps_table_paged.php";
