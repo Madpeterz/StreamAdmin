@@ -156,6 +156,7 @@ class SessionControl extends SqlConnectedClass
         $this->logged_in = true;
         if ($this->nextcheck < time()) {
             $this->logged_in = $this->vaildatelhash();
+            return $this->logged_in;
         }
         if ($this->logged_in == false) {
             $this->endSession();
