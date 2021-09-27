@@ -34,7 +34,7 @@ abstract class RenderList extends View
 
     public function loadTransactionsFromAvatar(Avatar $avatar): void
     {
-        $this->transaction_set->loadByField("avatarLink", $avatar->getId());
+        $this->transaction_set->loadByField("avatarLink", $avatar->getId(), 250);
     }
 
     public function renderTransactionTable(): string
