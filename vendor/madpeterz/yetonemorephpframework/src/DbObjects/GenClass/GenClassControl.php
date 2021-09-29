@@ -130,7 +130,7 @@ abstract class GenClassControl extends SqlConnectedClass
     public function getFieldType(string $fieldname, bool $as_mysqli_code = false): ?string
     {
         if (in_array($fieldname, $this->fields) == false) {
-            $error_meesage = " Attempting to read a fieldtype [" . $fieldname . "] that does not exist";
+            $error_meesage = " Attempting to read a fieldtype [" . $fieldname . "] has failed";
             $this->addError(__FILE__, __FUNCTION__, get_class($this) . $error_meesage);
             return null;
         }

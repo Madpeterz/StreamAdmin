@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
 use YAPF\DbObjects\GenClass\GenClass as GenClass;
 use YAPF\DbObjects\CollectionSet\CollectionSet as CollectionSet;
+use YAPF\Junk\Models\Endoftestempty;
 use YAPF\Junk\Sets\CounttoonehundoSet;
 use YAPF\Junk\Sets\EndoftestemptySet;
 use YAPF\Junk\Sets\Twintables1Set;
@@ -224,5 +225,27 @@ class CollectionSetTest extends TestCase
         $this->assertSame("ok", $status["message"]);
         $this->assertSame(true, $status["status"]);
         $this->assertSame(4, $status["changes"]);
+    }
+    public function testloadByValuesandGetFieldType()
+    {
+        $endoftest = new EndoftestemptySet();
+        $status = $endoftest->loadByValues([4]);
+        $this->assertSame("ok", $status["message"]);
+        $this->assertSame(true, $status["status"]);
+        $this->assertSame(1, $status["count"]);
+
+        $Endoftestempty = new Endoftestempty();
+        $result = $Endoftestempty->loadID(4);
+        $this->assertSame(true, $result);
+
+        $reply = $Endoftestempty->getFieldType("id",true);
+        $this->assertSame("i", $reply);
+    }
+    public function testloadMatching()
+    {
+        $countto = new CounttoonehundoSet();
+        $result = $countto->loadMatching(["cvalue"=>16]);
+        $this->assertSame($result["status"], true);
+        $this->assertSame($countto->getCount(), 10);
     }
 }

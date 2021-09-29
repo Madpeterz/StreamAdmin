@@ -295,7 +295,7 @@ class DbObjectsGenClassTest extends TestCase
         $this->assertSame($alltypes->getFieldType("boolfield", false), "bool");
         $this->assertSame($alltypes->getFieldType("boolfield", true), "i");
         $this->assertSame($alltypes->getFieldType("fake"), null);
-        $expected_error = "YAPF\Junk\Models\Alltypestable Attempting to read a fieldtype [fake] that does not exist";
+        $expected_error = "YAPF\Junk\Models\Alltypestable Attempting to read a fieldtype [fake] has failed";
         $this->assertSame($alltypes->getLastErrorBasic(), $expected_error);
     }
 }

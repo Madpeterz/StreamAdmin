@@ -138,11 +138,11 @@ class DbObjectsLoadTest extends TestCase
     public function testLoadSetByIds()
     {
         $countto = new CounttoonehundoSet();
-        $result = $countto->loadIds([1,2,3,4,5,6,7,8,9,19], "id", false);
+        $result = $countto->loadByValues([1,2,3,4,5,6,7,8,9,19], "id");
         $this->assertSame($result["status"], true);
         $this->assertSame($result["count"], 10);
         $this->assertSame($result["message"], "ok");
-        $result = $countto->loadIds([], "id", false);
+        $result = $countto->loadByValues([], "id");
         $this->assertSame($result["status"], false);
         $this->assertSame($result["count"], 0);
         $this->assertSame($result["message"], "No ids sent!");
@@ -188,6 +188,27 @@ class DbObjectsLoadTest extends TestCase
         $this->assertSame($result["message"], $errormsg);
     }
 
+    public function testLoadWithConfigOptional()
+    {
+        $countto = new Counttoonehundo();
+        $where_config = [
+            "fields" => ["id"],
+            "values" => [91],
+        ];
+        $load_status = $countto->loadWithConfig($where_config);
+        $this->assertSame($load_status, true);
+        $this->assertSame($countto->getId(), 91);
+
+        $EndEmptySet = new CounttoonehundoSet();
+        $where_config = [
+            "fields" => ["cvalue"],
+            "values" => [8],
+        ];
+        $reply = $EndEmptySet->loadWithConfig($where_config);
+        $this->assertSame($reply["status"], true);
+        $this->assertSame($EndEmptySet->getCount(), 10);
+    }
+
     public function testLoadOnFieldsMissingField()
     {
         $countto = new CounttoonehundoSet();
@@ -195,6 +216,14 @@ class DbObjectsLoadTest extends TestCase
         $this->assertSame($result["status"], false);
         $this->assertSame($result["count"], 0);
         $this->assertSame($result["message"], "getMissing is not supported on worker");
+    }
+
+    public function testloadMatching()
+    {
+        $countto = new Counttoonehundo();
+        $result = $countto->loadMatching(["id"=>4,"cvalue"=>8]);
+        $this->assertSame($result, true);
+        $this->assertSame($countto->getCvalue(), 8);
     }
 
     public function testCountinDb()

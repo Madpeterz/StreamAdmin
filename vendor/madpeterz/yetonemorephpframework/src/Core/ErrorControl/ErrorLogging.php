@@ -6,6 +6,7 @@ abstract class ErrorLogging
 {
     protected $myLastError = "";
     protected $myLastErrorBasic = "";
+    protected bool $enableErrorConsole = false;
     /**
      * addError
      * see getLastError()
@@ -23,7 +24,14 @@ abstract class ErrorLogging
     ): array {
         $this->myLastError = "File: " . $flileHint . " Function: " . $functionHint . " info: " . $errorMessage . "";
         $this->myLastErrorBasic = $errorMessage;
+        if ($this->enableErrorConsole == true) {
+            error_log($this->myLastError);
+        }
         return array_merge($arrayAddon, ["status" => false, "message" => $errorMessage]);
+    }
+    public function enableConsoleErrors(): void
+    {
+        $this->enableErrorConsole = true;
     }
     public function getLastErrorBasic(): string
     {

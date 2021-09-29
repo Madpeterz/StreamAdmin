@@ -5,15 +5,28 @@ namespace YAPF\DbObjects\CollectionSet;
 abstract class CollectionSet extends CollectionSetBulk
 {
     /**
-     * loadIds
-     * alias of loadDataFromList
-     * preconfiged for ids but overrideable for other fields
+     * loadMatching
+     * a very limited loading system
+     * takes the keys as fields, and values as values
+     * then passes that to loadWithConfig.
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+     */
+    public function loadMatching(array $input): array
+    {
+        $whereConfig = [
+            "fields" => array_keys($input),
+            "values" => array_values($input),
+        ];
+        return $this->loadWithConfig($whereConfig);
+    }
+    /**
+     * loadByValues
      * set ids_clean to false if you are unsure if there are repeated ids
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
-    public function loadIds(array $ids, string $field = "id", bool $ids_clean = true): array
+    public function loadByValues(array $ids, string $field = "id"): array
     {
-        return $this->loadDataFromList($field, $ids, $ids_clean);
+        return $this->loadDataFromList($field, $ids);
     }
     /**
      * loadOnFields
@@ -169,7 +182,7 @@ abstract class CollectionSet extends CollectionSetBulk
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
     public function loadWithConfig(
-        ?array $where_config = null,
+        ?array $whereConfig = null,
         ?array $order_config = null,
         ?array $options_config = null,
         ?array $join_tables = null
@@ -179,6 +192,7 @@ abstract class CollectionSet extends CollectionSetBulk
         if ($this->disableUpdates == true) {
             $basic_config["fields"] = $this->limitedFields;
         }
+        $whereConfig = $this->worker->extendWhereConfig($whereConfig);
         // Cache support
         $hitCache = false;
         $hashme = "";
@@ -188,7 +202,7 @@ abstract class CollectionSet extends CollectionSetBulk
                 $mergeddata = array_merge($basic_config, $join_tables);
             }
             $hashme = $this->cache->getHash(
-                $where_config,
+                $whereConfig,
                 $order_config,
                 $options_config,
                 $mergeddata,
@@ -205,11 +219,10 @@ abstract class CollectionSet extends CollectionSetBulk
             }
         }
         // Cache missed, read from the DB
-
         $load_data = $this->sql->selectV2(
             $basic_config,
             $order_config,
-            $where_config,
+            $whereConfig,
             $options_config,
             $join_tables
         );
@@ -230,7 +243,7 @@ abstract class CollectionSet extends CollectionSetBulk
      * anything in the $values array
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
-    protected function loadDataFromList(string $fieldname = "id", array $values = []): array
+    public function loadDataFromList(string $fieldname = "id", array $values = []): array
     {
         $this->makeWorker();
         $uids = [];
@@ -244,10 +257,12 @@ abstract class CollectionSet extends CollectionSetBulk
         }
         $typecheck = $this->worker->getFieldType($fieldname, true);
         if ($typecheck == null) {
+            $this->addError(__FILE__, __FUNCTION__, "Unable to find field: " .
+             $fieldname . " in worker reported error: " . $this->worker->getLastError());
             return [
                 "status" => false,
                 "count" => 0,
-                "message" => "Invaild field",
+                "message" => "Invaild field: " . $fieldname,
             ];
         }
         return $this->loadWithConfig([

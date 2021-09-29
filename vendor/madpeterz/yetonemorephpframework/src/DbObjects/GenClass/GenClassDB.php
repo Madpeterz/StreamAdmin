@@ -5,6 +5,20 @@ namespace YAPF\DbObjects\GenClass;
 abstract class GenClassDB extends GenClassControl
 {
     /**
+     * loadMatching
+     * a very limited loading system
+     * takes the keys as fields, and values as values
+     * then passes that to loadWithConfig.
+     */
+    public function loadMatching(array $input): bool
+    {
+        $whereConfig = [
+            "fields" => array_keys($input),
+            "values" => array_values($input),
+        ];
+        return $this->loadWithConfig($whereConfig);
+    }
+    /**
      * loadOnField
      * alias of loadByField
      * loads a object that matchs in the DB on the field and value
@@ -69,6 +83,7 @@ abstract class GenClassDB extends GenClassControl
         if ($this->disableUpdates == true) {
             $basic_config["fields"] = $this->limitedFields;
         }
+        $whereconfig = $this->extendWhereConfig($whereconfig);
         // Cache support
         $hitCache = false;
         $hashme = "";
@@ -99,6 +114,47 @@ abstract class GenClassDB extends GenClassControl
             $this->cache->writeHash($this->getTable(), $hashme, $load_data, $this->cacheAllowChanged);
         }
         return $this->processLoad($load_data);
+    }
+
+    /**
+     * extendWhereConfig
+     * expands whereConfig to include types [as defined by object]
+     * and matches [defaulting to =] if not given.
+     * @return mixed[] whereConfig
+     */
+    public function extendWhereConfig(?array $whereConfig): ?array
+    {
+        if ($whereConfig === null) {
+            return null;
+        }
+        if (array_key_exists("fields", $whereConfig) == false) {
+            return $whereConfig;
+        }
+        if (array_key_exists("values", $whereConfig) == false) {
+            return $whereConfig;
+        }
+        $expandMatchs = false;
+        $expendTypes = false;
+        if (array_key_exists("matches", $whereConfig) == false) {
+            $expandMatchs = true;
+            $whereConfig["matches"] = [];
+        }
+        if (array_key_exists("types", $whereConfig) == false) {
+            $expendTypes = true;
+            $whereConfig["types"] = [];
+        }
+        if (($expandMatchs == false) && ($expendTypes == false)) {
+            return $whereConfig;
+        }
+        foreach ($whereConfig["fields"] as $field) {
+            if ($expandMatchs == true) {
+                $whereConfig["matches"][] = "=";
+            }
+            if ($expendTypes == true) {
+                $whereConfig["types"][] = $this->getFieldType($field, true);
+            }
+        }
+        return $whereConfig;
     }
     /**
      * processLoad
