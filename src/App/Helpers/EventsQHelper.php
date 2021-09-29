@@ -20,29 +20,39 @@ class EventsQHelper
     }
     public function addToEventQ(
         string $name,
-        ?Package $package,
-        ?Avatar $avatar,
-        ?Server $server,
-        ?Stream $stream,
-        ?Rental $rental,
-        ?int $amountpaid = null
+        ?Package $package = null,
+        ?Avatar $avatar = null,
+        ?Server $server = null,
+        ?Stream $stream = null,
+        ?Rental $rental = null,
+        ?int $amountpaid = null,
+        ?Avatar $transactionAv = null
     ): void {
         if ($this->config->getEventsAPI() == false) {
             return;
         }
         $eventq = new Eventsq();
-        $eventq->setEventMessage($this->makeJsonString($package, $avatar, $server, $stream, $rental, $amountpaid));
+        $eventq->setEventMessage($this->makeJsonString(
+            $package,
+            $avatar,
+            $server,
+            $stream,
+            $rental,
+            $amountpaid,
+            $transactionAv
+        ));
         $eventq->setEventName($name);
         $eventq->setEventUnixtime(time());
         $eventq->createEntry();
     }
     protected function makeJsonString(
-        ?Package $package,
-        ?Avatar $avatar,
-        ?Server $server,
-        ?Stream $stream,
-        ?Rental $rental,
-        ?int $amountpaid = null
+        ?Package $package = null,
+        ?Avatar $avatar = null,
+        ?Server $server = null,
+        ?Stream $stream = null,
+        ?Rental $rental = null,
+        ?int $amountpaid = null,
+        ?Avatar $transactionAv = null
     ): string {
         $reply = [];
         if ($package != null) {
@@ -63,6 +73,13 @@ class EventsQHelper
         }
         if ($amountpaid != null) {
             $reply["amount"] = $amountpaid;
+        }
+        if (($transactionAv != null) && ($avatar != null)) {
+            if ($transactionAv->getId() != $avatar->getId()) {
+                $reply["viaProxy"] = true;
+                $reply["uuidProxy"] = $transactionAv->getAvatarUUID();
+                $reply["nameProxy"] = $transactionAv->getAvatarName();
+            }
         }
         $reply["unixtime"] = time();
         return json_encode($reply);
