@@ -48,7 +48,9 @@ class Details extends SecondlifeAjax
                 continue;
             }
             if (in_array($stream->getId(), $used_stream_ids) == false) {
-                $reply_dataset[] = "" . $rental->getRentalUid() . "|||" . $stream->getPort() . "";
+                $reply_dataset[] = "" . $rental->getRentalUid() . "|||"
+                . $stream->getPort() . "|||"
+                . timeleftHoursAndDays($rental->getExpireUnixtime());
             }
         }
         if (count($reply_dataset) < 1) {
