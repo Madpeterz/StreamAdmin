@@ -16,7 +16,7 @@ class Mail extends View
         $message_set = new MessageSet();
         $message_set->loadAll();
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($message_set->getAllByField("avatarLink"));
+        $avatar_set->loadByValues($message_set->getAllByField("avatarLink"));
         $botConfig = new Botconfig();
         $botConfig->loadID(1);
         foreach ($message_set as $message) {

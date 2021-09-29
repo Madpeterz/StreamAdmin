@@ -28,7 +28,7 @@ class DefaultView extends View
         ];
         $venderHealth->loadWithConfig($whereConfig);
         $regionsSet = new RegionSet();
-        $regionsSet->loadIds($venderHealth->getUniqueArray("regionLink"));
+        $regionsSet->loadByValues($venderHealth->getUniqueArray("regionLink"));
         $goodMinTime = time() - 120;
         $regions_report = [];
         foreach ($venderHealth as $object) {

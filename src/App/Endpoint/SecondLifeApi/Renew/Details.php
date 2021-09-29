@@ -32,27 +32,29 @@ class Details extends SecondlifeAjax
             return;
         }
         $stream_set = new StreamSet();
-        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
+        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
         if ($stream_set->getCount() < 1) {
-            $this->setSwapTag("message", "Unable to find any streams linked to rentals");
+            $this->setSwapTag("message", "Unable to find any streams linked to rentals, Please note if "
+            . "a stream is busy with an API request it will be hidden from this list!");
             return;
         }
         $apirequests_set = new ApirequestsSet();
         $apirequests_set->loadAll();
         $used_stream_ids = $apirequests_set->getUniqueArray("streamLink");
         $reply_dataset = [];
-        foreach ($rental_set->getAllIds() as $rental_id) {
-            $rental = $rental_set->getObjectByID($rental_id);
+        foreach ($rental_set as $rental) {
             $stream = $stream_set->getObjectByID($rental->getStreamLink());
-            if ($stream != null) {
-                if (in_array($stream->getId(), $used_stream_ids) == false) {
-                    $reply_dataset[] = "" . $rental->getRentalUid() . "|||" . $stream->getPort() . "";
-                }
+            if ($stream == null) {
+                continue;
+            }
+            if (in_array($stream->getId(), $used_stream_ids) == false) {
+                $reply_dataset[] = "" . $rental->getRentalUid() . "|||" . $stream->getPort() . "";
             }
         }
         if (count($reply_dataset) < 1) {
             $this->setSwapTag("status", false);
-            $this->setSwapTag("message", "Unable to build reply dataset");
+            $this->setSwapTag("message", "Unable to find any streams linked to rentals, Please note if "
+            . "a stream is busy with an API request it will be hidden from this list!");
             return;
         }
         $this->setSwapTag("dataset_count", count($reply_dataset));

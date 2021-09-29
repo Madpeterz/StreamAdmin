@@ -28,15 +28,15 @@ class BulkRemove extends RenderList
         $this->serverSet = new ServerSet();
         $this->serverSet->loadAll();
         $this->avatarSet = new AvatarSet();
-        $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarLink"));
+        $this->avatarSet->loadByValues($this->rentalSet->getAllByField("avatarLink"));
         $this->streamSet = new StreamSet();
-        $this->streamSet->loadIds($this->rentalSet->getAllByField("streamLink"));
+        $this->streamSet->loadByValues($this->rentalSet->getAllByField("streamLink"));
         $this->noticeSet = new NoticeSet();
-        $this->noticeSet->loadIds($this->rentalSet->getAllByField("noticeLink"));
+        $this->noticeSet->loadByValues($this->rentalSet->getAllByField("noticeLink"));
         $this->apiRequestsSet = new ApirequestsSet();
         $this->apiRequestsSet->loadAll();
         $this->detailsRequestsSet = new DetailSet();
-        $this->detailsRequestsSet->loadIds($this->rentalSet->getAllIds(), "rentalLink");
+        $this->detailsRequestsSet->loadByValues($this->rentalSet->getAllIds(), "rentalLink");
     }
     public function process(): void
     {

@@ -19,7 +19,7 @@ class Docs extends View
         $notecardmail = new NotecardmailSet();
         $notecardmail->loadAll();
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($notecardmail->getUniqueArray("avatarLink"));
+        $avatar_set->loadByValues($notecardmail->getUniqueArray("avatarLink"));
         $botConfig = new Botconfig();
         $botConfig->loadID(1);
         foreach ($notecardmail as $staticnotecard) {

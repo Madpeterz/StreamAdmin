@@ -94,7 +94,7 @@ class Renewnow extends SecondlifeAjax
 
 
         $banlistSet = new BanlistSet();
-        $banlistSet->loadIds([$this->accountOwnerAvatar->getId(),$this->transactionAvatar->getId()], "avatarLink");
+        $banlistSet->loadByValues([$this->accountOwnerAvatar->getId(),$this->transactionAvatar->getId()], "avatarLink");
         if ($banlistSet->getCount() > 0) {
             $this->setSwapTag("message", "Unable to find avatar");
             return false;

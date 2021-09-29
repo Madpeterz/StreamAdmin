@@ -35,10 +35,10 @@ class Bulkremove extends ViewAjax
         $api_requests_set = new ApirequestsSet();
         $apis_set = new ApisSet();
         $rental_set->loadWithConfig($whereconfig);
-        $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
-        $package_set->loadIds($rental_set->getAllByField("packageLink"));
-        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
-        $api_requests_set->loadIds($rental_set->getAllIds(), "rentalLink");
+        $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
+        $package_set->loadByValues($rental_set->getAllByField("packageLink"));
+        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
+        $api_requests_set->loadByValues($rental_set->getAllIds(), "rentalLink");
         $apis_set->loadAll();
         $server_set->loadAll();
         $removed_counter = 0;

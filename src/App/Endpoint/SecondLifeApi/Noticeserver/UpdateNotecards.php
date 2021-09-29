@@ -36,7 +36,7 @@ class UpdateNotecards extends SecondlifeAjax
             return true;
         }
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadIds($missing_ids) == false) {
+        if ($noticenotecardset->loadByValues($missing_ids) == false) {
             $this->setSwapTag("message", "Unable to load notice notecard set [p2]");
             return false;
         }
@@ -100,7 +100,7 @@ class UpdateNotecards extends SecondlifeAjax
             return true;
         }
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadIds($found_ids) == false) {
+        if ($noticenotecardset->loadByValues($found_ids) == false) {
             $this->setSwapTag("message", "Unable to load notice notecard set [p2]");
             return false;
         }
@@ -176,7 +176,7 @@ class UpdateNotecards extends SecondlifeAjax
         }
 
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadIds($purge_ids) == false) {
+        if ($noticenotecardset->loadByValues($purge_ids) == false) {
             return ["status" => false,"removed_entrys" => 0];
         }
         if ($noticenotecardset->getCount() == 0) {
@@ -201,7 +201,7 @@ class UpdateNotecards extends SecondlifeAjax
     protected function unlinkPackages(string $onfield, array $ids): bool
     {
         $packageSet_welcome = new PackageSet();
-        $reply = $packageSet_welcome->loadIds($ids, $onfield);
+        $reply = $packageSet_welcome->loadByValues($ids, $onfield);
         if ($reply["status"] == false) {
             $this->addError(__FILE__, __FUNCTION__, "Load:" . $reply["message"]);
             return false;

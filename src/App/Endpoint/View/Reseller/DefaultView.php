@@ -14,7 +14,7 @@ class DefaultView extends View
         $reseller_set->loadAll();
 
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($reseller_set->getAllByField("avatarLink"));
+        $avatar_set->loadByValues($reseller_set->getAllByField("avatarLink"));
 
         $table_head = ["id","Name","Allow","Rate"];
         $table_body = [];

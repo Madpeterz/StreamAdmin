@@ -41,7 +41,7 @@ class DefaultView extends View
         $avatar_set = new AvatarSet();
         if ($match_with == "newest") {
             $banlist_set->loadNewest(30);
-            $avatar_set->loadIds($banlist_set->getUniqueArray("avatarLink"));
+            $avatar_set->loadByValues($banlist_set->getUniqueArray("avatarLink"));
             $this->output->addSwapTagString("page_title", " Newest 30 avatars banned");
         } else {
             $where_config = [
@@ -56,7 +56,7 @@ class DefaultView extends View
             } else {
                 $this->output->addSwapTagString("page_title", "UUID: " . $uuid);
             }
-            $banlist_set->loadIds($avatar_set->getAllIds(), "avatarLink");
+            $banlist_set->loadByValues($avatar_set->getAllIds(), "avatarLink");
         }
 
         $table_head = ["id","Name","Remove"];

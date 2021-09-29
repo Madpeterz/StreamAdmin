@@ -35,7 +35,7 @@ class Getpackages extends SecondlifeAjax
             return;
         }
         $package_set = new PackageSet();
-        $load_status = $package_set->loadIds($treevender_packages_set->getUniqueArray("packageLink"));
+        $load_status = $package_set->loadByValues($treevender_packages_set->getUniqueArray("packageLink"));
         if ($load_status["status"] == false) {
             $this->setSwapTag("message", "Unable to load packages");
             return;

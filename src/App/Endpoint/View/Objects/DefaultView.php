@@ -19,9 +19,9 @@ class DefaultView extends View
         $objects_set = new ObjectsSet();
         $objects_set->loadLimited(1000, "id", "DESC", [], [], "AND", $pagenum);
         $region_set = new RegionSet();
-        $region_set->loadIds($objects_set->getAllByField("regionLink"));
+        $region_set->loadByValues($objects_set->getAllByField("regionLink"));
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($objects_set->getAllByField("avatarLink"));
+        $avatar_set->loadByValues($objects_set->getAllByField("avatarLink"));
 
         $table_head = ["id","Object name","Script + Version","Last seen","Region","Object mode","Owner"];
         $table_body = [];

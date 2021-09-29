@@ -16,9 +16,9 @@ class Notecard extends View
         $notecard_set = new NotecardSet();
         $notecard_set->loadAll();
         $rental_set = new RentalSet();
-        $rental_set->loadIds($notecard_set->getAllByField("rentalLink"));
+        $rental_set->loadByValues($notecard_set->getAllByField("rentalLink"));
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
+        $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
         foreach ($notecard_set as $notecard) {
             $rental = $rental_set->getObjectByID($notecard->getRentalLink());
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());

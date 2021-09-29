@@ -47,9 +47,9 @@ class DefaultView extends View
         $table_head = ["UID","Server","Port","Status"];
         $table_body = [];
         $rental_set = new RentalSet();
-        $rental_set->loadIds($search_stream_set->getAllByField("rentalLink"));
+        $rental_set->loadByValues($search_stream_set->getAllByField("rentalLink"));
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($rental_set->getAllByField("avatarLink"));
+        $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
         $rental_set_ids = $rental_set->getAllIds();
         foreach ($search_stream_set as $stream) {
             $server = $server_set->getObjectByID($stream->getServerLink());
@@ -129,21 +129,21 @@ class DefaultView extends View
     protected function loadPackagesFromStreams(StreamSet $stream_set): PackageSet
     {
         $package_set = new PackageSet();
-        $package_set->loadIds($stream_set->getAllByField("packageLink"));
+        $package_set->loadByValues($stream_set->getAllByField("packageLink"));
         return $package_set;
     }
 
     protected function loadStreamsFromRentals(RentalSet $search_rental_set): StreamSet
     {
         $stream_set = new StreamSet();
-        $stream_set->loadIds($search_rental_set->getAllByField("streamLink"));
+        $stream_set->loadByValues($search_rental_set->getAllByField("streamLink"));
         return $stream_set;
     }
 
     protected function loadAvatarsFromRentals(RentalSet $search_rental_set): AvatarSet
     {
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($search_rental_set->getAllByField("avatarLink"));
+        $avatar_set->loadByValues($search_rental_set->getAllByField("avatarLink"));
         return $avatar_set;
     }
 

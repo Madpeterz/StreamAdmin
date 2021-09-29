@@ -113,7 +113,7 @@ abstract class HomeLoadData extends View
             $this->server_loads[$server_id] = ["ready" => 0,"sold" => 0,"needWork" => 0];
         }
         $this->apis_set = new ApisSet();
-        $this->apis_set->loadIds($this->server_set->getAllByField("ApiLink"));
+        $this->apis_set->loadByValues($this->server_set->getAllByField("ApiLink"));
     }
     protected function loadObjects(): void
     {

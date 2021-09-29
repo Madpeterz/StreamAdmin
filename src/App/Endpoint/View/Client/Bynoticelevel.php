@@ -16,9 +16,9 @@ class Bynoticelevel extends RenderList
         $this->rentalSet = new RentalSet();
         $this->rentalSet->loadByField("noticeLink", $this->page);
         $this->avatarSet = new AvatarSet();
-        $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarLink"));
+        $this->avatarSet->loadByValues($this->rentalSet->getAllByField("avatarLink"));
         $this->streamSet = new StreamSet();
-        $this->streamSet->loadIds($this->rentalSet->getAllByField("streamLink"));
+        $this->streamSet->loadByValues($this->rentalSet->getAllByField("streamLink"));
         $this->output->addSwapTagString("page_title", " By notice level: " . $notice->getName());
         parent::process();
     }

@@ -42,7 +42,7 @@ class Send extends ViewAjax
             $rental_set->loadOnField("noticeLink", $source_id);
         } elseif ($source == "server") {
             $stream_set->loadOnField("serverLink", $source_id);
-            $rental_set->loadIds($stream_set->getAllIds(), "streamLink");
+            $rental_set->loadByValues($stream_set->getAllIds(), "streamLink");
         } elseif ($source == "package") {
             $rental_set->loadOnField("packageLink", $source_id);
         } elseif ($source == "selectedRental") {
@@ -53,9 +53,9 @@ class Send extends ViewAjax
             return;
         }
         $stream_set = new StreamSet();
-        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
-        $avatar_set->loadIds($rental_set->getUniqueArray("avatarLink"));
-        $banlist_set->loadIds($rental_set->getUniqueArray("avatarLink"), "avatarLink");
+        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
+        $avatar_set->loadByValues($rental_set->getUniqueArray("avatarLink"));
+        $banlist_set->loadByValues($rental_set->getUniqueArray("avatarLink"), "avatarLink");
         $banned_ids = $banlist_set->getAllByField("avatarLink");
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {

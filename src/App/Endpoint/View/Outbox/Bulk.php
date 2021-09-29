@@ -52,7 +52,7 @@ class Bulk extends View
                 $souce_named = $server->getDomain();
                 $stream_set = new StreamSet();
                 $stream_set->loadOnField("serverLink", $source_id);
-                $rental_set->loadIds($stream_set->getAllIds(), "streamLink");
+                $rental_set->loadByValues($stream_set->getAllIds(), "streamLink");
                 $ok = true;
             }
         } elseif ($this->page == "package") {
@@ -82,11 +82,11 @@ class Bulk extends View
 
         $this->output->addSwapTagString("page_title", " Bulk sending to " . $this->page . ": " . $souce_named);
         $stream_set = new StreamSet();
-        $stream_set->loadIds($rental_set->getAllByField("streamLink"));
+        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
         $avatar_set = new AvatarSet();
-        $avatar_set->loadIds($rental_set->getUniqueArray("avatarLink"));
+        $avatar_set->loadByValues($rental_set->getUniqueArray("avatarLink"));
         $banlist_set = new BanlistSet();
-        $banlist_set->loadIds($rental_set->getUniqueArray("avatarLink"), "avatarLink");
+        $banlist_set->loadByValues($rental_set->getUniqueArray("avatarLink"), "avatarLink");
 
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {

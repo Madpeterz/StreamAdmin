@@ -108,9 +108,9 @@ class Manage extends View
         $reseller_set = new ResellerSet();
         $region_set = new RegionSet();
         $avatar_set = new AvatarSet();
-        $region_set->loadIds($transactions_set->getAllByField("regionLink"));
-        $reseller_set->loadIds($transactions_set->getAllByField("resellerLink"));
-        $avatar_set->loadIds(
+        $region_set->loadByValues($transactions_set->getAllByField("regionLink"));
+        $reseller_set->loadByValues($transactions_set->getAllByField("resellerLink"));
+        $avatar_set->loadByValues(
             array_merge(
                 $transactions_set->getAllByField("avatarLink"),
                 $reseller_set->getAllByField("avatarLink")

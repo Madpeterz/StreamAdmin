@@ -15,9 +15,9 @@ abstract class Withstatus extends RenderList
             $this->rentalSet = new RentalSet();
             $this->rentalSet->loadWithConfig($this->whereconfig);
             $this->avatarSet = new AvatarSet();
-            $this->avatarSet->loadIds($this->rentalSet->getAllByField("avatarLink"));
+            $this->avatarSet->loadByValues($this->rentalSet->getAllByField("avatarLink"));
             $this->streamSet = new StreamSet();
-            $this->streamSet->loadIds($this->rentalSet->getAllByField("streamLink"));
+            $this->streamSet->loadByValues($this->rentalSet->getAllByField("streamLink"));
         }
         parent::process();
     }

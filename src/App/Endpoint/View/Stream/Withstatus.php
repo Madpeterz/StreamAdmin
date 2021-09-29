@@ -15,7 +15,7 @@ abstract class Withstatus extends RenderList
         if (count($this->whereconfig) > 0) {
             $this->setSwapTag("page_actions", "");
             $this->streamSet->loadWithConfig($this->whereconfig);
-            $this->rentalSet->loadIds($this->streamSet->getAllByField("rentalLink"));
+            $this->rentalSet->loadByValues($this->streamSet->getAllByField("rentalLink"));
             $this->rental_set_ids = $this->rentalSet->getAllIds();
         }
         parent::process();

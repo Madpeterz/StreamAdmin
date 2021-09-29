@@ -30,7 +30,7 @@ class Detailed extends View
         $resellers = new ResellerSet();
         $resellers->loadAll();
         $avatars = new AvatarSet();
-        $avatars->loadIds($resellers->getUniqueArray("avatarLink"));
+        $avatars->loadByValues($resellers->getUniqueArray("avatarLink"));
         $venderHealth = new ObjectsSet();
         $whereConfig = [
             "fields" => ["avatarLink","objectMode","regionLink"],

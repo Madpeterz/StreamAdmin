@@ -15,7 +15,7 @@ class Api extends View
         $api_requests_set = new ApirequestsSet();
         $api_requests_set->loadAll();
         $stream_set = new StreamSet();
-        $stream_set->loadIds($api_requests_set->getUniqueArray("streamLink"));
+        $stream_set->loadByValues($api_requests_set->getUniqueArray("streamLink"));
         $event_names = [
         "optToggleStatus" => "Toggle state {Opt}",
         "optPasswordReset" => "Reset PWs {Opt}",
