@@ -21,6 +21,14 @@ abstract class SwapTags
             "META_TAGS" => ""];
         }
     }
+    /**
+     * getAllTags
+     * @return mixed[]
+     */
+    public function getAllTags(): array
+    {
+        return $this->swaptags;
+    }
     public function getSwapTagString(string $tagname): ?string
     {
         if (array_key_exists($tagname, $this->swaptags) == false) {

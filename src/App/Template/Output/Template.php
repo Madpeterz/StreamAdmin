@@ -2,8 +2,6 @@
 
 namespace App\Template\Output;
 
-use PHP_CodeSniffer\Util\Cache;
-use YAPF\Cache\Drivers\Redis;
 use YAPF\InputFilter\InputFilter;
 
 class Template extends AddonProvider
