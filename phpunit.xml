@@ -51,6 +51,7 @@
             <file>tests/BugReports/Issue44_test.php</file>
             <file>tests/BugReports/Issue47_test.php</file>
             <file>tests/BugReports/Issue57_test.php</file>
+            <file>tests/BugReports/Issue71_test.php</file>
         </testsuite>
   </testsuites>
   <filter>
