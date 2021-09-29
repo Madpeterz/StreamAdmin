@@ -25,7 +25,7 @@ class SecondlifeApiRenew extends TestCase
         $this->assertSame(1,$Details->getOutputObject()->getSwapTagInt("dataset_count"),"incorrect number of entrys reported");
         $dataset = $Details->getOutputObject()->getSwapTagArray("dataset");
         $split = explode("|||",$dataset[0]);
-        $this->assertSame(2,count($split),"Dataset entry not formated as expected");
+        $this->assertSame(3,count($split),"Dataset entry not formated as expected given: ".$dataset[0]);
     }
 
     /**
