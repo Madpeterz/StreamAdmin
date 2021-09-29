@@ -13,6 +13,7 @@ use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
 use App\R7\Model\Transactions;
+use App\R7\Set\BanlistSet;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -22,7 +23,8 @@ class Renewnow extends SecondlifeAjax
     protected Rental $rental;
     protected Stream $stream;
     protected Package $package;
-    protected Avatar $avatar;
+    protected Avatar $accountOwnerAvatar;
+    protected Avatar $transactionAvatar;
     protected Server $server;
     protected Transactions $transaction;
     protected $amountpaid = 0;
@@ -41,7 +43,8 @@ class Renewnow extends SecondlifeAjax
         $this->rental = new Rental();
         $this->stream = new Stream();
         $this->package = new Package();
-        $this->avatar = new Avatar();
+        $this->transactionAvatar = new Avatar();
+        $this->accountOwnerAvatar = new Avatar();
         $this->transaction = new Transactions();
         $this->server = new Server();
         $this->setupRun = true;
@@ -83,22 +86,31 @@ class Renewnow extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find avatar");
             return false;
         }
-        $this->avatar = $avatar_helper->getAvatar();
-
-        $banlist = new Banlist();
-        if ($banlist->loadByField("avatarLink", $this->avatar->getId()) == true) {
+        $this->transactionAvatar = $avatar_helper->getAvatar();
+        if ($this->accountOwnerAvatar->loadID($this->rental->getAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to find avatar");
             return false;
         }
 
-        if ($forceMatchAv != null) {
-            if ($this->avatar->getId() != $forceMatchAv->getId()) {
-                $this->setSwapTag("message", "You can not renew other peoples rentals via the hud!");
-                return false;
-            }
+
+        $banlistSet = new BanlistSet();
+        $banlistSet->loadIds([$this->accountOwnerAvatar->getId(),$this->transactionAvatar->getId()], "avatarLink");
+        if ($banlistSet->getCount() > 0) {
+            $this->setSwapTag("message", "Unable to find avatar");
+            return false;
         }
 
-        return true;
+        if ($forceMatchAv == null) {
+            return true;
+        }
+        if (
+            ($this->accountOwnerAvatar->getId() == $forceMatchAv->getId()) &&
+            ($this->transactionAvatar->getId() == $forceMatchAv->getId())
+        ) {
+                return true;
+        }
+        $this->setSwapTag("message", "You can not renew other peoples rentals via the hud!");
+        return false;
     }
 
     protected function startTransaction(): bool
@@ -114,10 +126,10 @@ class Renewnow extends SecondlifeAjax
     protected function acceptPaymentAmount(): bool
     {
         $accepted_payment_amounts = [
-            ($this->package->getCost()) => 1,
-            ($this->package->getCost() * 2) => 2,
-            ($this->package->getCost() * 3) => 3,
-            ($this->package->getCost() * 4) => 4,
+        ($this->package->getCost()) => 1,
+        ($this->package->getCost() * 2) => 2,
+        ($this->package->getCost() * 3) => 3,
+        ($this->package->getCost() * 4) => 4,
         ];
         if (array_key_exists($this->amountpaid, $accepted_payment_amounts) == false) {
             $this->setSwapTag("message", "payment not accepted (Invaild amount)");
@@ -129,7 +141,7 @@ class Renewnow extends SecondlifeAjax
 
     protected function finalizeTransaction(?string $sltransactionUUID = null): bool
     {
-        $this->transaction->setAvatarLink($this->avatar->getId());
+        $this->transaction->setAvatarLink($this->transactionAvatar->getId());
         $this->transaction->setPackageLink($this->package->getId());
         $this->transaction->setStreamLink($this->stream->getId());
         $this->transaction->setResellerLink($this->reseller->getId());
@@ -181,17 +193,20 @@ class Renewnow extends SecondlifeAjax
             $this->processNoticeChange($unixtime_remain);
         }
 
+
         $EventsQHelper = new EventsQHelper();
+
         $addedEvent = false;
         if (($old_notice_level == 6) && ($this->rental->getNoticeLink() != 6) && ($unixtime_remain > 0)) {
             $EventsQHelper->addToEventQ(
                 "RentalRenew",
                 $this->package,
-                $this->avatar,
+                $this->accountOwnerAvatar,
                 $this->server,
                 $this->stream,
                 $this->rental,
-                $this->amountpaid
+                $this->amountpaid,
+                $this->transactionAvatar,
             );
             $addedEvent = true;
         }
@@ -199,11 +214,12 @@ class Renewnow extends SecondlifeAjax
             $EventsQHelper->addToEventQ(
                 "RentalRenewAny",
                 $this->package,
-                $this->avatar,
+                $this->accountOwnerAvatar,
                 $this->server,
                 $this->stream,
                 $this->rental,
-                $this->amountpaid
+                $this->amountpaid,
+                $this->transactionAvatar,
             );
         }
     }
