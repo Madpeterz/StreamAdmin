@@ -15,7 +15,6 @@ RUN \
     && apt-get install -y cron \
     && chmod 0644 /etc/cron.d/crontab.default \
     && crontab /etc/cron.d/crontab.default \
-    
     && echo 'Installing PHP curl extension' \
     && apt-get install -y --no-install-recommends libssl-dev libcurl4-openssl-dev \
     && docker-php-ext-configure curl --with-curl \
@@ -27,7 +26,7 @@ RUN \
     && chown -R www-data:www-data /srv/website \
     && a2enmod rewrite \ 
     && a2enmod expires \
-    apt-get update
+    && apt-get update
 
 # Setup Zend OP Cache
 RUN { \
