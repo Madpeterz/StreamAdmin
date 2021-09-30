@@ -41,3 +41,5 @@ RUN { \
     echo 'opcache.memory_consumption=256'; \
     echo 'opcache.revalidate_freq=0'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+# Change start up so cron and http both start
+CMD ( crond -f -l 8 & ) && httpd -D FOREGROUND
