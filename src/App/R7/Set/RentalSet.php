@@ -177,4 +177,56 @@ class RentalSet extends CollectionSet
     {
         return $this->loadByField("rentalUid", $rentalUid, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByApiAllowAutoSuspend
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByApiAllowAutoSuspend(
+                    bool $apiAllowAutoSuspend, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("apiAllowAutoSuspend", $apiAllowAutoSuspend, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByApiSuspended
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByApiSuspended(
+                    bool $apiSuspended, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("apiSuspended", $apiSuspended, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByApiPendingAutoSuspend
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByApiPendingAutoSuspend(
+                    bool $apiPendingAutoSuspend, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("apiPendingAutoSuspend", $apiPendingAutoSuspend, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByApiPendingAutoSuspendAfter
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByApiPendingAutoSuspendAfter(
+                    int $apiPendingAutoSuspendAfter, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("apiPendingAutoSuspendAfter", $apiPendingAutoSuspendAfter, $limit, $orderBy, $orderDir);
+    }
 }

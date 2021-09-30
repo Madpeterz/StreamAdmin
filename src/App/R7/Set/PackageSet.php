@@ -268,4 +268,30 @@ class PackageSet extends CollectionSet
     {
         return $this->loadByField("enableGroupInvite", $enableGroupInvite, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByApiAllowAutoSuspend
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByApiAllowAutoSuspend(
+                    bool $apiAllowAutoSuspend, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("apiAllowAutoSuspend", $apiAllowAutoSuspend, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByApiAutoSuspendDelayHours
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByApiAutoSuspendDelayHours(
+                    int $apiAutoSuspendDelayHours, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("apiAutoSuspendDelayHours", $apiAutoSuspendDelayHours, $limit, $orderBy, $orderDir);
+    }
 }
