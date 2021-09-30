@@ -77,6 +77,13 @@ class Manage extends View
                 $this->rental->getMessage(),
                 "Any rental with a message will not be listed on the Fast removal system! Max length 9999"
             );
+            $form->select(
+                "apiAllowSuspend",
+                "Allow auto suspend",
+                $this->rental->getApiAllowAutoSuspend(),
+                $this->yesNo
+            );
+
         $this->pages["Config"] = $form->render("Update", "primary");
     }
     protected function clientMessageForm(): void

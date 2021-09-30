@@ -101,6 +101,21 @@ class Manage extends View
         $form->col(6);
             $form->group("Options");
             $form->select("enableGroupInvite", "Group Invite", $package->getEnableGroupInvite(), $this->disableEnable);
+            $form->col(6);
+            $form->group("API");
+            $form->select(
+                "apiAllowAutoSuspend",
+                "Allow auto suspend",
+                $package->getApiAllowAutoSuspend(),
+                $this->yesNo
+            );
+            $form->numberInput(
+                "apiAutoSuspendDelayHours",
+                "Auto suspend delay [in hours]",
+                $package->getApiAutoSuspendDelayHours(),
+                3,
+                "set to zero to skip the delay"
+            );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

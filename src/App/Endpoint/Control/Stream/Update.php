@@ -69,6 +69,7 @@ class Update extends ViewAjax
             $this->failed("Unable to find stream with that uid");
             return;
         }
+
         $whereConfig = [
             "fields" => ["port","serverLink"],
             "values" => [$port,$serverLink],

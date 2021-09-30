@@ -32,6 +32,8 @@ class Create extends ViewAjax
         $textureInstockSmall = $input->postUUID("textureInstockSmall");
         $textureInstockSelected = $input->postUUID("textureInstockSelected");
         $enableGroupInvite = $input->postBool("enableGroupInvite");
+        $apiAllowAutoSuspend = $input->postBool("apiAllowAutoSuspend");
+        $apiAutoSuspendDelayHours = $input->postInteger("apiAutoSuspendDelayHours", false, false, 999, 0);
         $testing = [
             "name" => $name,
             "template" => $templateLink,
@@ -42,10 +44,13 @@ class Create extends ViewAjax
             "texture soldout" => $textureSoldout,
             "texture small" => $textureInstockSmall,
             "texture selected" => $textureInstockSelected,
+            "Allow auto suspend" => $apiAllowAutoSuspend,
+            "Auto suspend delay" => $apiAutoSuspendDelayHours,
+
         ];
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
-            if ($value == null) {
+            if ($value === null) {
                 $this->failed("Entry: " . $key . " is not set - " . $input->getWhyFailed());
                 return;
             }
@@ -145,6 +150,8 @@ class Create extends ViewAjax
         $package->setWelcomeNotecardLink($welcomeNotecardLink);
         $package->setSetupNotecardLink($setupNotecardLink);
         $package->setEnableGroupInvite($enableGroupInvite);
+        $package->setApiAllowAutoSuspend($apiAllowAutoSuspend);
+        $package->setApiAutoSuspendDelayHours($apiAutoSuspendDelayHours);
         $create_status = $package->createEntry();
         if ($create_status["status"] == false) {
             $this->failed(

@@ -33,6 +33,8 @@ class Update extends ViewAjax
     protected ?int $welcomeNotecardLink;
     protected ?int $setupNotecardLink;
     protected ?bool $enableGroupInvite;
+    protected ?bool $apiAllowAutoSuspend;
+    protected ?int $apiAutoSuspendDelayHours;
 
     protected array $noticeNotecardIds;
 
@@ -81,6 +83,8 @@ class Update extends ViewAjax
         $this->welcomeNotecardLink = $this->input->postInteger("welcomeNotecardLink");
         $this->setupNotecardLink = $this->input->postInteger("setupNotecardLink");
         $this->enableGroupInvite = $this->input->postBool("enableGroupInvite");
+        $this->apiAllowAutoSuspend = $this->input->postBool("apiAllowAutoSuspend");
+        $this->apiAutoSuspendDelayHours = $this->input->postInteger("apiAutoSuspendDelayHours", false, false, 999, 0);
     }
 
     protected function tests(): bool
@@ -141,6 +145,12 @@ class Update extends ViewAjax
         } elseif (strlen($this->apiTemplate) < 3) {
             $this->failed("API template name can not be shorter than 3");
             return false;
+        } elseif ($this->apiAutoSuspendDelayHours < 0) {
+            $this->failed("Auto suspend delay hours must be 0 or more");
+            return false;
+        } elseif ($this->apiAutoSuspendDelayHours > 999) {
+            $this->failed("Auto suspend delay hours must be 999 or less");
+            return false;
         }
         return true;
     }
@@ -178,6 +188,8 @@ class Update extends ViewAjax
         $this->package->setWelcomeNotecardLink($this->welcomeNotecardLink);
         $this->package->setSetupNotecardLink($this->setupNotecardLink);
         $this->package->setEnableGroupInvite($this->enableGroupInvite);
+        $this->package->setApiAllowAutoSuspend($this->apiAllowAutoSuspend);
+        $this->package->setApiAutoSuspendDelayHours($this->apiAutoSuspendDelayHours);
     }
 
     protected function savePackage(): bool

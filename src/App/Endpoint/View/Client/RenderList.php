@@ -19,7 +19,9 @@ abstract class RenderList extends View
     protected ApirequestsSet $apiRequestsSet;
     public function process(): void
     {
-        $table_head = ["id","Rental UID","Avatar","Port","Notecard","Timeleft/Expired","Renewals"];
+        $this->noticeSet = new NoticeSet();
+        $this->noticeSet->loadByValues($this->rentalSet->getUniqueArray("noticeLink"));
+        $table_head = ["id","Rental UID","Avatar","Port","Notecard","Timeleft","Status","Renewals"];
         $table_body = [];
 
         foreach ($this->rentalSet as $rental) {
@@ -41,9 +43,17 @@ abstract class RenderList extends View
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
             . $rental->getRentalUid() . "\">View</button>";
 
-            $status = "Expired - " . expiredAgo($rental->getExpireUnixtime());
+            $timeleft = "-" . expiredAgo($rental->getExpireUnixtime());
             if ($rental->getExpireUnixtime() > time()) {
-                $status = "Active - " . timeleftHoursAndDays($rental->getExpireUnixtime());
+                $timeleft = timeleftHoursAndDays($rental->getExpireUnixtime());
+            }
+            $entry[] = $timeleft;
+            $noticeLevel = $this->noticeSet->getObjectByID($rental->getNoticeLink());
+            $status = $noticeLevel->getName();
+            if ($rental->getApiSuspended() == true) {
+                $status .= " - API [Suspended]";
+            } elseif ($rental->getApiPendingAutoSuspend() == true) {
+                $status .= " - API [AutoSuspend]";
             }
             $entry[] = $status;
             $entry[] = $rental->getRenewals();

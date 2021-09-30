@@ -13,6 +13,7 @@ class Update extends ViewAjax
     protected $actions_taken = "";
     protected $isseus = "";
     protected $message = "";
+    protected $apiAllowSuspend = true;
     protected function transerRental(Rental $rental, string $transfer_avataruid): void
     {
         $avatar = new Avatar();
@@ -140,6 +141,11 @@ class Update extends ViewAjax
         if (strlen($this->message) < 1) {
             $this->message = null;
         }
+        // API flag
+        $this->apiAllowSuspend = $input->postBool("apiAllowSuspend");
+        if ($this->apiAllowSuspend === null) {
+            $this->apiAllowSuspend = true;
+        }
 
         if ($rental->loadByRentalUid($this->page) == false) {
             $this->failed("Unable to find client");
@@ -166,6 +172,12 @@ class Update extends ViewAjax
             $rental->setMessage($this->message);
             $this->actions_taken .= "\n Message Updated";
         }
+
+        if ($this->apiAllowSuspend != $rental->getApiAllowAutoSuspend()) {
+            $rental->setApiAllowAutoSuspend($this->apiAllowSuspend);
+            $this->actions_taken .= "\n API allow auto suspend Updated";
+        }
+
         if ($this->actions_taken == "") {
             $this->ok("? No actions taken ? ");
             return;
@@ -173,6 +185,11 @@ class Update extends ViewAjax
         if ($this->issues != "") {
             $this->failed($this->issues);
             return;
+        }
+        if ($rental->getExpireUnixtime() > time()) {
+            $rental->setApiSuspended(false);
+            $rental->setApiPendingAutoSuspend(false);
+            $rental->setApiPendingAutoSuspendAfter(null);
         }
         $change_status = $rental->updateEntry();
         if ($change_status["status"] != true) {

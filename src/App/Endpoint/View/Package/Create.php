@@ -65,6 +65,16 @@ class Create extends View
         $form->col(6);
             $form->group("Options");
             $form->select("enableGroupInvite", "Group Invite", true, $this->disableEnable);
+        $form->col(6);
+            $form->group("API");
+            $form->select("apiAllowAutoSuspend", "Allow auto suspend", true, $this->yesNo);
+            $form->numberInput(
+                "apiAutoSuspendDelayHours",
+                "Auto suspend delay [in hours]",
+                0,
+                3,
+                "set to zero to skip the delay"
+            );
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

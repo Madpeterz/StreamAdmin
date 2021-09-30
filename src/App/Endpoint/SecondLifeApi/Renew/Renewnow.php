@@ -198,6 +198,10 @@ class Renewnow extends SecondlifeAjax
 
         $addedEvent = false;
         if (($old_notice_level == 6) && ($this->rental->getNoticeLink() != 6) && ($unixtime_remain > 0)) {
+            $this->rental->setApiSuspended(false);
+            $this->rental->setApiPendingAutoSuspend(false);
+            $this->rental->setApiPendingAutoSuspendAfter(null);
+
             $EventsQHelper->addToEventQ(
                 "RentalRenew",
                 $this->package,

@@ -176,14 +176,46 @@ class Next extends SecondlifeAjax
             $EventsQHelper = new EventsQHelper();
             $EventsQHelper->addToEventQ("RentalExpire", $package, $avatar, $server, $stream, $rental);
 
-            $apilogic = new ApiLogicExpire();
-            $apilogic->setStream($stream);
-            $apilogic->setServer($server);
-            $apilogic->setRental($rental);
-            $reply = $apilogic->createNextApiRequest();
-            if ($reply["status"] == false) {
-                $this->setSwapTag("message", "API server logic has failed on ApiLogicExpire: " . $reply["message"]);
+            $selectedApi = new Apis();
+            $selectedApi->loadID($server->getApiLink());
+            if ($selectedApi->isLoaded() == false) {
+                $this->setSwapTag("message", "Unable to load API");
                 return;
+            }
+            if (
+                ($selectedApi->getEventDisableExpire() == true) &&
+                ($server->getEventDisableExpire() == true) &&
+                ($package->getApiAllowAutoSuspend() == true) &&
+                ($rental->getApiAllowAutoSuspend() == true)
+            ) {
+                if ($package->getApiAutoSuspendDelayHours() == 0) {
+                    $rental->setApiSuspended(true);
+                    $rental->setApiPendingAutoSuspend(false);
+                    $rental->setApiPendingAutoSuspendAfter(time());
+                    $apilogic = new ApiLogicExpire();
+                    $apilogic->setStream($stream);
+                    $apilogic->setServer($server);
+                    $apilogic->setRental($rental);
+                    $reply = $apilogic->createNextApiRequest();
+                    if ($reply["status"] == false) {
+                        $this->setSwapTag(
+                            "message",
+                            "API server logic has failed on ApiLogicExpire: " . $reply["message"]
+                        );
+                        return;
+                    }
+                }
+                if ($package->getApiAutoSuspendDelayHours() > 0) {
+                    $rental->setApiSuspended(false);
+                    $rental->setApiPendingAutoSuspend(true);
+                    $rental->setApiPendingAutoSuspendAfter(time() +
+                        ((60 * 60) * $package->getApiAutoSuspendDelayHours()));
+                }
+                $save_status = $rental->updateEntry();
+                if ($save_status["status"] == false) {
+                    $this->setSwapTag("message", "Unable to update rental API auto suspend config");
+                    return;
+                }
             }
         }
 
