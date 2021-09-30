@@ -4,19 +4,17 @@ MAINTAINER Madpeter
 
 COPY . /srv/website
 COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY .docker/crontab.default /etc/cron.d/crontab.default
 
 WORKDIR /srv/app
 
-# Install necessary packages
-RUN \
-	apt-get update \
-	&& apt-get install -y \
-		openssl \
-	&& apt-get install -y \
-		cron
-
-# replace cronjobs with mine
-COPY .docker/crontab.default /etc/cron.d/crontab
+# Install necessary packages & Setup cron
+RUN apt-get update \
+    && apt-get install -y cron \
+	&& apt-get install -y openssl \
+    && apt-get install -y cron \
+    && chmod 0644 /etc/cron.d/crontab.default \
+    && crontab /etc/cron.d/crontab.default
 
 # Install PHP extensions which depend on external libraries
 RUN \
@@ -43,9 +41,3 @@ RUN { \
     echo 'opcache.memory_consumption=256'; \
     echo 'opcache.revalidate_freq=0'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
-
-# Start Cron [in background]
-RUN  \
-    echo 'Starting cron now' \
-    && service crontab start \
-    && crontab reload
