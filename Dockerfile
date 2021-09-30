@@ -7,12 +7,16 @@ COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /srv/app
 
-
 # Install necessary packages
 RUN \
 	apt-get update \
 	&& apt-get install -y \
 		openssl
+	&& apt-get install -y \
+		cron
+
+# replace cronjobs with mine
+COPY .docker/crontab.default /etc/cron.d/crontab
 
 # Install PHP extensions which depend on external libraries
 RUN \
@@ -39,3 +43,9 @@ RUN { \
     echo 'opcache.memory_consumption=256'; \
     echo 'opcache.revalidate_freq=0'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+# Start Cron [in background]
+RUN  \
+    echo 'Starting cron now' \
+    && service cron start \
+    && cron reload
