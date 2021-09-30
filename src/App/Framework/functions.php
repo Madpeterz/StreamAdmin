@@ -12,6 +12,28 @@ function expiredAgo(
     }
     return timeleftHoursAndDays(time() + $dif, $use_secs, $expiredWord);
 }
+/**
+ * get_opts
+ * @return mixed[]
+ */
+function get_opts(): array
+{
+    $opts = [];
+    foreach ($_SERVER["argv"] as $k => $a) {
+        if (preg_match('@\-\-(.+)=(.+)@', $a, $m)) {
+            $opts[$m[1]] = $m[2];
+        } elseif (preg_match('@\-\-(.+)@', $a, $m)) {
+            $opts[$m[1]] = true;
+        } elseif (preg_match('@\-(.+)=(.+)@', $a, $m)) {
+            $opts[$m[1]] = $m[2];
+        } elseif (preg_match('@\-(.+)@', $a, $m)) {
+            $opts[$m[1]] = true;
+        } else {
+            $opts[$k] = $a;
+        }
+    }
+    return $opts;
+}
 function timeleftHoursAndDays($unixtime = 0, bool $use_secs = false, string $expiredWord = "Expired"): string
 {
     $dif = $unixtime - time();
