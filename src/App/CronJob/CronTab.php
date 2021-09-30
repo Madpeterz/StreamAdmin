@@ -4,7 +4,7 @@ namespace App\CronJob;
 
 if (defined("ROOTFOLDER") == false) {
     if (defined('STDIN') == true) {
-        define("ROOTFOLDER", "/src/website");
+        define("ROOTFOLDER", "/srv/website");
     }
 }
 
