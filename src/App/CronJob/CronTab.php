@@ -2,6 +2,12 @@
 
 namespace App\CronJob;
 
+if (defined("ROOTFOLDER") == false) {
+    if (defined('STDIN') == true) {
+        define("ROOTFOLDER", "/src/website");
+    }
+}
+
 if (defined("ROOTFOLDER") == true) {
     include ROOTFOLDER . "/App/Framework/load.php";
 } else {
