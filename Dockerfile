@@ -13,7 +13,7 @@ RUN \
     apt-get install -y openssl \
     && apt-get install -y cron \
     && chmod 0644 /etc/cron.d/crontab.default \
-    && crontab /etc/cron.d/crontab.default
+    && crontab /etc/cron.d/crontab.default \
     && apt-get update \
     && echo 'Installing PHP curl extension' \
     && apt-get install -y --no-install-recommends libssl-dev libcurl4-openssl-dev \
