@@ -1,6 +1,5 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
-DROP TABLE IF EXISTS `apirequests`;
 CREATE TABLE `apirequests` (
   `id` int(11) NOT NULL,
   `serverLink` int(11) NOT NULL,
@@ -12,7 +11,6 @@ CREATE TABLE `apirequests` (
   `message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `apis`;
 CREATE TABLE `apis` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
@@ -43,7 +41,6 @@ INSERT INTO `apis` (`id`, `name`, `apiServerStatus`, `apiSyncAccounts`, `optTogg
 (5, 'Secondbot', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (6, 'Azurecast', 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0);
 
-DROP TABLE IF EXISTS `avatar`;
 CREATE TABLE `avatar` (
   `id` int(11) NOT NULL,
   `avatarUUID` varchar(36) NOT NULL,
@@ -54,13 +51,11 @@ CREATE TABLE `avatar` (
 INSERT INTO `avatar` (`id`, `avatarUUID`, `avatarName`, `avatarUid`) VALUES
 (1, 'system', 'Madpeter Zond', 'system');
 
-DROP TABLE IF EXISTS `banlist`;
 CREATE TABLE `banlist` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `botconfig`;
 CREATE TABLE `botconfig` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -74,13 +69,28 @@ CREATE TABLE `botconfig` (
 INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`, `invites`, `inviteGroupUUID`) VALUES
 (1, 1, 'notsetup', 0, 0, 0, NULL);
 
-DROP TABLE IF EXISTS `detail`;
+CREATE TABLE `datatable` (
+  `id` int(11) NOT NULL,
+  `hideColZero` tinyint(1) NOT NULL DEFAULT 1,
+  `col` int(11) NOT NULL DEFAULT 0,
+  `cols` text NOT NULL,
+  `name` text NOT NULL,
+  `dir` text NOT NULL DEFAULT 'desc'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `datatable` (`id`, `hideColZero`, `col`, `cols`, `name`, `dir`) VALUES
+(1, 1, 0, '0=id,1=region,3=Percentage,4=Count Up,5=Count down', 'Health', 'desc'),
+(2, 1, 1, '0=id,1=Object,2=Last seen,5=Owner', 'Health / Detailed', 'desc'),
+(3, 1, 0, '0=id,1=Rental UID,2=Avatar,3=Port,6=Renewals', 'Client / List', 'desc'),
+(4, 1, 0, '0=id,1=Stream UID,2=Server,3=Port', 'Stream / List', 'desc'),
+(5, 1, 0, '0=id,1=Package name,2=Sold,3=Need work,4=Ready', 'Streams / Package menu', 'desc'),
+(6, 1, 0, '0=id,1=Package UID,2=Name,4=Listeners,5=Days,6=Kbps,7=Cost', 'Packages / List', 'desc');
+
 CREATE TABLE `detail` (
   `id` int(11) NOT NULL,
   `rentalLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `eventsq`;
 CREATE TABLE `eventsq` (
   `id` int(11) NOT NULL,
   `eventName` text NOT NULL,
@@ -88,7 +98,6 @@ CREATE TABLE `eventsq` (
   `eventUnixtime` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -98,7 +107,6 @@ CREATE TABLE `message` (
 INSERT INTO `message` (`id`, `avatarLink`, `message`) VALUES
 (1, 1, 'Web panel setup finished please reset your password');
 
-DROP TABLE IF EXISTS `notecard`;
 CREATE TABLE `notecard` (
   `id` int(11) NOT NULL,
   `rentalLink` int(11) NOT NULL,
@@ -106,14 +114,12 @@ CREATE TABLE `notecard` (
   `noticeLink` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `notecardmail`;
 CREATE TABLE `notecardmail` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
   `noticenotecardLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -134,7 +140,6 @@ INSERT INTO `notice` (`id`, `name`, `imMessage`, `useBot`, `sendNotecard`, `note
 (6, 'Expired', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]]  has now expired please renew asap or risk losing the assigned port.', 1, 0, '', 0, 1),
 (10, 'Active', '', 0, 0, '', 999, 1);
 
-DROP TABLE IF EXISTS `noticenotecard`;
 CREATE TABLE `noticenotecard` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -144,7 +149,6 @@ CREATE TABLE `noticenotecard` (
 INSERT INTO `noticenotecard` (`id`, `name`, `missing`) VALUES
 (1, 'none', 0);
 
-DROP TABLE IF EXISTS `objects`;
 CREATE TABLE `objects` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -156,7 +160,6 @@ CREATE TABLE `objects` (
   `lastSeen` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `package`;
 CREATE TABLE `package` (
   `id` int(11) NOT NULL,
   `packageUid` varchar(8) NOT NULL,
@@ -175,16 +178,16 @@ CREATE TABLE `package` (
   `apiTemplate` text DEFAULT NULL,
   `welcomeNotecardLink` int(11) NOT NULL DEFAULT 1,
   `setupNotecardLink` int(11) NOT NULL DEFAULT 1,
-  `enableGroupInvite` tinyint(1) NOT NULL DEFAULT 1
+  `enableGroupInvite` tinyint(1) NOT NULL DEFAULT 1,
+  `apiAllowAutoSuspend` tinyint(1) NOT NULL DEFAULT 1,
+  `apiAutoSuspendDelayHours` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `region`;
 CREATE TABLE `region` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `rental`;
 CREATE TABLE `rental` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -196,10 +199,12 @@ CREATE TABLE `rental` (
   `renewals` tinyint(4) NOT NULL DEFAULT 0,
   `totalAmount` int(11) NOT NULL DEFAULT 0,
   `message` text DEFAULT NULL,
-  `rentalUid` varchar(8) NOT NULL
+  `rentalUid` varchar(8) NOT NULL,
+  `apiSuspended` tinyint(1) NOT NULL DEFAULT 0,
+  `apiPendingAutoSuspend` tinyint(1) NOT NULL DEFAULT 0,
+  `apiPendingAutoSuspendAfter` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `reseller`;
 CREATE TABLE `reseller` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -207,7 +212,6 @@ CREATE TABLE `reseller` (
   `rate` int(3) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `server`;
 CREATE TABLE `server` (
   `id` int(11) NOT NULL,
   `domain` varchar(100) NOT NULL,
@@ -236,7 +240,6 @@ CREATE TABLE `server` (
   `eventUpdateStream` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `servertypes`;
 CREATE TABLE `servertypes` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
@@ -247,7 +250,6 @@ INSERT INTO `servertypes` (`id`, `name`) VALUES
 (1, 'ShoutcastV1'),
 (2, 'ShoutcastV2');
 
-DROP TABLE IF EXISTS `slconfig`;
 CREATE TABLE `slconfig` (
   `id` int(11) NOT NULL,
   `dbVersion` varchar(12) NOT NULL DEFAULT 'install',
@@ -265,18 +267,17 @@ CREATE TABLE `slconfig` (
   `customLogo` tinyint(1) NOT NULL DEFAULT 0,
   `customLogoBin` text NOT NULL,
   `hudAllowDiscord` tinyint(1) NOT NULL DEFAULT 0,
-  `hudDiscordLink` text NOT NULL DEFAULT 'Not setup yet',
+  `hudDiscordLink` text DEFAULT 'Not setup yet',
   `hudAllowGroup` tinyint(1) NOT NULL DEFAULT 0,
-  `hudGroupLink` text NOT NULL DEFAULT 'Not setup yet',
+  `hudGroupLink` text DEFAULT 'Not setup yet',
   `hudAllowDetails` tinyint(1) NOT NULL DEFAULT 0,
   `hudAllowRenewal` tinyint(1) NOT NULL DEFAULT 0,
   `eventsAPI` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`, `eventsAPI`) VALUES
-(1, '1.0.2.2', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0);
+(1, '1.0.2.4', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0);
 
-DROP TABLE IF EXISTS `staff`;
 CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
   `username` varchar(40) NOT NULL,
@@ -292,7 +293,6 @@ CREATE TABLE `staff` (
 INSERT INTO `staff` (`id`, `username`, `emailResetCode`, `emailResetExpires`, `avatarLink`, `phash`, `lhash`, `psalt`, `ownerLevel`) VALUES
 (1, 'Installer', NULL, 1585832870, 1, '876138b3b30082989dc3f61f607c5ba0a3adceaace', 'ea8acdc5deff970b901ccd2ee3ff60326bc746fcf3', '1063b99b60639e90d9cfc2ae1abd38e783ee90b891', 1);
 
-DROP TABLE IF EXISTS `stream`;
 CREATE TABLE `stream` (
   `id` int(11) NOT NULL,
   `serverLink` int(11) NOT NULL,
@@ -309,10 +309,10 @@ CREATE TABLE `stream` (
   `lastApiSync` int(11) NOT NULL DEFAULT 0,
   `apiConfigValue1` text DEFAULT NULL,
   `apiConfigValue2` text DEFAULT NULL,
-  `apiConfigValue3` text DEFAULT NULL
+  `apiConfigValue3` text DEFAULT NULL,
+  `apiAllowAutoSuspend` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `template`;
 CREATE TABLE `template` (
   `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
@@ -324,7 +324,6 @@ INSERT INTO `template` (`id`, `name`, `detail`, `notecardDetail`) VALUES
 (1, 'Shoutcast', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS]][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS]][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]] \r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] [[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]'),
 (2, 'Icecast', 'Package: [[PACKAGE_NAME]][[NL]]\r\nListeners: [[PACKAGE_LISTENERS]][[NL]]\r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]]\r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]]\r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]]\r\nDomain: [[SERVER_DOMAIN]][[NL]]\r\nport: [[STREAM_PORT]][[NL]]\r\n[[NL]]\r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]]\r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]]\r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]]\r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]]\r\n[[NL]]\r\nExpires: [[RENTAL_EXPIRES_DATETIME]]', 'Package: [[PACKAGE_NAME]][[NL]] \r\nListeners: [[PACKAGE_LISTENERS]][[NL]] \r\nBitrate: [[PACKAGE_BITRATE]]kbps[[NL]] \r\nAutoDJ: [[PACKAGE_AUTODJ]] [[PACKAGE_AUTODJ_SIZE]]gb[[NL]]\r\n[[NL]] \r\nControl panel: [[SERVER_CONTROLPANEL]][[NL]] \r\nDomain: [[SERVER_DOMAIN]][[NL]] \r\nport: [[STREAM_PORT]][[NL]] \r\n[[NL]] \r\nAdmin user: [[STREAM_ADMINUSERNAME]][[NL]] \r\nAdmin pass: [[STREAM_ADMINPASSWORD]][[NL]] \r\nDJ pass: [[STREAM_DJPASSWORD]][[NL]] \r\nMountpoint: [[STREAM_MOUNTPOINT]][[NL]] \r\n[[NL]] \r\nExpires: [[RENTAL_EXPIRES_DATETIME]]');
 
-DROP TABLE IF EXISTS `textureconfig`;
 CREATE TABLE `textureconfig` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
@@ -334,16 +333,14 @@ CREATE TABLE `textureconfig` (
   `makePayment` varchar(36) NOT NULL,
   `inUse` varchar(36) NOT NULL,
   `renewHere` varchar(36) NOT NULL,
-  `treevendWaiting` varchar(36) NOT NULL,
   `proxyRenew` varchar(36) NOT NULL,
   `gettingDetails` varchar(36) NOT NULL,
   `requestDetails` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `textureconfig` (`id`, `name`, `offline`, `waitOwner`, `stockLevels`, `makePayment`, `inUse`, `renewHere`, `treevendWaiting`, `proxyRenew`, `gettingDetails`, `requestDetails`) VALUES
-(1, 'SA7 defaults', '718fdaf8-df99-5c7f-48fb-feb94db12675', '51d5f381-43cd-84f0-c226-f9f89c12af7e', '257c594e-41d8-53d8-5280-5329a259a5d8', '19e57cf0-254f-32d7-fc9f-0d698aca4dc2', '10b68027-7e7f-fbbc-0c9f-6afabbfc636c', '0e99005c-526e-468c-7c0c-2569096f6162', 'c2b33611-f114-7415-0919-ffa18841c892', 'cc1c1124-b5d0-595b-12b6-016c61b82456', 'bc14cd11-edca-4bd2-3a21-46d870966edd', 'c724a9ea-ee79-6d80-3249-ff016de063b0');
+INSERT INTO `textureconfig` (`id`, `name`, `offline`, `waitOwner`, `stockLevels`, `makePayment`, `inUse`, `renewHere`, `proxyRenew`, `gettingDetails`, `requestDetails`) VALUES
+(1, 'SA7 defaults', '718fdaf8-df99-5c7f-48fb-feb94db12675', '51d5f381-43cd-84f0-c226-f9f89c12af7e', '257c594e-41d8-53d8-5280-5329a259a5d8', '19e57cf0-254f-32d7-fc9f-0d698aca4dc2', '10b68027-7e7f-fbbc-0c9f-6afabbfc636c', '0e99005c-526e-468c-7c0c-2569096f6162', 'cc1c1124-b5d0-595b-12b6-016c61b82456', 'bc14cd11-edca-4bd2-3a21-46d870966edd', 'c724a9ea-ee79-6d80-3249-ff016de063b0');
 
-DROP TABLE IF EXISTS `timezones`;
 CREATE TABLE `timezones` (
   `id` int(11) NOT NULL,
   `name` varchar(125) NOT NULL,
@@ -363,7 +360,6 @@ INSERT INTO `timezones` (`id`, `name`, `code`) VALUES
 (10, 'Europe / Paris', 'Europe/Paris'),
 (11, 'Europe / London', 'Europe/London');
 
-DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -379,13 +375,13 @@ CREATE TABLE `transactions` (
   `ViaHud` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `treevender`;
 CREATE TABLE `treevender` (
   `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `textureWaiting` varchar(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `textureInuse` varchar(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `treevenderpackages`;
 CREATE TABLE `treevenderpackages` (
   `id` int(11) NOT NULL,
   `treevenderLink` int(11) NOT NULL,
@@ -414,6 +410,9 @@ ALTER TABLE `banlist`
 ALTER TABLE `botconfig`
   ADD PRIMARY KEY (`id`),
   ADD KEY `avatarLink` (`avatarLink`);
+
+ALTER TABLE `datatable`
+  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `detail`
   ADD PRIMARY KEY (`id`),
@@ -546,6 +545,9 @@ ALTER TABLE `banlist`
 
 ALTER TABLE `botconfig`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+ALTER TABLE `datatable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 ALTER TABLE `detail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -686,33 +688,7 @@ ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
 
-UPDATE `slconfig` SET `dbVersion` = '1.0.2.3' WHERE `slconfig`.`id` = 1;
-ALTER TABLE `slconfig` 
-    CHANGE `hudDiscordLink` `hudDiscordLink` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT "Not setup yet", 
-    CHANGE `hudGroupLink` `hudGroupLink` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT "Not setup yet";
+ALTER TABLE `stream` DROP `apiAllowAutoSuspend`;
 
-ALTER TABLE `textureconfig` DROP `treevendWaiting`;
-
-ALTER TABLE `treevender` 
-    ADD `textureWaiting` VARCHAR(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000' AFTER `name`, 
-    ADD `textureInuse` VARCHAR(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000' AFTER `textureWaiting`;
-
-CREATE TABLE `datatable` (
-  `id` int(11) NOT NULL,
-  `col` int(11) NOT NULL DEFAULT 0,
-  `cols` text NOT NULL,
-  `name` text NOT NULL,
-  `dir` text NOT NULL DEFAULT 'desc'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-ALTER TABLE `datatable` ADD PRIMARY KEY(`id`);
-
-ALTER TABLE `datatable` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
-INSERT INTO `datatable` (`id`, `col`, `cols`, `name`, `dir`) VALUES (NULL, '0', '0=id,1=region,3=Percentage,4=Count Up,5=Count down', 'health', 'desc');
-ALTER TABLE `datatable` ADD `hideColZero` TINYINT(1) NOT NULL DEFAULT '1' AFTER `id`;
-INSERT INTO `datatable` (`id`, `hideColZero`, `col`, `cols`, `name`, `dir`) VALUES (NULL, '1', '1', '0=id,1=Object,2=Last seen,5=Owner', 'Health / Detailed', 'desc');
-UPDATE `datatable` SET `name` = 'Health' WHERE `datatable`.`id` = 1;
-INSERT INTO `datatable` (`id`, `hideColZero`, `col`, `cols`, `name`, `dir`) VALUES (NULL, '1', '0', '0=id,1=Rental UID,2=Avatar,3=Port,6=Renewals', 'Client / List', 'desc');
-INSERT INTO `datatable` (`id`, `hideColZero`, `col`, `cols`, `name`, `dir`) VALUES (NULL, '1', '0', '0=id,1=Stream UID,2=Server,3=Port', 'Stream / List', 'desc');
-INSERT INTO `datatable` (`id`, `hideColZero`, `col`, `cols`, `name`, `dir`) VALUES (NULL, '1', '0', '0=id,1=Package name,2=Sold,3=Need work,4=Ready', 'Streams / Package menu', 'desc');
-INSERT INTO `datatable` (`id`, `hideColZero`, `col`, `cols`, `name`, `dir`) VALUES (NULL, '1', '0', '0=id,1=Package UID,2=Name,4=Listeners,5=Days,6=Kbps,7=Cost', 'Packages / List', 'desc');
+ALTER TABLE `rental` 
+  ADD `apiAllowAutoSuspend` TINYINT(1) NOT NULL DEFAULT '1' AFTER `rentalUid`;
