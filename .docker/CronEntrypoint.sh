@@ -10,4 +10,4 @@ echo "
 
 # Start the magic
 crontab scheduler.txt
-cron -f
+cron && tail -F /var/log/cron.log
