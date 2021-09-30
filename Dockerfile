@@ -13,7 +13,7 @@ RUN \
 	&& apt-get install -y \
 		openssl \
 	&& apt-get install -y \
-		cron
+		crontab
 
 # replace cronjobs with mine
 COPY .docker/crontab.default /etc/cron.d/crontab
@@ -47,5 +47,5 @@ RUN { \
 # Start Cron [in background]
 RUN  \
     echo 'Starting cron now' \
-    && service cron start \
-    && cron reload
+    && service crontab start \
+    && crontab reload
