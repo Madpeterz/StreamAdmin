@@ -107,6 +107,11 @@ abstract class Switchboard
             }
         }
         $obj->getoutput();
+        $statussql = $obj->getOutputObject()->getSwapTagBool("status");
+        if (($statussql === false) || ($statussql === null)) {
+            global $sql;
+            $sql->flagError();
+        }
     }
 
     protected function createCustomLogoFile(): bool
