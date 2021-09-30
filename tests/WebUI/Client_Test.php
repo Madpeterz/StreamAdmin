@@ -317,7 +317,8 @@ class ClientTest extends TestCase
         $missing = "Missing client list active status element";
         $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
         $this->assertStringContainsString("8002",$statuscheck,$missing);
-        $this->assertStringContainsString("Active",$statuscheck,$missing);
+        $this->assertStringContainsString("Timeleft",$statuscheck,$missing);
+        $this->assertStringContainsString("Status",$statuscheck,$missing);
         $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
 

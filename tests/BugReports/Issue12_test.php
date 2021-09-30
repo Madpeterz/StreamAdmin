@@ -88,10 +88,13 @@ class Issue12 extends TestCase
         $_POST["servertypeLink"] = 1;
         $_POST["welcomeNotecardLink"] = 1;
         $_POST["setupNotecardLink"] = 1;
+        $_POST["apiAllowAutoSuspend"] = 1;
+        $_POST["apiAutoSuspendDelayHours"] = 0;
         $PackageCreateHandler->process();
         $statuscheck = $PackageCreateHandler->getOutputObject();
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertStringContainsString("Package created",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        
     }
 
     /**
