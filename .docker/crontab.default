@@ -1,3 +1,3 @@
 * * * * * /usr/bin/php /srv/website/src/App/CronJob/CronTab.php -t DetailsServer > /dev/null 2>&1
 * * * * * /usr/bin/php /srv/website/src/App/CronJob/CronTab.php -t ClientAutoSuspend > /dev/null 2>&1
-* * * * * /usr/bin/php /srv/website/src/App/CronJob/CronTab.php -t ApiRequests -B C > /dev/null 2>&1
+* * * * * /usr/bin/php /srv/website/src/App/CronJob/CronTab.php -t ApiRequests > /dev/null 2>&1
