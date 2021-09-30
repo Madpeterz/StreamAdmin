@@ -1,0 +1,18 @@
+<div class="row">
+<div class="col-sm-6">
+<ul>
+<li>eventsQ updated for proxypay <a href="https://github.com/Madpeterz/StreamAdmin/issues/71" target="_blank">[Issue 71]</a></li>
+<li>API events now supports Grace Period for expiry <a href="https://github.com/Madpeterz/StreamAdmin/issues/69" target="_blank">[Issue 69]</a></li>
+</ul>
+</div>
+<div class="col-sm-6">
+<ul>
+<li>userHud now shows time remaining before starting renewal <a href="https://github.com/Madpeterz/StreamAdmin/issues/70" target="_blank">[Issue 70]</a></li>
+</ul>
+</div>
+<div class="col-sm-12">
+<p>
+Have a feature/bug you want fixed/added then <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
+</p>
+</div>
+</div>
