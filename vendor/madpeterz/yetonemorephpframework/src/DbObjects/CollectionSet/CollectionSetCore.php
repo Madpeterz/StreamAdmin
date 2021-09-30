@@ -46,6 +46,7 @@ abstract class CollectionSetCore extends SqlConnectedClass
     public function countInDB(?array $whereConfig = null): ?int
     {
         $this->makeWorker();
+        $whereConfig = $this->worker->extendWhereConfig($whereConfig);
         // Cache support
         $hitCache = false;
         $hashme = "";

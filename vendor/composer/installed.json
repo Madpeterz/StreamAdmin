@@ -249,17 +249,17 @@
         },
         {
             "name": "madpeterz/yetonemorephpframework",
-            "version": "3.0.5",
-            "version_normalized": "3.0.5.0",
+            "version": "3.0.7",
+            "version_normalized": "3.0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-                "reference": "6814497140e277d70cadc2aefb9177e623105c63"
+                "reference": "71514fe121c7cbcbae437460926a69624e317e35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/6814497140e277d70cadc2aefb9177e623105c63",
-                "reference": "6814497140e277d70cadc2aefb9177e623105c63",
+                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/71514fe121c7cbcbae437460926a69624e317e35",
+                "reference": "71514fe121c7cbcbae437460926a69624e317e35",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
                 "slevomat/coding-standard": "^6.4",
                 "squizlabs/php_codesniffer": "*"
             },
-            "time": "2021-09-27T14:44:29+00:00",
+            "time": "2021-09-30T07:38:51+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -299,17 +299,17 @@
         },
         {
             "name": "predis/predis",
-            "version": "v1.1.7",
-            "version_normalized": "1.1.7.0",
+            "version": "v1.1.8",
+            "version_normalized": "1.1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "b240daa106d4e02f0c5b7079b41e31ddf66fddf8"
+                "reference": "cf5c118a077fbab8b9af1482c20952173125c041"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/b240daa106d4e02f0c5b7079b41e31ddf66fddf8",
-                "reference": "b240daa106d4e02f0c5b7079b41e31ddf66fddf8",
+                "url": "https://api.github.com/repos/predis/predis/zipball/cf5c118a077fbab8b9af1482c20952173125c041",
+                "reference": "cf5c118a077fbab8b9af1482c20952173125c041",
                 "shasum": ""
             },
             "require": {
@@ -322,7 +322,7 @@
                 "ext-curl": "Allows access to Webdis when paired with phpiredis",
                 "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
             },
-            "time": "2021-04-04T19:34:46+00:00",
+            "time": "2021-09-29T17:48:39+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -356,7 +356,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v1.1.7"
+                "source": "https://github.com/predis/predis/tree/v1.1.8"
             },
             "funding": [
                 {
