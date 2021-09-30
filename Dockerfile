@@ -11,7 +11,7 @@ WORKDIR /srv/app
 RUN \
 	apt-get update \
 	&& apt-get install -y \
-		openssl
+		openssl \
 	&& apt-get install -y \
 		cron
 
