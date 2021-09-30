@@ -2,13 +2,15 @@
 echo "Streamadmin crontab container"
 
 # Setup a cron schedule
-echo "
-* * * * * /usr/bin/php /srv/website/src/App/CronJob/CronTab.php -t DetailsServer >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/bin/php /srv/website/src/App/CronJob/CronTab.php -t ClientAutoSuspend >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/bin/php /srv/website/src/App/CronJob/CronTab.php -t ApiRequests >/proc/1/fd/1 2>/proc/1/fd/2
-" > scheduler.txt
+set cronfile="
+* * * * * php /srv/website/src/App/CronJob/CronTab.php -t DetailsServer >/proc/1/fd/1 2>/proc/1/fd/2
+* * * * * php /srv/website/src/App/CronJob/CronTab.php -t ClientAutoSuspend >/proc/1/fd/1 2>/proc/1/fd/2
+* * * * * php /srv/website/src/App/CronJob/CronTab.php -t ApiRequests >/proc/1/fd/1 2>/proc/1/fd/2
+"
 
-echo scheduler.txt
+echo cronfile > scheduler.txt
+
+echo cronfile
 
 echo "Pushing ENV values to cron system"
 env >> /etc/environment
