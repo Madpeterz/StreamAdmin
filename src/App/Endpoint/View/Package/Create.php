@@ -65,6 +65,7 @@ class Create extends View
         $form->col(6);
             $form->group("Options");
             $form->select("enableGroupInvite", "Group Invite", true, $this->disableEnable);
+        $form->split();
         $form->col(6);
             $form->group("API");
             $form->select("apiAllowAutoSuspend", "Allow auto suspend", true, $this->yesNo);
