@@ -50,6 +50,7 @@ abstract class HomeLoadData extends View
             "noticeserver",
             "detailsserver",
             "notecardsserver",
+            "clientautosuspendserver",
         ];
         if ($this->slconfig->getEventsAPI() == true) {
             $this->owner_objects_list[] = "eventsserver";
@@ -124,6 +125,7 @@ abstract class HomeLoadData extends View
         "noticeserver",
         "detailsserver",
         "notecardsserver",
+        "clientautosuspendserver",
         ];
         if ($this->slconfig->getEventsAPI() == true) {
             $this->owner_objects_list[] = "eventsserver";
