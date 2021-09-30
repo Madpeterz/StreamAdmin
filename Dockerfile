@@ -4,13 +4,13 @@ MAINTAINER Madpeter
 
 COPY . /srv/website
 COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
-COPY .docker/CronEntrypoint.sh CronEntrypoint.sh
+COPY .docker/CronEntrypoint.sh ./CronEntrypoint.sh
 
 WORKDIR /srv/app
 
 # Install necessary packages / Install PHP extensions which depend on external libraries
 RUN \
-    chmod +x CronEntrypoint.sh \
+    chmod +x ./CronEntrypoint.sh \
     && apt-get update \
     && apt-get install -y openssl \
     && apt-get install -y cron \
