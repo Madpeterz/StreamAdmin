@@ -29,23 +29,37 @@ abstract class Master
     protected function process(): void
     {
         $regionHelper = new RegionHelper();
-        $regionHelper->loadOrCreate("cronJob");
+        if ($regionHelper->loadOrCreate("cronJob") == false) {
+            echo "Unable to load/create region";
+            return;
+        }
 
         $slconfig = new Slconfig();
-        $slconfig->loadID(1);
+        if ($slconfig->loadID(1) == false) {
+            echo "Unable to load system config:" . $slconfig->getLastErrorBasic();
+            return;
+        }
 
         $avatar = new Avatar();
-        $avatar->loadID($slconfig->getOwnerAvatarLink());
+        if ($avatar->loadID($slconfig->getOwnerAvatarLink()) == false) {
+            echo "Unable to load owner avatar:" . $avatar->getLastErrorBasic();
+            return;
+        }
 
         $objectHelper = new ObjectHelper();
-        $objectHelper->loadOrCreate(
-            $avatar->getId(),
-            $regionHelper->getRegion()->getId(),
-            "00000000-0000-0000-0000-00000000000" . $this->cronID,
-            $this->cronName,
-            $this->cronName,
-            "0,0,0"
-        );
+        if (
+            $objectHelper->loadOrCreate(
+                $avatar->getId(),
+                $regionHelper->getRegion()->getId(),
+                "00000000-0000-0000-0000-00000000000" . $this->cronID,
+                $this->cronName,
+                $this->cronName,
+                "0,0,0"
+            ) == false
+        ) {
+            echo "Unable to load/create object:" . $objectHelper->getLastWhyFailed();
+            return;
+        }
 
         $ticks = 0;
         $units = 50 / $this->groups;
