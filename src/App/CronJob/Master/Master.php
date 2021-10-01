@@ -95,7 +95,10 @@ abstract class Master
         if (($hadError == false) && ($this->myObject != null)) {
             $this->myObject->setLastSeen(time());
             $updateObj = $this->myObject->updateEntry();
-            $hadError = $updateObj["status"];
+            $hadError = !$updateObj["status"];
+            if ($hadError == true) {
+                echo "Failed to up object last seen timer\n";
+            }
         }
         if ($hadError == false) {
             if ($cache != null) {
