@@ -112,10 +112,17 @@ abstract class Master
     }
     protected function startup(): bool
     {
+        if ($this->cronID != 1) {
+            // delay startup by 100 + (25 * cronid) ms so region can be created.
+            usleep(100 + (25 * $this->cronID));
+        }
         $regionHelper = new RegionHelper();
         if ($regionHelper->loadOrCreate("cronJob") == false) {
             echo "Unable to load/create region:" . $regionHelper->getLastError();
             return false;
+        }
+        if ($this->cronID == 1) {
+            $this->save(); // force region creation.
         }
         $region = $regionHelper->getRegion();
 
@@ -145,7 +152,9 @@ abstract class Master
             echo "Unable to load/create object:" . $objectHelper->getLastWhyFailed();
             return false;
         }
+        $this->save(); // force save the object
         $this->myObject = $objectHelper->getObject();
+
         return true;
     }
     protected function process(): void
