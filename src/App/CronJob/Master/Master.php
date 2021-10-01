@@ -46,6 +46,8 @@ abstract class Master
             echo "Unable to load owner avatar:" . $avatar->getLastErrorBasic();
             return;
         }
+        global $sql;
+        $sql->sqlSave();
 
 
 
@@ -99,7 +101,6 @@ abstract class Master
                 $tasksFinishedOk++;
                 $tasksFinsihedFailed--;
             }
-            global $sql;
             if (($statussql === false) || ($statussql === null)) {
                 $sql->flagError();
             }
