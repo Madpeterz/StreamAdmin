@@ -53,7 +53,7 @@ abstract class Master
         if (
             $objectHelper->loadOrCreate(
                 $avatar->getId(),
-                ->getId(),
+                $region->getId(),
                 "00000000-0000-0000-0000-00000000000" . $this->cronID,
                 $this->cronName,
                 $this->cronName,
