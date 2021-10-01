@@ -3,16 +3,10 @@
 namespace App\CronJob;
 
 if (defined("ROOTFOLDER") == false) {
-    if (defined('STDIN') == true) {
-        define("ROOTFOLDER", "/srv/website");
-    }
+    include "CronTabFlags.php";
 }
 
-if (defined("ROOTFOLDER") == true) {
-    include ROOTFOLDER . "/App/Framework/load.php";
-} else {
-    include "../App/Framework/load.php";
-}
+include ROOTFOLDER . "/App/Framework/load.php";
 
 set_time_limit(57);
 
