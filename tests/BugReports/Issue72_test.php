@@ -14,7 +14,7 @@ class Issue72 extends TestCase
         global $_SERVER;
         $_SERVER["argv"]["t"] = "ClientAutoSuspend";
         include "src/App/CronJob/CronTab.php";
-        $this->assertStringEndsWith('"ok":1,"failed":0,"ticks":1,"sleeped":0}',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
+        $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
     public function test_DetailsServer()
     {       
@@ -24,7 +24,7 @@ class Issue72 extends TestCase
         global $_SERVER;
         $_SERVER["argv"]["t"] = "DetailsServer";
         include "src/App/CronJob/CronTab.php";
-        $this->assertStringEndsWith('"ok":1,"failed":0,"ticks":1,"sleeped":0}',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
+        $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
     public function test_ApiRequestsServer()
     {       
@@ -34,7 +34,7 @@ class Issue72 extends TestCase
         global $_SERVER;
         $_SERVER["argv"]["t"] = "ApiRequests";
         include "src/App/CronJob/CronTab.php";
-        $this->assertStringEndsWith('"ok":1,"failed":0,"ticks":1,"sleeped":0}',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
+        $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
 }
 
