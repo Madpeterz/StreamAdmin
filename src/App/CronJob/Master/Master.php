@@ -49,7 +49,6 @@ abstract class Master
 
     protected function splitLooper(): bool
     {
-        $unixtimeNow = time();
         $autoExitTime = time() + 50;
         $spacer = 55 / $this->groups;
         $exitNow = false;
@@ -113,8 +112,8 @@ abstract class Master
     protected function startup(): bool
     {
         if ($this->cronID != 1) {
-            // delay startup by 100 + (25 * cronid) ms so region can be created.
-            usleep(100 + (25 * $this->cronID));
+            // delay startup by 2 sec so regions can be created
+            sleep(2);
         }
         $regionHelper = new RegionHelper();
         if ($regionHelper->loadOrCreate("cronJob") == false) {
