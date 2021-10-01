@@ -18,7 +18,7 @@ if (array_key_exists("t", $options) == false) {
 
 $taskPicker = "App\\CronJob\\Tasks\\" . $options["t"];
 if (class_exists($taskPicker) == false) {
-    echo  "task arg t of " . $options["t"] . " is not supported by crontab";
+    echo  "task arg t of " . $options["t"] . " is not supported by crontab" . json_encode($options);
     return;
 }
 $groups = 15;
