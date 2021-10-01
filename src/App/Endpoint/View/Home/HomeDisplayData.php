@@ -100,9 +100,6 @@ abstract class HomeDisplayData extends HomeLoadData
         $entry[] = "";
         $table_body[] = $entry;
 
-
-
-
         foreach ($this->objects_set as $object) {
             $region = $this->region_set->getObjectByID($object->getRegionLink());
             $entry = [];
@@ -135,13 +132,18 @@ abstract class HomeDisplayData extends HomeLoadData
                     $issues++;
                     $color = "text-warning";
                 }
+                $regionName = "id " . $object->getRegionLink() . "";
+                if ($region != null) {
+                    $regionName = $region->getName();
+                }
+
                 $entry[] = '<span class="' . $color . '">'
                 . expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
-                $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
+                $tp_url = "http://maps.secondlife.com/secondlife/" . $regionName . "/"
                 . implode("/", explode(",", $object->getObjectXYZ())) . "";
                 $tp_url = str_replace(' ', '%20', $tp_url);
                 $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
-                . $region->getName() . "</a>";
+                . $regionName . "</a>";
                 $table_body[] = $entry;
             }
         }
