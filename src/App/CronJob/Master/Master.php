@@ -16,7 +16,7 @@ abstract class Master
     protected int $groups = 15;
     protected ?int $lockMaxGroups = null;
 
-    protected ?Objects $myObject;
+    protected ?Objects $myObject = null;
 
     protected int $ticks = 0;
     protected int $sleepTime = 0;
@@ -93,7 +93,7 @@ abstract class Master
     protected function save(bool $hadError = false): void
     {
         global $sql, $cache;
-        if ($hadError == false) {
+        if (($hadError == false) && ($this->myObject != null)) {
             $this->myObject->setLastSeen(time());
             $updateObj = $this->myObject->updateEntry();
             $hadError = $updateObj["status"];
