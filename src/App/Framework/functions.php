@@ -19,6 +19,7 @@ function expiredAgo(
 function get_opts(): array
 {
     $opts = [];
+    echo json_encode($_SERVER["argv"]);
     foreach ($_SERVER["argv"] as $k => $a) {
         if (preg_match('@\-\-(.+)=(.+)@', $a, $m)) {
             $opts[$m[1]] = $m[2];
