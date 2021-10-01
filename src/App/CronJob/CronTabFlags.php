@@ -1,4 +1,4 @@
 <?php
 
-define("ROOTFOLDER", "../../");
-define("DEEPFOLDERPATH", "../../../");
+define("ROOTFOLDER", "/srv/website/src");
+define("DEEPFOLDERPATH", "/srv/website");
