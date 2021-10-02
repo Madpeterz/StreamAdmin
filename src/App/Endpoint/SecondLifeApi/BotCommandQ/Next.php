@@ -91,7 +91,7 @@ class Next extends SecondlifeAjax
     protected function processAsHTTP(Botcommandq $command): void
     {
         $args = [];
-        if ($command->getArgs() != null) {
+        if ($command->getArgs() !== null) {
             $args = json_decode($command->getArgs());
         }
         $results = ["status" => false,"message" => "Unknown command: " . $command->getCommand()];
@@ -100,7 +100,7 @@ class Next extends SecondlifeAjax
             $results = $this->restPost($endpoint, ["message" => $args[1]]);
         } elseif (($command->getCommand() == "GroupInvite") && (count($args) == 3)) {
             $args[] = $this->botconfig->getHttpToken();
-            $bits = explode("/", $args);
+            $bits = implode("/", $args);
             $endpoint = "group/GroupInvite/" . $bits;
             $results = $this->restGet($endpoint);
         } elseif (($command->getCommand() == "FetchNextNotecard") && (count($args) == 2)) {
@@ -195,7 +195,8 @@ class Next extends SecondlifeAjax
             } else {
                 return [
                     "status" => false,
-                    "message" => "http error [" . $endpoint . "] :" . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
+                    "message" => "http error [" . $endpoint . "] :"
+                    . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
                 ];
             }
         } catch (Exception $e) {
