@@ -8,6 +8,7 @@ use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
+use App\R7\Model\Template;
 use App\Template\ViewAjax;
 
 class Getnotecard extends ViewAjax
@@ -20,33 +21,36 @@ class Getnotecard extends ViewAjax
             return;
         }
         $avatar = new Avatar();
-        $avatar->loadID($rental->getAvatarLink());
+        if ($avatar->loadID($rental->getAvatarLink()) == false) {
+            $this->failed("Unable to load avatar");
+            return;
+        }
 
         $stream = new Stream();
-        $stream->loadID($rental->getStreamLink());
+        if ($stream->loadID($rental->getStreamLink()) == false) {
+            $this->failed("Unable to load stream");
+            return;
+        }
 
         $package = new Package();
-        $package->loadID($stream->getPackageLink());
+        if ($package->loadID($stream->getPackageLink()) == false) {
+            $this->failed("Unable to load package");
+            return;
+        }
 
         $server = new Server();
-        $server->loadID($stream->getServerLink());
+        if ($server->loadID($stream->getServerLink()) == false) {
+            $this->failed("Unable to load server");
+            return;
+        }
 
-        $viewnotecard = ""
-        . "Assigned to: [[AVATAR_FULLNAME]][[NL]]"
-        . "===========================[[NL]][[NL]]"
-        . "Package: [[PACKAGE_NAME]][[NL]]"
-        . "Listeners: [[PACKAGE_LISTENERS]][[NL]]"
-        . "Bitrate: [[PACKAGE_BITRATE]]kbps[[NL]]"
-        . "===========================[[NL]][[NL]]"
-        . "Control panel: [[SERVER_CONTROLPANEL]][[NL]]"
-        . "ip: [[SERVER_DOMAIN]][[NL]]"
-        . "port: [[STREAM_PORT]][[NL]]"
-        . "===========================[[NL]][[NL]]"
-        . "Admin user: [[STREAM_ADMINUSERNAME]][[NL]]"
-        . "Admin pass: [[STREAM_ADMINPASSWORD]][[NL]]"
-        . "Encoder/Stream password: [[STREAM_DJPASSWORD]][[NL]]"
-        . "===========================[[NL]][[NL]]"
-        . "Expires: [[RENTAL_EXPIRES_DATETIME]]";
+        $template = new Template();
+        if ($template->loadID($package->getTemplateLink()) == false) {
+            $this->failed("Unable to load server");
+            return;
+        }
+
+        $viewnotecard = $template->getDetail();
         $swapables_helper = new SwapablesHelper();
         $this->ok($swapables_helper->getSwappedText($viewnotecard, $avatar, $rental, $package, $server, $stream));
     }
