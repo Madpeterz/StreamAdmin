@@ -103,6 +103,13 @@ class Next extends SecondlifeAjax
             $bits = explode("/", $args);
             $endpoint = "group/GroupInvite/" . $bits;
             $results = $this->restGet($endpoint);
+        } elseif (($command == "FetchNextNotecard") && (count($args) == 2)) {
+            $postArgs = [
+                "endpoint" => $args[0],
+                "endpointcode" => $args[1],
+            ];
+            $endpoint = "streamadmin/FetchNextNotecard/" . $this->botconfig->getHttpToken();
+            $results = $this->restPost($endpoint, $postArgs);
         }
         if ($results["status"] == false) {
             $this->failed($results["message"]);
