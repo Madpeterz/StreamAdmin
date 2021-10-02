@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+**Notes**
+Some things cant be fixed [Wont fix](https://github.com/Madpeterz/StreamAdmin/issues?q=label%3Awontfix+is%3Aclosed)
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
