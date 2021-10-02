@@ -22,23 +22,6 @@ if (class_exists($taskPicker) == false) {
     die();
 }
 
-$botQFlag = getenv('CRON_FLAG_BOTQ');
-if ($options["t"] == "BotcommandQ") {
-    $yesno = [false => "No",true => "Yes"];
-}
-if ((array_key_exists("b", $options) == true) && ($options["t"] == "BotcommandQ")) {
-    $botQFlag = false;
-    if ($options["b"] == "true") {
-        $botQFlag = true;
-    }
-}
-
-if (($options["t"] == "BotcommandQ") && ($botQFlag == false)) {
-    echo "BotcommandQ: Not enabled for cron";
-    die();
-}
-
-
 $groups = 15;
 if (defined("TESTING") == true) {
     $groups = 1;
