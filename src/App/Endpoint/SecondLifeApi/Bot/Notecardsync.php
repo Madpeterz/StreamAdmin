@@ -2,7 +2,6 @@
 
 namespace App\Endpoint\SecondLifeApi\Bot;
 
-use App\CronJob\Tasks\BotcommandQ;
 use App\Helpers\BotHelper;
 use App\R7\Model\Botcommandq as ModelBotcommandq;
 use App\R7\Model\Notecard;
