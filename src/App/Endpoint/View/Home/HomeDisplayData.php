@@ -142,8 +142,12 @@ abstract class HomeDisplayData extends HomeLoadData
                 $tp_url = "http://maps.secondlife.com/secondlife/" . $regionName . "/"
                 . implode("/", explode(",", $object->getObjectXYZ())) . "";
                 $tp_url = str_replace(' ', '%20', $tp_url);
-                $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
-                . $regionName . "</a>";
+                $regionLinkURL = "<a href=\"" . $tp_url . "\" target=\"_blank\">" .
+                "<i class=\"fas fa-map-marked-alt\"></i> " . $regionName . "</a>";
+                if ($regionName == "cronJob") {
+                    $regionLinkURL = "<i class=\"fas fa-history\"></i> Cron";
+                }
+                $entry[] = $regionLinkURL;
                 $table_body[] = $entry;
             }
         }
