@@ -23,8 +23,16 @@ if (class_exists($taskPicker) == false) {
 }
 
 $botQFlag = getenv('CRON_FLAG_BOTQ');
-if (array_key_exists("b", $options) == true) {
-    $botQFlag = boolval($options["b"]);
+if ($taskPicker == "BotcommandQ") {
+    $yesno = [false => "No",true => "Yes"];
+    echo "CRON_FLAG_BOTQ is set to: " . $yesno[$botQFlag];
+}
+if ((array_key_exists("b", $options) == true) && ($taskPicker == "BotcommandQ")) {
+    $botQFlag = false;
+    if ($options["b"] == "true") {
+        $botQFlag = true;
+    }
+    echo "Switching botQ flag via CLI option: " . $options["b"];
 }
 
 if (($taskPicker == "BotcommandQ") && ($botQFlag == false)) {
