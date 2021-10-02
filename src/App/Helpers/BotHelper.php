@@ -76,6 +76,14 @@ class BotHelper
         );
     }
 
+    public function sendBotNextNotecard(string $serverurl, string $httpInboundCode): bool
+    {
+        return $this->addCommandToQ(
+            "FetchNextNotecard",
+            [$serverurl,$httpInboundCode]
+        );
+    }
+
     public function getBotCommand(string $command, array $args): string
     {
         $cleanArgs = [];
