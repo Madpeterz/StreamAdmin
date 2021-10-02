@@ -97,7 +97,7 @@ abstract class Master
             $updateObj = $this->myObject->updateEntry();
             $hadError = !$updateObj["status"];
             if ($hadError == true) {
-                echo "Failed to up object last seen timer\n";
+                echo "task: " . $this->cronName . " - Failed to up object last seen timer\n";
             }
         }
         if ($hadError == false) {
@@ -120,7 +120,7 @@ abstract class Master
         }
         $regionHelper = new RegionHelper();
         if ($regionHelper->loadOrCreate("cronJob") == false) {
-            echo "Unable to load/create region:" . $regionHelper->getLastError();
+            echo "task: " . $this->cronName . " - Unable to load/create region:" . $regionHelper->getLastError();
             return false;
         }
         if ($this->cronID == 1) {
@@ -130,13 +130,13 @@ abstract class Master
 
         $slconfig = new Slconfig();
         if ($slconfig->loadID(1) == false) {
-            echo "Unable to load system config:" . $slconfig->getLastErrorBasic();
+            echo "task: " . $this->cronName . " - Unable to load system config:" . $slconfig->getLastErrorBasic();
             return false;
         }
 
         $avatar = new Avatar();
         if ($avatar->loadID($slconfig->getOwnerAvatarLink()) == false) {
-            echo "Unable to load owner avatar:" . $avatar->getLastErrorBasic();
+            echo "task: " . $this->cronName . " - Unable to load owner avatar:" . $avatar->getLastErrorBasic();
             return false;
         }
 
@@ -151,7 +151,7 @@ abstract class Master
                 "0,0,0"
             ) == false
         ) {
-            echo "Unable to load/create object:" . $objectHelper->getLastWhyFailed();
+            echo "task: " . $this->cronName . " - Unable to load/create object:" . $objectHelper->getLastWhyFailed();
             return false;
         }
         $this->save(); // force save the object
@@ -161,7 +161,6 @@ abstract class Master
     }
     protected function process(): void
     {
-        echo "Starting task: " . $this->cronName . "\n";
         $this->startMicrotime = microtime(true);
         if ($this->startup() == false) {
             return;
