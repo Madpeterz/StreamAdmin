@@ -13,7 +13,7 @@ abstract class Master
     protected string $cronName = "";
     protected int $cronID = 0;
     protected string $cronRunClass = "";
-    protected int $groups = 15;
+    protected int $groups = 18;
     protected ?int $lockMaxGroups = null;
 
     protected ?Objects $myObject = null;
@@ -49,7 +49,7 @@ abstract class Master
 
     protected function splitLooper(): bool
     {
-        $autoExitTime = time() + 50;
+        $autoExitTime = time() + 55;
         $spacer = 55 / $this->groups;
         $exitNow = false;
         $hadError = false;
