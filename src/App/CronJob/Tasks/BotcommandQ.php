@@ -54,6 +54,10 @@ class BotcommandQ extends Master
         if ($this->makeBotAvatar() == false) {
             return false;
         }
+        if ($this->botconfig->getHttpMode() == false) {
+            echo "error - HTTP is not enabled for the bot but the cron is enabled.\n";
+            return false;
+        }
         $task = new Next();
         $task->setCronConnected();
         $task->setOwnerOverride(true);
