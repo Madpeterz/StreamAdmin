@@ -9,6 +9,7 @@ use App\Endpoint\View\Outbox\DefaultView;
 use App\Endpoint\View\Outbox\Details;
 use App\Endpoint\View\Outbox\Mail;
 use App\Endpoint\View\Outbox\Notecard;
+use App\R7\Set\BotcommandqSet;
 use App\R7\Set\MessageSet;
 use PHPUnit\Framework\TestCase;
 
@@ -154,9 +155,12 @@ class OutboxText extends TestCase
     public function test_ProcessSendBatchMail()
     {
         global $_POST;
+        $botmessageQ = new BotcommandqSet();
+        $botmessageQ->loadAll();
+        $this->assertSame(1,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q before sending");
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox before sending");
+        $this->assertSame(3,$messages->getCount(),"Incorrect number of messages in outbox before sending");
         $_POST["messagePackage"] = "Hello world this is a test";
         $_POST["source"] = "package";
         $_POST["source_id"] = 1;
@@ -169,6 +173,9 @@ class OutboxText extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(6,$messages->getCount(),"Incorrect number of messages in outbox");
+        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox");
+        $botmessageQ = new BotcommandqSet();
+        $botmessageQ->loadAll();
+        $this->assertSame(2,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q after sending");
     }
 }
