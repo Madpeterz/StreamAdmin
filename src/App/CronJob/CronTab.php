@@ -8,7 +8,7 @@ if (defined("ROOTFOLDER") == false) {
 
 include ROOTFOLDER . "/App/Framework/load.php";
 
-set_time_limit(57);
+set_time_limit(60);
 
 $options = get_opts();
 if (array_key_exists("t", $options) == false) {
