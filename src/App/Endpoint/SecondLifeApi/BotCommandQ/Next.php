@@ -94,7 +94,7 @@ class Next extends SecondlifeAjax
         if ($command->getArgs() != null) {
             $args = json_decode($command->getArgs());
         }
-        $results = ["status" => false,"message" => "Unknown command"];
+        $results = ["status" => false,"message" => "Unknown command: " . $command];
         if (($command == "IM") && (count($args) == 2)) {
             $endpoint = "chat/IM/" . $args[0] . "/" . $this->botconfig->getHttpToken();
             $results = $this->restPost($endpoint, ["message" => $args[1]]);
