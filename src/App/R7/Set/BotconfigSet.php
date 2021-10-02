@@ -125,4 +125,43 @@ class BotconfigSet extends CollectionSet
     {
         return $this->loadByField("inviteGroupUUID", $inviteGroupUUID, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByHttpMode
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByHttpMode(
+                    bool $httpMode, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("httpMode", $httpMode, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByHttpURL
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByHttpURL(
+                    string $httpURL, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("httpURL", $httpURL, $limit, $orderBy, $orderDir);
+    }
+    /**
+     * loadByHttpToken
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByHttpToken(
+                    string $httpToken, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("httpToken", $httpToken, $limit, $orderBy, $orderDir);
+    }
 }
