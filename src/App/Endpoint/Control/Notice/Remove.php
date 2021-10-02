@@ -4,6 +4,7 @@ namespace App\Endpoint\Control\Notice;
 
 use App\R7\Set\NotecardSet;
 use App\R7\Model\Notice;
+use App\R7\Set\RentalSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -31,6 +32,22 @@ class Remove extends ViewAjax
             $this->failed("Unable to find notice");
             return;
         }
+
+        $RentalSet = new RentalSet();
+        $whereConfig[] = [
+            "fields" => ["noticeLink"],
+            "values" => [$notice->getId()],
+        ];
+        $count = $RentalSet->countInDB($whereConfig);
+        if ($count === null) {
+            $this->failed("Unable to remove notice, unable to check in use.");
+            return;
+        }
+        if ($count > 0) {
+            $this->failed("Unable to remove notice it is currently in use by " . $count . " rentals!");
+            return;
+        }
+
         $load_status = $notecard_set->loadOnField("noticeLink", $notice->getId());
         if ($load_status["status"] == false) {
             $this->failed(
