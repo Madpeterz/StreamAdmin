@@ -96,7 +96,7 @@ abstract class HomeDisplayData extends HomeLoadData
         $entry = [];
         $entry[] = "<a href=\"[[url_base]]health\">Vender status</a>";
         $entry[] = "<span class=\"text-" . $statusreport . "\">
-        <i class=\"fas fa-heartbeat\"></i> " . $pcent . "%</span>";
+        <i class=\"fas fa-heartbeat\"></i> " . round($pcent, 2) . "%</span>";
         $entry[] = "";
         $table_body[] = $entry;
 
