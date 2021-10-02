@@ -75,17 +75,23 @@ class BotHelper
             [$this->botconfig->getInviteGroupUUID(),$avatar->getAvatarUUID(),"everyone"]
         );
     }
-    public function getBotCommand(string $command, array $args): string
+    /**
+     * getBotCommand
+     * @return mixed[] [cmd => X, raw => X, cooked => X]
+     */
+    public function getBotCommand(string $command, array $args): array
     {
         if ($this->getBotConfig() == false) {
             return false;
         }
         $raw = "" . $command . "" . implode("~#~", $args) . "" . $this->botconfig->getSecret();
         $cooked = sha1($raw);
-        global $reply;
-        $reply["raw"] = $raw;
-        $reply["cooked"] = $cooked;
-        return $command . "|||" . implode("~#~", $args) . "@@@" . $cooked;
+        $cmd = $command . "|||" . implode("~#~", $args) . "@@@" . $cooked;
+        return [
+            "raw" => $raw,
+            "cooked" => $cooked,
+            "cmd" => $cmd,
+        ];
     }
     /**
      * sendMessage
