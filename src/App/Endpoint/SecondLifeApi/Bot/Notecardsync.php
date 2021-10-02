@@ -2,7 +2,9 @@
 
 namespace App\Endpoint\SecondLifeApi\Bot;
 
+use App\CronJob\Tasks\BotcommandQ;
 use App\Helpers\BotHelper;
+use App\R7\Model\Botcommandq as ModelBotcommandq;
 use App\R7\Model\Notecard;
 use App\Template\SecondlifeAjax;
 
@@ -50,6 +52,12 @@ class Notecardsync extends SecondlifeAjax
         }
 
         if ($count_data["count"] == 0) {
+            $this->ok("nowork");
+            return;
+        }
+
+        $BotcommandQ = new ModelBotcommandq();
+        if ($BotcommandQ->loadByCommand("FetchNextNotecard") == true) {
             $this->ok("nowork");
             return;
         }
