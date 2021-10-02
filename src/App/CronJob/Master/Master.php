@@ -22,6 +22,7 @@ abstract class Master
     protected int $sleepTime = 0;
     protected float $startMicrotime = 0;
     protected float $endMicrotime = 0;
+    protected float $avgSleep = 0;
 
     public function __construct(int $forceSetGroups = 15)
     {
@@ -43,6 +44,7 @@ abstract class Master
             "startTime" => date("H:i:s", $this->startMicrotime),
             "endTime" => date("H:i:s", $this->endMicrotime),
             "totalTime" => date("i:s", $this->endMicrotime - $this->startMicrotime),
+            "avgSleepPerTick" => $this->avgSleep,
         ];
         echo json_encode($output) . "\n";
     }
@@ -54,8 +56,12 @@ abstract class Master
         $exitNow = false;
         $hadError = false;
         $nextDelay = 0;
+        $sleeps = 0;
+        $totalsleep = 0;
         while ($exitNow == false) {
             if ($nextDelay > 0) {
+                $sleeps++;
+                $totalsleep += $nextDelay;
                 $this->sleepTime += $nextDelay;
                 sleep($nextDelay);
             }
@@ -80,6 +86,7 @@ abstract class Master
                 $exitNow = true;
             }
         }
+        $this->avgSleep = round($totalsleep / $sleeps, 2);
         return $hadError;
     }
     protected function doTask(): bool
