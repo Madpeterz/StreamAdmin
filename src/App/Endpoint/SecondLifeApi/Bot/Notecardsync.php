@@ -67,12 +67,10 @@ class Notecardsync extends SecondlifeAjax
         $this->setSwapTag("avataruuid", $botUUID);
 
         global $template_parts;
-        $bits = $bot_helper->getBotCommand(
+        $cmd = $bot_helper->getBotCommand(
             "FetchNextNotecard",
             [$template_parts["url_base"],$this->slconfig->getHttpInboundSecret()]
         );
-        $this->setSwapTag("raw", $bits["raw"]);
-        $this->setSwapTag("cooked", $bits["cooked"]);
-        $this->setSwapTag("message", $bits["cmd"]);
+        $this->setSwapTag("message", $cmd);
     }
 }
