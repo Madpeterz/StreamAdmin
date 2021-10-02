@@ -90,7 +90,7 @@ class BotHelper
         }
         $raw = "" . $command . "" . implode("~#~", $cleanArgs) . "" . $this->botconfig->getSecret();
         $cooked = sha1($raw);
-        $cmd = $command . "|||" . implode("~#~", $args) . "@@@" . $cooked;
+        $cmd = $command . "|||" . implode("~#~", $cleanArgs) . "@@@" . $cooked;
         return [
             "raw" => $raw,
             "cooked" => $cooked,
