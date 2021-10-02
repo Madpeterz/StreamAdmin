@@ -260,7 +260,7 @@ class ClientTest extends TestCase
         $statuscheck = $getNotecard->getOutputObject();
         $this->assertStringContainsString("Control panel:",$statuscheck->getSwapTagString("message"));
         $this->assertStringContainsString("port: 8004",$statuscheck->getSwapTagString("message"));
-        $this->assertStringContainsString("Assigned to: OtherTest Avatar",$statuscheck->getSwapTagString("message"));
+        $this->assertStringContainsString("Expires:",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
