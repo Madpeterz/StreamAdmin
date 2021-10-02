@@ -51,7 +51,7 @@ class Issue69 extends TestCase
         $botmessageQ = new BotcommandqSet();
         $botmessageQ->loadAll();
         $status = $botmessageQ->purgeCollection();
-        $this->assertSame(6,$status["removed_entrys"],"Incorrect number of bot commands removed: ".json_encode($status));
+        $this->assertSame(7,$status["removed_entrys"],"Incorrect number of bot commands removed: ".json_encode($status));
         $this->assertSame(true,$status["status"],"bot comamnds purge has failed");
         unset($messageSet);
 

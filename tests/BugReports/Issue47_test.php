@@ -41,7 +41,7 @@ class Issue47 extends TestCase
 
         $botmessageQ = new BotcommandqSet();
         $botmessageQ->loadAll();
-        $this->assertSame(5,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
+        $this->assertSame(6,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
 
         $startRental = new Startrental();
         $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -53,7 +53,7 @@ class Issue47 extends TestCase
         
         $botmessageQ = new BotcommandqSet();
         $botmessageQ->loadAll();
-        $this->assertSame(6,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
+        $this->assertSame(7,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
 
     }
 
