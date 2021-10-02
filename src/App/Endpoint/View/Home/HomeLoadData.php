@@ -121,7 +121,7 @@ abstract class HomeLoadData extends View
 
         $botconfig = new Botconfig();
         $botconfig->loadID(1);
-        $bits = [$botconfig->getIms(),$botconfig->getInviteGroupUUID(),$botconfig->getNotecards()];
+        $bits = [$botconfig->getIms(),$botconfig->getInvites(),$botconfig->getNotecards()];
         if (in_array(true, $bits) == true) {
             $this->owner_objects_list[] = "botcommandqserver";
             if ($botconfig->getNotecards() == true) {
