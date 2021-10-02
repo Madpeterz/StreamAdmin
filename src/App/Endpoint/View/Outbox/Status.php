@@ -17,6 +17,7 @@ class Status extends View
         "Mail" => ["timeper" => 15,"classname" => "App\R7\Set\MessageSet"],
         "Api" => ["timeper" => 10,"classname" => "App\R7\Set\ApirequestsSet"],
         "Events" => ["timeper" => 30,"classname" => "App\R7\Set\EventsqSet"],
+        "Bot" => ["timeper" => 30,"classname" => "App\R7\Set\BotcommandqSet"],
         ];
         $table_head = ["Outbox name","Pending","TTC"];
         $table_body = [];
