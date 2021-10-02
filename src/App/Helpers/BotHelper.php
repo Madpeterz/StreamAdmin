@@ -81,10 +81,14 @@ class BotHelper
      */
     public function getBotCommand(string $command, array $args): array
     {
+        $cleanArgs = [];
+        foreach ($args as $a) {
+            $cleanArgs[] = urldecode($a);
+        }
         if ($this->getBotConfig() == false) {
             return false;
         }
-        $raw = "" . $command . "" . implode("~#~", $args) . "" . $this->botconfig->getSecret();
+        $raw = "" . $command . "" . implode("~#~", $cleanArgs) . "" . $this->botconfig->getSecret();
         $cooked = sha1($raw);
         $cmd = $command . "|||" . implode("~#~", $args) . "@@@" . $cooked;
         return [
