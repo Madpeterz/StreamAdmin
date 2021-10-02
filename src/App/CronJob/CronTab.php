@@ -13,13 +13,13 @@ set_time_limit(57);
 $options = get_opts();
 if (array_key_exists("t", $options) == false) {
     echo "task arg t is missing unable to continue: " . json_encode($options);
-    return;
+    die();
 }
 
 $taskPicker = "App\\CronJob\\Tasks\\" . $options["t"];
 if (class_exists($taskPicker) == false) {
     echo  "task arg t of " . $options["t"] . " is not supported by crontab" . json_encode($options);
-    return;
+    die();
 }
 
 $botQFlag = getenv('CRON_FLAG_BOTQ');
@@ -29,7 +29,7 @@ if (array_key_exists("b", $options) == true) {
 
 if (($taskPicker == "BotcommandQ") && ($botQFlag == false)) {
     echo "BotcommandQ: Not enabled for cron";
-    return;
+    die();
 }
 
 
