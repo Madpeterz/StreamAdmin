@@ -3,7 +3,7 @@
 namespace App\CronJob\Tasks;
 
 use App\CronJob\Master\Master;
-use App\Endpoint\SecondLifeApi\Botcommandq\Next;
+use App\Endpoint\SecondLifeApi\BotCommandQ\Next;
 use App\R7\Model\Avatar;
 use App\R7\Model\Botconfig;
 use GuzzleHttp\Client;
