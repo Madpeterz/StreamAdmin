@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\R7\Model\Avatar;
+use App\R7\Model\Botcommandq;
 use App\R7\Model\Botconfig;
 use App\R7\Model\Message;
 
@@ -10,6 +11,11 @@ class BotHelper
 {
     protected ?Avatar $botAvatar = null;
     protected ?Botconfig $botconfig = null;
+    public function attachBotSetup(Avatar $av, Botconfig $config): void
+    {
+        $this->botAvatar = $av;
+        $this->botconfig = $config;
+    }
     public function getBotUUID(): ?string
     {
         if ($this->getBotAvatar() == null) {
@@ -45,38 +51,29 @@ class BotHelper
         }
         return true;
     }
-    public function sendBotInvite(Avatar $avatar): void
+    protected function addCommandToQ(string $command, array $args = []): bool
     {
-        if ($this->getBotConfig() == false) {
-            return;
+        $botcommandQ = new Botcommandq();
+        $botcommandQ->setCommand($command);
+        if (count($args) > 0) {
+            $botcommandQ->setArgs(json_encode($args));
         }
-        if ($this->botconfig->getInvites() == false) {
-            return;
-        }
-        $this->sendBotCommand(
-            "GroupInvite",
-            [$this->botconfig->getInviteGroupUUID(),$avatar->getAvatarUUID(),"everyone"]
-        );
+        $botcommandQ->setUnixtime(time());
+        $reply = $botcommandQ->createEntry();
+        return $reply["status"];
     }
-    public function sendBotCommand(string $command, array $args): bool
+    public function sendBotInvite(Avatar $avatar): bool
     {
         if ($this->getBotConfig() == false) {
             return false;
         }
-        $raw = "" . $command . "" . implode("~#~", $args) . "" . $this->botconfig->getSecret();
-        $cooked = sha1($raw);
-        global $reply;
-        $reply["raw"] = $raw;
-        $reply["cooked"] = $cooked;
-        $bot_avatar = $this->getBotAvatar();
-        if ($bot_avatar != null) {
-            $status = $this->sendMessageToAvatar(
-                $bot_avatar,
-                "" . $command . "|||" . implode("~#~", $args) . "@@@" . $cooked . ""
-            );
-            return $status["status"];
+        if ($this->botconfig->getInvites() == false) {
+            return false;
         }
-        return false;
+        return $this->addCommandToQ(
+            "GroupInvite",
+            [$this->botconfig->getInviteGroupUUID(),$avatar->getAvatarUUID(),"everyone"]
+        );
     }
     public function getBotCommand(string $command, array $args): string
     {
@@ -102,17 +99,12 @@ class BotHelper
         if ($this->getBotConfig() == false) {
             return ["status" => false,"message" => "Unable to get bot config"];
         }
-        $reply_status = true;
-        $why_failed = "No idea";
-        if ($allow_bot == true) {
-            if ($this->botconfig->getIms() == true) {
-                $reply_status = $this->sendBotCommand("im", [$avatar->getAvatarUUID(),$message]);
+        if (($allow_bot == true) && ($this->botconfig->getIms() == true)) {
+            if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(),$message]) == false) {
+                return ["status" => false,"message" => "Unable to add IM to the botQ"];
             }
         }
-        if ($reply_status == true) {
-            return $this->sendMessageToAvatar($avatar, $message);
-        }
-        return ["status" => false,"message" => $why_failed];
+        return $this->sendMessageToAvatar($avatar, $message);
     }
     /**
      * sendMessageToAvatar
