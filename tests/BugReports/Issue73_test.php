@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Botcommandq\Next;
+use App\Endpoint\SecondLifeApi\BotCommandQ\Next;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
 use App\R7\Model\Botconfig;
 use App\R7\Model\Package;
