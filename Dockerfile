@@ -8,4 +8,5 @@ COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 WORKDIR /srv/website
 
 RUN chmod +x .docker/CronEntrypoint.sh \
+    && chmod +x .docker/CronEntrypointWithBot.sh \
     && apt-get update
