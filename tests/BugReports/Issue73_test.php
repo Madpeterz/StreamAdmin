@@ -5,43 +5,45 @@ namespace StreamAdminR7;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
 use App\R7\Model\Botconfig;
 use App\R7\Model\Package;
+use App\R7\Model\Slconfig;
 use App\R7\Set\BotcommandqSet;
-use App\R7\Set\MessageSet;
-use App\R7\Set\PackageSet;
 use PHPUnit\Framework\TestCase;
 
-class Issue47 extends TestCase
+class Issue73 extends TestCase
 {
-    public function test_addGroupInviteToMessageQ()
+    public function test_currentCountInDB()
     {       
-        global $sql;
-        $packageSet = new PackageSet();
-        $reply = $packageSet->loadAll();
-        $this->assertSame("ok",$reply["message"],"Unable to load all packages");
-        $this->assertSame(true,$reply["status"],"Unable to load all packages");
-        $reply = $packageSet->updateFieldInCollection("enableGroupInvite",1);
-        $this->assertSame("ok",$reply["message"],"Unable to bulk update enable group invite");
-        $this->assertSame(true,$reply["status"],"Unable to bulk update enable group invite");
-        $botconfig = new Botconfig();
-        $reply = $botconfig->loadID(1);
-        $this->assertSame(true,$reply,"Failed to load botconfig");
-        $botconfig->setInvites(1);
-        $botconfig->setInviteGroupUUID("test");
-        $reply = $botconfig->updateEntry();
-        $this->assertSame("ok",$reply["message"],"Unable to update bot config");
-        $this->assertSame(true,$reply["status"],"Unable to update bot config");
-        $sql->sqlSave();
+        $botcommandSet = new BotcommandqSet();
+        $reply = $botcommandSet->countInDB();
+        $this->assertSame(0,$reply,"Current number of events in the Q is not correct");
+    }
 
-        $this->setupPost("Startrental");
+    /**
+     * @depends test_currentCountInDB
+     */
+    public function test_EnableGroupInvite()
+    {
+        $Botconfig = new Botconfig();
+        $Botconfig->loadID(1);
+        $this->assertSame(true,$Botconfig->isLoaded(),"Failed to load bot config");
+        $Botconfig->setInvites(true);
+        $Botconfig->setInviteGroupUUID("00000000-0001-0000-0000-000000000000");
+        $reply = $Botconfig->updateEntry();
+        $this->assertSame(true,$reply["status"],"Failed to update bot config");
+    }
+
+    /**
+     * @depends test_EnableGroupInvite
+     */
+    public function test_buyStream()
+    {
+        global $_POST;
+        $this->setupPostBuy("Startrental");
 
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
         $_POST["avatarName"] = "Test Buyer";
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["amountpaid"] = $this->package->getCost() * 3;
-
-        $botmessageQ = new BotcommandqSet();
-        $botmessageQ->loadAll();
-        $this->assertSame(5,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
 
         $startRental = new Startrental();
         $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -51,13 +53,34 @@ class Issue47 extends TestCase
         $this->assertSame(true,$startRental->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $this->assertSame(0,$startRental->getOutputObject()->getSwapTagInt("owner_payment"),"incorrect owner payment");
         
-        $botmessageQ = new BotcommandqSet();
-        $botmessageQ->loadAll();
-        $this->assertSame(6,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
+
+        $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
+        $_POST["avatarName"] = "Test Buyer";
+        $_POST["packageuid"] = $this->package->getPackageUid();
+        $_POST["amountpaid"] = $this->package->getCost() + 4;
+
+        $startRental = new Startrental();
+        $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
+        $startRental->process();
+        $this->assertSame("Payment amount not accepted",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
+        $this->assertSame(false,$startRental->getOutputObject()->getSwapTagBool("status"),"marked as ok");
+
+        $botcommandSet = new BotcommandqSet();
+        $reply = $botcommandSet->countInDB();
+        $this->assertSame(1,$reply,"Current number of events in the Q is not correct"); 
+        // Should have a group invite in the Q
+    }
+
+    /**
+     * @depends test_buyStream
+     */
+    public function test_RecheckCurrentCountInDB()
+    {       
 
     }
 
-    protected function setupPost(string $target)
+    protected function setupPostBuy(string $target)
     {
         global $_POST, $slconfig;
         $_POST["method"] = "Buy";
@@ -95,3 +118,4 @@ class Issue47 extends TestCase
         $this->assertSame("UnitTestPackage",$this->package->getName(),"Test package not loaded");
     }
 }
+

@@ -6,6 +6,7 @@ use App\Endpoint\SecondLifeApi\ClientAutoSuspend\Next as ClientAutoSuspendNext;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 use App\R7\Model\Rental;
 use App\R7\Set\ApirequestsSet;
+use App\R7\Set\BotcommandqSet;
 use App\R7\Set\MessageSet;
 use App\R7\Set\PackageSet;
 use App\R7\Set\RentalSet;
@@ -43,8 +44,15 @@ class Issue69 extends TestCase
         $messageSet = new MessageSet();
         $messageSet->loadAll();
         $status = $messageSet->purgeCollection();
-        $this->assertSame(12,$status["removed_entrys"],"Incorrect number of mail removed: ".json_encode($status));
+        $this->assertSame(6,$status["removed_entrys"],"Incorrect number of mail removed: ".json_encode($status));
         $this->assertSame(true,$status["status"],"mail purge has failed");
+        unset($messageSet);
+
+        $botmessageQ = new BotcommandqSet();
+        $botmessageQ->loadAll();
+        $status = $botmessageQ->purgeCollection();
+        $this->assertSame(6,$status["removed_entrys"],"Incorrect number of bot commands removed: ".json_encode($status));
+        $this->assertSame(true,$status["status"],"bot comamnds purge has failed");
         unset($messageSet);
 
         $rentalSet = new RentalSet();
