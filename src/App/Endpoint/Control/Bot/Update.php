@@ -54,6 +54,10 @@ class Update extends ViewAjax
             $this->failed("Unable to load avatar to attach bot to");
             return;
         }
+        if (($httpMode == true) && ($httpURL == null)) {
+            $httpMode = false;
+        }
+
         $botconfig->setHttpMode($httpMode);
         $botconfig->setHttpURL($httpURL);
         $botconfig->setHttpToken($httpToken);
