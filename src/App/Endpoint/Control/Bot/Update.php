@@ -27,6 +27,10 @@ class Update extends ViewAjax
             $this->failed("Secret failed:" . $input->getWhyFailed());
             return;
         }
+        $httpMode = $input->postBool("httpMode");
+        $httpURL = $input->postUrl("httpURL");
+        $httpToken = $input->postString("httpToken");
+
         $notecards = $input->postBool("notecards");
         $ims = $input->postBool("ims");
         $invites = $input->postBool("invites");
@@ -50,6 +54,9 @@ class Update extends ViewAjax
             $this->failed("Unable to load avatar to attach bot to");
             return;
         }
+        $botconfig->setHttpMode($httpMode);
+        $botconfig->setHttpURL($httpURL);
+        $botconfig->setHttpToken($httpToken);
         $botconfig->setAvatarLink($avatar->getId());
         $botconfig->setSecret($secret);
         $botconfig->setNotecards($notecards);
