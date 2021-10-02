@@ -27,17 +27,26 @@ class Next extends SecondlifeAjax
     {
         $this->botconfig = $config;
     }
+    public function attachBotAvatar(Avatar $av): void
+    {
+        $this->bot = $av;
+    }
+    public function attachHTTPClient(Client $httpClient): void
+    {
+        $this->client = $httpClient;
+    }
     public function makeHTTPClient(): ?Client
     {
         $this->makeGuzzle($this->botconfig->getHttpURL());
         return $this->client;
     }
-    public function attachBotAvatar(Avatar $av): void
-    {
-        $this->bot = $av;
-    }
+
     public function process(): void
     {
+        if ($this->owner_override == false) {
+            $this->setSwapTag("message", "SystemAPI access only - please contact support");
+            return;
+        }
         if ($this->botconfig == null) {
             $this->botconfig = new Botconfig();
             $this->botconfig->loadID(1);
