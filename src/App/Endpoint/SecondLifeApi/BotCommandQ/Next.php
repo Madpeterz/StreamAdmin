@@ -195,11 +195,11 @@ class Next extends SecondlifeAjax
             } else {
                 return [
                     "status" => false,
-                    "message" => "http error:" . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
+                    "message" => "http error [" . $endpoint . "] :" . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
                 ];
             }
         } catch (Exception $e) {
-            return ["status" => false,"message" => "Request failed in a fireball"];
+            return ["status" => false,"message" => "[" . $endpoint . "] Request failed in a fireball"];
         }
     }
     /**
