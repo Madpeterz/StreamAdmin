@@ -46,9 +46,7 @@ abstract class SystemApiAjax extends ViewAjax
         }
 
         $bits = [$this->unixtime,$this->method,$this->action,$this->slconfig->getHttpInboundSecret()];
-        error_log(json_encode($bits));
         $hashcheck = sha1(implode("", $bits));
-        error_log("live raw:" . implode("", $bits));
         if ($this->token == $hashcheck) {
             return;
         }
