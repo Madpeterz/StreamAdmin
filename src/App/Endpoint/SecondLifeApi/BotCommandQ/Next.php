@@ -136,7 +136,7 @@ class Next extends SecondlifeAjax
         if ($this->removeCommand($command) == false) {
             return;
         }
-        $this->setSwapTag("avatar", $this->bot->getAvatarUid());
+        $this->setSwapTag("avatar", $this->bot->getAvatarUUID());
         $this->setSwapTag("cmd", $formatedCmd);
         $this->ok("send");
     }
