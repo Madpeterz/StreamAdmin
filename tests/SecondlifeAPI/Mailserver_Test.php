@@ -3,6 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\Mailserver\Next;
+use App\R7\Set\BotcommandqSet;
 use App\R7\Set\MessageSet;
 use PHPUnit\Framework\TestCase;
 
@@ -42,9 +43,12 @@ class SecondlifeApiMailserver extends TestCase
         $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
+        $botmessageQ = new BotcommandqSet();
+        $botmessageQ->loadAll();
+        $this->assertSame(3,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
         $messageSet = new MessageSet();
         $this->assertSame(true,$messageSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(8,$messageSet->getCount(),"Incorrect number of messages in the Q");
+        $this->assertSame(5,$messageSet->getCount(),"Incorrect number of messages in the Q");
 
         $Next = new Next();
         $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -57,6 +61,9 @@ class SecondlifeApiMailserver extends TestCase
 
         $messageSet = new MessageSet();
         $this->assertSame(true,$messageSet->loadAll()["status"],"Unable to load message set to check workspace");
-        $this->assertSame(7,$messageSet->getCount(),"Incorrect number of messages in the Q");
+        $this->assertSame(4,$messageSet->getCount(),"Incorrect number of messages in the Q");
+        $botmessageQ = new BotcommandqSet();
+        $botmessageQ->loadAll();
+        $this->assertSame(3,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q [after mailserver processed]");
     }
 }
