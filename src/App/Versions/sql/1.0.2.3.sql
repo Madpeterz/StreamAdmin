@@ -46,3 +46,5 @@ ALTER TABLE `botconfig`
   ADD `httpMode` TINYINT(1) NOT NULL DEFAULT '0' AFTER `inviteGroupUUID`, 
   ADD `httpURL` TEXT NULL AFTER `httpMode`, 
   ADD `httpToken` TEXT NULL AFTER `httpURL`;
+
+UPDATE `datatable` SET `cols` = '0=id,1=Rental UID,2=Avatar,3=Port,5=Timeleft,6=Status,7=Renewals' WHERE `id` = 3;
