@@ -45,42 +45,7 @@ abstract class HomeLoadData extends View
 
     protected function loadVenderHealth(): void
     {
-        $this->owner_objects_list = [
-            "mailserver",
-            "noticeserver",
-            "detailsserver",
-        ];
-
-        $botconfig = new Botconfig();
-        $botconfig->loadID(1);
-        $bits = [$botconfig->getIms(),$botconfig->getInviteGroupUUID(),$botconfig->getNotecards()];
-        if (in_array(true, $bits) == true) {
-            $this->owner_objects_list[] = "botcommandqserver";
-            if ($botconfig->getNotecards() == true) {
-                $this->owner_objects_list[] = "notecardsserver";
-            }
-        }
-
-        if ($this->server_set == null) {
-            $this->loadServers();
-        }
-        $hasApi = false;
-        foreach ($this->server_set as $entry) {
-            if ($entry->getApiLink() != 1) {
-                $hasApi = true;
-                break;
-            }
-        }
-
-        if ($hasApi == true) {
-            $this->owner_objects_list[] = "apirequests";
-            $this->owner_objects_list[] = "clientautosuspendserver";
-        }
-
-        if ($this->slconfig->getEventsAPI() == true) {
-            $this->owner_objects_list[] = "eventsserver";
-        }
-
+        $this->loadOwnerObjects();
         $resellers = new ResellerSet();
         $resellers->loadAll();
         $venderHealth = new ObjectsSet();
@@ -142,21 +107,53 @@ abstract class HomeLoadData extends View
         $this->apis_set = new ApisSet();
         $this->apis_set->loadByValues($this->server_set->getAllByField("ApiLink"));
     }
-    protected function loadObjects(): void
+
+    protected function loadOwnerObjects(): void
     {
-        global $unixtime_hour;
+        if (count($this->owner_objects_list) > 0) {
+            return;
+        }
         $this->owner_objects_list = [
-        "apirequests",
-        "mailserver",
-        "noticeserver",
-        "detailsserver",
-        "notecardsserver",
-        "clientautosuspendserver",
-        "botcommandqserver",
+            "mailserver",
+            "noticeserver",
+            "detailsserver",
         ];
+
+        $botconfig = new Botconfig();
+        $botconfig->loadID(1);
+        $bits = [$botconfig->getIms(),$botconfig->getInviteGroupUUID(),$botconfig->getNotecards()];
+        if (in_array(true, $bits) == true) {
+            $this->owner_objects_list[] = "botcommandqserver";
+            if ($botconfig->getNotecards() == true) {
+                $this->owner_objects_list[] = "notecardsserver";
+            }
+        }
+
+        if ($this->server_set == null) {
+            $this->loadServers();
+        }
+        $hasApi = false;
+        foreach ($this->server_set as $entry) {
+            if ($entry->getApiLink() != 1) {
+                $hasApi = true;
+                break;
+            }
+        }
+
+        if ($hasApi == true) {
+            $this->owner_objects_list[] = "apirequests";
+            $this->owner_objects_list[] = "clientautosuspendserver";
+        }
+
         if ($this->slconfig->getEventsAPI() == true) {
             $this->owner_objects_list[] = "eventsserver";
         }
+    }
+
+    protected function loadObjects(): void
+    {
+        global $unixtime_hour;
+        $this->loadOwnerObjects();
         $one_hour_ago = (time() - $unixtime_hour);
         $this->objects_set = new ObjectsSet();
         $where_config = [
