@@ -34,7 +34,7 @@ class Remove extends ViewAjax
         }
 
         $RentalSet = new RentalSet();
-        $whereConfig[] = [
+        $whereConfig = [
             "fields" => ["noticeLink"],
             "values" => [$notice->getId()],
         ];
