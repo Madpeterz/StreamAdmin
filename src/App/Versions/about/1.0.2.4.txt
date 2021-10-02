@@ -8,6 +8,7 @@
 <div class="col-sm-6">
 <ul>
 <li>userHud now shows time remaining before starting renewal <a href="https://github.com/Madpeterz/StreamAdmin/issues/70" target="_blank">[Issue 70]</a></li>
+<li>System cronjobs support <a href="https://github.com/Madpeterz/StreamAdmin/issues/72" target="_blank">[Issue 72]</a></li>
 </ul>
 </div>
 <div class="col-sm-12">
