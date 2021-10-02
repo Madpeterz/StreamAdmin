@@ -21,6 +21,18 @@ if (class_exists($taskPicker) == false) {
     echo  "task arg t of " . $options["t"] . " is not supported by crontab" . json_encode($options);
     return;
 }
+
+$botQFlag = getenv('CRON_FLAG_BOTQ');
+if (array_key_exists("b", $options) == true) {
+    $botQFlag = boolval($options["b"]);
+}
+
+if (($taskPicker == "BotcommandQ") && ($botQFlag == false)) {
+    echo "BotcommandQ: Not enabled for cron";
+    return;
+}
+
+
 $groups = 15;
 if (defined("TESTING") == true) {
     $groups = 1;
