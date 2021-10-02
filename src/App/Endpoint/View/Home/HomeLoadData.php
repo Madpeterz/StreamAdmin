@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\View\Home;
 
+use App\R7\Model\Botconfig;
 use App\R7\Set\NoticeSet;
 use App\R7\Set\ObjectsSet;
 use App\R7\Set\RegionSet;
@@ -19,7 +20,7 @@ abstract class HomeLoadData extends View
     protected $client_ok = 0;
     protected RegionSet $region_set;
     protected ObjectsSet $objects_set;
-    protected ServerSet $server_set;
+    protected ?ServerSet $server_set = null;
     protected ApisSet $apis_set;
     protected $server_loads = [];
     protected $owner_objects_list = [];
@@ -45,17 +46,41 @@ abstract class HomeLoadData extends View
     protected function loadVenderHealth(): void
     {
         $this->owner_objects_list = [
-            "apirequests",
             "mailserver",
             "noticeserver",
             "detailsserver",
-            "notecardsserver",
-            "clientautosuspendserver",
-            "botcommandqserver",
         ];
+
+        $botconfig = new Botconfig();
+        $botconfig->loadID(1);
+        $bits = [$botconfig->getIms(),$botconfig->getInviteGroupUUID(),$botconfig->getNotecards()];
+        if (in_array(true, $bits) == true) {
+            $this->owner_objects_list[] = "botcommandqserver";
+            if ($botconfig->getNotecards() == true) {
+                $this->owner_objects_list[] = "notecardsserver";
+            }
+        }
+
+        if ($this->server_set == null) {
+            $this->loadServers();
+        }
+        $hasApi = false;
+        foreach ($this->server_set as $entry) {
+            if ($entry->getApiLink() != 1) {
+                $hasApi = true;
+                break;
+            }
+        }
+
+        if ($hasApi == true) {
+            $this->owner_objects_list[] = "apirequests";
+            $this->owner_objects_list[] = "clientautosuspendserver";
+        }
+
         if ($this->slconfig->getEventsAPI() == true) {
             $this->owner_objects_list[] = "eventsserver";
         }
+
         $resellers = new ResellerSet();
         $resellers->loadAll();
         $venderHealth = new ObjectsSet();
