@@ -94,16 +94,16 @@ class Next extends SecondlifeAjax
         if ($command->getArgs() != null) {
             $args = json_decode($command->getArgs());
         }
-        $results = ["status" => false,"message" => "Unknown command: " . $command];
-        if (($command == "IM") && (count($args) == 2)) {
+        $results = ["status" => false,"message" => "Unknown command: " . $command->getCommand()];
+        if (($command->getCommand() == "IM") && (count($args) == 2)) {
             $endpoint = "chat/IM/" . $args[0] . "/" . $this->botconfig->getHttpToken();
             $results = $this->restPost($endpoint, ["message" => $args[1]]);
-        } elseif (($command == "GroupInvite") && (count($args) == 3)) {
+        } elseif (($command->getCommand() == "GroupInvite") && (count($args) == 3)) {
             $args[] = $this->botconfig->getHttpToken();
             $bits = explode("/", $args);
             $endpoint = "group/GroupInvite/" . $bits;
             $results = $this->restGet($endpoint);
-        } elseif (($command == "FetchNextNotecard") && (count($args) == 2)) {
+        } elseif (($command->getCommand() == "FetchNextNotecard") && (count($args) == 2)) {
             $postArgs = [
                 "endpoint" => $args[0],
                 "endpointcode" => $args[1],
