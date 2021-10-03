@@ -152,7 +152,7 @@ class ClientTest extends TestCase
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client manage element";
         $this->assertStringContainsString("Timeleft:",$statuscheck,$missing);
-        $this->assertStringContainsString("Config",$statuscheck,$missing);
+        $this->assertStringContainsString("Client",$statuscheck,$missing);
         $this->assertStringContainsString("Transfer",$statuscheck,$missing);
         $this->assertStringContainsString("Find",$statuscheck,$missing);
         $this->assertStringContainsString("Avatar UID",$statuscheck,$missing);

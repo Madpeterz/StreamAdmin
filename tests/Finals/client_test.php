@@ -48,15 +48,13 @@ class FinalsClient extends TestCase
         $bulkRemoveView->process();
         $statuscheck = $bulkRemoveView->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing bulk remove element";
-        $this->assertStringContainsString("Unlisted clients",$statuscheck,$missing);
-        $this->assertStringContainsString("Message on account",$statuscheck,$missing);
-        $this->assertStringContainsString("5151",$statuscheck,$missing);
-        $this->assertStringContainsString("Test Buyer",$statuscheck,$missing);
-        $this->assertStringContainsString("Remove",$statuscheck,$missing);
-        $this->assertStringContainsString("Expired",$statuscheck,$missing);
-        $this->assertStringContainsString("Skip",$statuscheck,$missing);
-        $this->assertStringContainsString("NoticeLevel",$statuscheck,$missing);
+
+        $this->assertStringContainsString('form-control" id="message',$statuscheck,$missing);
         $this->assertStringContainsString("Process",$statuscheck,$missing);
+        $this->assertStringContainsString("Skip",$statuscheck,$missing);
+        $this->assertStringContainsString("Remove",$statuscheck,$missing);
+        $this->assertStringContainsString("5151",$statuscheck,$missing);
+        $this->assertStringContainsString("TestUser Zond",$statuscheck,$missing);
     }
 
     /**
