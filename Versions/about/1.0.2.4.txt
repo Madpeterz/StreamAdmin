@@ -7,6 +7,7 @@
 <li>Client notecard on clients page not using template <a href="https://github.com/Madpeterz/StreamAdmin/issues/82" target="_blank">[Issue 82]</a></li>
 <li>Client manage page streams list <a href="https://github.com/Madpeterz/StreamAdmin/issues/79" target="_blank">[Issue 79]</a></li>
 <li>Vender health % is now rounded to 2dp. <a href="https://github.com/Madpeterz/StreamAdmin/issues/80" target="_blank">[Issue 80]</a></li>
+<li>Outbox now support sending to All clients <a href="https://github.com/Madpeterz/StreamAdmin/issues/85" target="_blank">[Issue 84]</a></li>
 </ul>
 </div>
 <div class="col-sm-6">
@@ -17,6 +18,7 @@
 <li>Streamadmin - Product timeleft <a href="https://github.com/Madpeterz/StreamAdmin/issues/74" target="_blank">[Issue 74]</a></li>
 <li>Client bulk remove improved <a href="https://github.com/Madpeterz/StreamAdmin/issues/78" target="_blank">[Issue 78]</a></li>
 <li>Avatar name clickable on bulk remove <a href="https://github.com/Madpeterz/StreamAdmin/issues/85" target="_blank">[Issue 85]</a></li>
+<li>Outbox status now show TTC if using cron</li>
 </ul>
 </div>
 <div class="col-sm-12">
