@@ -47,6 +47,8 @@ class Send extends ViewAjax
             $rental_set->loadOnField("packageLink", $source_id);
         } elseif ($source == "selectedRental") {
             $rental_set->loadOnField("id", $source_id);
+        } elseif ($source == "clients") {
+            $rental_set->loadAll();
         }
         if ($rental_set->getCount() == 0) {
             $this->failed("No rentals found with selected source/id pair");

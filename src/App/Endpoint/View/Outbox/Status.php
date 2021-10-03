@@ -11,37 +11,41 @@ class Status extends View
         global $pages;
         $this->output->addSwapTagString("page_title", " Status");
         $services = [
-        "Notecard" => ["timeper" => 20,"classname" => "App\R7\Set\NotecardSet"],
-        "Docs" => ["timeper" => 20,"classname" => "App\R7\Set\NotecardmailSet"],
-        "Details" => ["timeper" => 15,"classname" => "App\R7\Set\DetailSet"],
-        "Mail" => ["timeper" => 15,"classname" => "App\R7\Set\MessageSet"],
-        "Api" => ["timeper" => 10,"classname" => "App\R7\Set\ApirequestsSet"],
-        "Events" => ["timeper" => 30,"classname" => "App\R7\Set\EventsqSet"],
-        "Bot" => ["timeper" => 30,"classname" => "App\R7\Set\BotcommandqSet"],
+        "Notecard" => ["norm" => 20,"cron" => 8,"classname" => "App\R7\Set\NotecardSet"],
+        "Docs" => ["norm" => 20,"cron" => 20,"classname" => "App\R7\Set\NotecardmailSet"],
+        "Details" => ["norm" => 15,"cron" => 8,"classname" => "App\R7\Set\DetailSet"],
+        "Mail" => ["norm" => 15,"cron" => 15,"classname" => "App\R7\Set\MessageSet"],
+        "Api" => ["norm" => 25,"cron" => 8,"classname" => "App\R7\Set\ApirequestsSet"],
+        "Events" => ["norm" => 30,"cron" => 30,"classname" => "App\R7\Set\EventsqSet"],
+        "Bot" => ["norm" => 30,"cron" => 8,"classname" => "App\R7\Set\BotcommandqSet"],
         ];
-        $table_head = ["Outbox name","Pending","TTC"];
+        $table_head = ["Outbox name","Pending","TTC","Cron TTC"];
         $table_body = [];
         foreach ($services as $service_name => $config) {
             $entry = [];
-            $entry[] = '<a href="[[url_base]]outbox/' . $service_name . '">' . $service_name . '</a>';
+
             $object_set = new $config["classname"]();
             $count = $object_set->countInDB();
+            $countText = $count;
             if ($count == null) {
                 $count = 0;
+                $countText = "";
             }
-            $entry[] = $count;
-            $time_to_clear = ($config["timeper"] * $count);
-            if ($time_to_clear > 60) {
-                $mins = floor($time_to_clear / 60);
-                if ($mins > 60) {
-                    $hours = floor($mins / 60);
-                    $entry[] = $hours . " hours";
-                } else {
-                    $entry[] = $mins . " mins";
+            $entry[] = '<a href="[[url_base]]outbox/' . $service_name . '">' . $service_name . '</a>';
+            $entry[] = $countText;
+            $ttc_cron = "";
+            $ttc_norm = "";
+            if ($count > 0) {
+                $normTime = ($config["norm"] * $count);
+                $ttc_norm = timeleftHoursAndDays(time() + $normTime, true, "");
+                $cronTime = ($config["cron"] * $count);
+                if ($cronTime != $normTime) {
+                    $ttc_cron .= "<strong class=\"text-success\">"
+                    . timeleftHoursAndDays(time() + $cronTime, true, "") . "</strong>";
                 }
-            } else {
-                $entry[] = $time_to_clear . " secs";
             }
+            $entry[] = $ttc_norm;
+            $entry[] = $ttc_cron;
             $table_body[] = $entry;
         }
         $pages["Status"] = "" . $this->renderTable($table_head, $table_body) . "<br><hr/><p>TTC is the Expected "

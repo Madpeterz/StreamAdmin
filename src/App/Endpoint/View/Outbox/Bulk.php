@@ -69,6 +69,16 @@ class Bulk extends View
                 $rental_set->loadOnField("packageLink", $source_id);
                 $ok = true;
             }
+        } elseif ($this->page == "clients") {
+            $message = $input_filter->getString("messageClients", 800, 10);
+            if ($message == null) {
+                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                return;
+            }
+            $rental_set->loadAll();
+            $souce_named = "clients";
+            $source_id = 1;
+            $ok = true;
         }
         if (strlen($message) < 10) {
             $this->output->redirectWithMessage("outbox", "Message is to short", "warning");
