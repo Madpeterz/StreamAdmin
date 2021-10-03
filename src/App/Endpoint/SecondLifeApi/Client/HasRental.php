@@ -12,7 +12,7 @@ class HasRental extends SecondlifeAjax
     public function process(): void
     {
         $input = new InputFilter();
-        $avUUID = $input->getUUID("checkinguuid");
+        $avUUID = $input->postUUID("checkinguuid");
         if ($avUUID === null) {
             $this->ok("No UUID");
             return;
