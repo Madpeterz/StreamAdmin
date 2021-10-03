@@ -130,20 +130,5 @@ class Manage extends View
             $form->select("package", "Package", "", $unUsed_index);
             $this->output->addSwapTagString("page_content", $form->render("Add package", "success"));
         }
-
-        $tableHead = ["days","Menu item"];
-        $tableBody = [
-            [1,"24 hours"],
-            [7,"One week"],
-            [14,"Two week's"],
-            [21,"Three week's"],
-            [28,"Four week's"],
-            [30,"Monthly"],
-            [31,"Monthly"],
-        ];
-
-        $this->output->addSwapTagString("page_content", "<hr/><p>For select days the message is changed 
-        on the vender<br/>Everything else displays X day's</p>");
-        $this->output->addSwapTagString("page_content", $this->renderTable($tableHead, $tableBody));
     }
 }
