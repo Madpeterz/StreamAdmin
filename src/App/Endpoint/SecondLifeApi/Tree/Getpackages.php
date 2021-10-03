@@ -5,6 +5,7 @@ namespace App\Endpoint\SecondLifeApi\Tree;
 use App\R7\Set\PackageSet;
 use App\R7\Model\Treevender;
 use App\R7\Set\ServertypesSet;
+use App\R7\Set\StreamSet;
 use App\R7\Set\TreevenderpackagesSet;
 use App\Template\SecondlifeAjax;
 use YAPF\InputFilter\InputFilter;
@@ -18,7 +19,7 @@ class Getpackages extends SecondlifeAjax
         }
         return "0";
     }
-    public function processWithTreevenderID($tree_vender_id): void
+    public function processWithTreevenderID($tree_vender_id, bool $disableSoldoutChecks = true): void
     {
         $treevender = new Treevender();
         if ($treevender->loadID($tree_vender_id) == false) {
@@ -60,12 +61,26 @@ class Getpackages extends SecondlifeAjax
             "ShoutcastV1" => "B",
             "ShoutcastV2" => "C",
         ];
-
+        $streamsSet = new StreamSet();
         $package_hashs = [];
         foreach ($treevender_packages_set->getAllIds() as $treevender_package_id) {
             $treevender_package = $treevender_packages_set->getObjectByID($treevender_package_id);
             $package = $package_set->getObjectByID($treevender_package->getPackageLink());
             $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
+            $skip = false;
+            if (($treevender->getHideSoldout() == true) && ($disableSoldoutChecks == false)) {
+                $whereConfig = [
+                    "fields" => ["packageLink","needWork","rentalLink"],
+                    "values" => [$package->getId(),0,null],
+                ];
+                $stockLevel = $streamsSet->countInDB($whereConfig);
+                if (($stockLevel === null) || ($stockLevel == 0)) {
+                    $skip = true;
+                }
+            }
+            if ($skip == true) {
+                continue;
+            }
             $hash = sha1(implode(
                 " ",
                 [
@@ -102,7 +117,7 @@ class Getpackages extends SecondlifeAjax
             $this->setSwapTag("message", "Invaild tree vender id given or none sent!");
             return;
         }
-        $this->processWithTreevenderID($tree_vender_id);
+        $this->processWithTreevenderID($tree_vender_id, false);
     }
     protected function smeup(int $input): string
     {
