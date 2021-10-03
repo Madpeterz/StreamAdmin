@@ -72,6 +72,7 @@ class Getpackages extends SecondlifeAjax
                 $whereConfig = [
                     "fields" => ["packageLink","needWork","rentalLink"],
                     "values" => [$package->getId(),0,null],
+                    "matches" => ["=","=","IS"],
                 ];
                 $stockLevel = $streamsSet->countInDB($whereConfig);
                 if (($stockLevel === null) || ($stockLevel == 0)) {
