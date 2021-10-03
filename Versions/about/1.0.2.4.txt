@@ -6,6 +6,7 @@
 <li>Updated System health display to only show required services</li>
 <li>Client notecard on clients page not using template <a href="https://github.com/Madpeterz/StreamAdmin/issues/82" target="_blank">[Issue 82]</a></li>
 <li>Client manage page streams list <a href="https://github.com/Madpeterz/StreamAdmin/issues/79" target="_blank">[Issue 79]</a></li>
+<li>Vender health % is now rounded to 2dp. <a href="https://github.com/Madpeterz/StreamAdmin/issues/80" target="_blank">[Issue 80]</a></li>
 </ul>
 </div>
 <div class="col-sm-6">
@@ -14,6 +15,7 @@
 <li>System cronjobs support <a href="https://github.com/Madpeterz/StreamAdmin/issues/72" target="_blank">[Issue 72]</a></li>
 <li>Corrected a error message when attempting to remove a notice.</li>
 <li>Streamadmin - Product timeleft <a href="https://github.com/Madpeterz/StreamAdmin/issues/74" target="_blank">[Issue 74]</a></li>
+<li>Client bulk remove improved <a href="https://github.com/Madpeterz/StreamAdmin/issues/78" target="_blank">[Issue 78]</a></li>
 </ul>
 </div>
 <div class="col-sm-12">
