@@ -66,7 +66,8 @@ class BulkRemove extends RenderList
             $entry = [];
             $entry[] = $rental->getId();
             $entry[] = $this->makeButton($rental->getRentalUid());
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            . $avatar->getAvatarName() . '</a>';
             $entry[] = $server->getDomain();
             $entry[] = $stream->getPort();
             $entry[] = expiredAgo($rental->getExpireUnixtime());
