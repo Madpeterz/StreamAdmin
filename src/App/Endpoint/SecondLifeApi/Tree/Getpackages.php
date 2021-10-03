@@ -133,6 +133,8 @@ class Getpackages extends SecondlifeAjax
                 return "Four week's";
             } elseif ($input == 31) {
                 return "Monthly";
+            } elseif ($input == 30) {
+                return "Monthly";
             }
             return $input . " day's";
         }
