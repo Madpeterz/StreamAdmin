@@ -16,6 +16,7 @@
 <li>Corrected a error message when attempting to remove a notice.</li>
 <li>Streamadmin - Product timeleft <a href="https://github.com/Madpeterz/StreamAdmin/issues/74" target="_blank">[Issue 74]</a></li>
 <li>Client bulk remove improved <a href="https://github.com/Madpeterz/StreamAdmin/issues/78" target="_blank">[Issue 78]</a></li>
+<li>Avatar name clickable on bulk remove <a href="https://github.com/Madpeterz/StreamAdmin/issues/85" target="_blank">[Issue 85]</a></li>
 </ul>
 </div>
 <div class="col-sm-12">
