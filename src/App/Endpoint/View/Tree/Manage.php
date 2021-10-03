@@ -142,7 +142,8 @@ class Manage extends View
             [31,"Monthly"],
         ];
 
-        $this->output->addSwapTagString("page_content", "<hr/><p>For select days the message is changed on the vender<br/>Everything else displays X day's");
+        $this->output->addSwapTagString("page_content", "<hr/><p>For select days the message is changed 
+        on the vender<br/>Everything else displays X day's</p>");
         $this->output->addSwapTagString("page_content", $this->renderTable($tableHead, $tableBody));
     }
 }
