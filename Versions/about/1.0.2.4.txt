@@ -8,6 +8,8 @@
 <li>Client manage page streams list <a href="https://github.com/Madpeterz/StreamAdmin/issues/79" target="_blank">[Issue 79]</a></li>
 <li>Vender health % is now rounded to 2dp. <a href="https://github.com/Madpeterz/StreamAdmin/issues/80" target="_blank">[Issue 80]</a></li>
 <li>Outbox now support sending to All clients <a href="https://github.com/Madpeterz/StreamAdmin/issues/85" target="_blank">[Issue 84]</a></li>
+<li>TreeVenders can now hide soldout packages <a href="https://github.com/Madpeterz/StreamAdmin/issues/86" target="_blank">[Issue 86]</a></li>
+<li>TreeVenders menu order adjusted and improved speed <a href="https://github.com/Madpeterz/StreamAdmin/issues/75" target="_blank">[Issue 75]</a></li>
 </ul>
 </div>
 <div class="col-sm-6">
@@ -19,6 +21,7 @@
 <li>Client bulk remove improved <a href="https://github.com/Madpeterz/StreamAdmin/issues/78" target="_blank">[Issue 78]</a></li>
 <li>Avatar name clickable on bulk remove <a href="https://github.com/Madpeterz/StreamAdmin/issues/85" target="_blank">[Issue 85]</a></li>
 <li>Outbox status now show TTC if using cron</li>
+<li>Buy & Treevenders now check if user has a stream <a href="https://github.com/Madpeterz/StreamAdmin/issues/81" target="_blank">[Issue 81]</a></li>
 </ul>
 </div>
 <div class="col-sm-12">
