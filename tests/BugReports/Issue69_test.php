@@ -27,10 +27,22 @@ class Issue69 extends TestCase
         $this->assertSame(true,$status["status"],"Packages bulk update has failed");
         unset($packages);
 
+        $rentalSet = new RentalSet();
+        $rentalSet->loadAll();
+        $status = $rentalSet->updateMultipleFieldsForCollection(["message","avatarLink","noticeLink","expireUnixtime"],[null,1,5,time()-10]);
+        $this->assertSame(4,$status["changes"],"Incorrect number of rentals updated: ".json_encode($status));
+        $this->assertSame(true,$status["status"],"rentals bulk update has failed");
+
         $streams = new StreamSet();
-        $streams->loadAll();
+        $whereConfig = [
+            "fields" => ["id"],
+            "values" => [$rentalSet->getUniqueArray("streamLink")],
+            "matches" => ["NOT IN"],
+            "types" => ["i"],
+        ];
+        $streams->loadWithConfig($whereConfig);
         $status = $streams->updateMultipleFieldsForCollection(["needWork","rentalLink"],[false,null]);
-        $this->assertGreaterThanOrEqual(10,$status["changes"],"Incorrect number of streams updated: ".json_encode($status));
+        $this->assertGreaterThanOrEqual(7,$status["changes"],"Incorrect number of streams updated: ".json_encode($status));
         $this->assertSame(true,$status["status"],"streams bulk update has failed");
         unset($streams);
 
@@ -54,13 +66,6 @@ class Issue69 extends TestCase
         $this->assertSame(7,$status["removed_entrys"],"Incorrect number of bot commands removed: ".json_encode($status));
         $this->assertSame(true,$status["status"],"bot comamnds purge has failed");
         unset($messageSet);
-
-        $rentalSet = new RentalSet();
-        $rentalSet->loadAll();
-        $status = $rentalSet->updateMultipleFieldsForCollection(["message","avatarLink","noticeLink","expireUnixtime"],[null,1,5,time()-10]);
-        $this->assertSame(4,$status["changes"],"Incorrect number of rentals updated: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"rentals bulk update has failed");
-        unset($rentalSet);
 
         $bulkUpdate = [
             "apiLink" => 2,
