@@ -9,8 +9,11 @@ use App\R7\Model\Package;
 use App\R7\Set\RegionSet;
 use App\R7\Model\Rental;
 use App\R7\Set\ResellerSet;
-use App\R7\Model\Server;
 use App\R7\Model\Stream;
+use App\R7\Set\PackageSet;
+use App\R7\Set\RentalSet;
+use App\R7\Set\ServerSet;
+use App\R7\Set\StreamSet;
 use App\Template\Form;
 use App\Template\Grid;
 use App\R7\Set\TransactionsSet;
@@ -21,8 +24,21 @@ class Manage extends View
     protected array $pages = [];
     protected Rental $rental;
     protected Avatar $avatar;
+    protected ServerSet $servers;
+
+    protected function loadServers(): bool
+    {
+        $this->servers = new ServerSet();
+        return $this->servers->loadAll()["status"];
+    }
+
     public function process(): void
     {
+        if ($this->loadServers() == false) {
+            $this->output->redirect("client?bubblemessage=unable to load servers "
+            . $this->page . "&bubbletype=danger");
+            return;
+        }
         $this->output->addSwapTagString("html_title", "~ Manage");
         $this->output->addSwapTagString("page_title", "Editing client");
         $this->setSwapTag("page_actions", "<a href='[[url_base]]client/revoke/" . $this->page . "'>"
@@ -36,11 +52,47 @@ class Manage extends View
         }
         $paged_info = new PagedInfo();
         $this->clientManageForm();
+        $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar);
         $this->clientMessageForm();
         $this->clientApiActions();
         $this->clientTransactions();
         $this->setSwapTag("page_content", $paged_info->render($this->pages));
     }
+
+    public function clientAllStreamsTable(Avatar $targetAvatar): string
+    {
+        $rentalSet = new RentalSet();
+        $rentalSet->loadByAvatarLink($targetAvatar->getId());
+
+        $streamSet = new StreamSet();
+        $streamSet->loadByValues($rentalSet->getUniqueArray("streamLink"));
+
+        $packageSet = new PackageSet();
+        $packageSet->loadByValues($streamSet->getUniqueArray("packageLink"));
+
+        $tableHead = ["Server","Port","Package","Timeleft","Started","Renewals","Client page","Stream page"];
+        $tableBody = [];
+        foreach ($rentalSet as $rental) {
+            $entry = [];
+            $stream = $streamSet->getObjectByID($rental->getStreamLink());
+            $server = $this->servers->getObjectByID($stream->getServerLink());
+            $package = $packageSet->getObjectByID($stream->getPackageLink());
+            $entry[] = "<a href=\"[[url_base]]stream/onserver/" . $server->getId() . "\">" . $server->getDomain() . "</a>";
+            $entry[] = $stream->getPort();
+            $entry[] = "<a href=\"package/manage/" . $package->getPackageUid() . "\">" . $package->getName() . "</a>";
+            $entry[] = timeleftHoursAndDays($rental->getExpireUnixtime(), false, "Expired");
+            $entry[] = date('d/m/Y @ G:i:s', $rental->getStartUnixtime());
+            $entry[] = $rental->getRenewals();
+            $entry[] = "<a href=\"[[url_base]]client/manage/"
+            . $rental->getRentalUid() . "\">" . $rental->getRentalUid() . "</a>";
+            $entry[] = "<a href=\"[[url_base]]stream/manage/"
+            . $stream->getStreamUid() . "\">" . $stream->getStreamUid() . "</a>";
+            $tableBody[] = $entry;
+        }
+
+        return $this->renderTable($tableHead, $tableBody);
+    }
+
     protected function clientManageForm(): void
     {
         $this->avatar = new Avatar();
@@ -86,7 +138,7 @@ class Manage extends View
                 $this->yesNo
             );
 
-        $this->pages["Config"] = $form->render("Update", "primary");
+        $this->pages["Client"] = $form->render("Update", "primary");
     }
     protected function clientMessageForm(): void
     {
@@ -95,12 +147,12 @@ class Manage extends View
         $form->required(true);
         $form->textarea(
             "mail",
-            "Mail",
+            "",
             800,
             "",
             "Send a IM to the selected avatar"
         );
-        $this->pages["Message"] = $form->render("Send", "success");
+        $this->pages["Mail"] = $form->render("Send", "success");
     }
     protected function clientTransactions(): void
     {
@@ -150,12 +202,12 @@ class Manage extends View
     protected function clientApiActions(): void
     {
         $stream = new Stream();
-        $server = new Server();
         $package = new Package();
         if ($stream->loadID($this->rental->getStreamLink()) == false) {
             return;
         }
-        if ($server->loadID($stream->getServerLink()) == false) {
+        $server = $this->servers->getObjectByID($stream->getServerLink());
+        if ($server == null) {
             return;
         }
         if ($server->getApiLink() < 2) {
