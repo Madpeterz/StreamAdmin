@@ -14,13 +14,13 @@ class HasRental extends SecondlifeAjax
         $input = new InputFilter();
         $avUUID = $input->getUUID("checkinguuid");
         if ($avUUID === null) {
-            $this->ok("none");
+            $this->ok("No UUID");
             return;
         }
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($avUUID);
         if ($avatar->isLoaded() == false) {
-            $this->ok("none");
+            $this->ok("No avatar");
             return;
         }
         $rentalSet = new RentalSet();
@@ -30,7 +30,7 @@ class HasRental extends SecondlifeAjax
         ];
         $count = $rentalSet->countInDB($whereConfig);
         if (($count === null) || ($count == 0)) {
-            $this->ok("none");
+            $this->ok("No streams");
             return;
         }
         $this->ok("some");
