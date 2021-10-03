@@ -91,7 +91,9 @@ abstract class Master
                 $exitNow = true;
             }
         }
-        $this->avgSleep = round($totalsleep / $sleeps, 2);
+        if ($sleeps > 0) {
+            $this->avgSleep = round($totalsleep / $sleeps, 2);
+        }
         return $hadError;
     }
     protected function doTask(): bool
