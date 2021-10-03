@@ -23,6 +23,7 @@ abstract class Master
     protected float $startMicrotime = 0;
     protected float $endMicrotime = 0;
     protected float $avgSleep = 0;
+    protected array $tickOffsets = [];
 
     public function __construct(int $forceSetGroups = 15)
     {
@@ -45,6 +46,7 @@ abstract class Master
             "endTime" => date("H:i:s", $this->endMicrotime),
             "totalTime" => date("i:s", $this->endMicrotime - $this->startMicrotime),
             "avgSleepPerTick" => $this->avgSleep,
+            "offsets" => json_encode($this->tickOffsets),
         ];
         echo json_encode($output) . "\n";
     }
@@ -58,6 +60,7 @@ abstract class Master
         $nextDelay = 0;
         $sleeps = 0;
         $totalsleep = 0;
+        $startUnixTime = time();
         while ($exitNow == false) {
             if ($nextDelay > 0) {
                 $sleeps++;
@@ -65,6 +68,8 @@ abstract class Master
                 $this->sleepTime += $nextDelay;
                 sleep($nextDelay);
             }
+            $dif = time() - $startUnixTime;
+            $this->tickOffsets[] = $dif;
             if (($this->ticks % 3) == 0) {
                 $this->save($hadError); // auto save
             }
