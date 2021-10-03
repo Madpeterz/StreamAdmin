@@ -718,3 +718,5 @@ ALTER TABLE `botconfig`
   ADD `httpToken` TEXT NULL AFTER `httpURL`;
 
 UPDATE `datatable` SET `cols` = '0=id,1=Rental UID,2=Avatar,3=Port,5=Timeleft,6=Status,7=Renewals' WHERE `id` = 3;
+
+ALTER TABLE `slconfig` ADD `paymentKey` TEXT NULL AFTER `eventsAPI`;
