@@ -71,9 +71,8 @@ class BulkRemove extends RenderList
             $entry[] = $server->getDomain();
             $entry[] = $stream->getPort();
             $entry[] = expiredAgo($rental->getExpireUnixtime());
-            $entry[] = '<textarea readonly class="form-control" id="message" 
-            name="message" placeholder="" cols="35" rows="2">
-            ' . $rental->getMessage() . '</textarea>';
+            $entry[] = '<textarea readonly class="form-control" id="message' . $rental->getId() . '" 
+            name="message" placeholder="" cols="35" rows="2">' . $rental->getMessage() . '</textarea>';
             $table_body[] = $entry;
         }
 
@@ -84,6 +83,11 @@ class BulkRemove extends RenderList
             $form->col(12);
               $form->directAdd($this->renderDatatable($table_head, $table_body));
             $this->setSwapTag("page_content", $form->render("Process", "outline-danger"));
+            $this->output->addSwapTagString(
+                "page_content",
+                "<br/><p>Clients with pending actions [see outbox] will not be listed!<br/>
+                but might appear in the skipped counter!.</p>"
+            );
         }
     }
 
