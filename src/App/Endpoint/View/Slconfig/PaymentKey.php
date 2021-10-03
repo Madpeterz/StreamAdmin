@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Endpoint\View\Slconfig;
+
+use App\Template\Form;
+
+class PaymentKey extends View
+{
+    public function getKeyStatus(?string $checkKey, bool $giveTimeleft = true): string
+    {
+        if ($checkKey === null) {
+            return "No key";
+        }
+        $keyCheck = explode(":", $checkKey);
+        if (count($keyCheck) != 3) {
+            return "Invaild";
+        }
+        $webCheck = sha1($keyCheck[0] . "" . $keyCheck[1] . "web");
+        $webCheck = substr($webCheck, 0, 3);
+        if ($webCheck != $keyCheck[2]) {
+            return "Failed";
+        }
+        if (time() > $keyCheck[1]) {
+            return "Expired";
+        }
+        if ($giveTimeleft == true) {
+            return timeleftHoursAndDays($keyCheck[1], false, "Expired");
+        }
+        return "ok";
+    }
+    public function process(): void
+    {
+        $this->setSwapTag("page_actions", "");
+        $this->setSwapTag("html_title", " Payment key");
+        $this->setSwapTag("page_title", " Payment key ~ Status: "
+        . $this->getKeyStatus($this->slconfig->getPaymentKey()));
+
+        $form = new Form();
+        $form->target("Slconfig/PaymentKeyUpdate");
+        $form->required(true);
+        $form->col(3);
+        $form->textInput("assignedkey", "key", 23, $this->slconfig->getPaymentKey(), "Keys are not free :P");
+        $form->col(2);
+        $form->directAdd(" ");
+        $form->col(7);
+        $form->directAdd("Link to online payment gateway will appear here when it is ready<br/> 
+        Details about payment options here<br/> 
+        And maybe something about tax.<br/>
+        <br/>
+        Company logo here<br/>
+        <sub>Companyname here</sub><br/>
+        <br/>
+        Thank you for supporting StreamAdmin");
+        $this->setSwapTag("page_content", $form->render("Register key", "success"));
+    }
+}
