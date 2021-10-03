@@ -16,8 +16,6 @@ class Create extends View
         $form->required(true);
         $form->col(6);
         $form->textInput("name", "Name", 30, "", "Name");
-        $form->textureInput("textureWaiting", "Waiting", 36, null, "UUID when waiting for a user");
-        $form->textureInput("textureInuse", "In use", 36, null, "UUID when activly being used");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }
