@@ -46,14 +46,11 @@ class Bulkremove extends ViewAjax
         $this->setSwapTag("redirect", "client/bulkremove");
         $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
-            if ($rental->getMessage() != null) {
-                if (strlen($rental->getMessage()) > 0) {
-                    $skipped_counter++;
-                    continue;
-                }
-            }
             if ($api_requests_set->getObjectByField("rentalLink", $rental->getId()) != null) {
                 $skipped_counter++;
+                continue;
+            }
+            if ($rental->getNoticeLink() != 6) {
                 continue;
             }
             $accept = $input->postString("rental" . $rental->getRentalUid());
@@ -117,7 +114,10 @@ class Bulkremove extends ViewAjax
             }
             $removed_counter++;
         }
-        $this->ok(sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter));
+        $this->ok(sprintf("Removed %1\$s rentals!", $removed_counter));
+        if ($skipped_counter > 0) {
+            $this->ok(sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter));
+        }
         $this->setSwapTag("redirect", "client");
     }
 }

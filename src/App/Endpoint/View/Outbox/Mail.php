@@ -25,13 +25,9 @@ class Mail extends View
             if (strlen($message_content) > 24) {
                 $message_content = substr($message_content, 0, 24) . " ...";
             }
-            $boticon = "";
-            if ($avatar->getId() == $botConfig->getAvatarLink()) {
-                $boticon = '<i class="fas fa-robot"></i> ';
-            }
             $entry = [];
             $entry[] = $message->getId();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">' . $boticon . '
+            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">
             ' . $avatar->getAvatarName() . '</a>';
             $entry[] = $message_content;
             $table_body[] = $entry;

@@ -86,4 +86,17 @@ class TreevenderSet extends CollectionSet
     {
         return $this->loadByField("textureInuse", $textureInuse, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByHideSoldout
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByHideSoldout(
+                    bool $hideSoldout, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("hideSoldout", $hideSoldout, $limit, $orderBy, $orderDir);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Endpoint\SecondLifeApi\Bot;
 
 use App\Helpers\BotHelper;
+use App\R7\Model\Botcommandq as ModelBotcommandq;
 use App\R7\Model\Notecard;
 use App\Template\SecondlifeAjax;
 
@@ -45,14 +46,18 @@ class Notecardsync extends SecondlifeAjax
         ];
         $count_data = $this->sql->basicCountV2($notecard->getTable(), $whereConfig);
         if ($count_data["status"] == false) {
-            $this->setSwapTag("message", "Unable to fetch next notecard");
+            $this->failed("Unable to fetch next notecard");
             return;
         }
 
-        $this->setSwapTag("status", true);
         if ($count_data["count"] == 0) {
-            $this->setSwapTag("message", "No work");
-            $this->setSwapTag("hassyncmessage", false);
+            $this->ok("nowork");
+            return;
+        }
+
+        $BotcommandQ = new ModelBotcommandq();
+        if ($BotcommandQ->loadByCommand("FetchNextNotecard") == true) {
+            $this->ok("nowork");
             return;
         }
 
@@ -63,14 +68,12 @@ class Notecardsync extends SecondlifeAjax
             return;
         }
 
-        $this->setSwapTag("hassyncmessage", true);
-        $this->setSwapTag("avataruuid", $botUUID);
-
         global $template_parts;
-        $message = $bot_helper->getBotCommand(
-            "FetchNextNotecard",
-            [$template_parts["url_base"],$this->slconfig->getHttpInboundSecret()]
-        );
-        $this->setSwapTag("message", $message);
+        $reply = $bot_helper->sendBotNextNotecard($template_parts["url_base"], $this->slconfig->getHttpInboundSecret());
+        if ($reply == false) {
+            $this->failed("Unable to add fetch next notecard to bot Q");
+            return;
+        }
+        $this->ok("ok");
     }
 }

@@ -26,6 +26,8 @@ class Detailed extends View
             "noticeserver",
             "detailsserver",
             "notecardsserver",
+            "clientautosuspendserver",
+            "eventsserver",
         ];
         $resellers = new ResellerSet();
         $resellers->loadAll();

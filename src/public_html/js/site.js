@@ -175,7 +175,10 @@ $(document).ready(function () {
                                     jsondata.redirect = jsondata.redirect.replace("here", "");
                                     var urlgoto = url_base + jsondata.redirect;
                                     setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
+                                } else {
+                                    setTimeout(function () { ajax_busy = false }, 1000);
                                 }
+                                
                             }
                             else {
                                 setTimeout(function () { ajax_busy = false }, 1000);

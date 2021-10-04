@@ -12,6 +12,10 @@ class Next extends SecondlifeAjax
 {
     public function process(): void
     {
+        if ($this->owner_override == false) {
+            $this->setSwapTag("message", "SystemAPI access only - please contact support");
+            return;
+        }
         $rentalSet = new RentalSet();
         $whereConfig = [
             "fields" => ["apiPendingAutoSuspendAfter","apiPendingAutoSuspend"],

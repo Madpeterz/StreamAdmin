@@ -101,6 +101,7 @@ class Manage extends View
         $form->col(6);
             $form->group("Options");
             $form->select("enableGroupInvite", "Group Invite", $package->getEnableGroupInvite(), $this->disableEnable);
+        $form->split();
             $form->col(6);
             $form->group("API");
             $form->select(

@@ -16,7 +16,7 @@ class Create extends View
         $form->required(true);
         $form->col(6);
             $form->textInput("avatarName", "Name", 125, null, "Madpeter Zond [You can leave out Resident]");
-            $form->textInput("avatarUUID", "SL UUID", 3, null, "SecondLife UUID [found on their SL profile]");
+            $form->textInput("avatarUUID", "SL UUID", 36, null, "SecondLife UUID [found on their SL profile]");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

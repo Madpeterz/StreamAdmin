@@ -5,6 +5,7 @@ namespace StreamAdminR7;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
 use App\R7\Model\Botconfig;
 use App\R7\Model\Package;
+use App\R7\Set\BotcommandqSet;
 use App\R7\Set\MessageSet;
 use App\R7\Set\PackageSet;
 use PHPUnit\Framework\TestCase;
@@ -38,6 +39,10 @@ class Issue47 extends TestCase
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["amountpaid"] = $this->package->getCost() * 3;
 
+        $botmessageQ = new BotcommandqSet();
+        $botmessageQ->loadAll();
+        $this->assertSame(6,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
+
         $startRental = new Startrental();
         $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
@@ -46,18 +51,9 @@ class Issue47 extends TestCase
         $this->assertSame(true,$startRental->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $this->assertSame(0,$startRental->getOutputObject()->getSwapTagInt("owner_payment"),"incorrect owner payment");
         
-
-        $found = false;
-        $messages = new MessageSet();
-        $messages->loadAll();
-        foreach($messages as $message)
-        {
-            if(strpos($message->getMessage(),"GroupInvite") !== false) {
-                $found = true;
-                break;
-            }
-        }
-        $this->assertSame(true,$found,"Unable to find invite command from the bot!");
+        $botmessageQ = new BotcommandqSet();
+        $botmessageQ->loadAll();
+        $this->assertSame(7,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
 
     }
 

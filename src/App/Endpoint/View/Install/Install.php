@@ -20,7 +20,7 @@ class Install extends View
             $this->setSwapTag("page_content", 'Error: DB has data unable to install!');
             return;
         }
-        $install_file = ROOTFOLDER . "/App/Versions/installer.sql";
+        $install_file = DEEPFOLDERPATH . "/Versions/installer.sql";
         if (file_exists($install_file) == false) {
             $this->setSwapTag("page_content", 'Error: Unable to find install sql file!');
             return;

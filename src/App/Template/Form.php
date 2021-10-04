@@ -114,8 +114,14 @@ class Form
         $this->enableGridRender();
         $this->mygrid->addContent('<label for="' . $name . '" id="' . $name . 'label" class="col-6 col-form-label">' . $label . '</label>@NL@');
     }
-    public function textarea(string $name, string $label, int $max_length, ?string $value, string $placeholder): void
-    {
+    public function textarea(
+        string $name,
+        string $label,
+        int $max_length,
+        ?string $value,
+        string $placeholder,
+        int $rows = 5
+    ): void {
         $this->enableGridRender();
         $this->addLabel($label, $name);
         $this->startField();
@@ -128,7 +134,7 @@ class Form
         $this->mygrid->addContent('<textarea class="' . $classUsed . '" '
         . $addon . ' id="' . $name . '" name="' . $name . '"');
         $this->mygrid->addContent(' placeholder="' . $placeholder . '" ' . $this->requiredAddon() . '');
-        $this->mygrid->addContent(' rows="5">' . $value . '</textarea>@NL@');
+        $this->mygrid->addContent(' rows="' . $rows . '">' . $value . '</textarea>@NL@');
         $this->endField();
     }
     public function textInput(

@@ -26,6 +26,11 @@ class Update extends ViewAjax
             $this->failed("texture inuse is not vaild: " . $input->getLastError());
             return;
         }
+        $hideSoldout = $input->postBool("hideSoldout");
+        if ($hideSoldout == null) {
+            $this->failed("Hide soldout was not sent");
+            return;
+        }
         $this->setSwapTag("redirect", "");
         $treevender = new Treevender();
         if ($treevender->loadID($this->page) == false) {
@@ -53,6 +58,7 @@ class Update extends ViewAjax
             return;
         }
         $treevender->setName($name);
+        $treevender->setHideSoldout($hideSoldout);
         $treevender->setTextureWaiting($textureWaiting);
         $treevender->setTextureInuse($textureInuse);
         $update_status = $treevender->updateEntry();

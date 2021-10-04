@@ -24,8 +24,6 @@ class TreeVendTest extends TestCase
         $createform->process();
         $statuscheck = $createform->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing tree create form element";
-        $this->assertStringContainsString("textureWaiting",$statuscheck,$missing);
-        $this->assertStringContainsString("textureInuse",$statuscheck,$missing);
         $this->assertStringContainsString("Name",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
     }
@@ -38,9 +36,6 @@ class TreeVendTest extends TestCase
         global $_POST;
         $createHandler = new TreeCreate();
         $_POST["name"] = "UnitTestTreeVend";
-        $_POST["textureWaiting"] = "00000000-0000-0000-0000-000000000000";
-        $_POST["textureInuse"] = "00000000-0000-0000-0000-000000000000";
-        
         $createHandler->process();
         $statuscheck = $createHandler->getOutputObject();
         $this->assertStringContainsString("Tree vender created",$statuscheck->getSwapTagString("message"));
@@ -79,6 +74,7 @@ class TreeVendTest extends TestCase
         $missing = "Missing tree manage form element";
         $this->assertStringContainsString("textureWaiting",$statuscheck,$missing);
         $this->assertStringContainsString("textureInuse",$statuscheck,$missing);
+        $this->assertStringContainsString("hideSoldout",$statuscheck,$missing);
         $this->assertStringContainsString("Name",$statuscheck,$missing);
         
         $this->assertStringContainsString("Action",$statuscheck,$missing);
@@ -102,6 +98,7 @@ class TreeVendTest extends TestCase
         $_POST["name"] = "UnitUpdatedTreeVend";
         $_POST["textureWaiting"] = "00000000-0000-0000-0000-000000000000";
         $_POST["textureInuse"] = "00000000-0000-0000-0000-000000000000";
+        $_POST["hideSoldout"] = 1;
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Treevender updated",$statuscheck->getSwapTagString("message"));

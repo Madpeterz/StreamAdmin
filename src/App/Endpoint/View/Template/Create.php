@@ -20,15 +20,9 @@ class Create extends View
         $form->textInput("name", "Name", 30, "", "Name");
         $form->split();
         $form->col(6);
-        $form->textarea(
-            "detail",
-            "Template [Object+Bot IM]",
-            800,
-            "",
-            "Use swap tags as the placeholders! max length 800"
-        );
+        $form->textarea("detail", "Template [Object+Bot IM]", 800, "", "Use swap tags as the placeholders!", 17);
         $form->col(6);
-        $form->textarea("notecardDetail", "Notecard template", 5000, "", "Use swap tags as the placeholder");
+        $form->textarea("notecardDetail", "Notecard template", 5000, "", "Use swap tags as the placeholder", 17);
         $pages = [];
         $pages["Create"] = $form->render("Create", "primary");
         include ROOTFOLDER . "/App/Flags/swaps_table_paged.php";

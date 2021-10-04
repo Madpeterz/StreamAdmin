@@ -28,7 +28,7 @@ class Bulk extends View
         if ($this->page == "notice") {
             $message = $input_filter->getString("messageStatus", 800, 10);
             if ($message == null) {
-                $this->failed("message failed:" . $input_filter->getWhyFailed());
+                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
                 return;
             }
             $source_id = $input_filter->getFilter("noticeLink", "integer");
@@ -42,7 +42,7 @@ class Bulk extends View
         } elseif ($this->page == "server") {
             $message = $input_filter->getString("messageServer", 800, 10);
             if ($message == null) {
-                $this->failed("message failed:" . $input_filter->getWhyFailed());
+                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
                 return;
             }
             $source_id = $input_filter->getFilter("serverLink", "integer");
@@ -58,7 +58,7 @@ class Bulk extends View
         } elseif ($this->page == "package") {
             $message = $input_filter->getString("messagePackage", 800, 10);
             if ($message == null) {
-                $this->failed("message failed:" . $input_filter->getWhyFailed());
+                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
                 return;
             }
             $source_id = $input_filter->getFilter("packageLink", "integer");
@@ -69,14 +69,24 @@ class Bulk extends View
                 $rental_set->loadOnField("packageLink", $source_id);
                 $ok = true;
             }
+        } elseif ($this->page == "clients") {
+            $message = $input_filter->getString("messageClients", 800, 10);
+            if ($message == null) {
+                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                return;
+            }
+            $rental_set->loadAll();
+            $souce_named = "clients";
+            $source_id = 1;
+            $ok = true;
         }
         if (strlen($message) < 10) {
-            $this->failed("message is to short");
+            $this->output->redirectWithMessage("outbox", "Message is to short", "warning");
             return;
         }
 
         if ($ok == false) {
-            $this->output->redirect("outbox?message=Filter option not supported");
+            $this->output->redirectWithMessage("outbox", "Filter option not supported", "warning");
             return;
         }
 

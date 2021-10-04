@@ -54,8 +54,8 @@ class Bulkupdate extends View
                 $djPassword = '<input type="text" class="form-control" name="stream'
                 . $stream->getStreamUid() . 'djpw" value="' . $stream->getDjPassword()
                 . '" placeholder="Max 20 length">';
-                $entry[] = $adminPassword;
                 $entry[] = $djPassword;
+                $entry[] = $adminPassword;
                 $table_body[] = $entry;
             }
         }

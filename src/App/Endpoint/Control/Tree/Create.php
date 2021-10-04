@@ -21,21 +21,11 @@ class Create extends ViewAjax
             $this->failed("There is already a tree vender assigned to that name");
             return;
         }
-        $textureWaiting = $input->postUUID("textureWaiting");
-        if ($textureWaiting == null) {
-            $this->failed("texture waiting is not vaild: " . $input->getLastError());
-            return;
-        }
-        $textureInuse = $input->postUUID("textureInuse");
-        if ($textureInuse == null) {
-            $this->failed("texture inuse is not vaild: " . $input->getLastError());
-            return;
-        }
 
         $treevender = new Treevender();
         $treevender->setName($name);
-        $treevender->setTextureWaiting($textureWaiting);
-        $treevender->setTextureInuse($textureInuse);
+        $treevender->setTextureWaiting("00000000-0000-0000-0000-000000000000");
+        $treevender->setTextureInuse("00000000-0000-0000-0000-000000000000");
         $create_status = $treevender->createEntry();
         if ($create_status["status"] == false) {
             $this->setSwapTag(

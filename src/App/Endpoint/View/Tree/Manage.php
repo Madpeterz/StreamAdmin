@@ -74,9 +74,31 @@ class Manage extends View
         $form->target("tree/update/" . $this->page . "");
         $form->required(true);
         $form->col(6);
+        $form->group("Basic");
         $form->textInput("name", "Name", 30, $treevender->getName(), "Name");
-        $form->textureInput("textureWaiting", "Waiting", 36, $treevender->getTextureWaiting(), "UUID when waiting for a user");
-        $form->textureInput("textureInuse", "In use", 36, $treevender->getTextureInuse(), "UUID when activly being used");
+        $form->select(
+            "hideSoldout",
+            "Hide soldout packages in SL",
+            $treevender->getHideSoldout(),
+            $this->disableEnable
+        );
+        $form->col(6);
+        $form->group("Textures");
+        $form->textureInput(
+            "textureWaiting",
+            "Waiting",
+            36,
+            $treevender->getTextureWaiting(),
+            "UUID when waiting for a user"
+        );
+        $form->textureInput(
+            "textureInuse",
+            "In use",
+            36,
+            $treevender->getTextureInuse(),
+            "UUID when activly being used"
+        );
+
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
         $this->output->addSwapTagString("page_content", "<br/><hr/><br/>");
         $treevender_packages_set = new TreevenderpackagesSet();

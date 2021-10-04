@@ -320,4 +320,17 @@ class SlconfigSet extends CollectionSet
     {
         return $this->loadByField("eventsAPI", $eventsAPI, $limit, $orderBy, $orderDir);
     }
+    /**
+     * loadByPaymentKey
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadByPaymentKey(
+                    string $paymentKey, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("paymentKey", $paymentKey, $limit, $orderBy, $orderDir);
+    }
 }

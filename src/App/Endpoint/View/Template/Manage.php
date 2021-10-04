@@ -33,7 +33,8 @@ class Manage extends View
                 "Template [Object+Bot IM]",
                 800,
                 $template->getDetail(),
-                "Use swap tags as the placeholders! max length 800"
+                "Use swap tags as the placeholders! max length 800",
+                17
             );
         $form->col(6);
             $form->textarea(
@@ -41,7 +42,8 @@ class Manage extends View
                 "Notecard template",
                 5000,
                 $template->getNotecardDetail(),
-                "Use swap tags as the placeholder"
+                "Use swap tags as the placeholder",
+                17
             );
         $pages = [];
         $pages["Manage"] = $form->render("Update", "primary");

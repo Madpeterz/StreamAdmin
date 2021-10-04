@@ -16,6 +16,9 @@ class DefaultView extends View
             "noticeserver",
             "detailsserver",
             "notecardsserver",
+            "clientautosuspendserver",
+            "eventsserver",
+            "botcommandqserver",
         ];
         $resellers = new ResellerSet();
         $resellers->loadAll();

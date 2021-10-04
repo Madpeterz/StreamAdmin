@@ -4,6 +4,7 @@ namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\Bot\Notecardsync;
 use App\R7\Model\Slconfig;
+use App\R7\Set\BotcommandqSet;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiBot extends TestCase
@@ -45,16 +46,21 @@ class SecondlifeApiBot extends TestCase
         $_POST["unixtime"] = time();
         $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
-
-
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
+
+        $botcommandSet = new BotcommandqSet();
+        $reply = $botcommandSet->countInDB();
+        $this->assertSame(4,$reply,"Current number of events in the Q is not correct"); 
+
         $Notecardsync = new Notecardsync();
         $this->assertSame("Not processed",$Notecardsync->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Notecardsync->getLoadOk(),"Load ok failed");
         $Notecardsync->process();
-        $this->assertStringStartsWith("FetchNextNotecard",$Notecardsync->getOutputObject()->getSwapTagString("message"),"incorrect reply");
-        $this->assertSame(true,$Notecardsync->getOutputObject()->getSwapTagBool("hassyncmessage"),"incorrect sync flag: "
-        .$Notecardsync->getOutputObject()->getSwapTagString("message"));
+        $this->assertSame("ok",$Notecardsync->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$Notecardsync->getOutputObject()->getSwapTagBool("status"),"marked as failed");
+
+        $botcommandSet = new BotcommandqSet();
+        $reply = $botcommandSet->countInDB();
+        $this->assertSame(5,$reply,"Current number of events in the Q is not correct"); 
     }
 }
