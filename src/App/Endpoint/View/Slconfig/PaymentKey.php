@@ -57,8 +57,8 @@ class PaymentKey extends View
             $bits = explode(":", $this->slconfig->getPaymentKey());
             if (count($bits) == 3) {
                 $this->output->addSwapTagString("page_content", '<hr/>
-            <p>SL code: <textarea class="form-control col-2" cols="3" rows="1" readonly>66e6319f:1665439199</textarea></p>
-            ');
+            <p>SL code: <textarea class="form-control col-2" cols="3" rows="1" readonly>
+            ' . $bits[0] . ':' . $bits[1] . '</textarea></p>');
             }
         }
     }
