@@ -3,6 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Client\Revoke;
+use App\Endpoint\Control\Client\Update;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 use App\Endpoint\SecondLifeApi\Renew\Renewnow;
@@ -81,6 +82,8 @@ class Issue90 extends TestCase
      */
     public function test_EndAllOtherRentals()
     {
+        global $_POST;
+        $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
         $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
@@ -121,7 +124,8 @@ class Issue90 extends TestCase
      */
     public function test_ExpireRentalInSteps()
     {
-        global $unixtime_day, $unixtime_hour;
+        global $unixtime_day, $unixtime_hour, $_POST;
+        $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
         $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
@@ -165,6 +169,7 @@ class Issue90 extends TestCase
     public function test_RenewBackToActiveInSteps()
     {
         global $_POST, $unixtime_day;
+        $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
         $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
@@ -219,6 +224,40 @@ class Issue90 extends TestCase
             "[".$amount."@".$expectedNoticeLevel[1]."] Incorrect notice level assigned ".$log);
             $log .= " - ok\n";
         }
+    }
+
+    /**
+     * @depends test_RenewBackToActiveInSteps
+     */
+    public function test_RemoveTimeViaWebUi()
+    {
+        global $_POST, $page;
+        $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
+        $avatar = new Avatar();
+        $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
+        $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
+        $rental = new Rental();
+        $rental->loadByAvatarLink($avatar->getId());
+        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+
+        $page = $rental->getRentalUid();
+        
+        $manageProcess = new Update();
+        $_POST["message"] = $rental->getMessage();
+        $_POST["adjustment_dir"] = "false";
+        $_POST["adjustment_hours"] = "0";
+        $_POST["adjustment_days"] = "5";
+        $manageProcess->process();
+        $statuscheck = $manageProcess->getOutputObject();
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        $this->assertSame(96,$statuscheck->getSwapTagInt("hoursRemain"),"hours remaining is not what we expected");
+        $this->assertSame(true,$statuscheck->getSwapTagBool("noticeLevelChanged"),"Notice level did not change!");
+
+        // Recheck rental
+        $rental = new Rental();
+        $rental->loadByAvatarLink($avatar->getId());
+        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+        $this->assertSame(2,$rental->getNoticeLink(),"Incorrect notice level assigned");
     }
 
     protected function setupRenewPost(string $target)
