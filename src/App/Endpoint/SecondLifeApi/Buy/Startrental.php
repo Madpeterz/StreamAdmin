@@ -5,6 +5,7 @@ namespace App\Endpoint\SecondLifeApi\Buy;
 use App\Helpers\AvatarHelper;
 use App\Helpers\BotHelper;
 use App\Helpers\EventsQHelper;
+use App\Helpers\NoticesHelper;
 use App\Helpers\PendingAPI;
 use App\Helpers\TransactionsHelper;
 use App\MediaServer\Logic\ApiLogicBuy;
@@ -78,19 +79,6 @@ class Startrental extends SecondlifeAjax
             return $stream_set->getObjectByID($entrys[rand(0, count($entrys) - 1)]);
         }
         return null;
-    }
-
-    protected function getNoticeLevelIndex(array $sorted_linked, int $hours_remain): int
-    {
-        $use_notice_index = 0;
-        foreach ($sorted_linked as $hours => $index) {
-            if ($hours > $hours_remain) {
-                break;
-            } else {
-                $use_notice_index = $index;
-            }
-        }
-        return $use_notice_index;
     }
 
     protected function sendStaticNotecard(int $staticNotecardid, Avatar $avatar): void
@@ -168,7 +156,9 @@ class Startrental extends SecondlifeAjax
         ksort($sorted_linked, SORT_NUMERIC);
         $multipler = $accepted_payment_amounts[$amountpaid];
         $hours_remain = ($package->getDays() * 24) * $multipler;
-        $use_notice_index = $this->getNoticeLevelIndex($sorted_linked, $hours_remain);
+
+        $noticesHelper = new NoticesHelper();
+        $use_notice_index = $noticesHelper->getNoticeLevel($hours_remain);
         $unixtime = time() + ($hours_remain * $unixtime_hour);
 
         $rentals = new RentalSet();
