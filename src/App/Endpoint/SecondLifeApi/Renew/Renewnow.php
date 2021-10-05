@@ -4,6 +4,7 @@ namespace App\Endpoint\SecondLifeApi\Renew;
 
 use App\Helpers\AvatarHelper;
 use App\Helpers\EventsQHelper;
+use App\Helpers\NoticesHelper;
 use App\MediaServer\Logic\ApiLogicRenew;
 use App\R7\Model\Avatar;
 use App\R7\Model\Banlist;
@@ -161,23 +162,6 @@ class Renewnow extends SecondlifeAjax
         return true;
     }
 
-    public function getNoticeLevelIndex(int $hours_remain): int
-    {
-        $notice_set = new NoticeSet();
-        $notice_set->loadAll();
-        $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
-        ksort($sorted_linked, SORT_NUMERIC);
-        $use_notice_index = 6;
-        foreach ($sorted_linked as $hours => $index) {
-            if ($hours <= $hours_remain) {
-                $use_notice_index = $index;
-                continue;
-            }
-            break;
-        }
-        return $use_notice_index;
-    }
-
     protected function setUpdatedRentalDetails(): void
     {
         global $unixtime_day;
@@ -232,7 +216,8 @@ class Renewnow extends SecondlifeAjax
     {
         global $unixtime_hour;
         $hours_remain = ceil($unixtime_remain / $unixtime_hour);
-        $use_notice_index = $this->getNoticeLevelIndex($hours_remain);
+        $noticeHelper = new NoticesHelper();
+        $use_notice_index = $noticeHelper->getNoticeLevel($hours_remain);
         if ($use_notice_index != 0) {
             if ($this->rental->getNoticeLink() != $use_notice_index) {
                 $this->rental->setNoticeLink($use_notice_index);
