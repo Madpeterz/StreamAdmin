@@ -16,6 +16,9 @@ class Issue72 extends TestCase
         include "src/App/CronJob/CronTab.php";
         $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
+    /**
+     * @depends test_crontabClientAutoSuspend
+     */
     public function test_DetailsServer()
     {       
         if(defined("TESTING") == false) { 
@@ -26,6 +29,9 @@ class Issue72 extends TestCase
         include "src/App/CronJob/CronTab.php";
         $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
+    /**
+     * @depends test_crontabClientAutoSuspend
+     */
     public function test_ApiRequestsServer()
     {       
         if(defined("TESTING") == false) { 
@@ -36,6 +42,9 @@ class Issue72 extends TestCase
         include "src/App/CronJob/CronTab.php";
         $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
+    /**
+     * @depends test_crontabClientAutoSuspend
+     */
     public function test_DynamicNotecards()
     {       
         if(defined("TESTING") == false) { 

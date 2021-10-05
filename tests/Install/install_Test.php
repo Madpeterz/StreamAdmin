@@ -19,6 +19,7 @@ class Installer extends TestCase
             define("INSTALLMODE",true);
         }
     }
+    
     public function test_ShowFormEnterDatabaseDetails()
     {
         $Install = new InstallerStep1();
@@ -27,6 +28,9 @@ class Installer extends TestCase
         $this->assertStringContainsString("Continue",$statuscheck);
         $this->assertStringContainsString("ip/domain to the host: Default localhost",$statuscheck);
     }
+    /**
+     * @depends test_ShowFormEnterDatabaseDetails
+     */
     public function test_ProcessFormEnterDatabaseDetails()
     {
         global $_POST;
@@ -40,6 +44,9 @@ class Installer extends TestCase
         $this->assertStringContainsString("Test config",$statuscheck);
         $this->assertStringContainsString("DB config ready",$statuscheck);
     }
+    /**
+     * @depends test_ProcessFormEnterDatabaseDetails
+     */
     public function test_ShowTestDatabaseMessage()
     {
         include "src/App/Config/db.php";
@@ -49,6 +56,9 @@ class Installer extends TestCase
         $this->assertStringContainsString("Connected [OK]",$statuscheck);
         $this->assertStringContainsString("Skip install - Goto setup",$statuscheck);
     }
+    /**
+     * @depends test_ShowTestDatabaseMessage
+     */
     public function test_ClearDatabase()
     {
         global $sql;
@@ -58,6 +68,9 @@ class Installer extends TestCase
         $status = $sql->rawSQL("tests/wipeDB.sql");
         $this->assertSame(true,$status["status"],"Unable to wipe DB: ".$status["message"]);
     }
+    /**
+     * @depends test_ClearDatabase
+     */
     public function test_InstallDatabase()
     {
         global $sql;
@@ -69,6 +82,9 @@ class Installer extends TestCase
         $statuscheck = $Install->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("Streamadmin DB installed [OK]",$statuscheck);
     }
+    /**
+     * @depends test_InstallDatabase
+     */
     public function test_ShowFormAdjustment()
     {
         $step4 = new InstallerStep4();
@@ -78,6 +94,9 @@ class Installer extends TestCase
         $this->assertStringContainsString("Does not have to match SL name",$statuscheck);
         $this->assertStringContainsString("Skip setup goto final",$statuscheck);
     }
+    /**
+     * @depends test_ShowFormAdjustment
+     */
     public function test_ProcessFormAdjustment()
     {
         global $_POST;
@@ -93,6 +112,9 @@ class Installer extends TestCase
         $this->assertStringContainsString("Final changes",$statuscheck);
         $this->assertSame(true,file_exists("src/App/Config/site_installed.php"),"Site config not saved");
     }
+    /**
+     * @depends test_ProcessFormAdjustment
+     */
     public function test_VaildateConfigApplyed()
     {
         $av = new Avatar();
@@ -101,6 +123,9 @@ class Installer extends TestCase
         $siteconfig = new Slconfig();
         $this->assertSame(true,$siteconfig->loadID(1),"Unable to load site config");
     }
+    /**
+     * @depends test_VaildateConfigApplyed
+     */
     public function test_FinalChangesApplyed()
     {
         $installer = new InstallerStep5();
