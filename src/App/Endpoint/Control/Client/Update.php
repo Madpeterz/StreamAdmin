@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Client;
 
+use App\Helpers\NoticesHelper;
 use App\R7\Model\Avatar;
 use App\R7\Set\NoticeSet;
 use App\R7\Model\Rental;
@@ -45,8 +46,6 @@ class Update extends ViewAjax
     ): void {
         global $unixtime_hour;
 
-        $notice_set = new NoticeSet();
-
         $total_adjust_hours = 0;
         if ($adjustment_hours > 0) {
             $total_adjust_hours += $adjustment_hours;
@@ -60,13 +59,13 @@ class Update extends ViewAjax
         }
         $adjustment_unixtime = $unixtime_hour * $total_adjust_hours;
         $adjustment_text = "Added";
+        $new_unixtime = $rental->getExpireUnixtime() + $adjustment_unixtime;
         if ($adjustment_dir == false) {
             $adjustment_text = "Removed";
             $new_unixtime = $rental->getExpireUnixtime() - $adjustment_unixtime;
-        } else {
-            $new_unixtime = $rental->getExpireUnixtime() + $adjustment_unixtime;
         }
-            $add_days = 0;
+
+        $add_days = 0;
         while ($total_adjust_hours >= 24) {
             $add_days += 1;
             $total_adjust_hours -= 24;
@@ -91,32 +90,16 @@ class Update extends ViewAjax
             $adjustment_multi
         );
         $this->message = "" . $adjustment_message . "" . $this->message . "";
+        $hours_remain = ceil(($new_unixtime - time()) / $unixtime_hour);
+        $noticeHelper = new NoticesHelper();
+        $this->setSwapTag("noticeLevelChanged", false);
+        $this->setSwapTag("hoursRemain", $hours_remain);
 
-        $notice_set->loadAll();
-        $dif_array = [];
-        foreach ($notice_set as $notice) {
-            if ($notice->getHoursRemaining() > 0) {
-                $dif_array[$notice->getId()] = (time() + ($notice->getHoursRemaining() * $unixtime_hour));
-            }
-        }
-        $closest_diff = null;
-        $closest_diff_index = 0;
-        foreach ($dif_array as $key => $value) {
-            $diff = abs($new_unixtime - $value);
-            if ($closest_diff == null) {
-                $closest_diff = $diff;
-                $closest_diff_index = $key;
-            } else {
-                if ($diff < $closest_diff) {
-                    $closest_diff = $diff;
-                    $closest_diff_index = $key;
-                }
-            }
-        }
-        if ($closest_diff_index != 0) {
-            if ($rental->getNoticeLink() != $closest_diff_index) {
-                $rental->setNoticeLink($closest_diff_index);
-            }
+        $foundNoticeid = $noticeHelper->getNoticeLevel($hours_remain);
+        if ($rental->getNoticeLink() != $foundNoticeid) {
+            $rental->setNoticeLink($foundNoticeid);
+            $this->setSwapTag("noticeLevelChanged", true);
+            $this->actions_taken .= "\n Adjusted notice level";
         }
         $rental->setExpireUnixtime($new_unixtime);
         $this->actions_taken .= "\n Adjusted timeleft";

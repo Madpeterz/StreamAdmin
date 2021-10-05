@@ -42,7 +42,7 @@ class Issue69 extends TestCase
         ];
         $streams->loadWithConfig($whereConfig);
         $status = $streams->updateMultipleFieldsForCollection(["needWork","rentalLink"],[false,null]);
-        $this->assertGreaterThanOrEqual(7,$status["changes"],"Incorrect number of streams updated: ".json_encode($status));
+        $this->assertGreaterThanOrEqual(6,$status["changes"],"Incorrect number of streams updated: ".json_encode($status));
         $this->assertSame(true,$status["status"],"streams bulk update has failed");
         unset($streams);
 
