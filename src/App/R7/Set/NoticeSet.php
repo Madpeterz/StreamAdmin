@@ -74,6 +74,19 @@ class NoticeSet extends CollectionSet
         return $this->loadByField("imMessage", $imMessage, $limit, $orderBy, $orderDir);
     }
     /**
+     * loadBySendObjectIM
+     * @return mixed[] [status =>  bool, count => integer, message =>  string]
+    */
+    public function loadBySendObjectIM(
+                    bool $sendObjectIM, 
+                    int $limit = 0, 
+                    string $orderBy = "id", 
+                    string $orderDir = "DESC"
+    ): array
+    {
+        return $this->loadByField("sendObjectIM", $sendObjectIM, $limit, $orderBy, $orderDir);
+    }
+    /**
      * loadByUseBot
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
     */
