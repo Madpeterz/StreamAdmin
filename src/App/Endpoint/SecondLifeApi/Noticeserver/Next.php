@@ -159,7 +159,8 @@ class Next extends SecondlifeAjax
         $sendMessage_status = $bot_helper->sendMessage(
             $avatar,
             $sendmessage,
-            $notice->getUseBot()
+            $notice->getUseBot(),
+            $notice->getSendObjectIM()
         );
         if ($sendMessage_status["status"] == false) {
             $this->setSwapTag("message", "Unable to put mail into outbox");

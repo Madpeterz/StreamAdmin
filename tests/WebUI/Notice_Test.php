@@ -59,6 +59,7 @@ class NoticeTest extends TestCase
         $_POST["sendNotecard"] = "true";
         $_POST["notecardDetail"] = "this is a test wooo";
         $_POST["noticeNotecardLink"] = 1;
+        $_POST["sendObjectIM"] = 1;
 
         $createHandler = new NoticeCreate();
         $createHandler->process();
@@ -112,6 +113,7 @@ class NoticeTest extends TestCase
         $_POST["sendNotecard"] = "false";
         $_POST["notecardDetail"] = "";
         $_POST["noticeNotecardLink"] = 1;
+        $_POST["sendObjectIM"] = 0;
 
         $updateHandeler = new Update();
         $updateHandeler->process();

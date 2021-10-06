@@ -104,7 +104,8 @@ class BotHelper
     public function sendMessage(
         Avatar $avatar,
         string $message,
-        bool $allow_bot = false
+        bool $allow_bot = false,
+        bool $allowObjectIm = true
     ): array {
         if ($this->getBotConfig() == false) {
             return ["status" => false,"message" => "Unable to get bot config"];
@@ -113,6 +114,9 @@ class BotHelper
             if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(),$message]) == false) {
                 return ["status" => false,"message" => "Unable to add IM to the botQ"];
             }
+        }
+        if ($allowObjectIm == false) {
+            return true;
         }
         return $this->sendMessageToAvatar($avatar, $message);
     }

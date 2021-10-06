@@ -8,7 +8,7 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        $table_head = ["ordering","Name","Use bot","Hours remaining"];
+        $table_head = ["ordering","Name","Object IM","Use bot","Hours remaining"];
         $table_body = [];
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
@@ -19,7 +19,8 @@ class DefaultView extends View
                 $entry[] = $notice->getHoursRemaining();
                 $entry[] = '<a href="[[url_base]]notice/manage/' . $notice->getId() . '"
                 .">' . $notice->getName() . '</a>';
-                $entry[] = [false => "No",true => "Yes"][$notice->getUseBot()];
+                $entry[] = $this->yesNo[$notice->getSendObjectIM()];
+                $entry[] = $this->yesNo[$notice->getUseBot()];
                 $entry[] = $notice->getHoursRemaining();
                 $table_body[] = $entry;
             }

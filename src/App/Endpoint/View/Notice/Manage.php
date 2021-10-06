@@ -40,7 +40,7 @@ class Manage extends View
         }
         $current_notecard_notice = new Noticenotecard();
         $current_notecard_notice->loadID($notice->getNoticeNotecardLink());
-        $this->output->addSwapTagString("page_title", ":" . $notice->getName());
+        $this->output->addSwapTagString("page_title", " : " . $notice->getName());
         $form = new form();
         $form->target("notice/update/" . $this->page . "");
         $form->required(true);
@@ -56,7 +56,8 @@ class Manage extends View
         );
         $form->col(6);
         $form->group("Config");
-        $form->select("useBot", "Use bot to send IM", $notice->getUseBot(), [false => "No",true => "Yes"]);
+        $form->select("sendObjectIM", "Send the Object IM", $notice->getSendObjectIM(), $this->yesNo);
+        $form->select("useBot", "Use bot to send IM", $notice->getUseBot(), $this->yesNo);
         $form->numberInput(
             "hoursRemaining",
             "Hours remain [Trigger at]",
@@ -72,7 +73,7 @@ class Manage extends View
             "sendNotecard",
             "Enable",
             $notice->getSendNotecard(),
-            [false => "No",true => "Yes"]
+            $this->yesNo
         );
         $form->textarea(
             "notecardDetail",
