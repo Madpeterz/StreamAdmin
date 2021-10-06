@@ -1,0 +1,1 @@
+UPDATE `slconfig` SET `dbVersion` = '1.0.2.5' WHERE `slconfig`.`id` = 1;
