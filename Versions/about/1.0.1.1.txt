@@ -1,2 +1,0 @@
-adds timezone support<br/>
-adds default email address for api<br/>

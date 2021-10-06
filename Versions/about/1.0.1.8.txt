@@ -1,2 +1,0 @@
-Fixs some bugs reported via the git
-Adds custom logo support
