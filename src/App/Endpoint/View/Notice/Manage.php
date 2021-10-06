@@ -15,6 +15,10 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", " Editing");
         $this->setSwapTag("page_actions", "<a href='[[url_base]]notice/remove/" . $this->page . "'>"
         . "<button type='button' class='btn btn-danger'>Remove</button></a>");
+
+        if (in_array($this->page, [6,10]) == true) {
+            $this->setSwapTag("page_actions", "");
+        }
         $where_config = [
             "fields" => ["missing"],
             "values" => [0],

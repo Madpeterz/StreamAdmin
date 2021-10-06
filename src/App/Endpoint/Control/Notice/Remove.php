@@ -17,7 +17,13 @@ class Remove extends ViewAjax
         $notecard_set = new NotecardSet();
 
         $accept = $input->postString("accept");
+        $newNoticeLevel = $input->postInteger("newNoticeLevel", false, true);
         $this->setSwapTag("redirect", "notice");
+        if ($newNoticeLevel == null) {
+            $this->failed("Unable to find transfer notice level");
+            $this->setSwapTag("redirect", "notice/manage/" . $this->page . "");
+            return;
+        }
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
             $this->setSwapTag("redirect", "notice/manage/" . $this->page . "");
@@ -29,25 +35,21 @@ class Remove extends ViewAjax
         }
 
         if ($notice->loadID($this->page) == false) {
-            $this->failed("Unable to find notice");
+            $this->failed("Unable to load selected notice");
             return;
         }
 
-        $RentalSet = new RentalSet();
-        $whereConfig = [
-            "fields" => ["noticeLink"],
-            "values" => [$notice->getId()],
-        ];
-        $count = $RentalSet->countInDB($whereConfig);
-        if ($count === null) {
-            $this->failed("Unable to remove notice, unable to check in use.");
-            return;
-        }
-        if ($count > 0) {
-            $this->failed("Unable to remove notice it is currently in use by " . $count . " rentals!");
+        $transferNotice = new Notice();
+        if ($transferNotice->loadID($newNoticeLevel) == false) {
+            $this->failed("Unable to load transfer notice");
             return;
         }
 
+        if ($transferNotice->getId() == $notice->getId()) {
+            $this->failed("Not sure how you did it but the transfer 
+            notice and current notice can not be the same!");
+            return;
+        }
         $load_status = $notecard_set->loadOnField("noticeLink", $notice->getId());
         if ($load_status["status"] == false) {
             $this->failed(
@@ -64,6 +66,28 @@ class Remove extends ViewAjax
             );
             return;
         }
+
+        $RentalSet = new RentalSet();
+        $whereConfig = [
+            "fields" => ["noticeLink"],
+            "values" => [$notice->getId()],
+        ];
+        $reply = $RentalSet->loadWithConfig($whereConfig);
+        if ($reply["status"] == false) {
+            $this->failed("Unable to check if Notice is being used.");
+            return;
+        }
+        $reply = true;
+        $transfered_count = 0;
+        if ($RentalSet->getCount() > 0) {
+            $check = $RentalSet->updateFieldInCollection("noticeLink", $transferNotice->getId());
+            $reply = $check["status"];
+            $transfered_count = $check["changes"];
+        }
+        if ($reply == false) {
+            $this->failed("Failed to transfer rentals to the new notice level");
+            return;
+        }
         $remove_status = $notice->removeEntry();
         if ($remove_status["status"] == false) {
             $this->failed(
@@ -72,5 +96,10 @@ class Remove extends ViewAjax
             return;
         }
         $this->ok("Notice removed");
+        if ($transfered_count > 0) {
+            $this->ok(
+                sprintf("Notice removed and transfered: %1\$s clients", $transfered_count)
+            );
+        }
     }
 }

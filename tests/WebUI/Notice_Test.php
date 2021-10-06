@@ -10,6 +10,7 @@ use App\Endpoint\View\Notice\DefaultView;
 use App\Endpoint\View\Notice\Manage;
 use App\Endpoint\View\Notice\Remove;
 use App\R7\Model\Notice;
+use App\R7\Set\RentalSet;
 use PHPUnit\Framework\TestCase;
 
 class NoticeTest extends TestCase
@@ -135,7 +136,8 @@ class NoticeTest extends TestCase
 
         $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing Notice remove form element";
-        $this->assertStringContainsString("If the notice currenly in use this will fail",$statuscheck,$missing);
+        $this->assertStringContainsString("This action will fail if the Notice",$statuscheck,$missing);
+        $this->assertStringContainsString("Active",$statuscheck,$missing);
         $this->assertStringContainsString("Remove",$statuscheck,$missing);
         $this->assertStringContainsString("Accept",$statuscheck,$missing);
     }
@@ -149,8 +151,20 @@ class NoticeTest extends TestCase
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest Updated");
         $this->assertSame(true,$status,"Unable to load testing notice");
+
+
+        $rentalSet = new RentalSet();
+        $rentalSet->loadNewest(1);
+        $this->assertGreaterThan(0,$rentalSet->getCount(),"No rentals!");
+        $rental = $rentalSet->getFirst();
+        $rental->setNoticeLink($notice->getId());
+        $reply = $rental->updateEntry();
+        $this->assertSame(true,$reply["status"],"Failed to assign rental to notice");
+
+
         $page = $notice->getId();
         $_POST["accept"] = "Accept";
+        $_POST["newNoticeLevel"] = 10;
 
         $removeHandeler = new NoticeRemove();
         $removeHandeler->process();
