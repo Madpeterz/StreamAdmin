@@ -56,6 +56,13 @@ CREATE TABLE `banlist` (
   `avatarLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `botcommandq` (
+  `id` int(11) NOT NULL,
+  `command` text NOT NULL,
+  `args` text CHARACTER SET utf8mb4 DEFAULT NULL,
+  `unixtime` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `botconfig` (
   `id` int(11) NOT NULL,
   `avatarLink` int(11) NOT NULL,
@@ -63,11 +70,14 @@ CREATE TABLE `botconfig` (
   `notecards` tinyint(1) NOT NULL DEFAULT 0,
   `ims` tinyint(1) NOT NULL DEFAULT 0,
   `invites` tinyint(1) NOT NULL DEFAULT 0,
-  `inviteGroupUUID` varchar(36) DEFAULT NULL
+  `inviteGroupUUID` varchar(36) DEFAULT NULL,
+  `httpMode` tinyint(1) NOT NULL DEFAULT 0,
+  `httpURL` text DEFAULT NULL,
+  `httpToken` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`, `invites`, `inviteGroupUUID`) VALUES
-(1, 1, 'notsetup', 0, 0, 0, NULL);
+INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`, `invites`, `inviteGroupUUID`, `httpMode`, `httpURL`, `httpToken`) VALUES
+(1, 1, 'notsetup', 0, 0, 0, NULL, 0, NULL, NULL);
 
 CREATE TABLE `datatable` (
   `id` int(11) NOT NULL,
@@ -81,7 +91,7 @@ CREATE TABLE `datatable` (
 INSERT INTO `datatable` (`id`, `hideColZero`, `col`, `cols`, `name`, `dir`) VALUES
 (1, 1, 0, '0=id,1=region,3=Percentage,4=Count Up,5=Count down', 'Health', 'desc'),
 (2, 1, 1, '0=id,1=Object,2=Last seen,5=Owner', 'Health / Detailed', 'desc'),
-(3, 1, 0, '0=id,1=Rental UID,2=Avatar,3=Port,6=Renewals', 'Client / List', 'desc'),
+(3, 1, 0, '0=id,1=Rental UID,2=Avatar,3=Port,5=Timeleft,6=Status,7=Renewals', 'Client / List', 'desc'),
 (4, 1, 0, '0=id,1=Stream UID,2=Server,3=Port', 'Stream / List', 'desc'),
 (5, 1, 0, '0=id,1=Package name,2=Sold,3=Need work,4=Ready', 'Streams / Package menu', 'desc'),
 (6, 1, 0, '0=id,1=Package UID,2=Name,4=Listeners,5=Days,6=Kbps,7=Cost', 'Packages / List', 'desc');
@@ -200,6 +210,7 @@ CREATE TABLE `rental` (
   `totalAmount` int(11) NOT NULL DEFAULT 0,
   `message` text DEFAULT NULL,
   `rentalUid` varchar(8) NOT NULL,
+  `apiAllowAutoSuspend` tinyint(1) NOT NULL DEFAULT 1,
   `apiSuspended` tinyint(1) NOT NULL DEFAULT 0,
   `apiPendingAutoSuspend` tinyint(1) NOT NULL DEFAULT 0,
   `apiPendingAutoSuspendAfter` int(11) DEFAULT NULL
@@ -272,11 +283,12 @@ CREATE TABLE `slconfig` (
   `hudGroupLink` text DEFAULT 'Not setup yet',
   `hudAllowDetails` tinyint(1) NOT NULL DEFAULT 0,
   `hudAllowRenewal` tinyint(1) NOT NULL DEFAULT 0,
-  `eventsAPI` tinyint(1) NOT NULL DEFAULT 0
+  `eventsAPI` tinyint(1) NOT NULL DEFAULT 0,
+  `paymentKey` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`, `eventsAPI`) VALUES
-(1, '1.0.2.4', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0);
+INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`, `eventsAPI`, `paymentKey`) VALUES
+(1, '1.0.2.4', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0, NULL);
 
 CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
@@ -309,8 +321,7 @@ CREATE TABLE `stream` (
   `lastApiSync` int(11) NOT NULL DEFAULT 0,
   `apiConfigValue1` text DEFAULT NULL,
   `apiConfigValue2` text DEFAULT NULL,
-  `apiConfigValue3` text DEFAULT NULL,
-  `apiAllowAutoSuspend` tinyint(1) NOT NULL DEFAULT 1
+  `apiConfigValue3` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `template` (
@@ -379,7 +390,8 @@ CREATE TABLE `treevender` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `textureWaiting` varchar(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
-  `textureInuse` varchar(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+  `textureInuse` varchar(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
+  `hideSoldout` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `treevenderpackages` (
@@ -406,6 +418,10 @@ ALTER TABLE `avatar`
 ALTER TABLE `banlist`
   ADD PRIMARY KEY (`id`),
   ADD KEY `avatarLink` (`avatarLink`);
+
+ALTER TABLE `botcommandq`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `unixtime` (`unixtime`);
 
 ALTER TABLE `botconfig`
   ADD PRIMARY KEY (`id`),
@@ -541,6 +557,9 @@ ALTER TABLE `avatar`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `banlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `botcommandq`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `botconfig`
@@ -687,38 +706,3 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
-
-ALTER TABLE `stream` DROP `apiAllowAutoSuspend`;
-
-ALTER TABLE `rental` 
-  ADD `apiAllowAutoSuspend` TINYINT(1) NOT NULL DEFAULT '1' AFTER `rentalUid`;
-
-CREATE TABLE `botcommandq` ( 
-     `id` INT NOT NULL AUTO_INCREMENT , 
-     `command` TEXT NOT NULL , 
-     `arg1` TEXT NULL , 
-     `arg2` TEXT NULL , 
-     `arg3` TEXT NULL , 
-     `arg4` TEXT NULL , 
-     `arg5` TEXT NULL , 
-     `unixtime` INT NOT NULL , 
-PRIMARY KEY (`id`), INDEX (`unixtime`)) ENGINE = InnoDB; 
-
-ALTER TABLE `botcommandq` CHANGE `arg1` `args` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
-
-ALTER TABLE `botcommandq`
-  DROP `arg2`,
-  DROP `arg3`,
-  DROP `arg4`,
-  DROP `arg5`;
-
-ALTER TABLE `botconfig` 
-  ADD `httpMode` TINYINT(1) NOT NULL DEFAULT '0' AFTER `inviteGroupUUID`, 
-  ADD `httpURL` TEXT NULL AFTER `httpMode`, 
-  ADD `httpToken` TEXT NULL AFTER `httpURL`;
-
-UPDATE `datatable` SET `cols` = '0=id,1=Rental UID,2=Avatar,3=Port,5=Timeleft,6=Status,7=Renewals' WHERE `id` = 3;
-
-ALTER TABLE `slconfig` ADD `paymentKey` TEXT NULL AFTER `eventsAPI`;
-
-ALTER TABLE `treevender` ADD `hideSoldout` TINYINT(1) NOT NULL DEFAULT '0' AFTER `textureInuse`;
