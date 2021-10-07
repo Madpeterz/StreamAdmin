@@ -28,8 +28,7 @@ class Update extends ViewAjax
         }
         $hideSoldout = $input->postBool("hideSoldout");
         if ($hideSoldout == null) {
-            $this->failed("Hide soldout was not sent");
-            return;
+            $hideSoldout = false;
         }
         $this->setSwapTag("redirect", "");
         $treevender = new Treevender();
