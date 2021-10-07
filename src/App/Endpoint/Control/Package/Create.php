@@ -32,7 +32,13 @@ class Create extends ViewAjax
         $textureInstockSmall = $input->postUUID("textureInstockSmall");
         $textureInstockSelected = $input->postUUID("textureInstockSelected");
         $enableGroupInvite = $input->postBool("enableGroupInvite");
+        if ($enableGroupInvite === null) {
+            $enableGroupInvite = false;
+        }
         $apiAllowAutoSuspend = $input->postBool("apiAllowAutoSuspend");
+        if ($apiAllowAutoSuspend === null) {
+            $apiAllowAutoSuspend = false;
+        }
         $apiAutoSuspendDelayHours = $input->postInteger("apiAutoSuspendDelayHours", false, false, 999, 0);
         $testing = [
             "name" => $name,
@@ -58,6 +64,9 @@ class Create extends ViewAjax
 
 
         $autodj = $input->postBool("autodj");
+        if ($autodj === null) {
+            $autodj = false;
+        }
         $autodjSize = $input->postInteger("autodjSize");
         $apiTemplate = $input->postString("apiTemplate");
         $servertypeLink = $input->postInteger("servertypeLink");

@@ -30,19 +30,17 @@ class Update extends ViewAjax
         }
         $sendObjectIM = $input->postBool("sendObjectIM");
         if ($sendObjectIM === null) {
-            $this->failed("Send object IM failed:" . $input->getWhyFailed());
-            return;
+            $sendObjectIM = false;
         }
 
         $useBot = $input->postBool("useBot");
-        if ($sendObjectIM === null) {
-            $this->failed("Use bot failed:" . $input->getWhyFailed());
-            return;
+        if ($useBot === null) {
+            $useBot = false;
         }
+
         $sendNotecard = $input->postBool("sendNotecard");
-        if ($sendObjectIM === null) {
-            $this->failed("Send notecard failed:" . $input->getWhyFailed());
-            return;
+        if ($sendNotecard === null) {
+            $sendNotecard = false;
         }
         $notecardDetail = $input->postString("notecardDetail");
         if ($sendObjectIM === null) {

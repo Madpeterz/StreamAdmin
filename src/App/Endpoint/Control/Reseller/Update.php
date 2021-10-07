@@ -15,6 +15,9 @@ class Update extends ViewAjax
 
         $rate = $input->postInteger("rate");
         $allowed = $input->postBool("allowed");
+        if ($allowed === null) {
+            $allowed = false;
+        }
         if ($rate < 1) {
             $this->failed("Rate must be 1 or more (use Allow to disable)");
             return;
