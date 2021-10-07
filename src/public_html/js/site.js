@@ -1,4 +1,15 @@
 var ajax_busy = false;
+function getUrlParameter(variable)
+{
+   var query = window.location.search.substring(1);
+   var vars = query.split("&");
+   for (var i=0;i<vars.length;i++) {
+           var pair = vars[i].split("=");
+           if(pair[0] == variable){return pair[1];}
+   }
+   return(false);
+}
+
 function attachInputFocusCounters()
 {
     $('.inputwithlimit').change(function (e) { 
@@ -45,6 +56,13 @@ function updateTextCounterBox(focusedID)
 }
 var lastCheckbox = false;
 $(document).ready(function () {
+
+    var tab = getUrlParameter("tab");
+    if(tab != false) {
+        $("#"+tab).click();
+    }
+    
+
     $(".bulksenduncheck").click(function (e) {
         if(lastCheckbox == true) {
             $('input:checkbox').attr('checked','checked');
