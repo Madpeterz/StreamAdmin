@@ -1,12 +1,14 @@
 <div class="row">
 <div class="col-sm-6">
 <ul>
-<li>Buy & Treevenders now check if user has a stream <a href="https://github.com/Madpeterz/StreamAdmin/issues/81" target="_blank">[Issue 81]</a></li>
+<li>When starting a rental the notice level was incorrect <a href="https://github.com/Madpeterz/StreamAdmin/issues/90" target="_blank">[Issue 90]</a></li>
+<li>You can now remove notices that are in use by clients <a href="https://github.com/Madpeterz/StreamAdmin/issues/93" target="_blank">[Issue 93]</a></li>
 </ul>
 </div>
 <div class="col-sm-6">
 <ul>
-
+<li>Treevenders now correctly skip questsions with 1 option <a href="https://github.com/Madpeterz/StreamAdmin/issues/88" target="_blank">[Issue 88]</a></li>
+<li>You can now disable object IMs on each notice <a href="https://github.com/Madpeterz/StreamAdmin/issues/89" target="_blank">[Issue 89]</a></li>
 </ul>
 </div>
 <div class="col-sm-12">
