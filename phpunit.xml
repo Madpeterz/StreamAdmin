@@ -57,6 +57,7 @@
             <file>tests/BugsAndEnhancements/Issue73_test.php</file>
             <file>tests/BugsAndEnhancements/Issue90_test.php</file>
             <file>tests/BugsAndEnhancements/Issue95_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue92_test.php</file>
         </testsuite>
   </testsuites>
   <filter>

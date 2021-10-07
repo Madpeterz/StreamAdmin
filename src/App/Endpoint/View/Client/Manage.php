@@ -10,7 +10,9 @@ use App\R7\Set\RegionSet;
 use App\R7\Model\Rental;
 use App\R7\Set\ResellerSet;
 use App\R7\Model\Stream;
+use App\R7\Set\NoticeSet;
 use App\R7\Set\PackageSet;
+use App\R7\Set\RentalnoticeptoutSet;
 use App\R7\Set\RentalSet;
 use App\R7\Set\ServerSet;
 use App\R7\Set\StreamSet;
@@ -56,6 +58,7 @@ class Manage extends View
         $this->clientMessageForm();
         $this->clientApiActions();
         $this->clientTransactions();
+        $this->clientOptOut();
         $this->setSwapTag("page_content", $paged_info->render($this->pages));
     }
 
@@ -77,7 +80,8 @@ class Manage extends View
             $stream = $streamSet->getObjectByID($rental->getStreamLink());
             $server = $this->servers->getObjectByID($stream->getServerLink());
             $package = $packageSet->getObjectByID($stream->getPackageLink());
-            $entry[] = "<a href=\"[[url_base]]stream/onserver/" . $server->getId() . "\">" . $server->getDomain() . "</a>";
+            $entry[] = "<a href=\"[[url_base]]stream/onserver/"
+            . $server->getId() . "\">" . $server->getDomain() . "</a>";
             $entry[] = $stream->getPort();
             $entry[] = "<a href=\"package/manage/" . $package->getPackageUid() . "\">" . $package->getName() . "</a>";
             $entry[] = timeleftHoursAndDays($rental->getExpireUnixtime(), false, "Expired");
@@ -154,6 +158,65 @@ class Manage extends View
         );
         $this->pages["Mail"] = $form->render("Send", "success");
     }
+    protected function clientOptOut(): void
+    {
+        $noticeLevels = new NoticeSet();
+        $whereConfig = [
+            "fields" => ["id"],
+            "values" => [10],
+            "matches" => ["!="],
+        ];
+        $load = $noticeLevels->loadWithConfig($whereConfig);
+        if ($load["status"] == false) {
+            return;
+        }
+        $client_opt_out = new RentalnoticeptoutSet();
+        $client_opt_out->loadByRentalLink($this->rental->getId());
+        $opt_out_notice_ids = $client_opt_out->getUniqueArray("noticeLink");
+        $table_head = ["Notice level","Status"];
+        $table_body = [];
+        foreach ($noticeLevels as $noticeLevel) {
+            $entry = [];
+            $entry[] = $noticeLevel->getName();
+            $enabled = in_array($noticeLevel->getId(), $opt_out_notice_ids);
+            $entry[] = $this->makeOptoutButton($noticeLevel->getId(), $enabled);
+            $table_body[] = $entry;
+        }
+        $form = new Form();
+        $form->target("Client/NoticeOptout/" . $this->page . "");
+        $form->required(true);
+        $form->col(12);
+        $form->directAdd($this->renderTable($table_head, $table_body));
+        $this->pages["Notice opt-out"] = $form->render("Update opt-out", "info");
+    }
+    protected function makeOptoutButton(
+        int $noticeID,
+        bool $enabled
+    ): string {
+        if ($enabled == true) {
+            return '
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-danger active">
+                <input type="radio" checked value="0" name="remove-optout-'
+                . $noticeID . '" autocomplete="off"> Disable messages
+            </label>
+            <label class="btn btn-outline-secondary">
+                <input type="radio" value="1" name="remove-optout-'
+                . $noticeID . '" autocomplete="off"> Restore
+            </label>
+            </div>';
+        }
+        return '
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-danger">
+            <input type="radio" value="1" name="add-optout-' . $noticeID . '" autocomplete="off"> Disable messages
+        </label>
+        <label class="btn btn-outline-secondary" active>
+            <input type="radio" checked value="0" name="add-optout-' . $noticeID . '" autocomplete="off"> Normal
+        </label>
+        </div>';
+    }
+
     protected function clientTransactions(): void
     {
         $where_config = [

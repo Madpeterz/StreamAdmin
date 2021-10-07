@@ -4,6 +4,7 @@ namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
 use App\Helpers\BotHelper;
 use App\Helpers\EventsQHelper;
+use App\Helpers\NoticesHelper;
 use App\Helpers\SwapablesHelper;
 use App\MediaServer\Logic\ApiLogicExpire;
 use App\R7\Model\Apis;
@@ -14,6 +15,7 @@ use App\R7\Model\Noticenotecard;
 use App\R7\Set\NoticeSet;
 use App\R7\Model\Package;
 use App\R7\Model\Rental;
+use App\R7\Model\Rentalnoticeptout;
 use App\R7\Set\RentalSet;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
@@ -33,7 +35,6 @@ class Next extends SecondlifeAjax
         $rental_set = new RentalSet();
 
         $notice_set->loadAll();
-
         $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
         $max_hours = array_keys($sorted_linked)[count($sorted_linked) - 2]; // ignore 999 hours at the end for active
@@ -104,7 +105,7 @@ class Next extends SecondlifeAjax
 
         $hours_remain = ceil(($rental->getExpireUnixtime() - time()) / $unixtime_hour);
         if ($hours_remain < 0) {
-            $this->setSwapTag("message", "Math error - negitive hours remaining but not expired");
+            $this->failed("Math error - negitive hours remaining but not expired");
             return false;
         }
 
@@ -140,36 +141,47 @@ class Next extends SecondlifeAjax
 
     protected function processNoticeChange(
         Notice $notice,
-        Rental &$rental,
+        Rental $rental,
         Package $package,
         Avatar $avatar,
         Stream $stream,
         Server $server
     ): void {
-        $bot_helper = new BotHelper();
-        $swapables_helper = new SwapablesHelper();
-        $sendmessage = $swapables_helper->getSwappedText(
-            $notice->getImMessage(),
-            $avatar,
-            $rental,
-            $package,
-            $server,
-            $stream
-        );
-        $sendMessage_status = $bot_helper->sendMessage(
-            $avatar,
-            $sendmessage,
-            $notice->getUseBot(),
-            $notice->getSendObjectIM()
-        );
-        if ($sendMessage_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to put mail into outbox");
-            return;
+        $this->setSwapTag("message", "Processing notice change");
+        $rentalNoticeOptout = new Rentalnoticeptout();
+        $whereConfig = [
+            "fields" => ["rentalLink","noticeLink"],
+            "values" => [$rental->getId(),$notice->getId()],
+        ];
+        $rentalNoticeOptout->loadWithConfig($whereConfig);
+        $skipNotice = $rentalNoticeOptout->isLoaded();
+
+        if ($skipNotice == false) {
+            $bot_helper = new BotHelper();
+            $swapables_helper = new SwapablesHelper();
+            $sendmessage = $swapables_helper->getSwappedText(
+                $notice->getImMessage(),
+                $avatar,
+                $rental,
+                $package,
+                $server,
+                $stream
+            );
+            $sendMessage_status = $bot_helper->sendMessage(
+                $avatar,
+                $sendmessage,
+                $notice->getUseBot(),
+                $notice->getSendObjectIM()
+            );
+            if ($sendMessage_status["status"] == false) {
+                $this->failed("Unable to put mail into outbox");
+                return;
+            }
         }
         $rental->setNoticeLink($notice->getId());
         $save_status = $rental->updateEntry();
         if ($save_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to update rental notice level");
+            $this->failed("Unable to update rental notice level");
             return;
         }
 
@@ -180,7 +192,7 @@ class Next extends SecondlifeAjax
             $selectedApi = new Apis();
             $selectedApi->loadID($server->getApiLink());
             if ($selectedApi->isLoaded() == false) {
-                $this->setSwapTag("message", "Unable to load API");
+                $this->failed("Unable to load API");
                 return;
             }
             if (
@@ -199,10 +211,7 @@ class Next extends SecondlifeAjax
                     $apilogic->setRental($rental);
                     $reply = $apilogic->createNextApiRequest();
                     if ($reply["status"] == false) {
-                        $this->setSwapTag(
-                            "message",
-                            "API server logic has failed on ApiLogicExpire: " . $reply["message"]
-                        );
+                        $this->failed("API server logic has failed on ApiLogicExpire: " . $reply["message"]);
                         return;
                     }
                 }
@@ -214,40 +223,40 @@ class Next extends SecondlifeAjax
                 }
                 $save_status = $rental->updateEntry();
                 if ($save_status["status"] == false) {
-                    $this->setSwapTag("message", "Unable to update rental API auto suspend config");
+                    $this->failed("Unable to update rental API auto suspend config");
                     return;
                 }
             }
         }
-
-        if ($notice->getSendNotecard() == true) {
-            if ($bot_helper->getNotecards() == true) {
-                $notecard = new Notecard();
-                $notecard->setRentalLink($rental->getId());
-                $notecard->setAsNotice(1);
-                $notecard->setNoticeLink($notice->getId());
-                $create_status = $notecard->createEntry();
-                if ($create_status["status"] == false) {
-                    $this->setSwapTag("message", "Unable to create new notecard");
-                    return;
+        $this->ok("ok");
+        if ($skipNotice == false) {
+            if ($notice->getSendNotecard() == true) {
+                if ($bot_helper->getNotecards() == true) {
+                    $notecard = new Notecard();
+                    $notecard->setRentalLink($rental->getId());
+                    $notecard->setAsNotice(1);
+                    $notecard->setNoticeLink($notice->getId());
+                    $create_status = $notecard->createEntry();
+                    if ($create_status["status"] == false) {
+                        $this->failed("Unable to create new notecard");
+                        return;
+                    }
                 }
+            }
+            if ($notice->getNoticeNotecardLink() <= 1) {
+                return;
+            }
+            $notice_notecard = new Noticenotecard();
+            if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
+                $this->failed("Unable to find static notecard!");
+                return;
+            }
+            if ($notice_notecard->getMissing() == false) {
+                $this->setSwapTag("send_static_notecard", $notice_notecard->getName());
+                $this->setSwapTag("send_static_notecard_to", $avatar->getAvatarUUID());
             }
         }
 
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "ok");
-        if ($notice->getNoticeNotecardLink() <= 1) {
-            return;
-        }
-        $notice_notecard = new Noticenotecard();
-        if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
-            $this->setSwapTag("message", "Unable to find static notecard!");
-            return;
-        }
-        if ($notice_notecard->getMissing() == false) {
-            $this->setSwapTag("send_static_notecard", $notice_notecard->getName());
-            $this->setSwapTag("send_static_notecard_to", $avatar->getAvatarUUID());
-        }
         return;
     }
 }

@@ -10,6 +10,7 @@ use App\R7\Model\Package;
 use App\R7\Model\Rental;
 use App\R7\Model\Server;
 use App\R7\Model\Stream;
+use App\R7\Set\RentalnoticeptoutSet;
 use App\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -101,6 +102,19 @@ class Revoke extends ViewAjax
         if ($update_status["status"] == false) {
             $this->failed("Unable to mark stream as needs work");
             return false;
+        }
+        $rental_notice_opt_outs = new RentalnoticeptoutSet();
+        $load = $rental_notice_opt_outs->loadByRentalLink($this->rental->getId());
+        if ($load["status"] == false) {
+            $this->failed("Unable to load rental notice opt-outs");
+            return false;
+        }
+        if ($rental_notice_opt_outs->getCount() > 0) {
+            $purge = $rental_notice_opt_outs->purgeCollection();
+            if ($purge["status"] == false) {
+                $this->failed(sprintf("Unable to remove client notice opt-outs: %1\$s", $purge["message"]));
+                return false;
+            }
         }
 
         $remove_status = $this->rental->removeEntry();
