@@ -267,29 +267,6 @@ class ClientTest extends TestCase
     /**
      * @depends test_GetNotecard
      */
-    public function test_RevokeForm()
-    {
-        global $page;
-        $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","OtherTest Avatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
-        $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
-        $page = $rental->getRentalUid();
-
-        $removeForm = new Revoke();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing avatar remove form element";
-        $this->assertStringContainsString("This will end the rental without any refund!",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RevokeForm
-     */
     public function test_RevokeProcess()
     {
         global $page, $_POST;
