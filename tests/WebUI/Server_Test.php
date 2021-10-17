@@ -149,26 +149,6 @@ class ServerTest extends TestCase
     /**
      * @depends test_ManageProcess
      */
-    public function test_RemoveForm()
-    {
-        global $page;
-        $server = new Server();
-        $status = $server->loadByField("domain","SuperMagicTest");
-        $this->assertSame(true,$status,"Unable to load test server");
-        $page = $server->getId();
-
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing server remove form element";
-        $this->assertStringContainsString("If the server currenly in use this will fail",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
-     */
     public function test_RemoveProcess()
     {
         global $page, $_POST;

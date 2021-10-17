@@ -117,26 +117,6 @@ class StaffTest extends TestCase
     /**
      * @depends test_ManageProcess
      */
-    public function test_RemoveForm()
-    {
-        global $page;
-        $staff = new Staff();
-        $status = $staff->loadByField("username","UpdatedUsername");
-        $this->assertSame(true,$status,"Unable to load test staff member");
-        $page = $staff->getId();
-
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing staff remove form element";
-        $this->assertStringContainsString("The web interface will not allow you to remove owner level accounts!",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
-     */
     public function test_RemoveProcess()
     {
         global $page, $_POST;

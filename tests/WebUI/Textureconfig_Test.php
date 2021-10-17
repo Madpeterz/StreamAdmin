@@ -123,26 +123,6 @@ class TextureconfigTest extends TestCase
     /**
      * @depends test_ManageProcess
      */
-    public function test_RemoveForm()
-    {
-        global $page;
-        $textureconfig = new Textureconfig();
-        $status = $textureconfig->loadByField("name","UnitTestTexturePack Updated");
-        $this->assertSame(true,$status,"Unable to load test texture pack");
-        $page = $textureconfig->getId();
-
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing textureconfig remove form element";
-        $this->assertStringContainsString("If the texture pack is currenly in use this will fail",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
-     */
     public function test_RemoveProcess()
     {
         global $page, $_POST;
