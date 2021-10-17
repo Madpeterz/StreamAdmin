@@ -15,8 +15,14 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing");
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]tree/remove/" . $this->page
-        . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove tree vender " . $this->page . "' 
+        data-actiontext='Remove tree vender' 
+        data-actionmessage='Are you sure you wish to remove this tree vender?' 
+        data-targetendpoint='[[url_base]]Tree/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
+
         $treevender = new Treevender();
         if ($treevender->loadID(intval($this->page)) == false) {
             $this->output->redirect("tree?bubblemessage=unable to find tree vender&bubbletype=warning");
