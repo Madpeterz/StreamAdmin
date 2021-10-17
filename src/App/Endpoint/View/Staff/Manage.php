@@ -15,17 +15,22 @@ class Manage extends View
         }
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", ": Editing staff member");
-        $this->setSwapTag(
-            "page_actions",
-            "<a href='[[url_base]]staff/remove/" . $this->page . "'><button type='button' "
-            . "class='btn btn-danger'>Remove</button></a>"
-        );
-
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove staff member " . $this->page . "' 
+        data-actiontext='Remove staff member' 
+        data-actionmessage='This will fail is the staff is owner level' 
+        data-targetendpoint='[[url_base]]Staff/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
         $staff = new Staff();
         if ($staff->loadByField("id", $this->page) == false) {
             $this->output->redirect("staff?bubblemessage=unable to find staff member&bubbletype=warning");
             return;
         }
+        if ($this->slconfig->getOwnerAvatarLink() == $staff->getAvatarLink()) {
+            $this->setSwapTag("page_actions", "");
+        }
+
         $form = new Form();
         $form->target("staff/update/" . $this->page . "");
         $form->required(true);

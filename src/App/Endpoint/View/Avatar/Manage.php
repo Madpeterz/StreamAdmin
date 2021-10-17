@@ -12,13 +12,15 @@ class Manage extends View
     public function process(): void
     {
         $this->output->addSwapTagString("html_title", "~ Manage");
-        $this->setSwapTag("page_title", "Editing avatar");
-        $target = "<a href='[[url_base]]avatar/remove/" . $this->page . "'>"
-        . "<button type='button' class='btn btn-danger'>Remove</button></a>";
-        $this->setSwapTag(
-            "page_actions",
-            $target
-        );
+
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove avatar " . $this->page . "' 
+        data-actiontext='Remove avatar' 
+        data-actionmessage='If this avatar is being used (by banlist/rental/ect) this will fail' 
+        data-targetendpoint='[[url_base]]Avatar/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
+
         $avatar = new Avatar();
         if ($avatar->loadByField("avatarUid", $this->page) == false) {
             $this->output->redirect("avatar?bubblemessage=unable to find avatar&bubbletype=warning");

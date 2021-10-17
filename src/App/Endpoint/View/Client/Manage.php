@@ -43,8 +43,6 @@ class Manage extends View
         }
         $this->output->addSwapTagString("html_title", "~ Manage");
         $this->output->addSwapTagString("page_title", "Editing client");
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]client/revoke/" . $this->page . "'>"
-        . "<button type='button' class='btn btn-danger'>Revoke</button></a>");
 
         $this->rental = new Rental();
         if ($this->rental->loadByField("rentalUid", $this->page) == false) {
@@ -52,6 +50,24 @@ class Manage extends View
             . $this->page . "&bubbletype=warning");
             return;
         }
+
+        $stream = new Stream();
+        $stream->loadID($this->rental->getStreamLink());
+        $this->setSwapTag("page_actions", "");
+        if ($stream->getId() > 0) {
+            $this->output->addSwapTagString(
+                "page_actions",
+                "<a href='[[url_base]]Stream/Manage/" . $stream->getStreamUid() . "'>"
+                . "<button type='button' class='btn btn-info'>View Stream</button></a>"
+            );
+        }
+
+
+        $this->output->addSwapTagString("page_actions", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        . "<button type='button' data-actiontitle='Revoke client " . $this->page . "' data-actiontext='End now' data-actionmessage='This will end the rental 
+        with no refund!' data-targetendpoint='[[url_base]]client/revoke/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Revoke</button></a>");
+
         $paged_info = new PagedInfo();
         $this->clientManageForm();
         $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar);

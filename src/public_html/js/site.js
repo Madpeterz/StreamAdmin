@@ -112,6 +112,17 @@ $(document).ready(function () {
         
     });
     attachInputFocusCounters();
+    $(".confirmDialog").click(function (e) {
+        var actionMessage = $(this).data('actionmessage');
+        var actionText = $(this).data('actiontext');
+        var actionEndpoint = $(this).data('targetendpoint');
+        var actionTitle = $(this).data('actiontitle');
+        $("#confirmModalForm").attr('action',actionEndpoint);
+        $("#confirmModalButtonText").text(actionText);
+        $("#confirmModalContent").text(actionMessage);
+        $("#confirmModalTitle").text(actionTitle);
+        $("#confirmModal").modal('show');
+    });
     $(".avatarfinderajax").submit(function (e) {
         e.preventDefault();
         if (ajax_busy === false) {
@@ -157,74 +168,83 @@ $(document).ready(function () {
             });
         }
     });
+    $(".ajaxAndCloseModal").submit(function (e) {
+        e.preventDefault();
+        $("#confirmModal").modal('hide');
+        ajaxForm($(this));
+    });
     $(".ajax").submit(function (e) {
         e.preventDefault();
-        if (ajax_busy == false) {
-            ajax_busy = true;
-            var form = $(this);
-            var url = form.attr('action');
-            var method = form.attr('method');
-            var timeout = 3000;
-            if ($(this).hasClass("slow") === true) {
-                alert_info("Please wait this request can be slow");
-                timeout = 25000;
-            }
-            $.ajax({
-                type: method,
-                url: url,
-                data: form.serialize(),
-                timeout: timeout,
-                success: function (data) {
-                    try {
-                        jsondata = JSON.parse(data);
-                        var redirectdelay = 1500;
-                        if (jsondata.hasOwnProperty('status')) {
-                            if (jsondata.hasOwnProperty('message')) {
-                                if (jsondata.status === true) {
-                                    if (jsondata.message != "") alert_success(jsondata.message);
-                                }
-                                else {
-                                    redirectdelay = 3500;
-                                    if (jsondata.message != "") alert_warning(jsondata.message);
-                                }
-                            }
-                            if (jsondata.hasOwnProperty('redirect')) {
-                                if (jsondata.redirect != null) {
-                                    jsondata.redirect = jsondata.redirect.replace("here", "");
-                                    var urlgoto = url_base + jsondata.redirect;
-                                    setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
-                                } else {
-                                    setTimeout(function () { ajax_busy = false }, 1000);
-                                }
-                                
-                            }
-                            else {
-                                setTimeout(function () { ajax_busy = false }, 1000);
-                            }
-                        }
-                        else {
-                            alert_error("Reply from server is not vaild please reload the page and try again.");
-                            setTimeout(function () { ajax_busy = false }, 1000);
-                        }
-                    }
-                    catch (e) {
-                        alert_warning("Unable to process reply, please reload the page and try again!");
-                        setTimeout(function () { ajax_busy = false }, 1000);
-                    }
-                },
-                error: function (data) {
-                    alert_error(data);
-                    setTimeout(function () { ajax_busy = false }, 1000);
-                }
-            });
-        }
+        ajaxForm($(this));
     });
 });
 
+function ajaxForm(form)
+{
+    if (ajax_busy == false) {
+        ajax_busy = true;
+        var url = form.attr('action');
+        var method = form.attr('method');
+        var timeout = 3000;
+        if ($(this).hasClass("slow") === true) {
+            alert_info("Please wait this request can be slow");
+            timeout = 25000;
+        }
+        $.ajax({
+            type: method,
+            url: url,
+            data: form.serialize(),
+            timeout: timeout,
+            success: function (data) {
+                try {
+                    jsondata = JSON.parse(data);
+                    var redirectdelay = 1500;
+                    if (jsondata.hasOwnProperty('status')) {
+                        if (jsondata.hasOwnProperty('message')) {
+                            if (jsondata.status === true) {
+                                if (jsondata.message != "") alert_success(jsondata.message);
+                            }
+                            else {
+                                redirectdelay = 3500;
+                                if (jsondata.message != "") alert_warning(jsondata.message);
+                            }
+                        }
+                        if (jsondata.hasOwnProperty('redirect')) {
+                            if (jsondata.redirect != null) {
+                                jsondata.redirect = jsondata.redirect.replace("here", "");
+                                var urlgoto = url_base + jsondata.redirect;
+                                setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
+                            } else {
+                                setTimeout(function () { ajax_busy = false }, 1000);
+                            }
+                            
+                        }
+                        else {
+                            setTimeout(function () { ajax_busy = false }, 1000);
+                        }
+                    }
+                    else {
+                        alert_error("Reply from server is not vaild please reload the page and try again.");
+                        setTimeout(function () { ajax_busy = false }, 1000);
+                    }
+                }
+                catch (e) {
+                    alert_warning("Unable to process reply, please reload the page and try again!");
+                    setTimeout(function () { ajax_busy = false }, 1000);
+                }
+            },
+            error: function (data) {
+                alert_error(data);
+                setTimeout(function () { ajax_busy = false }, 1000);
+            }
+        });
+    }
+}
+
 $('#NotecardModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
-    var rentaluid = button.data('rentaluid') // Extract info from data-* attributes
-    var modal = $(this)
+    var rentaluid = button.data('rentaluid'); // Extract info from data-* attributes
+    var modal = $(this);
     modal.find('#ModalTitle').text('Loading');
     modal.find('#ModalText').val("Fetching notecard for rental " + rentaluid);
     $.ajax({

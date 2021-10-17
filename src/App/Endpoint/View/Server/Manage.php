@@ -12,11 +12,15 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing");
-        $this->setSwapTag(
-            "page_actions",
-            "<a href='[[url_base]]server/remove/"
-            . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>"
-        );
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove server " . $this->page . "' 
+        data-actiontext='Remove server' 
+        data-actionmessage='This will fail if there is anything using this server!' 
+        data-targetendpoint='[[url_base]]Server/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
+
+
         $server = new Server();
         $apis = new ApisSet();
         $apis->loadAll();

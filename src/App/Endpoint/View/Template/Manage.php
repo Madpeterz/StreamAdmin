@@ -13,8 +13,15 @@ class Manage extends View
         global $pages;
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Manage");
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]template/remove/"
-        . $this->page . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
+
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove template " . $this->page . "' 
+        data-actiontext='Remove template' 
+        data-actionmessage='This will fail is the template is being used by a package or API event' 
+        data-targetendpoint='[[url_base]]Template/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
+
         $template = new Template();
         if ($template->loadID($this->page) == false) {
             $this->output->redirect("template?bubblemessage=unable to find template&bubbletype=warning");
