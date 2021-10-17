@@ -4,6 +4,7 @@
     var url_base = '[[url_base]]';
     $( document ).ready(function() {
         [[html_js_onready]]
+        startLoginTimer([[unixtimeNow]]);
     });
 </script>
 </body>

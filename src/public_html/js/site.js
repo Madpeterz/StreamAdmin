@@ -55,7 +55,30 @@ function updateTextCounterBox(focusedID)
     }
 }
 var lastCheckbox = false;
-$(document).ready(function () {
+var startUnixtime = 0;
+function startLoginTimer(setstartUnixtime)
+{
+    setInterval(loginTimerEvent, 1000);
+    startUnixtime = setstartUnixtime;
+}
+
+function loginTimerEvent()
+{
+    var unixtimeNow = Math.floor(Date.now() / 1000);
+    var dif = unixtimeNow - startUnixtime;
+    var twoHoursNeg = ((60*60)*2) - dif;
+    var minsRemaining = 0;
+    while(twoHoursNeg > 60) {
+        minsRemaining = minsRemaining + 1;
+        twoHoursNeg = twoHoursNeg - 60;
+    }
+    $("#logintimeleft").html(minsRemaining);
+    if(minsRemaining <= 0) {
+        location.reload();
+    }
+}
+
+$(document).ready(function () {  
 
     var tab = getUrlParameter("tab");
     if(tab != false) {

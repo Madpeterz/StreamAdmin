@@ -149,7 +149,7 @@ class SessionControl extends SqlConnectedClass
             $this->why_logged_out = "Inactive auto logout";
             return false;
         }
-        $this->autologout = time() + $unixtime_hour;
+        $this->autologout = time() + ($unixtime_hour * 2);
         $this->updateSession();
         $this->logged_in = true;
         if ($this->nextcheck < time()) {

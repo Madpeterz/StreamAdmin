@@ -18,7 +18,9 @@ abstract class SwapTags
             "PAGE_TITLE" => "",
             "SITE_NAME" => "",
             "url_base" => null,
-            "META_TAGS" => ""];
+            "META_TAGS" => "",
+            "unixtimeNow" => time(),
+            ];
         }
     }
     /**
