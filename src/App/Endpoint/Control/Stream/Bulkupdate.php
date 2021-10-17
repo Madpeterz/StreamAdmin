@@ -22,6 +22,7 @@ class Bulkupdate extends ViewAjax
         $input = new InputFilter();
         $streams_updated = 0;
         $streams_skipped_originalAdminUsername = 0;
+        $streams_skipped_passwordChecks = 0;
         foreach ($stream_set->getAllIds() as $stream_id) {
             $stream = $stream_set->getObjectByID($stream_id);
             if ($stream->getOriginalAdminUsername() != $stream->getAdminUsername()) {
@@ -34,7 +35,19 @@ class Bulkupdate extends ViewAjax
             }
             $newadminpw = $input->postString('stream' . $stream->getStreamUid() . 'adminpw');
             $newdjpw = $input->postString('stream' . $stream->getStreamUid() . 'djpw');
-            if (($stream->getAdminPassword() == $newadminpw) || ($stream->getDjPassword() == $newdjpw)) {
+            $allowAdminPassword = true;
+            if ($stream->getAdminPassword() == $newadminpw) {
+                $allowAdminPassword = false;
+            }
+            if (($newadminpw == "none") || ($newadminpw == "N/A")) {
+                $allowAdminPassword = true;
+            }
+            if ($stream->getDjPassword() == $newdjpw) {
+                $streams_skipped_passwordChecks++;
+                continue;
+            }
+            if ($allowAdminPassword == false) {
+                $streams_skipped_passwordChecks++;
                 continue;
             }
             $stream->setAdminPassword($newadminpw);
@@ -56,12 +69,13 @@ class Bulkupdate extends ViewAjax
                 $streams_updated
             )
         );
-        if ($streams_skipped_originalAdminUsername > 0) {
+        if (($streams_skipped_originalAdminUsername > 0) || ($streams_skipped_passwordChecks > 0)) {
             $this->ok(
                 sprintf(
-                    "%1\$s streams updated and %2\$s skipped due to admin username not matching",
+                    "%1\$s streams updated %2\$s skipped due to admin username not matching and %3\$s skipped for passwords not being updated",
                     $streams_updated,
-                    $streams_skipped_originalAdminUsername
+                    $streams_skipped_originalAdminUsername,
+                    $streams_skipped_passwordChecks
                 )
             );
         }
