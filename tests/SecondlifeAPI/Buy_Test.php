@@ -6,16 +6,54 @@ use App\Endpoint\SecondLifeApi\Buy\Checkstock;
 use App\Endpoint\SecondLifeApi\Buy\Getconfig;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
 use App\R7\Model\Package;
-use App\R7\Set\PackageSet;
+use App\R7\Model\Stream;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiBuy extends TestCase
 {
-    protected $package = null;
+    protected ?Package $package = null;
+    public function test_MakeStreams()
+    {
+        global $_POST;
+        $this->setupPost("Checkstock");
+        $port = 5000;
+        $loop = 0;
+        $allOk = true;
+        $why = "ok";
+        while($loop < 5)
+        {
+            $stream = new Stream();
+            $stream->setPackageLink($this->package->getId());
+            $stream->setPort($port);
+            $stream->setDjPassword("port".$port);
+            $stream->setAdminPassword("none");
+            $stream->setAdminUsername("user".$port);
+            $stream->setOriginalAdminUsername("user".$port);
+            $stream->setMountpoint("/live");
+            $stream->setNeedWork(0);
+            $stream->setRentalLink(null);
+            $stream->setServerLink(1);
+            $stream->setStreamUid("p".$port);
+            $reply = $stream->createEntry();
+            if($reply["status"] == false) {
+                $allOk = false;
+                $why = $reply["message"];
+                break;
+            }
+            $port += 2;
+            $loop++;
+        }
+        $this->assertSame("ok",$why,"Failed to create streams");
+        $this->assertSame(true,$allOk,"Failed to create streams");
+    }
+
+    /**
+     * @depends test_MakeStreams
+     */
     public function test_Checkstock()
     {
+        global $_POST;
         $this->setupPost("Checkstock");
-
         $_POST["packageuid"] = $this->package->getPackageUid();
         $checkstock = new Checkstock();
         $this->assertSame("Not processed",$checkstock->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -23,14 +61,17 @@ class SecondlifeApiBuy extends TestCase
         $checkstock->process();
         $this->assertSame("ok",$checkstock->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$checkstock->getOutputObject()->getSwapTagBool("status"),"marked as failed");
-        $this->assertSame(true,$checkstock->getOutputObject()->getSwapTagBool("package_instock"),"Package needs to be in stock!");
+        $this->assertSame(true,$checkstock->getOutputObject()->getSwapTagBool("package_instock"),"Package needs to be in stock!".json_encode($checkstock->getOutputObject()->getSwapTagArray("debug")));
         $this->assertSame("289c3e36-69b3-40c5-9229-0c6a5d230766",$checkstock->getOutputObject()->getSwapTagString("texture_package_big"),"incorrect texture reply");
     }
 
+    /**
+     * @depends test_MakeStreams
+     */
     public function test_Getconfig()
     {
+        global $_POST;
         $this->setupPost("Getconfig");
-
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["texturepack"] = 1;
         $Getconfig = new Getconfig();
@@ -49,8 +90,8 @@ class SecondlifeApiBuy extends TestCase
      */
     public function test_Startrental()
     {
+        global $_POST;
         $this->setupPost("Startrental");
-
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
         $_POST["avatarName"] = "Test Buyer";
         $_POST["packageuid"] = $this->package->getPackageUid();

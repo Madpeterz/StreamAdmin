@@ -181,7 +181,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_Onserver()
     {
@@ -198,7 +198,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_Ready()
     {
@@ -213,7 +213,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_needWork()
     {
@@ -228,7 +228,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_sold()
     {

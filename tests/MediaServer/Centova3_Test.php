@@ -15,7 +15,7 @@ class Centova3_Test extends TestingFramework
         $this->server = new Server();
         $this->assertSame(true,$this->server->loadID(1),"Unable to load server");
         $this->stream = new Stream();
-        $this->assertSame(true,$this->stream->loadID(13),"Unable to load stream");
+        $this->assertSame(true,$this->stream->loadID(8),"Unable to load stream");
         $this->package = new Package();
         $this->assertSame(true,$this->package->loadID(1),"Unable to load package");
         $this->api = new Centova3($this->stream,$this->server,$this->package);
