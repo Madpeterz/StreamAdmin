@@ -30,13 +30,14 @@ class Create extends View
         $form->textarea("imMessage", "Message", 800, "", "use the swaps as placeholders [max length 800]");
         $form->col(6);
         $form->group("Config");
-        $form->select("useBot", "Use bot to send IM", false, [false => "No",true => "Yes"]);
+        $form->select("sendObjectIM", "Send the Object IM", true, $this->yesNo);
+        $form->select("useBot", "Use bot to send IM", false, $this->yesNo);
         $form->numberInput("hoursRemaining", "Hours remain [Trigger at]", 24, 3, "Max value 999");
         $form->col(12);
         $form->directAdd("<br/>");
         $form->col(6);
         $form->group("Dynamic notecard [Requires bot]");
-        $form->select("sendNotecard", "Enable", false, [false => "No",true => "Yes"]);
+        $form->select("sendNotecard", "Enable", false, $this->yesNo);
         $form->textarea("notecardDetail", "Notecard content", 2000, "", "use the swaps as placeholders");
         $form->col(6);
         $form->group("Static notecard");

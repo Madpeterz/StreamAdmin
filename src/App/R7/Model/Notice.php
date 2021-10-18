@@ -13,6 +13,7 @@ class Notice extends genClass
         "id",
         "name",
         "imMessage",
+        "sendObjectIM",
         "useBot",
         "sendNotecard",
         "notecardDetail",
@@ -23,6 +24,7 @@ class Notice extends genClass
         "id" => ["type" => "int", "value" => null],
         "name" => ["type" => "str", "value" => null],
         "imMessage" => ["type" => "str", "value" => null],
+        "sendObjectIM" => ["type" => "bool", "value" => 1],
         "useBot" => ["type" => "bool", "value" => 0],
         "sendNotecard" => ["type" => "bool", "value" => 0],
         "notecardDetail" => ["type" => "str", "value" => null],
@@ -37,6 +39,10 @@ class Notice extends genClass
     public function getImMessage(): ?string
     {
         return $this->getField("imMessage");
+    }
+    public function getSendObjectIM(): ?bool
+    {
+        return $this->getField("sendObjectIM");
     }
     public function getUseBot(): ?bool
     {
@@ -74,6 +80,14 @@ class Notice extends genClass
     public function setImMessage(?string $newvalue): array
     {
         return $this->updateField("imMessage", $newvalue);
+    }
+    /**
+    * setSendObjectIM
+    * @return mixed[] [status =>  bool, message =>  string]
+    */
+    public function setSendObjectIM(?bool $newvalue): array
+    {
+        return $this->updateField("sendObjectIM", $newvalue);
     }
     /**
     * setUseBot
@@ -123,6 +137,10 @@ class Notice extends genClass
     public function loadByImMessage(string $imMessage): bool
     {
         return $this->loadByField("imMessage", $imMessage);
+    }
+    public function loadBySendObjectIM(bool $sendObjectIM): bool
+    {
+        return $this->loadByField("sendObjectIM", $sendObjectIM);
     }
     public function loadByUseBot(bool $useBot): bool
     {

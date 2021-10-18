@@ -2,6 +2,13 @@
 
 namespace App\CronJob;
 
+use App\CronJob\Tasks\ApiRequests;
+use App\CronJob\Tasks\BotcommandQ;
+use App\CronJob\Tasks\ClientAutoSuspend;
+use App\CronJob\Tasks\DetailsServer;
+use App\CronJob\Tasks\DynamicNotecards;
+use App\CronJob\Tasks\ExportFlow1;
+
 if (defined("ROOTFOLDER") == false) {
     include "CronTabFlags.php";
 }
@@ -16,15 +23,24 @@ if (array_key_exists("t", $options) == false) {
     die();
 }
 
-$taskPicker = "App\\CronJob\\Tasks\\" . $options["t"];
-if (class_exists($taskPicker) == false) {
-    echo  "task arg t of " . $options["t"] . " is not supported by crontab" . json_encode($options);
-    die();
-}
-
 $groups = 15;
 if (defined("TESTING") == true) {
     $groups = 1;
     // when unit testing we only want to run the cron once so we dont get stuck for ages.
 }
-$worker = new $taskPicker($groups);
+
+if ($options["t"] == "ApiRequests") {
+    new ApiRequests($groups);
+} elseif ($options["t"] == "BotcommandQ") {
+    new BotcommandQ($groups);
+} elseif ($options["t"] == "ClientAutoSuspend") {
+    new ClientAutoSuspend($groups);
+} elseif ($options["t"] == "DetailsServer") {
+    new DetailsServer($groups);
+} elseif ($options["t"] == "DynamicNotecards") {
+    new DynamicNotecards($groups);
+} elseif ($options["t"] == "Export1") {
+    new ExportFlow1();
+} else {
+    die("Unknown cron job selected");
+}

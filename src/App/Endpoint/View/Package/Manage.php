@@ -16,8 +16,13 @@ class Manage extends View
         $noticeNotecards->loadAll();
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing package");
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]package/remove/" . $this->page
-        . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove package " . $this->page . "' 
+        data-actiontext='Remove package' 
+        data-actionmessage='This will fail if the package is in use!' 
+        data-targetendpoint='[[url_base]]Package/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $template_set = new TemplateSet();
         $template_set->loadAll();

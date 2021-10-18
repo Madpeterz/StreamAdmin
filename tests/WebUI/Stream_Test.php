@@ -164,26 +164,6 @@ class StreamTest extends TestCase
     /**
      * @depends test_ManageProcess
      */
-    public function test_RemoveForm()
-    {
-        global $page;
-        $stream = new Stream();
-        $status = $stream->loadByField("port",8080);
-        $this->assertSame(true,$status,"Unable to load test stream");
-        $page = $stream->getStreamUid();
-
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing stream remove form element";
-        $this->assertStringContainsString("If the stream is currenly in use this will fail",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
-     */
     public function test_RemoveProcess()
     {
         global $page, $_POST;
@@ -201,7 +181,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_Onserver()
     {
@@ -218,7 +198,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_Ready()
     {
@@ -233,7 +213,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_needWork()
     {
@@ -248,7 +228,7 @@ class StreamTest extends TestCase
     }
 
     /**
-     * @depends test_RemoveForm
+     * @depends test_RemoveProcess
      */
     public function test_sold()
     {

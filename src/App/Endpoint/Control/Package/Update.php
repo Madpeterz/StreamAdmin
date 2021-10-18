@@ -77,13 +77,22 @@ class Update extends ViewAjax
         $this->textureInstockSmall = $this->input->postUUID("textureInstockSmall");
         $this->textureInstockSelected = $this->input->postUUID("textureInstockSelected");
         $this->autodj = $this->input->postBool("autodj");
+        if ($this->autodj === null) {
+            $this->autodj = false;
+        }
         $this->autodjSize = $this->input->postInteger("autodjSize");
         $this->apiTemplate = $this->input->postFilter("apiTemplate");
         $this->servertypeLink = $this->input->postInteger("servertypeLink");
         $this->welcomeNotecardLink = $this->input->postInteger("welcomeNotecardLink");
         $this->setupNotecardLink = $this->input->postInteger("setupNotecardLink");
         $this->enableGroupInvite = $this->input->postBool("enableGroupInvite");
+        if ($this->enableGroupInvite === null) {
+            $this->enableGroupInvite = false;
+        }
         $this->apiAllowAutoSuspend = $this->input->postBool("apiAllowAutoSuspend");
+        if ($this->apiAllowAutoSuspend === null) {
+            $this->apiAllowAutoSuspend = false;
+        }
         $this->apiAutoSuspendDelayHours = $this->input->postInteger("apiAutoSuspendDelayHours", false, false, 999, 0);
     }
 

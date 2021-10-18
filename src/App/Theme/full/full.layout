@@ -6,7 +6,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <link rel="icon" type="image/png" href="[[url_base]]Images/favicon-32x32.png">
-    <link rel="stylesheet" type="text/css" href="[[url_base]]css/site.css">
+    <link rel="stylesheet" type="text/css" href="[[url_base]]css/site.css?v=1025">
 </head>
 <body>
     <div class="container">
@@ -26,7 +26,7 @@
         </div>
     </div>
     [[html_js_bottom]]
-    <script type="text/javascript" src="[[url_base]]js/site.js"></script>
+    <script type="text/javascript" src="[[url_base]]js/site.js?v=1025"></script>
     <script type="text/javascript">
         var url_base = '[[url_base]]';
         $( document ).ready(function() {

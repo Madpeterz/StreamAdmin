@@ -16,7 +16,7 @@ class PagedInfo
             $reply .= '<div class="card">';
                 $reply .= '<div class="card-header" id="heading' . $tab_id . '">';
                     $reply .= '<h5 class="mb-0">';
-                            $reply .= '<button class="btn btn-link ' . $hidden . ''
+                            $reply .= '<button id="tabid' . $tab_id . '" class="btn btn-link ' . $hidden . ''
                             . '" data-toggle="collapse" data-target="#collapse'
                             . $tab_id . '" aria-expanded="' . $expanded . '" aria-controls="collapse' . $tab_id . '">';
                             $reply .= $title;

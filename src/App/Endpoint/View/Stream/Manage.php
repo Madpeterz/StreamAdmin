@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\View\Stream;
 
+use App\R7\Model\Rental;
 use App\R7\Set\ApisSet;
 use App\R7\Set\PackageSet;
 use App\R7\Set\ServerSet;
@@ -15,17 +16,31 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing stream");
-        $this->setSwapTag(
-            "page_actions",
-            "<a href='[[url_base]]stream/remove/" . $this->page . "'>"
-            . "<button type='button' class='btn btn-danger'>Remove</button></a>"
-        );
+
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove stream " . $this->page . "' 
+        data-actiontext='Remove stream' 
+        data-actionmessage='This will fail if there are pending actions!' 
+        data-targetendpoint='[[url_base]]Stream/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $stream = new Stream();
         if ($stream->loadByField("streamUid", $this->page) == false) {
             $this->output->redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
             return;
         }
+
+        $rental = new Rental();
+        $rental->loadByStreamLink($stream->getId());
+        if ($rental->getId() > 0) {
+            $this->setSwapTag(
+                "page_actions",
+                "<a href='[[url_base]]Client/Manage/" . $rental->getRentalUid() . "'>"
+                . "<button type='button' class='btn btn-info'>View Client</button></a>"
+            );
+        }
+
         $server_set = new ServerSet();
         $server_set->loadAll();
 

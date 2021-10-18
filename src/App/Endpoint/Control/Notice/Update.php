@@ -18,28 +18,38 @@ class Update extends ViewAjax
             $this->failed("Name failed:" . $input->getWhyFailed());
             return;
         }
-        $hoursRemaining = $input->postInteger("hoursRemaining");
+        $hoursRemaining = $input->postInteger("hoursRemaining", false, true);
+        if ($hoursRemaining === null) {
+            $this->failed("Hours remain failed:" . $input->getWhyFailed());
+            return;
+        }
         $imMessage = $input->postString("imMessage", 800, 5);
-        if ($imMessage == null) {
+        if ($imMessage === null) {
             $this->failed("IM message failed:" . $input->getWhyFailed());
             return;
         }
-        $useBot = $input->postBool("useBot");
-        $sendNotecard = $input->postBool("sendNotecard");
-        $notecardDetail = $input->postString("notecardDetail");
-        $noticeNotecardLink = $input->postInteger("noticeNotecardLink");
-        if ($sendNotecard == false) {
-            if (strlen($notecardDetail) < 1) {
-                $notecardDetail = "";
-            }
+        $sendObjectIM = $input->postBool("sendObjectIM");
+        if ($sendObjectIM === null) {
+            $sendObjectIM = false;
         }
-        $this->setSwapTag("redirect", null);
-        if (strlen($hoursRemaining) < 0) {
-            $this->failed("hoursRemaining must be 0 or more");
+
+        $useBot = $input->postBool("useBot");
+        if ($useBot === null) {
+            $useBot = false;
+        }
+
+        $sendNotecard = $input->postBool("sendNotecard");
+        if ($sendNotecard === null) {
+            $sendNotecard = false;
+        }
+        $notecardDetail = $input->postString("notecardDetail");
+        if ($sendObjectIM === null) {
+            $this->failed("Notecard detail failed:" . $input->getWhyFailed());
             return;
         }
-        if (strlen($hoursRemaining) > 999) {
-            $this->failed("hoursRemaining must be 999 or less");
+        $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
+        if ($noticeNotecardLink === null) {
+            $this->failed("Static notecard failed:" . $input->getWhyFailed());
             return;
         }
         if ($static_notecard->loadID($noticeNotecardLink) == false) {
@@ -47,7 +57,7 @@ class Update extends ViewAjax
             return;
         }
         if ($static_notecard->getMissing() == true) {
-            $this->failed("Selected static notecard is marked as missing");
+            $this->failed("Selected static notecard is marked as missing please change!");
             return;
         }
 
@@ -80,6 +90,7 @@ class Update extends ViewAjax
             $notecardDetail = " ";
         }
         $notice->setName($name);
+        $notice->setSendObjectIM($sendObjectIM);
         $notice->setImMessage($imMessage);
         $notice->setUseBot($useBot);
         $notice->setSendNotecard($sendNotecard);

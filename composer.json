@@ -16,7 +16,8 @@
     "require": {
         "php": ">=7.4",
         "guzzlehttp/guzzle": "^7.2",
-        "madpeterz/yetonemorephpframework": "^3.0"
+        "madpeterz/yetonemorephpframework": "^3.0",
+        "phpoffice/phpspreadsheet": "^1.18"
     },
     "require-dev": {
         "slevomat/coding-standard": "^6.4",

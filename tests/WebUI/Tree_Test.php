@@ -168,26 +168,6 @@ class TreeVendTest extends TestCase
     /**
      * @depends test_RemovePackageProcess
      */
-    public function test_RemoveForm()
-    {
-        global $page;
-        $tree = new Treevender();
-        $status = $tree->loadByField("name","UnitUpdatedTreeVend");
-        $this->assertSame(true,$status,"Unable to load test tree");
-        $page = $tree->getId();
-
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing tree package form element";
-        $this->assertStringContainsString("Warning",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
-     */
     public function test_RemoveProcess()
     {
         global $page, $_POST;

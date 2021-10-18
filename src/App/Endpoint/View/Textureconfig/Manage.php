@@ -11,11 +11,14 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing texture pack");
-        $this->setSwapTag(
-            "page_actions",
-            "<a href='[[url_base]]textureconfig/remove/" . $this->page
-            . "'><button type='button' class='btn btn-danger'>Remove</button></a>"
-        );
+        $this->setSwapTag("page_actions", ""
+        . "<button type='button' 
+        data-actiontitle='Remove texture pack " . $this->page . "' 
+        data-actiontext='Remove texture pack' 
+        data-actionmessage='Are you sure you want to remove this texture pack?' 
+        data-targetendpoint='[[url_base]]Textureconfig/Remove/" . $this->page . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>");
+
         $textureconfig = new Textureconfig();
         if ($textureconfig->loadID($this->page) == false) {
             $this->output->redirect("package?bubblemessage=unable to find package&bubbletype=warning");

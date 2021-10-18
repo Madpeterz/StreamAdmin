@@ -10,6 +10,7 @@ use App\R7\Set\AvatarSet;
 use App\R7\Set\PackageSet;
 use App\R7\Set\RentalSet;
 use App\R7\Model\Server;
+use App\R7\Set\RentalnoticeptoutSet;
 use App\R7\Set\ServerSet;
 use App\R7\Set\StreamSet;
 use App\Template\ViewAjax;
@@ -20,10 +21,9 @@ class Bulkremove extends ViewAjax
     public function process(): void
     {
         $whereconfig = [
-        "fields" => ["expireUnixtime"],
-        "values" => [time()],
-        "types" => ["i"],
-        "matches" => ["<="],
+        "fields" => ["expireUnixtime","noticeLink"],
+        "values" => [time(),6],
+        "matches" => ["<=","="],
         ];
         $input = new InputFilter();
         $template_parts["page_actions"] = "";
@@ -34,11 +34,13 @@ class Bulkremove extends ViewAjax
         $server_set = new ServerSet();
         $api_requests_set = new ApirequestsSet();
         $apis_set = new ApisSet();
+        $rental_notice_opt_outs = new RentalnoticeptoutSet();
         $rental_set->loadWithConfig($whereconfig);
         $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
         $package_set->loadByValues($rental_set->getAllByField("packageLink"));
         $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
         $api_requests_set->loadByValues($rental_set->getAllIds(), "rentalLink");
+        $rental_notice_opt_outs->loadByValues($rental_set->getAllIds(), "rentalLink");
         $apis_set->loadAll();
         $server_set->loadAll();
         $removed_counter = 0;
@@ -50,14 +52,32 @@ class Bulkremove extends ViewAjax
                 $skipped_counter++;
                 continue;
             }
-            if ($rental->getNoticeLink() != 6) {
-                continue;
-            }
             $accept = $input->postString("rental" . $rental->getRentalUid());
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;
             }
+            $client_rental_notice_opt_outs = new RentalnoticeptoutSet();
+            // import opt outs from global load for this Client only
+            foreach ($rental_notice_opt_outs as $notice_opt_out) {
+                if ($notice_opt_out->getRentalLink() == $rental->getId()) {
+                    $client_rental_notice_opt_outs->addToCollected($notice_opt_out);
+                }
+            }
+
+            if ($client_rental_notice_opt_outs->getCount() > 0) {
+                $purge = $client_rental_notice_opt_outs->purgeCollection();
+                if ($purge["status"] == false) {
+                    $this->failed(sprintf(
+                        "Failed to purge some client notice opt outs because %1\$s",
+                        $purge["message"]
+                    ));
+                    return;
+                }
+            }
+
+
+
             $stream = $stream_set->getObjectByID($rental->getStreamLink());
             if ($stream == null) {
                 $this->failed(sprintf("Unable to find stream attached to rental %1\$s", $rental->getRentalUid()));

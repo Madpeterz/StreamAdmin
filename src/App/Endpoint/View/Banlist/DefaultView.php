@@ -95,8 +95,10 @@ class DefaultView extends View
                 "Avatar UID",
                 30,
                 "",
-                "you can find it in avatars area, Name can be used for existing avatars."
+                ""
             );
+            $form->directAdd("<a data-toggle=\"modal\" data-target=\"#AvatarPicker\" "
+            . "href=\"#\" target=\"_blank\">Find/Add avatar</a><br/>");
         $form2 = $form->render("Goodbye", "primary");
         $mygrid = new Grid();
         $mygrid->addContent($form1, 6);

@@ -87,8 +87,8 @@ class Login extends TestCase
         $_POST["staffpassword"] = "YfBqfxs8LSiuny";
         $LoginWithPassword->process();
         $statuscheck = $LoginWithPassword->getOutputObject();
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertStringContainsString("logged in ^+^",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
     public function test_IsLoggedIn()

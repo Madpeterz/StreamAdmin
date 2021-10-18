@@ -132,25 +132,6 @@ class AvatarTest extends TestCase
     /**
      * @depends test_SearchResults
      */
-    public function test_RemoveForm()
-    {
-        global $page;
-        $avatar = new ModelsAvatar();
-        $status = $avatar->loadByField("avatarName","UnitTest Updated");
-        $this->assertSame(true,$status,"Unable to load test avatar");
-        $page = $avatar->getAvatarUid();
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing avatar remove form element";
-        $this->assertStringContainsString("If the avatar is currenly in use this will fail",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
-     */
     public function test_RemoveProcess()
     {
         global $page, $_POST;

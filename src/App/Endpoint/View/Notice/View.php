@@ -15,7 +15,8 @@ abstract class View extends BasicView
             $this->output->redirect("stream?message=Please create a stream first");
         }
         $this->setSwapTag("html_title", "Notices");
-        $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / Notices");
+        $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] 
+        / <a href='[[url_base]]notice'>Notices</a> / ");
         $this->setSwapTag("page_actions", "<a href='[[url_base]]notice/create'>"
         . "<button type='button' class='btn btn-success'>Create</button></a>");
     }

@@ -1,3 +1,0 @@
-Ups the max length for package names from 30 to 60.<br/>
-transactions are now aware if it was for a new stream or renewal.<br/>
-new/renew on transactions being imported from R4 maybe the wrong way round ^+^ will find out later<br/>

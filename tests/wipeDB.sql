@@ -17,5 +17,5 @@ DROP TABLE IF EXISTS  `apirequests`, `apis`, `avatar`, `banlist`,
 `alltypestable`, `counttoonehundo`, `endoftestempty`, 
 `endoftestwithfourentrys`, `endoftestwithupdates`, `flagedvalues`, 
 `liketests`, `relationtestinga`, `relationtestingb`, 
-`rollbacktest`, `twintables1`, `twintables2`, `weirdtable`, `eventsq`, `datatable`, `notecardmail`, `botcommandq`;
+`rollbacktest`, `twintables1`, `twintables2`, `weirdtable`, `eventsq`, `datatable`, `notecardmail`, `botcommandq`, `rentalnoticeptout`;
 SET FOREIGN_KEY_CHECKS = 1;

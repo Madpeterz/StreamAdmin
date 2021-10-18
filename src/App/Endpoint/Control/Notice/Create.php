@@ -20,16 +20,39 @@ class Create extends ViewAjax
             $this->failed("Name failed:" . $input->getWhyFailed());
             return;
         }
-        $hoursRemaining = $input->postInteger("hoursRemaining");
+        $hoursRemaining = $input->postInteger("hoursRemaining", false, true);
+        if ($hoursRemaining === null) {
+            $this->failed("Hours remain failed:" . $input->getWhyFailed());
+            return;
+        }
         $imMessage = $input->postString("imMessage", 800, 5);
         if ($imMessage == null) {
             $this->failed("IM message failed:" . $input->getWhyFailed());
             return;
         }
-        $useBot = $input->postFilter("useBot", "bool");
-        $sendNotecard = $input->postFilter("sendNotecard", "bool");
-        $notecardDetail = $input->postFilter("notecardDetail");
-        $noticeNotecardLink = $input->postFilter("noticeNotecardLink", "integer");
+        $sendObjectIM = $input->postBool("sendObjectIM");
+        if ($sendObjectIM === null) {
+            $sendObjectIM = false;
+        }
+
+        $useBot = $input->postBool("useBot");
+        if ($useBot === null) {
+            $useBot = false;
+        }
+        $sendNotecard = $input->postBool("sendNotecard");
+        if ($sendNotecard === null) {
+            $sendNotecard = false;
+        }
+        $notecardDetail = $input->postString("notecardDetail");
+        if ($sendObjectIM === null) {
+            $this->failed("Notecard detail failed:" . $input->getWhyFailed());
+            return;
+        }
+        $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
+        if ($noticeNotecardLink === null) {
+            $this->failed("Static notecard failed:" . $input->getWhyFailed());
+            return;
+        }
         if ($sendNotecard == false) {
             if (strlen($notecardDetail) < 1) {
                 $notecardDetail = "";
@@ -43,10 +66,6 @@ class Create extends ViewAjax
             return;
         }
 
-        if ($noticeNotecardLink < 1) {
-            $this->failed("You must select a static notecard or use the non option!");
-            return;
-        }
         if ($static_notecard->loadID($noticeNotecardLink) == false) {
             $this->failed("Unable to find selected static notecard");
             return;
@@ -57,6 +76,7 @@ class Create extends ViewAjax
         }
 
         $notice = new Notice();
+        $notice->setSendObjectIM($sendObjectIM);
         $notice->setName($name);
         $notice->setImMessage($imMessage);
         $notice->setUseBot($useBot);

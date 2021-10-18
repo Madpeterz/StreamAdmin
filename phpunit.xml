@@ -44,18 +44,20 @@
             <file>tests/MediaServerApi/MediaServerApi_Azurecast_Test.php</file>
             <file>tests/Finals/server_test.php</file>
             <file>tests/Finals/client_test.php</file>
-            <file>tests/BugReports/Issue12_test.php</file>
-            <file>tests/BugReports/Issue28_test.php</file>
-            <file>tests/BugReports/Issue36_test.php</file>
-            <file>tests/BugReports/Issue43_test.php</file>
-            <file>tests/BugReports/Issue44_test.php</file>
-            <file>tests/BugReports/Issue47_test.php</file>
-            <file>tests/BugReports/Issue57_test.php</file>
-            <file>tests/BugReports/Issue71_test.php</file>
-            <file>tests/BugReports/Issue69_test.php</file>
-            <file>tests/BugReports/Issue72_test.php</file>
-            <file>tests/BugReports/Issue73_test.php</file>
-            <file>tests/BugReports/Issue90_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue12_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue28_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue36_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue43_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue44_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue47_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue57_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue71_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue69_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue72_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue73_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue90_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue95_test.php</file>
+            <file>tests/BugsAndEnhancements/Issue92_test.php</file>
         </testsuite>
   </testsuites>
   <filter>

@@ -15,7 +15,7 @@ class Azurecast_Test extends TestingFramework
         $this->server = new Server();
         $this->assertSame(true,$this->server->loadID(1),"Unable to load server");
         $this->stream = new Stream();
-        $this->assertSame(true,$this->stream->loadID(13),"Unable to load stream");
+        $this->assertSame(true,$this->stream->loadID(8),"Unable to load stream");
         $this->package = new Package();
         $this->assertSame(true,$this->package->loadID(1),"Unable to load package");
         $this->api = new Azurecast($this->stream,$this->server,$this->package);
@@ -40,8 +40,6 @@ class Azurecast_Test extends TestingFramework
         }
         $this->server = new Server();
         $this->assertSame(true,$this->server->loadID(1),"Unable to load server");
-        $this->stream = new Stream();
-        $this->assertSame(true,$this->stream->loadID(13),"Unable to load stream");
         $this->server->setApiLink(6);
         $this->server->setApiURL("http://127.0.0.1/fake/azurecast.php/");
         $this->server->setApiPassword("faked");

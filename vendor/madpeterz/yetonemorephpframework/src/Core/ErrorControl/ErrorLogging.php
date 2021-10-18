@@ -24,7 +24,7 @@ abstract class ErrorLogging
     ): array {
         $this->myLastError = "File: " . $flileHint . " Function: " . $functionHint . " info: " . $errorMessage . "";
         $this->myLastErrorBasic = $errorMessage;
-        if ($this->enableErrorConsole == true) {
+        if (($this->enableErrorConsole == true) || (defined("ErrorConsole") == true)) {
             error_log($this->myLastError);
         }
         return array_merge($arrayAddon, ["status" => false, "message" => $errorMessage]);

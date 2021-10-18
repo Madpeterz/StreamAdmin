@@ -1,6 +1,0 @@
-System health info is now on the dashboard will drill down pages (as per issues/23)<br/>
-Static notecards supported when starting rentals (as per issues/22)<br/>
-A bug with setting up static notecards is now fixed<br/>
-Installer is updated to 1.0.1.9<br/>
-Outbox now shows static notecards to be sent under "Doc"<br/>
-Adjusted the way the Clients dashboard status counters are loaded (hopfully it will be correct now)

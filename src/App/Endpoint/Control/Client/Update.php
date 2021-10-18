@@ -117,6 +117,9 @@ class Update extends ViewAjax
         $adjustment_days = $input->postInteger("adjustment_days");
         $adjustment_hours = $input->postInteger("adjustment_hours");
         $adjustment_dir = $input->postBool("adjustment_dir");
+        if ($adjustment_dir === null) {
+            $adjustment_dir = false;
+        }
         // transfer
         $transfer_avataruid = $input->postString("transfer_avataruid");
         // message
@@ -127,7 +130,7 @@ class Update extends ViewAjax
         // API flag
         $this->apiAllowSuspend = $input->postBool("apiAllowSuspend");
         if ($this->apiAllowSuspend === null) {
-            $this->apiAllowSuspend = true;
+            $this->apiAllowSuspend = false;
         }
 
         if ($rental->loadByRentalUid($this->page) == false) {

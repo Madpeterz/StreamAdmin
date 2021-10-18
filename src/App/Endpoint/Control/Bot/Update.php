@@ -28,12 +28,24 @@ class Update extends ViewAjax
             return;
         }
         $httpMode = $input->postBool("httpMode");
+        if ($httpMode === null) {
+            $httpMode = false;
+        }
         $httpURL = $input->postUrl("httpURL");
         $httpToken = $input->postString("httpToken");
 
         $notecards = $input->postBool("notecards");
+        if ($notecards === null) {
+            $notecards = false;
+        }
         $ims = $input->postBool("ims");
+        if ($ims === null) {
+            $ims = false;
+        }
         $invites = $input->postBool("invites");
+        if ($invites === null) {
+            $invites = false;
+        }
         $invite_uuid = $input->postUUID("inviteGroupUUID");
         if ($invite_uuid == null) {
             if ($invites == true) {

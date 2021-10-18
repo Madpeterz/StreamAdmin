@@ -114,26 +114,6 @@ class TemplateTest extends TestCase
     /**
      * @depends test_ManageProcess
      */
-    public function test_RemoveForm()
-    {
-        global $page;
-        $template = new Template();
-        $status = $template->loadByField("name","UnitTestUpdated");
-        $this->assertSame(true,$status,"Unable to load test template");
-        $page = $template->getId();
-
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing template remove form element";
-        $this->assertStringContainsString("If the template is currenly in use this will fail",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
-     */
     public function test_RemoveProcess()
     {
         global $page, $_POST;

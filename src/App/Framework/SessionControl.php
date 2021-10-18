@@ -52,8 +52,8 @@ class SessionControl extends SqlConnectedClass
     }
     protected function createlhash(bool $update_session_after = true): bool
     {
-        if ($this->createMainObject() == false) {
-            $this->why_logged_out = "Unable to create root session object";
+        $this->createMainObject();
+        if ($this->main_class_object->isLoaded() == false) {
             return false;
         }
         $new_lhash = $this->hashPassword(time(), rand(1000, 4000), microtime(), $this->main_class_object->getLhash());
@@ -87,8 +87,8 @@ class SessionControl extends SqlConnectedClass
     }
     protected function vaildatelhash(): bool
     {
-        if ($this->createMainObject() == false) {
-            $this->why_logged_out = "Unable to create root session object";
+        $this->createMainObject();
+        if ($this->main_class_object->isLoaded() == false) {
             return false;
         }
         if ($this->lhash == $this->main_class_object->getLhash()) {
@@ -97,18 +97,15 @@ class SessionControl extends SqlConnectedClass
         $this->why_logged_out = "session lhash does not match db";
         return false;
     }
-    protected function createMainObject(bool $also_load_object_from_session_lhash = true): bool
+    protected function createMainObject(bool $also_load_object_from_session_lhash = true): void
     {
         if ($this->main_class_object == null) {
-            $this->main_class_object = new staff();
+            $this->main_class_object = new Staff();
         }
-        $load_ok = true;
-        if ($also_load_object_from_session_lhash == true) {
-            if ($this->main_class_object->getId() == null) {
-                $load_ok = $this->main_class_object->loadByField("lhash", $this->lhash);
-            }
+        if ($also_load_object_from_session_lhash == false) {
+            return;
         }
-        return $load_ok;
+        $this->main_class_object->loadByLhash($this->lhash);
     }
     protected function updateSession(): void
     {
@@ -122,6 +119,7 @@ class SessionControl extends SqlConnectedClass
     }
     public function loadFromSession(): bool
     {
+        global $unixtime_hour;
         if (isset($_SESSION) == false) {
             $this->why_logged_out = "Waiting for login";
             return false;
@@ -151,7 +149,7 @@ class SessionControl extends SqlConnectedClass
             $this->why_logged_out = "Inactive auto logout";
             return false;
         }
-        $this->autologout = time() + 7200;
+        $this->autologout = time() + ($unixtime_hour * 2);
         $this->updateSession();
         $this->logged_in = true;
         if ($this->nextcheck < time()) {
@@ -192,19 +190,18 @@ class SessionControl extends SqlConnectedClass
     }
     public function userpasswordCheck(string $input_password): bool
     {
-        if ($this->createMainObject(true) == true) {
-            $expected_hash = null;
-            if ($expected_hash == null) {
-                $expected_hash = $this->main_class_object->getPhash();
-            }
-            $check_hash = $this->hashUserPassword($input_password);
-            if ($check_hash["status"] == true) {
-                if ($check_hash["phash"] == $expected_hash) {
-                    return true;
-                }
-            }
+        $this->createMainObject();
+        if ($this->main_class_object->isLoaded() == false) {
+            return false;
         }
-        return false;
+        $check_hash = $this->hashUserPassword($input_password);
+        if ($check_hash["status"] == false) {
+            return false;
+        }
+        if ($check_hash["phash"] != $this->main_class_object->getPhash()) {
+            return false;
+        }
+        return true;
     }
     /**
      * hashUserPassword
@@ -243,16 +240,15 @@ class SessionControl extends SqlConnectedClass
     }
     public function loginWithUsernamePassword(string $username, string $password): bool
     {
-        if ($this->createMainObject(false) == true) {
-            if ($this->main_class_object->loadByField("username", $username) == true) {
-                if ($this->userPasswordCheck($password) == true) {
-                    // login ok build session.
-                    return $this->populateSessionDataset();
-                } else {
-                    $this->main_class_object = null; // remove link to that account
-                }
-            }
+        $this->createMainObject(false);
+        if ($this->main_class_object->loadByUsername($username) == false) {
+            return false;
         }
-        return false;
+        if ($this->userPasswordCheck($password) == false) {
+            $this->main_class_object = null; // remove link to that account
+            return false;
+        }
+        // login ok build session.
+        return $this->populateSessionDataset();
     }
 }
