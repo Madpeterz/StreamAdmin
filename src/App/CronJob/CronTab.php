@@ -7,6 +7,7 @@ use App\CronJob\Tasks\BotcommandQ;
 use App\CronJob\Tasks\ClientAutoSuspend;
 use App\CronJob\Tasks\DetailsServer;
 use App\CronJob\Tasks\DynamicNotecards;
+use App\CronJob\Tasks\ExportFlow1;
 
 if (defined("ROOTFOLDER") == false) {
     include "CronTabFlags.php";
@@ -38,6 +39,8 @@ if ($options["t"] == "ApiRequests") {
     new DetailsServer($groups);
 } elseif ($options["t"] == "DynamicNotecards") {
     new DynamicNotecards($groups);
+} elseif ($options["t"] == "Export1") {
+    new ExportFlow1();
 } else {
     die("Unknown cron job selected");
 }
