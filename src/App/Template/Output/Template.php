@@ -228,42 +228,42 @@ class Template extends AddonProvider
             ],
             "Clients" => [
                 "icon" => "fas fa-users",
-                "target" => "client",
+                "target" => "Client",
                 "active_on" => ["client"],
             ],
             "Reports" => [
                 "icon" => "fas fa-balance-scale-right",
-                "target" => "reports",
+                "target" => "Reports",
                 "active_on" => ["reports"],
             ],
             "Outbox" => [
                 "icon" => "fas fa-mail-bulk",
-                "target" => "outbox",
+                "target" => "Outbox",
                 "active_on" => ["outbox"],
             ],
             "Streams" => [
                 "icon" => "fas fa-satellite-dish",
-                "target" => "stream",
+                "target" => "Stream",
                 "active_on" => ["stream"],
             ],
             "Packages" => [
                 "icon" => "fas fa-box",
-                "target" => "package",
+                "target" => "Package",
                 "active_on" => ["package"],
             ],
             "Resellers" => [
                 "icon" => "fas fa-portrait",
-                "target" => "reseller",
+                "target" => "Reseller",
                 "active_on" => ["reseller"],
             ],
             "TreeVend" => [
                 "icon" => "fas fa-list-ul",
-                "target" => "tree",
+                "target" => "Tree",
                 "active_on" => ["tree"],
             ],
             "Config" => [
                 "icon" => "fas fa-cogs",
-                "target" => "config",
+                "target" => "Config",
                 "active_on" => [
                     "banlist",
                     "config",
@@ -277,6 +277,7 @@ class Template extends AddonProvider
                     "objects",
                     "server",
                     "datatables",
+                    "export",
                 ],
             ],
         ];
