@@ -10,11 +10,12 @@ echo "==> Creating symlink to latest export: "$FILENAME""
 rm "$LATEST" 2> /dev/null
 cd /export || exit && ln -s "$FILENAME" "$LATEST"
 
-MAX_FILES=7
+MAX_FILES=$EXPORT_MAX_BACKUPS
 while [ "$(find /export -maxdepth 1 -name "*.xlsx" -type f | wc -l)" -gt "$MAX_FILES" ]
 do
 TARGET=$(find /export -maxdepth 1 -name "*.xlsx" -type f | sort | head -n 1)
-echo "==> Max number of backups (7) reached. Deleting ${TARGET} ..."
+echo "==> Max number of backups ($EXPORT_MAX_BACKUPS) reached. Deleting ${TARGET} ..."
 rm -rf "${TARGET}"
 echo "==> Backup ${TARGET} deleted"
 done
+
