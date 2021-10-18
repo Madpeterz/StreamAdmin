@@ -24,57 +24,61 @@ class DefaultView extends View
             $config_areas = [
                 "Avatars" => [
                     "icon" => "fas fa-users",
-                    "link" => "avatar",
+                    "link" => "Avatar",
                 ],
                 "Template" => [
                     "icon" => "fas fa-indent",
-                    "link" => "template",
+                    "link" => "Template",
                 ],
                 "System config" => [
                     "icon" => "fas fa-tools",
-                    "link" => "slconfig",
+                    "link" => "Slconfig",
                 ],
                 "Textures" => [
                     "icon" => "far fa-images",
-                    "link" => "textureconfig",
+                    "link" => "Textureconfig",
                 ],
                 "Transactions" => [
                     "icon" => "fas fa-credit-card",
-                    "link" => "transactions",
+                    "link" => "Transactions",
                 ],
                 "Notices" => [
                     "icon" => "fas fa-bullhorn",
-                    "link" => "notice",
+                    "link" => "Notice",
                 ],
                 "Objects" => [
                     "icon" => "fas fa-cubes",
-                    "link" => "objects",
+                    "link" => "Objects",
                 ],
                 "Servers" => [
                     "icon" => "fas fa-server",
-                    "link" => "server",
+                    "link" => "Server",
                 ],
                 "Datatables" => [
                     "icon" => "fas fa-table",
-                    "link" => "datatables",
+                    "link" => "Datatables",
                 ],
             ];
             if ($this->session->getOwnerLevel() == 1) {
                 $config_areas["R4 import"] = [
                     "icon" => "fas fa-cloud-upload-alt",
-                    "link" => "import",
+                    "link" => "Import",
                 ];
                 $config_areas["Bot"] = [
                     "icon" => "fas fa-robot",
-                    "link" => "bot",
+                    "link" => "Bot",
                 ];
                 $config_areas["Staff"] = [
                     "icon" => "fas fa-user-lock",
-                    "link" => "staff",
+                    "link" => "Staff",
                 ];
                 $config_areas["Banlist"] = [
                     "icon" => "fas fa-user-slash",
-                    "link" => "banlist",
+                    "link" => "Banlist",
+                ];
+                $config_areas["Export"] = [
+                    "icon" => "fas fa-file-export",
+                    "link" => "Export",
                 ];
             }
             ksort($config_areas);
