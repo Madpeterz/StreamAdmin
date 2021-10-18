@@ -10,7 +10,7 @@ echo "==> Creating symlink to latest export: "$FILENAME""
 rm "$LATEST" 2> /dev/null
 cd /export || exit && ln -s "$FILENAME" "$LATEST"
 
-MAX_FILES=31
+MAX_FILES=7
 while [ "$(find /export -maxdepth 1 -name "*.xlsx" -type f | wc -l)" -gt "$MAX_FILES" ]
 do
 TARGET=$(find /export -maxdepth 1 -name "*.xlsx" -type f | sort | head -n 1)
