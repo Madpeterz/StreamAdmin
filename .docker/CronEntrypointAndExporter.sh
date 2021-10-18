@@ -12,6 +12,9 @@ echo "* * * * * /usr/local/bin/php /srv/website/src/App/CronJob/CronTab.php -t=D
 echo "Pushing ENV values to cron system"
 env >> /etc/environment
 
+echo "Doing startup Export"
+/srv/website/.docker/Exporter.sh >/proc/1/fd/1 2>/proc/1/fd/2
+
 echo "Starting up"
 # Start the magic
 crontab scheduler.txt
