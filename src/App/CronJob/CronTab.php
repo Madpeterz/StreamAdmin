@@ -10,7 +10,11 @@ use App\CronJob\Tasks\DynamicNotecards;
 use App\CronJob\Tasks\ExportFlow1;
 
 if (defined("ROOTFOLDER") == false) {
-    include "CronTabFlags.php";
+    if (file_exists("customFlags.php") == true) {
+        include "customFlags.php";
+    } else {
+        include "CronTabFlags.php";
+    }
 }
 
 include ROOTFOLDER . "/App/Framework/load.php";
