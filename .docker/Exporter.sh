@@ -8,7 +8,8 @@ echo "==> Creating export: "$FILENAME""
 
 echo "==> Creating symlink to latest export: "$FILENAME""
 rm "$LATEST" 2> /dev/null
-ln -s "$FILENAME" "$LATEST"
+cd /export
+ln -s "$(basename "$FILENAME")" "$(basename "$LATEST")"
 
 MAX_FILES=$EXPORT_MAX_BACKUPS
 while [ "$(find /export -maxdepth 1 -name "*.xlsx" -type f | wc -l)" -gt "$MAX_FILES" ]
