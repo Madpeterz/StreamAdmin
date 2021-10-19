@@ -18,10 +18,17 @@ class Update extends ViewAjax
             $this->failed("Name failed:" . $input->getWhyFailed());
             return;
         }
-        $hoursRemaining = $input->postInteger("hoursRemaining", false, true);
-        if ($hoursRemaining === null) {
-            $this->failed("Hours remain failed:" . $input->getWhyFailed());
+        $minValue = 1;
+        if ($this->page == 6) {
+            $minValue = 0;
+        }
+        $hoursRemaining = $input->postInteger("hoursRemaining");
+        if ($hoursRemaining < $minValue) {
+            $this->failed("Hours remain failed: can not be less than " . $minValue);
             return;
+        }
+        if ($this->page == 6) {
+            $hoursRemaining = 0;
         }
         $imMessage = $input->postString("imMessage", 800, 5);
         if ($imMessage === null) {
