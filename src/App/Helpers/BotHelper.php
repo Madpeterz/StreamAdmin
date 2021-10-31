@@ -116,7 +116,7 @@ class BotHelper
             }
         }
         if ($allowObjectIm == false) {
-            return true;
+            return ["status" => true,"message" => "Skipping message via object"];
         }
         return $this->sendMessageToAvatar($avatar, $message);
     }
