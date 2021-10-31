@@ -5,6 +5,11 @@ namespace YAPF\MySQLi;
 abstract class MysqliQuery extends MysqliChange
 {
     protected int $sql_selects = 0;
+    /**
+     * @deprecated
+     * getSQLselectsCount
+     * This is being replaced with getSQLstats
+     */
     public function getSQLselectsCount(): int
     {
         return $this->sql_selects;
@@ -44,6 +49,7 @@ abstract class MysqliQuery extends MysqliChange
         $sql = "SELECT ";
         $this->selectBuildFields($sql, $basic_config);
         $sql .= " FROM " . $basic_config["table"] . " " . $main_table_id . " ";
+        $this->queryStats["selects"]++;
         $JustDoIt = $this->processSqlRequest(
             "",
             [],

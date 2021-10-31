@@ -12,6 +12,20 @@ abstract class MysqliFunctions extends Db
     protected $hadErrors = false;
     protected $needToSave = false;
     public $lastSql = "";
+    protected string $charSet = "utf8mb4";
+
+    /*
+        changeCharset
+        must be called before doing anything with the DB.
+        stopping sql also works.
+    */
+    public function changeCharset(string $charset): void
+    {
+        if ($this->sqlConnection == null) {
+            $this->charSet = $charset;
+        }
+    }
+
 
     protected bool $ExpectedErrorFlag = false;
     public function setExpectedErrorFlag(bool $flagStatus = false): void
@@ -352,6 +366,9 @@ abstract class MysqliFunctions extends Db
             if ($status == true) {
                 if ($stop == true) {
                     $this->sqlStop();
+                }
+                if ($stop == false) {
+                    $this->sqlConnection->set_charset($this->charSet);
                 }
             }
             return $status;

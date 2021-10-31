@@ -104,7 +104,6 @@ class DbObjectsGenClassTest extends TestCase
     protected function setUp(): void
     {
         global $sql;
-        define("REQUIRE_ID_ON_LOAD", true);
         $sql = new MysqliConnector();
     }
     protected function tearDown(): void

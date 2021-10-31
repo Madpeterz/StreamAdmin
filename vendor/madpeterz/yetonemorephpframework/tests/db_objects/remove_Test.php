@@ -16,9 +16,6 @@ class DbObjectsRemoveTest extends TestCase
     protected function setUp(): void
     {
         global $sql;
-        if (defined("REQUIRE_ID_ON_LOAD") == false) {
-            define("REQUIRE_ID_ON_LOAD", true);
-        }
         $sql = new MysqliConnector();
     }
     protected function tearDown(): void

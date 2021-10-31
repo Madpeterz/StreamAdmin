@@ -2,7 +2,7 @@
 
 namespace YAPF\InputFilter;
 
-abstract class Aliases extends Filters
+class InputFilter extends Filters
 {
     public function postUUID(string $inputName): ?string
     {

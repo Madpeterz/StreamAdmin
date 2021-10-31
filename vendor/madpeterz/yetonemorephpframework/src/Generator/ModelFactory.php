@@ -315,6 +315,9 @@ class ModelFactory extends GeneratorWriter
                         $detected_default = '"' . $detected_default . '"';
                     }
                 }
+                if ($detected_default == "") {
+                    $detected_default = "\'\'";
+                }
             }
             $line = '"' . $row_two["COLUMN_NAME"] . '" => ["type" => "';
             $line .= $use_type . '", "value" => ' . $detected_default . '],';

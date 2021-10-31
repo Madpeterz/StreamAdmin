@@ -15,8 +15,6 @@
         <file>tests/cache/RedisCacheTests.php</file>
       </testsuite>
       <testsuite name="All">
-        <directory>tests/core</directory>
-        <directory>tests/filter</directory>
         <file>tests/mysqli/raw_sql_Test.php</file>
         <file>tests/mysqli/select_Test.php</file>
         <file>tests/mysqli/add_Test.php</file>

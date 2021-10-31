@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
 use YAPF\DbObjects\GenClass\GenClass as GenClass;
 use YAPF\DbObjects\CollectionSet\CollectionSet as CollectionSet;
+use YAPF\Junk\Models\Counttoonehundo;
 use YAPF\Junk\Models\Endoftestempty;
 use YAPF\Junk\Sets\CounttoonehundoSet;
 use YAPF\Junk\Sets\EndoftestemptySet;
@@ -39,7 +40,6 @@ class CollectionSetTest extends TestCase
     protected function setUp(): void
     {
         global $sql;
-        define("REQUIRE_ID_ON_LOAD", true);
         $sql = new MysqliConnector();
     }
     protected function tearDown(): void
@@ -131,6 +131,20 @@ class CollectionSetTest extends TestCase
             }
         }
         $this->assertSame(4,$seen_entrys,"Foreach without key has failed");
+        $Counttoonehundo = new Counttoonehundo();
+        $Counttoonehundo->setCvalue(99);
+        $reply = $Counttoonehundo->createEntry();
+        $this->assertSame(true,$reply["status"],"Failed to crate testing object");
+        $testing->addToCollected($Counttoonehundo);
+        $seen_entrys = 0;
+        foreach($testing as $value)
+        {
+            if($value->isLoaded() == true)
+            {
+                $seen_entrys++;
+            }
+        }
+        $this->assertSame(5,$seen_entrys,"Foreach without key and added entry has failed");
     }
     public function testGetCollection()
     {

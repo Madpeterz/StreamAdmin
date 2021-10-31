@@ -30,11 +30,17 @@ abstract class CollectionSetGet extends CollectionSetCore implements Iterator
 
     public function valid(): bool
     {
-        if (isset($this->indexs[$this->position]) == true) {
-            $index = $this->indexs[$this->position];
-            return isset($this->collected[$index]);
+        if ($this->position < 0) {
+            return false;
         }
-        return false;
+        if (array_key_exists($this->position, $this->indexs) == false) {
+            return false;
+        }
+        $index = $this->indexs[$this->position];
+        if (array_key_exists($index, $this->collected) == false) {
+            return false;
+        }
+        return true;
     }
 
 

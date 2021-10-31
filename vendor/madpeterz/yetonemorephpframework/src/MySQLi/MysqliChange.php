@@ -4,6 +4,30 @@ namespace YAPF\MySQLi;
 
 abstract class MysqliChange extends MysqliProcess
 {
+    protected array $queryStats = [
+        "selects" => 0,
+        "updates" => 0,
+        "deletes" => 0,
+        "adds" => 0,
+        "total" => 0,
+    ];
+    /**
+     * getSQLstats
+     * takes a V2 where config to remove
+     * entrys from the database
+     * $where_config: see selectV2.readme
+     * @return mixed[] [selects => int, updates => int, adds => int, deletes => int, total => int]
+     */
+    public function getSQLstats(): array
+    {
+        $this->queryStats["total"] = 0 +
+        $this->queryStats["selects"] +
+        $this->queryStats["adds"] +
+        $this->queryStats["updates"] +
+        $this->queryStats["deletes"];
+        return $this->queryStats;
+    }
+
     /**
      * removeV2
      * takes a V2 where config to remove
@@ -22,6 +46,7 @@ abstract class MysqliChange extends MysqliProcess
             $error_msg = $this->getLastErrorBasic();
             return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
         }
+        $this->queryStats["deletes"]++;
         $sql = "DELETE FROM " . $table . "";
         $JustDoIt = $this->processSqlRequest("", [], $error_addon, $sql, $where_config);
         if ($JustDoIt["status"] == false) {
@@ -90,6 +115,7 @@ abstract class MysqliChange extends MysqliProcess
             $loop++;
         }
         // where fields
+        $this->queryStats["updates"]++;
         $JustDoIt = $this->processSqlRequest($bind_text, $bind_args, $error_addon, $sql, $where_config);
         if ($JustDoIt["status"] == false) {
             return $JustDoIt;
@@ -132,6 +158,7 @@ abstract class MysqliChange extends MysqliProcess
             $error_msg = $this->getLastErrorBasic();
             return $this->addError(__FILE__, __FUNCTION__, $error_msg, $error_addon);
         }
+        $this->queryStats["adds"]++;
         $sql = "INSERT INTO " . $config["table"] . " (" . implode(', ', $config["fields"]) . ") VALUES (";
         $loop = 0;
         $bind_text = "";

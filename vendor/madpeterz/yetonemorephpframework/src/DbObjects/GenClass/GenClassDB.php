@@ -169,15 +169,9 @@ abstract class GenClassDB extends GenClassControl
                 $id_check_passed = true;
                 $restore_dataset = $this->dataset;
                 $this->setup($load_data["dataset"][0]);
-                if (defined("REQUIRE_ID_ON_LOAD") == false) {
-                    $this->addError(__FILE__, __FUNCTION__, "REQUIRE_ID_ON_LOAD define is missing");
-                    return false;
-                }
-                if (REQUIRE_ID_ON_LOAD == true) {
-                    if (($this->getId() <= 0) || ($this->getId() === null)) {
-                        $id_check_passed = false;
-                        $this->dataset = $restore_dataset;
-                    }
+                if (($this->getId() <= 0) || ($this->getId() === null)) {
+                    $id_check_passed = false;
+                    $this->dataset = $restore_dataset;
                 }
                 return $id_check_passed;
             }
