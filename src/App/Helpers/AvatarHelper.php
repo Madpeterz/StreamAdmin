@@ -3,8 +3,9 @@
 namespace App\Helpers;
 
 use App\R7\Model\Avatar;
+use YAPF\Core\ErrorControl\ErrorLogging;
 
-class AvatarHelper
+class AvatarHelper extends ErrorLogging
 {
     protected ?Avatar $avatar = null;
     public function getAvatar(): Avatar
@@ -38,6 +39,9 @@ class AvatarHelper
         $this->avatar->setAvatarName($avatarName);
         $this->avatar->setAvatarUUID($avatarUUID);
         $create_status = $this->avatar->createEntry();
+        if ($create_status["status"] == false) {
+            $this->addError(__FILE__, __FUNCTION__, "unable to create avatar: " . $create_status["message"]);
+        }
         return $create_status["status"];
     }
 }

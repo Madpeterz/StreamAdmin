@@ -109,5 +109,6 @@ class Clients extends View
             . $clients_skipped_no_stream . " skipped (No stream), "
             . $clients_skipped_no_avatar . " skipped (No avatar), <br/> <a href=\"[[url_base]]import\">Back to menu</a>"
         );
+        $this->sql->sqlSave();
     }
 }

@@ -74,5 +74,6 @@ class Packages extends View
             "page_content",
             "Created: " . $packages_created . " packages <br/> <a href=\"[[url_base]]import\">Back to menu</a>"
         );
+        $this->sql->sqlSave();
     }
 }

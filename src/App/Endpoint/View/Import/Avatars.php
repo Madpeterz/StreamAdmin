@@ -42,5 +42,6 @@ class Avatars extends View
             "page_content",
             "Created: " . $avatars_created . " avatars <br/> <a href=\"[[url_base]]import\">Back to menu</a>"
         );
+        $this->sql->sqlSave();
     }
 }

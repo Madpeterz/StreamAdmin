@@ -99,5 +99,6 @@ class Streams extends View
             . $stream_skipped_no_package . " skipped (No package) <br/> "
             . "<a href=\"[[url_base]]import\">Back to menu</a>"
         );
+        $this->sql->sqlSave();
     }
 }
