@@ -9,7 +9,7 @@ use App\Endpoint\View\Package\Create;
 use App\Endpoint\View\Package\DefaultView;
 use App\Endpoint\View\Package\Manage;
 use App\Endpoint\View\Package\Remove;
-use App\R7\Model\Package;
+use App\Models\Package;
 use PHPUnit\Framework\TestCase;
 
 class PackageTest extends TestCase

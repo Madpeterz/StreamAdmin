@@ -4,9 +4,9 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Package\Create;
 use App\Endpoint\SecondLifeApi\Tree\Getpackages;
-use App\R7\Model\Package;
-use App\R7\Model\Treevender;
-use App\R7\Model\Treevenderpackages;
+use App\Models\Package;
+use App\Models\Treevender;
+use App\Models\Treevenderpackages;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiTree extends TestCase

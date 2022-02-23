@@ -10,10 +10,10 @@ use App\Helpers\AvatarHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
 use App\Helpers\TransactionsHelper;
-use App\R7\Model\Package;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Model\Transactions;
+use App\Models\Package;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Transactions;
 use PHPUnit\Framework\TestCase;
 
 class TransactionsTest extends TestCase

@@ -9,7 +9,7 @@ use App\Endpoint\View\Template\Create;
 use App\Endpoint\View\Template\DefaultView;
 use App\Endpoint\View\Template\Manage;
 use App\Endpoint\View\Template\Remove;
-use App\R7\Model\Template;
+use App\Models\Template;
 use PHPUnit\Framework\TestCase;
 
 class TemplateTest extends TestCase

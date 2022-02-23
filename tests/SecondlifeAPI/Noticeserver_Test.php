@@ -5,8 +5,8 @@ namespace StreamAdminR7;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 use App\Endpoint\SecondLifeApi\Noticeserver\UpdateNotecards;
 use App\Endpoint\SecondLifeApi\Renew\Details;
-use App\R7\Model\Rental;
-use App\R7\Set\NoticenotecardSet;
+use App\Models\Rental;
+use App\Models\Sets\NoticenotecardSet;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiNoticeserver extends TestCase

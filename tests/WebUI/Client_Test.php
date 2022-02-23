@@ -18,8 +18,8 @@ use App\Endpoint\View\Client\ListMode;
 use App\Endpoint\View\Client\Manage;
 use App\Endpoint\View\Client\Revoke;
 use App\Endpoint\View\Client\Soon;
-use App\R7\Model\Avatar;
-use App\R7\Model\Rental;
+use App\Models\Avatar;
+use App\Models\Rental;
 use PHPUnit\Framework\TestCase;
 
 class ClientTest extends TestCase

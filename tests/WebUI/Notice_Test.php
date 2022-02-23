@@ -9,8 +9,8 @@ use App\Endpoint\View\Notice\Create;
 use App\Endpoint\View\Notice\DefaultView;
 use App\Endpoint\View\Notice\Manage;
 use App\Endpoint\View\Notice\Remove;
-use App\R7\Model\Notice;
-use App\R7\Set\RentalSet;
+use App\Models\Notice;
+use App\Models\Sets\RentalSet;
 use PHPUnit\Framework\TestCase;
 
 class NoticeTest extends TestCase

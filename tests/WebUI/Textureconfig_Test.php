@@ -9,7 +9,7 @@ use App\Endpoint\View\Textureconfig\Create;
 use App\Endpoint\View\Textureconfig\DefaultView;
 use App\Endpoint\View\Textureconfig\Manage;
 use App\Endpoint\View\Textureconfig\Remove;
-use App\R7\Model\Textureconfig;
+use App\Models\Textureconfig;
 use PHPUnit\Framework\TestCase;
 
 class TextureconfigTest extends TestCase

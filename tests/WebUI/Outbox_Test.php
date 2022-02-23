@@ -9,8 +9,8 @@ use App\Endpoint\View\Outbox\DefaultView;
 use App\Endpoint\View\Outbox\Details;
 use App\Endpoint\View\Outbox\Mail;
 use App\Endpoint\View\Outbox\Notecard;
-use App\R7\Set\BotcommandqSet;
-use App\R7\Set\MessageSet;
+use App\Models\Sets\BotcommandqSet;
+use App\Models\Sets\MessageSet;
 use PHPUnit\Framework\TestCase;
 
 class OutboxText extends TestCase

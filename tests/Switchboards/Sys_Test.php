@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\R7\Model\Slconfig;
+use App\Models\Slconfig;
 use App\Switchboard\Sys;
 use PHPUnit\Framework\TestCase;
 
