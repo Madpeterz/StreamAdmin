@@ -235,7 +235,7 @@ function ajaxForm(form)
                         if (jsondata.hasOwnProperty('redirect')) {
                             if (jsondata.redirect != null) {
                                 jsondata.redirect = jsondata.redirect.replace("here", "");
-                                var urlgoto = url_base + jsondata.redirect;
+                                var urlgoto = SITE_URL + jsondata.redirect;
                                 setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
                             } else {
                                 setTimeout(function () { ajax_busy = false }, 1000);
@@ -272,7 +272,7 @@ $('#NotecardModal').on('show.bs.modal', function (event) {
     modal.find('#ModalText').val("Fetching notecard for rental " + rentaluid);
     $.ajax({
         type: "post",
-        url: url_base + "client/getnotecard/" + rentaluid,
+        url: SITE_URL + "client/getnotecard/" + rentaluid,
         success: function (data) {
             try {
                 jsondata = JSON.parse(data);
