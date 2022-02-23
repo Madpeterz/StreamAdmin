@@ -5,8 +5,8 @@ namespace StreamAdminR7;
 use App\Endpoint\SecondLifeApi\Buy\Checkstock;
 use App\Endpoint\SecondLifeApi\Buy\Getconfig;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
-use App\R7\Model\Package;
-use App\R7\Model\Stream;
+use App\Models\Package;
+use App\Models\Stream;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiBuy extends TestCase

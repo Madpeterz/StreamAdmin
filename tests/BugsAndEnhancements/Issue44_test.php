@@ -3,9 +3,9 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Package\Remove;
-use App\R7\Model\Package;
-use App\R7\Model\Transactions;
-use App\R7\Set\AvatarSet;
+use App\Models\Package;
+use App\Models\Transactions;
+use App\Models\Sets\AvatarSet;
 use PHPUnit\Framework\TestCase;
 
 class Issue44 extends TestCase

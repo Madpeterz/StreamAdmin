@@ -9,8 +9,8 @@ use App\Endpoint\View\Login\DefaultView as LoginPage;
 use App\Endpoint\View\Login\Logout;
 use App\Endpoint\View\Login\Reset as LoginReset;
 use App\Endpoint\View\Login\Resetwithtoken;
-use App\R7\Set\MessageSet;
-use App\R7\Model\Staff;
+use App\Models\Sets\MessageSet;
+use App\Models\Staff;
 use PHPUnit\Framework\TestCase;
 
 class Login extends TestCase

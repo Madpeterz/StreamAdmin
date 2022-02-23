@@ -3,7 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Tree\Update;
-use App\R7\Model\Treevender;
+use App\Models\Treevender;
 use PHPUnit\Framework\TestCase;
 
 class Issue95 extends TestCase

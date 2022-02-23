@@ -8,11 +8,11 @@ use App\Endpoint\SecondLifeApi\Buy\Startrental;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 use App\Endpoint\SecondLifeApi\Renew\Renewnow;
 use App\Helpers\NoticesHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\RentalSet;
+use App\Models\Avatar;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\RentalSet;
 use PHPUnit\Framework\TestCase;
 
 class Issue90 extends TestCase

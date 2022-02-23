@@ -3,11 +3,11 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Stream\Update;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
 use PHPUnit\Framework\TestCase;
 
 class Issue43 extends TestCase

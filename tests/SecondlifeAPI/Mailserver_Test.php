@@ -3,8 +3,8 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\Mailserver\Next;
-use App\R7\Set\BotcommandqSet;
-use App\R7\Set\MessageSet;
+use App\Models\Sets\BotcommandqSet;
+use App\Models\Sets\MessageSet;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiMailserver extends TestCase

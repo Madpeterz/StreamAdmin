@@ -5,9 +5,9 @@ namespace StreamAdminR7;
 use App\Endpoint\Control\Client\NoticeOptout;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 use App\Endpoint\View\Client\Manage;
-use App\R7\Model\Rental;
-use App\R7\Model\Rentalnoticeptout;
-use App\R7\Set\MessageSet;
+use App\Models\Rental;
+use App\Models\Rentalnoticeptout;
+use App\Models\Sets\MessageSet;
 use PHPUnit\Framework\TestCase;
 
 class Issue92 extends TestCase

@@ -4,14 +4,14 @@ namespace tests\BugReports;
 
 use App\Endpoint\SecondLifeApi\ClientAutoSuspend\Next as ClientAutoSuspendNext;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
-use App\R7\Model\Rental;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\BotcommandqSet;
-use App\R7\Set\MessageSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
+use App\Models\Rental;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\BotcommandqSet;
+use App\Models\Sets\MessageSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
 use PHPUnit\Framework\TestCase;
 
 class Issue69 extends TestCase

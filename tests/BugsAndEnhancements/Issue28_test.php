@@ -5,7 +5,7 @@ namespace tests\BugReports;
 use App\Endpoint\SecondLifeApi\Renew\Costandtime;
 use App\Endpoint\SecondLifeApi\Renew\Details;
 use App\Endpoint\SecondLifeApi\Renew\Renewnow;
-use App\R7\Model\Avatar;
+use App\Models\Avatar;
 use PHPUnit\Framework\TestCase;
 use YAPF\MySQLi\MysqliEnabled;
 use App\Endpoint\View\Import\Avatars;
@@ -14,7 +14,7 @@ use App\Endpoint\View\Import\Packages;
 use App\Endpoint\View\Import\Servers;
 use App\Endpoint\View\Import\Streams;
 use App\Endpoint\View\Import\Transactions;
-use App\R7\Model\Rental;
+use App\Models\Rental;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 
 /*

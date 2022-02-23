@@ -4,11 +4,11 @@ namespace tests\BugReports;
 
 use App\Endpoint\Control\Package\Create;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
-use App\R7\Model\Package;
-use App\R7\Model\Server;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
+use App\Models\Package;
+use App\Models\Server;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
 use PHPUnit\Framework\TestCase;
 
 /*

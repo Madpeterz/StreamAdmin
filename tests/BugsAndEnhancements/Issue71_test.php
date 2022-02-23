@@ -5,8 +5,8 @@ namespace StreamAdminR7;
 use App\Endpoint\SecondLifeApi\Renew\Costandtime;
 use App\Endpoint\SecondLifeApi\Renew\Details;
 use App\Endpoint\SecondLifeApi\Renew\Renewnow;
-use App\R7\Model\Rental;
-use App\R7\Set\EventsqSet;
+use App\Models\Rental;
+use App\Models\Sets\EventsqSet;
 use PHPUnit\Framework\TestCase;
 
 class Issue71 extends TestCase

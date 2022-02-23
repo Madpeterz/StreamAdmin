@@ -3,7 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\EventQ\Next;
-use App\R7\Set\EventsqSet;
+use App\Models\Sets\EventsqSet;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiEventsQserver extends TestCase

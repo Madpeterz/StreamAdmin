@@ -3,7 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Slconfig\Update;
-use App\R7\Model\Avatar;
+use App\Models\Avatar;
 use PHPUnit\Framework\TestCase;
 
 class Issue57 extends TestCase

@@ -3,8 +3,8 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\Bot\Notecardsync;
-use App\R7\Model\Slconfig;
-use App\R7\Set\BotcommandqSet;
+use App\Models\Slconfig;
+use App\Models\Sets\BotcommandqSet;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiBot extends TestCase

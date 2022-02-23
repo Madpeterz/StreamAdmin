@@ -5,8 +5,8 @@ namespace StreamAdminR7;
 use App\Endpoint\Control\Client\Api;
 use App\Endpoint\Control\Client\Bulkremove as ClientBulkremove;
 use App\Endpoint\View\Client\BulkRemove;
-use App\R7\Set\DetailSet;
-use App\R7\Set\RentalSet;
+use App\Models\Sets\DetailSet;
+use App\Models\Sets\RentalSet;
 use PHPUnit\Framework\TestCase;
 
 class FinalsClient extends TestCase

@@ -4,9 +4,9 @@ namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\BotCommandQ\Next;
 use App\Endpoint\SecondLifeApi\Buy\Startrental;
-use App\R7\Model\Botconfig;
-use App\R7\Model\Package;
-use App\R7\Set\BotcommandqSet;
+use App\Models\Botconfig;
+use App\Models\Package;
+use App\Models\Sets\BotcommandqSet;
 use PHPUnit\Framework\TestCase;
 
 class Issue73 extends TestCase
