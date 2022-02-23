@@ -46,7 +46,6 @@ class Config extends BootstrapConfigBox
         $cache->setTimeout(3);
         $cache->connectTCP($this->getRedisHost(), 6379);
 
-        $cache->addTableToCache("apis", 120, true, true);
         $cache->addTableToCache("banlist", 120, true);
         $cache->addTableToCache("botconfig", 120, true);
         $cache->addTableToCache("noticenotecard", 120, true);
