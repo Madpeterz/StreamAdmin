@@ -1,3 +1,0 @@
-<?php
-
-define("DBCONFIGFOUND", true);
