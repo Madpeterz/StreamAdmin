@@ -2,13 +2,12 @@
 
 namespace App\Endpoint\View\Search;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
 use App\Template\PagedInfo;
-use YAPF\InputFilter\InputFilter;
 
 class DefaultView extends View
 {
@@ -16,7 +15,7 @@ class DefaultView extends View
     protected array $seenAvatarIds = [];
     public function process(): void
     {
-        $input = new InputFilter();
+
         $search = trim($input->getString("search"));
         if (strlen($search) < 3) {
             $this->setSwapTag("page_content", "Sorry search requires 3 or more letters");
@@ -39,7 +38,7 @@ class DefaultView extends View
         $this->renderAvatars($avatar_set);
         $this->renderStreams($stream_set, $server_set);
         $paged = new PagedInfo();
-        $this->setSwapTag("page_content", $paged->render($this->pages));
+        $this->setSwapTag("page_content", $paged->render($this->siteConfig->getPage()s));
     }
 
     protected function renderStreams(StreamSet $search_stream_set, ServerSet $server_set): void
@@ -54,7 +53,7 @@ class DefaultView extends View
         foreach ($search_stream_set as $stream) {
             $server = $server_set->getObjectByID($stream->getServerLink());
             $entry = [];
-            $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStreamUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->getStreamUid() . '">'
             . $stream->getStreamUid() . '</a>';
             $entry[] = $server->getDomain();
             $entry[] = $stream->getPort();
@@ -72,12 +71,12 @@ class DefaultView extends View
                 if ($av_detail[1] == "Resident") {
                     $av_name = $av_detail[0];
                 }
-                $entry[] = '<a class="sold" href="[[url_base]]client/manage/'
+                $entry[] = '<a class="sold" href="[[SITE_URL]]client/manage/'
                 . $rental->getRentalUid() . '">Sold -> ' . $av_name . '</a>';
             }
             $table_body[] = $entry;
         }
-        $this->pages["Streams [" . $search_stream_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
+        $this->siteConfig->getPage()s["Streams [" . $search_stream_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
     protected function renderAvatars(AvatarSet $avatar_set): void
@@ -86,12 +85,12 @@ class DefaultView extends View
         $table_body = [];
         foreach ($avatar_set as $avatar) {
             $entry = [];
-            $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->getAvatarUid() . '">'
             . $avatar->getAvatarUid() . '</a>';
             $entry[] = $avatar->getAvatarName();
             $table_body[] = $entry;
         }
-        $this->pages["Avatars [" . $avatar_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
+        $this->siteConfig->getPage()s["Avatars [" . $avatar_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
     protected function renderRentals(RentalSet $search_rental_set, AvatarSet $avatar_set, StreamSet $stream_set): void
@@ -102,7 +101,7 @@ class DefaultView extends View
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
             $stream = $stream_set->getObjectByID($rental->getStreamLink());
             $entry = [];
-            $entry[] = '<a href="[[url_base]]client/manage/'
+            $entry[] = '<a href="[[SITE_URL]]client/manage/'
             . $rental->getRentalUid() . '">' . $rental->getRentalUid() . '</a>';
             $av_detail = explode(" ", $avatar->getAvatarName());
             $avname = $avatar->getAvatarName();
@@ -110,7 +109,7 @@ class DefaultView extends View
                 $avname = $av_detail[0];
             }
             $entry[] = $avname;
-            $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStreamUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->getStreamUid() . '">'
             . $stream->getPort() . '</a>';
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
@@ -123,7 +122,7 @@ class DefaultView extends View
             $entry[] = $rental->getRenewals();
             $table_body[] = $entry;
         }
-        $this->pages["Clients [" . $search_rental_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
+        $this->siteConfig->getPage()s["Clients [" . $search_rental_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
     }
 
     protected function loadPackagesFromStreams(StreamSet $stream_set): PackageSet

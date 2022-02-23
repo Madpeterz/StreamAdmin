@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Datatables;
 
-use App\R7\Set\DatatableSet;
+use App\Models\Sets\DatatableSet;
 
 class DefaultView extends View
 {
@@ -16,7 +16,7 @@ class DefaultView extends View
         foreach ($DatatablesSet as $Datatable) {
             $entry = [];
             $entry[] = $Datatable->getId();
-            $entry[] = '<a href="[[url_base]]datatables/manage/' . $Datatable->getId() . '">'
+            $entry[] = '<a href="[[SITE_URL]]datatables/manage/' . $Datatable->getId() . '">'
             . $Datatable->getName() . '</a>';
             $table_body[] = $entry;
         }

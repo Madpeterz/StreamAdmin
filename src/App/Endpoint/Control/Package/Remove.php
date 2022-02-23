@@ -2,19 +2,18 @@
 
 namespace App\Endpoint\Control\Package;
 
-use App\R7\Model\Package;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
-use App\R7\Set\TransactionsSet;
-use App\R7\Set\TreevenderpackagesSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
+use App\Models\Sets\TransactionsSet;
+use App\Models\Sets\TreevenderpackagesSet;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $package = new Package();
         $stream_set = new StreamSet();
         $rental_set = new RentalSet();
@@ -24,10 +23,10 @@ class Remove extends ViewAjax
         $this->setSwapTag("redirect", "package");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "package/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "package/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
-        if ($package->loadByPackageUid($this->page) == false) {
+        if ($package->loadByPackageUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find package");
             return;
         }

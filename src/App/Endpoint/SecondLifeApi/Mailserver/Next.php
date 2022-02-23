@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\SecondLifeApi\Mailserver;
 
-use App\R7\Model\Avatar;
-use App\R7\Set\MessageSet;
+use App\Models\Avatar;
+use App\Models\Sets\MessageSet;
 use App\Template\SecondlifeAjax;
 
 class Next extends SecondlifeAjax

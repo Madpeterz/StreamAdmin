@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Template;
 
-use App\R7\Model\Template;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Template;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $name = $input->postString("name", 30, 5);
         if ($name == null) {
             $this->failed("Name failed:" . $input->getWhyFailed());
@@ -27,7 +26,7 @@ class Update extends ViewAjax
             return;
         }
         $template = new Template();
-        if ($template->loadID($this->page) == false) {
+        if ($template->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find template");
             return;
         }

@@ -2,25 +2,24 @@
 
 namespace App\Endpoint\Control\Staff;
 
-use App\R7\Model\Staff;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Staff;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $staff = new Staff();
 
         $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "staff");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "staff/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "staff/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
-        if ($staff->loadID($this->page) == false) {
+        if ($staff->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find staff member");
             return;
         }

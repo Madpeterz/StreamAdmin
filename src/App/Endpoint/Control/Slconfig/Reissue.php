@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Slconfig;
 
-use App\Template\ViewAjax;
+use App\Framework\ViewAjax;
 
 class Reissue extends ViewAjax
 {

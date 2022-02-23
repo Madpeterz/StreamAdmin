@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Template;
 
-use App\Template\Form;
-use App\R7\Model\Template;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Template;
 use App\Template\PagedInfo;
 
 class Manage extends View
@@ -16,20 +16,20 @@ class Manage extends View
 
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove template " . $this->page . "' 
+        data-actiontitle='Remove template " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove template' 
         data-actionmessage='This will fail is the template is being used by a package or API event' 
-        data-targetendpoint='[[url_base]]Template/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Template/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $template = new Template();
-        if ($template->loadID($this->page) == false) {
+        if ($template->loadID($this->siteConfig->getPage()) == false) {
             $this->output->redirect("template?bubblemessage=unable to find template&bubbletype=warning");
             return;
         }
         $this->output->addSwapTagString("page_title", ":" . $template->getName());
         $form = new Form();
-        $form->target("template/update/" . $this->page . "");
+        $form->target("template/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(3);
             $form->textInput("name", "Name", 30, $template->getName(), "Name");

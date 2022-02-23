@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Template;
 
-use App\R7\Set\TemplateSet;
+use App\Models\Sets\TemplateSet;
 
 class DefaultView extends View
 {
@@ -17,7 +17,7 @@ class DefaultView extends View
         foreach ($template_set as $tempalte) {
             $entry = [];
             $entry[] = $tempalte->getId();
-            $entry[] = '<a href="[[url_base]]template/manage/' . $tempalte->getId() . '">'
+            $entry[] = '<a href="[[SITE_URL]]template/manage/' . $tempalte->getId() . '">'
             . $tempalte->getName() . '</a>';
             $table_body[] = $entry;
         }

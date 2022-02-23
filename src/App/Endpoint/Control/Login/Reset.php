@@ -2,18 +2,17 @@
 
 namespace App\Endpoint\Control\Login;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Message;
-use App\R7\Model\Staff;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Message;
+use App\Models\Staff;
+use App\Framework\ViewAjax;
 
 class Reset extends ViewAjax
 {
     protected function sendMessageReset(Avatar $avatar, string $resetCode): bool
     {
         global $template_parts;
-        $reset_url = $template_parts["url_base"] . "login/resetwithtoken/" . $resetCode;
+        $reset_url = $template_parts["SITE_URL"] . "login/resetwithtoken/" . $resetCode;
         $message = new Message();
         $message->setAvatarLink($avatar->getId());
         $message->setMessage(sprintf("Web panel reset link: %1\$s expires in 1 hour", $reset_url));
@@ -28,7 +27,7 @@ class Reset extends ViewAjax
         global $unixtime_hour;
         sleep(1);
 
-        $input = new InputFilter();
+
         $avatar = new Avatar();
         $staff = new Staff();
 

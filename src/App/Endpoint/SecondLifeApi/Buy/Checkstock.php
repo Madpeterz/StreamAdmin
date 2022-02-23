@@ -2,17 +2,16 @@
 
 namespace App\Endpoint\SecondLifeApi\Buy;
 
-use App\R7\Set\ApirequestsSet;
-use App\R7\Model\Package;
-use App\R7\Model\Stream;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Package;
+use App\Models\Stream;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Checkstock extends SecondlifeAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $packageuid = $input->postFilter("packageuid");
         $package = new Package();
         if ($package->loadByField("packageUid", $packageuid) == false) {

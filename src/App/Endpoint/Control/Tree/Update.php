@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\R7\Model\Treevender;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Treevender;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $name = $input->postString("name", 100, 4);
         if ($name == null) {
             $this->failed("Name failed:" . $input->getWhyFailed());
@@ -32,7 +31,7 @@ class Update extends ViewAjax
         }
         $this->setSwapTag("redirect", "");
         $treevender = new Treevender();
-        if ($treevender->loadID($this->page) == false) {
+        if ($treevender->loadID($this->siteConfig->getPage()) == false) {
             $this->setSwapTag("redirect", "tree");
             $this->failed("Unable to find treevender");
             return;

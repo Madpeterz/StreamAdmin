@@ -2,12 +2,11 @@
 
 namespace App\Endpoint\Control\Package;
 
-use App\R7\Model\Package;
-use App\R7\Model\Servertypes;
-use App\R7\Model\Template;
-use App\R7\Set\NoticenotecardSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Servertypes;
+use App\Models\Template;
+use App\Models\Sets\NoticenotecardSet;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
@@ -15,7 +14,7 @@ class Create extends ViewAjax
     {
         $template = new Template();
         $servertype = new Servertypes();
-        $input = new InputFilter();
+
         $package = new Package();
 
         $noticeNotecards = new NoticenotecardSet();

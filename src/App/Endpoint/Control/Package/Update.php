@@ -2,12 +2,11 @@
 
 namespace App\Endpoint\Control\Package;
 
-use App\R7\Model\Package;
-use App\R7\Model\Servertypes;
-use App\R7\Model\Template;
-use App\R7\Set\NoticenotecardSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Servertypes;
+use App\Models\Template;
+use App\Models\Sets\NoticenotecardSet;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
@@ -172,7 +171,7 @@ class Update extends ViewAjax
         } elseif ($this->servertype->loadID($this->servertypeLink) == false) {
             $this->failed("Unable to find server type");
             return false;
-        } elseif ($this->package->loadByPackageUid($this->page) == false) {
+        } elseif ($this->package->loadByPackageUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load package");
             return false;
         }

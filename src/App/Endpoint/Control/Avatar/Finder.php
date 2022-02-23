@@ -2,9 +2,8 @@
 
 namespace App\Endpoint\Control\Avatar;
 
-use App\R7\Set\AvatarSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Framework\ViewAjax;
 
 class Finder extends ViewAjax
 {
@@ -12,7 +11,7 @@ class Finder extends ViewAjax
     {
         $this->setSwapTag("status", true);
 
-        $input = new inputFilter();
+
         $avatarfindname = $input->postString("avatarfind");
         if ($avatarfindname == null) {
             $this->failed("Avatar UID/Name/UUID was not sent!");

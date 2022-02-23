@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Region;
+use App\Models\Region;
 
 class RegionHelper
 {

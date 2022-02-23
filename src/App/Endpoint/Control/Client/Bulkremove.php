@@ -4,17 +4,16 @@ namespace App\Endpoint\Control\Client;
 
 use App\Helpers\EventsQHelper;
 use App\MediaServer\Logic\ApiLogicRevoke;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\ApisSet;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Model\Server;
-use App\R7\Set\RentalnoticeptoutSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\ApisSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Server;
+use App\Models\Sets\RentalnoticeptoutSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
+use App\Framework\ViewAjax;
 
 class Bulkremove extends ViewAjax
 {
@@ -25,7 +24,7 @@ class Bulkremove extends ViewAjax
         "values" => [time(),6],
         "matches" => ["<=","="],
         ];
-        $input = new InputFilter();
+
         $template_parts["page_actions"] = "";
         $rental_set = new RentalSet();
         $stream_set = new StreamSet();

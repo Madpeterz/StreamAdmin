@@ -2,16 +2,15 @@
 
 namespace App\Endpoint\Control\Notice;
 
-use App\R7\Model\Notice;
-use App\R7\Model\Noticenotecard;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Notice;
+use App\Models\Noticenotecard;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $static_notecard = new Noticenotecard();
         $name = $input->postString("name", 100, 5);
         if ($name == null) {
@@ -19,7 +18,7 @@ class Update extends ViewAjax
             return;
         }
         $minValue = 1;
-        if ($this->page == 6) {
+        if ($this->siteConfig->getPage() == 6) {
             $minValue = 0;
         }
         $hoursRemaining = $input->postInteger("hoursRemaining");
@@ -27,7 +26,7 @@ class Update extends ViewAjax
             $this->failed("Hours remain failed: can not be less than " . $minValue);
             return;
         }
-        if ($this->page == 6) {
+        if ($this->siteConfig->getPage() == 6) {
             $hoursRemaining = 0;
         }
         $imMessage = $input->postString("imMessage", 800, 5);
@@ -69,7 +68,7 @@ class Update extends ViewAjax
         }
 
         $notice = new Notice();
-        if ($notice->loadID($this->page) == false) {
+        if ($notice->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find notice");
             $this->setSwapTag("redirect", "notice");
             return;
@@ -103,7 +102,7 @@ class Update extends ViewAjax
         $notice->setSendNotecard($sendNotecard);
         $notice->setNotecardDetail($notecardDetail);
         $notice->setNoticeNotecardLink($static_notecard->getId());
-        if (in_array($this->page, [6,10]) == false) {
+        if (in_array($this->siteConfig->getPage(), [6,10]) == false) {
             $notice->setHoursRemaining($hoursRemaining);
         }
         $update_status = $notice->updateEntry();

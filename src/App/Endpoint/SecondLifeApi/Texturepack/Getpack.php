@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\SecondLifeApi\Texturepack;
 
-use App\R7\Model\Textureconfig;
+use App\Models\Textureconfig;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Getpack extends SecondlifeAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $texturepack = $input->postFilter("texturepack", "integer");
         if ($texturepack < 1) {
             $this->setSwapTag("message", "Invaild texturepack id (or non sent)");

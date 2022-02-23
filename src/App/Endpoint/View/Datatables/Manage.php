@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Datatables;
 
-use App\R7\Model\Datatable;
-use App\Template\Form as Form;
+use App\Models\Datatable;
+use YAPF\Bootstrap\Template\Form as Form;
 
 class Manage extends View
 {
@@ -13,14 +13,14 @@ class Manage extends View
         $this->setSwapTag("page_title", "Editing datatable");
         $this->setSwapTag("page_actions", "");
         $datatable = new Datatable();
-        if ($datatable->loadid($this->page) == false) {
+        if ($datatable->loadid($this->siteConfig->getPage()) == false) {
             $this->output->redirect("datatables?bubblemessage=Unable to find datatable&bubbletype=warning");
             return;
         }
         $this->output->addSwapTagString("page_title", " : " . $datatable->getName() . " 
         [" . $datatable->getId() . "]");
         $form = new form();
-        $form->target("datatables/update/" . $this->page . "");
+        $form->target("datatables/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $elements = explode(",", $datatable->getCols());
         $bits = [];

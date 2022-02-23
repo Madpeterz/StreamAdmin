@@ -2,9 +2,8 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\StreamSet;
+use App\Framework\ViewAjax;
 
 class Bulkupdate extends ViewAjax
 {
@@ -19,7 +18,7 @@ class Bulkupdate extends ViewAjax
         $stream_set = new StreamSet();
         $stream_set->loadWithConfig($whereconfig);
         $this->setSwapTag("redirect", "stream/bulkupdate");
-        $input = new InputFilter();
+
         $streams_updated = 0;
         $streams_skipped_originalAdminUsername = 0;
         $streams_skipped_passwordChecks = 0;

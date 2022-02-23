@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Package;
 
-use App\R7\Set\PackageSet;
-use App\R7\Set\ServertypesSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\ServertypesSet;
 
 class DefaultView extends View
 {
@@ -22,7 +22,7 @@ class DefaultView extends View
             $type = $servertypes_set->getObjectByID($package->getServertypeLink());
             $entry = [];
             $entry[] = $package->getId();
-            $entry[] = '<a href="[[url_base]]package/manage/' . $package->getPackageUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]package/manage/' . $package->getPackageUid() . '">'
              . $package->getPackageUid() . '</a>';
             $entry[] = $package->getName();
             $entry[] = $type->getName();

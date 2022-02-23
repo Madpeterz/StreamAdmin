@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Avatar;
 
-use App\R7\Model\Avatar;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
-        $input = new inputFilter();
+
         $avatarName = $input->postString("avatarName", 125, 5);
         $avatarUUID = $input->postUUID("avatarUUID");
         if ($avatarName == null) {
@@ -23,7 +22,7 @@ class Update extends ViewAjax
         }
         $this->setSwapTag("redirect", "avatar");
         $avatar = new Avatar();
-        if ($avatar->loadByAvatarUid($this->page) == false) {
+        if ($avatar->loadByAvatarUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find the avatar");
             return;
         }

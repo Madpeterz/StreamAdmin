@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\Control\Banlist;
 
-use App\R7\Model\Banlist;
-use App\Template\ViewAjax;
+use App\Framework\ViewAjax;
+use App\Models\Banlist;
 
 class Clear extends ViewAjax
 {
@@ -11,7 +11,7 @@ class Clear extends ViewAjax
     {
         $banlist = new Banlist();
         $this->setSwapTag("redirect", "banlist");
-        if ($banlist->loadID($this->page) == false) {
+        if ($banlist->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("unable to find entry");
             return;
         }

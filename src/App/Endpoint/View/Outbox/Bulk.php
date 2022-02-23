@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\BanlistSet;
-use App\R7\Model\Notice;
-use App\R7\Model\Package;
-use App\R7\Set\RentalSet;
-use App\R7\Model\Server;
-use App\R7\Set\StreamSet;
-use App\Template\Form;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\BanlistSet;
+use App\Models\Notice;
+use App\Models\Package;
+use App\Models\Sets\RentalSet;
+use App\Models\Server;
+use App\Models\Sets\StreamSet;
+use YAPF\Bootstrap\Template\Form;
 
 class Bulk extends View
 {
@@ -25,7 +24,7 @@ class Bulk extends View
         $message = "";
 
 
-        if ($this->page == "notice") {
+        if ($this->siteConfig->getPage() == "notice") {
             $message = $input_filter->getString("messageStatus", 800, 10);
             if ($message == null) {
                 $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
@@ -39,7 +38,7 @@ class Bulk extends View
                 $rental_set->loadOnField("noticeLink", $source_id);
                 $ok = true;
             }
-        } elseif ($this->page == "server") {
+        } elseif ($this->siteConfig->getPage() == "server") {
             $message = $input_filter->getString("messageServer", 800, 10);
             if ($message == null) {
                 $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
@@ -55,7 +54,7 @@ class Bulk extends View
                 $rental_set->loadByValues($stream_set->getAllIds(), "streamLink");
                 $ok = true;
             }
-        } elseif ($this->page == "package") {
+        } elseif ($this->siteConfig->getPage() == "package") {
             $message = $input_filter->getString("messagePackage", 800, 10);
             if ($message == null) {
                 $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
@@ -69,7 +68,7 @@ class Bulk extends View
                 $rental_set->loadOnField("packageLink", $source_id);
                 $ok = true;
             }
-        } elseif ($this->page == "clients") {
+        } elseif ($this->siteConfig->getPage() == "clients") {
             $message = $input_filter->getString("messageClients", 800, 10);
             if ($message == null) {
                 $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
@@ -90,7 +89,7 @@ class Bulk extends View
             return;
         }
 
-        $this->output->addSwapTagString("page_title", " Bulk sending to " . $this->page . ": " . $souce_named);
+        $this->output->addSwapTagString("page_title", " Bulk sending to " . $this->siteConfig->getPage() . ": " . $souce_named);
         $stream_set = new StreamSet();
         $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
         $avatar_set = new AvatarSet();
@@ -100,14 +99,14 @@ class Bulk extends View
 
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
-            $this->output->redirect("outbox?message=No selectable avatars for the " . $this->page);
+            $this->output->redirect("outbox?message=No selectable avatars for the " . $this->siteConfig->getPage());
             return;
         }
         $form = new Form();
         $form->target("outbox/send");
         $form->hiddenInput("message", $message);
         $form->hiddenInput("max_avatars", $max_avatar_count);
-        $form->hiddenInput("source", $this->page);
+        $form->hiddenInput("source", $this->siteConfig->getPage());
         $form->hiddenInput("source_id", $source_id);
 
         $table_head = ["<a href=\"#\" class=\"bulksenduncheck\">X</a>","Name"];

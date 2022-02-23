@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Objects;
+use App\Models\Objects;
 
 class ObjectHelper
 {

@@ -2,16 +2,15 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\R7\Model\Treevender;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Treevender;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
     public function process(): void
     {
         $treevender = new Treevender();
-        $input = new InputFilter();
+
         $name = $input->postString("name", 100, 4);
         if ($name == null) {
             $this->failed("Name is not vaild: " . $input->getLastError());

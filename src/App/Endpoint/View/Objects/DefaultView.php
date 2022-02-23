@@ -2,17 +2,16 @@
 
 namespace App\Endpoint\View\Objects;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\ObjectsSet;
-use App\R7\Set\RegionSet;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\ObjectsSet;
+use App\Models\Sets\RegionSet;
 
 class DefaultView extends View
 {
     public function process(): void
     {
         $inputFilter = new InputFilter();
-        $pagenum = $inputFilter->varFilter($this->page, "integer");
+        $pagenum = $inputFilter->varFilter($this->siteConfig->getPage(), "integer");
         if ($pagenum == null) {
             $pagenum = 0;
         }
@@ -48,7 +47,7 @@ class DefaultView extends View
             $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
             . $region->getName() . "</a>";
             $entry[] = $object->getObjectXYZ();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }

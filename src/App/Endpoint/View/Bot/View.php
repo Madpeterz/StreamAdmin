@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Bot;
 
-use App\Template\View as BasicView;
+use App\Framework\View as BasicView;
 
 abstract class View extends BasicView
 {

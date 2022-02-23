@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Slconfig;
 
-use App\R7\Model\Avatar;
-use App\Template\Form;
-use App\R7\Set\TimezonesSet;
+use App\Models\Avatar;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Sets\TimezonesSet;
 
 class DefaultView extends View
 {
@@ -33,7 +33,7 @@ class DefaultView extends View
         $timezones_set->loadAll();
 
         $form = new Form();
-        $form->target("slconfig/update/" . $this->page . "");
+        $form->target("slconfig/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
             $form->group("Core");
@@ -183,7 +183,7 @@ class DefaultView extends View
 
         $this->setSwapTag(
             "page_actions",
-            "<a href='[[url_base]]slconfig/reissue'><button type='button' class='btn btn-danger'>Reissue</button></a>"
+            "<a href='[[SITE_URL]]slconfig/reissue'><button type='button' class='btn btn-danger'>Reissue</button></a>"
         );
     }
 }

@@ -2,14 +2,13 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\R7\Set\TransactionsSet;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\TransactionsSet;
 
 class ComapreYears extends View
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $yeara = $input->getFilter("yeara", "integer");
         if ($yeara < 2013) {
             $yeara = 2013;

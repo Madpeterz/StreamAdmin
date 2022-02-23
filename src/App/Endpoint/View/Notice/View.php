@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\R7\Model\Stream;
-use App\Template\View as BasicView;
+use App\Models\Stream;
+use App\Framework\View as BasicView;
 
 abstract class View extends BasicView
 {
@@ -16,8 +16,8 @@ abstract class View extends BasicView
         }
         $this->setSwapTag("html_title", "Notices");
         $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] 
-        / <a href='[[url_base]]notice'>Notices</a> / ");
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]notice/create'>"
+        / <a href='[[SITE_URL]]notice'>Notices</a> / ");
+        $this->setSwapTag("page_actions", "<a href='[[SITE_URL]]notice/create'>"
         . "<button type='button' class='btn btn-success'>Create</button></a>");
     }
 }

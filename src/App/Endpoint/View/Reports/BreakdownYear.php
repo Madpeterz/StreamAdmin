@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\R7\Set\TransactionsSet;
+use App\Models\Sets\TransactionsSet;
 use App\Template\PagedInfo;
-use YAPF\InputFilter\InputFilter;
 
 class BreakdownYear extends View
 {
     public function process(): void
     {
-        $input = new inputFilter();
+
         $year = $input->getFilter("year", "integer");
         if ($year > date("Y")) {
             $year = date("Y");

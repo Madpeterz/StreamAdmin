@@ -4,15 +4,14 @@ namespace App\Endpoint\Control\Client;
 
 use App\Helpers\EventsQHelper;
 use App\MediaServer\Logic\ApiLogicRevoke;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Model\Avatar;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Set\RentalnoticeptoutSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Avatar;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Sets\RentalnoticeptoutSet;
+use App\Framework\ViewAjax;
 
 class Revoke extends ViewAjax
 {
@@ -51,7 +50,7 @@ class Revoke extends ViewAjax
 
     protected function load(): bool
     {
-        if ($this->rental->loadByRentalUid($this->page) == false) {
+        if ($this->rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find client");
             return false;
         }

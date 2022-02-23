@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
 
 abstract class Withstatus extends RenderList
 {

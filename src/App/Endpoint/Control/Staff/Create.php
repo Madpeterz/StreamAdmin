@@ -2,10 +2,9 @@
 
 namespace App\Endpoint\Control\Staff;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Staff;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Staff;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
@@ -18,7 +17,7 @@ class Create extends ViewAjax
         }
         $staff = new Staff();
         $avatar = new Avatar();
-        $input = new inputFilter();
+
         $avataruid = $input->postString("avataruid", 8, 8);
         if ($avataruid == null) {
             $this->failed("Avatar UID failed:" . $input->getWhyFailed());

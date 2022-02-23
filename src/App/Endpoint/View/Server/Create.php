@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Server;
 
-use App\R7\Set\ApisSet;
-use App\Template\Form;
+use App\Models\Sets\ApisSet;
+use YAPF\Bootstrap\Template\Form;
 
 class Create extends View
 {

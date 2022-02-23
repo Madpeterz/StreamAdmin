@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Model\Server;
+use App\Models\Server;
 
 class NeedWork extends Withstatus
 {
@@ -18,7 +18,7 @@ class NeedWork extends Withstatus
         parent::process();
         $this->setSwapTag(
             "page_actions",
-            "<a href='[[url_base]]stream/bulkupdate'><button type='button' class='btn btn-outline-warning btn-sm'>"
+            "<a href='[[SITE_URL]]stream/bulkupdate'><button type='button' class='btn btn-outline-warning btn-sm'>"
             . "Bulk update</button></a>"
         );
     }

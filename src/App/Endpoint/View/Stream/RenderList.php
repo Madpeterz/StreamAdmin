@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
 
 abstract class RenderList extends View
 {
@@ -28,7 +28,7 @@ abstract class RenderList extends View
 
             $entry = [];
             $entry[] = $stream->getId();
-            $entry[] = '<a href="[[url_base]]stream/manage/' . $stream->getStreamUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->getStreamUid() . '">'
             . $stream->getStreamUid() . '</a>';
             $entry[] = $server->getDomain();
             $entry[] = $stream->getPort();
@@ -46,7 +46,7 @@ abstract class RenderList extends View
                 if ($av_detail[1] == "Resident") {
                     $av_name = $av_detail[0];
                 }
-                $entry[] = '<a class="sold" href="[[url_base]]client/manage/'
+                $entry[] = '<a class="sold" href="[[SITE_URL]]client/manage/'
                 . $rental->getRentalUid() . '">Sold -> ' . $av_name . '</a>';
             }
             $table_body[] = $entry;

@@ -2,14 +2,13 @@
 
 namespace App\Endpoint\Control\Login;
 
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Framework\ViewAjax;
 
 class Start extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $staffusername = $input->postString("staffusername");
         $staffpassword = $input->postString("staffpassword");
         $this->failed("Username or Password is invaild");

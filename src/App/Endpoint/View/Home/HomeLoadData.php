@@ -2,16 +2,16 @@
 
 namespace App\Endpoint\View\Home;
 
-use App\R7\Model\Botconfig;
-use App\R7\Set\NoticeSet;
-use App\R7\Set\ObjectsSet;
-use App\R7\Set\RegionSet;
-use App\R7\Model\Rental;
-use App\R7\Set\ApisSet;
-use App\R7\Set\ResellerSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\Grid;
+use App\Models\Botconfig;
+use App\Models\Sets\NoticeSet;
+use App\Models\Sets\ObjectsSet;
+use App\Models\Sets\RegionSet;
+use App\Models\Rental;
+use App\Models\Sets\ApisSet;
+use App\Models\Sets\ResellerSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
+use YAPF\Bootstrap\Template\Grid;
 
 abstract class HomeLoadData extends View
 {

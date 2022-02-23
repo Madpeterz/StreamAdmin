@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\SecondLifeApi\Apirequests;
 
-use App\R7\Set\ApirequestsSet;
+use App\Models\Sets\ApirequestsSet;
 use App\Template\SecondlifeAjax;
 
 class Next extends SecondlifeAjax

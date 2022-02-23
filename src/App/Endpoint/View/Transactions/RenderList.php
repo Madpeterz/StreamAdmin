@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use App\R7\Model\Avatar;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RegionSet;
-use App\R7\Set\TransactionsSet;
+use App\Models\Avatar;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RegionSet;
+use App\Models\Sets\TransactionsSet;
 
 abstract class RenderList extends View
 {
@@ -74,7 +74,7 @@ abstract class RenderList extends View
             $entry = [];
             $entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $entry[] = $packagename;
             $entry[] = $regionname;
@@ -90,7 +90,7 @@ abstract class RenderList extends View
             }
             $entry[] = $type;
             if ($this->session->getOwnerLevel() == 1) {
-                $entry[] = "<a href=\"[[url_base]]transactions/remove/" . $transaction->getTransactionUid() . "\">"
+                $entry[] = "<a href=\"[[SITE_URL]]transactions/remove/" . $transaction->getTransactionUid() . "\">"
                 . "<button type=\"button\" class=\"btn btn-danger btn-sm\"><i class=\"fas fa-minus-circle\"></i>"
                 . "</button></a>";
             }

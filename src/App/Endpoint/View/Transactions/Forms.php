@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use App\Template\Form;
-use App\Template\Grid;
+use YAPF\Bootstrap\Template\Form;
+use YAPF\Bootstrap\Template\Grid;
 
 abstract class Forms extends RenderList
 {

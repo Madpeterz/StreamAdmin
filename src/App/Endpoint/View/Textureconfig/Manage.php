@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Textureconfig;
 
-use App\Template\Form;
-use App\R7\Model\Textureconfig;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Textureconfig;
 
 class Manage extends View
 {
@@ -13,20 +13,20 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", " Editing texture pack");
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove texture pack " . $this->page . "' 
+        data-actiontitle='Remove texture pack " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove texture pack' 
         data-actionmessage='Are you sure you want to remove this texture pack?' 
-        data-targetendpoint='[[url_base]]Textureconfig/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Textureconfig/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $textureconfig = new Textureconfig();
-        if ($textureconfig->loadID($this->page) == false) {
+        if ($textureconfig->loadID($this->siteConfig->getPage()) == false) {
             $this->output->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
             return;
         }
         $this->output->addSwapTagString("page_title", ":" . $textureconfig->getName());
         $form = new Form();
-        $form->target("textureconfig/update/" . $this->page . "");
+        $form->target("textureconfig/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
             $form->textInput("name", "Name", 30, $textureconfig->getName(), "Name");

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\R7\Set\TreevenderSet;
+use App\Models\Sets\TreevenderSet;
 
 class DefaultView extends View
 {
@@ -16,7 +16,7 @@ class DefaultView extends View
         foreach ($treevender_set as $treevender) {
             $entry = [];
             $entry[] = $treevender->getId();
-            $entry[] = $treevender->getId() . ' <a href="[[url_base]]tree/manage/'
+            $entry[] = $treevender->getId() . ' <a href="[[SITE_URL]]tree/manage/'
             . $treevender->getId() . '">' . $treevender->getName() . '</a>';
             $table_body[] = $entry;
         }

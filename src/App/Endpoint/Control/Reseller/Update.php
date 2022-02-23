@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Reseller;
 
-use App\R7\Model\Reseller;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Reseller;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $reseller = new Reseller();
 
         $rate = $input->postInteger("rate");
@@ -27,7 +26,7 @@ class Update extends ViewAjax
             return;
         }
         $this->setSwapTag("redirect", "reseller");
-        if ($reseller->loadID($this->page) == false) {
+        if ($reseller->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load reseller");
             return;
         }

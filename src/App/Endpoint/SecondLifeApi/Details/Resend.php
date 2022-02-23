@@ -2,17 +2,16 @@
 
 namespace App\Endpoint\SecondLifeApi\Details;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Detail;
-use App\R7\Model\Rental;
+use App\Models\Avatar;
+use App\Models\Detail;
+use App\Models\Rental;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Resend extends SecondlifeAjax
 {
     public function process(?Avatar $forceAv = null): void
     {
-        $input = new InputFilter();
+
         $rentalUid = $input->postFilter("rentalUid");
         $rental = new Rental();
         if ($rental->loadByField("rentalUid", $rentalUid) == false) {

@@ -2,18 +2,17 @@
 
 namespace App\Endpoint\SecondLifeApi\Buy;
 
-use App\R7\Set\ApirequestsSet;
-use App\R7\Model\Package;
-use App\R7\Model\Stream;
-use App\R7\Model\Textureconfig;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Package;
+use App\Models\Stream;
+use App\Models\Textureconfig;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Getconfig extends SecondlifeAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $packageuid = $input->postFilter("packageuid");
         $texturepack = $input->postFilter("texturepack", "integer");
         if ($texturepack <= 0) {

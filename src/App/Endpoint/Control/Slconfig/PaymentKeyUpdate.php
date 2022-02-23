@@ -3,14 +3,13 @@
 namespace App\Endpoint\Control\Slconfig;
 
 use App\Endpoint\View\Slconfig\PaymentKey;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Framework\ViewAjax;
 
 class PaymentKeyUpdate extends ViewAjax
 {
     public function process(): void
     {
-        $input = new inputFilter();
+
         $key = $input->postString("assignedkey", 23, 23);
         $keyCheck = new PaymentKey();
         $results = $keyCheck->getKeyStatus($key, false);

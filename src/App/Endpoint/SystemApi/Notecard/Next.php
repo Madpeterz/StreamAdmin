@@ -3,15 +3,15 @@
 namespace App\Endpoint\SystemApi\Notecard;
 
 use App\Helpers\SwapablesHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Notecard;
-use App\R7\Set\NotecardSet;
-use App\R7\Model\Notice;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Model\Template;
+use App\Models\Avatar;
+use App\Models\Notecard;
+use App\Models\Sets\NotecardSet;
+use App\Models\Notice;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Template;
 use App\Template\SystemApiAjax;
 
 class Next extends SystemApiAjax

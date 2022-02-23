@@ -2,8 +2,6 @@
 
 namespace App\Template;
 
-use YAPF\InputFilter\InputFilter;
-
 abstract class SystemApiAjax extends ViewAjax
 {
     protected $unixtime = 0;
@@ -86,7 +84,7 @@ abstract class SystemApiAjax extends ViewAjax
             "method",
             "action",
         ];
-        $input = new InputFilter();
+
         $this->staticpart = "";
         foreach ($required_values as $slvalue) {
             $value = $input->postFilter($slvalue);

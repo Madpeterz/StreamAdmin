@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\ServerSet;
-use App\Template\Form;
+use App\Models\Sets\ServerSet;
+use YAPF\Bootstrap\Template\Form;
 
 $server_set = new ServerSet();
 $server_set->loadAll();

@@ -2,22 +2,21 @@
 
 namespace App\Endpoint\Control\Client;
 
-use App\R7\Model\Rental;
-use App\R7\Model\Rentalnoticeptout;
-use App\R7\Set\NoticeSet;
-use App\R7\Set\RentalnoticeptoutSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Rental;
+use App\Models\Rentalnoticeptout;
+use App\Models\Sets\NoticeSet;
+use App\Models\Sets\RentalnoticeptoutSet;
+use App\Framework\ViewAjax;
 
 class NoticeOptout extends ViewAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("redirect", "Client/Manage/" . $this->page . "?tab=tabid6");
+        $this->setSwapTag("redirect", "Client/Manage/" . $this->siteConfig->getPage() . "?tab=tabid6");
         $rental = new Rental();
-        $input = new InputFilter();
 
-        if ($rental->loadByRentalUid($this->page) == false) {
+
+        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;

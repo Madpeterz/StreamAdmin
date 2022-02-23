@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Model\Server;
+use App\Models\Server;
 
 class Sold extends Withstatus
 {

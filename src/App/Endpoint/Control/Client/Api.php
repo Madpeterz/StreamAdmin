@@ -3,16 +3,16 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\ServerApi\ServerApiHelper;
-use App\R7\Model\Rental;
-use App\R7\Model\Stream;
-use App\Template\ViewAjax;
+use App\Models\Rental;
+use App\Models\Stream;
+use App\Framework\ViewAjax;
 
 class Api extends ViewAjax
 {
     public function process(): void
     {
         $rental = new Rental();
-        if ($rental->loadByRentalUid($this->page) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load rental");
             return;
         }

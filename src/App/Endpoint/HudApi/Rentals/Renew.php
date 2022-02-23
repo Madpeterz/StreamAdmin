@@ -5,7 +5,6 @@ namespace App\Endpoint\HudApi\Rentals;
 use App\Endpoint\SecondLifeApi\Renew\Renewnow;
 use App\Helpers\ResellerHelper;
 use App\Template\SecondlifeHudAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Renew extends SecondlifeHudAjax
 {

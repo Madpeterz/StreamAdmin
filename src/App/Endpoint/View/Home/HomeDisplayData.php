@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Home;
 
-use App\Template\Grid;
+use YAPF\Bootstrap\Template\Grid;
 
 abstract class HomeDisplayData extends HomeLoadData
 {
@@ -28,7 +28,7 @@ abstract class HomeDisplayData extends HomeLoadData
             if ($this->server_set->getCount() == 0) {
                 $this->main_grid->addContent("<hr/>", 12);
                 $this->main_grid->addContent(
-                    "<a href=\"[[url_base]]import\">"
+                    "<a href=\"[[SITE_URL]]import\">"
                     . "<button class=\"btn btn-info btn-block\" type=\"button\">Import from R4</button></a>",
                     12
                 );
@@ -94,7 +94,7 @@ abstract class HomeDisplayData extends HomeLoadData
             $issues += 5;
         }
         $entry = [];
-        $entry[] = "<a href=\"[[url_base]]health\">Vender status</a>";
+        $entry[] = "<a href=\"[[SITE_URL]]health\">Vender status</a>";
         $entry[] = "<span class=\"text-" . $statusreport . "\">
         <i class=\"fas fa-heartbeat\"></i> " . round($pcent, 2) . "%</span>";
         $entry[] = "";
@@ -190,7 +190,7 @@ abstract class HomeDisplayData extends HomeLoadData
             if ($apiType->getId() != 1) {
                 $api_name = "{" . $apiType->getName() . "} ";
             }
-            $servername = '<a href="[[url_base]]stream/onserver/' . $server->getId() . '"><h5>' . $api_name . ''
+            $servername = '<a href="[[SITE_URL]]stream/onserver/' . $server->getId() . '"><h5>' . $api_name . ''
             . $server->getDomain() . '</h5></a>';
             $servername .= '<h6><span class="badge badge-success">Ready <span class="badge badge-light">'
             . $this->server_loads[$server->getId()]["ready"] . '</span></span> ';
@@ -204,7 +204,7 @@ abstract class HomeDisplayData extends HomeLoadData
                 $serverstatus .= '<div data-loading="<div class=\'spinner-border spinner-border-sm '
                 . 'text-primary\' role=\'status\'>'
                 . '<span class=\'sr-only\'>Loading...</span></div>" data-repeatingrate="7000" class="ajaxonpageload" '
-                . 'data-loadmethod="post" data-loadurl="[[url_base]]server/ServerLoad/'
+                . 'data-loadmethod="post" data-loadurl="[[SITE_URL]]server/ServerLoad/'
                 . $server->getId() . '"></div>';
             } else {
                 $serverstatus .= '<sub> </sub>';
@@ -223,17 +223,17 @@ abstract class HomeDisplayData extends HomeLoadData
         $this->sub_grid_clients = new Grid();
         $this->sub_grid_clients->addContent('<strong>Clients</strong>', 12);
         $this->sub_grid_clients->addContent(
-            '<h5><a href="[[url_base]]client/expired"><span class="badge badge-danger">Expired '
+            '<h5><a href="[[SITE_URL]]client/expired"><span class="badge badge-danger">Expired '
             . '<span class="badge badge-light">' . $this->client_expired . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_clients->addContent(
-            '<h5><a href="[[url_base]]client/soon"><span class="badge badge-warning">Expires in 24 '
+            '<h5><a href="[[SITE_URL]]client/soon"><span class="badge badge-warning">Expires in 24 '
             . 'hours <span class="badge badge-light">' . $this->client_expires_soon . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_clients->addContent(
-            '<h5><a href="[[url_base]]client/active"><span class="badge badge-success">Ok '
+            '<h5><a href="[[SITE_URL]]client/active"><span class="badge badge-success">Ok '
             . '<span class="badge badge-light">' . $this->client_ok . '</span></span></a></h5><br/>',
             4
         );
@@ -247,17 +247,17 @@ abstract class HomeDisplayData extends HomeLoadData
             12
         );
         $this->sub_grid_streams->addContent(
-            '<h5><a href="[[url_base]]stream/ready"><span class="badge badge-success">'
+            '<h5><a href="[[SITE_URL]]stream/ready"><span class="badge badge-success">'
             . 'Ready <span class="badge badge-light">' . $this->stream_total_ready . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_streams->addContent(
-            '<h5><a href="[[url_base]]stream/Needwork"><span class="badge badge-warning">'
+            '<h5><a href="[[SITE_URL]]stream/Needwork"><span class="badge badge-warning">'
             . 'NeedWork <span class="badge badge-light">' . $this->stream_total_needWork . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_streams->addContent(
-            '<h5><a href="[[url_base]]stream/sold"><span class="badge badge-info">'
+            '<h5><a href="[[SITE_URL]]stream/sold"><span class="badge badge-info">'
             . 'Sold <span class="badge badge-light">' . $this->stream_total_sold . '</span></span></a></h5><br/>',
             4
         );

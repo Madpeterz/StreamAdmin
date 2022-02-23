@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Objects;
 
-use App\R7\Set\ObjectsSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\ObjectsSet;
+use App\Framework\ViewAjax;
 
 class Clear extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "objects");
         if ($accept != "Accept") {

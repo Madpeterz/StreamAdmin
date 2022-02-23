@@ -2,9 +2,8 @@
 
 namespace App\Endpoint\Control\Transactions;
 
-use App\R7\Model\Transactions;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Transactions;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
@@ -14,7 +13,7 @@ class Remove extends ViewAjax
             $this->failed("Do not dont have permission todo this");
             return;
         }
-        $input = new InputFilter();
+
         $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "transactions");
         if ($accept != "Accept") {
@@ -22,7 +21,7 @@ class Remove extends ViewAjax
             return;
         }
         $transaction = new Transactions();
-        if ($transaction->loadByTransactionUid($this->page) == false) {
+        if ($transaction->loadByTransactionUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find transaction");
             return;
         }

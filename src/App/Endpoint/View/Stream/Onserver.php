@@ -2,14 +2,14 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Model\Server;
+use App\Models\Server;
 
 class Onserver extends Withstatus
 {
     public function process(): void
     {
         $server = new Server();
-        $server->loadID($this->page);
+        $server->loadID($this->siteConfig->getPage());
         $this->setSwapTag("page_title", " On server: " . $server->getDomain() . "");
         $this->whereconfig = [
             "fields" => ["serverLink"],

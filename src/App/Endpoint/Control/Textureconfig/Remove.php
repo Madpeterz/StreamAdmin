@@ -2,24 +2,23 @@
 
 namespace App\Endpoint\Control\Textureconfig;
 
-use App\R7\Model\Textureconfig;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Textureconfig;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "textureconfig");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "textureconfig/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "textureconfig/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
         $textureconfig = new Textureconfig();
-        if ($textureconfig->loadID($this->page) == false) {
+        if ($textureconfig->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find texture pack");
             return;
         }

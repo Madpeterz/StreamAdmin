@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Staff;
 
-use App\R7\Set\StaffSet;
+use App\Models\Sets\StaffSet;
 
 class DefaultView extends View
 {
@@ -20,7 +20,7 @@ class DefaultView extends View
             $entry[] = $staff->getId();
             $username = $staff->getUsername();
             if ($this->session->getOwnerLevel() == true) {
-                $username = '<a href="[[url_base]]staff/manage/'
+                $username = '<a href="[[SITE_URL]]staff/manage/'
                 . $staff->getId() . '">' . $staff->getUsername() . '</a>';
             }
             $entry[] = $username;

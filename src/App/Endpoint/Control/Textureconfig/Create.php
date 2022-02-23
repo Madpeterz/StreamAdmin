@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Textureconfig;
 
-use App\R7\Model\Textureconfig;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Textureconfig;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $textureconfig = new Textureconfig();
 
         $name = $input->postString("name", 30, 4);

@@ -2,19 +2,19 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Model\Notice;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Notice;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
 
 class Bynoticelevel extends RenderList
 {
     public function process(): void
     {
         $notice = new Notice();
-        $notice->loadID($this->page);
+        $notice->loadID($this->siteConfig->getPage());
         $this->rentalSet = new RentalSet();
-        $this->rentalSet->loadByField("noticeLink", $this->page);
+        $this->rentalSet->loadByField("noticeLink", $this->siteConfig->getPage());
         $this->avatarSet = new AvatarSet();
         $this->avatarSet->loadByValues($this->rentalSet->getAllByField("avatarLink"));
         $this->streamSet = new StreamSet();

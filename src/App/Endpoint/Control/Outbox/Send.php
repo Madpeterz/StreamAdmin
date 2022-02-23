@@ -4,15 +4,14 @@ namespace App\Endpoint\Control\Outbox;
 
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\BanlistSet;
-use App\R7\Set\NoticeSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\BanlistSet;
+use App\Models\Sets\NoticeSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
+use App\Framework\ViewAjax;
 
 class Send extends ViewAjax
 {

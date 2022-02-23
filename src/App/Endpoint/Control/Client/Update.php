@@ -3,11 +3,10 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\NoticesHelper;
-use App\R7\Model\Avatar;
-use App\R7\Set\NoticeSet;
-use App\R7\Model\Rental;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Sets\NoticeSet;
+use App\Models\Rental;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
@@ -108,7 +107,7 @@ class Update extends ViewAjax
     public function process(): void
     {
         $rental = new Rental();
-        $input = new InputFilter();
+
 
         $this->actions_taken = "";
         $this->issues = "";
@@ -133,7 +132,7 @@ class Update extends ViewAjax
             $this->apiAllowSuspend = false;
         }
 
-        if ($rental->loadByRentalUid($this->page) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;
@@ -185,7 +184,7 @@ class Update extends ViewAjax
             ));
             return;
         }
-        $this->setSwapTag("redirect", "client/manage/" . $this->page);
+        $this->setSwapTag("redirect", "client/manage/" . $this->siteConfig->getPage());
         $this->ok($this->actions_taken);
     }
 }

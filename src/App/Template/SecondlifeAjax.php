@@ -6,11 +6,10 @@ use App\Helpers\AvatarHelper;
 use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Objects;
-use App\R7\Model\Region;
-use App\R7\Model\Reseller;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Objects;
+use App\Models\Region;
+use App\Models\Reseller;
 
 abstract class SecondlifeAjax extends View
 {
@@ -91,7 +90,7 @@ abstract class SecondlifeAjax extends View
             "objecttype",
         ];
 
-        $input = new InputFilter();
+
         $this->staticpart = "";
         foreach ($required_sl as $slvalue) {
             $value = $input->postFilter($slvalue);

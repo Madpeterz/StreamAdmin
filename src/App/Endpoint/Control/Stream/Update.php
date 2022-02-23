@@ -3,12 +3,11 @@
 namespace App\Endpoint\Control\Stream;
 
 use App\MediaServer\Logic\ApiLogicUpdate;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
@@ -16,7 +15,7 @@ class Update extends ViewAjax
     {
         $package = new Package();
         $server = new Server();
-        $input = new InputFilter();
+
 
         $port = $input->postInteger("port");
         $packageLink = $input->postInteger("packageLink");
@@ -65,7 +64,7 @@ class Update extends ViewAjax
         }
 
         $stream = new Stream();
-        if ($stream->loadByField("streamUid", $this->page) == false) {
+        if ($stream->loadByField("streamUid", $this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find stream with that uid");
             return;
         }

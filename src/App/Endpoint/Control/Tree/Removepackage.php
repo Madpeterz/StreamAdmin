@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\R7\Model\Treevenderpackages;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Treevenderpackages;
+use App\Framework\ViewAjax;
 
 class Removepackage extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "tree");
         if ($accept != "Accept") {
@@ -20,7 +19,7 @@ class Removepackage extends ViewAjax
             return;
         }
         $treevender_packages = new Treevenderpackages();
-        if ($treevender_packages->loadID($this->page) == false) {
+        if ($treevender_packages->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load the linked package object for the tree vender");
             return;
         }

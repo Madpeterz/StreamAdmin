@@ -2,16 +2,15 @@
 
 namespace App\Endpoint\SecondLifeApi\Client;
 
-use App\R7\Model\Avatar;
-use App\R7\Set\RentalSet;
+use App\Models\Avatar;
+use App\Models\Sets\RentalSet;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class HasRental extends SecondlifeAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $avUUID = $input->postUUID("checkinguuid");
         if ($avUUID === null) {
             $this->ok("No UUID");

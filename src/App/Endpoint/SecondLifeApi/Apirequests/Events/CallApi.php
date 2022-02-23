@@ -8,8 +8,8 @@ use App\MediaServer\Logic\ApiLogicCreate;
 use App\MediaServer\Logic\ApiLogicExpire;
 use App\MediaServer\Logic\ApiLogicRenew;
 use App\MediaServer\Logic\ApiLogicRevoke;
-use App\R7\Model\Apirequests;
-use App\R7\Model\Stream;
+use App\Models\Apirequests;
+use App\Models\Stream;
 use App\Template\SecondlifeAjax;
 
 abstract class CallApi extends SecondlifeAjax

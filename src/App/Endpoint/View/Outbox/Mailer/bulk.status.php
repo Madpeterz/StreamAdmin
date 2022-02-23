@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\NoticeSet;
-use App\Template\Form;
+use App\Models\Sets\NoticeSet;
+use YAPF\Bootstrap\Template\Form;
 
 $notice_set = new NoticeSet();
 $notice_set->loadAll();

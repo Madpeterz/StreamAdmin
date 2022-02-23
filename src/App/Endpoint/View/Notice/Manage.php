@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\R7\Model\Notice;
-use App\R7\Model\Noticenotecard;
-use App\R7\Set\NoticenotecardSet;
-use App\Template\Form as Form;
+use App\Models\Notice;
+use App\Models\Noticenotecard;
+use App\Models\Sets\NoticenotecardSet;
+use YAPF\Bootstrap\Template\Form as Form;
 
 class Manage extends View
 {
@@ -13,10 +13,10 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing");
-        $this->setSwapTag("page_actions", "<a href='[[url_base]]notice/remove/" . $this->page . "'>"
+        $this->setSwapTag("page_actions", "<a href='[[SITE_URL]]notice/remove/" . $this->siteConfig->getPage() . "'>"
         . "<button type='button' class='btn btn-danger'>Remove</button></a>");
 
-        if (in_array($this->page, [6,10]) == true) {
+        if (in_array($this->siteConfig->getPage(), [6,10]) == true) {
             $this->setSwapTag("page_actions", "");
         }
         $where_config = [
@@ -30,7 +30,7 @@ class Manage extends View
         $notice_notecard_set->loadWithConfig($where_config);
 
         $notice = new Notice();
-        if ($notice->loadID($this->page) == false) {
+        if ($notice->loadID($this->siteConfig->getPage()) == false) {
             $this->output->redirect("notice?bubblemessage=unable to find notice&bubbletype=warning");
             return;
         }
@@ -42,7 +42,7 @@ class Manage extends View
         $current_notecard_notice->loadID($notice->getNoticeNotecardLink());
         $this->output->addSwapTagString("page_title", " : " . $notice->getName());
         $form = new form();
-        $form->target("notice/update/" . $this->page . "");
+        $form->target("notice/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Basic");

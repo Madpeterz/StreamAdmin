@@ -3,9 +3,9 @@
 namespace App\Endpoint\SecondLifeApi\ClientAutoSuspend;
 
 use App\MediaServer\Logic\ApiLogicExpire;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Set\RentalSet;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Sets\RentalSet;
 use App\Template\SecondlifeAjax;
 
 class Next extends SecondlifeAjax

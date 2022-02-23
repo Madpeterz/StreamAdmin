@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\Form;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
+use YAPF\Bootstrap\Template\Form;
 
 class Bulkupdate extends View
 {

@@ -2,20 +2,19 @@
 
 namespace App\Endpoint\Control\Staff;
 
-use App\R7\Model\Staff;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Staff;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
         $staff = new Staff();
-        $input = new InputFilter();
+
 
         if ($this->session->getOwnerLevel() == false) {
             $this->failed("Owner level access required");
-            $this->setSwapTag("redirect", "staff/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "staff/manage/" . $this->siteConfig->getPage() . "");
         }
 
         $username = $input->postString("username", 40, 5);
@@ -29,7 +28,7 @@ class Update extends ViewAjax
         }
 
         $staff = new Staff();
-        if ($staff->loadID($this->page) == false) {
+        if ($staff->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load staff member");
             return;
         }

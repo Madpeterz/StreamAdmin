@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Avatar;
+use App\Models\Avatar;
 use YAPF\Core\ErrorControl\ErrorLogging;
 
 class AvatarHelper extends ErrorLogging

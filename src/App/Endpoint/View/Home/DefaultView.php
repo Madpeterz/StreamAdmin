@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Home;
 
-use App\Template\Form;
-use App\Template\Grid;
+use YAPF\Bootstrap\Template\Form;
+use YAPF\Bootstrap\Template\Grid;
 
 class DefaultView extends HomeDisplayData
 {
@@ -19,13 +19,13 @@ class DefaultView extends HomeDisplayData
         if ($this->slconfig->getPaymentKey() == null) {
             $this->setSwapTag(
                 "page_actions",
-                "<a href='[[url_base]]Slconfig/PaymentKey'>
+                "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
                 <button type='button' class='btn btn-danger'>No key!</button></a>"
             );
         }
         $this->setSwapTag(
             "page_actions",
-            "<a href='[[url_base]]Slconfig/PaymentKey'>
+            "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
             <button type='button' class='btn btn-danger'>Invaild key</button></a>"
         );
         $keyCheck = explode(":", $this->slconfig->getPaymentKey());
@@ -35,7 +35,7 @@ class DefaultView extends HomeDisplayData
         if (time() > $keyCheck[1]) {
             $this->setSwapTag(
                 "page_actions",
-                "<a href='[[url_base]]Slconfig/PaymentKey'>
+                "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
                 <button type='button' class='btn btn-danger'>Expired key</button></a>"
             );
             return;
@@ -45,7 +45,7 @@ class DefaultView extends HomeDisplayData
         if ($webCheck != $keyCheck[2]) {
             $this->setSwapTag(
                 "page_actions",
-                "<a href='[[url_base]]Slconfig/PaymentKey'>
+                "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
                 <button type='button' class='btn btn-danger'>Invaild key</button></a>"
             );
             return;
@@ -65,13 +65,13 @@ class DefaultView extends HomeDisplayData
         }
         $this->setSwapTag(
             "page_actions",
-            "<a href='[[url_base]]Slconfig/PaymentKey'>
+            "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
             <button type='button' class='btn btn-" . $color . "'>" . $timeleftNice . "</button></a>"
         );
         if (($weeks > (4 * 5))) {
             $this->setSwapTag(
                 "page_actions",
-                "<a href='[[url_base]]Slconfig/PaymentKey'>
+                "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
                 <button type='button' class='btn btn-outline-dark'>
                 <i class=\"fas fa-check text-success\"></i></button></a>"
             );

@@ -2,10 +2,9 @@
 
 namespace App\Endpoint\Control\Notice;
 
-use App\R7\Model\Notice;
-use App\R7\Model\Noticenotecard;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Notice;
+use App\Models\Noticenotecard;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
@@ -14,7 +13,7 @@ class Create extends ViewAjax
 
         $notice = new Notice();
         $static_notecard = new Noticenotecard();
-        $input = new InputFilter();
+
         $name = $input->postString("name", 100, 5);
         if ($name == null) {
             $this->failed("Name failed:" . $input->getWhyFailed());

@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Model\Botconfig;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\NotecardmailSet;
-use App\R7\Set\NoticenotecardSet;
+use App\Models\Botconfig;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\NotecardmailSet;
+use App\Models\Sets\NoticenotecardSet;
 
 class Docs extends View
 {
@@ -27,7 +27,7 @@ class Docs extends View
             $notecard = $noticenotecards->getObjectByID($staticnotecard->getNoticenotecardLink());
             $entry = [];
             $entry[] = $staticnotecard->getId();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $entry[] = $notecard->getName();
             $table_body[] = $entry;

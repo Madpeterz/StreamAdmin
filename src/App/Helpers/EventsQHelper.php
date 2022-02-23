@@ -2,13 +2,13 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Eventsq;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Slconfig;
-use App\R7\Model\Stream;
+use App\Models\Avatar;
+use App\Models\Eventsq;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Slconfig;
+use App\Models\Stream;
 
 class EventsQHelper
 {

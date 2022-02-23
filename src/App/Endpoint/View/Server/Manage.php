@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Server;
 
-use App\R7\Set\ApisSet;
-use App\R7\Model\Server;
-use App\Template\Form;
+use App\Models\Sets\ApisSet;
+use App\Models\Server;
+use YAPF\Bootstrap\Template\Form;
 
 class Manage extends View
 {
@@ -14,23 +14,23 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", " Editing");
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove server " . $this->page . "' 
+        data-actiontitle='Remove server " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove server' 
         data-actionmessage='This will fail if there is anything using this server!' 
-        data-targetendpoint='[[url_base]]Server/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Server/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
 
         $server = new Server();
         $apis = new ApisSet();
         $apis->loadAll();
-        if ($server->loadID($this->page) == false) {
+        if ($server->loadID($this->siteConfig->getPage()) == false) {
             $this->output->redirect("server?bubblemessage=unable to find server&bubbletype=warning");
             return;
         }
         $this->output->addSwapTagString("page_title", " :" . $server->getDomain());
         $form = new Form();
-        $form->target("server/update/" . $this->page . "");
+        $form->target("server/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->group("Basic config");
         $form->col(6);

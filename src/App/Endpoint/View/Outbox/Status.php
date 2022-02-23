@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\EventsqSet;
+use App\Models\Sets\EventsqSet;
 
 class Status extends View
 {
@@ -11,13 +11,13 @@ class Status extends View
         global $pages;
         $this->output->addSwapTagString("page_title", " Status");
         $services = [
-        "Notecard" => ["norm" => 20,"cron" => 8,"classname" => "App\R7\Set\NotecardSet"],
-        "Docs" => ["norm" => 20,"cron" => 20,"classname" => "App\R7\Set\NotecardmailSet"],
-        "Details" => ["norm" => 15,"cron" => 8,"classname" => "App\R7\Set\DetailSet"],
-        "Mail" => ["norm" => 15,"cron" => 15,"classname" => "App\R7\Set\MessageSet"],
-        "Api" => ["norm" => 25,"cron" => 8,"classname" => "App\R7\Set\ApirequestsSet"],
-        "Events" => ["norm" => 30,"cron" => 30,"classname" => "App\R7\Set\EventsqSet"],
-        "Bot" => ["norm" => 30,"cron" => 8,"classname" => "App\R7\Set\BotcommandqSet"],
+        "Notecard" => ["norm" => 20,"cron" => 8,"classname" => "App\Models\Sets\NotecardSet"],
+        "Docs" => ["norm" => 20,"cron" => 20,"classname" => "App\Models\Sets\NotecardmailSet"],
+        "Details" => ["norm" => 15,"cron" => 8,"classname" => "App\Models\Sets\DetailSet"],
+        "Mail" => ["norm" => 15,"cron" => 15,"classname" => "App\Models\Sets\MessageSet"],
+        "Api" => ["norm" => 25,"cron" => 8,"classname" => "App\Models\Sets\ApirequestsSet"],
+        "Events" => ["norm" => 30,"cron" => 30,"classname" => "App\Models\Sets\EventsqSet"],
+        "Bot" => ["norm" => 30,"cron" => 8,"classname" => "App\Models\Sets\BotcommandqSet"],
         ];
         $table_head = ["Outbox name","Pending","TTC","Cron TTC"];
         $table_body = [];
@@ -31,7 +31,7 @@ class Status extends View
                 $count = 0;
                 $countText = "";
             }
-            $entry[] = '<a href="[[url_base]]outbox/' . $service_name . '">' . $service_name . '</a>';
+            $entry[] = '<a href="[[SITE_URL]]outbox/' . $service_name . '">' . $service_name . '</a>';
             $entry[] = $countText;
             $ttc_cron = "";
             $ttc_norm = "";

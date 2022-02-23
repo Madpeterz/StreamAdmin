@@ -2,10 +2,9 @@
 
 namespace App\Endpoint\Control\Bot;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Botconfig;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Botconfig;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
@@ -16,7 +15,7 @@ class Update extends ViewAjax
             $this->failed("Sorry only owners can make changes to the bot config");
             return;
         }
-        $input = new InputFilter();
+
         $avataruid = $input->postString("avataruid", 8, 8);
         if ($avataruid == null) {
             $this->failed("Avatar UID failed:" . $input->getWhyFailed());

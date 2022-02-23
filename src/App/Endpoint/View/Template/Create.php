@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Template;
 
-use App\Template\Form;
+use YAPF\Bootstrap\Template\Form;
 use App\Template\PagedInfo;
 
 class Create extends View

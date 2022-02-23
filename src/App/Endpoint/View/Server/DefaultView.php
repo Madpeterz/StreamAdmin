@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Server;
 
-use App\R7\Set\ApisSet;
-use App\R7\Set\ServerSet;
-use App\Template\Form;
+use App\Models\Sets\ApisSet;
+use App\Models\Sets\ServerSet;
+use YAPF\Bootstrap\Template\Form;
 
 class DefaultView extends View
 {
@@ -28,7 +28,7 @@ class DefaultView extends View
             $api = $apis_set->getObjectByID($server->getApiLink());
             $entry = [];
             $entry[] = $server->getId();
-            $entry[] = '<a href="[[url_base]]server/manage/' . $server->getId() . '">' . $server->getDomain() . '</a>';
+            $entry[] = '<a href="[[SITE_URL]]server/manage/' . $server->getId() . '">' . $server->getDomain() . '</a>';
             if ($has_api_sync == true) {
                 if (($server->getApiSyncAccounts() == true) && ($api->getApiSyncAccounts() == true)) {
                     $form = new Form();

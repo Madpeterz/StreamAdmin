@@ -4,9 +4,9 @@ namespace App\CronJob\Master;
 
 use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Objects;
-use App\R7\Model\Slconfig;
+use App\Models\Avatar;
+use App\Models\Objects;
+use App\Models\Slconfig;
 
 abstract class Master
 {

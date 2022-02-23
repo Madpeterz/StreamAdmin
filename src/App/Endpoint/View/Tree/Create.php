@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\Template\Form;
+use YAPF\Bootstrap\Template\Form;
 
 class Create extends View
 {

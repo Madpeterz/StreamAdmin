@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\NotecardSet;
-use App\R7\Set\RentalSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\NotecardSet;
+use App\Models\Sets\RentalSet;
 
 class Notecard extends View
 {
@@ -25,7 +25,7 @@ class Notecard extends View
             $entry = [];
             $entry[] = $notecard->getId();
             $entry[] = $rental->getRentalUid();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }

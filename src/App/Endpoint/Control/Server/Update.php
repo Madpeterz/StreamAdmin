@@ -4,7 +4,6 @@ namespace App\Endpoint\Control\Server;
 
 class Update extends Create
 {
-
     public function process(): void
     {
         $this->setup();
@@ -24,7 +23,7 @@ class Update extends Create
 
     protected function loadServer(): bool
     {
-        if ($this->server->loadID($this->page) == false) {
+        if ($this->server->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find server");
             $this->setSwapTag("redirect", "server");
             return false;

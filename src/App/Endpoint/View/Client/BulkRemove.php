@@ -2,13 +2,13 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\DetailSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\Form;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\DetailSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
+use YAPF\Bootstrap\Template\Form;
 
 class BulkRemove extends RenderList
 {
@@ -66,7 +66,7 @@ class BulkRemove extends RenderList
             $entry = [];
             $entry[] = $rental->getId();
             $entry[] = $this->makeButton($rental->getRentalUid());
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $entry[] = $server->getDomain();
             $entry[] = $stream->getPort();

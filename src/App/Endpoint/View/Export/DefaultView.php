@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Export;
 
-use App\Template\Grid;
+use YAPF\Bootstrap\Template\Grid;
 
 class DefaultView extends View
 {
@@ -24,7 +24,7 @@ class DefaultView extends View
         $grid = new Grid();
         foreach ($config_areas as $key => $value) {
             $element = '
-            <a target="_BLANK" href="[[url_base]]' . $value["link"] . '">
+            <a target="_BLANK" href="[[SITE_URL]]' . $value["link"] . '">
             <button type="button" class="btn btn-' . $value["color"] . ' btn-lg btn-block mt-2 mb-3">
             <h5 class="text-black"><i class="' . $value["icon"] . '"></i></h5>
             ' . $key . '

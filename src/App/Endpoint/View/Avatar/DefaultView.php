@@ -2,15 +2,15 @@
 
 namespace App\Endpoint\View\Avatar;
 
-use App\R7\Set\AvatarSet;
-use App\Template\Form as Form;
+use App\Models\Sets\AvatarSet;
+use YAPF\Bootstrap\Template\Form;
 use YAPF\InputFilter\InputFilter as InputFilter;
 
 class DefaultView extends View
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $match_with = "newest";
         $name = $input->getFilter("name");
         $uuid = $input->getFilter("uuid");
@@ -54,9 +54,9 @@ class DefaultView extends View
         foreach ($avatarSet as $avatar) {
             $entry = [];
             $entry[] = $avatar->getId();
-            $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->getAvatarUid() . '">'
             . $avatar->getAvatarUid() . '</a>';
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }

@@ -2,10 +2,9 @@
 
 namespace App\Endpoint\Control\Slconfig;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Timezones;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Timezones;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
@@ -33,7 +32,7 @@ class Update extends ViewAjax
 
     protected function updateHudSettings(): void
     {
-        $input = new InputFilter();
+
         $hudAllowDiscord = $input->postBool("hudAllowDiscord");
         $hudDiscordLink = $input->postString("hudDiscordLink");
         if ($hudAllowDiscord == false) {
@@ -68,7 +67,7 @@ class Update extends ViewAjax
     {
         $avatar = new Avatar();
         $timezone = new Timezones();
-        $input = new InputFilter();
+
 
         $newResellersRate = $input->postInteger("newResellersRate");
         $newResellers = $input->postBool("newResellers");

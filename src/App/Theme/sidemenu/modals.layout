@@ -68,7 +68,7 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <form id="finderform" method="post" action="[[url_base]]ajax.php/avatar/finder" class="form avatarfinderajax">
+          <form id="finderform" method="post" action="[[SITE_URL]]ajax.php/avatar/finder" class="form avatarfinderajax">
           <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
               <label for="avatarfind" class="col-12 col-form-label">UUID or Part of username</label>

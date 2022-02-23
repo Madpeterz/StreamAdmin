@@ -6,17 +6,16 @@ use App\Helpers\AvatarHelper;
 use App\Helpers\EventsQHelper;
 use App\Helpers\NoticesHelper;
 use App\MediaServer\Logic\ApiLogicRenew;
-use App\R7\Model\Avatar;
-use App\R7\Model\Banlist;
-use App\R7\Set\NoticeSet;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Model\Transactions;
-use App\R7\Set\BanlistSet;
+use App\Models\Avatar;
+use App\Models\Banlist;
+use App\Models\Sets\NoticeSet;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Transactions;
+use App\Models\Sets\BanlistSet;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Renewnow extends SecondlifeAjax
 {

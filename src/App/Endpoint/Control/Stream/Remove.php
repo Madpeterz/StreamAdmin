@@ -2,26 +2,25 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\R7\Model\Rental;
-use App\R7\Model\Stream;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\TransactionsSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Rental;
+use App\Models\Stream;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\TransactionsSet;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $accept = $input->postString("accept");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "stream/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "stream/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
         $stream = new Stream();
-        if ($stream->loadByStreamUid($this->page) == false) {
+        if ($stream->loadByStreamUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find stream");
             return;
         }

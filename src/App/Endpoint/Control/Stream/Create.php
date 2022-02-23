@@ -3,11 +3,10 @@
 namespace App\Endpoint\Control\Stream;
 
 use App\MediaServer\Logic\ApiLogicCreate;
-use App\R7\Model\Package;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
@@ -16,7 +15,7 @@ class Create extends ViewAjax
         global $stream;
         $package = new Package();
         $server = new Server();
-        $input = new InputFilter();
+
         $port = $input->postInteger("port");
         $packageLink = $input->postInteger("packageLink");
         $serverLink = $input->postInteger("serverLink");

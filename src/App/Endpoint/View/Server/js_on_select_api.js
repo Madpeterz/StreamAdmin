@@ -34,7 +34,7 @@ function update_api_flags(caller) {
     ajax_busy = true;
     $.ajax({
         type: 'post',
-        url: '[[url_base]]ajax.php/server/getapiconfig',
+        url: '[[SITE_URL]]ajax.php/server/getapiconfig',
         data: {
             'apiLink': caller.val(),
         },

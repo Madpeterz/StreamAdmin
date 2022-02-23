@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Avatar;
 
-use App\R7\Model\Avatar;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new inputFilter();
+
         $accept = $input->postString("accept");
         if ($accept == null) {
             $this->failed("Accept button not triggered");
@@ -19,12 +18,12 @@ class Remove extends ViewAjax
         $this->setSwapTag("redirect", "avatar");
         $this->failed("Not processed");
         if ($accept != "Accept") {
-            $this->setSwapTag("redirect", "avatar/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "avatar/manage/" . $this->siteConfig->getPage() . "");
             $this->failed("Did not Accept");
             return;
         }
         $avatar = new Avatar();
-        if ($avatar->loadByAvatarUid($this->page) == false) {
+        if ($avatar->loadByAvatarUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find avatar");
             return;
         }

@@ -2,13 +2,12 @@
 
 namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
-use App\R7\Model\Noticenotecard;
-use App\R7\Set\NotecardmailSet;
-use App\R7\Set\NoticenotecardSet;
-use App\R7\Set\NoticeSet;
-use App\R7\Set\PackageSet;
+use App\Models\Noticenotecard;
+use App\Models\Sets\NotecardmailSet;
+use App\Models\Sets\NoticenotecardSet;
+use App\Models\Sets\NoticeSet;
+use App\Models\Sets\PackageSet;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class UpdateNotecards extends SecondlifeAjax
 {
@@ -217,7 +216,7 @@ class UpdateNotecards extends SecondlifeAjax
     }
     public function process(): void
     {
-        $input = new InputFilter();
+
         $notecards = $input->postFilter("notecards");
         $notecardsList = explode(",", $notecards);
         if ($this->markFound($notecardsList) == false) {

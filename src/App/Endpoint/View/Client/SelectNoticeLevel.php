@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\NoticeSet;
-use App\R7\Model\Rental;
+use App\Models\Sets\NoticeSet;
+use App\Models\Rental;
 
 class SelectNoticeLevel extends View
 {
@@ -21,7 +21,7 @@ class SelectNoticeLevel extends View
                 $notice = $notice_set->getObjectByID($countentry["noticeLink"]);
                 $entry = [];
                 $entry[] = $notice->getId();
-                $entry[] = '<a href="[[url_base]]client/bynoticelevel/' . $notice->getId() . '">'
+                $entry[] = '<a href="[[SITE_URL]]client/bynoticelevel/' . $notice->getId() . '">'
                  . $notice->getName() . '</a>';
                 $entry[] = $countentry["Entrys"];
                 $table_body[] = $entry;

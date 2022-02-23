@@ -2,24 +2,23 @@
 
 namespace App\Endpoint\Control\Template;
 
-use App\R7\Model\Template;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Template;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "template");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "template/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "template/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
         $template = new Template();
-        if ($template->loadID($this->page) == false) {
+        if ($template->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find template");
             return;
         }

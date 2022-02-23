@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Package;
 
-use App\R7\Set\NoticenotecardSet;
-use App\R7\Set\ServertypesSet;
-use App\Template\Form;
-use App\R7\Set\TemplateSet;
+use App\Models\Sets\NoticenotecardSet;
+use App\Models\Sets\ServertypesSet;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Sets\TemplateSet;
 
 class Create extends View
 {

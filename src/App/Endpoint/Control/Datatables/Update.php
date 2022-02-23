@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Datatables;
 
-use App\R7\Model\Datatable;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Datatable;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
-        $input = new inputFilter();
+
         $col = $input->postInteger("col");
         if ($col === null) {
             $this->failed("Col is missing");
@@ -24,7 +23,7 @@ class Update extends ViewAjax
         }
 
         $datatable = new Datatable();
-        if ($datatable->loadID($this->page) == false) {
+        if ($datatable->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find the datatable config");
             return;
         }

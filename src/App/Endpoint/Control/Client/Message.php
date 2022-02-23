@@ -3,17 +3,16 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Endpoint\Control\Outbox\Send;
-use App\R7\Model\Rental;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Rental;
+use App\Framework\ViewAjax;
 
 class Message extends ViewAjax
 {
     public function process(): void
     {
         $rental = new Rental();
-        $input = new InputFilter();
-        if ($rental->loadByRentalUid($this->page) == false) {
+
+        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;

@@ -3,20 +3,20 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\SwapablesHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Model\Template;
-use App\Template\ViewAjax;
+use App\Models\Avatar;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Template;
+use App\Framework\ViewAjax;
 
 class Getnotecard extends ViewAjax
 {
     public function process(): void
     {
         $rental = new Rental();
-        if ($rental->loadByRentalUid($this->page) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load rental");
             return;
         }

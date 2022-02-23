@@ -2,22 +2,21 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\R7\Model\Package;
-use App\R7\Model\Treevender;
-use App\R7\Model\Treevenderpackages;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Treevender;
+use App\Models\Treevenderpackages;
+use App\Framework\ViewAjax;
 
 class Addpackage extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $package_id = $input->postFilter("package", "integer");
 
         $treevender = new Treevender();
         $this->setSwapTag("redirect", "tree");
-        if ($treevender->loadID($this->page) == false) {
+        if ($treevender->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find tree vender");
             return;
         }

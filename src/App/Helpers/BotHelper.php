@@ -2,10 +2,10 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Botcommandq;
-use App\R7\Model\Botconfig;
-use App\R7\Model\Message;
+use App\Models\Avatar;
+use App\Models\Botcommandq;
+use App\Models\Botconfig;
+use App\Models\Message;
 
 class BotHelper
 {

@@ -2,17 +2,16 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\R7\Set\ApirequestsSet;
-use App\R7\Model\Server;
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Server;
+use App\Models\Sets\StreamSet;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $server = new Server();
         $stream_set = new StreamSet();
         $api_requests_set = new ApirequestsSet();
@@ -21,10 +20,10 @@ class Remove extends ViewAjax
         $this->setSwapTag("redirect", "server");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "server/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "server/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
-        if ($server->loadID($this->page) == false) {
+        if ($server->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find server");
             return;
         }

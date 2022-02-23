@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\R7\Model\Apis;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Apis;
+use App\Framework\ViewAjax;
 
 class Getapiconfig extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $apiLink = $input->postFilter("apiLink", "integer");
         $api = new Apis();
         if ($apiLink == 0) {

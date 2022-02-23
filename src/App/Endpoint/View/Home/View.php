@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Home;
 
-use App\Template\View as TemplateView;
+use App\Framework\View as TemplateView;
 
 abstract class View extends TemplateView
 {

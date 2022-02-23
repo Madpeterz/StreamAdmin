@@ -2,17 +2,16 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\Template\Form;
-use App\Template\Grid;
-use App\R7\Set\TransactionsSet;
-use YAPF\InputFilter\InputFilter;
+use YAPF\Bootstrap\Template\Form;
+use YAPF\Bootstrap\Template\Grid;
+use App\Models\Sets\TransactionsSet;
 
 class DefaultView extends View
 {
     public function process(): void
     {
         $this->output->addSwapTagString("page_title", "Toolbox");
-        $input = new InputFilter();
+
         $month = $input->postFilter("month", "integer");
         $year = $input->postFilter("year", "integer");
         if ($year < 2013) {

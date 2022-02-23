@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Home;
 
-use App\Template\ViewAjax;
+use App\Framework\ViewAjax;
 
 class Cleanup extends ViewAjax
 {

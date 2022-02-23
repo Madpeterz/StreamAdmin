@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Noticenotecard;
-use App\R7\Set\NotecardmailSet;
+use App\Models\Avatar;
+use App\Models\Noticenotecard;
+use App\Models\Sets\NotecardmailSet;
 use App\Template\SecondlifeAjax;
 
 class NotecardMail extends SecondlifeAjax

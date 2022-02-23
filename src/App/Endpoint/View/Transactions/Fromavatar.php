@@ -2,13 +2,11 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use YAPF\InputFilter\InputFilter;
-
 class Fromavatar extends Forms
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $avd = $input->getFilter("avatarsearch");
         if (strlen($avd) < 3) {
             $this->output->redirectWithMessage("transactions", "Please enter 3 letters/numbers at min");

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Avatar;
 
-use App\Template\Form as Form;
+use YAPF\Bootstrap\Template\Form as Form;
 
 class Create extends View
 {

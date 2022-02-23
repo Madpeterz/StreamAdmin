@@ -3,8 +3,8 @@
 namespace App\Endpoint\Control\Server;
 
 use App\Helpers\ServerApi\ServerApiHelper;
-use App\R7\Model\Server;
-use App\Template\ViewAjax;
+use App\Models\Server;
+use App\Framework\ViewAjax;
 
 class ServerLoad extends ViewAjax
 {
@@ -13,7 +13,7 @@ class ServerLoad extends ViewAjax
         $this->failed("Started server load");
         $server = new Server();
         $serverapi_helper = new ServerApiHelper();
-        if ($server->loadID($this->page) == false) {
+        if ($server->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("<span class=\"text-danger\">Unable to find server</span>");
             return;
         }

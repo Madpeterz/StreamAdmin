@@ -2,25 +2,24 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\R7\Model\Treevender;
-use App\R7\Set\TreevenderpackagesSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Treevender;
+use App\Models\Sets\TreevenderpackagesSet;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $accept = $input->postFilter("accept");
         $this->setSwapTag("redirect", "tree");
         if ($accept != "Accept") {
-            $this->setSwapTag("redirect", "tree/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "tree/manage/" . $this->siteConfig->getPage() . "");
             $this->failed("Did not Accept");
             return;
         }
         $treevender = new Treevender();
-        if ($treevender->loadID($this->page) == false) {
+        if ($treevender->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find tree vender");
             return;
         }

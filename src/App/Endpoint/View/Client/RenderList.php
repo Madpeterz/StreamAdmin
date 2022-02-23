@@ -2,12 +2,12 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\NoticeSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\NoticeSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
 
 abstract class RenderList extends View
 {
@@ -29,7 +29,7 @@ abstract class RenderList extends View
             $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
             $entry = [];
             $entry[] = $rental->getId();
-            $entry[] = '<a href="[[url_base]]client/manage/' . $rental->getRentalUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]client/manage/' . $rental->getRentalUid() . '">'
             . $rental->getRentalUid() . '</a>';
             $av_detail = explode(" ", $avatar->getAvatarName());
 

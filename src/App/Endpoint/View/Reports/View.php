@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\R7\Model\Template;
-use App\Template\View as BasicView;
+use App\Models\Template;
+use App\Framework\View as BasicView;
 
 abstract class View extends BasicView
 {

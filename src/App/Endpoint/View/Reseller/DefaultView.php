@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Reseller;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\ResellerSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\ResellerSet;
 
 class DefaultView extends View
 {
@@ -23,7 +23,7 @@ class DefaultView extends View
             $avatar = $avatar_set->getObjectByID($reseller->getAvatarLink());
             $entry = [];
             $entry[] = $reseller->getId();
-            $entry[] = '<a href="[[url_base]]reseller/manage/' . $reseller->getId() . '">'
+            $entry[] = '<a href="[[SITE_URL]]reseller/manage/' . $reseller->getId() . '">'
             . $avatar->getAvatarName() . '</a>';
             $entry[] = [false => "No",true => "Yes"][$reseller->getAllowed()];
             $entry[] = $reseller->getRate();

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\R7\Set\NoticeSet;
+use App\Models\Sets\NoticeSet;
 
 class DefaultView extends View
 {
@@ -17,7 +17,7 @@ class DefaultView extends View
             if ($notice->getHoursRemaining() != 999) {
                 $entry = [];
                 $entry[] = $notice->getHoursRemaining();
-                $entry[] = '<a href="[[url_base]]notice/manage/' . $notice->getId() . '"
+                $entry[] = '<a href="[[SITE_URL]]notice/manage/' . $notice->getId() . '"
                 .">' . $notice->getName() . '</a>';
                 $entry[] = $this->yesNo[$notice->getSendObjectIM()];
                 $entry[] = $this->yesNo[$notice->getUseBot()];

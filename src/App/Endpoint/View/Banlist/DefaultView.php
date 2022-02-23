@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Banlist;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\BanlistSet;
-use App\Template\Form as Form;
-use App\Template\Grid;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\BanlistSet;
+use YAPF\Bootstrap\Template\Form as Form;
+use YAPF\Bootstrap\Template\Grid;
 use YAPF\InputFilter\InputFilter as InputFilter;
 
 class DefaultView extends View
@@ -17,7 +17,7 @@ class DefaultView extends View
             return;
         }
         $match_with = "newest";
-        $input = new inputFilter();
+
         $name = $input->getFilter("name");
         $uuid = $input->getFilter("uuid");
         $wherefields = [];

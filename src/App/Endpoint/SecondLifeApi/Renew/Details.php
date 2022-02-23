@@ -2,13 +2,12 @@
 
 namespace App\Endpoint\SecondLifeApi\Renew;
 
-use App\R7\Set\ApirequestsSet;
-use App\R7\Model\Avatar;
-use App\R7\Model\Banlist;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Avatar;
+use App\Models\Banlist;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Details extends SecondlifeAjax
 {
@@ -65,7 +64,7 @@ class Details extends SecondlifeAjax
     }
     public function process(): void
     {
-        $input = new InputFilter();
+
         $avatarUUID = $input->postFilter("avatarUUID");
         $avatar = new Avatar();
         $this->setSwapTag("dataset_count", 0);

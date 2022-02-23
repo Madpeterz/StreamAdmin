@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
 
 class ListMode extends RenderList
 {

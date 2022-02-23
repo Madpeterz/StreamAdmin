@@ -3,17 +3,16 @@
 namespace App\Endpoint\SecondLifeApi\ProxyRenew;
 
 use App\Endpoint\SecondLifeApi\Renew\Details as RenewDetails;
-use App\R7\Model\Avatar;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Avatar;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Details extends SecondlifeAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $targetuid = $input->postFilter("targetuid");
         $avatar = new Avatar();
 

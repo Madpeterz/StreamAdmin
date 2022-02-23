@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Health;
 
-use App\R7\Set\ObjectsSet;
-use App\R7\Set\RegionSet;
-use App\R7\Set\ResellerSet;
+use App\Models\Sets\ObjectsSet;
+use App\Models\Sets\RegionSet;
+use App\Models\Sets\ResellerSet;
 
 class DefaultView extends View
 {
@@ -76,7 +76,7 @@ class DefaultView extends View
             }
             $entry = [];
             $entry[] = $region_id;
-            $entry[] = "<a href=\"[[url_base]]health/detailed/"
+            $entry[] = "<a href=\"[[SITE_URL]]health/detailed/"
             . $region->getId() . "\">" . $region->getName() . "</a>";
             $entry[] = "<span class=\"text-" . $statuscolor . "\">" . $statustext . "</span>";
             $entry[] = $pcent . "%";

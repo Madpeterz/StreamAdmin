@@ -3,10 +3,10 @@
 namespace App\Endpoint\SecondLifeApi\BotCommandQ;
 
 use App\Helpers\BotHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Botcommandq;
-use App\R7\Model\Botconfig;
-use App\R7\Set\BotcommandqSet;
+use App\Models\Avatar;
+use App\Models\Botcommandq;
+use App\Models\Botconfig;
+use App\Models\Sets\BotcommandqSet;
 use App\Template\SecondlifeAjax;
 use Exception;
 use GuzzleHttp\Client;

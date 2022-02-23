@@ -3,8 +3,8 @@
 namespace App\Endpoint\SecondLifeApi\Bot;
 
 use App\Helpers\BotHelper;
-use App\R7\Model\Botcommandq as ModelBotcommandq;
-use App\R7\Model\Notecard;
+use App\Models\Botcommandq as ModelBotcommandq;
+use App\Models\Notecard;
 use App\Template\SecondlifeAjax;
 
 class Notecardsync extends SecondlifeAjax
@@ -69,7 +69,7 @@ class Notecardsync extends SecondlifeAjax
         }
 
         global $template_parts;
-        $reply = $bot_helper->sendBotNextNotecard($template_parts["url_base"], $this->slconfig->getHttpInboundSecret());
+        $reply = $bot_helper->sendBotNextNotecard($template_parts["SITE_URL"], $this->slconfig->getHttpInboundSecret());
         if ($reply == false) {
             $this->failed("Unable to add fetch next notecard to bot Q");
             return;

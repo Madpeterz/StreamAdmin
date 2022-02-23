@@ -2,17 +2,16 @@
 
 namespace App\Endpoint\Control\Notice;
 
-use App\R7\Set\NotecardSet;
-use App\R7\Model\Notice;
-use App\R7\Set\RentalSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\NotecardSet;
+use App\Models\Notice;
+use App\Models\Sets\RentalSet;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $notice = new Notice();
         $notecard_set = new NotecardSet();
 
@@ -21,20 +20,20 @@ class Remove extends ViewAjax
         $this->setSwapTag("redirect", "notice");
         if ($newNoticeLevel == null) {
             $this->failed("Unable to find transfer notice level");
-            $this->setSwapTag("redirect", "notice/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "notice/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "notice/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "notice/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
-        if (in_array($this->page, [6,10]) == true) {
+        if (in_array($this->siteConfig->getPage(), [6,10]) == true) {
             $this->failed("Selected notice is protected");
             return;
         }
 
-        if ($notice->loadID($this->page) == false) {
+        if ($notice->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load selected notice");
             return;
         }

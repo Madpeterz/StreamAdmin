@@ -1,7 +1,7 @@
 [[html_js_bottom]]
-<script type="text/javascript" src="[[url_base]]js/site.js?v=1025"></script>
+<script type="text/javascript" src="[[SITE_URL]]js/site.js?v=1025"></script>
 <script type="text/javascript">
-    var url_base = '[[url_base]]';
+    var SITE_URL = '[[SITE_URL]]';
     $( document ).ready(function() {
         [[html_js_onready]]
         startLoginTimer([[unixtimeNow]]);

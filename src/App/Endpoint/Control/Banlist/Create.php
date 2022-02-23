@@ -2,16 +2,15 @@
 
 namespace App\Endpoint\Control\Banlist;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Model\Banlist;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Models\Banlist;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $avataruid = $input->postString("uid");
         if ($avataruid == null) {
             $this->failed("Avatar UID/Name/UUID was not sent!");

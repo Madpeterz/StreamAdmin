@@ -2,13 +2,12 @@
 
 namespace App\Endpoint\SecondLifeApi\Tree;
 
-use App\R7\Set\PackageSet;
-use App\R7\Model\Treevender;
-use App\R7\Set\ServertypesSet;
-use App\R7\Set\StreamSet;
-use App\R7\Set\TreevenderpackagesSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Treevender;
+use App\Models\Sets\ServertypesSet;
+use App\Models\Sets\StreamSet;
+use App\Models\Sets\TreevenderpackagesSet;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Getpackages extends SecondlifeAjax
 {
@@ -112,7 +111,7 @@ class Getpackages extends SecondlifeAjax
     }
     public function process(): void
     {
-        $input = new InputFilter();
+
         $tree_vender_id = $input->postFilter("tree_vender_id", "integer");
         if ($tree_vender_id < 1) {
             $this->setSwapTag("message", "Invaild tree vender id given or none sent!");

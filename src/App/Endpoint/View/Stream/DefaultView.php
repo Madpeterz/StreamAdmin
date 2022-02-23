@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Set\PackageSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\StreamSet;
 
 class DefaultView extends View
 {
@@ -37,7 +37,7 @@ class DefaultView extends View
         foreach ($package_set as $package) {
             $entry = [];
             $entry[] = $package->getId();
-            $entry[] = '<a href="[[url_base]]stream/inpackage/' . $package->getPackageUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]stream/inpackage/' . $package->getPackageUid() . '">'
             . $package->getName() . '</a>';
             $entry[] = $streams_in_package[$package->getId()]["sold"];
             $entry[] = $streams_in_package[$package->getId()]["work"];

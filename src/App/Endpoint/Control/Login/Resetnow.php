@@ -3,17 +3,16 @@
 namespace App\Endpoint\Control\Login;
 
 use App\Framework\SessionControl;
-use App\R7\Model\Avatar;
-use App\R7\Model\Staff;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Staff;
+use App\Framework\ViewAjax;
 
 class Resetnow extends ViewAjax
 {
     public function process(): void
     {
         sleep(1);
-        $input = new InputFilter();
+
         $slusername = $input->postString("slusername");
         $token = $input->postString("token");
         $newpw1 = $input->postString("newpassword1", 30, 7);

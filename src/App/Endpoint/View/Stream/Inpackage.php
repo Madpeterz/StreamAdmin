@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Model\Package;
+use App\Models\Package;
 
 class Inpackage extends Withstatus
 {
@@ -10,7 +10,7 @@ class Inpackage extends Withstatus
     {
         $this->output->addSwapTagString("page_title", " In package: ");
         $package = new Package();
-        if ($package->loadByField("packageUid", $this->page) == false) {
+        if ($package->loadByField("packageUid", $this->siteConfig->getPage()) == false) {
             $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
             return;
         }

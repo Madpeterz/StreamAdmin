@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\PackageSet;
-use App\Template\Form;
+use App\Models\Sets\PackageSet;
+use YAPF\Bootstrap\Template\Form;
 
 $package_set = new PackageSet();
 $package_set->loadAll();

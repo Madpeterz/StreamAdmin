@@ -2,15 +2,14 @@
 
 namespace App\Endpoint\Control\Textureconfig;
 
-use App\R7\Model\Textureconfig;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Textureconfig;
+use App\Framework\ViewAjax;
 
 class Update extends ViewAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
 
         $name = $input->postString("name", 30, 4);
         if ($name == null) {
@@ -45,7 +44,7 @@ class Update extends ViewAjax
             }
         }
         $textureconfig = new Textureconfig();
-        if ($textureconfig->loadID($this->page) == false) {
+        if ($textureconfig->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load texture pack");
             $this->setSwapTag("redirect", "textureconfig");
             return;

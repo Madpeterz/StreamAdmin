@@ -3,10 +3,10 @@
 namespace App\Endpoint\Control\Server;
 
 use App\Helpers\ServerApi\ServerApiHelper;
-use App\R7\Model\Apis;
-use App\R7\Model\Server;
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
+use App\Models\Apis;
+use App\Models\Server;
+use App\Models\Sets\StreamSet;
+use App\Framework\ViewAjax;
 
 class SyncAccounts extends ViewAjax
 {
@@ -17,7 +17,7 @@ class SyncAccounts extends ViewAjax
         $api = new Apis();
         $serverapi_helper = new ServerApiHelper();
 
-        if ($server->loadID($this->page) == false) {
+        if ($server->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find server");
             return;
         }

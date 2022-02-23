@@ -2,27 +2,26 @@
 
 namespace App\Endpoint\Control\Reseller;
 
-use App\R7\Model\Reseller;
-use App\R7\Set\TransactionsSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Reseller;
+use App\Models\Sets\TransactionsSet;
+use App\Framework\ViewAjax;
 
 class Remove extends ViewAjax
 {
     protected ?TransactionsSet $transactionsSet = null;
     public function process(): void
     {
-        $input = new InputFilter();
+
         $reseller = new Reseller();
         $this->transactionsSet = new TransactionsSet();
         $accept = $input->postString("accept");
         $this->setSwapTag("redirect", "reseller");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "reseller/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "reseller/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
-        if ($reseller->loadID($this->page) == false) {
+        if ($reseller->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find Reseller");
             return;
         }

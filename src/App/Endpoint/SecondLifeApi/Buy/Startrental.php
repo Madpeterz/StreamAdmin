@@ -9,20 +9,19 @@ use App\Helpers\NoticesHelper;
 use App\Helpers\PendingAPI;
 use App\Helpers\TransactionsHelper;
 use App\MediaServer\Logic\ApiLogicBuy;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Model\Avatar;
-use App\R7\Model\Banlist;
-use App\R7\Model\Notecardmail as ModelNotecardmail;
-use App\R7\Model\Noticenotecard;
-use App\R7\Set\NoticeSet;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\ApirequestsSet;
+use App\Models\Avatar;
+use App\Models\Banlist;
+use App\Models\Notecardmail as ModelNotecardmail;
+use App\Models\Noticenotecard;
+use App\Models\Sets\NoticeSet;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
 use App\Template\SecondlifeAjax;
-use YAPF\InputFilter\InputFilter;
 
 class Startrental extends SecondlifeAjax
 {
@@ -105,7 +104,7 @@ class Startrental extends SecondlifeAjax
     public function process(): void
     {
         global $unixtime_hour;
-        $input = new InputFilter();
+
         $package = null;
         $stream = null;
         $avatar = null;

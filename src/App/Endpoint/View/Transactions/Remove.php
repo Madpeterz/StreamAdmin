@@ -2,18 +2,18 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use App\Template\Form;
+use YAPF\Bootstrap\Template\Form;
 
 class Remove extends View
 {
     public function process(): void
     {
         $this->output->addSwapTagString("html_title", " ~ Remove");
-        $this->output->addSwapTagString("page_title", " Remove transaction:" . $this->page);
+        $this->output->addSwapTagString("page_title", " Remove transaction:" . $this->siteConfig->getPage());
         $this->setSwapTag("page_actions", "");
 
         $form = new Form();
-        $form->target("transactions/remove/" . $this->page . "");
+        $form->target("transactions/remove/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Warning</h4><p>Please note: this will not have any effect on the rental "

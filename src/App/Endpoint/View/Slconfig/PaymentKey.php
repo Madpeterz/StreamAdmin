@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Slconfig;
 
-use App\Template\Form;
+use YAPF\Bootstrap\Template\Form;
 
 class PaymentKey extends View
 {

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\BotcommandqSet;
+use App\Models\Sets\BotcommandqSet;
 
 class Bot extends View
 {

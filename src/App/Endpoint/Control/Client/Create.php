@@ -2,14 +2,13 @@
 
 namespace App\Endpoint\Control\Client;
 
-use App\R7\Model\Avatar;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\NoticeSet;
-use App\R7\Model\Rental;
-use App\R7\Model\Stream;
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\NoticeSet;
+use App\Models\Rental;
+use App\Models\Stream;
+use App\Models\Sets\StreamSet;
+use App\Framework\ViewAjax;
 
 class Create extends ViewAjax
 {
@@ -21,7 +20,7 @@ class Create extends ViewAjax
         $stream = new Stream();
         $notice_set = new NoticeSet();
         $avatar_set = new AvatarSet();
-        $input = new InputFilter();
+
         $stream_set = new StreamSet();
 
         $avataruid = $input->postString("avataruid");

@@ -2,13 +2,13 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Model\Rental;
-use App\R7\Set\ApisSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\ServertypesSet;
-use App\R7\Model\Stream;
-use App\Template\Form;
+use App\Models\Rental;
+use App\Models\Sets\ApisSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\ServertypesSet;
+use App\Models\Stream;
+use YAPF\Bootstrap\Template\Form;
 
 class Manage extends View
 {
@@ -19,14 +19,14 @@ class Manage extends View
 
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove stream " . $this->page . "' 
+        data-actiontitle='Remove stream " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove stream' 
         data-actionmessage='This will fail if there are pending actions!' 
-        data-targetendpoint='[[url_base]]Stream/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Stream/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $stream = new Stream();
-        if ($stream->loadByField("streamUid", $this->page) == false) {
+        if ($stream->loadByField("streamUid", $this->siteConfig->getPage()) == false) {
             $this->output->redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
             return;
         }
@@ -36,7 +36,7 @@ class Manage extends View
         if ($rental->getId() > 0) {
             $this->setSwapTag(
                 "page_actions",
-                "<a href='[[url_base]]Client/Manage/" . $rental->getRentalUid() . "'>"
+                "<a href='[[SITE_URL]]Client/Manage/" . $rental->getRentalUid() . "'>"
                 . "<button type='button' class='btn btn-info'>View Client</button></a>"
             );
         }
@@ -91,7 +91,7 @@ class Manage extends View
         }
 
         $form = new Form();
-        $form->target("stream/update/" . $this->page . "");
+        $form->target("stream/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Basics");

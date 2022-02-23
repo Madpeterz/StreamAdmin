@@ -4,8 +4,8 @@ namespace App\CronJob\Tasks;
 
 use App\CronJob\Master\Master;
 use App\Endpoint\SecondLifeApi\BotCommandQ\Next;
-use App\R7\Model\Avatar;
-use App\R7\Model\Botconfig;
+use App\Models\Avatar;
+use App\Models\Botconfig;
 use GuzzleHttp\Client;
 
 class BotcommandQ extends Master
