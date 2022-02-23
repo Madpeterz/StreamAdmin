@@ -12,8 +12,7 @@
 >
   <testsuites>
         <testsuite name="All">
-            <directory>tests/Install</directory>
-            <directory>tests/R4install</directory>
+            <directory>tests/DBLoad</directory>
             <directory>tests/Login</directory>
             <directory>tests/ForcedActions</directory>
             <directory>tests/WebUI</directory>
