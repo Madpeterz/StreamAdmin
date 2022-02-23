@@ -1,6 +1,6 @@
 <?php
 
-namespace YAPF\MySQLi;
+namespace YAPF\Framework\MySQLi;
 
 abstract class MysqliChange extends MysqliProcess
 {

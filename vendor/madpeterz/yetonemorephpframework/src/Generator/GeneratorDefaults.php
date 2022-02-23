@@ -1,13 +1,9 @@
 <?php
 
-namespace YAPF\Generator;
+namespace YAPF\Framework\Generator;
 
 class GeneratorDefaults extends GeneratorTypes
 {
-    protected $string_types = ["varchar","text","char","longtext","mediumtext","tinytext","date","datetime"];
-    protected $int_types = ["tinyint", "int","smallint","bigint","mediumint","enum","timestamp"];
-    protected $float_types = ["decimal","float","double"];
-    protected $known_types = [];
     protected $tab_lookup = [];
     protected $file_lines = [];
     protected $output = "";
@@ -20,7 +16,6 @@ class GeneratorDefaults extends GeneratorTypes
     public function __construct()
     {
         $this->output = "";
-        $this->known_types = array_merge($this->string_types, $this->int_types, $this->float_types);
         $this->UseTabs(true);
         parent::__construct();
     }

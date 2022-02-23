@@ -1,11 +1,10 @@
 <?php
 
-namespace YAPF\DbObjects\CollectionSet;
+namespace YAPF\Framework\DbObjects\CollectionSet;
 
 use Error;
-use YAPF\Cache\Cache;
-use YAPF\Core\SQLi\SqlConnectedClass as SqlConnectedClass;
-use YAPF\DbObjects\GenClass\GenClass;
+use YAPF\Framework\Core\SQLi\SqlConnectedClass as SqlConnectedClass;
+use YAPF\Framework\DbObjects\GenClass\GenClass;
 
 abstract class CollectionSetCore extends SqlConnectedClass
 {
@@ -13,7 +12,7 @@ abstract class CollectionSetCore extends SqlConnectedClass
     protected $indexs = [];
     protected ?string $worker_class = null;
     protected ?GenClass $worker = null;
-    protected ?Cache $cache = null;
+
     protected bool $cacheAllowChanged = false;
 
     protected bool $disableUpdates = false;
@@ -29,10 +28,8 @@ abstract class CollectionSetCore extends SqlConnectedClass
      */
     public function __construct(string $worker_class)
     {
-        global $cache;
-        if (isset($cache) == true) {
-            $this->cache = $cache;
-        }
+        global $system;
+        $this->cache = $system->getCacheDriver();
         $this->worker_class = $worker_class;
         parent::__construct();
     }
@@ -103,10 +100,8 @@ abstract class CollectionSetCore extends SqlConnectedClass
         $this->indexs = array_keys($this->collected);
     }
 
-    public function attachCache(Cache $forceAttach): void
-    {
-        $this->cache = $forceAttach;
-    }
+
+
     public function setCacheAllowChanged(bool $status = true): void
     {
         $this->cacheAllowChanged = $status;

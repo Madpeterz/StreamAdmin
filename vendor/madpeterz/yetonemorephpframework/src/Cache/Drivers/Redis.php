@@ -1,12 +1,12 @@
 <?php
 
-namespace YAPF\Cache\Drivers;
+namespace YAPF\Framework\Cache\Drivers;
 
 use Exception;
 use Predis\Client as RedisClient;
 use Predis\Connection\ConnectionException;
-use YAPF\Cache\Cache;
-use YAPF\Cache\CacheInterface;
+use YAPF\Framework\Cache\Cache;
+use YAPF\Framework\Cache\CacheInterface;
 
 class Redis extends Cache implements CacheInterface
 {
@@ -131,7 +131,7 @@ class Redis extends Cache implements CacheInterface
         return false;
     }
 
-    protected function writeKeyReal(string $key, string $data, string $table, int $expiresUnixtime): bool
+    protected function writeKeyReal(string $key, string $data, int $expiresUnixtime): bool
     {
         if ($this->disconnected == true) {
             $this->addErrorlog("writeKeyReal: redis is marked is gone");
@@ -147,8 +147,8 @@ class Redis extends Cache implements CacheInterface
             $this->markConnected();
             return true;
         } catch (Exception $ex) {
-            $this->addErrorlog("Marking cache as disconnected (failed to write key) " . $ex->getMessage() . " Details\n Table: "
-            . $table . " Key: " . $key . " Data: " . $data);
+            $this->addErrorlog("Marking cache as disconnected (failed to write key) " .
+            $ex->getMessage() . " Details\n Key: " . $key . " Data: " . $data);
             $this->disconnected = true;
         }
         return false;

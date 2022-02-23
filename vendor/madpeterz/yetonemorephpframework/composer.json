@@ -5,7 +5,8 @@
     "license": "GPL-3.0-only",
     "autoload": {
         "psr-4": {
-            "YAPF\\": "src/"
+            "YAPF\\Framework\\": "src/",
+            "YAPF\\Junk\\": "src/Junk"
         }
     },
     "support": {
@@ -15,18 +16,16 @@
     "config": {
         "platform": {
             "php": "7.4"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false
         }
     },
     "require": {
         "php": ">=7.4",
         "guzzlehttp/guzzle": "^7.2",
         "predis/predis": "^1.1",
-        "madpeterz/yapfinputfilter": "^1.0"
-    },
-    "require-dev": {
-        "slevomat/coding-standard": "^6.4",
-        "phpunit/phpunit": "9",
-        "squizlabs/php_codesniffer": "*"
+        "madpeterz/yapfcore": "^1.0"
     },
     "authors": [
         {
@@ -36,10 +35,16 @@
     ],
     "scripts": {
         "dev-test": [
-            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "
+            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All"
         ],
         "dev-test-cache": [
             "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite cache "
+        ],
+        "dev-test-gen": [
+            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite gen "
+        ],
+        "dev-test-config": [
+            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite config " 
         ],
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",

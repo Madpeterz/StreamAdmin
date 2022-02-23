@@ -1,6 +1,6 @@
 <?php
 
-namespace YAPF\DbObjects\GenClass;
+namespace YAPF\Framework\DbObjects\GenClass;
 
 abstract class GenClass extends GenClassDB
 {

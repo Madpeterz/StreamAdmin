@@ -19,7 +19,8 @@
         }
     },
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "madpeterz/yapfcore": "^1.0"
     },
     "require-dev": {
         "slevomat/coding-standard": "^6.4",

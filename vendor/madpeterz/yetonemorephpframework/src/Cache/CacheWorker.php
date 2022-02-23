@@ -1,6 +1,6 @@
 <?php
 
-namespace YAPF\Cache;
+namespace YAPF\Framework\Cache;
 
 abstract class CacheWorker extends CacheRequired
 {

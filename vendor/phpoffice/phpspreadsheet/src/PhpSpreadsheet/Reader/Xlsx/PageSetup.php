@@ -25,9 +25,9 @@ class PageSetup extends BaseParserClass
         }
 
         $this->margins($this->worksheetXml, $this->worksheet);
-        $unparsedLoadedData = $this->pageSetup($this->worksheetXml, $this->worksheet, $unparsedLoadedData);
+        $unparsedLoadedData = $this->siteConfig->getPage()Setup($this->worksheetXml, $this->worksheet, $unparsedLoadedData);
         $this->headerFooter($this->worksheetXml, $this->worksheet);
-        $this->pageBreaks($this->worksheetXml, $this->worksheet);
+        $this->siteConfig->getPage()Breaks($this->worksheetXml, $this->worksheet);
 
         return $unparsedLoadedData;
     }
@@ -75,7 +75,7 @@ class PageSetup extends BaseParserClass
                 $docPageSetup->setPageOrder((string) $xmlSheet->pageSetup['pageOrder']);
             }
 
-            $relAttributes = $xmlSheet->pageSetup->attributes('http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+            $relAttributes = $xmlSheet->pageSetup->attributes(Namespaces::SCHEMA_OFFICE_DOCUMENT);
             if (isset($relAttributes['id'])) {
                 $unparsedLoadedData['sheets'][$worksheet->getCodeName()]['pageSetupRelId'] = (string) $relAttributes['id'];
             }

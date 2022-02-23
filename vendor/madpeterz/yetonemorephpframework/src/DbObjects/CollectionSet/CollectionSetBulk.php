@@ -1,6 +1,6 @@
 <?php
 
-namespace YAPF\DbObjects\CollectionSet;
+namespace YAPF\Framework\DbObjects\CollectionSet;
 
 abstract class CollectionSetBulk extends CollectionSetGet
 {

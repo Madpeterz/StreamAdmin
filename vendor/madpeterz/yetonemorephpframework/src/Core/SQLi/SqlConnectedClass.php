@@ -1,9 +1,10 @@
 <?php
 
-namespace YAPF\Core\SQLi;
+namespace YAPF\Framework\Core\SQLi;
 
+use YAPF\Framework\Cache\Cache;
 use YAPF\Core\ErrorControl\ErrorLogging;
-use YAPF\MySQLi\MysqliEnabled as MysqliConnector;
+use YAPF\Framework\MySQLi\MysqliEnabled as MysqliConnector;
 
 abstract class SqlConnectedClass extends ErrorLogging
 {
@@ -23,18 +24,34 @@ abstract class SqlConnectedClass extends ErrorLogging
     }
     public function __construct()
     {
-        global $sql;
+        global $system;
         if ($this->disabled == false) {
-            $this->sql = &$sql;
+            $this->sql = $system->getSQL();
+            $this->cache = $system->getCacheDriver();
         }
     }
-    public function reconnectSql(&$SetSQl): void
+
+    public function reconnectSql(MysqliConnector &$SetSQl): void
     {
-        global $sql;
-        $this->sql = &$this->unref($sql);
+        if ($this->sql != null) {
+            $this->sql = &$this->unref($this->sql);
+        }
         $this->sql = $SetSQl;
     }
     protected function &unref($var): ?MysqliConnector
+    {
+        return $var;
+    }
+
+    protected ?Cache $cache = null;
+    public function attachCache(Cache &$forceAttach): void
+    {
+        if ($this->cache != null) {
+            $this->cache = $this->unrefCache($this->cache);
+        }
+        $this->cache = $forceAttach;
+    }
+    protected function &unrefCache($var): ?Cache
     {
         return $var;
     }

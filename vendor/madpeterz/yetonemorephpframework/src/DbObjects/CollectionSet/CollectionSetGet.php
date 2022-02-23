@@ -1,9 +1,9 @@
 <?php
 
-namespace YAPF\DbObjects\CollectionSet;
+namespace YAPF\Framework\DbObjects\CollectionSet;
 
 use Iterator;
-use YAPF\DbObjects\GenClass\GenClass;
+use YAPF\Framework\DbObjects\GenClass\GenClass;
 
 abstract class CollectionSetGet extends CollectionSetCore implements Iterator
 {
@@ -92,12 +92,12 @@ abstract class CollectionSetGet extends CollectionSetCore implements Iterator
         return $return_array;
     }
     /**
-     * getUniqueArray
+     * uniqueArray
      * gets a Unique array of values based on field_name from
      * the objects.
-     * @return mixed[] [value,...]
+     * @return array<mixed>
      */
-    public function getUniqueArray(string $field_name): array
+    protected function uniqueArray(string $field_name): array
     {
         $found_values = [];
         $function = "get" . ucfirst($field_name);
@@ -213,22 +213,22 @@ abstract class CollectionSetGet extends CollectionSetCore implements Iterator
     }
     /**
      * getAllByField
-     * alias of getUniqueArray
+     * alias of uniqueArray
      * @return mixed[] [value,...]
      */
     public function getAllByField(string $fieldname): array
     {
-        return $this->getUniqueArray($fieldname);
+        return $this->uniqueArray($fieldname);
     }
     /**
      * getAllIds
-     * alias of getUniqueArray
+     * alias of uniqueArray
      * defaulted to id or use_id_field
      * @return mixed[] [value,...]
      */
     public function getAllIds(): array
     {
         $this->makeWorker();
-        return $this->getUniqueArray($this->worker->use_id_field);
+        return $this->uniqueArray($this->worker->use_id_field);
     }
 }

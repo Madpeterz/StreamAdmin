@@ -1,6 +1,6 @@
 <?php
 
-namespace YAPF\MySQLi;
+namespace YAPF\Framework\MySQLi;
 
 use Exception;
 use App\Db as Db;
@@ -138,7 +138,7 @@ abstract class MysqliFunctions extends Db
             return $this->addError(__FILE__, __FUNCTION__, "Unable to see file to read");
         }
         if ($this->sqlStart() == false) {
-            return $this->addError(__FILE__, __FUNCTION__, "Unable to start SQL");
+            return ["status" => false,"message" => $this->getLastError()];
         }
 
         $commands = [];
