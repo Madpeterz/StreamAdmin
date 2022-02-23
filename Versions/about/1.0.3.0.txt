@@ -1,0 +1,28 @@
+<div class="row">
+<div class="col-sm-12">
+<p>
+Welcome to 1.0.3.0 [AKA the big cleanup]
+<hr/>
+</p>
+</div>
+<div class="col-sm-12">
+<p>
+Goodbye to the API system for servers due to lack of use it has been removed, I might return a system like it 
+later.<br/>
+<br/>
+Goodbye to the web panel installer - due to the fact I am needed for first setup anyway the installer is pointless
+and adds unneeded complexity. 
+<br/>
+Goodbye to the R4 import - everyone should be running R7 now and anyone who needs to import can just use version
+1.0.2.5 and then update to current.
+<br/>
+Hello to YAPF 5.* and input filter 2.* better cleaner code.
+</p>
+
+</div>
+<div class="col-sm-12">
+<p>
+Have a feature/bug you want fixed/added then <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
+</p>
+</div>
+</div>
