@@ -17,18 +17,16 @@ services:
         - SA7Db
         - SA7Dbredis
         environment:
-        - SITE_HOST={DOMAIN}
-        - SITE_TITLE=StreamAdmin
-        - DB_HOST=SA7Db
-        - DB_DATABASE=streamadmin
-        - DB_USERNAME=streamadminDBuser
-        - DB_PASSWORD={DBPASSWORD}
+        - SITE_NAME={DOMAIN}
+        - SITE_URL=StreamAdmin
+        - SQL_HOST=SA7Db
+        - SQL_DB_NAME=streamadmin
+        - SQL_DB_USER=streamadminDBuser
+        - SQL_DB_PASS={DBPASSWORD}
         - REDIS_HOST=SA7Dbredis
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
-        - INSTALL_OK=1
-        - SITE_CACHE_ENABLED=true
-        - SITE_CACHE_REDIS_HOST=SA7Redis
+        - ENABLE_CACHE=true
         volumes:
           - type: bind
             source: /srv/logs
