@@ -26,10 +26,6 @@ class Stream extends genClass
         "djPassword",
         "streamUid",
         "mountpoint",
-        "lastApiSync",
-        "apiConfigValue1",
-        "apiConfigValue2",
-        "apiConfigValue3",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -44,10 +40,6 @@ class Stream extends genClass
         "djPassword" => ["type" => "str", "value" => null],
         "streamUid" => ["type" => "str", "value" => null],
         "mountpoint" => ["type" => "str", "value" => null],
-        "lastApiSync" => ["type" => "int", "value" => 0],
-        "apiConfigValue1" => ["type" => "str", "value" => null],
-        "apiConfigValue2" => ["type" => "str", "value" => null],
-        "apiConfigValue3" => ["type" => "str", "value" => null],
     ];
     // Setters
     /**
@@ -138,38 +130,6 @@ class Stream extends genClass
     {
         return $this->updateField("mountpoint", $newvalue);
     }
-    /**
-    * setLastApiSync
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setLastApiSync(?int $newvalue): array
-    {
-        return $this->updateField("lastApiSync", $newvalue);
-    }
-    /**
-    * setApiConfigValue1
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setApiConfigValue1(?string $newvalue): array
-    {
-        return $this->updateField("apiConfigValue1", $newvalue);
-    }
-    /**
-    * setApiConfigValue2
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setApiConfigValue2(?string $newvalue): array
-    {
-        return $this->updateField("apiConfigValue2", $newvalue);
-    }
-    /**
-    * setApiConfigValue3
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setApiConfigValue3(?string $newvalue): array
-    {
-        return $this->updateField("apiConfigValue3", $newvalue);
-    }
     // Getters
     public function getServerLink(): ?int
     {
@@ -214,22 +174,6 @@ class Stream extends genClass
     public function getMountpoint(): ?string
     {
         return $this->getField("mountpoint");
-    }
-    public function getLastApiSync(): ?int
-    {
-        return $this->getField("lastApiSync");
-    }
-    public function getApiConfigValue1(): ?string
-    {
-        return $this->getField("apiConfigValue1");
-    }
-    public function getApiConfigValue2(): ?string
-    {
-        return $this->getField("apiConfigValue2");
-    }
-    public function getApiConfigValue3(): ?string
-    {
-        return $this->getField("apiConfigValue3");
     }
     // Loaders
     public function loadByServerLink(int $serverLink): bool
@@ -307,34 +251,6 @@ class Stream extends genClass
         return $this->loadByField(
             "mountpoint",
             $mountpoint
-        );
-    }
-    public function loadByLastApiSync(int $lastApiSync): bool
-    {
-        return $this->loadByField(
-            "lastApiSync",
-            $lastApiSync
-        );
-    }
-    public function loadByApiConfigValue1(string $apiConfigValue1): bool
-    {
-        return $this->loadByField(
-            "apiConfigValue1",
-            $apiConfigValue1
-        );
-    }
-    public function loadByApiConfigValue2(string $apiConfigValue2): bool
-    {
-        return $this->loadByField(
-            "apiConfigValue2",
-            $apiConfigValue2
-        );
-    }
-    public function loadByApiConfigValue3(string $apiConfigValue3): bool
-    {
-        return $this->loadByField(
-            "apiConfigValue3",
-            $apiConfigValue3
         );
     }
     public function relatedRental(): RentalSet

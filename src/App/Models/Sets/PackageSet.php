@@ -208,24 +208,6 @@ class PackageSet extends CollectionSet
     {
         return parent::uniqueArray("enableGroupInvite");
     }
-    /**
-     * uniqueApiAllowAutoSuspends
-     * returns unique values from the collection matching that field
-     * @return array<bool>
-     */
-    public function uniqueApiAllowAutoSuspends(): array
-    {
-        return parent::uniqueArray("apiAllowAutoSuspend");
-    }
-    /**
-     * uniqueApiAutoSuspendDelayHourss
-     * returns unique values from the collection matching that field
-     * @return array<int>
-     */
-    public function uniqueApiAutoSuspendDelayHourss(): array
-    {
-        return parent::uniqueArray("apiAutoSuspendDelayHours");
-    }
     // Loaders
     /**
      * loadById
@@ -712,60 +694,6 @@ class PackageSet extends CollectionSet
     public function loadFromEnableGroupInvites(array $values): array
     {
         return $this->loadIndexs("enableGroupInvite", $values);
-    }
-    /**
-     * loadByApiAllowAutoSuspend
-     * @return mixed[] [status =>  bool, count => integer, message =>  string]
-    */
-    public function loadByApiAllowAutoSuspend(
-        bool $apiAllowAutoSuspend, 
-        int $limit = 0, 
-        string $orderBy = "id", 
-        string $orderDir = "DESC"
-    ): array
-    {
-        return $this->loadByField(
-            "apiAllowAutoSuspend", 
-            $apiAllowAutoSuspend, 
-            $limit, 
-            $orderBy, 
-            $orderDir
-        );
-    }
-    /**
-     * loadFromApiAllowAutoSuspends
-     * @return array<mixed> [status =>  bool, count => integer, message =>  string]
-    */
-    public function loadFromApiAllowAutoSuspends(array $values): array
-    {
-        return $this->loadIndexs("apiAllowAutoSuspend", $values);
-    }
-    /**
-     * loadByApiAutoSuspendDelayHours
-     * @return mixed[] [status =>  bool, count => integer, message =>  string]
-    */
-    public function loadByApiAutoSuspendDelayHours(
-        int $apiAutoSuspendDelayHours, 
-        int $limit = 0, 
-        string $orderBy = "id", 
-        string $orderDir = "DESC"
-    ): array
-    {
-        return $this->loadByField(
-            "apiAutoSuspendDelayHours", 
-            $apiAutoSuspendDelayHours, 
-            $limit, 
-            $orderBy, 
-            $orderDir
-        );
-    }
-    /**
-     * loadFromApiAutoSuspendDelayHourss
-     * @return array<mixed> [status =>  bool, count => integer, message =>  string]
-    */
-    public function loadFromApiAutoSuspendDelayHourss(array $values): array
-    {
-        return $this->loadIndexs("apiAutoSuspendDelayHours", $values);
     }
     // Related loaders
     public function relatedNoticenotecard(): NoticenotecardSet

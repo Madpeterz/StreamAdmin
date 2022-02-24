@@ -35,8 +35,6 @@ class Package extends genClass
         "welcomeNotecardLink",
         "setupNotecardLink",
         "enableGroupInvite",
-        "apiAllowAutoSuspend",
-        "apiAutoSuspendDelayHours",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -57,8 +55,6 @@ class Package extends genClass
         "welcomeNotecardLink" => ["type" => "int", "value" => 1],
         "setupNotecardLink" => ["type" => "int", "value" => 1],
         "enableGroupInvite" => ["type" => "bool", "value" => 1],
-        "apiAllowAutoSuspend" => ["type" => "bool", "value" => 1],
-        "apiAutoSuspendDelayHours" => ["type" => "int", "value" => 0],
     ];
     // Setters
     /**
@@ -197,22 +193,6 @@ class Package extends genClass
     {
         return $this->updateField("enableGroupInvite", $newvalue);
     }
-    /**
-    * setApiAllowAutoSuspend
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setApiAllowAutoSuspend(?bool $newvalue): array
-    {
-        return $this->updateField("apiAllowAutoSuspend", $newvalue);
-    }
-    /**
-    * setApiAutoSuspendDelayHours
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setApiAutoSuspendDelayHours(?int $newvalue): array
-    {
-        return $this->updateField("apiAutoSuspendDelayHours", $newvalue);
-    }
     // Getters
     public function getPackageUid(): ?string
     {
@@ -281,14 +261,6 @@ class Package extends genClass
     public function getEnableGroupInvite(): ?bool
     {
         return $this->getField("enableGroupInvite");
-    }
-    public function getApiAllowAutoSuspend(): ?bool
-    {
-        return $this->getField("apiAllowAutoSuspend");
-    }
-    public function getApiAutoSuspendDelayHours(): ?int
-    {
-        return $this->getField("apiAutoSuspendDelayHours");
     }
     // Loaders
     public function loadByPackageUid(string $packageUid): bool
@@ -408,20 +380,6 @@ class Package extends genClass
         return $this->loadByField(
             "enableGroupInvite",
             $enableGroupInvite
-        );
-    }
-    public function loadByApiAllowAutoSuspend(bool $apiAllowAutoSuspend): bool
-    {
-        return $this->loadByField(
-            "apiAllowAutoSuspend",
-            $apiAllowAutoSuspend
-        );
-    }
-    public function loadByApiAutoSuspendDelayHours(int $apiAutoSuspendDelayHours): bool
-    {
-        return $this->loadByField(
-            "apiAutoSuspendDelayHours",
-            $apiAutoSuspendDelayHours
         );
     }
     public function relatedNoticenotecard(): NoticenotecardSet
