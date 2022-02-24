@@ -115,7 +115,7 @@ class BootstrapConfigBox extends SimpleConfig
 
     public function &getPage(): string
     {
-        return $this->siteConfig->getPage();
+        return $this->page;
     }
     public function &getModule(): string
     {
@@ -144,7 +144,7 @@ class BootstrapConfigBox extends SimpleConfig
     {
         $this->module = "";
         $this->area = "";
-        $this->siteConfig->getPage() = "";
+        $this->page = "";
         $this->option = "";
 
         if ($process == null) {
@@ -172,7 +172,7 @@ class BootstrapConfigBox extends SimpleConfig
                 $this->area = $bits[1];
             }
             if (count($bits) >= 3) {
-                $this->siteConfig->getPage() = $bits[2];
+                $this->page = $bits[2];
             }
             if (count($bits) >= 4) {
                 $this->option = $bits[3];
@@ -181,11 +181,11 @@ class BootstrapConfigBox extends SimpleConfig
 
         $this->module = ucfirst($this->module);
         $this->area = ucfirst($this->area);
-        $this->siteConfig->getPage() = ucfirst($this->siteConfig->getPage());
+        $this->page = ucfirst($this->page);
         $this->option = ucfirst($this->option);
 
-        if ($this->siteConfig->getPage() == "") {
-            $this->siteConfig->getPage() = "0";
+        if ($this->page == "") {
+            $this->page = "0";
         }
     }
 }

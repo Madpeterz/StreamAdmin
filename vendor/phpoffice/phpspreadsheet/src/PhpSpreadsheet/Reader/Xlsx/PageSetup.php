@@ -25,9 +25,9 @@ class PageSetup extends BaseParserClass
         }
 
         $this->margins($this->worksheetXml, $this->worksheet);
-        $unparsedLoadedData = $this->siteConfig->getPage()Setup($this->worksheetXml, $this->worksheet, $unparsedLoadedData);
+        $unparsedLoadedData = $this->pageSetup($this->worksheetXml, $this->worksheet, $unparsedLoadedData);
         $this->headerFooter($this->worksheetXml, $this->worksheet);
-        $this->siteConfig->getPage()Breaks($this->worksheetXml, $this->worksheet);
+        $this->pageBreaks($this->worksheetXml, $this->worksheet);
 
         return $unparsedLoadedData;
     }

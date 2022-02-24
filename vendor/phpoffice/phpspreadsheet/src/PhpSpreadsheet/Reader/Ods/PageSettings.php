@@ -59,7 +59,7 @@ class PageSettings
             $footerProperties = $footer->getElementsByTagNameNS($this->stylesNs, 'header-footer-properties')[0];
             $marginFooter = isset($footerProperties) ? $footerProperties->getAttributeNS($this->stylesFo, 'min-height') : null;
 
-            $this->siteConfig->getPage()LayoutStyles[$styleName] = (object) [
+            $this->pageLayoutStyles[$styleName] = (object) [
                 'orientation' => $styleOrientation ?: PageSetup::ORIENTATION_DEFAULT,
                 'scale' => $styleScale ?: 100,
                 'printOrder' => $stylePrintOrder,
@@ -116,10 +116,10 @@ class PageSettings
         }
         $printSettingsIndex = $this->masterPrintStylesCrossReference[$masterStyleName];
 
-        if (!array_key_exists($printSettingsIndex, $this->siteConfig->getPage()LayoutStyles)) {
+        if (!array_key_exists($printSettingsIndex, $this->pageLayoutStyles)) {
             return;
         }
-        $printSettings = $this->siteConfig->getPage()LayoutStyles[$printSettingsIndex];
+        $printSettings = $this->pageLayoutStyles[$printSettingsIndex];
 
         $worksheet->getPageSetup()
             ->setOrientation($printSettings->orientation ?? PageSetup::ORIENTATION_DEFAULT)

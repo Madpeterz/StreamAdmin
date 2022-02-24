@@ -27,7 +27,7 @@ class SheetViewOptions extends BaseParserClass
             $this->tabColor($this->worksheetXml->sheetPr, $styleReader);
             $this->codeName($this->worksheetXml->sheetPr);
             $this->outlines($this->worksheetXml->sheetPr);
-            $this->siteConfig->getPage()Setup($this->worksheetXml->sheetPr);
+            $this->pageSetup($this->worksheetXml->sheetPr);
         }
 
         if (isset($this->worksheetXml->sheetFormatPr)) {

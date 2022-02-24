@@ -354,9 +354,9 @@ class Worksheet implements IComparable
 
         $this->cellCollection = CellsFactory::getInstance($this);
         // Set page setup
-        $this->siteConfig->getPage()Setup = new PageSetup();
+        $this->pageSetup = new PageSetup();
         // Set page margins
-        $this->siteConfig->getPage()Margins = new PageMargins();
+        $this->pageMargins = new PageMargins();
         // Set page header/footer
         $this->headerFooter = new HeaderFooter();
         // Set sheet view
@@ -928,7 +928,7 @@ class Worksheet implements IComparable
      */
     public function getPageSetup()
     {
-        return $this->siteConfig->getPage()Setup;
+        return $this->pageSetup;
     }
 
     /**
@@ -938,7 +938,7 @@ class Worksheet implements IComparable
      */
     public function setPageSetup(PageSetup $pageSetup)
     {
-        $this->siteConfig->getPage()Setup = $pageSetup;
+        $this->pageSetup = $pageSetup;
 
         return $this;
     }
@@ -950,7 +950,7 @@ class Worksheet implements IComparable
      */
     public function getPageMargins()
     {
-        return $this->siteConfig->getPage()Margins;
+        return $this->pageMargins;
     }
 
     /**
@@ -960,7 +960,7 @@ class Worksheet implements IComparable
      */
     public function setPageMargins(PageMargins $pageMargins)
     {
-        $this->siteConfig->getPage()Margins = $pageMargins;
+        $this->pageMargins = $pageMargins;
 
         return $this;
     }

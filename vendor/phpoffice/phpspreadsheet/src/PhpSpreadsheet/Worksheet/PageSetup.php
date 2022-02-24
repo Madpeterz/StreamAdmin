@@ -873,13 +873,13 @@ class PageSetup
 
     public function getPageOrder(): string
     {
-        return $this->siteConfig->getPage()Order;
+        return $this->pageOrder;
     }
 
     public function setPageOrder(?string $pageOrder): self
     {
         if ($pageOrder === null || $pageOrder === self::PAGEORDER_DOWN_THEN_OVER || $pageOrder === self::PAGEORDER_OVER_THEN_DOWN) {
-            $this->siteConfig->getPage()Order = $pageOrder ?? self::PAGEORDER_DOWN_THEN_OVER;
+            $this->pageOrder = $pageOrder ?? self::PAGEORDER_DOWN_THEN_OVER;
         }
 
         return $this;

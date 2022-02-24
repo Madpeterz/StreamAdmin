@@ -16,7 +16,7 @@ class PageSettings
 
     public function __construct(SimpleXMLElement $xmlX, array $namespaces)
     {
-        $printSettings = $this->siteConfig->getPage()Setup($xmlX, $namespaces, $this->getPrintDefaults());
+        $printSettings = $this->pageSetup($xmlX, $namespaces, $this->getPrintDefaults());
         $this->printSettings = $this->printSetup($xmlX, $printSettings);
     }
 

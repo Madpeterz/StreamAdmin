@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '9fa72dc43291b6a492f7b10434f16d5c941a3851',
+        'reference' => 'cde9b3f0ed34bba52b7d57caaba2d0e5dc5edb81',
         'name' => 'madpeterz/streamadmin',
         'dev' => false,
     ),
@@ -52,7 +52,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '9fa72dc43291b6a492f7b10434f16d5c941a3851',
+            'reference' => 'cde9b3f0ed34bba52b7d57caaba2d0e5dc5edb81',
             'dev_requirement' => false,
         ),
         'madpeterz/yapfbootstrap' => array(
