@@ -17,9 +17,9 @@ class Update extends ViewAjax
         $server = new Server();
 
 
-        $port = $input->postInteger("port");
-        $packageLink = $input->postInteger("packageLink");
-        $serverLink = $input->postInteger("serverLink");
+        $port = $this->input->post("port");
+        $packageLink = $this->input->post("packageLink");
+        $serverLink = $this->input->post("serverLink");
         $mountpoint = $this->input->post("mountpoint");
         $adminUsername = $this->input->post("adminUsername", 50, 3);
         if ($adminUsername == null) {
@@ -44,7 +44,7 @@ class Update extends ViewAjax
         $apiConfigValue1 = $this->input->post("apiConfigValue1");
         $apiConfigValue2 = $this->input->post("apiConfigValue2");
         $apiConfigValue3 = $this->input->post("apiConfigValue3");
-        $api_update = $input->postBool("api_update");
+        $api_update = $this->input->post("api_update");
 
         if ($port < 1) {
             $this->failed("Port must be 1 or more");

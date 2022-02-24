@@ -93,7 +93,7 @@ abstract class SecondlifeAjax extends View
 
         $this->staticpart = "";
         foreach ($required_sl as $slvalue) {
-            $value = $input->postFilter($slvalue);
+            $value = $this->input->post($slvalue);
             if ($value !== null) {
                 $this->$slvalue = $value;
                 $this->staticpart .= $value;
@@ -103,13 +103,13 @@ abstract class SecondlifeAjax extends View
                 return;
             }
         }
-        $this->unixtime = $input->postFilter("unixtime");
+        $this->unixtime = $this->input->post("unixtime");
         if ($this->unixtime === null) {
             $this->failed("Missing unixtime value");
             $this->load_ok = false;
             return;
         }
-        $this->hash = $input->postFilter("hash");
+        $this->hash = $this->input->post("hash");
         if ($this->hash === null) {
             $this->load_ok = false;
             $this->failed("Missing hash value");

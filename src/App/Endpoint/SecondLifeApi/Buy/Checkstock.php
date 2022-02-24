@@ -12,7 +12,7 @@ class Checkstock extends SecondlifeAjax
     public function process(): void
     {
 
-        $packageuid = $input->postFilter("packageuid");
+        $packageuid = $this->input->post("packageuid");
         $package = new Package();
         if ($package->loadByField("packageUid", $packageuid) == false) {
             $this->setSwapTag("message", "Unable to find package");

@@ -27,30 +27,17 @@ class Bulkremove extends ViewAjax
 
         $template_parts["page_actions"] = "";
         $rental_set = new RentalSet();
-        $stream_set = new StreamSet();
-        $package_set = new PackageSet();
-        $avatar_set = new AvatarSet();
-        $server_set = new ServerSet();
-        $api_requests_set = new ApirequestsSet();
-        $apis_set = new ApisSet();
-        $rental_notice_opt_outs = new RentalnoticeptoutSet();
         $rental_set->loadWithConfig($whereconfig);
-        $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
-        $package_set->loadByValues($rental_set->getAllByField("packageLink"));
-        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
-        $api_requests_set->loadByValues($rental_set->getAllIds(), "rentalLink");
-        $rental_notice_opt_outs->loadByValues($rental_set->getAllIds(), "rentalLink");
-        $apis_set->loadAll();
-        $server_set->loadAll();
+        $avatar_set = $rental_set->relatedAvatar();
+        $package_set = $rental_set->relatedPackage();
+        $stream_set = $rental_set->relatedStream();
+        $rental_notice_opt_outs = $rental_set->relatedRentalnoticeptout();
+        $server_set = $stream_set->relatedServer();
         $removed_counter = 0;
         $skipped_counter = 0;
         $this->setSwapTag("redirect", "client/bulkremove");
         $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
-            if ($api_requests_set->getObjectByField("rentalLink", $rental->getId()) != null) {
-                $skipped_counter++;
-                continue;
-            }
             $accept = $this->input->post("rental" . $rental->getRentalUid());
             if ($accept != "purge") {
                 $skipped_counter++;
@@ -120,15 +107,6 @@ class Bulkremove extends ViewAjax
             $all_ok = $remove_status["status"];
             if ($all_ok == false) {
                 $this->failed(sprintf("Error removing old rental %1\$s", $remove_status["message"]));
-                return;
-            }
-            // Server API support
-            $apilogic = new ApiLogicRevoke();
-            $apilogic->setStream($stream);
-            $apilogic->setServer($server);
-            $reply = $apilogic->createNextApiRequest();
-            if ($reply["status"] == false) {
-                $this->failed("Bad reply: " . $reply["message"]);
                 return;
             }
             $removed_counter++;

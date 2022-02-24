@@ -14,40 +14,34 @@ class Create extends ViewAjax
         $notice = new Notice();
         $static_notecard = new Noticenotecard();
 
-        $name = $this->input->post("name", 100, 5);
+        $name = $this->input->post("name")->checkStringLength(5, 100)->asString();
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $hoursRemaining = $input->postInteger("hoursRemaining", false, true);
+        $hoursRemaining = $this->input->post("hoursRemaining")->checkGrtThanEq(1)->asInt();
         if ($hoursRemaining === null) {
             $this->failed("Hours remain failed:" . $this->input->getWhyFailed());
             return;
         }
-        $imMessage = $this->input->post("imMessage", 800, 5);
+        $imMessage = $this->input->post("imMessage")->checkStringLength(5, 800)->asString();
         if ($imMessage == null) {
             $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
-        $sendObjectIM = $input->postBool("sendObjectIM");
-        if ($sendObjectIM === null) {
-            $sendObjectIM = false;
-        }
+        $sendObjectIM = $this->input->post("sendObjectIM")->asBool();
 
-        $useBot = $input->postBool("useBot");
-        if ($useBot === null) {
-            $useBot = false;
-        }
-        $sendNotecard = $input->postBool("sendNotecard");
-        if ($sendNotecard === null) {
-            $sendNotecard = false;
-        }
-        $notecardDetail = $this->input->post("notecardDetail");
-        if ($sendObjectIM === null) {
+        $useBot = $this->input->post("useBot")->asBool();
+
+        $sendNotecard = $this->input->post("sendNotecard")->asBool();
+
+        $notecardDetail = $this->input->post("notecardDetail")->asString();
+        if ($notecardDetail === null) {
             $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
-        $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
+
+        $noticeNotecardLink = $this->input->post("noticeNotecardLink")->checkGrtThanEq(1)->asInt();
         if ($noticeNotecardLink === null) {
             $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;

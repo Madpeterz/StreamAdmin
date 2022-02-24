@@ -18,11 +18,13 @@ class Update extends ViewAjax
     {
         $avatar = new Avatar();
         $avatar_from = new Avatar();
-        if ($avatar->loadByAvatarUid($transfer_avataruid) == false) {
+        $avatar->loadByAvatarUid($transfer_avataruid);
+        $avatar_from->loadID($rental->getAvatarLink());
+        if ($avatar->isLoaded() == false) {
             $this->issues .= "Unable to find avatar to transfer to";
             return;
         }
-        if ($avatar_from->loadID($rental->getAvatarLink()) == false) {
+        if ($avatar_from->isLoaded() == false) {
             $this->issues .= "Unable to find avatar to transfer from";
             return;
         }
@@ -113,23 +115,18 @@ class Update extends ViewAjax
         $this->issues = "";
 
         // adjustment
-        $adjustment_days = $input->postInteger("adjustment_days");
-        $adjustment_hours = $input->postInteger("adjustment_hours");
-        $adjustment_dir = $input->postBool("adjustment_dir");
+        $adjustment_days = $this->input->post("adjustment_days")->asInt();
+        $adjustment_hours = $this->input->post("adjustment_hours")->asInt();
+        $adjustment_dir = $this->input->post("adjustment_dir")->asInt();
         if ($adjustment_dir === null) {
             $adjustment_dir = false;
         }
         // transfer
-        $transfer_avataruid = $this->input->post("transfer_avataruid");
+        $transfer_avataruid = $this->input->post("transfer_avataruid")->asString();
         // message
-        $this->message = $this->input->post("message");
+        $this->message = $this->input->post("message")->asString();
         if (strlen($this->message) < 1) {
             $this->message = null;
-        }
-        // API flag
-        $this->apiAllowSuspend = $input->postBool("apiAllowSuspend");
-        if ($this->apiAllowSuspend === null) {
-            $this->apiAllowSuspend = false;
         }
 
         if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
@@ -156,11 +153,6 @@ class Update extends ViewAjax
         if ($this->message != $rental->getMessage()) {
             $rental->setMessage($this->message);
             $this->actions_taken .= "\n Message Updated";
-        }
-
-        if ($this->apiAllowSuspend != $rental->getApiAllowAutoSuspend()) {
-            $rental->setApiAllowAutoSuspend($this->apiAllowSuspend);
-            $this->actions_taken .= "\n API allow auto suspend Updated";
         }
 
         if ($this->actions_taken == "") {

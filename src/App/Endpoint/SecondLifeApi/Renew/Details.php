@@ -65,7 +65,7 @@ class Details extends SecondlifeAjax
     public function process(): void
     {
 
-        $avatarUUID = $input->postFilter("avatarUUID");
+        $avatarUUID = $this->input->post("avatarUUID");
         $avatar = new Avatar();
         $this->setSwapTag("dataset_count", 0);
         if ($avatar->loadByField("avatarUUID", $avatarUUID) == false) {

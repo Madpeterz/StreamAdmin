@@ -10,7 +10,7 @@ class Getapiconfig extends ViewAjax
     public function process(): void
     {
 
-        $apiLink = $input->postFilter("apiLink", "integer");
+        $apiLink = $this->input->post("apiLink", "integer");
         $api = new Apis();
         if ($apiLink == 0) {
             $this->failed("Invaild API selected");

@@ -16,9 +16,9 @@ class Create extends ViewAjax
         $package = new Package();
         $server = new Server();
 
-        $port = $input->postInteger("port");
-        $packageLink = $input->postInteger("packageLink");
-        $serverLink = $input->postInteger("serverLink");
+        $port = $this->input->post("port");
+        $packageLink = $this->input->post("packageLink");
+        $serverLink = $this->input->post("serverLink");
         $mountpoint = $this->input->post("mountpoint");
         $adminUsername = $this->input->post("adminUsername", 50, 3);
         if ($adminUsername == null) {
@@ -35,11 +35,11 @@ class Create extends ViewAjax
             $this->failed("DJ password failed:" . $this->input->getWhyFailed());
             return;
         }
-        $needswork = $input->postBool("needswork");
+        $needswork = $this->input->post("needswork");
         $apiConfigValue1 = $this->input->post("apiConfigValue1");
         $apiConfigValue2 = $this->input->post("apiConfigValue2");
         $apiConfigValue3 = $this->input->post("apiConfigValue3");
-        $api_create = $input->postBool("api_create");
+        $api_create = $this->input->post("api_create");
         if ($port < 1) {
             $this->failed("Port must be 1 or more");
             return;

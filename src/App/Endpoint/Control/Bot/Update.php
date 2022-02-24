@@ -11,37 +11,37 @@ class Update extends ViewAjax
     public function process(): void
     {
         $this->setSwapTag("redirect", null);
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->failed("Sorry only owners can make changes to the bot config");
             return;
         }
 
-        $avataruid = $this->input->post("avataruid", 8, 8);
+        $avataruid = $this->input->post("avataruid")->checkStringLength(8, 8)->asString();
         if ($avataruid == null) {
             $this->failed("Avatar UID failed:" . $this->input->getWhyFailed());
             return;
         }
-        $secret = $this->input->post("secret", 30, 8);
+        $secret = $this->input->post("secret")->checkStringLength(8, 30)->asString();
         if ($avataruid == null) {
             $this->failed("Secret failed:" . $this->input->getWhyFailed());
             return;
         }
-        $httpMode = $input->postBool("httpMode");
+        $httpMode = $this->input->post("httpMode")->asBool();
         if ($httpMode === null) {
             $httpMode = false;
         }
-        $httpURL = $input->postUrl("httpURL");
-        $httpToken = $this->input->post("httpToken");
+        $httpURL = $this->input->post("httpURL")->isUrl()->asString();
+        $httpToken = $this->input->post("httpToken")->isNot("")->asArray();
 
-        $notecards = $input->postBool("notecards");
+        $notecards = $this->input->post("notecards")->asBool();
         if ($notecards === null) {
             $notecards = false;
         }
-        $ims = $input->postBool("ims");
+        $ims = $this->input->post("ims")->asBool();
         if ($ims === null) {
             $ims = false;
         }
-        $invites = $input->postBool("invites");
+        $invites = $this->input->post("invites")->asBool();
         if ($invites === null) {
             $invites = false;
         }

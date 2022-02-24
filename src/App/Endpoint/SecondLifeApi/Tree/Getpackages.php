@@ -112,7 +112,7 @@ class Getpackages extends SecondlifeAjax
     public function process(): void
     {
 
-        $tree_vender_id = $input->postFilter("tree_vender_id", "integer");
+        $tree_vender_id = $this->input->post("tree_vender_id", "integer");
         if ($tree_vender_id < 1) {
             $this->setSwapTag("message", "Invaild tree vender id given or none sent!");
             return;

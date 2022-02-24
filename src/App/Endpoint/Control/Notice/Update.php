@@ -21,7 +21,7 @@ class Update extends ViewAjax
         if ($this->siteConfig->getPage() == 6) {
             $minValue = 0;
         }
-        $hoursRemaining = $input->postInteger("hoursRemaining");
+        $hoursRemaining = $this->input->post("hoursRemaining");
         if ($hoursRemaining < $minValue) {
             $this->failed("Hours remain failed: can not be less than " . $minValue);
             return;
@@ -34,17 +34,17 @@ class Update extends ViewAjax
             $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
-        $sendObjectIM = $input->postBool("sendObjectIM");
+        $sendObjectIM = $this->input->post("sendObjectIM");
         if ($sendObjectIM === null) {
             $sendObjectIM = false;
         }
 
-        $useBot = $input->postBool("useBot");
+        $useBot = $this->input->post("useBot");
         if ($useBot === null) {
             $useBot = false;
         }
 
-        $sendNotecard = $input->postBool("sendNotecard");
+        $sendNotecard = $this->input->post("sendNotecard");
         if ($sendNotecard === null) {
             $sendNotecard = false;
         }
@@ -53,7 +53,7 @@ class Update extends ViewAjax
             $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
-        $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
+        $noticeNotecardLink = $this->input->post("noticeNotecardLink", false, true);
         if ($noticeNotecardLink === null) {
             $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;

@@ -9,7 +9,7 @@ abstract class View extends BasicView
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->output->redirectWithMessage("home", "Only the system owner can adjust setup!");
             return;
         }

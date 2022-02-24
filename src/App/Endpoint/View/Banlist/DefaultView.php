@@ -12,7 +12,7 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() != 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() != 1) {
             $this->output->redirect("?bubblemessage=sorry owner only&bubbletype=warning");
             return;
         }

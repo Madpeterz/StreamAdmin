@@ -59,7 +59,7 @@ class DefaultView extends View
                     "link" => "Datatables",
                 ],
             ];
-            if ($this->session->getOwnerLevel() == 1) {
+            if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $config_areas["R4 import"] = [
                     "icon" => "fas fa-cloud-upload-alt",
                     "link" => "Import",

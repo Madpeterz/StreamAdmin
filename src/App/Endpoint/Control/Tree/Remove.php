@@ -11,7 +11,7 @@ class Remove extends ViewAjax
     public function process(): void
     {
 
-        $accept = $input->postFilter("accept");
+        $accept = $this->input->post("accept");
         $this->setSwapTag("redirect", "tree");
         if ($accept != "Accept") {
             $this->setSwapTag("redirect", "tree/manage/" . $this->siteConfig->getPage() . "");

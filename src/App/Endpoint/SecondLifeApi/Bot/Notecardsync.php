@@ -69,7 +69,7 @@ class Notecardsync extends SecondlifeAjax
         }
 
         global $template_parts;
-        $reply = $bot_helper->sendBotNextNotecard($template_parts["SITE_URL"], $this->slconfig->getHttpInboundSecret());
+        $reply = $bot_helper->sendBotNextNotecard($this->siteConfig->getSiteURL(), $this->slconfig->getHttpInboundSecret());
         if ($reply == false) {
             $this->failed("Unable to add fetch next notecard to bot Q");
             return;

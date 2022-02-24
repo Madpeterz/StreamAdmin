@@ -15,25 +15,17 @@ use App\Framework\ViewAjax;
 
 class Revoke extends ViewAjax
 {
-    protected InputFilter $input;
-    protected Rental $rental;
-    protected ApirequestsSet $api_requests;
-    protected Stream $stream;
-    protected Server $server;
-    protected Package $package;
-    protected Avatar $avatar;
+    protected ?Rental $rental;
+    protected ?Stream $stream;
+    protected ?Server $server;
+    protected ?Package $package;
+    protected ?Avatar $avatar;
 
     public function process(): void
     {
-        $this->input = new InputFilter();
         $this->rental = new Rental();
-        $this->api_requests = new ApirequestsSet();
-        $this->stream = new Stream();
-        $this->server = new Server();
-        $this->package = new Package();
-        $this->avatar = new Avatar();
 
-        $accept = $this->input->postString("accept");
+        $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", null);
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
@@ -45,7 +37,7 @@ class Revoke extends ViewAjax
         if ($this->revoke() == false) {
             return;
         }
-        $this->processAPI();
+        $this->ok("Client rental revoked");
     }
 
     protected function load(): bool
@@ -54,31 +46,16 @@ class Revoke extends ViewAjax
             $this->failed("Unable to find client");
             return false;
         }
-        if ($this->api_requests->loadByRentalLink($this->rental->getId()) == false) {
-            $this->failed("Unable to check for pending api requests attached to the client");
+        $this->stream = $this->rental->relatedStream()->getFirst();
+        if ($this->stream == null) {
+            $this->failed("Unable to find stream");
             return false;
         }
-        if ($this->api_requests->getCount() > 0) {
-            $this->failed(sprintf(
-                "There are %1\$s pending api requests attached to the client",
-                $this->api_requests->getCount()
-            ));
-            return false;
-        }
-        if ($this->stream->loadID($this->rental->getStreamLink()) == false) {
-            $this->failed("Unable to find attached stream");
-            return false;
-        }
-        if ($this->server->loadID($this->stream->getServerLink()) == false) {
-            $this->failed("Unable to load server");
-            return false;
-        }
-        if ($this->package->loadID($this->rental->getPackageLink()) == false) {
-            $this->failed("Unable to load package");
-            return false;
-        }
-        if ($this->avatar->loadID($this->rental->getAvatarLink()) == false) {
-            $this->failed("Unable to load avatar");
+        $this->server = $this->stream->relatedServer()->getFirst();
+        $this->package = $this->stream->relatedPackage()->getFirst();
+        $this->avatar = $this->rental->relatedAvatar()->getFirst();
+        if (in_array(null, [$this->server,$this->package,$this->avatar]) == true) {
+            $this->failed("One or more required objects are missing");
             return false;
         }
         return true;
@@ -122,23 +99,5 @@ class Revoke extends ViewAjax
             return false;
         }
         return true;
-    }
-
-    protected function processAPI(): void
-    {
-        $api_serverlogic_reply = true;
-        $apilogic = new ApiLogicRevoke();
-        $apilogic->setStream($this->stream);
-        $apilogic->setServer($this->server);
-        $reply = $apilogic->createNextApiRequest();
-        if ($reply["status"] == false) {
-            $this->failed($reply["message"]);
-            return;
-        }
-        if ($api_serverlogic_reply == true) {
-            $this->setSwapTag("redirect", "client");
-        }
-
-        $this->ok("Client rental revoked");
     }
 }

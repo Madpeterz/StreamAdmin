@@ -27,7 +27,7 @@ class Reissue extends ViewAjax
     }
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->setSwapTag("status", false);
             $this->failed("Only system owner can adjust settings");
             return;

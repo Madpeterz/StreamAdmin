@@ -24,7 +24,7 @@ abstract class HomeDisplayData extends HomeLoadData
 
     protected function renderOwnerDisplay(): void
     {
-        if ($this->session->getOwnerLevel() == 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
             if ($this->server_set->getCount() == 0) {
                 $this->main_grid->addContent("<hr/>", 12);
                 $this->main_grid->addContent(

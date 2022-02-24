@@ -112,8 +112,8 @@ class Startrental extends SecondlifeAjax
         $amountpaid = 0;
         $use_notice_index = 0;
 
-        $avatar = $this->getAvatar($input->postFilter("avatarUUID"), $input->postFilter("avatarName"));
-        $package = $this->getPackage($input->postFilter("packageuid"));
+        $avatar = $this->getAvatar($this->input->post("avatarUUID"), $this->input->post("avatarName"));
+        $package = $this->getPackage($this->input->post("packageuid"));
         if ($package == null) {
             $this->setSwapTag("message", "Unable to find package");
             return;
@@ -137,7 +137,7 @@ class Startrental extends SecondlifeAjax
             return;
         }
 
-        $amountpaid = $input->postFilter("amountpaid", "integer");
+        $amountpaid = $this->input->post("amountpaid", "integer");
         $accepted_payment_amounts = [
             $package->getCost() => 1,
             ($package->getCost() * 2) => 2,

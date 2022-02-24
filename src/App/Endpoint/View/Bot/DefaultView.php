@@ -10,7 +10,7 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->output->redirect("config?bubblemessage=Owner level access needed&bubbletype=warning");
         }
         $botconfig = new Botconfig();

@@ -34,13 +34,7 @@ class NoticeOptout extends ViewAjax
             return;
         }
 
-        $client_opt_out = new RentalnoticeptoutSet();
-        $load = $client_opt_out->loadByRentalLink($rental->getId());
-        if ($load["status"] == false) {
-            $this->failed("Unable to load current opt-outs");
-            $this->setSwapTag("redirect", "client");
-            return;
-        }
+        $client_opt_out = $rental->relatedRentalnoticeptout();
 
         $remove_client_opt_out = new RentalnoticeptoutSet();
 
@@ -48,7 +42,7 @@ class NoticeOptout extends ViewAjax
         $opt_out_notice_ids = $client_opt_out->getUniqueArray("noticeLink");
         foreach ($noticeLevels as $noticeLevel) {
             if (in_array($noticeLevel->getId(), $opt_out_notice_ids) == true) {
-                $check = $input->postBool("remove-optout-" . $noticeLevel->getId());
+                $check = $this->input->post("remove-optout-" . $noticeLevel->getId());
                 if ($check !== true) {
                     continue;
                 }
@@ -65,7 +59,7 @@ class NoticeOptout extends ViewAjax
                 $remove_client_opt_out->addToCollected($opt_out);
                 continue;
             }
-            $check = $input->postBool("add-optout-" . $noticeLevel->getId());
+            $check = $this->input->post("add-optout-" . $noticeLevel->getId());
             if ($check !== true) {
                 continue;
             }

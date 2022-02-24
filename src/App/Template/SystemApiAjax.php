@@ -87,7 +87,7 @@ abstract class SystemApiAjax extends ViewAjax
 
         $this->staticpart = "";
         foreach ($required_values as $slvalue) {
-            $value = $input->postFilter($slvalue);
+            $value = $this->input->post($slvalue);
             if ($value === null) {
                 $this->load_ok = false;
                 $this->failed("Value: " . $slvalue . " is missing");

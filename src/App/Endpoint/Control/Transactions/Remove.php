@@ -9,7 +9,7 @@ class Remove extends ViewAjax
 {
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() != 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() != 1) {
             $this->failed("Do not dont have permission todo this");
             return;
         }

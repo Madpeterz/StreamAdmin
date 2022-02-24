@@ -12,7 +12,7 @@ class Resend extends SecondlifeAjax
     public function process(?Avatar $forceAv = null): void
     {
 
-        $rentalUid = $input->postFilter("rentalUid");
+        $rentalUid = $this->input->post("rentalUid");
         $rental = new Rental();
         if ($rental->loadByField("rentalUid", $rentalUid) == false) {
             $this->setSwapTag("message", "Unable to find rental");

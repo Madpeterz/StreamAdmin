@@ -14,7 +14,7 @@ class Flow1 extends ExcelSheet
     protected $deleleted_entrys = 0;
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() != 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() != 1) {
             $this->asAjax = true;
             $this->failed("Only the system owner can access this area");
             $this->setSwapTag("redirect", "");

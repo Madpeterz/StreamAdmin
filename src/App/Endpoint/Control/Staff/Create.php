@@ -11,7 +11,7 @@ class Create extends ViewAjax
     public function process(): void
     {
         $this->setSwapTag("redirect", "staff");
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->failed("Owner level access required");
             $this->setSwapTag("redirect", "");
         }

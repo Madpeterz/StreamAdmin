@@ -9,13 +9,13 @@ class Start extends ViewAjax
     public function process(): void
     {
 
-        $staffusername = $this->input->post("staffusername");
-        $staffpassword = $this->input->post("staffpassword");
+        $staffusername = $this->input->post("staffusername")->checkStringLengthMin(3)->asString();
+        $staffpassword = $this->input->post("staffpassword")->checkStringLengthMin(3)->asString();
         $this->failed("Username or Password is invaild");
-        if ((strlen($staffusername) == 0) || (strlen($staffpassword) == 0)) {
+        if (($staffusername == null) || ($staffpassword == null)) {
             return;
         }
-        if ($this->session->loginWithUsernamePassword($staffusername, $staffpassword) == false) {
+        if ($this->siteConfig->getSession()->loginWithUsernamePassword($staffusername, $staffpassword) == false) {
             return;
         }
         $this->ok("logged in ^+^");

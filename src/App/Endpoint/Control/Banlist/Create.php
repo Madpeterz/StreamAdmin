@@ -11,7 +11,7 @@ class Create extends ViewAjax
     public function process(): void
     {
 
-        $avataruid = $this->input->post("uid");
+        $avataruid = $this->input->post("uid")->checkStringLengthMin(3)->asString();
         if ($avataruid == null) {
             $this->failed("Avatar UID/Name/UUID was not sent!");
             return;

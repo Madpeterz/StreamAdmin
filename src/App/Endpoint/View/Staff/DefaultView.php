@@ -19,7 +19,7 @@ class DefaultView extends View
             $entry = [];
             $entry[] = $staff->getId();
             $username = $staff->getUsername();
-            if ($this->session->getOwnerLevel() == true) {
+            if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
                 $username = '<a href="[[SITE_URL]]staff/manage/'
                 . $staff->getId() . '">' . $staff->getUsername() . '</a>';
             }

@@ -25,7 +25,7 @@ class Update extends ViewAjax
             $this->failed("texture inuse is not vaild: " . $input->getLastError());
             return;
         }
-        $hideSoldout = $input->postBool("hideSoldout");
+        $hideSoldout = $this->input->post("hideSoldout");
         if ($hideSoldout == null) {
             $hideSoldout = false;
         }

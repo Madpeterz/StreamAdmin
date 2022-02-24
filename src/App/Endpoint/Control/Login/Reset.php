@@ -12,26 +12,22 @@ class Reset extends ViewAjax
     protected function sendMessageReset(Avatar $avatar, string $resetCode): bool
     {
         global $template_parts;
-        $reset_url = $template_parts["SITE_URL"] . "login/resetwithtoken/" . $resetCode;
+        $reset_url = $this->siteConfig->getSiteURL() . "login/resetwithtoken/" . $resetCode;
         $message = new Message();
         $message->setAvatarLink($avatar->getId());
         $message->setMessage(sprintf("Web panel reset link: %1\$s expires in 1 hour", $reset_url));
         $add_status = $message->createEntry();
-        if ($add_status["status"] == true) {
-            return true;
-        }
-        return false;
+        return $add_status["status"];
     }
     public function process(): void
     {
         global $unixtime_hour;
         sleep(1);
 
-
         $avatar = new Avatar();
         $staff = new Staff();
 
-        $slusername = $input->postFilter("slusername");
+        $slusername = $this->input->post("slusername")->asString();
         $status = false;
 
         $username_bits = explode(" ", $slusername);
@@ -42,18 +38,29 @@ class Reset extends ViewAjax
         if ($avatar->loadByAvatarName($slusername) == true) {
             $status = $staff->loadByField("avatarLink", $avatar->getId());
         }
-        if ($status == true) {
-            if ($staff->getId() > 0) {
-                $uid = $staff->createUID("emailResetCode", 8, 10);
-                if ($uid["status"] == true) {
-                    $staff->setEmailResetCode($uid["uid"]);
-                    $staff->setEmailResetExpires((time() + $unixtime_hour));
-                    $update_status = $staff->updateEntry();
-                    if ($update_status["status"] == true) {
-                        $status = $this->sendMessageReset($avatar, $uid["uid"]);
-                    }
-                }
-            }
+        if ($status == false) {
+            $this->failed("Unable to find staff/avatar with given details");
+            return;
+        }
+        if ($staff->isLoaded() == false) {
+            $this->failed("Unable to find staff/avatar with given details");
+            return;
+        }
+
+        $uid = $staff->createUID("emailResetCode", 8);
+        if ($uid["status"] == false) {
+            $this->failed("Unable to find staff/avatar with given details");
+            return;
+        }
+        $staff->setEmailResetCode($uid["uid"]);
+        $staff->setEmailResetExpires((time() + $unixtime_hour));
+        $update_status = $staff->updateEntry();
+        if ($update_status["status"] == true) {
+            $status = $this->sendMessageReset($avatar, $uid["uid"]);
+        }
+        if ($status == false) {
+            $this->failed("Unable to find staff/avatar with given details");
+            return;
         }
         $this->setSwapTag("redirect", "here");
         $this->ok("If the account was found the reset code is on the way.");

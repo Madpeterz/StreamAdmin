@@ -66,7 +66,7 @@ class Update extends ViewAjax
 
     protected function formData(): void
     {
-        $this->name = $this->input->postString("name");
+        $this->name = $this->input->post("name");
         $this->templateLink = $this->input->postInteger("templateLink");
         $this->cost = $this->input->postInteger("cost");
         $this->days = $this->input->postInteger("days");

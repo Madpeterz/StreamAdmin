@@ -10,7 +10,7 @@ class DefaultView extends HomeDisplayData
     public function process(): void
     {
         $this->main_grid = new Grid();
-        if ($this->session->getOwnerLevel() == 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
             $this->unsafeWorkspace();
         }
         $this->loadDatasets();

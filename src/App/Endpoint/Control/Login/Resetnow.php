@@ -13,14 +13,14 @@ class Resetnow extends ViewAjax
     {
         sleep(1);
 
-        $slusername = $this->input->post("slusername");
-        $token = $this->input->post("token");
-        $newpw1 = $this->input->post("newpassword1", 30, 7);
+        $slusername = $this->input->post("slusername")->checkStringLengthMin(3)->asString();
+        $token = $this->input->post("token")->checkStringLength(8, 8)->asString();
+        $newpw1 = $this->input->post("newpassword1")->checkStringLength(7, 30)->asString();
         if ($newpw1 == null) {
             $this->failed("New password failed:" . $this->input->getWhyFailed());
             return;
         }
-        $newpw2 = $this->input->post("newpassword2", 30, 7);
+        $newpw2 = $this->input->post("newpassword2")->checkStringLength(7, 30)->asString();
         if ($newpw2 == null) {
             $this->failed("New password (Repeated) failed:" . $this->input->getWhyFailed());
             return;
@@ -43,7 +43,7 @@ class Resetnow extends ViewAjax
             return;
         }
         $staff = new Staff();
-        if ($staff->loadByField("avatarLink", $avatar->getId()) == false) {
+        if ($staff->loadByAvatarLink($avatar->getId()) == false) {
             return;
         }
         if ($staff->getEmailResetCode() != $token) {

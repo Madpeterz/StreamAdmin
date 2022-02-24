@@ -27,7 +27,7 @@ class Next extends SecondlifeAjax
         }
         $detail_set = new DetailSet();
 
-        $markFailed = $input->postBool("failed");
+        $markFailed = $this->input->post("failed");
         if ($markFailed == null) {
             $markFailed = false;
         }

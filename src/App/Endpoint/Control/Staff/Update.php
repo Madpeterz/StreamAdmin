@@ -12,7 +12,7 @@ class Update extends ViewAjax
         $staff = new Staff();
 
 
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->failed("Owner level access required");
             $this->setSwapTag("redirect", "staff/manage/" . $this->siteConfig->getPage() . "");
         }

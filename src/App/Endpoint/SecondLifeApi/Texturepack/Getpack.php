@@ -10,7 +10,7 @@ class Getpack extends SecondlifeAjax
     public function process(): void
     {
 
-        $texturepack = $input->postFilter("texturepack", "integer");
+        $texturepack = $this->input->post("texturepack", "integer");
         if ($texturepack < 1) {
             $this->setSwapTag("message", "Invaild texturepack id (or non sent)");
             return;

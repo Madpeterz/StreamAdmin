@@ -8,12 +8,12 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             return;
         }
 
         $config_areas = [];
-        if ($this->session->getOwnerLevel() == 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
             $config_areas["Style 1 -> [Clients and Streams]"] = [
                 "link" => "Export/Flow1",
                 "icon" => "fas fa-blender",

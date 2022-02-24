@@ -16,7 +16,7 @@ class Remove extends ViewAjax
         $stream_set = new StreamSet();
         $api_requests_set = new ApirequestsSet();
 
-        $accept = $input->postFilter("accept");
+        $accept = $this->input->post("accept");
         $this->setSwapTag("redirect", "server");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");

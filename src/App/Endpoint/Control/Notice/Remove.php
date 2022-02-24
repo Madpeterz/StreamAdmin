@@ -13,10 +13,9 @@ class Remove extends ViewAjax
     {
 
         $notice = new Notice();
-        $notecard_set = new NotecardSet();
 
-        $accept = $this->input->post("accept");
-        $newNoticeLevel = $input->postInteger("newNoticeLevel", false, true);
+        $accept = $this->input->post("accept")->asString();
+        $newNoticeLevel = $this->input->post("newNoticeLevel")->checkGrtThanEq(1)->asInt();
         $this->setSwapTag("redirect", "notice");
         if ($newNoticeLevel == null) {
             $this->failed("Unable to find transfer notice level");
@@ -49,13 +48,7 @@ class Remove extends ViewAjax
             notice and current notice can not be the same!");
             return;
         }
-        $load_status = $notecard_set->loadOnField("noticeLink", $notice->getId());
-        if ($load_status["status"] == false) {
-            $this->failed(
-                "Unable to check if notice is being used by any pending notecards"
-            );
-            return;
-        }
+        $notice_set = $notice->relatedNoticenotecard();
         if ($notecard_set->getCount() != 0) {
             $this->failed(
                 sprintf(
@@ -66,16 +59,8 @@ class Remove extends ViewAjax
             return;
         }
 
-        $RentalSet = new RentalSet();
-        $whereConfig = [
-            "fields" => ["noticeLink"],
-            "values" => [$notice->getId()],
-        ];
-        $reply = $RentalSet->loadWithConfig($whereConfig);
-        if ($reply["status"] == false) {
-            $this->failed("Unable to check if Notice is being used.");
-            return;
-        }
+        $RentalSet = $notice->relatedRental();
+
         $reply = true;
         $transfered_count = 0;
         if ($RentalSet->getCount() > 0) {

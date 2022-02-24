@@ -33,12 +33,12 @@ class Update extends ViewAjax
     protected function updateHudSettings(): void
     {
 
-        $hudAllowDiscord = $input->postBool("hudAllowDiscord");
+        $hudAllowDiscord = $this->input->post("hudAllowDiscord");
         $hudDiscordLink = $this->input->post("hudDiscordLink");
         if ($hudAllowDiscord == false) {
             $hudDiscordLink = null;
         }
-        $hudAllowGroup = $input->postBool("hudAllowGroup");
+        $hudAllowGroup = $this->input->post("hudAllowGroup");
         $hudGroupLink = $this->input->post("hudGroupLink");
         $hudDiscordLink = $this->input->post("hudDiscordLink");
         if ($hudAllowGroup == false) {
@@ -50,8 +50,8 @@ class Update extends ViewAjax
         if (strlen($hudDiscordLink) == 0) {
             $hudAllowDiscord = false;
         }
-        $hudAllowDetails = $input->postBool("hudAllowDetails");
-        $hudAllowRenewal = $input->postBool("hudAllowRenewal");
+        $hudAllowDetails = $this->input->post("hudAllowDetails");
+        $hudAllowRenewal = $this->input->post("hudAllowRenewal");
         if ($hudAllowRenewal == false) {
             $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
         }
@@ -69,14 +69,14 @@ class Update extends ViewAjax
         $timezone = new Timezones();
 
 
-        $newResellersRate = $input->postInteger("newResellersRate");
-        $newResellers = $input->postBool("newResellers");
+        $newResellersRate = $this->input->post("newResellersRate");
+        $newResellers = $this->input->post("newResellers");
         $owneravuid = $this->input->post("owneravuid", 8, 8);
-        $ui_tweaks_clients_fulllist = $input->postBool("ui_tweaks_clients_fulllist");
-        $ui_tweaks_datatableItemsPerPage = $input->postInteger("ui_tweaks_datatableItemsPerPage");
+        $ui_tweaks_clients_fulllist = $this->input->post("ui_tweaks_clients_fulllist");
+        $ui_tweaks_datatableItemsPerPage = $this->input->post("ui_tweaks_datatableItemsPerPage");
         $apiDefaultEmail = $input->postEmail("apiDefaultEmail");
-        $displayTimezoneLink = $input->postInteger("displayTimezoneLink");
-        $eventsAPI = $input->postBool("eventsAPI");
+        $displayTimezoneLink = $this->input->post("displayTimezoneLink");
+        $eventsAPI = $this->input->post("eventsAPI");
 
         if ($newResellersRate < 0) {
             $this->failed("newResellersRate must be 1 or more");

@@ -46,12 +46,12 @@ class Create extends ViewAjax
     }
     protected function formData(): void
     {
-        $this->domain = $this->input->postString("domain");
-        $this->controlPanelURL = $this->input->postString("controlPanelURL");
+        $this->domain = $this->input->post("domain");
+        $this->controlPanelURL = $this->input->post("controlPanelURL");
         $this->apiLink = $this->input->postInteger("apiLink");
-        $this->apiURL = $this->input->postString("apiURL");
-        $this->apiUsername = $this->input->postString("apiUsername");
-        $this->apiPassword = $this->input->postString("apiPassword");
+        $this->apiURL = $this->input->post("apiURL");
+        $this->apiUsername = $this->input->post("apiUsername");
+        $this->apiPassword = $this->input->post("apiPassword");
         $this->optPasswordReset = $this->input->postBool("optPasswordReset");
         $this->optAutodjNext = $this->input->postBool("optAutodjNext");
         $this->optToggleAutodj = $this->input->postBool("optToggleAutodj");

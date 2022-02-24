@@ -23,22 +23,18 @@ class Create extends ViewAjax
 
         $stream_set = new StreamSet();
 
-        $avataruid = $this->input->post("avataruid");
+        $avataruid = $this->input->post("avataruid")->checkStringLengthMin(3)->asString();
         if ($avataruid  == null) {
             $this->failed("Avatar failed:" . $this->input->getWhyFailed());
         }
-        $streamuid = $this->input->post("streamuid");
+        $streamuid = $this->input->post("streamuid")->checkStringLengthMin(4)->asString();
         if ($streamuid == null) {
             $this->failed("Stream UID failed:" . $this->input->getWhyFailed());
             return;
         }
-        $daysremaining = $input->postInteger("daysremaining", false, true);
+        $daysremaining = $this->input->post("daysremaining")->checkInRange(1, 360)->asInt();
         if ($daysremaining == null) {
             $this->failed("Days remaining failed:" . $this->input->getWhyFailed());
-            return;
-        }
-        if ($daysremaining > 360) {
-            $this->failed("Attempt to create a client with more than 360 days remaining");
             return;
         }
         $this->setSwapTag("redirect", "client");

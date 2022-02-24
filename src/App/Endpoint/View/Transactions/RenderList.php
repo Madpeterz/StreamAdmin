@@ -51,7 +51,7 @@ abstract class RenderList extends View
             "Datetime",
             "Type",
         ];
-        if ($this->session->getOwnerLevel() == true) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
             $table_head[] = "Remove";
         }
         $table_body = [];
@@ -89,7 +89,7 @@ abstract class RenderList extends View
                 ' . $transaction->getSLtransactionUUID() . '"><i class="fab fa-quinscape"></i> Hud</span>';
             }
             $entry[] = $type;
-            if ($this->session->getOwnerLevel() == 1) {
+            if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $entry[] = "<a href=\"[[SITE_URL]]transactions/remove/" . $transaction->getTransactionUid() . "\">"
                 . "<button type=\"button\" class=\"btn btn-danger btn-sm\"><i class=\"fas fa-minus-circle\"></i>"
                 . "</button></a>";

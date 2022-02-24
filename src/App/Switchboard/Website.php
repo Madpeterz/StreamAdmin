@@ -17,7 +17,7 @@ class Website extends Switchboard
             include "" . ROOTFOLDER . "/App/Flags/InstallMode.php";
             return true;
         }
-        if ($this->session->getLoggedIn() == true) {
+        if ($this->siteConfig->getSession()->getLoggedIn() == true) {
             return true;
         }
         $this->module = "Login";

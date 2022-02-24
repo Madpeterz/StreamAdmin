@@ -12,8 +12,8 @@ class Update extends ViewAjax
 
         $reseller = new Reseller();
 
-        $rate = $input->postInteger("rate");
-        $allowed = $input->postBool("allowed");
+        $rate = $this->input->post("rate");
+        $allowed = $this->input->post("allowed");
         if ($allowed === null) {
             $allowed = false;
         }

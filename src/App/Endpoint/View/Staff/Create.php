@@ -8,7 +8,7 @@ class Create extends View
 {
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->output->redirect("staff?bubblemessage=Owner level access needed&bubbletype=warning");
             return;
         }

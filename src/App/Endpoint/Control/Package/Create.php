@@ -22,23 +22,23 @@ class Create extends ViewAjax
         $noticeNotecardIds = $noticeNotecards->getAllIds();
 
         $name = $this->input->post("name", 30, 5);
-        $templateLink = $input->postInteger("templateLink", false, true);
-        $cost = $input->postInteger("cost", false, true);
-        $days = $input->postInteger("days", false, true);
-        $bitrate = $input->postInteger("bitrate", false, true);
-        $listeners = $input->postInteger("listeners", false, true);
+        $templateLink = $this->input->post("templateLink", false, true);
+        $cost = $this->input->post("cost", false, true);
+        $days = $this->input->post("days", false, true);
+        $bitrate = $this->input->post("bitrate", false, true);
+        $listeners = $this->input->post("listeners", false, true);
         $textureSoldout = $this->input->post("textureSoldout");
         $textureInstockSmall = $this->input->post("textureInstockSmall");
         $textureInstockSelected = $this->input->post("textureInstockSelected");
-        $enableGroupInvite = $input->postBool("enableGroupInvite");
+        $enableGroupInvite = $this->input->post("enableGroupInvite");
         if ($enableGroupInvite === null) {
             $enableGroupInvite = false;
         }
-        $apiAllowAutoSuspend = $input->postBool("apiAllowAutoSuspend");
+        $apiAllowAutoSuspend = $this->input->post("apiAllowAutoSuspend");
         if ($apiAllowAutoSuspend === null) {
             $apiAllowAutoSuspend = false;
         }
-        $apiAutoSuspendDelayHours = $input->postInteger("apiAutoSuspendDelayHours", false, false, 999, 0);
+        $apiAutoSuspendDelayHours = $this->input->post("apiAutoSuspendDelayHours", false, false, 999, 0);
         $testing = [
             "name" => $name,
             "template" => $templateLink,
@@ -62,15 +62,15 @@ class Create extends ViewAjax
         }
 
 
-        $autodj = $input->postBool("autodj");
+        $autodj = $this->input->post("autodj");
         if ($autodj === null) {
             $autodj = false;
         }
-        $autodjSize = $input->postInteger("autodjSize");
+        $autodjSize = $this->input->post("autodjSize");
         $apiTemplate = $this->input->post("apiTemplate");
-        $servertypeLink = $input->postInteger("servertypeLink");
-        $welcomeNotecardLink = $input->postInteger("welcomeNotecardLink");
-        $setupNotecardLink = $input->postInteger("setupNotecardLink");
+        $servertypeLink = $this->input->post("servertypeLink");
+        $welcomeNotecardLink = $this->input->post("welcomeNotecardLink");
+        $setupNotecardLink = $this->input->post("setupNotecardLink");
 
 
         if (in_array($welcomeNotecardLink, $noticeNotecardIds) == false) {

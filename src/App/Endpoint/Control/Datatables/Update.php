@@ -10,13 +10,13 @@ class Update extends ViewAjax
     public function process(): void
     {
 
-        $col = $input->postInteger("col");
+        $col = $this->input->post("col")->checkGrtThanEq(1)->asInt();
         if ($col === null) {
             $this->failed("Col is missing");
             return;
         }
         $acceptedDirs = ["desc","asc"];
-        $dir = $this->input->post("dir");
+        $dir = $this->input->post("dir")->asString();
         if (in_array($dir, $acceptedDirs) == false) {
             $this->failed("Dir is not accepted");
             return;
