@@ -63,7 +63,7 @@ class Next extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to find event: " . $api_request->getEventname());
             return;
         }
-        if ($this->sql->sqlSave(false) == false) {
+        if ($this->siteConfig->getSQL()->sqlSave(false) == false) {
             $this->setSwapTag("message", "Unable to mark event as processing DB issue");
             return;
         }

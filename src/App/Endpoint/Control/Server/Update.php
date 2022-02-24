@@ -53,7 +53,7 @@ class Update extends Create
             "types" => ["s"],
             "matches" => ["="],
         ];
-        $count_check = $this->sql->basicCountV2($this->server->getTable(), $whereConfig);
+        $count_check = $this->siteConfig->getSQL()->basicCountV2($this->server->getTable(), $whereConfig);
         $expected_count = 0;
         if ($this->server->getDomain() == $this->domain) {
             $expected_count = 1;

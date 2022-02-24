@@ -34,13 +34,13 @@ class Update extends ViewAjax
     {
 
         $hudAllowDiscord = $input->postBool("hudAllowDiscord");
-        $hudDiscordLink = $input->postString("hudDiscordLink");
+        $hudDiscordLink = $this->input->post("hudDiscordLink");
         if ($hudAllowDiscord == false) {
             $hudDiscordLink = null;
         }
         $hudAllowGroup = $input->postBool("hudAllowGroup");
-        $hudGroupLink = $input->postString("hudGroupLink");
-        $hudDiscordLink = $input->postString("hudDiscordLink");
+        $hudGroupLink = $this->input->post("hudGroupLink");
+        $hudDiscordLink = $this->input->post("hudDiscordLink");
         if ($hudAllowGroup == false) {
             $hudGroupLink = null;
         }
@@ -71,7 +71,7 @@ class Update extends ViewAjax
 
         $newResellersRate = $input->postInteger("newResellersRate");
         $newResellers = $input->postBool("newResellers");
-        $owneravuid = $input->postString("owneravuid", 8, 8);
+        $owneravuid = $this->input->post("owneravuid", 8, 8);
         $ui_tweaks_clients_fulllist = $input->postBool("ui_tweaks_clients_fulllist");
         $ui_tweaks_datatableItemsPerPage = $input->postInteger("ui_tweaks_datatableItemsPerPage");
         $apiDefaultEmail = $input->postEmail("apiDefaultEmail");

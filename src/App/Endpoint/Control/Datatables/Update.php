@@ -16,7 +16,7 @@ class Update extends ViewAjax
             return;
         }
         $acceptedDirs = ["desc","asc"];
-        $dir = $input->postString("dir");
+        $dir = $this->input->post("dir");
         if (in_array($dir, $acceptedDirs) == false) {
             $this->failed("Dir is not accepted");
             return;

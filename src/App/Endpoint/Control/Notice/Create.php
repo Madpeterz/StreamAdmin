@@ -14,19 +14,19 @@ class Create extends ViewAjax
         $notice = new Notice();
         $static_notecard = new Noticenotecard();
 
-        $name = $input->postString("name", 100, 5);
+        $name = $this->input->post("name", 100, 5);
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
         $hoursRemaining = $input->postInteger("hoursRemaining", false, true);
         if ($hoursRemaining === null) {
-            $this->failed("Hours remain failed:" . $input->getWhyFailed());
+            $this->failed("Hours remain failed:" . $this->input->getWhyFailed());
             return;
         }
-        $imMessage = $input->postString("imMessage", 800, 5);
+        $imMessage = $this->input->post("imMessage", 800, 5);
         if ($imMessage == null) {
-            $this->failed("IM message failed:" . $input->getWhyFailed());
+            $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
         $sendObjectIM = $input->postBool("sendObjectIM");
@@ -42,14 +42,14 @@ class Create extends ViewAjax
         if ($sendNotecard === null) {
             $sendNotecard = false;
         }
-        $notecardDetail = $input->postString("notecardDetail");
+        $notecardDetail = $this->input->post("notecardDetail");
         if ($sendObjectIM === null) {
-            $this->failed("Notecard detail failed:" . $input->getWhyFailed());
+            $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
         $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
         if ($noticeNotecardLink === null) {
-            $this->failed("Static notecard failed:" . $input->getWhyFailed());
+            $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;
         }
         if ($sendNotecard == false) {

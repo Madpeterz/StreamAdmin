@@ -14,7 +14,7 @@ class Remove extends ViewAjax
 
         $reseller = new Reseller();
         $this->transactionsSet = new TransactionsSet();
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept");
         $this->setSwapTag("redirect", "reseller");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");

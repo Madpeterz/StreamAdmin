@@ -31,7 +31,7 @@ class Resend extends SecondlifeAjax
             "types" => ["i"],
             "matches" => ["="],
         ];
-        $count_data = $this->sql->basicCountV2($detail->getTable(), $whereConfig);
+        $count_data = $this->siteConfig->getSQL()->basicCountV2($detail->getTable(), $whereConfig);
         if ($count_data["status"] == false) {
             $this->setSwapTag("message", "Unable to check if you have a pending details request");
             return;

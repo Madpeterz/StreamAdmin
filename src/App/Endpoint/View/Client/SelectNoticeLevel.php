@@ -13,7 +13,7 @@ class SelectNoticeLevel extends View
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $rental = new Rental();
-        $group_count = $this->sql->groupCountV2($rental->getTable(), "noticeLink");
+        $group_count = $this->siteConfig->getSQL()->groupCountV2($rental->getTable(), "noticeLink");
         $table_head = ["id","NoticeLevel","Count"];
         $table_body = [];
         if ($group_count["status"] == true) {

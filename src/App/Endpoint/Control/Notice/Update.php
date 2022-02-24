@@ -12,9 +12,9 @@ class Update extends ViewAjax
     {
 
         $static_notecard = new Noticenotecard();
-        $name = $input->postString("name", 100, 5);
+        $name = $this->input->post("name", 100, 5);
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
         $minValue = 1;
@@ -29,9 +29,9 @@ class Update extends ViewAjax
         if ($this->siteConfig->getPage() == 6) {
             $hoursRemaining = 0;
         }
-        $imMessage = $input->postString("imMessage", 800, 5);
+        $imMessage = $this->input->post("imMessage", 800, 5);
         if ($imMessage === null) {
-            $this->failed("IM message failed:" . $input->getWhyFailed());
+            $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
         $sendObjectIM = $input->postBool("sendObjectIM");
@@ -48,14 +48,14 @@ class Update extends ViewAjax
         if ($sendNotecard === null) {
             $sendNotecard = false;
         }
-        $notecardDetail = $input->postString("notecardDetail");
+        $notecardDetail = $this->input->post("notecardDetail");
         if ($sendObjectIM === null) {
-            $this->failed("Notecard detail failed:" . $input->getWhyFailed());
+            $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
         $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
         if ($noticeNotecardLink === null) {
-            $this->failed("Static notecard failed:" . $input->getWhyFailed());
+            $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;
         }
         if ($static_notecard->loadID($noticeNotecardLink) == false) {
@@ -79,7 +79,7 @@ class Update extends ViewAjax
             "types" => ["i"],
             "matches" => ["="],
         ];
-        $count_check = $this->sql->basicCountV2($notice->getTable(), $whereConfig);
+        $count_check = $this->siteConfig->getSQL()->basicCountV2($notice->getTable(), $whereConfig);
         $expected_count = 0;
         if ($notice->getHoursRemaining() == $hoursRemaining) {
             $expected_count = 1;

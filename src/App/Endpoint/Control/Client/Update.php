@@ -120,9 +120,9 @@ class Update extends ViewAjax
             $adjustment_dir = false;
         }
         // transfer
-        $transfer_avataruid = $input->postString("transfer_avataruid");
+        $transfer_avataruid = $this->input->post("transfer_avataruid");
         // message
-        $this->message = $input->postString("message");
+        $this->message = $this->input->post("message");
         if (strlen($this->message) < 1) {
             $this->message = null;
         }

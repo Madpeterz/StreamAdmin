@@ -44,7 +44,7 @@ class Notecardsync extends SecondlifeAjax
             "types" => ["i"],
             "matches" => [">"],
         ];
-        $count_data = $this->sql->basicCountV2($notecard->getTable(), $whereConfig);
+        $count_data = $this->siteConfig->getSQL()->basicCountV2($notecard->getTable(), $whereConfig);
         if ($count_data["status"] == false) {
             $this->failed("Unable to fetch next notecard");
             return;

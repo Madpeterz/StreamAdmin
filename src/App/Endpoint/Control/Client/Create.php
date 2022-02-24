@@ -23,18 +23,18 @@ class Create extends ViewAjax
 
         $stream_set = new StreamSet();
 
-        $avataruid = $input->postString("avataruid");
+        $avataruid = $this->input->post("avataruid");
         if ($avataruid  == null) {
-            $this->failed("Avatar failed:" . $input->getWhyFailed());
+            $this->failed("Avatar failed:" . $this->input->getWhyFailed());
         }
-        $streamuid = $input->postString("streamuid");
+        $streamuid = $this->input->post("streamuid");
         if ($streamuid == null) {
-            $this->failed("Stream UID failed:" . $input->getWhyFailed());
+            $this->failed("Stream UID failed:" . $this->input->getWhyFailed());
             return;
         }
         $daysremaining = $input->postInteger("daysremaining", false, true);
         if ($daysremaining == null) {
-            $this->failed("Days remaining failed:" . $input->getWhyFailed());
+            $this->failed("Days remaining failed:" . $this->input->getWhyFailed());
             return;
         }
         if ($daysremaining > 360) {

@@ -10,7 +10,7 @@ class Removepackage extends ViewAjax
     public function process(): void
     {
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept");
         $this->setSwapTag("redirect", "tree");
         if ($accept != "Accept") {
             $this->failed(

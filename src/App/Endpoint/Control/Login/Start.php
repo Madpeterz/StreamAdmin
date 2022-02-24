@@ -9,8 +9,8 @@ class Start extends ViewAjax
     public function process(): void
     {
 
-        $staffusername = $input->postString("staffusername");
-        $staffpassword = $input->postString("staffpassword");
+        $staffusername = $this->input->post("staffusername");
+        $staffpassword = $this->input->post("staffpassword");
         $this->failed("Username or Password is invaild");
         if ((strlen($staffusername) == 0) || (strlen($staffpassword) == 0)) {
             return;

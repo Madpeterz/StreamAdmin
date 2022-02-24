@@ -10,7 +10,7 @@ class Remove extends ViewAjax
     public function process(): void
     {
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept")->asString();
         if ($accept == null) {
             $this->failed("Accept button not triggered");
             return;

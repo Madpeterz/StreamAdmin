@@ -10,14 +10,14 @@ class Update extends ViewAjax
     public function process(): void
     {
 
-        $avatarName = $input->postString("avatarName", 125, 5);
-        $avatarUUID = $input->postUUID("avatarUUID");
+        $avatarName = $this->input->post("avatarName")->checkStringLength(5, 125)->asString();
         if ($avatarName == null) {
-            $this->failed("Avatar name failed:" . $input->getWhyFailed());
+            $this->failed("Avatar name failed:" . $this->input->getWhyFailed());
             return;
         }
+        $avatarUUID = $this->input->post("avatarUUID")->isUuid()->asString();
         if ($avatarUUID == null) {
-            $this->failed("Avatar UUID failed:" . $input->getWhyFailed());
+            $this->failed("Avatar UUID failed:" . $this->input->getWhyFailed());
             return;
         }
         $this->setSwapTag("redirect", "avatar");
@@ -32,7 +32,7 @@ class Update extends ViewAjax
             "types" => ["s"],
             "matches" => ["="],
         ];
-        $count_check = $this->sql->basicCountV2($avatar->getTable(), $whereConfig);
+        $count_check = $this->siteConfig->getSQL()->basicCountV2($avatar->getTable(), $whereConfig);
         $expected_count = 0;
         if ($avatar->getAvatarUUID() == $avatarUUID) {
             $expected_count = 1;

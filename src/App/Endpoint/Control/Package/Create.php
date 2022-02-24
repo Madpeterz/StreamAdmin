@@ -21,15 +21,15 @@ class Create extends ViewAjax
         $noticeNotecards->loadAll();
         $noticeNotecardIds = $noticeNotecards->getAllIds();
 
-        $name = $input->postString("name", 30, 5);
+        $name = $this->input->post("name", 30, 5);
         $templateLink = $input->postInteger("templateLink", false, true);
         $cost = $input->postInteger("cost", false, true);
         $days = $input->postInteger("days", false, true);
         $bitrate = $input->postInteger("bitrate", false, true);
         $listeners = $input->postInteger("listeners", false, true);
-        $textureSoldout = $input->postUUID("textureSoldout");
-        $textureInstockSmall = $input->postUUID("textureInstockSmall");
-        $textureInstockSelected = $input->postUUID("textureInstockSelected");
+        $textureSoldout = $this->input->post("textureSoldout");
+        $textureInstockSmall = $this->input->post("textureInstockSmall");
+        $textureInstockSelected = $this->input->post("textureInstockSelected");
         $enableGroupInvite = $input->postBool("enableGroupInvite");
         if ($enableGroupInvite === null) {
             $enableGroupInvite = false;
@@ -56,7 +56,7 @@ class Create extends ViewAjax
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
             if ($value === null) {
-                $this->failed("Entry: " . $key . " is not set - " . $input->getWhyFailed());
+                $this->failed("Entry: " . $key . " is not set - " . $this->input->getWhyFailed());
                 return;
             }
         }
@@ -67,7 +67,7 @@ class Create extends ViewAjax
             $autodj = false;
         }
         $autodjSize = $input->postInteger("autodjSize");
-        $apiTemplate = $input->postString("apiTemplate");
+        $apiTemplate = $this->input->post("apiTemplate");
         $servertypeLink = $input->postInteger("servertypeLink");
         $welcomeNotecardLink = $input->postInteger("welcomeNotecardLink");
         $setupNotecardLink = $input->postInteger("setupNotecardLink");

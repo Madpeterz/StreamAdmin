@@ -13,16 +13,16 @@ class Resetnow extends ViewAjax
     {
         sleep(1);
 
-        $slusername = $input->postString("slusername");
-        $token = $input->postString("token");
-        $newpw1 = $input->postString("newpassword1", 30, 7);
+        $slusername = $this->input->post("slusername");
+        $token = $this->input->post("token");
+        $newpw1 = $this->input->post("newpassword1", 30, 7);
         if ($newpw1 == null) {
-            $this->failed("New password failed:" . $input->getWhyFailed());
+            $this->failed("New password failed:" . $this->input->getWhyFailed());
             return;
         }
-        $newpw2 = $input->postString("newpassword2", 30, 7);
+        $newpw2 = $this->input->post("newpassword2", 30, 7);
         if ($newpw2 == null) {
-            $this->failed("New password (Repeated) failed:" . $input->getWhyFailed());
+            $this->failed("New password (Repeated) failed:" . $this->input->getWhyFailed());
             return;
         }
         if ($newpw1 != $newpw2) {

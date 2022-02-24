@@ -13,7 +13,7 @@ class Remove extends ViewAjax
     public function process(): void
     {
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
             $this->setSwapTag("redirect", "stream/manage/" . $this->siteConfig->getPage() . "");

@@ -47,7 +47,7 @@ class Getconfig extends SecondlifeAjax
             $whereconfig["values"][] = $used_stream_ids;
             $whereconfig["types"][] = "i";
         }
-        $count_data = $this->sql->basicCountV2($stream->getTable(), $whereconfig);
+        $count_data = $this->siteConfig->getSQL()->basicCountV2($stream->getTable(), $whereconfig);
         if ($count_data["status"] == false) {
             $this->setSwapTag("message", "Unable to check if package is in stock");
             return;

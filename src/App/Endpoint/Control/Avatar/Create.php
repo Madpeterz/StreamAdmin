@@ -11,17 +11,16 @@ class Create extends ViewAjax
     public function process(): void
     {
         $avatar = new Avatar();
-
-        $avatarName = $input->postString("avatarName", 125, 5);
-        $avatarUUID = $input->postUUID("avatarUUID");
+        $avatarName = $this->input->post("avatarName")->checkStringLength(5, 125)->asString();
         if ($avatarName == null) {
-            $this->failed("Avatar name failed:" . $input->getWhyFailed());
-        }
-        if ($avatarUUID == null) {
-            $this->failed("Avatar UUID failed:" . $input->getWhyFailed());
+            $this->failed("Avatar name failed:" . $this->input->getWhyFailed());
             return;
         }
-
+        $avatarUUID = $this->input->post("avatarUUID")->isUuid()->asString();
+        if ($avatarUUID == null) {
+            $this->failed("Avatar UUID failed:" . $this->input->getWhyFailed());
+            return;
+        }
         if ($avatar->loadByAvatarUUID($avatarUUID) == true) {
             $this->failed("There is already an avatar with that uuid");
             return;
@@ -33,6 +32,6 @@ class Create extends ViewAjax
             return;
         }
         $this->ok("Avatar created");
-        $this->setSwapTag("redirect", "avatar");
+        $this->output->redirect("avatar");
     }
 }

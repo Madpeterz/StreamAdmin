@@ -11,7 +11,7 @@ class Create extends ViewAjax
     {
         $treevender = new Treevender();
 
-        $name = $input->postString("name", 100, 4);
+        $name = $this->input->post("name", 100, 4);
         if ($name == null) {
             $this->failed("Name is not vaild: " . $input->getLastError());
             return;

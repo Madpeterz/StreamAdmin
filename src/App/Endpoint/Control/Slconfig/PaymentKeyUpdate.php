@@ -10,7 +10,7 @@ class PaymentKeyUpdate extends ViewAjax
     public function process(): void
     {
 
-        $key = $input->postString("assignedkey", 23, 23);
+        $key = $this->input->post("assignedkey", 23, 23);
         $keyCheck = new PaymentKey();
         $results = $keyCheck->getKeyStatus($key, false);
         if ($results != "ok") {

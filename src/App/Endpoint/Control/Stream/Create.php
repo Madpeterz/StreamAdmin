@@ -19,26 +19,26 @@ class Create extends ViewAjax
         $port = $input->postInteger("port");
         $packageLink = $input->postInteger("packageLink");
         $serverLink = $input->postInteger("serverLink");
-        $mountpoint = $input->postString("mountpoint");
-        $adminUsername = $input->postString("adminUsername", 50, 3);
+        $mountpoint = $this->input->post("mountpoint");
+        $adminUsername = $this->input->post("adminUsername", 50, 3);
         if ($adminUsername == null) {
-            $this->failed("Admin username failed:" . $input->getWhyFailed());
+            $this->failed("Admin username failed:" . $this->input->getWhyFailed());
             return;
         }
-        $adminPassword = $input->postString("adminPassword", 20, 4);
+        $adminPassword = $this->input->post("adminPassword", 20, 4);
         if ($adminPassword == null) {
-            $this->failed("Admin password failed:" . $input->getWhyFailed());
+            $this->failed("Admin password failed:" . $this->input->getWhyFailed());
             return;
         }
-        $djPassword = $input->postString("djPassword", 20, 4);
+        $djPassword = $this->input->post("djPassword", 20, 4);
         if ($djPassword == null) {
-            $this->failed("DJ password failed:" . $input->getWhyFailed());
+            $this->failed("DJ password failed:" . $this->input->getWhyFailed());
             return;
         }
         $needswork = $input->postBool("needswork");
-        $apiConfigValue1 = $input->postString("apiConfigValue1");
-        $apiConfigValue2 = $input->postString("apiConfigValue2");
-        $apiConfigValue3 = $input->postString("apiConfigValue3");
+        $apiConfigValue1 = $this->input->post("apiConfigValue1");
+        $apiConfigValue2 = $this->input->post("apiConfigValue2");
+        $apiConfigValue3 = $this->input->post("apiConfigValue3");
         $api_create = $input->postBool("api_create");
         if ($port < 1) {
             $this->failed("Port must be 1 or more");
@@ -68,7 +68,7 @@ class Create extends ViewAjax
             "types" => ["i","i"],
             "matches" => ["=","="],
         ];
-        $count_check = $this->sql->basicCountV2($stream->getTable(), $whereConfig);
+        $count_check = $this->siteConfig->getSQL()->basicCountV2($stream->getTable(), $whereConfig);
         if ($count_check["status"] == false) {
             $this->failed("Unable to check if there is a stream on that port already!");
             return;

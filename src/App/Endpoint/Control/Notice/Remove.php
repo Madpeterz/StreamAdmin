@@ -15,7 +15,7 @@ class Remove extends ViewAjax
         $notice = new Notice();
         $notecard_set = new NotecardSet();
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept");
         $newNoticeLevel = $input->postInteger("newNoticeLevel", false, true);
         $this->setSwapTag("redirect", "notice");
         if ($newNoticeLevel == null) {

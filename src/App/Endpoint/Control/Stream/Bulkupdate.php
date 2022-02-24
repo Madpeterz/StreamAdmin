@@ -28,7 +28,7 @@ class Bulkupdate extends ViewAjax
                 $streams_skipped_originalAdminUsername++;
                 continue;
             }
-            $accept = $input->postString("stream" . $stream->getStreamUid() . "");
+            $accept = $this->input->post("stream" . $stream->getStreamUid() . "");
             if ($accept != "update") {
                 continue;
             }

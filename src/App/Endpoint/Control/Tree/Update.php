@@ -10,17 +10,17 @@ class Update extends ViewAjax
     public function process(): void
     {
 
-        $name = $input->postString("name", 100, 4);
+        $name = $this->input->post("name", 100, 4);
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $textureWaiting = $input->postUUID("textureWaiting");
+        $textureWaiting = $this->input->post("textureWaiting");
         if ($textureWaiting == null) {
             $this->failed("texture waiting is not vaild: " . $input->getLastError());
             return;
         }
-        $textureInuse = $input->postUUID("textureInuse");
+        $textureInuse = $this->input->post("textureInuse");
         if ($textureInuse == null) {
             $this->failed("texture inuse is not vaild: " . $input->getLastError());
             return;
@@ -42,7 +42,7 @@ class Update extends ViewAjax
             "types" => ["s"],
             "matches" => ["="],
         ];
-        $count_check = $this->sql->basicCountV2($treevender->getTable(), $whereConfig);
+        $count_check = $this->siteConfig->getSQL()->basicCountV2($treevender->getTable(), $whereConfig);
         $expected_count = 0;
         if ($treevender->getName() == $name) {
             $expected_count = 1;

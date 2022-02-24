@@ -176,7 +176,7 @@ abstract class HomeLoadData extends View
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $rental = new Rental();
-        $group_count = $this->sql->groupCountV2($rental->getTable(), "noticeLink");
+        $group_count = $this->siteConfig->getSQL()->groupCountV2($rental->getTable(), "noticeLink");
         if ($group_count["status"] == true) {
             foreach ($group_count["dataset"] as $entry) {
                 if ($entry["Entrys"] <= 0) {

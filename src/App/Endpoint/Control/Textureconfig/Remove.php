@@ -10,7 +10,7 @@ class Remove extends ViewAjax
     public function process(): void
     {
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept");
         $this->setSwapTag("redirect", "textureconfig");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");

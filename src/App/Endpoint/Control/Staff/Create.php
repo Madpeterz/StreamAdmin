@@ -18,13 +18,13 @@ class Create extends ViewAjax
         $staff = new Staff();
         $avatar = new Avatar();
 
-        $avataruid = $input->postString("avataruid", 8, 8);
+        $avataruid = $this->input->post("avataruid", 8, 8);
         if ($avataruid == null) {
-            $this->failed("Avatar UID failed:" . $input->getWhyFailed());
+            $this->failed("Avatar UID failed:" . $this->input->getWhyFailed());
         }
-        $username = $input->postString("username", 40, 5);
+        $username = $this->input->post("username", 40, 5);
         if ($username == null) {
-            $this->failed("Username failed:" . $input->getWhyFailed());
+            $this->failed("Username failed:" . $this->input->getWhyFailed());
         }
 
 

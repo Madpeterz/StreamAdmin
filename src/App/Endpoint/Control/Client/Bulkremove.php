@@ -51,7 +51,7 @@ class Bulkremove extends ViewAjax
                 $skipped_counter++;
                 continue;
             }
-            $accept = $input->postString("rental" . $rental->getRentalUid());
+            $accept = $this->input->post("rental" . $rental->getRentalUid());
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;

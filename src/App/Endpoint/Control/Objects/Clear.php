@@ -10,7 +10,7 @@ class Clear extends ViewAjax
     public function process(): void
     {
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept");
         $this->setSwapTag("redirect", "objects");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");

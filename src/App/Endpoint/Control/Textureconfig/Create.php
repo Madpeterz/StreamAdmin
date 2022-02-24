@@ -12,20 +12,20 @@ class Create extends ViewAjax
 
         $textureconfig = new Textureconfig();
 
-        $name = $input->postString("name", 30, 4);
+        $name = $this->input->post("name", 30, 4);
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $gettingDetails = $input->postUUID("gettingDetails");
-        $requestDetails = $input->postUUID("requestDetails");
-        $offline = $input->postUUID("offline");
-        $waitOwner = $input->postUUID("waitOwner");
-        $inUse = $input->postUUID("inUse");
-        $makePayment = $input->postUUID("makePayment");
-        $stockLevels = $input->postUUID("stockLevels");
-        $renewHere = $input->postUUID("renewHere");
-        $proxyRenew = $input->postUUID("proxyRenew");
+        $gettingDetails = $this->input->post("gettingDetails");
+        $requestDetails = $this->input->post("requestDetails");
+        $offline = $this->input->post("offline");
+        $waitOwner = $this->input->post("waitOwner");
+        $inUse = $this->input->post("inUse");
+        $makePayment = $this->input->post("makePayment");
+        $stockLevels = $this->input->post("stockLevels");
+        $renewHere = $this->input->post("renewHere");
+        $proxyRenew = $this->input->post("proxyRenew");
         $testing = [
             "gettingDetail" => $gettingDetails,
             "requestDetails" => $requestDetails,
@@ -40,7 +40,7 @@ class Create extends ViewAjax
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
             if ($value == null) {
-                $this->failed("Entry: " . $key . " is not set - " . $input->getWhyFailed());
+                $this->failed("Entry: " . $key . " is not set - " . $this->input->getWhyFailed());
                 return;
             }
         }

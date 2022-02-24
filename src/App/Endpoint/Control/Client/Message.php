@@ -17,9 +17,9 @@ class Message extends ViewAjax
             $this->setSwapTag("redirect", "client");
             return;
         }
-        $message = $input->postString("mail", 800, 10);
+        $message = $this->input->post("mail", 800, 10);
         if ($message == null) {
-            $this->failed("message failed:" . $input->getWhyFailed());
+            $this->failed("message failed:" . $this->input->getWhyFailed());
             return;
         }
 

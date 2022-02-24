@@ -16,14 +16,14 @@ class Update extends ViewAjax
             return;
         }
 
-        $avataruid = $input->postString("avataruid", 8, 8);
+        $avataruid = $this->input->post("avataruid", 8, 8);
         if ($avataruid == null) {
-            $this->failed("Avatar UID failed:" . $input->getWhyFailed());
+            $this->failed("Avatar UID failed:" . $this->input->getWhyFailed());
             return;
         }
-        $secret = $input->postString("secret", 30, 8);
+        $secret = $this->input->post("secret", 30, 8);
         if ($avataruid == null) {
-            $this->failed("Secret failed:" . $input->getWhyFailed());
+            $this->failed("Secret failed:" . $this->input->getWhyFailed());
             return;
         }
         $httpMode = $input->postBool("httpMode");
@@ -31,7 +31,7 @@ class Update extends ViewAjax
             $httpMode = false;
         }
         $httpURL = $input->postUrl("httpURL");
-        $httpToken = $input->postString("httpToken");
+        $httpToken = $this->input->post("httpToken");
 
         $notecards = $input->postBool("notecards");
         if ($notecards === null) {
@@ -45,7 +45,7 @@ class Update extends ViewAjax
         if ($invites === null) {
             $invites = false;
         }
-        $invite_uuid = $input->postUUID("inviteGroupUUID");
+        $invite_uuid = $this->input->post("inviteGroupUUID");
         if ($invite_uuid == null) {
             if ($invites == true) {
                 $this->failed("Group UUID is not vaild, please disable send invites or enter vaild UUID");

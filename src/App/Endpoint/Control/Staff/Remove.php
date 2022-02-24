@@ -12,7 +12,7 @@ class Remove extends ViewAjax
 
         $staff = new Staff();
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept");
         $this->setSwapTag("redirect", "staff");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
