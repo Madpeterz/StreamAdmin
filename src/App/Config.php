@@ -21,9 +21,6 @@ class Config extends BootstrapConfigBox
         // you will need to update the values on the right
         $this->setFlag("SITE_NAME", "Streamadmin");
         $this->setFlag("SITE_URL", "https://dev.blackatom.live/");
-        $this->setFlag("ENABLE_CACHE", "false");
-        $this->setFlag("REDIS_HOST", null);
-        $this->startCache();
         $slconfig = new Slconfig();
         $slconfig->loadID(1);
         if ($slconfig->isLoaded() == false) {
@@ -35,17 +32,8 @@ class Config extends BootstrapConfigBox
         date_default_timezone_set($timeszone->getCode());
     }
 
-    public function startCache(): void
+    public function setupCacheTables(): void
     {
-        global $cache; // ? still used
-        $cache = null;
-        if ($this->getRedisHost() == null) {
-            return;
-        }
-        $cache = new Redis();
-        $cache->setTimeout(3);
-        $cache->connectTCP($this->getRedisHost(), 6379);
-
         $cache->addTableToCache("banlist", 120, true);
         $cache->addTableToCache("botconfig", 120, true);
         $cache->addTableToCache("noticenotecard", 120, true);
@@ -61,7 +49,6 @@ class Config extends BootstrapConfigBox
         $cache->addTableToCache("timezones", 120, true, true);
         $cache->addTableToCache("treevender", 120, true);
         $cache->addTableToCache("treevenderpackages", 120, true);
-        $cache->start(true);
     }
 
     public function getRedisHost(): ?string

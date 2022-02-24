@@ -19,6 +19,8 @@ services:
         environment:
         - SITE_NAME={DOMAIN}
         - SITE_URL=StreamAdmin
+        - SITE_CACHE_ENABLED=true
+        - SITE_CACHE_REDIS_HOST=SA7Dbredis
         - SQL_HOST=SA7Db
         - SQL_DB_NAME=streamadmin
         - SQL_DB_USER=streamadminDBuser
@@ -26,7 +28,6 @@ services:
         - REDIS_HOST=SA7Dbredis
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
-        - ENABLE_CACHE=true
         volumes:
           - type: bind
             source: /srv/logs
