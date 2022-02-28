@@ -14,7 +14,7 @@ class Remove extends ViewAjax
             return;
         }
 
-        $accept = $this->input->post("accept");
+        $accept = $this->post("accept");
         $this->setSwapTag("redirect", "transactions");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");

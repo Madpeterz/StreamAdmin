@@ -16,36 +16,36 @@ class Update extends ViewAjax
             return;
         }
 
-        $avataruid = $this->input->post("avataruid")->checkStringLength(8, 8)->asString();
+        $avataruid = $this->post("avataruid")->checkStringLength(8, 8)->asString();
         if ($avataruid == null) {
             $this->failed("Avatar UID failed:" . $this->input->getWhyFailed());
             return;
         }
-        $secret = $this->input->post("secret")->checkStringLength(8, 30)->asString();
+        $secret = $this->post("secret")->checkStringLength(8, 30)->asString();
         if ($avataruid == null) {
             $this->failed("Secret failed:" . $this->input->getWhyFailed());
             return;
         }
-        $httpMode = $this->input->post("httpMode")->asBool();
+        $httpMode = $this->post("httpMode")->asBool();
         if ($httpMode === null) {
             $httpMode = false;
         }
-        $httpURL = $this->input->post("httpURL")->isUrl()->asString();
-        $httpToken = $this->input->post("httpToken")->isNot("")->asArray();
+        $httpURL = $this->post("httpURL")->isUrl()->asString();
+        $httpToken = $this->post("httpToken")->isNot("")->asArray();
 
-        $notecards = $this->input->post("notecards")->asBool();
+        $notecards = $this->post("notecards")->asBool();
         if ($notecards === null) {
             $notecards = false;
         }
-        $ims = $this->input->post("ims")->asBool();
+        $ims = $this->post("ims")->asBool();
         if ($ims === null) {
             $ims = false;
         }
-        $invites = $this->input->post("invites")->asBool();
+        $invites = $this->post("invites")->asBool();
         if ($invites === null) {
             $invites = false;
         }
-        $invite_uuid = $this->input->post("inviteGroupUUID");
+        $invite_uuid = $this->post("inviteGroupUUID");
         if ($invite_uuid == null) {
             if ($invites == true) {
                 $this->failed("Group UUID is not vaild, please disable send invites or enter vaild UUID");

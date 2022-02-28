@@ -27,7 +27,7 @@ class Reset extends ViewAjax
         $avatar = new Avatar();
         $staff = new Staff();
 
-        $slusername = $this->input->post("slusername")->asString();
+        $slusername = $this->post("slusername")->asString();
         $status = false;
 
         $username_bits = explode(" ", $slusername);

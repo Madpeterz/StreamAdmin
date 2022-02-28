@@ -52,20 +52,20 @@ abstract class HomeDisplayData extends HomeLoadData
 
     protected function displayVersions(): void
     {
-        if (file_exists("" . DEEPFOLDERPATH . "/Versions/" . $this->slconfig->getDbVersion() . ".sql") == true) {
+        if (file_exists("" . DEEPFOLDERPATH . "/Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql") == true) {
             $this->main_grid->addContent("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
-            . "<br/> please run \"Versions/" . $this->slconfig->getDbVersion() . ".sql\"</div>", 12);
+            . "<br/> please run \"Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql\"</div>", 12);
         }
-        $infofile = DEEPFOLDERPATH . "/Versions/about/" . $this->slconfig->getDbVersion() . ".txt";
+        $infofile = DEEPFOLDERPATH . "/Versions/about/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".txt";
         if (file_exists($infofile) == true) {
             $this->main_grid->closeRow();
-            $this->main_grid->addContent("<br/>Version: " . $this->slconfig->getDbVersion() . "", 12);
+            $this->main_grid->addContent("<br/>Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "", 12);
             $this->main_grid->addContent(
                 file_get_contents($infofile),
                 12
             );
         } else {
-            $this->main_grid->addContent("Version: " . $this->slconfig->getDbVersion() . "<br/>
+            $this->main_grid->addContent("Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "<br/>
             Unable to read version info file: " . $infofile . "
             ", 12);
         }

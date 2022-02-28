@@ -115,16 +115,16 @@ class Update extends ViewAjax
         $this->issues = "";
 
         // adjustment
-        $adjustment_days = $this->input->post("adjustment_days")->asInt();
-        $adjustment_hours = $this->input->post("adjustment_hours")->asInt();
-        $adjustment_dir = $this->input->post("adjustment_dir")->asInt();
+        $adjustment_days = $this->post("adjustment_days")->asInt();
+        $adjustment_hours = $this->post("adjustment_hours")->asInt();
+        $adjustment_dir = $this->post("adjustment_dir")->asInt();
         if ($adjustment_dir === null) {
             $adjustment_dir = false;
         }
         // transfer
-        $transfer_avataruid = $this->input->post("transfer_avataruid")->asString();
+        $transfer_avataruid = $this->post("transfer_avataruid")->asString();
         // message
-        $this->message = $this->input->post("message")->asString();
+        $this->message = $this->post("message")->asString();
         if (strlen($this->message) < 1) {
             $this->message = null;
         }

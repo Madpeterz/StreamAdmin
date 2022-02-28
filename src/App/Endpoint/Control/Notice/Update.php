@@ -5,6 +5,7 @@ namespace App\Endpoint\Control\Notice;
 use App\Models\Notice;
 use App\Models\Noticenotecard;
 use App\Framework\ViewAjax;
+use App\Models\Sets\NoticeSet;
 
 class Update extends ViewAjax
 {
@@ -12,7 +13,7 @@ class Update extends ViewAjax
     {
 
         $static_notecard = new Noticenotecard();
-        $name = $this->input->post("name", 100, 5);
+        $name = $this->post("name", 100, 5);
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
@@ -21,7 +22,7 @@ class Update extends ViewAjax
         if ($this->siteConfig->getPage() == 6) {
             $minValue = 0;
         }
-        $hoursRemaining = $this->input->post("hoursRemaining");
+        $hoursRemaining = $this->post("hoursRemaining");
         if ($hoursRemaining < $minValue) {
             $this->failed("Hours remain failed: can not be less than " . $minValue);
             return;
@@ -29,31 +30,31 @@ class Update extends ViewAjax
         if ($this->siteConfig->getPage() == 6) {
             $hoursRemaining = 0;
         }
-        $imMessage = $this->input->post("imMessage", 800, 5);
+        $imMessage = $this->post("imMessage", 800, 5);
         if ($imMessage === null) {
             $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
-        $sendObjectIM = $this->input->post("sendObjectIM");
+        $sendObjectIM = $this->post("sendObjectIM");
         if ($sendObjectIM === null) {
             $sendObjectIM = false;
         }
 
-        $useBot = $this->input->post("useBot");
+        $useBot = $this->post("useBot");
         if ($useBot === null) {
             $useBot = false;
         }
 
-        $sendNotecard = $this->input->post("sendNotecard");
+        $sendNotecard = $this->post("sendNotecard");
         if ($sendNotecard === null) {
             $sendNotecard = false;
         }
-        $notecardDetail = $this->input->post("notecardDetail");
+        $notecardDetail = $this->post("notecardDetail");
         if ($sendObjectIM === null) {
             $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
-        $noticeNotecardLink = $this->input->post("noticeNotecardLink", false, true);
+        $noticeNotecardLink = $this->post("noticeNotecardLink", false, true);
         if ($noticeNotecardLink === null) {
             $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;
@@ -79,16 +80,17 @@ class Update extends ViewAjax
             "types" => ["i"],
             "matches" => ["="],
         ];
-        $count_check = $this->siteConfig->getSQL()->basicCountV2($notice->getTable(), $whereConfig);
+        $noticeSet = new NoticeSet();
+        $count_check = $noticeSet->countInDB($whereConfig);
         $expected_count = 0;
         if ($notice->getHoursRemaining() == $hoursRemaining) {
             $expected_count = 1;
         }
-        if ($count_check["status"] == false) {
+        if ($count_check === null) {
             $this->failed("Unable to check if there is a notice assigned already");
             return;
         }
-        if ($count_check["count"] != $expected_count) {
+        if ($count_check != $expected_count) {
             $this->failed("There is already a notice with that hours remaining trigger");
             return;
         }

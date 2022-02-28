@@ -32,18 +32,18 @@ abstract class SystemApiAjax extends ViewAjax
         if ($this->load_ok == false) {
             return;
         }
-        if (strlen($this->slconfig->getHttpInboundSecret()) < 5) {
+        if (strlen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) < 5) {
             $this->load_ok = false;
             $this->failed("httpcode length must be 5 or longer");
             return;
         }
-        if (strlen($this->slconfig->getHttpInboundSecret()) > 30) {
+        if (strlen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 30) {
             $this->failed("httpcode length must be 30 or less");
             $this->load_ok = false;
             return;
         }
 
-        $bits = [$this->unixtime,$this->method,$this->action,$this->slconfig->getHttpInboundSecret()];
+        $bits = [$this->unixtime,$this->method,$this->action,$this->siteConfig->getSlConfig()->getHttpInboundSecret()];
         $hashcheck = sha1(implode("", $bits));
         if ($this->token == $hashcheck) {
             return;
@@ -87,7 +87,7 @@ abstract class SystemApiAjax extends ViewAjax
 
         $this->staticpart = "";
         foreach ($required_values as $slvalue) {
-            $value = $this->input->post($slvalue);
+            $value = $this->post($slvalue);
             if ($value === null) {
                 $this->load_ok = false;
                 $this->failed("Value: " . $slvalue . " is missing");

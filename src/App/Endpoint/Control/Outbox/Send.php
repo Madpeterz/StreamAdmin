@@ -15,62 +15,63 @@ use App\Framework\ViewAjax;
 
 class Send extends ViewAjax
 {
-    public function process(): void
+    protected ?RentalSet $rental_set;
+    protected array $avatarids = [];
+    protected function loadData(): void
     {
-        $input_filter = new InputFilter();
-        $rental_set = new RentalSet();
-        $stream_set = new StreamSet();
-        $avatar_set = new AvatarSet();
-        $banlist_set = new BanlistSet();
-        $bot_helper = new BotHelper();
-        $swapables_helper = new SwapablesHelper();
-        $notice_set = new NoticeSet();
-        $server_set = new ServerSet();
-        $package_set = new PackageSet();
-
-        $message = $input_filter->postFilter("message");
-        $max_avatars = $input_filter->postFilter("max_avatars", "integer");
-        $source = $input_filter->postFilter("source");
-        $source_id = $input_filter->postFilter("source_id", "integer");
-        $avatarids = $input_filter->postFilter("avatarids", "array");
-        if (count($avatarids) > $max_avatars) {
+        $this->rental_set = new RentalSet();
+        $max_avatars = $this->post("max_avatars")->checkGrtThanEq(1)->asInt();
+        $source = $this->post("source")->asString();
+        $source_id = $this->post("source_id")->checkGrtThanEq(1)->asInt();
+        $this->avatarids = $this->post("avatarids")->asArray();
+        if (count($this->avatarids) > $max_avatars) {
             $this->failed("To many avatars sent vs what was expected");
-            return;
+            return false;
         }
         if ($source == "notice") {
-            $rental_set->loadOnField("noticeLink", $source_id);
+            $this->rental_set->loadByNoticeLink($source_id);
         } elseif ($source == "server") {
-            $stream_set->loadOnField("serverLink", $source_id);
-            $rental_set->loadByValues($stream_set->getAllIds(), "streamLink");
+            $stream_set = new StreamSet();
+            $stream_set->loadByServerLink($source_id);
+            $this->rental_set = $stream_set->relatedRental();
         } elseif ($source == "package") {
-            $rental_set->loadOnField("packageLink", $source_id);
+            $rental_set->loadByPackageLink($source_id);
         } elseif ($source == "selectedRental") {
-            $rental_set->loadOnField("id", $source_id);
+            $this->rental_set->loadById($source_id);
         } elseif ($source == "clients") {
-            $rental_set->loadAll();
+            $this->rental_set->loadAll();
         }
         if ($rental_set->getCount() == 0) {
             $this->failed("No rentals found with selected source/id pair");
-            return;
+            return false;
         }
-        $stream_set = new StreamSet();
-        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
-        $avatar_set->loadByValues($rental_set->getUniqueArray("avatarLink"));
-        $banlist_set->loadByValues($rental_set->getUniqueArray("avatarLink"), "avatarLink");
-        $banned_ids = $banlist_set->getAllByField("avatarLink");
+        return true;
+    }
+    public function process(): void
+    {
+        $message = $this->post("message")->asString();
+        $this->loadData();
+
+        $stream_set = $rental_set->relatedStream();
+        $avatar_set = $rental_set->relatedAvatar();
+        $banlist_set = $avatar_set->relatedBanlist();
+        $banned_ids = $banlist_set->uniqueAvatarLinks();
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
             $this->failed("No avatars found to send to");
             return;
         }
-        $package_set->loadAll();
-        $server_set->loadAll();
-        $notice_set->loadAll();
+        $package_set = $stream_set->relatedPackage();
+        $server_set = $stream_set->relatedServer();
+        $notice_set = $rental_set->relatedNotice();
+
+        $bot_helper = new BotHelper();
+        $swapables_helper = new SwapablesHelper();
 
         $sent_counter = 0;
         $seen_avatars = [];
         foreach ($rental_set as $rental) {
-            if (in_array($rental->getAvatarLink(), $avatarids) == false) {
+            if (in_array($rental->getAvatarLink(), $this->avatarids) == false) {
                 continue;
             }
             if (in_array($rental->getAvatarLink(), $seen_avatars) == true) {

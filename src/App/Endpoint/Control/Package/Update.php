@@ -12,7 +12,6 @@ class Update extends ViewAjax
 {
     protected Template $template;
     protected Servertypes $servertype;
-    protected InputFilter $input;
     protected Package $package;
 
 
@@ -27,13 +26,10 @@ class Update extends ViewAjax
     protected ?string $textureInstockSelected;
     protected ?bool $autodj;
     protected ?int $autodjSize;
-    protected ?string $apiTemplate;
     protected ?int $servertypeLink;
     protected ?int $welcomeNotecardLink;
     protected ?int $setupNotecardLink;
     protected ?bool $enableGroupInvite;
-    protected ?bool $apiAllowAutoSuspend;
-    protected ?int $apiAutoSuspendDelayHours;
 
     protected array $noticeNotecardIds;
 
@@ -66,101 +62,62 @@ class Update extends ViewAjax
 
     protected function formData(): void
     {
-        $this->name = $this->input->post("name");
-        $this->templateLink = $this->input->postInteger("templateLink");
-        $this->cost = $this->input->postInteger("cost");
-        $this->days = $this->input->postInteger("days");
-        $this->bitrate = $this->input->postInteger("bitrate");
-        $this->listeners = $this->input->postInteger("listeners");
-        $this->textureSoldout = $this->input->postUUID("textureSoldout");
-        $this->textureInstockSmall = $this->input->postUUID("textureInstockSmall");
-        $this->textureInstockSelected = $this->input->postUUID("textureInstockSelected");
-        $this->autodj = $this->input->postBool("autodj");
-        if ($this->autodj === null) {
-            $this->autodj = false;
+        $this->name = $this->post("name")->checkStringLength(5, 30)->asString();
+        $this->templateLink = $this->post("templateLink")->checkGrtThanEq(1)->asInt();
+        $this->cost = $this->post("cost")->checkInRange(1, 99999)->asInt();
+        $this->days = $this->post("days")->checkInRange(1, 999)->asInt();
+        $this->bitrate = $this->post("bitrate")->checkInRange(56, 999)->asInt();
+        $this->listeners = $this->post("listeners")->checkInRange(1, 999)->asInt();
+        $this->textureSoldout = $this->post("textureSoldout")->isUuid()->asString();
+        $this->textureInstockSmall = $this->post("textureInstockSmall")->isUuid()->asString();
+        $this->textureInstockSelected = $this->post("textureInstockSelected")->isUuid()->asString();
+        $this->enableGroupInvite = $this->post("enableGroupInvite")->asBool();
+        $testing = [
+            "name" => $name,
+            "template" => $templateLink,
+            "cost" => $cost,
+            "days" => $days,
+            "bitrate" => $bitrate,
+            "listeners" => $listeners,
+            "texture soldout" => $textureSoldout,
+            "texture small" => $textureInstockSmall,
+            "texture selected" => $textureInstockSelected,
+        ];
+        $testing = array_reverse($testing, true);
+        foreach ($testing as $key => $value) {
+            if ($value === null) {
+                $this->failed("Entry: " . $key . " is not set - " . $this->input->getWhyFailed());
+                return;
+            }
         }
-        $this->autodjSize = $this->input->postInteger("autodjSize");
-        $this->apiTemplate = $this->input->postFilter("apiTemplate");
-        $this->servertypeLink = $this->input->postInteger("servertypeLink");
-        $this->welcomeNotecardLink = $this->input->postInteger("welcomeNotecardLink");
-        $this->setupNotecardLink = $this->input->postInteger("setupNotecardLink");
-        $this->enableGroupInvite = $this->input->postBool("enableGroupInvite");
-        if ($this->enableGroupInvite === null) {
-            $this->enableGroupInvite = false;
-        }
-        $this->apiAllowAutoSuspend = $this->input->postBool("apiAllowAutoSuspend");
-        if ($this->apiAllowAutoSuspend === null) {
-            $this->apiAllowAutoSuspend = false;
-        }
-        $this->apiAutoSuspendDelayHours = $this->input->postInteger("apiAutoSuspendDelayHours", false, false, 999, 0);
+
+
+        $this->autodj = $this->post("autodj")->asBool();
+        $this->autodjSize = $this->post("autodjSize")->checkInRange(1, 9999)->asInt();
+        $this->servertypeLink = $this->post("servertypeLink")->checkGrtThanEq(1)->asInt();
+        $this->welcomeNotecardLink = $this->post("welcomeNotecardLink")->checkGrtThanEq(1)->asInt();
+        $this->setupNotecardLink = $this->post("setupNotecardLink")->checkGrtThanEq(1)->asInt();
     }
 
     protected function tests(): bool
     {
-        if (in_array($this->welcomeNotecardLink, $this->noticeNotecardIds) == false) {
+        if (in_array($this->welcomeNotecardLink, $noticeNotecardIds) == false) {
             $this->failed("Welcome notecard not selected");
             return false;
         }
-        if (in_array($this->setupNotecardLink, $this->noticeNotecardIds) == false) {
+        if (in_array($this->setupNotecardLink, $noticeNotecardIds) == false) {
             $this->failed("Setup notecard not selected");
             return false;
         }
-        if (strlen($this->name) < 5) {
-            $this->failed("Name length must be 5 or longer");
-            return false;
-        } elseif (strlen($this->name) > 60) {
-            $this->failed("Name must be 30 or less");
-            return false;
-        } elseif ($this->cost < 1) {
-            $this->failed("Cost must be 1 or more");
-            return false;
-        } elseif ($this->cost > 99999) {
-            $this->failed("Cost must be 99999 or less");
-            return false;
-        } elseif ($this->days < 1) {
-            $this->failed("Days must be 1 or more");
-            return false;
-        } elseif ($this->days > 999) {
-            $this->failed("Days must be 999 or less");
-            return false;
-        } elseif ($this->bitrate < 56) {
-            $this->failed("bitrate must be 56 or more");
-            return false;
-        } elseif ($this->bitrate > 999) {
-            $this->failed("bitrate must be 999 or less");
-            return false;
-        } elseif ($this->listeners < 1) {
-            $this->failed("listeners must be 1 or more");
-            return false;
-        } elseif ($this->listeners > 999) {
-            $this->failed("listeners must be 999 or less");
-            return false;
-        } elseif (strlen($this->textureSoldout) != 36) {
-            $this->failed("Texture sold out must be a uuid");
-            return false;
-        } elseif (strlen($this->textureInstockSmall) != 36) {
-            $this->failed("Texture instock small out must be a uuid");
-            return false;
-        } elseif (strlen($this->textureInstockSelected) != 36) {
-            $this->failed("Texture instock selected out must be a uuid");
-            return false;
-        } elseif ($this->autodjSize > 9999) {
-            $this->failed("AutoDJ size must be 9999 or less");
-            return false;
-        } elseif (strlen($this->apiTemplate) > 50) {
-            $this->failed("API template name can not be longer than 50");
-            return false;
-        } elseif (strlen($this->apiTemplate) < 3) {
-            $this->failed("API template name can not be shorter than 3");
-            return false;
-        } elseif ($this->apiAutoSuspendDelayHours < 0) {
-            $this->failed("Auto suspend delay hours must be 0 or more");
-            return false;
-        } elseif ($this->apiAutoSuspendDelayHours > 999) {
-            $this->failed("Auto suspend delay hours must be 999 or less");
+        if ($template->loadID($this->templateLink) == false) {
+            $this->failed("Unable to find template");
             return false;
         }
-        return true;
+        if ($servertype->loadID($this->servertypeLink) == false) {
+            $this->failed("Unable to find server type");
+            return false;
+        }
+        return false;
     }
 
     protected function loadData(): bool
@@ -191,13 +148,10 @@ class Update extends ViewAjax
         $this->package->setTextureSoldout($this->textureSoldout);
         $this->package->setTextureInstockSmall($this->textureInstockSmall);
         $this->package->setTextureInstockSelected($this->textureInstockSelected);
-        $this->package->setApiTemplate($this->apiTemplate);
         $this->package->setServertypeLink($this->servertypeLink);
         $this->package->setWelcomeNotecardLink($this->welcomeNotecardLink);
         $this->package->setSetupNotecardLink($this->setupNotecardLink);
         $this->package->setEnableGroupInvite($this->enableGroupInvite);
-        $this->package->setApiAllowAutoSuspend($this->apiAllowAutoSuspend);
-        $this->package->setApiAutoSuspendDelayHours($this->apiAutoSuspendDelayHours);
     }
 
     protected function savePackage(): bool

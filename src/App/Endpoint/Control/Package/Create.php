@@ -21,24 +21,16 @@ class Create extends ViewAjax
         $noticeNotecards->loadAll();
         $noticeNotecardIds = $noticeNotecards->getAllIds();
 
-        $name = $this->input->post("name", 30, 5);
-        $templateLink = $this->input->post("templateLink", false, true);
-        $cost = $this->input->post("cost", false, true);
-        $days = $this->input->post("days", false, true);
-        $bitrate = $this->input->post("bitrate", false, true);
-        $listeners = $this->input->post("listeners", false, true);
-        $textureSoldout = $this->input->post("textureSoldout");
-        $textureInstockSmall = $this->input->post("textureInstockSmall");
-        $textureInstockSelected = $this->input->post("textureInstockSelected");
-        $enableGroupInvite = $this->input->post("enableGroupInvite");
-        if ($enableGroupInvite === null) {
-            $enableGroupInvite = false;
-        }
-        $apiAllowAutoSuspend = $this->input->post("apiAllowAutoSuspend");
-        if ($apiAllowAutoSuspend === null) {
-            $apiAllowAutoSuspend = false;
-        }
-        $apiAutoSuspendDelayHours = $this->input->post("apiAutoSuspendDelayHours", false, false, 999, 0);
+        $name = $this->post("name")->checkStringLength(5, 30)->asString();
+        $templateLink = $this->post("templateLink")->checkGrtThanEq(1)->asInt();
+        $cost = $this->post("cost")->checkInRange(1, 99999)->asInt();
+        $days = $this->post("days")->checkInRange(1, 999)->asInt();
+        $bitrate = $this->post("bitrate")->checkInRange(56, 999)->asInt();
+        $listeners = $this->post("listeners")->checkInRange(1, 999)->asInt();
+        $textureSoldout = $this->post("textureSoldout")->isUuid()->asString();
+        $textureInstockSmall = $this->post("textureInstockSmall")->isUuid()->asString();
+        $textureInstockSelected = $this->post("textureInstockSelected")->isUuid()->asString();
+        $enableGroupInvite = $this->post("enableGroupInvite")->asBool();
         $testing = [
             "name" => $name,
             "template" => $templateLink,
@@ -49,9 +41,6 @@ class Create extends ViewAjax
             "texture soldout" => $textureSoldout,
             "texture small" => $textureInstockSmall,
             "texture selected" => $textureInstockSelected,
-            "Allow auto suspend" => $apiAllowAutoSuspend,
-            "Auto suspend delay" => $apiAutoSuspendDelayHours,
-
         ];
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
@@ -62,15 +51,11 @@ class Create extends ViewAjax
         }
 
 
-        $autodj = $this->input->post("autodj");
-        if ($autodj === null) {
-            $autodj = false;
-        }
-        $autodjSize = $this->input->post("autodjSize");
-        $apiTemplate = $this->input->post("apiTemplate");
-        $servertypeLink = $this->input->post("servertypeLink");
-        $welcomeNotecardLink = $this->input->post("welcomeNotecardLink");
-        $setupNotecardLink = $this->input->post("setupNotecardLink");
+        $autodj = $this->post("autodj")->asBool();
+        $autodjSize = $this->post("autodjSize")->checkInRange(1, 9999)->asInt();
+        $servertypeLink = $this->post("servertypeLink")->checkGrtThanEq(1)->asInt();
+        $welcomeNotecardLink = $this->post("welcomeNotecardLink")->checkGrtThanEq(1)->asInt();
+        $setupNotecardLink = $this->post("setupNotecardLink")->checkGrtThanEq(1)->asInt();
 
 
         if (in_array($welcomeNotecardLink, $noticeNotecardIds) == false) {
@@ -81,53 +66,8 @@ class Create extends ViewAjax
             $this->failed("Setup notecard not selected");
             return;
         }
-
-        if ($cost > 99999) {
-            $this->failed("Cost must be 99999 or less");
-            return;
-        }
-        if ($days > 999) {
-            $this->failed("Days must be 999 or less");
-            return;
-        }
-        if ($bitrate < 56) {
-            $this->failed("bitrate must be 56 or more");
-            return;
-        }
-        if ($bitrate > 999) {
-            $this->failed("bitrate must be 999 or less");
-            return;
-        }
-        if ($listeners > 999) {
-            $this->failed("listeners must be 999 or less");
-            return;
-        }
-        if (strlen($textureSoldout) != 36) {
-            $this->failed("Texture sold out must be a uuid");
-            return;
-        }
-        if (strlen($textureInstockSmall) != 36) {
-            $this->failed("Texture instock small out must be a uuid");
-            return;
-        }
-        if (strlen($textureInstockSelected) != 36) {
-            $this->failed("Texture instock selected out must be a uuid");
-            return;
-        }
-        if ($autodjSize > 9999) {
-            $this->failed("AutoDJ size must be 9999 or less");
-            return;
-        }
         if ($template->loadID($templateLink) == false) {
             $this->failed("Unable to find template");
-            return;
-        }
-        if (strlen($apiTemplate) > 50) {
-            $this->failed("API template name can not be longer than 50");
-            return;
-        }
-        if (strlen($apiTemplate) < 3) {
-            $this->failed("API template name can not be shorter than 3");
             return;
         }
         if ($servertype->loadID($servertypeLink) == false) {
@@ -153,13 +93,10 @@ class Create extends ViewAjax
         $package->setTextureSoldout($textureSoldout);
         $package->setTextureInstockSmall($textureInstockSmall);
         $package->setTextureInstockSelected($textureInstockSelected);
-        $package->setApiTemplate($apiTemplate);
         $package->setServertypeLink($servertypeLink);
         $package->setWelcomeNotecardLink($welcomeNotecardLink);
         $package->setSetupNotecardLink($setupNotecardLink);
         $package->setEnableGroupInvite($enableGroupInvite);
-        $package->setApiAllowAutoSuspend($apiAllowAutoSuspend);
-        $package->setApiAutoSuspendDelayHours($apiAutoSuspendDelayHours);
         $create_status = $package->createEntry();
         if ($create_status["status"] == false) {
             $this->failed(

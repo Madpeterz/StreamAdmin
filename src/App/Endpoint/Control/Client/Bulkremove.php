@@ -38,7 +38,7 @@ class Bulkremove extends ViewAjax
         $this->setSwapTag("redirect", "client/bulkremove");
         $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
-            $accept = $this->input->post("rental" . $rental->getRentalUid());
+            $accept = $this->post("rental" . $rental->getRentalUid());
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;

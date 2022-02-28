@@ -20,10 +20,10 @@ class Reissue extends ViewAjax
 
     public function reissueKeys(): void
     {
-        $this->slconfig->setSlLinkCode($this->lazyPW(8));
-        $this->slconfig->setHttpInboundSecret($this->lazyPW(8));
-        $this->slconfig->setPublicLinkCode($this->lazyPW(8));
-        $this->slconfig->setHudLinkCode($this->lazyPW(8));
+        $this->siteConfig->getSlConfig()->setSlLinkCode($this->lazyPW(8));
+        $this->siteConfig->getSlConfig()->setHttpInboundSecret($this->lazyPW(8));
+        $this->siteConfig->getSlConfig()->setPublicLinkCode($this->lazyPW(8));
+        $this->siteConfig->getSlConfig()->setHudLinkCode($this->lazyPW(8));
     }
     public function process(): void
     {
@@ -33,7 +33,7 @@ class Reissue extends ViewAjax
             return;
         }
         $this->reissueKeys();
-        $update_status = $this->slconfig->updateEntry();
+        $update_status = $this->siteConfig->getSlConfig()->updateEntry();
         if ($update_status["status"] == false) {
             $this->failed(
                 sprintf("Unable to update system config: %1\$s", $update_status["message"])

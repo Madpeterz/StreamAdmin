@@ -21,16 +21,26 @@ class Config extends BootstrapConfigBox
         // you will need to update the values on the right
         $this->setFlag("SITE_NAME", "Streamadmin");
         $this->setFlag("SITE_URL", "https://dev.blackatom.live/");
-        $slconfig = new Slconfig();
-        $slconfig->loadID(1);
-        if ($slconfig->isLoaded() == false) {
-            die("Config not loaded - Please contact support");
-        }
         $timeszone = new Timezones();
         $timeszone->loadID($slconfig->getDisplayTimezoneLink());
         $timezone_name = $timeszone->getName();
         date_default_timezone_set($timeszone->getCode());
     }
+
+    protected ?Slconfig $slConfig = null;
+
+    public function & getSlConfig(): Slconfig
+    {
+        if ($this->slConfig == null) {
+            $this->slConfig = new Slconfig();
+            $this->slConfig->loadID(1);
+        }
+        if ($this->slconfig->isLoaded() == false) {
+            die("SL Config not loaded - Please contact support");
+        }
+        return $this->slConfig;
+    }
+
 
     public function setupCacheTables(): void
     {

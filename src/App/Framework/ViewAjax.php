@@ -18,4 +18,9 @@ abstract class ViewAjax extends TemplateViewAjax
         $this->siteConfig = $system;
         parent::__construct();
     }
+
+    protected function post(string $field): InputFilter
+    {
+        return $this->post($field);
+    }
 }

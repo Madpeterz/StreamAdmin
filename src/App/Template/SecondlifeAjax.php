@@ -93,7 +93,7 @@ abstract class SecondlifeAjax extends View
 
         $this->staticpart = "";
         foreach ($required_sl as $slvalue) {
-            $value = $this->input->post($slvalue);
+            $value = $this->post($slvalue);
             if ($value !== null) {
                 $this->$slvalue = $value;
                 $this->staticpart .= $value;
@@ -103,13 +103,13 @@ abstract class SecondlifeAjax extends View
                 return;
             }
         }
-        $this->unixtime = $this->input->post("unixtime");
+        $this->unixtime = $this->post("unixtime");
         if ($this->unixtime === null) {
             $this->failed("Missing unixtime value");
             $this->load_ok = false;
             return;
         }
-        $this->hash = $this->input->post("hash");
+        $this->hash = $this->post("hash");
         if ($this->hash === null) {
             $this->load_ok = false;
             $this->failed("Missing hash value");
@@ -122,7 +122,7 @@ abstract class SecondlifeAjax extends View
         if ($this->load_ok == false) {
             return;
         }
-        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->slconfig->getSlLinkCode();
+        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->siteConfig->getSlConfig()->getSlLinkCode();
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
@@ -154,8 +154,8 @@ abstract class SecondlifeAjax extends View
             $reseller_helper = new ResellerHelper();
             $get_reseller_status = $reseller_helper->loadOrCreate(
                 $this->Object_OwnerAvatar->getId(),
-                $this->slconfig->getNewResellers(),
-                $this->slconfig->getNewResellersRate()
+                $this->siteConfig->getSlConfig()->getNewResellers(),
+                $this->siteConfig->getSlConfig()->getNewResellersRate()
             );
             if ($get_reseller_status == false) {
                 $this->load_ok = false;
@@ -164,7 +164,7 @@ abstract class SecondlifeAjax extends View
             }
             if ($skip_reseller == false) {
                 $this->reseller = $reseller_helper->getReseller();
-                if ($this->slconfig->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
+                if ($this->siteConfig->getSlConfig()->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
                     $this->owner_override = true;
                 }
                 if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {

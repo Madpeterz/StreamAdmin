@@ -145,7 +145,7 @@ abstract class HomeLoadData extends View
             $this->owner_objects_list[] = "clientautosuspendserver";
         }
 
-        if ($this->slconfig->getEventsAPI() == true) {
+        if ($this->siteConfig->getSlConfig()->getEventsAPI() == true) {
             $this->owner_objects_list[] = "eventsserver";
         }
     }
@@ -159,7 +159,7 @@ abstract class HomeLoadData extends View
         $where_config = [
         "fields" => ["avatarLink","lastSeen","objectMode"],
         "matches" => ["=",">=","IN"],
-        "values" => [$this->slconfig->getOwnerAvatarLink(),$one_hour_ago,$this->owner_objects_list],
+        "values" => [$this->siteConfig->getSlConfig()->getOwnerAvatarLink(),$one_hour_ago,$this->owner_objects_list],
         "types" => ["i","i","s"],
         ];
         $order_config = [

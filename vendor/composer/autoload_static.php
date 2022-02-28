@@ -98,8 +98,8 @@ class ComposerStaticInit565abf4f53e848aaad62513f594ef40e
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -168,7 +168,6 @@ class ComposerStaticInit565abf4f53e848aaad62513f594ef40e
         'App\\Endpoint\\Control\\Banlist\\Clear' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Banlist/Clear.php',
         'App\\Endpoint\\Control\\Banlist\\Create' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Banlist/Create.php',
         'App\\Endpoint\\Control\\Bot\\Update' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Bot/Update.php',
-        'App\\Endpoint\\Control\\Client\\Api' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Client/Api.php',
         'App\\Endpoint\\Control\\Client\\Bulkremove' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Client/Bulkremove.php',
         'App\\Endpoint\\Control\\Client\\Create' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Client/Create.php',
         'App\\Endpoint\\Control\\Client\\Getnotecard' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Client/Getnotecard.php',
@@ -192,10 +191,7 @@ class ComposerStaticInit565abf4f53e848aaad62513f594ef40e
         'App\\Endpoint\\Control\\Reseller\\Remove' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Reseller/Remove.php',
         'App\\Endpoint\\Control\\Reseller\\Update' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Reseller/Update.php',
         'App\\Endpoint\\Control\\Server\\Create' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Server/Create.php',
-        'App\\Endpoint\\Control\\Server\\Getapiconfig' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Server/Getapiconfig.php',
         'App\\Endpoint\\Control\\Server\\Remove' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Server/Remove.php',
-        'App\\Endpoint\\Control\\Server\\ServerLoad' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Server/ServerLoad.php',
-        'App\\Endpoint\\Control\\Server\\SyncAccounts' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Server/SyncAccounts.php',
         'App\\Endpoint\\Control\\Server\\Update' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Server/Update.php',
         'App\\Endpoint\\Control\\Slconfig\\PaymentKeyUpdate' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Slconfig/PaymentKeyUpdate.php',
         'App\\Endpoint\\Control\\Slconfig\\Reissue' => __DIR__ . '/../..' . '/src/App/Endpoint/Control/Slconfig/Reissue.php',

@@ -155,15 +155,6 @@ class SlconfigSet extends CollectionSet
         return parent::uniqueArray("displayTimezoneLink");
     }
     /**
-     * uniqueApiDefaultEmails
-     * returns unique values from the collection matching that field
-     * @return array<string>
-     */
-    public function uniqueApiDefaultEmails(): array
-    {
-        return parent::uniqueArray("apiDefaultEmail");
-    }
-    /**
      * uniqueCustomLogos
      * returns unique values from the collection matching that field
      * @return array<bool>
@@ -577,33 +568,6 @@ class SlconfigSet extends CollectionSet
     public function loadFromDisplayTimezoneLinks(array $values): array
     {
         return $this->loadIndexs("displayTimezoneLink", $values);
-    }
-    /**
-     * loadByApiDefaultEmail
-     * @return mixed[] [status =>  bool, count => integer, message =>  string]
-    */
-    public function loadByApiDefaultEmail(
-        string $apiDefaultEmail, 
-        int $limit = 0, 
-        string $orderBy = "id", 
-        string $orderDir = "DESC"
-    ): array
-    {
-        return $this->loadByField(
-            "apiDefaultEmail", 
-            $apiDefaultEmail, 
-            $limit, 
-            $orderBy, 
-            $orderDir
-        );
-    }
-    /**
-     * loadFromApiDefaultEmails
-     * @return array<mixed> [status =>  bool, count => integer, message =>  string]
-    */
-    public function loadFromApiDefaultEmails(array $values): array
-    {
-        return $this->loadIndexs("apiDefaultEmail", $values);
     }
     /**
      * loadByCustomLogo

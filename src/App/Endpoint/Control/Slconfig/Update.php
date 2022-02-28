@@ -11,16 +11,16 @@ class Update extends ViewAjax
     protected function forceReissue(): bool
     {
         $reissued = false;
-        if (strlen($this->slconfig->getSlLinkCode()) > 10) {
+        if (strlen($this->siteConfig->getSlConfig()->getSlLinkCode()) > 10) {
             $reissued = true;
         }
-        if (strlen($this->slconfig->getPublicLinkCode()) > 12) {
+        if (strlen($this->siteConfig->getSlConfig()->getPublicLinkCode()) > 12) {
             $reissued = true;
         }
-        if (strlen($this->slconfig->getHudLinkCode()) > 12) {
+        if (strlen($this->siteConfig->getSlConfig()->getHudLinkCode()) > 12) {
             $reissued = true;
         }
-        if (strlen($this->slconfig->getHttpInboundSecret()) > 12) {
+        if (strlen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 12) {
             $reissued = true;
         }
         if ($reissued == true) {
@@ -33,14 +33,13 @@ class Update extends ViewAjax
     protected function updateHudSettings(): void
     {
 
-        $hudAllowDiscord = $this->input->post("hudAllowDiscord");
-        $hudDiscordLink = $this->input->post("hudDiscordLink");
+        $hudAllowDiscord = $this->post("hudAllowDiscord")->asBool();
+        $hudDiscordLink = $this->post("hudDiscordLink")->asString();
         if ($hudAllowDiscord == false) {
             $hudDiscordLink = null;
         }
-        $hudAllowGroup = $this->input->post("hudAllowGroup");
-        $hudGroupLink = $this->input->post("hudGroupLink");
-        $hudDiscordLink = $this->input->post("hudDiscordLink");
+        $hudAllowGroup = $this->post("hudAllowGroup")->asBool();
+        $hudGroupLink = $this->post("hudGroupLink")->asString();
         if ($hudAllowGroup == false) {
             $hudGroupLink = null;
         }
@@ -50,17 +49,17 @@ class Update extends ViewAjax
         if (strlen($hudDiscordLink) == 0) {
             $hudAllowDiscord = false;
         }
-        $hudAllowDetails = $this->input->post("hudAllowDetails");
-        $hudAllowRenewal = $this->input->post("hudAllowRenewal");
+        $hudAllowDetails = $this->post("hudAllowDetails")->asBool();
+        $hudAllowRenewal = $this->post("hudAllowRenewal")->asBool();
         if ($hudAllowRenewal == false) {
             $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
         }
-        $this->slconfig->setHudAllowDiscord($hudAllowDiscord);
-        $this->slconfig->setHudDiscordLink($hudDiscordLink);
-        $this->slconfig->setHudAllowGroup($hudAllowGroup);
-        $this->slconfig->setHudGroupLink($hudGroupLink);
-        $this->slconfig->setHudAllowDetails($hudAllowDetails);
-        $this->slconfig->setHudAllowRenewal($hudAllowRenewal);
+        $this->siteConfig->getSlConfig()->setHudAllowDiscord($hudAllowDiscord);
+        $this->siteConfig->getSlConfig()->setHudDiscordLink($hudDiscordLink);
+        $this->siteConfig->getSlConfig()->setHudAllowGroup($hudAllowGroup);
+        $this->siteConfig->getSlConfig()->setHudGroupLink($hudGroupLink);
+        $this->siteConfig->getSlConfig()->setHudAllowDetails($hudAllowDetails);
+        $this->siteConfig->getSlConfig()->setHudAllowRenewal($hudAllowRenewal);
     }
 
     public function process(): void
@@ -69,36 +68,33 @@ class Update extends ViewAjax
         $timezone = new Timezones();
 
 
-        $newResellersRate = $this->input->post("newResellersRate");
-        $newResellers = $this->input->post("newResellers");
-        $owneravuid = $this->input->post("owneravuid", 8, 8);
-        $ui_tweaks_clients_fulllist = $this->input->post("ui_tweaks_clients_fulllist");
-        $ui_tweaks_datatableItemsPerPage = $this->input->post("ui_tweaks_datatableItemsPerPage");
-        $apiDefaultEmail = $input->postEmail("apiDefaultEmail");
-        $displayTimezoneLink = $this->input->post("displayTimezoneLink");
-        $eventsAPI = $this->input->post("eventsAPI");
-
-        if ($newResellersRate < 0) {
-            $this->failed("newResellersRate must be 1 or more");
+        $newResellersRate = $this->post("newResellersRate")->checkInRange(1, 100)->asInt();
+        if ($newResellersRate === null) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
-        if ($newResellersRate > 100) {
-            $this->failed("newResellersRate must be 100 or less");
+        $newResellers = $this->post("newResellers")->asBool();
+        $owneravuid = $this->post("owneravuid")->checkStringLength(8, 8)->asString();
+        if ($owneravuid === null) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
-        if ($ui_tweaks_datatableItemsPerPage < 10) {
-            $this->failed("Datatable entrys per page length must be 10 or more");
+        $ui_tweaks_clients_fulllist = $this->post("ui_tweaks_clients_fulllist")->asBool();
+        $ui_tweaks_datatableItemsPerPage = $this->input
+            ->post("ui_tweaks_datatableItemsPerPage")
+            ->checkInRange(10, 200)
+            ->asInt();
+        if ($ui_tweaks_datatableItemsPerPage === null) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
-        if ($ui_tweaks_datatableItemsPerPage > 200) {
-            $this->failed("Datatable entrys per page must be 200 or less");
+        $displayTimezoneLink = $this->post("displayTimezoneLink")->checkGrtThanEq(1)->asInt();
+        if ($displayTimezoneLink === null) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
-        if (strlen($owneravuid) != 8) {
-            $this->failed("Owner AV uid length must be 8");
-            return;
-        }
-        if ($avatar->loadByField("avatarUid", $owneravuid) == false) {
+        $eventsAPI = $this->post("eventsAPI")->asBool();
+        if ($avatar->loadByAvatarUid($owneravuid) == false) {
             $this->failed("Unable to load avatar from uid");
             return;
         }
@@ -106,26 +102,21 @@ class Update extends ViewAjax
             $this->failed("Timezone selected not supported");
             return;
         }
-        if (strlen($apiDefaultEmail) < 7) {
-            $this->failed("API default email address does not appear to be vaild");
-            return;
-        }
 
         $this->setSwapTag("redirect", "slconfig");
-        if ($avatar->getId() != $this->slconfig->getOwnerAvatarLink()) {
-            $this->slconfig->setOwnerAvatarLink($avatar->getId());
+        if ($avatar->getId() != $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) {
+            $this->siteConfig->getSlConfig()->setOwnerAvatarLink($avatar->getId());
         }
-        $this->slconfig->setNewResellers($newResellers);
-        $this->slconfig->setNewResellersRate($newResellersRate);
-        $this->slconfig->setClientsListMode($ui_tweaks_clients_fulllist);
-        $this->slconfig->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
-        $this->slconfig->setDisplayTimezoneLink($displayTimezoneLink);
-        $this->slconfig->setApiDefaultEmail($apiDefaultEmail);
-        $this->slconfig->setEventsAPI($eventsAPI);
+        $this->siteConfig->getSlConfig()->setNewResellers($newResellers);
+        $this->siteConfig->getSlConfig()->setNewResellersRate($newResellersRate);
+        $this->siteConfig->getSlConfig()->setClientsListMode($ui_tweaks_clients_fulllist);
+        $this->siteConfig->getSlConfig()->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
+        $this->siteConfig->getSlConfig()->setDisplayTimezoneLink($displayTimezoneLink);
+        $this->siteConfig->getSlConfig()->setEventsAPI($eventsAPI);
 
         $this->updateHudSettings();
         $reissuedKeys = $this->forceReissue();
-        $update_status = $this->slconfig->updateEntry();
+        $update_status = $this->siteConfig->getSlConfig()->updateEntry();
         if ($update_status["status"] == false) {
             $this->failed(
                 sprintf("Unable to update system config: %1\$s", $update_status["message"])

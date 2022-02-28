@@ -13,7 +13,7 @@ class Details extends SecondlifeAjax
     public function process(): void
     {
 
-        $targetuid = $this->input->post("targetuid");
+        $targetuid = $this->post("targetuid");
         $avatar = new Avatar();
 
         if ($targetuid == null) {

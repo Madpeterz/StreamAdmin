@@ -8,6 +8,7 @@ use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
 use App\Framework\ViewAjax;
+use App\Models\Sets\StreamSet;
 
 class Update extends ViewAjax
 {
@@ -17,54 +18,21 @@ class Update extends ViewAjax
         $server = new Server();
 
 
-        $port = $this->input->post("port");
-        $packageLink = $this->input->post("packageLink");
-        $serverLink = $this->input->post("serverLink");
-        $mountpoint = $this->input->post("mountpoint");
-        $adminUsername = $this->input->post("adminUsername", 50, 3);
-        if ($adminUsername == null) {
-            $this->failed("Admin username failed:" . $this->input->getWhyFailed());
-            return;
-        }
-        $adminPassword = $this->input->post("adminPassword", 20, 4);
-        if ($adminUsername == null) {
-            $this->failed("Admin password failed:" . $this->input->getWhyFailed());
-            return;
-        }
-        $djPassword = $this->input->post("djPassword", 20, 4);
-        if ($adminUsername == null) {
-            $this->failed("DJ password failed:" . $this->input->getWhyFailed());
-            return;
-        }
-        $originalAdminUsername = $this->input->post("originalAdminUsername", 50, 3);
-        if ($originalAdminUsername == null) {
-            $this->failed("Original admin username failed:" . $this->input->getWhyFailed());
-            return;
-        }
-        $apiConfigValue1 = $this->input->post("apiConfigValue1");
-        $apiConfigValue2 = $this->input->post("apiConfigValue2");
-        $apiConfigValue3 = $this->input->post("apiConfigValue3");
-        $api_update = $this->input->post("api_update");
-
-        if ($port < 1) {
-            $this->failed("Port must be 1 or more");
-            return;
-        }
-        if ($port > 99999) {
-            $this->failed("Port must be 99999 or less");
-            return;
-        }
-        if ($package->loadID($packageLink) == false) {
-            $this->failed("Unable to find package");
-            return;
-        }
-        if ($server->loadID($serverLink) == false) {
-            $this->failed("Unable to find server");
-            return;
+        $port = $this->post("port")->checkInRange(1, 99999)->asInt();
+        $packageLink = $this->post("packageLink")->checkGrtThanEq(1)->asInt();
+        $serverLink = $this->post("serverLink")->checkGrtThanEq(1)->asInt();
+        $mountpoint = $this->post("mountpoint")->asString();
+        $adminUsername = $this->post("adminUsername")->checkStringLength(3, 50)->asString();
+        $adminPassword = $this->post("adminPassword")->checkStringLength(4, 20)->asString();
+        $djPassword = $this->post("djPassword")->checkStringLength(4, 20)->asString();
+        $bits = [$port,$packageLink,$serverLink,$mountpoint,$adminUsername,$adminPassword,$djPassword];
+        if (in_array(null, $bits, true) == true) {
+            $this->failed($this->input->getWhyFailed());
+            return false;
         }
 
         $stream = new Stream();
-        if ($stream->loadByField("streamUid", $this->siteConfig->getPage()) == false) {
+        if ($stream->loadByStreamUid($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to find stream with that uid");
             return;
         }
@@ -75,7 +43,8 @@ class Update extends ViewAjax
             "types" => ["i","i"],
             "matches" => ["=","="],
         ];
-        $count_check = $this->siteConfig->getSQL()->basicCountV2($stream->getTable(), $whereConfig);
+        $streamSet = new StreamSet();
+        $count_check = $streamSet->countInDB($whereConfig);
         $expected_count = 0;
         if ($stream->getPort() == $port) {
             if ($stream->getServerLink() == $serverLink) {

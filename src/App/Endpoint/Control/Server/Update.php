@@ -2,6 +2,8 @@
 
 namespace App\Endpoint\Control\Server;
 
+use App\Models\Sets\ServerSet;
+
 class Update extends Create
 {
     public function process(): void
@@ -9,8 +11,6 @@ class Update extends Create
         $this->setup();
         $this->formData();
         if ($this->loadServer() == false) {
-            return;
-        } elseif ($this->tests() == false) {
             return;
         } elseif ($this->extendedDomainCheck() == false) {
             return;
@@ -33,7 +33,8 @@ class Update extends Create
 
     protected function updateServer(): bool
     {
-        $this->setupServer();
+        $this->server->setDomain($this->domain);
+        $this->server->setControlPanelURL($this->controlPanelURL);
         $update_status = $this->server->updateEntry();
         if ($update_status["status"] == false) {
             $this->setSwapTag(
@@ -53,19 +54,20 @@ class Update extends Create
             "types" => ["s"],
             "matches" => ["="],
         ];
-        $count_check = $this->siteConfig->getSQL()->basicCountV2($this->server->getTable(), $whereConfig);
+        $serverSet = new ServerSet();
+        $count_check = $serverSet->countInDB($whereConfig);
         $expected_count = 0;
         if ($this->server->getDomain() == $this->domain) {
             $expected_count = 1;
         }
-        if ($count_check["status"] == false) {
+        if ($count_check === null) {
             $this->setSwapTag(
                 "message",
                 "Unable to check if there is a server assigned to domain already"
             );
             return false;
         }
-        if ($count_check["count"] != $expected_count) {
+        if ($count_check != $expected_count) {
             $this->failed("There is already a server with that domain");
             return false;
         }

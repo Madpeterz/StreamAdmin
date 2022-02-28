@@ -10,11 +10,11 @@ class Renew extends SecondlifeHudAjax
 {
     public function process(): void
     {
-        if ($this->slconfig->getHudAllowDetails() == false) {
+        if ($this->siteConfig->getSlConfig()->getHudAllowDetails() == false) {
             $this->setSwapTag("message", "Failed - Hud details are currently disabled");
             return;
         }
-        if ($this->slconfig->getHudAllowRenewal() == false) {
+        if ($this->siteConfig->getSlConfig()->getHudAllowRenewal() == false) {
             $this->setSwapTag("message", "Failed - Hud renewals are currently disabled");
             return;
         }
@@ -26,7 +26,7 @@ class Renew extends SecondlifeHudAjax
         }
         $reseller_helper = new ResellerHelper();
         $get_reseller_status = $reseller_helper->loadOrCreate(
-            $this->slconfig->getOwnerAvatarLink(),
+            $this->siteConfig->getSlConfig()->getOwnerAvatarLink(),
             true,
             0
         );

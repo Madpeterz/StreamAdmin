@@ -17,7 +17,7 @@ class Update extends ViewAjax
             $this->setSwapTag("redirect", "staff/manage/" . $this->siteConfig->getPage() . "");
         }
 
-        $username = $this->input->post("username", 40, 5);
+        $username = $this->post("username")->checkStringLength(5, 40)->asString();
         if ($username == null) {
             $this->failed("Username failed:" . $this->input->getWhyFailed());
         }

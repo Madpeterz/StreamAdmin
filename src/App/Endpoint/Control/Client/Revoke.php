@@ -25,7 +25,7 @@ class Revoke extends ViewAjax
     {
         $this->rental = new Rental();
 
-        $accept = $this->input->post("accept")->asString();
+        $accept = $this->post("accept")->asString();
         $this->setSwapTag("redirect", null);
         if ($accept != "Accept") {
             $this->failed("Did not Accept");

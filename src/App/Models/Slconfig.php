@@ -24,7 +24,6 @@ class Slconfig extends genClass
         "datatableItemsPerPage",
         "httpInboundSecret",
         "displayTimezoneLink",
-        "apiDefaultEmail",
         "customLogo",
         "customLogoBin",
         "hudAllowDiscord",
@@ -49,7 +48,6 @@ class Slconfig extends genClass
         "datatableItemsPerPage" => ["type" => "int", "value" => 10],
         "httpInboundSecret" => ["type" => "str", "value" => null],
         "displayTimezoneLink" => ["type" => "int", "value" => 11],
-        "apiDefaultEmail" => ["type" => "str", "value" => null],
         "customLogo" => ["type" => "bool", "value" => 0],
         "customLogoBin" => ["type" => "str", "value" => null],
         "hudAllowDiscord" => ["type" => "bool", "value" => 0],
@@ -149,14 +147,6 @@ class Slconfig extends genClass
     public function setDisplayTimezoneLink(?int $newvalue): array
     {
         return $this->updateField("displayTimezoneLink", $newvalue);
-    }
-    /**
-    * setApiDefaultEmail
-    * @return mixed[] [status =>  bool, message =>  string]
-    */
-    public function setApiDefaultEmail(?string $newvalue): array
-    {
-        return $this->updateField("apiDefaultEmail", $newvalue);
     }
     /**
     * setCustomLogo
@@ -283,10 +273,6 @@ class Slconfig extends genClass
     {
         return $this->getField("displayTimezoneLink");
     }
-    public function getApiDefaultEmail(): ?string
-    {
-        return $this->getField("apiDefaultEmail");
-    }
     public function getCustomLogo(): ?bool
     {
         return $this->getField("customLogo");
@@ -403,13 +389,6 @@ class Slconfig extends genClass
         return $this->loadByField(
             "displayTimezoneLink",
             $displayTimezoneLink
-        );
-    }
-    public function loadByApiDefaultEmail(string $apiDefaultEmail): bool
-    {
-        return $this->loadByField(
-            "apiDefaultEmail",
-            $apiDefaultEmail
         );
     }
     public function loadByCustomLogo(bool $customLogo): bool

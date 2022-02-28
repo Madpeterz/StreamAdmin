@@ -10,19 +10,19 @@ class PaymentKeyUpdate extends ViewAjax
     public function process(): void
     {
 
-        $key = $this->input->post("assignedkey", 23, 23);
+        $key = $this->post("assignedkey")->checkStringLength(23, 23)->asString();
         $keyCheck = new PaymentKey();
         $results = $keyCheck->getKeyStatus($key, false);
         if ($results != "ok") {
             $this->failed("Key failed checks: " . $results);
             return;
         }
-        if ($key == $this->slconfig->getPaymentKey()) {
+        if ($key == $this->siteConfig->getSlConfig()->getPaymentKey()) {
             $this->failed("Key not changed");
             return;
         }
-        $this->slconfig->setPaymentKey($key);
-        $results = $this->slconfig->updateEntry();
+        $this->siteConfig->getSlConfig()->setPaymentKey($key);
+        $results = $this->siteConfig->getSlConfig()->updateEntry();
         if ($results["status"] == false) {
             $this->failed("Unable to update key in DB please check and try again");
             return;

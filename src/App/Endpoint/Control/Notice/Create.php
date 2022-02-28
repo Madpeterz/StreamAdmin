@@ -14,34 +14,34 @@ class Create extends ViewAjax
         $notice = new Notice();
         $static_notecard = new Noticenotecard();
 
-        $name = $this->input->post("name")->checkStringLength(5, 100)->asString();
+        $name = $this->post("name")->checkStringLength(5, 100)->asString();
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $hoursRemaining = $this->input->post("hoursRemaining")->checkGrtThanEq(1)->asInt();
+        $hoursRemaining = $this->post("hoursRemaining")->checkGrtThanEq(1)->asInt();
         if ($hoursRemaining === null) {
             $this->failed("Hours remain failed:" . $this->input->getWhyFailed());
             return;
         }
-        $imMessage = $this->input->post("imMessage")->checkStringLength(5, 800)->asString();
+        $imMessage = $this->post("imMessage")->checkStringLength(5, 800)->asString();
         if ($imMessage == null) {
             $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
-        $sendObjectIM = $this->input->post("sendObjectIM")->asBool();
+        $sendObjectIM = $this->post("sendObjectIM")->asBool();
 
-        $useBot = $this->input->post("useBot")->asBool();
+        $useBot = $this->post("useBot")->asBool();
 
-        $sendNotecard = $this->input->post("sendNotecard")->asBool();
+        $sendNotecard = $this->post("sendNotecard")->asBool();
 
-        $notecardDetail = $this->input->post("notecardDetail")->asString();
+        $notecardDetail = $this->post("notecardDetail")->asString();
         if ($notecardDetail === null) {
             $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
 
-        $noticeNotecardLink = $this->input->post("noticeNotecardLink")->checkGrtThanEq(1)->asInt();
+        $noticeNotecardLink = $this->post("noticeNotecardLink")->checkGrtThanEq(1)->asInt();
         if ($noticeNotecardLink === null) {
             $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;

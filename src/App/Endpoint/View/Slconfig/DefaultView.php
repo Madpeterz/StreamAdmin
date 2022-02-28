@@ -23,11 +23,11 @@ class DefaultView extends View
     public function process(): void
     {
         $avatar = new Avatar();
-        $avatar->loadID($this->slconfig->getOwnerAvatarLink());
-        $this->slconfig->setPublicLinkCode($this->reissueNeeded($this->slconfig->getPublicLinkCode(), 6, 12));
-        $this->slconfig->setHttpInboundSecret($this->reissueNeeded($this->slconfig->getHttpInboundSecret(), 6, 12));
-        $this->slconfig->setHudLinkCode($this->reissueNeeded($this->slconfig->getHudLinkCode(), 6, 12));
-        $this->slconfig->setSlLinkCode($this->reissueNeeded($this->slconfig->getSlLinkCode(), 6, 10));
+        $avatar->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink());
+        $this->siteConfig->getSlConfig()->setPublicLinkCode($this->reissueNeeded($this->siteConfig->getSlConfig()->getPublicLinkCode(), 6, 12));
+        $this->siteConfig->getSlConfig()->setHttpInboundSecret($this->reissueNeeded($this->siteConfig->getSlConfig()->getHttpInboundSecret(), 6, 12));
+        $this->siteConfig->getSlConfig()->setHudLinkCode($this->reissueNeeded($this->siteConfig->getSlConfig()->getHudLinkCode(), 6, 12));
+        $this->siteConfig->getSlConfig()->setSlLinkCode($this->reissueNeeded($this->siteConfig->getSlConfig()->getSlLinkCode(), 6, 10));
 
         $timezones_set = new TimezonesSet();
         $timezones_set->loadAll();
@@ -49,25 +49,25 @@ class DefaultView extends View
             $form->select(
                 "ui_tweaks_clients_fulllist",
                 "Clients [Full list]",
-                $this->slconfig->getClientsListMode(),
+                $this->siteConfig->getSlConfig()->getClientsListMode(),
                 $this->disableEnable
             );
             $form->textInput(
                 "ui_tweaks_datatableItemsPerPage",
                 "Datatables items per page",
                 3,
-                $this->slconfig->getDatatableItemsPerPage(),
+                $this->siteConfig->getSlConfig()->getDatatableItemsPerPage(),
                 "10 to 200"
             );
         $form->col(6);
             $form->group("Resellers");
             $form->directAdd("<br/>");
-            $form->select("newResellers", "Auto accept resellers", $this->slconfig->getNewResellers(), $this->yesNo);
+            $form->select("newResellers", "Auto accept resellers", $this->siteConfig->getSlConfig()->getNewResellers(), $this->yesNo);
             $form->textInput(
                 "newResellersRate",
                 "Auto accepted resellers rate (As a %)",
                 36,
-                $this->slconfig->getNewResellersRate(),
+                $this->siteConfig->getSlConfig()->getNewResellersRate(),
                 "1 to 100"
             );
         $form->col(6);
@@ -77,13 +77,13 @@ class DefaultView extends View
                 "apiDefaultEmail",
                 "API default email",
                 3,
-                $this->slconfig->getApiDefaultEmail(),
+                $this->siteConfig->getSlConfig()->getApiDefaultEmail(),
                 "Required to be a vaild email"
             );
             $form->select(
                 "displayTimezoneLink",
                 "Default timezone",
-                $this->slconfig->getDisplayTimezoneLink(),
+                $this->siteConfig->getSlConfig()->getDisplayTimezoneLink(),
                 $timezones_set->getLinkedArray("id", "name")
             );
         $form->col(6);
@@ -93,7 +93,7 @@ class DefaultView extends View
                 "slLinkCode",
                 "Venders & Servers",
                 30,
-                $this->slconfig->getSlLinkCode(),
+                $this->siteConfig->getSlConfig()->getSlLinkCode(),
                 "The code shared by your vendors to connect",
                 "",
                 "text",
@@ -104,7 +104,7 @@ class DefaultView extends View
                 "publicLinkCode",
                 "= Not in use =",
                 30,
-                $this->slconfig->getPublicLinkCode(),
+                $this->siteConfig->getSlConfig()->getPublicLinkCode(),
                 "Not used yet",
                 "",
                 "text",
@@ -115,7 +115,7 @@ class DefaultView extends View
                 "hudLinkCode",
                 "Renter hud",
                 30,
-                $this->slconfig->getHudLinkCode(),
+                $this->siteConfig->getSlConfig()->getHudLinkCode(),
                 "Used to connect the hud",
                 "",
                 "text",
@@ -126,7 +126,7 @@ class DefaultView extends View
                 "httpcode",
                 "Secondbot ect",
                 36,
-                $this->slconfig->getHttpInboundSecret(),
+                $this->siteConfig->getSlConfig()->getHttpInboundSecret(),
                 "Enter here"
             );
             */
@@ -136,27 +136,27 @@ class DefaultView extends View
             $form->select(
                 "hudAllowDiscord",
                 "Show discord link",
-                $this->slconfig->getHudAllowDiscord(),
+                $this->siteConfig->getSlConfig()->getHudAllowDiscord(),
                 $this->yesNo
             );
             $form->textInput(
                 "hudDiscordLink",
                 "Discord join link",
                 128,
-                $this->slconfig->getHudDiscordLink(),
+                $this->siteConfig->getSlConfig()->getHudDiscordLink(),
                 "Discord invite URL"
             );
             $form->select(
                 "hudAllowGroup",
                 "Show group link",
-                $this->slconfig->getHudAllowGroup(),
+                $this->siteConfig->getSlConfig()->getHudAllowGroup(),
                 $this->yesNo
             );
             $form->textInput(
                 "hudGroupLink",
                 "SL group url",
                 128,
-                $this->slconfig->getHudGroupLink(),
+                $this->siteConfig->getSlConfig()->getHudGroupLink(),
                 "SL grouplink URL"
             );
         $form->col(6);
@@ -165,20 +165,20 @@ class DefaultView extends View
             $form->select(
                 "hudAllowDetails",
                 "Allow details requests",
-                $this->slconfig->getHudAllowDetails(),
+                $this->siteConfig->getSlConfig()->getHudAllowDetails(),
                 $this->yesNo
             );
             $form->select(
                 "hudAllowRenewal",
                 "Allow renewals (Requires Allow details)",
-                $this->slconfig->getHudAllowRenewal(),
+                $this->siteConfig->getSlConfig()->getHudAllowRenewal(),
                 $this->yesNo
             );
         $form->col(6);
         $form->directAdd("<br/>");
         $form->group("Events API <a target=\"_BLANK\" href=\"
         https://github.com/Madpeterz/StreamAdmin/wiki/Events-API\">?</a>");
-        $form->select("eventsAPI", "", $this->slconfig->getEventsAPI(), $this->disableEnable);
+        $form->select("eventsAPI", "", $this->siteConfig->getSlConfig()->getEventsAPI(), $this->disableEnable);
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
 
         $this->setSwapTag(

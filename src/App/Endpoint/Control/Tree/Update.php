@@ -10,22 +10,22 @@ class Update extends ViewAjax
     public function process(): void
     {
 
-        $name = $this->input->post("name", 100, 4);
+        $name = $this->post("name", 100, 4);
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $textureWaiting = $this->input->post("textureWaiting");
+        $textureWaiting = $this->post("textureWaiting");
         if ($textureWaiting == null) {
             $this->failed("texture waiting is not vaild: " . $input->getLastError());
             return;
         }
-        $textureInuse = $this->input->post("textureInuse");
+        $textureInuse = $this->post("textureInuse");
         if ($textureInuse == null) {
             $this->failed("texture inuse is not vaild: " . $input->getLastError());
             return;
         }
-        $hideSoldout = $this->input->post("hideSoldout");
+        $hideSoldout = $this->post("hideSoldout");
         if ($hideSoldout == null) {
             $hideSoldout = false;
         }

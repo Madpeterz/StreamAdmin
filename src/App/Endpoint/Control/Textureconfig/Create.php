@@ -12,20 +12,20 @@ class Create extends ViewAjax
 
         $textureconfig = new Textureconfig();
 
-        $name = $this->input->post("name", 30, 4);
+        $name = $this->post("name", 30, 4);
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $gettingDetails = $this->input->post("gettingDetails");
-        $requestDetails = $this->input->post("requestDetails");
-        $offline = $this->input->post("offline");
-        $waitOwner = $this->input->post("waitOwner");
-        $inUse = $this->input->post("inUse");
-        $makePayment = $this->input->post("makePayment");
-        $stockLevels = $this->input->post("stockLevels");
-        $renewHere = $this->input->post("renewHere");
-        $proxyRenew = $this->input->post("proxyRenew");
+        $gettingDetails = $this->post("gettingDetails");
+        $requestDetails = $this->post("requestDetails");
+        $offline = $this->post("offline");
+        $waitOwner = $this->post("waitOwner");
+        $inUse = $this->post("inUse");
+        $makePayment = $this->post("makePayment");
+        $stockLevels = $this->post("stockLevels");
+        $renewHere = $this->post("renewHere");
+        $proxyRenew = $this->post("proxyRenew");
         $testing = [
             "gettingDetail" => $gettingDetails,
             "requestDetails" => $requestDetails,

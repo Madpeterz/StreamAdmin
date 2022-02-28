@@ -239,7 +239,7 @@ class Renewnow extends SecondlifeAjax
         $this->setSwapTag("owner_payment", 0);
         if ($this->owner_override == false) {
             $avatar_system = new Avatar();
-            if ($avatar_system->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
+            if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
                 $this->setSwapTag("message", "Unable to find system owner avatar");
                 return false;
             }

@@ -112,8 +112,8 @@ class Startrental extends SecondlifeAjax
         $amountpaid = 0;
         $use_notice_index = 0;
 
-        $avatar = $this->getAvatar($this->input->post("avatarUUID"), $this->input->post("avatarName"));
-        $package = $this->getPackage($this->input->post("packageuid"));
+        $avatar = $this->getAvatar($this->post("avatarUUID"), $this->post("avatarName"));
+        $package = $this->getPackage($this->post("packageuid"));
         if ($package == null) {
             $this->setSwapTag("message", "Unable to find package");
             return;
@@ -137,7 +137,7 @@ class Startrental extends SecondlifeAjax
             return;
         }
 
-        $amountpaid = $this->input->post("amountpaid", "integer");
+        $amountpaid = $this->post("amountpaid", "integer");
         $accepted_payment_amounts = [
             $package->getCost() => 1,
             ($package->getCost() * 2) => 2,
@@ -217,7 +217,7 @@ class Startrental extends SecondlifeAjax
         $this->setSwapTag("owner_payment", 0);
         if ($this->owner_override == false) {
             $avatar_system = new Avatar();
-            if ($avatar_system->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
+            if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
                 $this->setSwapTag("message", "Unable to load owner avatar");
                 return;
             }

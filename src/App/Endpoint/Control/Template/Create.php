@@ -10,17 +10,17 @@ class Create extends ViewAjax
     public function process(): void
     {
 
-        $name = $this->input->post("name", 30, 5);
+        $name = $this->post("name", 30, 5);
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $detail = $this->input->post("detail", 800, 5);
+        $detail = $this->post("detail", 800, 5);
         if ($detail == null) {
             $this->failed("Template failed:" . $this->input->getWhyFailed());
             return;
         }
-        $notecardDetail = $this->input->post("notecardDetail", 5000, 5);
+        $notecardDetail = $this->post("notecardDetail", 5000, 5);
         if ($notecardDetail == null) {
             $this->failed("Template failed:" . $this->input->getWhyFailed());
             return;

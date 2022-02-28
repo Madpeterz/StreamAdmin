@@ -14,7 +14,7 @@ class Remove extends ViewAjax
 
         $reseller = new Reseller();
         $this->transactionsSet = new TransactionsSet();
-        $accept = $this->input->post("accept");
+        $accept = $this->post("accept")->asString();
         $this->setSwapTag("redirect", "reseller");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
@@ -52,7 +52,7 @@ class Remove extends ViewAjax
     protected function transferTransactions(): bool
     {
         $reseller = new Reseller();
-        if ($reseller->loadByField("avatarLink", $this->slconfig->getOwnerAvatarLink()) == false) {
+        if ($reseller->loadByField("avatarLink", $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
             return false;
         }
         if ($reseller->getId() <= 0) {

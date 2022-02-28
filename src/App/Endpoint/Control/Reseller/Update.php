@@ -12,19 +12,12 @@ class Update extends ViewAjax
 
         $reseller = new Reseller();
 
-        $rate = $this->input->post("rate");
-        $allowed = $this->input->post("allowed");
-        if ($allowed === null) {
-            $allowed = false;
-        }
-        if ($rate < 1) {
-            $this->failed("Rate must be 1 or more (use Allow to disable)");
+        $rate = $this->post("rate")->checkInRange(1, 100)->asInt();
+        if ($rate === null) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
-        if ($rate > 100) {
-            $this->failed("Rate must be 100 or less");
-            return;
-        }
+        $allowed = $this->post("allowed")->asBool();
         $this->setSwapTag("redirect", "reseller");
         if ($reseller->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load reseller");

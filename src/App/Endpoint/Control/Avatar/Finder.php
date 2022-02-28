@@ -11,7 +11,7 @@ class Finder extends ViewAjax
     {
         $this->setSwapTag("status", true);
 
-        $avatarfindname = $this->input->post("avatarfind")->checkStringLengthMin("3")->asString();
+        $avatarfindname = $this->post("avatarfind")->checkStringLengthMin("3")->asString();
         if ($avatarfindname == null) {
             $this->failed("Avatar UID/Name/UUID was not sent!");
             return;

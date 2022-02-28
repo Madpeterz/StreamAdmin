@@ -12,7 +12,7 @@ class Addpackage extends ViewAjax
     public function process(): void
     {
 
-        $package_id = $this->input->post("package", "integer");
+        $package_id = $this->post("package", "integer");
 
         $treevender = new Treevender();
         $this->setSwapTag("redirect", "tree");

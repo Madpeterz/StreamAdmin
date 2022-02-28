@@ -12,8 +12,8 @@ class DefaultView extends View
     {
         $this->output->addSwapTagString("page_title", "Toolbox");
 
-        $month = $this->input->post("month", "integer");
-        $year = $this->input->post("year", "integer");
+        $month = $this->post("month", "integer");
+        $year = $this->post("year", "integer");
         if ($year < 2013) {
             $year = date("Y");
         }

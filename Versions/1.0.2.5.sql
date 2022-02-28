@@ -28,3 +28,5 @@ ALTER TABLE `stream`
 ALTER TABLE `package`
   DROP `apiAllowAutoSuspend`,
   DROP `apiAutoSuspendDelayHours`;
+
+ALTER TABLE `slconfig` DROP `apiDefaultEmail`;

@@ -37,7 +37,7 @@ class Costandtime extends SecondlifeAjax
             }
         }
         $masterAvatar = new Avatar();
-        if ($masterAvatar->loadID($this->slconfig->getOwnerAvatarLink()) == false) {
+        if ($masterAvatar->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
             $this->setSwapTag("message", "Unable to load system owner");
             return;
         }

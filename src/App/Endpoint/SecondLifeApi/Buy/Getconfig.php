@@ -13,8 +13,8 @@ class Getconfig extends SecondlifeAjax
     public function process(): void
     {
 
-        $packageuid = $this->input->post("packageuid");
-        $texturepack = $this->input->post("texturepack", "integer");
+        $packageuid = $this->post("packageuid");
+        $texturepack = $this->post("texturepack", "integer");
         if ($texturepack <= 0) {
             $this->setSwapTag("message", "Invaild texturepack");
             return;

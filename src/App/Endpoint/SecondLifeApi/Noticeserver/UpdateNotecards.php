@@ -217,7 +217,7 @@ class UpdateNotecards extends SecondlifeAjax
     public function process(): void
     {
 
-        $notecards = $this->input->post("notecards");
+        $notecards = $this->post("notecards");
         $notecardsList = explode(",", $notecards);
         if ($this->markFound($notecardsList) == false) {
             return;

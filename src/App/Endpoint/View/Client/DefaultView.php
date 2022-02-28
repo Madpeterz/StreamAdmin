@@ -11,7 +11,7 @@ class DefaultView extends View
             "<a href='[[SITE_URL]]client/create'><button type='button' class='btn btn-success'>Create</button></a>"
         );
         $view = new SelectNoticeLevel();
-        if ($this->slconfig->getClientsListMode() == true) {
+        if ($this->siteConfig->getSlConfig()->getClientsListMode() == true) {
             $view = new ListMode();
         }
         $view->process();

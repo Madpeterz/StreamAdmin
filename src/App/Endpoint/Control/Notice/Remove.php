@@ -14,8 +14,8 @@ class Remove extends ViewAjax
 
         $notice = new Notice();
 
-        $accept = $this->input->post("accept")->asString();
-        $newNoticeLevel = $this->input->post("newNoticeLevel")->checkGrtThanEq(1)->asInt();
+        $accept = $this->post("accept")->asString();
+        $newNoticeLevel = $this->post("newNoticeLevel")->checkGrtThanEq(1)->asInt();
         $this->setSwapTag("redirect", "notice");
         if ($newNoticeLevel == null) {
             $this->failed("Unable to find transfer notice level");

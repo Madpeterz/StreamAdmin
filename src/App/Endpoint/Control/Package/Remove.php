@@ -19,7 +19,7 @@ class Remove extends ViewAjax
         $rental_set = new RentalSet();
         $treevender_packages_set = new TreevenderpackagesSet();
 
-        $accept = $this->input->post("accept");
+        $accept = $this->post("accept");
         $this->setSwapTag("redirect", "package");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
