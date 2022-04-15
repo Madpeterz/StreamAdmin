@@ -20,6 +20,8 @@ abstract class SwapTags
             "SITE_URL" => null,
             "META_TAGS" => "",
             "unixtimeNow" => time(),
+            "HTML_JS_ON_READY" => "",
+            "HTML_CSS_TOP" => "",
             ];
         }
         $this->setSwapTag("SITE_URL", $this->config->getSiteURL());

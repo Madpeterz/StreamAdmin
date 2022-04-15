@@ -11,6 +11,7 @@ class BootstrapConfigBox extends SimpleConfig
     protected string $module = "";
     protected string $option = "";
     protected string $area = "";
+    protected array $pageUrlBits = [];
 
     // site flags
     protected string $html_title_after = "";
@@ -178,6 +179,7 @@ class BootstrapConfigBox extends SimpleConfig
                 $this->option = $bits[3];
             }
         }
+        $this->pageUrlBits = $bits;
 
         $this->module = ucfirst($this->module);
         $this->area = ucfirst($this->area);

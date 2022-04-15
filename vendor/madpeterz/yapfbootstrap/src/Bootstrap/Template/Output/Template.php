@@ -42,6 +42,7 @@ class Template extends SwapTags
         $this->tempalte_parts["footer"] = "</html>";
 
         $this->setSwapTag("SITE_NAME", $this->config->getSiteName());
+        $this->setSwapTag("SITE_URL", $this->config->getSiteURL());
         $this->setSwapTag("html_title_after", $this->config->getSiteName());
         $this->setSwapTag("html_title", "Page");
         $this->setSwapTag("html_cs_top", "");
@@ -136,15 +137,20 @@ class Template extends SwapTags
                     print $this->redirect_to . "\">";
                 }
             }
-        } else {
-            $output = trim($this->render_layout);
-            $output = $this->keypairReplace($output, $this->tempalte_parts);
-            $output = $this->keypairReplace($output, $this->swaptags);
-            $output = $this->keypairReplace($output, $this->swaptags);
-            $output = $this->keypairReplace($output, $this->swaptags);
-            $output = strtr($output, ["@NL@" => "\n\r"]);
-            print $output;
+            return;
         }
+        $output = trim($this->render_layout);
+        $output = $this->keypairReplace($output, $this->tempalte_parts);
+        $continueLoop = true;
+        while ($continueLoop == true) {
+            $old = $output;
+            $output = $this->keypairReplace($output, $this->swaptags);
+            if ($old == $output) {
+                $continueLoop = false;
+            }
+        }
+        $output = strtr($output, ["@NL@" => "\n\r"]);
+        print $output;
     }
     public function tempateSidemenu(): void
     {

@@ -20,9 +20,8 @@ abstract class CollectionSet extends CollectionSetBulk
         return $this->loadWithConfig($whereConfig);
     }
     /**
-     * @deprecated
-     * @see loadDataFromList
      * loadIds
+     * @deprecated please use loadIndexs
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
     public function loadIds(array $ids, string $field = "id"): array
@@ -31,62 +30,13 @@ abstract class CollectionSet extends CollectionSetBulk
     }
 
     /**
-     * @deprecated
-     * @see loadDataFromList
-     * loadByValues
+     * loadIds
+     * @deprecated please use loadIndexs
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
     public function loadByValues(array $ids, string $field = "id"): array
     {
         return $this->loadIndexs($field, $ids);
-    }
-    /**
-     * loadOnFields
-     * uses multiple fields to load from the database with
-     * change $word to adjust targeting
-     * by default its set to And.
-     * for full control please use the method loadWithConfig
-     * @return mixed[] [status =>  bool, count => integer, message =>  string]
-     */
-    public function loadOnFields(
-        array $fields,
-        array $fieldvalues,
-        array $matchtypes,
-        string $word = "AND",
-        string $order_by = "id",
-        string $by_direction = "DESC",
-        int $limit = 0
-    ): array {
-        $this->makeWorker();
-        $where_config = [
-            "join_with" => $word,
-            "fields" => $fields,
-            "values" => $fieldvalues,
-            "types" => [],
-            "matches" => $matchtypes,
-        ];
-        $unpack_ok = true;
-        $unpack_error = "";
-        $loop = 0;
-        $total = count($fields);
-        while ($loop < $total) {
-            $fieldname = $fields[$loop];
-            if (method_exists($this->worker, "get" . ucfirst($fieldname)) == false) {
-                $unpack_ok = false;
-                $unpack_error = "get" . ucfirst($fieldname) . " is not supported on worker";
-                break;
-            }
-            $where_config["types"][] = $this->worker->getFieldType($fieldname, true);
-            $loop++;
-        }
-        if ($unpack_ok == true) {
-            return $this->loadWithConfig(
-                $where_config,
-                ["ordering_enabled" => true,"order_field" => $order_by,"order_dir" => $by_direction],
-                ["page_number" => 0,"max_entrys" => $limit]
-            );
-        }
-        return $this->addError(__FILE__, __FUNCTION__, $unpack_error, ["count" => 0]);
     }
     /**
      * loadByField
@@ -109,65 +59,59 @@ abstract class CollectionSet extends CollectionSetBulk
      * loadOnField
      * uses one field to load from the database with
      * for full control please use the method loadWithConfig
-     * @deprecated public -> protected soon(TM)
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
-    public function loadOnField(
+    protected function loadOnField(
         string $field,
         $value,
         int $limit = 0,
-        string $order = "id",
-        string $order_dir = "DESC"
+        string $order_by = "id",
+        string $by_direction = "DESC"
     ): array {
         if (is_object($value) == true) {
             $errormsg = "Attempted to pass value as a object!";
             $this->addError(__FILE__, __FUNCTION__, $errormsg);
             return ["status" => false,"message" => "Attempted to pass a value as a object!"];
         }
-        return $this->loadOnFields([$field], [$value], ["="], "AND", $order, $order_dir, $limit);
+        $whereConfg = [
+            "fields" => [$field],
+            "values" => [$value],
+        ];
+        $orderConfig = ["ordering_enabled" => true,"order_field" => $order_by,"order_dir" => $by_direction];
+        $optionsConfig = ["page_number" => 0,"max_entrys" => $limit];
+        return $this->loadWithConfig($whereConfg, $orderConfig, $optionsConfig);
     }
-   /**
+    /**
      * loadLimited
+     * alias of loadNewest
      * paged loading support with limiters
      * for full control please use the method loadWithConfig
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
     public function loadLimited(
         int $limit = 12,
-        string $by_field = "id",
+        int $page = 0,
+        string $order_by = "id",
         string $by_direction = "ASC",
-        array $wherefields = [],
-        array $wherevalues = [],
-        string $word = "AND",
-        int $page = 0
+        ?array $whereConfig = null
     ): array {
-        return $this->loadNewest($limit, $wherefields, $wherevalues, $by_field, $by_direction, $page, $word);
+        return $this->loadNewest($limit, $page, $order_by, $by_direction, $whereConfig);
     }
-   /**
+    /**
      * loadNewest
-     * alias of loadLimited
      * default setup is to order by id newest first.
      * for full control please use the method loadWithConfig
      * @return mixed[] [status =>  bool, count => integer, message =>  string]
      */
     public function loadNewest(
         int $limit = 12,
-        array $wherefields = [],
-        array $wherevalues = [],
+        int $page = 0,
         string $order_by = "id",
         string $by_direction = "DESC",
-        int $page = 0,
-        string $joinword = "AND"
+        ?array $whereConfig = null
     ): array {
-        $where_config = [
-            "join_with" => $joinword,
-             "fields" => array_keys($wherefields),
-             "matches" => array_values($wherefields),
-             "values" => array_keys($wherevalues),
-             "types" => array_values($wherevalues),
-        ];
         return $this->loadWithConfig(
-            $where_config,
+            $whereConfig,
             ["ordering_enabled" => true,"order_field" => $order_by,"order_dir" => $by_direction],
             ["page_number" => $page,"max_entrys" => $limit]
         );
@@ -284,7 +228,7 @@ abstract class CollectionSet extends CollectionSetBulk
         $typecheck = $this->worker->getFieldType($fieldname, true);
         if ($typecheck == null) {
             $this->addError(__FILE__, __FUNCTION__, "Unable to find field: " .
-             $fieldname . " in worker reported error: " . $this->worker->getLastError());
+            $fieldname . " in worker reported error: " . $this->worker->getLastError());
             return [
                 "status" => false,
                 "count" => 0,

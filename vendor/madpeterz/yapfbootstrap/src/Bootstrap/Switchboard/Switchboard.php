@@ -36,34 +36,24 @@ abstract class Switchboard extends ErrorLogging
         return false;
     }
 
-    protected function findMasterClass(int $step = 0): ?string
+    protected function findMasterClass(): ?string
     {
-        $args = [
-            $this->loadingModule,
-            $this->loadingArea,
-            $this->config->getPage(),
-            $this->config->getOption(),
+        $routes = [
+            [$this->loadingArea],
+            [],
+            [$this->loadingArea,$this->config->getPage()],
+            [$this->loadingArea,$this->config->getPage(),$this->config->getOption()],
+            ["DefaultView"],
         ];
-        if ($step == 4) {
-            $bits = ["App","Endpoint",$this->targetEndpoint,$this->loadingModule,"DefaultView"];
+        foreach ($routes as $route) {
+            $bits = array_merge(["App","Endpoint",$this->targetEndpoint,$this->loadingModule], $route);
             $use_class = "\\" . implode("\\", $bits);
             if (class_exists($use_class) == false) {
-                return null;
+                continue;
             }
             return $use_class;
         }
-
-        $bits = ["App","Endpoint",$this->targetEndpoint];
-        $loop = 0;
-        while ($loop <= $step) {
-            $bits[] = $args[$loop];
-            $loop++;
-        }
-        $use_class = "\\" . implode("\\", $bits);
-        if (class_exists($use_class) == false) {
-            return $this->findMasterClass($step + 1);
-        }
-        return $use_class;
+        return null;
     }
 
     protected function loadPage(): void
@@ -88,7 +78,7 @@ abstract class Switchboard extends ErrorLogging
             $this->loadingArea = "DefaultView";
         }
         $use_class = $this->findMasterClass();
-        if (class_exists($use_class) == false) {
+        if ($use_class === null) {
             $this->addError("Unsupported request");
             print json_encode([
             "status" => "0",
@@ -114,6 +104,10 @@ abstract class Switchboard extends ErrorLogging
     {
         $this->loadedObject->getOutputObject()->setSwapTag("module", $this->loadingModule);
         $this->loadedObject->getOutputObject()->setSwapTag("area", $this->loadingArea);
+        $this->loadedObject->getOutputObject()->setSwapTag("cache_status", "N/A");
+        if ($this->config->getCacheDriver() != null) {
+            $this->loadedObject->getOutputObject()->setSwapTag("cache_status", json_encode($this->config->getCacheDriver()->getStatusCounters()));
+        }
         $this->loadedObject->process();
     }
 }

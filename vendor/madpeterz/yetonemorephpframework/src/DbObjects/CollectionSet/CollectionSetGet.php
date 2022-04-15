@@ -231,4 +231,23 @@ abstract class CollectionSetGet extends CollectionSetCore implements Iterator
         $this->makeWorker();
         return $this->uniqueArray($this->worker->use_id_field);
     }
+
+    /**
+     * This function takes an array of fields to ignore and an optional boolean to invert the ignore list.
+     * It then loops through the collected entries and returns an array of the entries mapped to an array
+     * of the fields to ignore
+     *
+     * @param array ignoreFields an array of fields to ignore when converting the object to an array.
+     * @param bool invertIgnore If true, the ignoreFields will be inverted.
+     * @return mixed[] [id => array of mapped object,...]
+     */
+    public function getCollectionToMappedArray(array $ignoreFields, bool $invertIgnore = false): array
+    {
+        $results = [];
+        foreach ($this->collected as $key => $entry) {
+            /** @var GenClass $entry */
+            $results[$entry->getId()] = $entry->objectToMappedArray($ignoreFields, $invertIgnore);
+        }
+        return $results;
+    }
 }

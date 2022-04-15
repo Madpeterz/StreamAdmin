@@ -2,6 +2,9 @@
 
 namespace YAPF\Framework\MySQLi;
 
+use Exception;
+use mysqli_stmt;
+
 abstract class MysqliQuery extends MysqliChange
 {
     protected int $sql_selects = 0;
@@ -63,10 +66,20 @@ abstract class MysqliQuery extends MysqliChange
         if ($JustDoIt["status"] == false) {
             return $JustDoIt;
         }
+        /** @var mysqli_stmt $stmt */
         $stmt = $JustDoIt["stmt"];
-        $result = $stmt->get_result();
-        $stmt->close();
+        $result = false;
+        try {
+            $result = $stmt->get_result();
+        } catch (Exception $e) {
+            $stmt->close();
+            return ["status" => false, "dataset" => [],
+            "message" => "statement failed due to error: " . $e];
+        }
         $dataset = $this->buildDataset($clean_ids, $result);
+        $stmt->free_result();
+        $stmt->close();
+        $this->sqlConnection->next_result();
         $this->sql_selects++;
         return ["status" => true, "dataset" => $dataset ,"message" => "ok"];
     }

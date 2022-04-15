@@ -4,11 +4,12 @@ namespace YAPF\Framework\MySQLi;
 
 use Exception;
 use App\Db as Db;
+use mysqli;
 
 abstract class MysqliFunctions extends Db
 {
     public bool $fullSqlErrors = false;
-    protected $sqlConnection = null;
+    protected ?mysqli $sqlConnection = null;
     protected $hadErrors = false;
     protected $needToSave = false;
     public $lastSql = "";
@@ -297,8 +298,12 @@ abstract class MysqliFunctions extends Db
         }
         if (count($bind_args) > 0) {
             try {
-                mysqli_stmt_bind_param($stmt, $bind_text, ...$bind_args);
+                $result = mysqli_stmt_bind_param($stmt, $bind_text, ...$bind_args);
+                if ($result === false) {
+                    throw new Exception("mysqli_stmt_bind_param has failed :" . json_encode($stmt->error_list), 911, null);
+                }
             } catch (Exception $e) {
+                $stmt->free_result();
                 $stmt->close();
                 $error_msg = "Unable to bind to statement";
                 if ($this->fullSqlErrors == true) {
@@ -315,6 +320,7 @@ abstract class MysqliFunctions extends Db
         $execute_result = $stmt->execute();
         if ($execute_result == false) {
             $error_msg = "unable to execute because: " . $stmt->error;
+            $stmt->free_result();
             $stmt->close();
             if ($this->ExpectedErrorFlag == true) {
                 return ["status" => false, "message" => $error_msg, "stmt" => null];

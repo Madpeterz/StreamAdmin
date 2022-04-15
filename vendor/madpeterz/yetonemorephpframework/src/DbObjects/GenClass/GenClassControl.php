@@ -3,11 +3,52 @@
 namespace YAPF\Framework\DbObjects\GenClass;
 
 use Exception;
+use Iterator;
 use YAPF\Framework\Cache\Cache;
 use YAPF\Framework\Core\SQLi\SqlConnectedClass as SqlConnectedClass;
 
-abstract class GenClassControl extends SqlConnectedClass
+abstract class GenClassControl extends SqlConnectedClass implements Iterator
 {
+    // start Iterator
+    protected $position = 0;
+    public function rewind(): void
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * Return the current field value in the selected pos
+     * @return mixed The current field value.
+     */
+    public function current()
+    {
+        return $this->getField($this->fields[$this->position]);
+    }
+
+    public function key(): string
+    {
+        return $this->fields[$this->position];
+    }
+
+    public function next(): void
+    {
+        ++$this->position;
+    }
+
+    public function valid(): bool
+    {
+        if ($this->position < 0) {
+            return false;
+        }
+        if ($this->position >= count($this->fields)) {
+            return false;
+        }
+        return true;
+    }
+
+    // end Iterator
+
+
     protected bool $cacheAllowChanged = false;
     protected $use_table = "";
     protected $save_dataset = [];
@@ -69,10 +110,10 @@ abstract class GenClassControl extends SqlConnectedClass
         $feedValues = [time(), microtime(), rand(200, 300)];
         $testuid = substr(md5(implode(".", $feedValues)), 0, $length);
         $where_config = [
-            "fields" => [$onfield],
-            "values" => [$testuid],
-            "types" => ["s"],
-            "matches" => ["="],
+        "fields" => [$onfield],
+        "values" => [$testuid],
+        "types" => ["s"],
+        "matches" => ["="],
         ];
         $count_check = $this->sql->basicCountV2($this->getTable(), $where_config);
         $message = "Unable to check DB for UID";
@@ -87,9 +128,9 @@ abstract class GenClassControl extends SqlConnectedClass
             }
         }
         return [
-            "status" => $status,
-            "message" => $message,
-            "uid" => $applyed_uid,
+        "status" => $status,
+        "message" => $message,
+        "uid" => $applyed_uid,
         ];
     }
     /**
@@ -108,16 +149,20 @@ abstract class GenClassControl extends SqlConnectedClass
         }
         return hash("sha256", implode("||", $bits));
     }
+
     /**
-     * objectToMappedArray
-     * returns an key => value array for all fields and their values
-     * @return mixed[] [mixed => mixed,...]
-     */
-    public function objectToMappedArray(array $ignoreFields = []): array
+     * This function returns an array of the object's fields, with the fields that are in the
+     * array excluded
+     *
+     * @param array ignoreFields an array of field names to ignore.
+     * @param bool invertIgnore if true only fields in ignoreFields will be returned.
+     * @return mixed[] string "field" => "field value"
+    */
+    public function objectToMappedArray(array $ignoreFields = [], bool $invertIgnore = false): array
     {
         $reply = [];
         foreach ($this->fields as $fieldname) {
-            if (in_array($fieldname, $ignoreFields) == false) {
+            if (in_array($fieldname, $ignoreFields) == $invertIgnore) {
                 $reply[$fieldname] = $this->getField($fieldname);
             }
         }

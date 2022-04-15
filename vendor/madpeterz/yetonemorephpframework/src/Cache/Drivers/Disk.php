@@ -81,6 +81,7 @@ class Disk extends Cache implements CacheInterface
         }
         $this->addErrorlog("Writing cache file: " . $key);
         $writeFile = file_put_contents($key, $data);
+        usleep(100); // give the disk a chance
         if ($writeFile === false) {
             return false;
         }

@@ -64,6 +64,16 @@ abstract class Rules extends Checks
             $json = json_decode($raw, true);
             if (($json === false) || ($json === null)) {
                 $this->failed("Failed to unpack json");
+                return $this;
+            }
+            if (is_array($json) == false) {
+                $this->failed("Json did not unpack as an array");
+                return $this;
+            }
+            $jsonError = json_last_error();
+            if ($jsonError !== JSON_ERROR_NONE) {
+                $this->failed("Json is invaild due to errorcode:" . $jsonError);
+                return $this;
             }
             $this->valueAsArray = $json;
         } catch (Exception $e) {
