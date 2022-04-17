@@ -7,7 +7,7 @@ use YAPF\Core\ErrorControl\ErrorLogging as ErrorLogging;
 class Db extends ErrorLogging
 {
     protected string $dbHost = "127.0.0.1";
-    protected string $dbName = "lilium";
+    protected string $dbName = "streamadmin";
     protected string $dbUser = "root";
     protected string $dbPass = "";
     public function __construct()
