@@ -14,3 +14,5 @@ src/App/Config/site_installed.php
 docs/coverage/
 src/App/Config/r4.php
 src/cache/
+vendor
+vendor/
