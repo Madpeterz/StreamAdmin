@@ -1,2 +1,2 @@
 cls
-composer update -a --no-dev
+composer update -a
