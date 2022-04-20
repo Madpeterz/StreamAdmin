@@ -2,6 +2,8 @@
 
 namespace App\Switchboard;
 
+use YAPF\Bootstrap\Switchboard\Switchboard;
+
 class Website extends Switchboard
 {
     protected $targetEndpoint = "View";
@@ -11,13 +13,7 @@ class Website extends Switchboard
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->targetEndpoint = "Control";
         }
-        if (install_ok() == false) {
-            $this->targetEndpoint = "View";
-            $this->module = "Install";
-            include "" . ROOTFOLDER . "/App/Flags/InstallMode.php";
-            return true;
-        }
-        if ($this->siteConfig->getSession()->getLoggedIn() == true) {
+        if ($this->siteConfig->getSession()?->getLoggedIn() == true) {
             return true;
         }
         $this->module = "Login";

@@ -8,8 +8,8 @@ namespace App;
 
 use App\Framework\SessionControl;
 use App\Models\Slconfig;
+use App\Models\Timezones;
 use YAPF\Bootstrap\ConfigBox\BootstrapConfigBox;
-use YAPF\Framework\Cache\Drivers\Redis;
 
 class Config extends BootstrapConfigBox
 {
@@ -22,8 +22,7 @@ class Config extends BootstrapConfigBox
         $this->setFlag("SITE_NAME", "Streamadmin");
         $this->setFlag("SITE_URL", "https://dev.blackatom.live/");
         $timeszone = new Timezones();
-        $timeszone->loadID($slconfig->getDisplayTimezoneLink());
-        $timezone_name = $timeszone->getName();
+        $timeszone->loadID($this->getSlConfig()->getDisplayTimezoneLink());
         date_default_timezone_set($timeszone->getCode());
     }
 
@@ -44,21 +43,24 @@ class Config extends BootstrapConfigBox
 
     public function setupCacheTables(): void
     {
-        $cache->addTableToCache("banlist", 120, true);
-        $cache->addTableToCache("botconfig", 120, true);
-        $cache->addTableToCache("noticenotecard", 120, true);
-        $cache->addTableToCache("notice", 120, true, true);
-        $cache->addTableToCache("package", 120, true, true);
-        $cache->addTableToCache("region", 120, true);
-        $cache->addTableToCache("reseller", 120, true, true);
-        $cache->addTableToCache("server", 120, true, true);
-        $cache->addTableToCache("servertypes", 120, true);
-        $cache->addTableToCache("slconfig", 120, true, true);
-        $cache->addTableToCache("template", 120, true, true);
-        $cache->addTableToCache("textureconfig", 120, true, true);
-        $cache->addTableToCache("timezones", 120, true, true);
-        $cache->addTableToCache("treevender", 120, true);
-        $cache->addTableToCache("treevenderpackages", 120, true);
+        if ($this->getCacheDriver() == null) {
+            return;
+        }
+        $this->getCacheDriver()->addTableToCache("banlist", 120, true);
+        $this->getCacheDriver()->addTableToCache("botconfig", 120, true);
+        $this->getCacheDriver()->addTableToCache("noticenotecard", 120, true);
+        $this->getCacheDriver()->addTableToCache("notice", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("package", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("region", 120, true);
+        $this->getCacheDriver()->addTableToCache("reseller", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("server", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("servertypes", 120, true);
+        $this->getCacheDriver()->addTableToCache("slconfig", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("template", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("textureconfig", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("timezones", 120, true, true);
+        $this->getCacheDriver()->addTableToCache("treevender", 120, true);
+        $this->getCacheDriver()->addTableToCache("treevenderpackages", 120, true);
     }
 
     public function getRedisHost(): ?string

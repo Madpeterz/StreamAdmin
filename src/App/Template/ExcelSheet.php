@@ -4,6 +4,7 @@ namespace App\Template;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use YAPF\Bootstrap\Template\View;
 
 abstract class ExcelSheet extends View
 {

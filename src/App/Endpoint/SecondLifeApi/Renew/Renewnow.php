@@ -5,10 +5,7 @@ namespace App\Endpoint\SecondLifeApi\Renew;
 use App\Helpers\AvatarHelper;
 use App\Helpers\EventsQHelper;
 use App\Helpers\NoticesHelper;
-use App\MediaServer\Logic\ApiLogicRenew;
 use App\Models\Avatar;
-use App\Models\Banlist;
-use App\Models\Sets\NoticeSet;
 use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
@@ -17,15 +14,14 @@ use App\Models\Transactions;
 use App\Models\Sets\BanlistSet;
 use App\Template\SecondlifeAjax;
 
-class Renewnow extends SecondlifeAjax
+class RenewNow extends SecondlifeAjax
 {
-    protected InputFilter $input;
     protected Rental $rental;
-    protected Stream $stream;
-    protected Package $package;
+    protected ?Stream $stream;
+    protected ?Package $package;
     protected Avatar $accountOwnerAvatar;
     protected Avatar $transactionAvatar;
-    protected Server $server;
+    protected ?Server $server;
     protected Transactions $transaction;
     protected $amountpaid = 0;
     protected $multipler = 0;
@@ -39,7 +35,6 @@ class Renewnow extends SecondlifeAjax
 
     protected function setup(): void
     {
-        $this->input = new InputFilter();
         $this->rental = new Rental();
         $this->stream = new Stream();
         $this->package = new Package();
@@ -52,51 +47,40 @@ class Renewnow extends SecondlifeAjax
 
     protected function loadFromPost(): void
     {
-        $this->rentalUid = $this->input->postFilter("rentalUid");
-        $this->avatarUUID = $this->input->postFilter("avatarUUID", "uuid");
-        $this->avatarName = $this->input->postFilter("avatarName");
-        $this->amountpaid = $this->input->postFilter("amountpaid", "integer");
+        $this->rentalUid = $this->input->post("rentalUid")->asString();
+        $this->avatarUUID = $this->input->post("avatarUUID")->isUuid()->asString();
+        $this->avatarName = $this->input->post("avatarName")->asString();
+        $this->amountpaid = $this->input->post("amountpaid")->asInt();
     }
 
     protected function load(?Avatar $forceMatchAv = null): bool
     {
-        if ($this->rental->loadByField("rentalUid", $this->rentalUid) == false) {
-            $this->setSwapTag("message", "Unable to find rental");
+        if ($this->rental->loadByRentalUid($this->rentalUid)->status == false) {
+            $this->failed("Unable to find rental");
             return false;
         }
-
-        if ($this->stream->loadID($this->rental->getStreamLink()) == false) {
-            $this->setSwapTag("message", "Unable to find stream");
-            return false;
-        }
-
-        if ($this->server->loadID($this->stream->getServerLink()) == false) {
-            $this->setSwapTag("message", "Unable to find server");
-            return false;
-        }
-
-        if ($this->package->loadID($this->stream->getPackageLink()) == false) {
-            $this->setSwapTag("message", "Unable to find package");
+        $this->stream = $this->rental->relatedStream()->getFirst();
+        $this->server = $this->stream->relatedServer()->getFirst();
+        $this->package = $this->rental->relatedPackage()->getFirst();
+        $this->accountOwnerAvatar = $this->rental->relatedAvatar()->getFirst();
+        $test = [$this->stream, $this->server, $this->package, $this->accountOwnerAvatar];
+        if (in_array(null, $test) == true) {
+            $this->failed("One or more required objects did not load");
             return false;
         }
 
         $avatar_helper = new AvatarHelper();
         $get_av_status = $avatar_helper->loadOrCreate($this->avatarUUID, $this->avatarName);
         if ($get_av_status == false) {
-            $this->setSwapTag("message", "Unable to find avatar");
+            $this->failed("Unable to find avatar");
             return false;
         }
         $this->transactionAvatar = $avatar_helper->getAvatar();
-        if ($this->accountOwnerAvatar->loadID($this->rental->getAvatarLink()) == false) {
-            $this->setSwapTag("message", "Unable to find avatar");
-            return false;
-        }
-
 
         $banlistSet = new BanlistSet();
-        $banlistSet->loadByValues([$this->accountOwnerAvatar->getId(),$this->transactionAvatar->getId()], "avatarLink");
+        $banlistSet->loadFromAvatarLinks([$this->accountOwnerAvatar->getId(),$this->transactionAvatar->getId()]);
         if ($banlistSet->getCount() > 0) {
-            $this->setSwapTag("message", "Unable to find avatar");
+            $this->failed("Unable to find avatar");
             return false;
         }
 
@@ -109,7 +93,7 @@ class Renewnow extends SecondlifeAjax
         ) {
                 return true;
         }
-        $this->setSwapTag("message", "You can not renew other peoples rentals via the hud!");
+        $this->failed("You can not renew other peoples rentals via the hud!");
         return false;
     }
 
@@ -117,7 +101,7 @@ class Renewnow extends SecondlifeAjax
     {
         $this->uid_transaction = $this->transaction->createUID("transactionUid", 8, 10);
         if ($this->uid_transaction["status"] == false) {
-            $this->setSwapTag("message", "Unable to create transaction uid");
+            $this->failed("Unable to create transaction uid");
             return false;
         }
         return true;
@@ -132,7 +116,7 @@ class Renewnow extends SecondlifeAjax
         ($this->package->getCost() * 4) => 4,
         ];
         if (array_key_exists($this->amountpaid, $accepted_payment_amounts) == false) {
-            $this->setSwapTag("message", "payment not accepted (Invaild amount)");
+            $this->failed("payment not accepted (Invaild amount)");
             return false;
         }
         $this->multipler = $accepted_payment_amounts[$this->amountpaid];
@@ -163,8 +147,7 @@ class Renewnow extends SecondlifeAjax
 
     protected function setUpdatedRentalDetails(): void
     {
-        global $unixtime_day;
-        $unixtime_to_add = (($this->package->getDays() * $unixtime_day) * $this->multipler);
+        $unixtime_to_add = (($this->package->getDays() * $this->siteConfig->unixtimeDay()) * $this->multipler);
         $new_expires_time = $this->rental->getExpireUnixtime() + $unixtime_to_add;
         $this->rental->setExpireUnixtime($new_expires_time);
         $this->rental->setRenewals(($this->rental->getRenewals() + $this->multipler));
@@ -176,15 +159,10 @@ class Renewnow extends SecondlifeAjax
             $this->processNoticeChange($unixtime_remain);
         }
 
-
         $EventsQHelper = new EventsQHelper();
 
         $addedEvent = false;
         if (($old_notice_level == 6) && ($this->rental->getNoticeLink() != 6) && ($unixtime_remain > 0)) {
-            $this->rental->setApiSuspended(false);
-            $this->rental->setApiPendingAutoSuspend(false);
-            $this->rental->setApiPendingAutoSuspendAfter(null);
-
             $EventsQHelper->addToEventQ(
                 "RentalRenew",
                 $this->package,
@@ -227,8 +205,8 @@ class Renewnow extends SecondlifeAjax
 
     protected function saveRental(): bool
     {
-        if ($this->rental->updateEntry()["status"] == false) {
-            $this->setSwapTag("message", "Unable to update rental");
+        if ($this->rental->updateEntry()->status == false) {
+            $this->failed("Unable to update rental");
             return false;
         }
         return true;
@@ -237,87 +215,64 @@ class Renewnow extends SecondlifeAjax
     protected function processResellerCut(): bool
     {
         $this->setSwapTag("owner_payment", 0);
-        if ($this->owner_override == false) {
-            $avatar_system = new Avatar();
-            if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
-                $this->setSwapTag("message", "Unable to find system owner avatar");
-                return false;
-            }
-            $left_over = $this->amountpaid;
-            if ($this->reseller->getRate() > 0) {
-                $one_p = $this->amountpaid / 100;
-                $reseller_cut = floor($one_p * $this->reseller->getRate());
-                $left_over = $this->amountpaid - $reseller_cut;
-                if ($reseller_cut < 1) {
-                    if ($left_over >= 2) {
-                        $left_over--;
-                        $reseller_cut++;
-                    }
+        if ($this->owner_override == true) {
+            return true;
+        }
+        $avatar_system = new Avatar();
+        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
+            $this->failed("Unable to find system owner avatar");
+            return false;
+        }
+        $left_over = $this->amountpaid;
+        if ($this->reseller->getRate() > 0) {
+            $one_p = $this->amountpaid / 100;
+            $reseller_cut = floor($one_p * $this->reseller->getRate());
+            $left_over = $this->amountpaid - $reseller_cut;
+            if ($reseller_cut < 1) {
+                if ($left_over >= 2) {
+                    $left_over--;
+                    $reseller_cut++;
                 }
             }
-            $this->setSwapTag("owner_payment", 1);
-            $this->setSwapTag("owner_payment_amount", $left_over);
-            $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
+        $this->setSwapTag("owner_payment", 1);
+        $this->setSwapTag("owner_payment_amount", $left_over);
+        $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         return true;
     }
 
     protected function userMessage(): void
     {
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Payment on account but account is still in arrears");
         if ($this->rental->getExpireUnixtime() < time()) {
+            $this->ok("Payment on account but account is still in arrears");
             return;
         }
-        $this->apiProcess();
-        $this->setSwapTag(
-            "message",
+        $this->ok(
             sprintf(
                 "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
-                timeleftHoursAndDays($this->rental->getExpireUnixtime()),
+                $this->timeRemainingHumanReadable($this->rental->getExpireUnixtime()),
                 date('l jS \of F Y h:i:s A', $this->rental->getExpireUnixtime())
             )
         );
-    }
-
-    protected function apiProcess(): void
-    {
-        $this->setSwapTag("status", false);
-        $apilogic = new ApiLogicRenew();
-        $apilogic->setStream($this->stream);
-        $apilogic->setRental($this->rental);
-        $reply = $apilogic->createNextApiRequest();
-        if ($reply["status"] == false) {
-            $this->setSwapTag("message", "API server logic has failed on ApiLogicRenew: " . $reply["message"]);
-            return;
-        }
-        $this->setSwapTag("status", true);
     }
 
     protected function startRenewal(?Avatar $forceMatchAv = null, ?string $sltransactionUUID = null): void
     {
         if ($this->load($forceMatchAv) == false) {
             return;
-        }
-        if ($this->acceptPaymentAmount() == false) {
+        } elseif ($this->acceptPaymentAmount() == false) {
+            return;
+        } elseif ($this->startTransaction() == false) {
             return;
         }
-        if ($this->startTransaction() == false) {
-            return;
-        }
-
         $this->setUpdatedRentalDetails();
-
         if ($this->saveRental() == false) {
             return;
-        }
-        if ($this->finalizeTransaction($sltransactionUUID) == false) {
+        } elseif ($this->finalizeTransaction($sltransactionUUID) == false) {
+            return;
+        } elseif ($this->processResellerCut() == false) {
             return;
         }
-        if ($this->processResellerCut() == false) {
-            return;
-        }
-
         $this->userMessage();
     }
 

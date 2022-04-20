@@ -2,6 +2,7 @@
 
 namespace App\Template;
 
+use App\Config;
 use App\Helpers\AvatarHelper;
 use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
@@ -10,8 +11,10 @@ use App\Models\Avatar;
 use App\Models\Objects;
 use App\Models\Region;
 use App\Models\Reseller;
+use YAPF\Bootstrap\Template\ViewAjax as TemplateViewAjax;
+use YAPF\InputFilter\InputFilter;
 
-abstract class SecondlifeAjax extends View
+abstract class SecondlifeAjax extends TemplateViewAjax
 {
     protected bool $trackObject = true;
     protected $method = "";
@@ -36,6 +39,8 @@ abstract class SecondlifeAjax extends View
     protected bool $owner_override = false;
     protected ?Objects $object;
     protected bool $soft_fail = false;
+    protected InputFilter $input;
+    protected Config $siteConfig;
 
     public function setReseller(Reseller $reseller): void
     {
@@ -61,6 +66,9 @@ abstract class SecondlifeAjax extends View
     public function __construct(bool $AutoLoadTemplate = false)
     {
         parent::__construct($AutoLoadTemplate);
+        global $system;
+        $this->siteConfig = $system;
+        $this->input = new InputFilter();
         $this->requiredValues();
         $this->timeWindow();
         $this->hashCheck();
@@ -69,7 +77,6 @@ abstract class SecondlifeAjax extends View
             return;
         }
         $this->failed("ready");
-        $this->output->tempateSecondLifeAjax();
     }
 
     protected function requiredValues(): void
@@ -78,38 +85,39 @@ abstract class SecondlifeAjax extends View
             return;
         }
         $required_sl = [
-            "method",
-            "action",
-            "mode",
-            "objectuuid",
-            "regionname",
-            "ownerkey",
-            "ownername",
-            "pos",
-            "objectname",
-            "objecttype",
+            "method" => "s",
+            "action" => "s",
+            "mode" => "s",
+            "objectuuid" => "k",
+            "regionname" => "s",
+            "ownerkey" => "k",
+            "ownername" => "s",
+            "pos" => "s",
+            "objectname" => "s",
+            "objecttype" => "s",
         ];
 
-
-        $this->staticpart = "";
-        foreach ($required_sl as $slvalue) {
-            $value = $this->post($slvalue);
+        foreach ($required_sl as $fieldname => $typematch) {
+            $value = $this->input->post($fieldname)->checkStringLengthMin(1)->asString();
+            if ($typematch == "k") {
+                $value = $this->input->post($fieldname)->isUuid()->asString();
+            }
             if ($value !== null) {
-                $this->$slvalue = $value;
-                $this->staticpart .= $value;
-            } else {
                 $this->load_ok = false;
-                $this->failed("Value: " . $slvalue . " is missing");
+                $this->failed("Value: " . $fieldname . " is missing");
                 return;
             }
+            $this->$fieldname = $value;
+            $this->staticpart .= $value;
         }
-        $this->unixtime = $this->post("unixtime");
+
+        $this->unixtime = $this->input->post("unixtime")->asInt();
         if ($this->unixtime === null) {
             $this->failed("Missing unixtime value");
             $this->load_ok = false;
             return;
         }
-        $this->hash = $this->post("hash");
+        $this->hash = $this->input->post("hash")->asString();
         if ($this->hash === null) {
             $this->load_ok = false;
             $this->failed("Missing hash value");
@@ -213,10 +221,5 @@ abstract class SecondlifeAjax extends View
             $this->failed("timewindow is out of scope");
             return;
         }
-    }
-
-    public function renderPage(): void
-    {
-        $this->output->renderSecondlifeAjax();
     }
 }

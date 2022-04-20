@@ -5,22 +5,20 @@ namespace App\Endpoint\SecondLifeApi\Texturepack;
 use App\Models\Textureconfig;
 use App\Template\SecondlifeAjax;
 
-class Getpack extends SecondlifeAjax
+class GetPack extends SecondlifeAjax
 {
     public function process(): void
     {
-
-        $texturepack = $this->post("texturepack", "integer");
+        $texturepack = $this->input->post("texturepack")->asInt();
         if ($texturepack < 1) {
-            $this->setSwapTag("message", "Invaild texturepack id (or non sent)");
+            $this->failed("Invaild texturepack id (or non sent)");
             return;
         }
         $textureconfig = new Textureconfig();
         if ($textureconfig->loadID($texturepack) == false) {
-            $this->setSwapTag("message", "Unable to load texture pack");
+            $this->failed("Unable to load texture pack");
             return;
         }
-        $this->setSwapTag("status", true);
         $this->setSwapTag("Texture-Offline", $textureconfig->getOffline());
         $this->setSwapTag("Texture-WaitOwner", $textureconfig->getWaitOwner());
         $this->setSwapTag("Texture-GettingDetails", $textureconfig->getGettingDetails());
@@ -32,7 +30,7 @@ class Getpack extends SecondlifeAjax
         $this->setSwapTag("Texture-ProxyRenew", $textureconfig->getProxyRenew());
         $this->setSwapTag("reseller_rate", 100);
         $this->setSwapTag("reseller_mode", "Owner mode");
-        $this->setSwapTag("message", "ok");
+        $this->ok("ok");
         // reseller config (send anyway even if not wanted)
         if ($this->owner_override == false) {
             $this->setSwapTag("reseller_rate", $this->reseller->getRate());

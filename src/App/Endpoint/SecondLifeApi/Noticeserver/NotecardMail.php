@@ -13,7 +13,7 @@ class NotecardMail extends SecondlifeAjax
     {
         $this->setSwapTag("recheck", false);
         $notecardmailSet = new NotecardmailSet();
-        $notecardmailSet->loadNewest(1, [], [], "id", "ASC");
+        $notecardmailSet->loadNewest(limit:1, orderDirection:"ASC");
         if ($notecardmailSet->getCount() == 0) {
             $this->setSwapTag("status", true);
             $this->setSwapTag("message", "nowork");

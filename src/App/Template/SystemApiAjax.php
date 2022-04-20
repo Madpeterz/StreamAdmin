@@ -2,6 +2,8 @@
 
 namespace App\Template;
 
+use YAPF\Bootstrap\Template\ViewAjax;
+
 abstract class SystemApiAjax extends ViewAjax
 {
     protected $unixtime = 0;
@@ -25,7 +27,6 @@ abstract class SystemApiAjax extends ViewAjax
             return;
         }
         $this->failed("ready");
-        $this->output->tempateSecondLifeAjax();
     }
     protected function hashok(): void
     {
@@ -79,21 +80,22 @@ abstract class SystemApiAjax extends ViewAjax
             return;
         }
         $required_values = [
-            "unixtime",
-            "token",
-            "method",
-            "action",
+            "unixtime" => "i",
+            "token" => "s",
+            "method" => "s",
+            "action" => "s",
         ];
-
-        $this->staticpart = "";
-        foreach ($required_values as $slvalue) {
-            $value = $this->post($slvalue);
-            if ($value === null) {
+        foreach ($required_values as $fieldname => $typematch) {
+            $value = $this->input->post($fieldname)->checkStringLengthMin(1)->asString();
+            if ($typematch == "i") {
+                $value = $this->input->post($fieldname)->asInt();
+            }
+            if ($value !== null) {
                 $this->load_ok = false;
-                $this->failed("Value: " . $slvalue . " is missing");
+                $this->failed("Value: " . $fieldname . " is missing");
                 return;
             }
-            $this->$slvalue = $value;
+            $this->$fieldname = $value;
             $this->staticpart .= $value;
         }
     }

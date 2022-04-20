@@ -2,20 +2,18 @@
 
 namespace App\Endpoint\SecondLifeApi\Buy;
 
-use App\Models\Sets\ApirequestsSet;
 use App\Models\Package;
-use App\Models\Stream;
+use App\Models\Sets\StreamSet;
 use App\Models\Textureconfig;
 use App\Template\SecondlifeAjax;
 
-class Getconfig extends SecondlifeAjax
+class GetConfig extends SecondlifeAjax
 {
     public function process(): void
     {
-
-        $packageuid = $this->post("packageuid");
-        $texturepack = $this->post("texturepack", "integer");
-        if ($texturepack <= 0) {
+        $packageuid = $this->input->post("packageuid")->asString();
+        $texturepack = $this->input->post("texturepack")->checkGrtThanEq(1)->asInt();
+        if ($texturepack == null) {
             $this->setSwapTag("message", "Invaild texturepack");
             return;
         }
@@ -29,34 +27,22 @@ class Getconfig extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load package");
             return;
         }
-        // $reseller, $Object_OwnerAvatar, $owner_override, $region, $object
-        $apirequests_set = new ApirequestsSet();
-        $apirequests_set->loadAll();
-        $used_stream_ids = $apirequests_set->getUniqueArray("streamLink");
-        // package_instock,
-        $stream = new Stream();
         $whereconfig = [
             "fields" => ["rentalLink","packageLink","needWork"],
             "matches" => ["IS","=","="],
             "values" => [null,$package->getId(),0],
             "types" => ["i","i","i"],
         ];
-        if (count($used_stream_ids) > 0) {
-            $whereconfig["fields"][] = "id";
-            $whereconfig["matches"][] = "NOT IN";
-            $whereconfig["values"][] = $used_stream_ids;
-            $whereconfig["types"][] = "i";
-        }
-        $count_data = $this->siteConfig->getSQL()->basicCountV2($stream->getTable(), $whereconfig);
-        if ($count_data["status"] == false) {
+        $streamSet = new StreamSet();
+        $count_data = $streamSet->countInDB($whereconfig);
+        if ($count_data === null) {
             $this->setSwapTag("message", "Unable to check if package is in stock");
             return;
         }
-
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("package_instock", false);
-        if ($count_data["count"] > 0) {
+        if ($count_data > 0) {
             $this->setSwapTag("package_instock", true);
         }
         $this->setSwapTag("Texture-Offline", $textureconfig->getOffline());

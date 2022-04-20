@@ -8,6 +8,7 @@ use App\Models\Sets\NoticenotecardSet;
 use App\Models\Sets\NoticeSet;
 use App\Models\Sets\PackageSet;
 use App\Template\SecondlifeAjax;
+use YAPF\Framework\Responses\DbObjects\SetsLoadReply;
 
 class UpdateNotecards extends SecondlifeAjax
 {
@@ -20,8 +21,8 @@ class UpdateNotecards extends SecondlifeAjax
             "matches" => ["!="],
         ];
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadWithConfig($where_config) == false) {
-            $this->setSwapTag("message", "Unable to load notice notecard set [p1]");
+        if ($noticenotecardset->loadWithConfig($where_config)->status == false) {
+            $this->failed("Unable to load notice notecard set [p1]");
             return false;
         }
         $missing_ids = [];
@@ -35,13 +36,14 @@ class UpdateNotecards extends SecondlifeAjax
             return true;
         }
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadByValues($missing_ids) == false) {
-            $this->setSwapTag("message", "Unable to load notice notecard set [p2]");
+        if ($noticenotecardset->loadFromIds($missing_ids)->status == false) {
+            $this->failed("Unable to load notice notecard set [p2]");
             return false;
         }
         $status = $noticenotecardset->updateFieldInCollection("missing", 1);
-        if ($status["status"] == false) {
-            $this->setSwapTag("message", $status["message"]);
+        if ($status->status == false) {
+            $this->failed($status["message"]);
+            return false;
         }
         return true;
     }
@@ -58,7 +60,7 @@ class UpdateNotecards extends SecondlifeAjax
             $this->setSwapTag("message", "Unable to load notice notecard set [p1]");
             return false;
         }
-        $known_notecard_names = $noticenotecardset->getUniqueArray("name");
+        $known_notecard_names = $noticenotecardset->uniqueNames();
         foreach ($active_notecards as $new_notecard) {
             if ($new_notecard != "none") {
                 if (in_array($new_notecard, $known_notecard_names) == false) {
@@ -99,7 +101,7 @@ class UpdateNotecards extends SecondlifeAjax
             return true;
         }
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadByValues($found_ids) == false) {
+        if ($noticenotecardset->loadFromIds($found_ids) == false) {
             $this->setSwapTag("message", "Unable to load notice notecard set [p2]");
             return false;
         }
@@ -121,8 +123,8 @@ class UpdateNotecards extends SecondlifeAjax
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $used_notecard_ids = array_merge(
-            $notice_set->getUniqueArray("noticeNotecardLink"),
-            $noticenotecardset->getUniqueArray("noticenotecardLink")
+            $notice_set->uniqueNoticeNotecardLinks(),
+            $noticenotecardset->uniqueNoticenotecardLinks()
         );
 
         $where_config = [
@@ -157,16 +159,14 @@ class UpdateNotecards extends SecondlifeAjax
             ];
         }
 
-        if ($this->unlinkPackages("welcomeNotecardLink", $purge_ids) == false) {
-            error_log($this->getLastError());
+        if ($this->unlinkPackages(false, $purge_ids) == false) {
             return [
                 "status" => false,
                 "removed_entrys" => 0,
                 "message" => "Unable to unlink notecards from package [Stage1]",
             ];
         }
-        if ($this->unlinkPackages("setupNotecardLink", $purge_ids) == false) {
-            error_log($this->getLastError());
+        if ($this->unlinkPackages(true, $purge_ids) == false) {
             return [
                 "status" => false,
                 "removed_entrys" => 0,
@@ -175,7 +175,7 @@ class UpdateNotecards extends SecondlifeAjax
         }
 
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadByValues($purge_ids) == false) {
+        if ($noticenotecardset->loadFromIds($purge_ids)->status == false) {
             return ["status" => false,"removed_entrys" => 0];
         }
         if ($noticenotecardset->getCount() == 0) {
@@ -197,18 +197,25 @@ class UpdateNotecards extends SecondlifeAjax
 
         return $reply;
     }
-    protected function unlinkPackages(string $onfield, array $ids): bool
+    protected function unlinkPackages(bool $useOtherField, array $ids): bool
     {
         $packageSet_welcome = new PackageSet();
-        $reply = $packageSet_welcome->loadByValues($ids, $onfield);
-        if ($reply["status"] == false) {
-            $this->addError(__FILE__, __FUNCTION__, "Load:" . $reply["message"]);
+        $reply = new SetsLoadReply("not processed");
+        $onfield = "welcomeNotecardLink";
+        if ($useOtherField == false) {
+            $reply = $packageSet_welcome->loadFromWelcomeNotecardLinks($ids);
+        } elseif ($useOtherField == true) {
+            $reply = $packageSet_welcome->loadFromSetupNotecardLinks($ids);
+            $onfield = "setupNotecardLink";
+        }
+        if ($reply->status == false) {
+            $this->addError("Load:" . $reply["message"]);
             return false;
         }
         if ($packageSet_welcome->getCount() > 0) {
             $reply = $packageSet_welcome->updateFieldInCollection($onfield, 1);
             if ($reply["status"] == false) {
-                $this->addError(__FILE__, __FUNCTION__, "Update:" . $reply["message"]);
+                $this->addError("Update:" . $reply["message"]);
                 return false;
             }
         }
@@ -216,8 +223,7 @@ class UpdateNotecards extends SecondlifeAjax
     }
     public function process(): void
     {
-
-        $notecards = $this->post("notecards");
+        $notecards = $this->input->post("notecards")->asString();
         $notecardsList = explode(",", $notecards);
         if ($this->markFound($notecardsList) == false) {
             return;

@@ -4,10 +4,7 @@ namespace App\Endpoint\SecondLifeApi\Noticeserver;
 
 use App\Helpers\BotHelper;
 use App\Helpers\EventsQHelper;
-use App\Helpers\NoticesHelper;
 use App\Helpers\SwapablesHelper;
-use App\MediaServer\Logic\ApiLogicExpire;
-use App\Models\Apis;
 use App\Models\Avatar;
 use App\Models\Notecard;
 use App\Models\Notice;
@@ -25,9 +22,8 @@ class Next extends SecondlifeAjax
 {
     public function process(): void
     {
-        global $unixtime_hour;
         if ($this->owner_override == false) {
-            $this->setSwapTag("message", "SystemAPI access only - please contact support");
+            $this->failed("SystemAPI access only - please contact support");
             return;
         }
 
@@ -38,7 +34,7 @@ class Next extends SecondlifeAjax
         $sorted_linked = $notice_set->getLinkedArray("hoursRemaining", "id");
         ksort($sorted_linked, SORT_NUMERIC);
         $max_hours = array_keys($sorted_linked)[count($sorted_linked) - 2]; // ignore 999 hours at the end for active
-        $unixtime = $max_hours * $unixtime_hour;
+        $unixtime = $max_hours * $this->siteConfig->unixtimeHour();
         $expired_notice = $notice_set->getObjectByField("hoursRemaining", 0);
 
         $where_config = [
@@ -58,8 +54,7 @@ class Next extends SecondlifeAjax
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "nowork");
 
-        foreach ($rental_set->getAllIds() as $id) {
-            $rental = $rental_set->getObjectByID($id);
+        foreach ($rental_set as $rental) {
             $stop = $this->continueProcess(
                 $rental,
                 $expired_notice,
@@ -78,18 +73,10 @@ class Next extends SecondlifeAjax
         NoticeSet $notice_set,
         array $sorted_linked
     ): bool {
-        global $unixtime_hour;
-        $server = new Server();
-        $apis = new Apis();
-        $package = new Package();
-        $stream = new Stream();
-        $avatar = new Avatar();
-
-        $avatar->loadID($rental->getAvatarLink());
-        $stream->loadID($rental->getStreamLink());
-        $server->loadID($stream->getServerLink());
-        $package->loadID($stream->getPackageLink());
-        $apis->loadID($server->getApiLink());
+        $package = $rental->relatedPackage()->getFirst();
+        $stream = $rental->relatedStream()->getFirst();
+        $server = $stream->relatedServer()->getFirst();
+        $avatar = $rental->relatedAvatar()->getFirst();
 
         if ($rental->getExpireUnixtime() < time()) {
             $this->processNoticeChange(
@@ -103,7 +90,7 @@ class Next extends SecondlifeAjax
             return true;
         }
 
-        $hours_remain = ceil(($rental->getExpireUnixtime() - time()) / $unixtime_hour);
+        $hours_remain = ceil(($rental->getExpireUnixtime() - time()) / $this->siteConfig->unixtimeHour());
         if ($hours_remain < 0) {
             $this->failed("Math error - negitive hours remaining but not expired");
             return false;
@@ -188,75 +175,35 @@ class Next extends SecondlifeAjax
         if ($notice->getHoursRemaining() == 0) {
             $EventsQHelper = new EventsQHelper();
             $EventsQHelper->addToEventQ("RentalExpire", $package, $avatar, $server, $stream, $rental);
-
-            $selectedApi = new Apis();
-            $selectedApi->loadID($server->getApiLink());
-            if ($selectedApi->isLoaded() == false) {
-                $this->failed("Unable to load API");
-                return;
-            }
-            if (
-                ($selectedApi->getEventDisableExpire() == true) &&
-                ($server->getEventDisableExpire() == true) &&
-                ($package->getApiAllowAutoSuspend() == true) &&
-                ($rental->getApiAllowAutoSuspend() == true)
-            ) {
-                if ($package->getApiAutoSuspendDelayHours() == 0) {
-                    $rental->setApiSuspended(true);
-                    $rental->setApiPendingAutoSuspend(false);
-                    $rental->setApiPendingAutoSuspendAfter(time());
-                    $apilogic = new ApiLogicExpire();
-                    $apilogic->setStream($stream);
-                    $apilogic->setServer($server);
-                    $apilogic->setRental($rental);
-                    $reply = $apilogic->createNextApiRequest();
-                    if ($reply["status"] == false) {
-                        $this->failed("API server logic has failed on ApiLogicExpire: " . $reply["message"]);
-                        return;
-                    }
-                }
-                if ($package->getApiAutoSuspendDelayHours() > 0) {
-                    $rental->setApiSuspended(false);
-                    $rental->setApiPendingAutoSuspend(true);
-                    $rental->setApiPendingAutoSuspendAfter(time() +
-                        ((60 * 60) * $package->getApiAutoSuspendDelayHours()));
-                }
-                $save_status = $rental->updateEntry();
-                if ($save_status["status"] == false) {
-                    $this->failed("Unable to update rental API auto suspend config");
+        }
+        $this->ok("ok");
+        if ($skipNotice == true) {
+            return;
+        }
+        if ($notice->getSendNotecard() == true) {
+            if ($bot_helper->getNotecards() == true) {
+                $notecard = new Notecard();
+                $notecard->setRentalLink($rental->getId());
+                $notecard->setAsNotice(1);
+                $notecard->setNoticeLink($notice->getId());
+                $create_status = $notecard->createEntry();
+                if ($create_status["status"] == false) {
+                    $this->failed("Unable to create new notecard");
                     return;
                 }
             }
         }
-        $this->ok("ok");
-        if ($skipNotice == false) {
-            if ($notice->getSendNotecard() == true) {
-                if ($bot_helper->getNotecards() == true) {
-                    $notecard = new Notecard();
-                    $notecard->setRentalLink($rental->getId());
-                    $notecard->setAsNotice(1);
-                    $notecard->setNoticeLink($notice->getId());
-                    $create_status = $notecard->createEntry();
-                    if ($create_status["status"] == false) {
-                        $this->failed("Unable to create new notecard");
-                        return;
-                    }
-                }
-            }
-            if ($notice->getNoticeNotecardLink() <= 1) {
-                return;
-            }
-            $notice_notecard = new Noticenotecard();
-            if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
-                $this->failed("Unable to find static notecard!");
-                return;
-            }
-            if ($notice_notecard->getMissing() == false) {
-                $this->setSwapTag("send_static_notecard", $notice_notecard->getName());
-                $this->setSwapTag("send_static_notecard_to", $avatar->getAvatarUUID());
-            }
+        if ($notice->getNoticeNotecardLink() <= 1) {
+            return;
         }
-
-        return;
+            $notice_notecard = new Noticenotecard();
+        if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
+            $this->failed("Unable to find static notecard!");
+            return;
+        }
+        if ($notice_notecard->getMissing() == false) {
+            $this->setSwapTag("send_static_notecard", $notice_notecard->getName());
+            $this->setSwapTag("send_static_notecard_to", $avatar->getAvatarUUID());
+        }
     }
 }

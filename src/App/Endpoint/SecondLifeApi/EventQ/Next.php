@@ -9,29 +9,26 @@ class Next extends SecondlifeAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("hasmessage", 0);
+        $this->setSwapTag("hasmessage", false);
         if ($this->owner_override == false) {
-            $this->setSwapTag("message", "SystemAPI access only - please contact support");
+            $this->failed("SystemAPI access only - please contact support");
             return;
         }
         $eventqset = new EventsqSet();
-        $eventqset->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
+        $eventqset->loadNewest(limit:1, orderDirection:"ASC");
         if ($eventqset->getCount() == 0) {
-            $this->setSwapTag("status", true);
-            $this->setSwapTag("message", "nowork");
+            $this->ok("nowork");
             return;
         }
         $eventq = $eventqset->getFirst();
-
-        $remove_status = $eventq->removeEntry();
-        if ($remove_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to remove event from the q");
-            return;
-        }
         $this->setSwapTag("hasmessage", true);
-        $this->setSwapTag("message", "ok");
         $this->setSwapTag("eventName", $eventq->getEventName());
         $this->setSwapTag("eventMessage", $eventq->getEventMessage());
-        $this->setSwapTag("status", true);
+        if ($eventq->removeEntry()->status == false) {
+            $this->setSwapTag("hasmessage", false);
+            $this->failed("Unable to remove event from the q");
+            return;
+        }
+        $this->ok("ok");
     }
 }

@@ -4,10 +4,6 @@ namespace App;
 
 use App\Switchboard\Hud;
 
-if (defined("ROOTFOLDER") == true) {
-    include ROOTFOLDER . "/App/Framework/load.php";
-} else {
-    include "../App/Framework/load.php";
-}
-
+include "../../vendor/autoload.php";
+$system = new Config();
 new Hud();

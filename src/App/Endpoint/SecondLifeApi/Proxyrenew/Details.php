@@ -4,46 +4,36 @@ namespace App\Endpoint\SecondLifeApi\ProxyRenew;
 
 use App\Endpoint\SecondLifeApi\Renew\Details as RenewDetails;
 use App\Models\Avatar;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\StreamSet;
 use App\Template\SecondlifeAjax;
+use YAPF\Framework\Responses\DbObjects\SingleLoadReply;
 
 class Details extends SecondlifeAjax
 {
     public function process(): void
     {
-
-        $targetuid = $this->post("targetuid");
+        $this->setSwapTag("dataset_count", 0);
+        $targetuid = $this->input->post("targetuid")->checkStringLengthMin(3)->asString();
         $avatar = new Avatar();
-
         if ($targetuid == null) {
-            $this->setSwapTag("message", "Unable to find avatar");
+            $this->failed("Unable to find avatar");
             return;
         }
 
         $bits = explode(" ", $targetuid);
-        $load_status = false;
-        $matchWith = "None";
+        $load_status = new SingleLoadReply("not processed");
         if (count($bits) == 2) {
-            $matchWith = "Name";
             $firstname = $bits[0];
             $lastname = $bits[1];
             $targetuid = "" . $firstname . " " . $lastname . "";
-            $load_status = $avatar->loadByField("avatarName", $targetuid);
+            $load_status = $avatar->loadByAvatarName($targetuid);
         } elseif (strlen($targetuid) == 36) {
-            $matchWith = "UUID";
-            $load_status = $avatar->loadByField("avatarUUID", $targetuid);
-        } else {
-            $this->setSwapTag("message", "UUID or Firstname Lastname must be given");
+            $load_status = $avatar->loadByAvatarUUID($targetuid);
+        }
+        if ($load_status->status == false) {
+            $this->failed("Unable to find avatar!");
             return;
         }
 
-        $this->setSwapTag("dataset_count", 0);
-        if ($load_status == false) {
-            $this->setSwapTag("status", true);
-            $this->setSwapTag("message", "Unable to find avatar! attempted to match with: " . $matchWith);
-            return;
-        }
         $Details = new RenewDetails();
         $Details->getRentalDetailsForAvatar($avatar);
         $this->output = $Details->getOutputObject();

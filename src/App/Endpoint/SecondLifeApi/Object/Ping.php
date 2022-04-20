@@ -8,7 +8,6 @@ class Ping extends SecondlifeAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "pong");
+        $this->ok("pong");
     }
 }

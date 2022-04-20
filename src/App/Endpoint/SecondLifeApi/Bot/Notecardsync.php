@@ -3,11 +3,11 @@
 namespace App\Endpoint\SecondLifeApi\Bot;
 
 use App\Helpers\BotHelper;
-use App\Models\Botcommandq as ModelBotcommandq;
-use App\Models\Notecard;
+use App\Models\Botcommandq;
+use App\Models\Sets\NotecardSet;
 use App\Template\SecondlifeAjax;
 
-class Notecardsync extends SecondlifeAjax
+class NotecardSync extends SecondlifeAjax
 {
     public function process(): void
     {
@@ -23,39 +23,33 @@ class Notecardsync extends SecondlifeAjax
             return;
         }
         $this->setSwapTag("haserrormessage", false);
-        $len = strlen($this->siteConfig->getSlConfig()->getHttpInboundSecret());
-        if ($len < 5) {
-            $this->setSwapTag("status", true);
-            $this->setSwapTag("haserrormessage", true);
-            $this->setSwapTag("message", "httpcode is to short - unable to continue");
-            return;
-        } elseif ($len > 30) {
-            $this->setSwapTag("status", true);
-            $this->setSwapTag("haserrormessage", true);
-            $this->setSwapTag("message", "httpcode is to long - unable to continue");
+        $checks = $this->input->varInput(
+            $this->siteConfig->getSlConfig()->getHttpInboundSecret()
+        )->checkStringLength(5, 30)->asString();
+        if ($checks == $this->siteConfig->getSlConfig()->getHttpInboundSecret()) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
 
-
-        $notecard = new Notecard();
+        $notecardSet = new NotecardSet();
         $whereConfig = [
             "fields" => ["id"],
             "values" => [0],
             "types" => ["i"],
             "matches" => [">"],
         ];
-        $count_data = $this->siteConfig->getSQL()->basicCountV2($notecard->getTable(), $whereConfig);
-        if ($count_data["status"] == false) {
-            $this->failed("Unable to fetch next notecard");
+        $count_data = $notecardSet->countInDB($whereConfig);
+        if ($count_data === null) {
+            $this->failed("Unable to check if there are any notecards to send");
             return;
         }
 
-        if ($count_data["count"] == 0) {
+        if ($count_data == 0) {
             $this->ok("nowork");
             return;
         }
 
-        $BotcommandQ = new ModelBotcommandq();
+        $BotcommandQ = new Botcommandq();
         if ($BotcommandQ->loadByCommand("FetchNextNotecard") == true) {
             $this->ok("nowork");
             return;
@@ -67,9 +61,10 @@ class Notecardsync extends SecondlifeAjax
             $this->failed("Unable to load bot UUID");
             return;
         }
-
-        global $template_parts;
-        $reply = $bot_helper->sendBotNextNotecard($this->siteConfig->getSiteURL(), $this->siteConfig->getSlConfig()->getHttpInboundSecret());
+        $reply = $bot_helper->sendBotNextNotecard(
+            $this->siteConfig->getSiteURL(),
+            $this->siteConfig->getSlConfig()->getHttpInboundSecret()
+        );
         if ($reply == false) {
             $this->failed("Unable to add fetch next notecard to bot Q");
             return;

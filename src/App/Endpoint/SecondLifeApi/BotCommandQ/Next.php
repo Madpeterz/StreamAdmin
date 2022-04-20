@@ -72,7 +72,7 @@ class Next extends SecondlifeAjax
             return;
         }
         $botcommandQset = new BotcommandqSet();
-        $loadStatus = $botcommandQset->loadNewest(1, [], [], "id", "ASC"); // load oldest
+        $loadStatus = $botcommandQset->loadNewest(limit:1, orderDirection:"ASC"); // load oldest
         if ($loadStatus["status"] == false) {
             $this->failed("Unable to load command Q");
             return;

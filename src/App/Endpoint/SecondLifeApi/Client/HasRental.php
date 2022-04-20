@@ -10,8 +10,7 @@ class HasRental extends SecondlifeAjax
 {
     public function process(): void
     {
-
-        $avUUID = $this->post("checkinguuid");
+        $avUUID = $this->input->post("checkinguuid")->isUuid()->asString();
         if ($avUUID === null) {
             $this->ok("No UUID");
             return;
@@ -19,7 +18,7 @@ class HasRental extends SecondlifeAjax
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($avUUID);
         if ($avatar->isLoaded() == false) {
-            $this->ok("No avatar");
+            $this->ok("Unknown user");
             return;
         }
         $rentalSet = new RentalSet();

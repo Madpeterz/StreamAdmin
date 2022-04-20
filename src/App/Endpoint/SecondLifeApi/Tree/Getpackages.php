@@ -2,14 +2,13 @@
 
 namespace App\Endpoint\SecondLifeApi\Tree;
 
-use App\Models\Sets\PackageSet;
 use App\Models\Treevender;
 use App\Models\Sets\ServertypesSet;
 use App\Models\Sets\StreamSet;
 use App\Models\Sets\TreevenderpackagesSet;
 use App\Template\SecondlifeAjax;
 
-class Getpackages extends SecondlifeAjax
+class GetPackages extends SecondlifeAjax
 {
     protected function valueOrZero(?string $value): string
     {
@@ -18,33 +17,35 @@ class Getpackages extends SecondlifeAjax
         }
         return "0";
     }
-    public function processWithTreevenderID($tree_vender_id, bool $disableSoldoutChecks = true): void
+    public function processWithTreevenderID(int $tree_vender_id, bool $disableSoldoutChecks = true): void
     {
         $treevender = new Treevender();
         if ($treevender->loadID($tree_vender_id) == false) {
-            $this->setSwapTag("message", "Unable to load selected tree vender");
+            $this->failed("Unable to load selected tree vender");
             return;
         }
         $this->setSwapTag("textureInuse", $treevender->getTextureInuse());
         $this->setSwapTag("textureWaiting", $treevender->getTextureWaiting());
 
         $treevender_packages_set = new TreevenderpackagesSet();
-        $load_status = $treevender_packages_set->loadOnField("treevenderLink", $treevender->getId());
-        if ($load_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to load tree vender packages");
+        $load_status = $treevender_packages_set->loadByTreevenderLink($treevender->getId());
+        if ($load_status->status == false) {
+            $this->failed("Unable to load tree vender packages");
             return;
         }
-        $package_set = new PackageSet();
-        $load_status = $package_set->loadByValues($treevender_packages_set->getUniqueArray("packageLink"));
-        if ($load_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to load packages");
+        if ($treevender_packages_set->getCount() == 0) {
+            $this->failed("No packages assigned to tree vender");
+            return;
+        }
+        $package_set = $treevender_packages_set->relatedPackage();
+        if ($package_set->getCount() != $treevender_packages_set->getCount()) {
+            $this->failed("Incorrect number of packages loaded");
             return;
         }
         $servertypes_set = new ServertypesSet();
         $servertypes_set->loadAll();
+        $this->ok("ok");
 
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "ok");
         $reply = [];
         $reply["packageUid"] = [];
         $reply["package_autodj"] = [];
@@ -112,31 +113,26 @@ class Getpackages extends SecondlifeAjax
     public function process(): void
     {
 
-        $tree_vender_id = $this->post("tree_vender_id", "integer");
-        if ($tree_vender_id < 1) {
-            $this->setSwapTag("message", "Invaild tree vender id given or none sent!");
+        $tree_vender_id = $this->input->post("tree_vender_id")->checkGrtThanEq(1)->asInt();
+        if ($tree_vender_id === null) {
+            $this->failed("Invaild tree vender id given or none sent!");
             return;
         }
         $this->processWithTreevenderID($tree_vender_id, false);
     }
     protected function smeup(int $input): string
     {
-        if ($input > 1) {
-            if ($input == 7) {
-                return "One week";
-            } elseif ($input == 14) {
-                return "Two week's";
-            } elseif ($input == 21) {
-                return "Three week's";
-            } elseif ($input == 28) {
-                return "Four week's";
-            } elseif ($input == 31) {
-                return "Monthly";
-            } elseif ($input == 30) {
-                return "Monthly";
-            }
-            return $input . " day's";
+        $values = [
+            1 => "24 hours",
+            7 => "One week",
+            14 => "Two week's",
+            28 => "Four week's",
+            31 => "Monthly",
+            30 => "Monthly",
+        ];
+        if (in_array($input, $values) == true) {
+            return $values[$input];
         }
-        return "24 hours";
+        return $input . " day's";
     }
 }
