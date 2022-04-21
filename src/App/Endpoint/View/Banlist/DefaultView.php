@@ -6,7 +6,6 @@ use App\Models\Sets\AvatarSet;
 use App\Models\Sets\BanlistSet;
 use YAPF\Bootstrap\Template\Form as Form;
 use YAPF\Bootstrap\Template\Grid;
-use YAPF\InputFilter\InputFilter as InputFilter;
 
 class DefaultView extends View
 {
@@ -18,8 +17,8 @@ class DefaultView extends View
         }
         $match_with = "newest";
 
-        $name = $input->getFilter("name");
-        $uuid = $input->getFilter("uuid");
+        $name = $this->input->get("name")->asString();
+        $uuid = $this->input->get("uuid")->asString();
         $wherefields = [];
         $wherevalues = [];
         $wheretypes = [];
@@ -41,7 +40,7 @@ class DefaultView extends View
         $avatar_set = new AvatarSet();
         if ($match_with == "newest") {
             $banlist_set->loadNewest(30);
-            $avatar_set->loadByValues($banlist_set->getUniqueArray("avatarLink"));
+            $avatar_set = $banlist_set->relatedAvatar();
             $this->output->addSwapTagString("page_title", " Newest 30 avatars banned");
         } else {
             $where_config = [
@@ -56,7 +55,7 @@ class DefaultView extends View
             } else {
                 $this->output->addSwapTagString("page_title", "UUID: " . $uuid);
             }
-            $banlist_set->loadByValues($avatar_set->getAllIds(), "avatarLink");
+            $banlist_set = $avatar_set->relatedBanlist();
         }
 
         $table_head = ["id","Name","Remove"];

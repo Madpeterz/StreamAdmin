@@ -2,7 +2,6 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\Sets\ApirequestsSet;
 use App\Models\Sets\AvatarSet;
 use App\Models\Sets\NoticeSet;
 use App\Models\Sets\RentalSet;
@@ -16,11 +15,9 @@ abstract class RenderList extends View
     protected StreamSet $streamSet;
     protected ServerSet $serverSet;
     protected NoticeSet $noticeSet;
-    protected ApirequestsSet $apiRequestsSet;
     public function process(): void
     {
-        $this->noticeSet = new NoticeSet();
-        $this->noticeSet->loadByValues($this->rentalSet->getUniqueArray("noticeLink"));
+        $this->noticeSet = $this->rentalSet->relatedNotice();
         $table_head = ["id","Rental UID","Avatar","Port","Notecard","Timeleft","Status","Renewals"];
         $table_body = [];
 
@@ -43,19 +40,13 @@ abstract class RenderList extends View
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
             . $rental->getRentalUid() . "\">View</button>";
 
-            $timeleft = "-" . expiredAgo($rental->getExpireUnixtime());
+            $timeleft = "-" . $this->expiredAgo($rental->getExpireUnixtime());
             if ($rental->getExpireUnixtime() > time()) {
-                $timeleft = timeleftHoursAndDays($rental->getExpireUnixtime());
+                $timeleft = $this->timeRemainingHumanReadable($rental->getExpireUnixtime());
             }
             $entry[] = $timeleft;
             $noticeLevel = $this->noticeSet->getObjectByID($rental->getNoticeLink());
-            $status = $noticeLevel->getName();
-            if ($rental->getApiSuspended() == true) {
-                $status .= " - API [Suspended]";
-            } elseif ($rental->getApiPendingAutoSuspend() == true) {
-                $status .= " - API [AutoSuspend]";
-            }
-            $entry[] = $status;
+            $entry[] = $noticeLevel->getName();
             $entry[] = $rental->getRenewals();
             $table_body[] = $entry;
         }

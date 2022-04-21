@@ -55,7 +55,7 @@ class DefaultView extends HomeDisplayData
         $hours = floor(($mins / 60));
         $days = floor($hours / 24);
         $weeks = floor($days / 7);
-        $timeleftNice = timeleftHoursAndDays($keyCheck[1], false, "Expired");
+        $timeleftNice = $this->timeRemainingHumanReadable($keyCheck[1], false, "Expired");
         $color = "info";
         if ($weeks < 8) {
             $color = "warning";
@@ -81,32 +81,14 @@ class DefaultView extends HomeDisplayData
 
     protected function unsafeWorkspace(): void
     {
-        $need_cleanup = false;
         $why_unsafe = "";
-        if (is_dir('fake') == true) {
-            $need_cleanup = true;
-            $why_unsafe = "faker public folder found";
-        }
-        if (is_dir(DEEPFOLDERPATH . '/tests') == true) {
-            $need_cleanup = true;
-            if ($why_unsafe != "") {
-                $why_unsafe .= " , ";
-            }
+        if (is_dir('../../tests') == true) {
             $why_unsafe .= " tests folder found ";
         }
-        if ($need_cleanup == true) {
-            $form = new Form();
-            $form->mode("post");
-            $form->target("home/cleanup");
-            $formcode = $form->render("Cleanup", "danger");
+        if ($why_unsafe != "") {
             $this->main_grid->addContent('<div class="jumbotron">
-            <h1 class="display-4">Secure install</h1>
+            <h1 class="display-4">please make your install secure</h1>
             <p class="lead">' . $why_unsafe . '</p>
-            <hr class="my-4">
-            <p>Please run the cleanup tool now!</p>
-            <p class="lead">
-                ' . $formcode . '
-            </p>
           </div>', 12);
         }
     }

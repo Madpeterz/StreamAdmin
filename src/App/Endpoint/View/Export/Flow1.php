@@ -44,8 +44,7 @@ class Flow1 extends ExcelSheet
         $servers->loadAll();
         $packages = new PackageSet();
         $packages->loadAll();
-        $avatars = new AvatarSet();
-        $avatars->loadByValues($clients->getAllByField("avatarLink"));
+        $avatars = $clients->relatedAvatar();
 
         $worksheetData = $this->spreadsheet->createSheet();
         $worksheetData->setTitle("Data");

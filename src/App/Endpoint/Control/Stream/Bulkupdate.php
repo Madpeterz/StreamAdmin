@@ -3,9 +3,9 @@
 namespace App\Endpoint\Control\Stream;
 
 use App\Models\Sets\StreamSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Bulkupdate extends ViewAjax
+class BulkUpdate extends ControlAjax
 {
     public function process(): void
     {
@@ -23,12 +23,12 @@ class Bulkupdate extends ViewAjax
         $streams_skipped_passwordChecks = 0;
         foreach ($stream_set->getAllIds() as $stream_id) {
             $stream = $stream_set->getObjectByID($stream_id);
-            $accept = $this->post("stream" . $stream->getStreamUid() . "")->asString();
+            $accept = $this->input->post("stream" . $stream->getStreamUid() . "")->asString();
             if ($accept != "update") {
                 continue;
             }
-            $newadminpw = $input->post('stream' . $stream->getStreamUid() . 'adminpw')->asString();
-            $newdjpw = $input->post('stream' . $stream->getStreamUid() . 'djpw')->asString();
+            $newadminpw = $this->input->post('stream' . $stream->getStreamUid() . 'adminpw')->asString();
+            $newdjpw = $this->input->post('stream' . $stream->getStreamUid() . 'djpw')->asString();
             $allowAdminPassword = true;
             if ($stream->getAdminPassword() == $newadminpw) {
                 $allowAdminPassword = false;
@@ -48,10 +48,10 @@ class Bulkupdate extends ViewAjax
             $stream->setDjPassword($newdjpw);
             $stream->setNeedWork(0);
             $update_status = $stream->updateEntry();
-            if ($update_status["status"] == false) {
+            if ($update_status->status == false) {
                 $this->failed(sprintf(
                     "Unable to update stream %1\$s",
-                    $update_status["message"]
+                    $update_status->message
                 ));
                 return;
             }
@@ -63,7 +63,7 @@ class Bulkupdate extends ViewAjax
                 $streams_updated
             )
         );
-        if (($streams_skipped_originalAdminUsername > 0) || ($streams_skipped_passwordChecks > 0)) {
+        if ($streams_skipped_passwordChecks > 0) {
             $this->ok(
                 sprintf(
                     "%1\$s streams updated %2\$s skipped for passwords not being updated",

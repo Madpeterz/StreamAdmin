@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Endpoint\Control\Textureconfig;
+namespace App\Endpoint\Control\TextureConfig;
 
 use App\Models\Textureconfig;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Remove extends ViewAjax
+class Remove extends ControlAjax
 {
     public function process(): void
     {
-
-        $accept = $this->post("accept");
+        $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", "textureconfig");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
@@ -18,14 +17,14 @@ class Remove extends ViewAjax
             return;
         }
         $textureconfig = new Textureconfig();
-        if ($textureconfig->loadID($this->siteConfig->getPage()) == false) {
+        if ($textureconfig->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find texture pack");
             return;
         }
         $remove_status = $textureconfig->removeEntry();
-        if ($remove_status["status"] == false) {
+        if ($remove_status->status == false) {
             $this->failed(
-                sprintf("Unable to remove texture pack: %1\$s", $remove_status["message"])
+                sprintf("Unable to remove texture pack: %1\$s", $remove_status->message)
             );
             return;
         }

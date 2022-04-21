@@ -3,38 +3,36 @@
 namespace App\Endpoint\Control\Tree;
 
 use App\Models\Treevender;
-use App\Models\Sets\TreevenderpackagesSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Remove extends ViewAjax
+class Remove extends ControlAjax
 {
     public function process(): void
     {
 
-        $accept = $this->post("accept");
+        $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", "tree");
         if ($accept != "Accept") {
-            $this->setSwapTag("redirect", "tree/manage/" . $this->siteConfig->getPage() . "");
+            $this->setSwapTag("redirect", "tree/manage/" . $this->siteConfig->getPage());
             $this->failed("Did not Accept");
             return;
         }
         $treevender = new Treevender();
-        if ($treevender->loadID($this->siteConfig->getPage()) == false) {
+        if ($treevender->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find tree vender");
             return;
         }
-        $treevender_package_set = new TreevenderpackagesSet();
-        $treevender_package_set->loadOnField("treevenderLink", $treevender->getId());
+        $treevender_package_set = $treevender->relatedTreevenderpackages();
         $purge_status = $treevender_package_set->purgeCollection();
-        if ($purge_status["status"] == false) {
+        if ($purge_status->status == false) {
             $this->failed("Unable to purge packages linked to tree vender");
             return;
         }
         $remove_status = $treevender->removeEntry();
-        if ($remove_status["status"] == false) {
+        if ($remove_status->status == false) {
             $this->setSwapTag(
                 "message",
-                sprintf("Unable to remove tree vender: %1\$s", $remove_status["message"])
+                sprintf("Unable to remove tree vender: %1\$s", $remove_status->message)
             );
             return;
         }

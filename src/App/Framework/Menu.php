@@ -3,18 +3,30 @@
 namespace App\Framework;
 
 use App\Config;
-use YAPF\Bootstrap\Template\Output\Template;
-use YAPF\Bootstrap\Template\View as TemplateView;
+use YAPF\Bootstrap\Template\TableView;
+use YAPF\InputFilter\InputFilter;
 
-class Menu extends TemplateView
+class Menu extends TableView
 {
     protected Config $siteConfig;
+    protected InputFilter $input;
     public function __construct(
         bool $AutoLoadTemplate = true
     ) {
         global $system;
         $this->siteConfig = $system;
-        parent::__construct();
+        $this->input = new InputFilter();
+        parent::__construct($AutoLoadTemplate);
+    }
+
+    protected function renderDatatable(array $tableHead, array $tableBody): string
+    {
+        return $this->renderTable($tableHead, $tableBody);
+    }
+
+    protected function addSwapTagString(string $tag, string $message): ?string
+    {
+        return $this->output->addSwapTagString($tag, $message);
     }
 
     protected function loadMenu(): void

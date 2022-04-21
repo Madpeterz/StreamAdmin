@@ -26,7 +26,8 @@ class Expired extends Withstatus
         $this->output->addSwapTagString("page_title", "With notice status: Expired (or worse)");
         $this->setSwapTag(
             "page_actions",
-            "<a href='[[SITE_URL]]client/BulkRemove'><button type='button' class='btn btn-danger'>Bulk remove</button></a>"
+            "<a href='[[SITE_URL]]client/BulkRemove'>
+            <button type='button' class='btn btn-danger'>Bulk remove</button></a>"
         );
         parent::process();
     }

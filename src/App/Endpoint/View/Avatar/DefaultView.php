@@ -4,7 +4,6 @@ namespace App\Endpoint\View\Avatar;
 
 use App\Models\Sets\AvatarSet;
 use YAPF\Bootstrap\Template\Form;
-use YAPF\InputFilter\InputFilter as InputFilter;
 
 class DefaultView extends View
 {
@@ -12,8 +11,8 @@ class DefaultView extends View
     {
 
         $match_with = "newest";
-        $name = $input->getFilter("name");
-        $uuid = $input->getFilter("uuid");
+        $name = $this->input->get("name")->asString();
+        $uuid = $this->input->get("uuid")->asString();
         $wherefields = [];
         $wherevalues = [];
         $wheretypes = [];

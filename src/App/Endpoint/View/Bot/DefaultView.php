@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Bot;
 
 use App\Models\Avatar;
 use App\Models\Botconfig;
-use YAPF\Bootstrap\Template\Form as Form;
+use YAPF\Bootstrap\Template\Form;
 
 class DefaultView extends View
 {

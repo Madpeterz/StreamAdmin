@@ -11,7 +11,6 @@ class DefaultView extends View
     public function process(): void
     {
         $this->owner_objects_list = [
-            "apirequests",
             "mailserver",
             "noticeserver",
             "detailsserver",
@@ -26,12 +25,11 @@ class DefaultView extends View
         $whereConfig = [
             "fields" => ["avatarLink","objectMode"],
             "matches" => ["IN","NOT IN"],
-            "values" => [$resellers->getUniqueArray("avatarLink"),$this->owner_objects_list],
+            "values" => [$resellers->uniqueAvatarLinks(),$this->owner_objects_list],
             "types" => ["i","s"],
         ];
         $venderHealth->loadWithConfig($whereConfig);
-        $regionsSet = new RegionSet();
-        $regionsSet->loadByValues($venderHealth->getUniqueArray("regionLink"));
+        $regionsSet = $venderHealth->relatedRegion();
         $goodMinTime = time() - 120;
         $regions_report = [];
         foreach ($venderHealth as $object) {

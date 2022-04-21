@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Home;
 
-use App\Framework\View as TemplateView;
+use App\Framework\Menu;
 
-abstract class View extends TemplateView
+abstract class View extends Menu
 {
     public function __construct()
     {

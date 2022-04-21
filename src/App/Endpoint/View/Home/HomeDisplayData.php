@@ -52,11 +52,16 @@ abstract class HomeDisplayData extends HomeLoadData
 
     protected function displayVersions(): void
     {
-        if (file_exists("" . DEEPFOLDERPATH . "/Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql") == true) {
+        if (
+            file_exists($this->config->getDeepFolder() . "Versions/" .
+            $this->siteConfig->getSlConfig()->getDbVersion() . ".sql") == true
+        ) {
             $this->main_grid->addContent("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
             . "<br/> please run \"Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql\"</div>", 12);
         }
-        $infofile = DEEPFOLDERPATH . "/Versions/about/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".txt";
+
+        $infofile = $this->config->getDeepFolder() . "/Versions/about/" .
+        $this->siteConfig->getSlConfig()->getDbVersion() . ".txt";
         if (file_exists($infofile) == true) {
             $this->main_grid->closeRow();
             $this->main_grid->addContent("<br/>Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "", 12);
@@ -64,11 +69,11 @@ abstract class HomeDisplayData extends HomeLoadData
                 file_get_contents($infofile),
                 12
             );
-        } else {
-            $this->main_grid->addContent("Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "<br/>
-            Unable to read version info file: " . $infofile . "
-            ", 12);
+            return;
         }
+        $this->main_grid->addContent("Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "<br/>
+        Unable to read version info file: " . $infofile . "
+        ", 12);
     }
 
     protected function displayObjects(): void
@@ -138,7 +143,7 @@ abstract class HomeDisplayData extends HomeLoadData
                 }
 
                 $entry[] = '<span class="' . $color . '">'
-                . expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
+                . $this->expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
                 $tp_url = "http://maps.secondlife.com/secondlife/" . $regionName . "/"
                 . implode("/", explode(",", $object->getObjectXYZ())) . "";
                 $tp_url = str_replace(' ', '%20', $tp_url);
@@ -185,12 +190,7 @@ abstract class HomeDisplayData extends HomeLoadData
         $table_body = [];
         foreach ($this->server_set as $server) {
             $entry = [];
-            $apiType = $this->apis_set->getObjectByID($server->getApiLink());
-            $api_name = "";
-            if ($apiType->getId() != 1) {
-                $api_name = "{" . $apiType->getName() . "} ";
-            }
-            $servername = '<a href="[[SITE_URL]]stream/onserver/' . $server->getId() . '"><h5>' . $api_name . ''
+            $servername = '<a href="[[SITE_URL]]stream/onserver/' . $server->getId() . '"><h5>'
             . $server->getDomain() . '</h5></a>';
             $servername .= '<h6><span class="badge badge-success">Ready <span class="badge badge-light">'
             . $this->server_loads[$server->getId()]["ready"] . '</span></span> ';
@@ -200,15 +200,7 @@ abstract class HomeDisplayData extends HomeLoadData
             . $this->server_loads[$server->getId()]["sold"] . '</span></span></h6>';
             $entry[] = $servername;
             $serverstatus = '<div class="serverstatusdisplay">';
-            if ($server->getApiServerStatus() == true) {
-                $serverstatus .= '<div data-loading="<div class=\'spinner-border spinner-border-sm '
-                . 'text-primary\' role=\'status\'>'
-                . '<span class=\'sr-only\'>Loading...</span></div>" data-repeatingrate="7000" class="ajaxonpageload" '
-                . 'data-loadmethod="post" data-loadurl="[[SITE_URL]]server/ServerLoad/'
-                . $server->getId() . '"></div>';
-            } else {
-                $serverstatus .= '<sub> </sub>';
-            }
+            $serverstatus .= '<sub> </sub>';
             $serverstatus .= '</div>';
             $entry[] = $serverstatus;
             $table_body[] = $entry;

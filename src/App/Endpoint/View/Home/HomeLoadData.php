@@ -7,7 +7,6 @@ use App\Models\Sets\NoticeSet;
 use App\Models\Sets\ObjectsSet;
 use App\Models\Sets\RegionSet;
 use App\Models\Rental;
-use App\Models\Sets\ApisSet;
 use App\Models\Sets\ResellerSet;
 use App\Models\Sets\ServerSet;
 use App\Models\Sets\StreamSet;
@@ -21,7 +20,6 @@ abstract class HomeLoadData extends View
     protected RegionSet $region_set;
     protected ObjectsSet $objects_set;
     protected ?ServerSet $server_set = null;
-    protected ApisSet $apis_set;
     protected $server_loads = [];
     protected $owner_objects_list = [];
     protected Grid $main_grid;
@@ -52,7 +50,7 @@ abstract class HomeLoadData extends View
         $whereConfig = [
             "fields" => ["avatarLink","objectMode"],
             "matches" => ["IN","NOT IN"],
-            "values" => [$resellers->getUniqueArray("avatarLink"),$this->owner_objects_list],
+            "values" => [$resellers->uniqueAvatarLinks(),$this->owner_objects_list],
             "types" => ["i","s"],
         ];
         $venderHealth->loadWithConfig($whereConfig);
@@ -82,19 +80,18 @@ abstract class HomeLoadData extends View
         $this->stream_set = new StreamSet();
         $this->stream_set->loadAll();
         foreach ($this->stream_set as $stream) {
-            $server = $this->server_set->getObjectByID($stream->getServerLink());
-            if ($stream->getRentalLink() == null) {
-                if ($stream->getNeedWork() == false) {
-                    $this->stream_total_ready++;
-                    $this->server_loads[$server->getId()]["ready"]++;
-                } else {
-                    $this->stream_total_needWork++;
-                    $this->server_loads[$server->getId()]["needWork"]++;
-                }
-            } else {
+            if ($stream->getRentalLink() !== null) {
                 $this->stream_total_sold++;
-                $this->server_loads[$server->getId()]["sold"]++;
+                $this->server_loads[$stream->getServerLink()]["sold"]++;
+                continue;
             }
+            if ($stream->getNeedWork() == false) {
+                $this->stream_total_ready++;
+                $this->server_loads[$stream->getServerLink()]["ready"]++;
+                continue;
+            }
+            $this->stream_total_needWork++;
+            $this->server_loads[$stream->getServerLink()]["needWork"]++;
         }
     }
 
@@ -104,8 +101,6 @@ abstract class HomeLoadData extends View
         foreach ($this->server_set->getAllIds() as $server_id) {
             $this->server_loads[$server_id] = ["ready" => 0,"sold" => 0,"needWork" => 0];
         }
-        $this->apis_set = new ApisSet();
-        $this->apis_set->loadByValues($this->server_set->getAllByField("ApiLink"));
     }
 
     protected function loadOwnerObjects(): void
@@ -131,18 +126,6 @@ abstract class HomeLoadData extends View
 
         if ($this->server_set == null) {
             $this->loadServers();
-        }
-        $hasApi = false;
-        foreach ($this->server_set as $entry) {
-            if ($entry->getApiLink() != 1) {
-                $hasApi = true;
-                break;
-            }
-        }
-
-        if ($hasApi == true) {
-            $this->owner_objects_list[] = "apirequests";
-            $this->owner_objects_list[] = "clientautosuspendserver";
         }
 
         if ($this->siteConfig->getSlConfig()->getEventsAPI() == true) {
@@ -177,21 +160,21 @@ abstract class HomeLoadData extends View
         $notice_set->loadAll();
         $rental = new Rental();
         $group_count = $this->siteConfig->getSQL()->groupCountV2($rental->getTable(), "noticeLink");
-        if ($group_count["status"] == true) {
-            foreach ($group_count["dataset"] as $entry) {
-                if ($entry["Entrys"] <= 0) {
+        if ($group_count->status == true) {
+            foreach ($group_count->dataset as $entry) {
+                if ($entry["items"] <= 0) {
                     continue;
                 }
                 $notice = $notice_set->getObjectByID($entry["noticeLink"]);
                 if ($notice->getHoursRemaining() <= 0) {
-                    $this->client_expired += $entry["Entrys"];
+                    $this->client_expired += $entry["items"];
                     continue;
                 }
                 if ($notice->getHoursRemaining() < 24) {
-                    $this->client_expires_soon += $entry["Entrys"];
+                    $this->client_expires_soon += $entry["items"];
                     continue;
                 }
-                $this->client_ok += $entry["Entrys"];
+                $this->client_ok += $entry["items"];
             }
         }
     }

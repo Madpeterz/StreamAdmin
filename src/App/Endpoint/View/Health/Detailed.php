@@ -3,7 +3,6 @@
 namespace App\Endpoint\View\Health;
 
 use App\Models\Region;
-use App\Models\Sets\AvatarSet;
 use App\Models\Sets\ObjectsSet;
 use App\Models\Sets\ResellerSet;
 
@@ -31,8 +30,7 @@ class Detailed extends View
         ];
         $resellers = new ResellerSet();
         $resellers->loadAll();
-        $avatars = new AvatarSet();
-        $avatars->loadByValues($resellers->getUniqueArray("avatarLink"));
+        $avatars = $resellers->relatedAvatar();
         $venderHealth = new ObjectsSet();
         $whereConfig = [
             "fields" => ["avatarLink","objectMode","regionLink"],

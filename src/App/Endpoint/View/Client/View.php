@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Client;
 
+use App\Framework\Menu;
 use App\Models\Stream;
-use App\Framework\View as BasicView;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {

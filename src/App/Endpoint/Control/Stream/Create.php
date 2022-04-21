@@ -2,14 +2,13 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\MediaServer\Logic\ApiLogicCreate;
 use App\Models\Package;
 use App\Models\Server;
 use App\Models\Stream;
-use App\Framework\ViewAjax;
 use App\Models\Sets\StreamSet;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
@@ -17,30 +16,30 @@ class Create extends ViewAjax
         $package = new Package();
         $server = new Server();
 
-        $port = $this->post("port")->checkInRange(1, 99999)->asInt();
-        $packageLink = $this->post("packageLink")->checkGrtThanEq(1)->asInt();
-        $serverLink = $this->post("serverLink")->checkGrtThanEq(1)->asInt();
-        $mountpoint = $this->post("mountpoint")->asString();
-        $adminUsername = $this->post("adminUsername")->checkStringLength(3, 50)->asString();
-        $adminPassword = $this->post("adminPassword")->checkStringLength(4, 20)->asString();
-        $djPassword = $this->post("djPassword")->checkStringLength(4, 20)->asString();
+        $port = $this->this->post("port")->checkInRange(1, 99999)->asInt();
+        $packageLink = $this->this->post("packageLink")->checkGrtThanEq(1)->asInt();
+        $serverLink = $this->this->post("serverLink")->checkGrtThanEq(1)->asInt();
+        $mountpoint = $this->this->post("mountpoint")->asString();
+        $adminUsername = $this->this->post("adminUsername")->checkStringLength(3, 50)->asString();
+        $adminPassword = $this->this->post("adminPassword")->checkStringLength(4, 20)->asString();
+        $djPassword = $this->this->post("djPassword")->checkStringLength(4, 20)->asString();
         $bits = [$port,$packageLink,$serverLink,$mountpoint,$adminUsername,$adminPassword,$djPassword];
         if (in_array(null, $bits, true) == true) {
             $this->failed($this->input->getWhyFailed());
             return false;
         }
-        $needswork = $this->post("needswork")->asBool();
-        if ($package->loadID($packageLink) == false) {
+        $needswork = $this->this->post("needswork")->asBool();
+        if ($package->loadID($packageLink)->status == false) {
             $this->failed("Unable to find package");
             return;
         }
-        if ($server->loadID($serverLink) == false) {
+        if ($server->loadID($serverLink)->status == false) {
             $this->failed("Unable to find server");
             return;
         }
         $stream = new Stream();
         $uid = $stream->createUID("streamUid", 8);
-        if ($uid["status"] == false) {
+        if ($uid->status == false) {
             $this->failed("Unable to assign a new UID to the stream");
             return;
         }
@@ -62,7 +61,7 @@ class Create extends ViewAjax
             );
             return;
         }
-        $stream->setStreamUid($uid["uid"]);
+        $stream->setStreamUid($uid->uid);
         $stream->setPackageLink($packageLink);
         $stream->setServerLink($serverLink);
         $stream->setPort($port);
@@ -73,11 +72,11 @@ class Create extends ViewAjax
         $stream->setDjPassword($djPassword);
         $stream->setMountpoint($mountpoint);
         $create_status = $stream->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed(
                 sprintf(
                     "Unable to create stream: %1\$s",
-                    $create_status["message"]
+                    $create_status->message
                 )
             );
             return;

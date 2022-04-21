@@ -13,7 +13,7 @@ class Manage extends View
         $this->setSwapTag("page_title", "Editing datatable");
         $this->setSwapTag("page_actions", "");
         $datatable = new Datatable();
-        if ($datatable->loadid($this->siteConfig->getPage()) == false) {
+        if ($datatable->loadId($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("datatables?bubblemessage=Unable to find datatable&bubbletype=warning");
             return;
         }
