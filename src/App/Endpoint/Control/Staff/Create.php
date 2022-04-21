@@ -4,9 +4,9 @@ namespace App\Endpoint\Control\Staff;
 
 use App\Models\Avatar;
 use App\Models\Staff;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
@@ -18,20 +18,20 @@ class Create extends ViewAjax
         $staff = new Staff();
         $avatar = new Avatar();
 
-        $avataruid = $this->post("avataruid")->checkStringLength(8, 8)->asString();
+        $avataruid = $this->input->post("avataruid")->checkStringLength(8, 8)->asString();
         if ($avataruid == null) {
             $this->failed("Avatar UID failed:" . $this->input->getWhyFailed());
         }
-        $username = $this->post("username")->checkStringLength(5, 40)->asString();
+        $username = $this->input->post("username")->checkStringLength(5, 40)->asString();
         if ($username == null) {
             $this->failed("Username failed:" . $this->input->getWhyFailed());
         }
 
-        if ($staff->loadByUsername($username) == true) {
+        if ($staff->loadByUsername($username)->status == true) {
             $this->failed("There is already a staff member with that username");
             return;
         }
-        if ($avatar->loadByAvatarUid($avataruid) == false) {
+        if ($avatar->loadByAvatarUid($avataruid)->status == false) {
             $this->failed("Unable to find avatar with matching uid");
             return;
         }
@@ -43,9 +43,9 @@ class Create extends ViewAjax
         $staff->setPsalt(sha1("psalt install" . microtime() . "" . $username));
         $staff->setOwnerLevel(false);
         $create_status = $staff->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed(
-                sprintf("Unable to create staff member: %1\$s", $create_status["message"])
+                sprintf("Unable to create staff member: %1\$s", $create_status->message)
             );
             return;
         }

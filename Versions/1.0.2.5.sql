@@ -11,7 +11,7 @@ DROP `eventClearDjs`, DROP `eventRecreateRevoke`, DROP `lastApiSync`, DROP `even
 
 DROP TABLE `apis`;
 
-UPDATE `slconfig` SET `dbVersion` = '1.0.3.0' WHERE `slconfig`.`id` = 1;
+UPDATE `slconfig` SET `dbVersion` = '2.0.0.0' WHERE `slconfig`.`id` = 1;
 
 ALTER TABLE `rental`
   DROP `apiAllowAutoSuspend`,

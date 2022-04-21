@@ -3,15 +3,15 @@
 namespace App\Endpoint\Control\Avatar;
 
 use App\Models\Sets\AvatarSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Finder extends ViewAjax
+class Finder extends ControlAjax
 {
     public function process(): void
     {
         $this->setSwapTag("status", true);
 
-        $avatarfindname = $this->post("avatarfind")->checkStringLengthMin("3")->asString();
+        $avatarfindname = $this->input->post("avatarfind")->checkStringLengthMin(3)->asString();
         if ($avatarfindname == null) {
             $this->failed("Avatar UID/Name/UUID was not sent!");
             return;

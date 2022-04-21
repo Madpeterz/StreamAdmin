@@ -3,35 +3,35 @@
 namespace App\Endpoint\Control\Datatables;
 
 use App\Models\Datatable;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     public function process(): void
     {
 
-        $col = $this->post("col")->checkGrtThanEq(1)->asInt();
+        $col = $this->input->post("col")->checkGrtThanEq(1)->asInt();
         if ($col === null) {
             $this->failed("Col is missing");
             return;
         }
         $acceptedDirs = ["desc","asc"];
-        $dir = $this->post("dir")->asString();
+        $dir = $this->input->post("dir")->asString();
         if (in_array($dir, $acceptedDirs) == false) {
             $this->failed("Dir is not accepted");
             return;
         }
 
         $datatable = new Datatable();
-        if ($datatable->loadID($this->siteConfig->getPage()) == false) {
+        if ($datatable->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find the datatable config");
             return;
         }
         $datatable->setCol($col);
         $datatable->setDir($dir);
         $update_status = $datatable->updateEntry();
-        if ($update_status["status"] == false) {
-            $this->failed(sprintf("Unable to update datatable config: %1\$s", $update_status["message"]));
+        if ($update_status->status == false) {
+            $this->failed(sprintf("Unable to update datatable config: %1\$s", $update_status->message));
             return;
         }
         $this->ok("Datatable config updated");

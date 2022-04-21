@@ -2,11 +2,10 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\Models\Sets\ApisSet;
 use App\Models\Server;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     protected Server $server;
 
@@ -19,11 +18,11 @@ class Create extends ViewAjax
     }
     protected function formData(): bool
     {
-        $this->domain = $this->post("domain")->checkStringLength(5, 100)->asString();
+        $this->domain = $this->input->post("domain")->checkStringLength(5, 100)->asString();
         if ($this->domain === null) {
             return false;
         }
-        $this->controlPanelURL = $this->post("controlPanelURL")->checkStringLength(5, 100)->asString();
+        $this->controlPanelURL = $this->input->post("controlPanelURL")->checkStringLength(5, 100)->asString();
         if ($this->controlPanelURL === null) {
             return false;
         }
@@ -31,7 +30,7 @@ class Create extends ViewAjax
 
     protected function createServer(): bool
     {
-        if ($this->server->loadByField("domain", $this->domain) == true) {
+        if ($this->server->loadByField("domain", $this->domain)->status == true) {
             $this->failed("There is already a server assigned to that domain");
             return false;
         }
@@ -39,9 +38,9 @@ class Create extends ViewAjax
         $this->server->setDomain($this->domain);
         $this->server->setControlPanelURL($this->controlPanelURL);
         $create_status = $this->server->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed(
-                sprintf("Unable to create server: %1\$s", $create_status["message"])
+                sprintf("Unable to create server: %1\$s", $create_status->message)
             );
             return false;
         }

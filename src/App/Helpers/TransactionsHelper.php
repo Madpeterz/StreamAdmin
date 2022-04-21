@@ -22,7 +22,7 @@ class TransactionsHelper
         ?int $forcesetunixtime = null
     ): bool {
         $transaction = new Transactions();
-        $uid_transaction = $transaction->createUID("transactionUid", 8, 10);
+        $uid_transaction = $transaction->createUID("transactionUid", 8);
         if ($uid_transaction["status"] == false) {
             return false;
         }

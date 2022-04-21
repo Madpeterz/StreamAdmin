@@ -4,6 +4,7 @@ namespace App\Framework;
 
 use App\Models\Staff;
 use YAPF\Framework\Core\SQLi\SqlConnectedClass;
+use YAPF\Framework\Responses\DbObjects\UpdateReply;
 
 class SessionControl extends SqlConnectedClass
 {
@@ -162,11 +163,8 @@ class SessionControl extends SqlConnectedClass
         }
         return $this->logged_in;
     }
-    /**
-     * updatePassword
-     * @return mixed[] [status => bool, message=>string,]
-     */
-    public function updatePassword(string $new_password): array
+
+    public function updatePassword(string $new_password): UpdateReply
     {
         if ($this->main_class_object != null) {
             $psalt = $this->hashPassword(
@@ -184,9 +182,8 @@ class SessionControl extends SqlConnectedClass
             $this->main_class_object->setPsalt($psalt);
             $this->main_class_object->setPhash($phash);
             return $this->main_class_object->updateEntry();
-        } else {
-            return ["status" => false,"message" => "update_password requires the user object to be loaded!"];
         }
+        return new UpdateReply("updatePassword requires the user object to be loaded!");
     }
     public function userpasswordCheck(string $input_password): bool
     {

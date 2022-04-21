@@ -6,9 +6,9 @@ use App\Models\Package;
 use App\Models\Servertypes;
 use App\Models\Template;
 use App\Models\Sets\NoticenotecardSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
@@ -21,16 +21,16 @@ class Create extends ViewAjax
         $noticeNotecards->loadAll();
         $noticeNotecardIds = $noticeNotecards->getAllIds();
 
-        $name = $this->post("name")->checkStringLength(5, 30)->asString();
-        $templateLink = $this->post("templateLink")->checkGrtThanEq(1)->asInt();
-        $cost = $this->post("cost")->checkInRange(1, 99999)->asInt();
-        $days = $this->post("days")->checkInRange(1, 999)->asInt();
-        $bitrate = $this->post("bitrate")->checkInRange(56, 999)->asInt();
-        $listeners = $this->post("listeners")->checkInRange(1, 999)->asInt();
-        $textureSoldout = $this->post("textureSoldout")->isUuid()->asString();
-        $textureInstockSmall = $this->post("textureInstockSmall")->isUuid()->asString();
-        $textureInstockSelected = $this->post("textureInstockSelected")->isUuid()->asString();
-        $enableGroupInvite = $this->post("enableGroupInvite")->asBool();
+        $name = $this->input->post("name")->checkStringLength(5, 30)->asString();
+        $templateLink = $this->input->post("templateLink")->checkGrtThanEq(1)->asInt();
+        $cost = $this->input->post("cost")->checkInRange(1, 99999)->asInt();
+        $days = $this->input->post("days")->checkInRange(1, 999)->asInt();
+        $bitrate = $this->input->post("bitrate")->checkInRange(56, 999)->asInt();
+        $listeners = $this->input->post("listeners")->checkInRange(1, 999)->asInt();
+        $textureSoldout = $this->input->post("textureSoldout")->isUuid()->asString();
+        $textureInstockSmall = $this->input->post("textureInstockSmall")->isUuid()->asString();
+        $textureInstockSelected = $this->input->post("textureInstockSelected")->isUuid()->asString();
+        $enableGroupInvite = $this->input->post("enableGroupInvite")->asBool();
         $testing = [
             "name" => $name,
             "template" => $templateLink,
@@ -51,11 +51,11 @@ class Create extends ViewAjax
         }
 
 
-        $autodj = $this->post("autodj")->asBool();
-        $autodjSize = $this->post("autodjSize")->checkInRange(1, 9999)->asInt();
-        $servertypeLink = $this->post("servertypeLink")->checkGrtThanEq(1)->asInt();
-        $welcomeNotecardLink = $this->post("welcomeNotecardLink")->checkGrtThanEq(1)->asInt();
-        $setupNotecardLink = $this->post("setupNotecardLink")->checkGrtThanEq(1)->asInt();
+        $autodj = $this->input->post("autodj")->asBool();
+        $autodjSize = $this->input->post("autodjSize")->checkInRange(1, 9999)->asInt();
+        $servertypeLink = $this->input->post("servertypeLink")->checkGrtThanEq(1)->asInt();
+        $welcomeNotecardLink = $this->input->post("welcomeNotecardLink")->checkGrtThanEq(1)->asInt();
+        $setupNotecardLink = $this->input->post("setupNotecardLink")->checkGrtThanEq(1)->asInt();
 
 
         if (in_array($welcomeNotecardLink, $noticeNotecardIds) == false) {
@@ -66,22 +66,22 @@ class Create extends ViewAjax
             $this->failed("Setup notecard not selected");
             return;
         }
-        if ($template->loadID($templateLink) == false) {
+        if ($template->loadID($templateLink)->status == false) {
             $this->failed("Unable to find template");
             return;
         }
-        if ($servertype->loadID($servertypeLink) == false) {
+        if ($servertype->loadID($servertypeLink)->status == false) {
             $this->failed("Unable to find server type");
             return;
         }
 
         $this->setSwapTag("redirect", "package");
-        $uid = $package->createUID("packageUid", 8, 10);
-        if ($uid["status"] == false) {
+        $uid = $package->createUID("packageUid", 8);
+        if ($uid->status == false) {
             $this->failed("Unable to assign a new UID to the package");
             return;
         }
-        $package->setPackageUid($uid["uid"]);
+        $package->setPackageUid($uid->uid);
         $package->setName($name);
         $package->setAutodj($autodj);
         $package->setAutodjSize($autodjSize);
@@ -98,9 +98,9 @@ class Create extends ViewAjax
         $package->setSetupNotecardLink($setupNotecardLink);
         $package->setEnableGroupInvite($enableGroupInvite);
         $create_status = $package->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed(
-                sprintf("Unable to create package: %1\$s", $create_status["message"])
+                sprintf("Unable to create package: %1\$s", $create_status->message)
             );
             return;
         }

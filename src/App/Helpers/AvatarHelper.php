@@ -31,7 +31,7 @@ class AvatarHelper extends ErrorLogging
             return false;
         }
         $this->avatar = new Avatar();
-        $uid = $this->avatar->createUID("avatarUid", 8, 10);
+        $uid = $this->avatar->createUID("avatarUid", 8);
         if ($uid["status"] == false) {
             return false;
         }

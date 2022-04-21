@@ -23,7 +23,7 @@ class Update extends Create
 
     protected function loadServer(): bool
     {
-        if ($this->server->loadID($this->siteConfig->getPage()) == false) {
+        if ($this->server->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find server");
             $this->setSwapTag("redirect", "server");
             return false;
@@ -36,10 +36,10 @@ class Update extends Create
         $this->server->setDomain($this->domain);
         $this->server->setControlPanelURL($this->controlPanelURL);
         $update_status = $this->server->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->setSwapTag(
                 "message",
-                sprintf("Unable to update server: %1\$s", $update_status["message"])
+                sprintf("Unable to update server: %1\$s", $update_status->message)
             );
             return false;
         }

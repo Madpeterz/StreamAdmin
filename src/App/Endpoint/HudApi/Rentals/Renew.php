@@ -11,17 +11,16 @@ class Renew extends SecondlifeHudAjax
     public function process(): void
     {
         if ($this->siteConfig->getSlConfig()->getHudAllowDetails() == false) {
-            $this->setSwapTag("message", "Failed - Hud details are currently disabled");
+            $this->failed("Hud details are currently disabled");
             return;
         }
         if ($this->siteConfig->getSlConfig()->getHudAllowRenewal() == false) {
-            $this->setSwapTag("message", "Failed - Hud renewals are currently disabled");
+            $this->failed("Hud renewals are currently disabled");
             return;
         }
-        $inputF = new InputFilter();
-        $SLtransactionUUID = $inputF->postFilter("transactionUUID", "uuid");
+        $SLtransactionUUID = $this->input->post("transactionUUID")->isUuid()->asString();
         if ($SLtransactionUUID == null) {
-            $this->setSwapTag("message", "Failed - Invaild SL transaction ID");
+            $this->failed("Invaild SL transaction ID");
             return;
         }
         $reseller_helper = new ResellerHelper();
@@ -32,7 +31,7 @@ class Renew extends SecondlifeHudAjax
         );
         if ($get_reseller_status == false) {
             $this->load_ok = false;
-            $this->setSwapTag("message", "Unable to load reseller");
+            $this->failed("Unable to load reseller");
             return;
         }
         $renew = new Renewnow();

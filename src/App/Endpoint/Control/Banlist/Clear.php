@@ -2,21 +2,21 @@
 
 namespace App\Endpoint\Control\Banlist;
 
-use App\Framework\ViewAjax;
 use App\Models\Banlist;
+use App\Template\ControlAjax;
 
-class Clear extends ViewAjax
+class Clear extends ControlAjax
 {
     public function process(): void
     {
         $banlist = new Banlist();
         $this->setSwapTag("redirect", "banlist");
-        if ($banlist->loadID($this->siteConfig->getPage()) == false) {
+        if ($banlist->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("unable to find entry");
             return;
         }
         $remove_status = $banlist->removeEntry();
-        if ($remove_status["status"] == false) {
+        if ($remove_status->status == false) {
             $this->failed("Unable to remove entry");
             return;
         }

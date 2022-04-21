@@ -4,32 +4,26 @@ namespace App\Endpoint\Control\Server;
 
 use App\Models\Server;
 use App\Models\Sets\StreamSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Remove extends ViewAjax
+class Remove extends ControlAjax
 {
     public function process(): void
     {
-
         $server = new Server();
-        $stream_set = new StreamSet();
 
-        $accept = $this->post("accept")->asString();
+        $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", "server");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
             $this->setSwapTag("redirect", "server/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
-        if ($server->loadID($this->siteConfig->getPage()) == false) {
+        if ($server->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find server");
             return;
         }
-        $load_status = $stream_set->loadByServerLink($server->getId());
-        if ($load_status["status"] == false) {
-            $this->failed("Unable to check if the server is being used by a stream");
-            return;
-        }
+        $stream_set = $server->relatedStream();
         if ($stream_set->getCount() != 0) {
             $this->failed(
                 sprintf(
@@ -40,11 +34,11 @@ class Remove extends ViewAjax
             return;
         }
         $remove_status = $server->removeEntry();
-        if ($remove_status["status"] == false) {
+        if ($remove_status->status == false) {
             $this->failed(
                 sprintf(
                     "Unable to remove server: %1\$s",
-                    $remove_status["message"]
+                    $remove_status->message
                 )
             );
             return;

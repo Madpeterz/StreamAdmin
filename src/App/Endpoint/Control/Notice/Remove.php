@@ -2,20 +2,17 @@
 
 namespace App\Endpoint\Control\Notice;
 
-use App\Models\Sets\NotecardSet;
 use App\Models\Notice;
-use App\Models\Sets\RentalSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Remove extends ViewAjax
+class Remove extends ControlAjax
 {
     public function process(): void
     {
-
         $notice = new Notice();
 
-        $accept = $this->post("accept")->asString();
-        $newNoticeLevel = $this->post("newNoticeLevel")->checkGrtThanEq(1)->asInt();
+        $accept = $this->input->post("accept")->asString();
+        $newNoticeLevel = $this->input->post("newNoticeLevel")->checkGrtThanEq(1)->asInt();
         $this->setSwapTag("redirect", "notice");
         if ($newNoticeLevel == null) {
             $this->failed("Unable to find transfer notice level");
@@ -32,13 +29,13 @@ class Remove extends ViewAjax
             return;
         }
 
-        if ($notice->loadID($this->siteConfig->getPage()) == false) {
+        if ($notice->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to load selected notice");
             return;
         }
 
         $transferNotice = new Notice();
-        if ($transferNotice->loadID($newNoticeLevel) == false) {
+        if ($transferNotice->loadID($newNoticeLevel)->status == false) {
             $this->failed("Unable to load transfer notice");
             return;
         }
@@ -49,11 +46,11 @@ class Remove extends ViewAjax
             return;
         }
         $notice_set = $notice->relatedNoticenotecard();
-        if ($notecard_set->getCount() != 0) {
+        if ($notice_set->getCount() != 0) {
             $this->failed(
                 sprintf(
                     "Unable to remove notice it is being used by %1\$s pending notecards!",
-                    $notecard_set->getCount()
+                    $notice_set->getCount()
                 )
             );
             return;
@@ -65,17 +62,17 @@ class Remove extends ViewAjax
         $transfered_count = 0;
         if ($RentalSet->getCount() > 0) {
             $check = $RentalSet->updateFieldInCollection("noticeLink", $transferNotice->getId());
-            $reply = $check["status"];
-            $transfered_count = $check["changes"];
+            $reply = $check->status;
+            $transfered_count = $check->changes;
         }
         if ($reply == false) {
             $this->failed("Failed to transfer rentals to the new notice level");
             return;
         }
         $remove_status = $notice->removeEntry();
-        if ($remove_status["status"] == false) {
+        if ($remove_status->status == false) {
             $this->failed(
-                sprintf("Unable to remove notice: %1\$s", $remove_status["message"])
+                sprintf("Unable to remove notice: %1\$s", $remove_status->message)
             );
             return;
         }

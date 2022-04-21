@@ -1,12 +1,15 @@
 <div class="row">
 <div class="col-sm-12">
 <p>
-Welcome to 1.0.3.0 [AKA the big cleanup]
+Welcome to 2.0.0.0
 <hr/>
 </p>
 </div>
 <div class="col-sm-12">
 <p>
+This build uses php 8.1.4 for speed improvements via the Just in time compiler and 
+preloaded of framework files (enabled by default with docker)<br/>
+<br/>
 Goodbye to the API system for servers due to lack of use it has been removed, I might return a system like it 
 later.<br/>
 <br/>
@@ -16,7 +19,7 @@ and adds unneeded complexity.
 Goodbye to the R4 import - everyone should be running R7 now and anyone who needs to import can just use version
 1.0.2.5 and then update to current.
 <br/>
-Hello to YAPF 5.* and input filter 2.* better cleaner code.
+We also switched to YAPF/Bootstrap V2 that runs a bit cleaner as well.
 </p>
 
 </div>

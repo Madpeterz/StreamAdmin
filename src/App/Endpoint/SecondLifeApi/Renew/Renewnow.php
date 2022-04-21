@@ -99,7 +99,7 @@ class RenewNow extends SecondlifeAjax
 
     protected function startTransaction(): bool
     {
-        $this->uid_transaction = $this->transaction->createUID("transactionUid", 8, 10);
+        $this->uid_transaction = $this->transaction->createUID("transactionUid", 8);
         if ($this->uid_transaction["status"] == false) {
             $this->failed("Unable to create transaction uid");
             return false;

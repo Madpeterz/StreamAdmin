@@ -2,21 +2,21 @@
 
 namespace App\Endpoint\Control\Avatar;
 
-use App\Framework\ViewAjax;
 use App\Helpers\AvatarHelper;
 use App\Models\Avatar;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
         $avatar = new Avatar();
-        $avatarName = $this->post("avatarName")->checkStringLength(5, 125)->asString();
+        $avatarName = $this->input->post("avatarName")->checkStringLength(5, 125)->asString();
         if ($avatarName == null) {
             $this->failed("Avatar name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $avatarUUID = $this->post("avatarUUID")->isUuid()->asString();
+        $avatarUUID = $this->input->post("avatarUUID")->isUuid()->asString();
         if ($avatarUUID == null) {
             $this->failed("Avatar UUID failed:" . $this->input->getWhyFailed());
             return;

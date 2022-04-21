@@ -157,7 +157,7 @@ class StartRental extends SecondlifeAjax
         $rentals->loadByAvatarLink($avatar->getId());
 
         $rental = new Rental();
-        $uid_rental = $rental->createUID("rentalUid", 8, 10);
+        $uid_rental = $rental->createUID("rentalUid", 8);
         $status = $uid_rental["status"];
         if ($status == false) {
             $this->failed("Unable to create rental uid");

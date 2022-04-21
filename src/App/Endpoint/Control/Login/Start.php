@@ -2,15 +2,15 @@
 
 namespace App\Endpoint\Control\Login;
 
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Start extends ViewAjax
+class Start extends ControlAjax
 {
     public function process(): void
     {
 
-        $staffusername = $this->post("staffusername")->checkStringLengthMin(3)->asString();
-        $staffpassword = $this->post("staffpassword")->checkStringLengthMin(3)->asString();
+        $staffusername = $this->input->post("staffusername")->checkStringLengthMin(3)->asString();
+        $staffpassword = $this->input->post("staffpassword")->checkStringLengthMin(3)->asString();
         $this->failed("Username or Password is invaild");
         if (($staffusername == null) || ($staffpassword == null)) {
             return;

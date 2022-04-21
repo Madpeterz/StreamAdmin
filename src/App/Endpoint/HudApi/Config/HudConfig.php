@@ -8,8 +8,7 @@ class HudConfig extends SecondlifeHudAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "Get config [ok]");
+        $this->ok("Get config [ok]");
         $this->setSwapTag("AllowDiscord", $this->siteConfig->getSlConfig()->getHudAllowDiscord());
         $this->setSwapTag("AllowGroup", $this->siteConfig->getSlConfig()->getHudAllowGroup());
         $this->setSwapTag("AllowDetails", $this->siteConfig->getSlConfig()->getHudAllowDetails());

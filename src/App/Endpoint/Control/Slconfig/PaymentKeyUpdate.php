@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Endpoint\Control\Slconfig;
+namespace App\Endpoint\Control\SlConfig;
 
 use App\Endpoint\View\Slconfig\PaymentKey;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class PaymentKeyUpdate extends ViewAjax
+class PaymentKeyUpdate extends ControlAjax
 {
     public function process(): void
     {
-
-        $key = $this->post("assignedkey")->checkStringLength(23, 23)->asString();
+        $key = $this->input->post("assignedkey")->checkStringLength(23, 23)->asString();
         $keyCheck = new PaymentKey();
         $results = $keyCheck->getKeyStatus($key, false);
         if ($results != "ok") {
@@ -23,7 +22,7 @@ class PaymentKeyUpdate extends ViewAjax
         }
         $this->siteConfig->getSlConfig()->setPaymentKey($key);
         $results = $this->siteConfig->getSlConfig()->updateEntry();
-        if ($results["status"] == false) {
+        if ($results->status == false) {
             $this->failed("Unable to update key in DB please check and try again");
             return;
         }

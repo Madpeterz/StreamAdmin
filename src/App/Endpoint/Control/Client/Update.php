@@ -4,11 +4,10 @@ namespace App\Endpoint\Control\Client;
 
 use App\Helpers\NoticesHelper;
 use App\Models\Avatar;
-use App\Models\Sets\NoticeSet;
 use App\Models\Rental;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     protected $actions_taken = "";
     protected $isseus = "";
@@ -109,27 +108,25 @@ class Update extends ViewAjax
     public function process(): void
     {
         $rental = new Rental();
-
-
         $this->actions_taken = "";
         $this->issues = "";
 
         // adjustment
-        $adjustment_days = $this->post("adjustment_days")->asInt();
-        $adjustment_hours = $this->post("adjustment_hours")->asInt();
-        $adjustment_dir = $this->post("adjustment_dir")->asInt();
+        $adjustment_days = $this->input->post("adjustment_days")->asInt();
+        $adjustment_hours = $this->input->post("adjustment_hours")->asInt();
+        $adjustment_dir = $this->input->post("adjustment_dir")->asInt();
         if ($adjustment_dir === null) {
             $adjustment_dir = false;
         }
         // transfer
-        $transfer_avataruid = $this->post("transfer_avataruid")->asString();
+        $transfer_avataruid = $this->input->post("transfer_avataruid")->asString();
         // message
-        $this->message = $this->post("message")->asString();
+        $this->message = $this->input->post("message")->asString();
         if (strlen($this->message) < 1) {
             $this->message = null;
         }
 
-        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;
@@ -163,16 +160,12 @@ class Update extends ViewAjax
             $this->failed($this->issues);
             return;
         }
-        if ($rental->getExpireUnixtime() > time()) {
-            $rental->setApiSuspended(false);
-            $rental->setApiPendingAutoSuspend(false);
-            $rental->setApiPendingAutoSuspendAfter(null);
-        }
+
         $change_status = $rental->updateEntry();
-        if ($change_status["status"] != true) {
+        if ($change_status->status != true) {
             $this->failed(sprintf(
                 "Unable to update because: %1\$s",
-                $change_status["message"]
+                $change_status->message
             ));
             return;
         }

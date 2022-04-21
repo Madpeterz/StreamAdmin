@@ -5,22 +5,22 @@ namespace App\Endpoint\Control\Login;
 use App\Framework\SessionControl;
 use App\Models\Avatar;
 use App\Models\Staff;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Resetnow extends ViewAjax
+class Resetnow extends ControlAjax
 {
     public function process(): void
     {
         sleep(1);
 
-        $slusername = $this->post("slusername")->checkStringLengthMin(3)->asString();
-        $token = $this->post("token")->checkStringLength(8, 8)->asString();
-        $newpw1 = $this->post("newpassword1")->checkStringLength(7, 30)->asString();
+        $slusername = $this->input->post("slusername")->checkStringLengthMin(3)->asString();
+        $token = $this->input->post("token")->checkStringLength(8, 8)->asString();
+        $newpw1 = $this->input->post("newpassword1")->checkStringLength(7, 30)->asString();
         if ($newpw1 == null) {
             $this->failed("New password failed:" . $this->input->getWhyFailed());
             return;
         }
-        $newpw2 = $this->post("newpassword2")->checkStringLength(7, 30)->asString();
+        $newpw2 = $this->input->post("newpassword2")->checkStringLength(7, 30)->asString();
         if ($newpw2 == null) {
             $this->failed("New password (Repeated) failed:" . $this->input->getWhyFailed());
             return;
@@ -39,11 +39,11 @@ class Resetnow extends ViewAjax
         }
         $slusername = implode(" ", $username_bits);
         $avatar = new Avatar();
-        if ($avatar->loadByAvatarName($slusername) == false) {
+        if ($avatar->loadByAvatarName($slusername)->status == false) {
             return;
         }
-        $staff = new Staff();
-        if ($staff->loadByAvatarLink($avatar->getId()) == false) {
+        $staff = $avatar->relatedStaff()->getFirst();
+        if ($staff->isLoaded() == false) {
             return;
         }
         if ($staff->getEmailResetCode() != $token) {
@@ -62,14 +62,14 @@ class Resetnow extends ViewAjax
         $session_helper = new SessionControl();
         $session_helper->attachStaffMember($staff);
         $update_status = $session_helper->updatePassword($newpw1);
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed("Something went wrong updating your password");
             return;
         }
         $staff->setEmailResetCode(null);
         $staff->setEmailResetExpires(time() - 1);
         $update_status = $staff->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed("Unable to finalize changes to your account");
             return;
         }

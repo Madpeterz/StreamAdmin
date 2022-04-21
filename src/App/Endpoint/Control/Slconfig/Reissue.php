@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Endpoint\Control\Slconfig;
+namespace App\Endpoint\Control\SlConfig;
 
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Reissue extends ViewAjax
+class ReIssue extends ControlAjax
 {
     protected function lazyPW(
         $length,
@@ -28,15 +28,14 @@ class Reissue extends ViewAjax
     public function process(): void
     {
         if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
-            $this->setSwapTag("status", false);
             $this->failed("Only system owner can adjust settings");
             return;
         }
         $this->reissueKeys();
         $update_status = $this->siteConfig->getSlConfig()->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed(
-                sprintf("Unable to update system config: %1\$s", $update_status["message"])
+                sprintf("Unable to update system config: %1\$s", $update_status->message)
             );
             return;
         }

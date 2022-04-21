@@ -42,6 +42,22 @@ abstract class SecondlifeAjax extends TemplateViewAjax
     protected InputFilter $input;
     protected Config $siteConfig;
 
+    public function renderPage(): void
+    {
+        $output = $this->getOutputObject();
+        $tags = $output->getAllTags();
+        foreach ($tags as $tagname => $tagvalue) {
+            if (is_bool($tagvalue) == false) {
+                continue;
+            }
+            if ($tagvalue == true) {
+                $this->setSwapTag($tagname, "1");
+                continue;
+            }
+            $this->setSwapTag($tagname, "0");
+        }
+        parent::renderPage();
+    }
     public function setReseller(Reseller $reseller): void
     {
         $this->reseller = $reseller;

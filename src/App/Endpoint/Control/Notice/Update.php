@@ -4,16 +4,15 @@ namespace App\Endpoint\Control\Notice;
 
 use App\Models\Notice;
 use App\Models\Noticenotecard;
-use App\Framework\ViewAjax;
 use App\Models\Sets\NoticeSet;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     public function process(): void
     {
-
         $static_notecard = new Noticenotecard();
-        $name = $this->post("name", 100, 5);
+        $name = $this->input->post("name")->checkStringLength(5, 100)->asString();
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
@@ -22,44 +21,43 @@ class Update extends ViewAjax
         if ($this->siteConfig->getPage() == 6) {
             $minValue = 0;
         }
-        $hoursRemaining = $this->post("hoursRemaining");
+        $hoursRemaining = $this->input->post("hoursRemaining")->checkGrtThanEq($minValue)->asInt();
         if ($hoursRemaining < $minValue) {
-            $this->failed("Hours remain failed: can not be less than " . $minValue);
+            $this->failed("Hours remaining failed:" . $this->input->getWhyFailed());
             return;
         }
         if ($this->siteConfig->getPage() == 6) {
             $hoursRemaining = 0;
         }
-        $imMessage = $this->post("imMessage", 800, 5);
+        $imMessage = $this->input->post("imMessage")->checkStringLength(5, 800)->asString();
         if ($imMessage === null) {
             $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
-        $sendObjectIM = $this->post("sendObjectIM");
+        $sendObjectIM = $this->input->post("sendObjectIM")->asBool();
         if ($sendObjectIM === null) {
             $sendObjectIM = false;
         }
 
-        $useBot = $this->post("useBot");
+        $useBot = $this->input->post("useBot")->asBool();
         if ($useBot === null) {
             $useBot = false;
         }
-
-        $sendNotecard = $this->post("sendNotecard");
+        $sendNotecard = $this->input->post("sendNotecard")->asBool();
         if ($sendNotecard === null) {
             $sendNotecard = false;
         }
-        $notecardDetail = $this->post("notecardDetail");
-        if ($sendObjectIM === null) {
+        $notecardDetail = $this->input->post("notecardDetail")->asString();
+        if ($notecardDetail === null) {
             $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
-        $noticeNotecardLink = $this->post("noticeNotecardLink", false, true);
+        $noticeNotecardLink = $this->input->post("noticeNotecardLink")->checkGrtThanEq(1)->asInt();
         if ($noticeNotecardLink === null) {
             $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;
         }
-        if ($static_notecard->loadID($noticeNotecardLink) == false) {
+        if ($static_notecard->loadID($noticeNotecardLink)->status == false) {
             $this->failed("Unable to find selected static notecard");
             return;
         }
@@ -69,7 +67,7 @@ class Update extends ViewAjax
         }
 
         $notice = new Notice();
-        if ($notice->loadID($this->siteConfig->getPage()) == false) {
+        if ($notice->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find notice");
             $this->setSwapTag("redirect", "notice");
             return;
@@ -108,9 +106,9 @@ class Update extends ViewAjax
             $notice->setHoursRemaining($hoursRemaining);
         }
         $update_status = $notice->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed(
-                sprintf("Unable to update notice: %1\$s", $update_status["message"])
+                sprintf("Unable to update notice: %1\$s", $update_status->message)
             );
             return;
         }

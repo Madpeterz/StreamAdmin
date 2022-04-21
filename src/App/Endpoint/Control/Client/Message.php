@@ -4,20 +4,19 @@ namespace App\Endpoint\Control\Client;
 
 use App\Endpoint\Control\Outbox\Send;
 use App\Models\Rental;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Message extends ViewAjax
+class Message extends ControlAjax
 {
     public function process(): void
     {
         $rental = new Rental();
-
-        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;
         }
-        $message = $this->post("mail")->checkStringLength(10, 800)->asString();
+        $message = $this->input->post("mail")->checkStringLength(10, 800)->asString();
         if ($message == null) {
             $this->failed("message failed:" . $this->input->getWhyFailed());
             return;

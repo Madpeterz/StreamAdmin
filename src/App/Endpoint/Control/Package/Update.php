@@ -6,9 +6,9 @@ use App\Models\Package;
 use App\Models\Servertypes;
 use App\Models\Template;
 use App\Models\Sets\NoticenotecardSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     protected Template $template;
     protected Servertypes $servertype;
@@ -56,32 +56,31 @@ class Update extends ViewAjax
 
         $this->template = new Template();
         $this->servertype = new Servertypes();
-        $this->input = new InputFilter();
         $this->package = new Package();
     }
 
     protected function formData(): void
     {
-        $this->name = $this->post("name")->checkStringLength(5, 30)->asString();
-        $this->templateLink = $this->post("templateLink")->checkGrtThanEq(1)->asInt();
-        $this->cost = $this->post("cost")->checkInRange(1, 99999)->asInt();
-        $this->days = $this->post("days")->checkInRange(1, 999)->asInt();
-        $this->bitrate = $this->post("bitrate")->checkInRange(56, 999)->asInt();
-        $this->listeners = $this->post("listeners")->checkInRange(1, 999)->asInt();
-        $this->textureSoldout = $this->post("textureSoldout")->isUuid()->asString();
-        $this->textureInstockSmall = $this->post("textureInstockSmall")->isUuid()->asString();
-        $this->textureInstockSelected = $this->post("textureInstockSelected")->isUuid()->asString();
-        $this->enableGroupInvite = $this->post("enableGroupInvite")->asBool();
+        $this->name = $this->input->post("name")->checkStringLength(5, 30)->asString();
+        $this->templateLink = $this->input->post("templateLink")->checkGrtThanEq(1)->asInt();
+        $this->cost = $this->input->post("cost")->checkInRange(1, 99999)->asInt();
+        $this->days = $this->input->post("days")->checkInRange(1, 999)->asInt();
+        $this->bitrate = $this->input->post("bitrate")->checkInRange(56, 999)->asInt();
+        $this->listeners = $this->input->post("listeners")->checkInRange(1, 999)->asInt();
+        $this->textureSoldout = $this->input->post("textureSoldout")->isUuid()->asString();
+        $this->textureInstockSmall = $this->input->post("textureInstockSmall")->isUuid()->asString();
+        $this->textureInstockSelected = $this->input->post("textureInstockSelected")->isUuid()->asString();
+        $this->enableGroupInvite = $this->input->post("enableGroupInvite")->asBool();
         $testing = [
-            "name" => $name,
-            "template" => $templateLink,
-            "cost" => $cost,
-            "days" => $days,
-            "bitrate" => $bitrate,
-            "listeners" => $listeners,
-            "texture soldout" => $textureSoldout,
-            "texture small" => $textureInstockSmall,
-            "texture selected" => $textureInstockSelected,
+            "name" => $this->name,
+            "template" => $this->templateLink,
+            "cost" => $this->cost,
+            "days" => $this->days,
+            "bitrate" => $this->bitrate,
+            "listeners" => $this->listeners,
+            "texture soldout" => $this->textureSoldout,
+            "texture small" => $this->textureInstockSmall,
+            "texture selected" => $this->textureInstockSelected,
         ];
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
@@ -92,28 +91,28 @@ class Update extends ViewAjax
         }
 
 
-        $this->autodj = $this->post("autodj")->asBool();
-        $this->autodjSize = $this->post("autodjSize")->checkInRange(1, 9999)->asInt();
-        $this->servertypeLink = $this->post("servertypeLink")->checkGrtThanEq(1)->asInt();
-        $this->welcomeNotecardLink = $this->post("welcomeNotecardLink")->checkGrtThanEq(1)->asInt();
-        $this->setupNotecardLink = $this->post("setupNotecardLink")->checkGrtThanEq(1)->asInt();
+        $this->autodj = $this->input->post("autodj")->asBool();
+        $this->autodjSize = $this->input->post("autodjSize")->checkInRange(1, 9999)->asInt();
+        $this->servertypeLink = $this->input->post("servertypeLink")->checkGrtThanEq(1)->asInt();
+        $this->welcomeNotecardLink = $this->input->post("welcomeNotecardLink")->checkGrtThanEq(1)->asInt();
+        $this->setupNotecardLink = $this->input->post("setupNotecardLink")->checkGrtThanEq(1)->asInt();
     }
 
     protected function tests(): bool
     {
-        if (in_array($this->welcomeNotecardLink, $noticeNotecardIds) == false) {
+        if (in_array($this->welcomeNotecardLink, $this->noticeNotecardIds) == false) {
             $this->failed("Welcome notecard not selected");
             return false;
         }
-        if (in_array($this->setupNotecardLink, $noticeNotecardIds) == false) {
+        if (in_array($this->setupNotecardLink, $this->noticeNotecardIds) == false) {
             $this->failed("Setup notecard not selected");
             return false;
         }
-        if ($template->loadID($this->templateLink) == false) {
+        if ($this->template->loadID($this->templateLink)->status == false) {
             $this->failed("Unable to find template");
             return false;
         }
-        if ($servertype->loadID($this->servertypeLink) == false) {
+        if ($this->servertype->loadID($this->servertypeLink)->status == false) {
             $this->failed("Unable to find server type");
             return false;
         }
@@ -122,13 +121,13 @@ class Update extends ViewAjax
 
     protected function loadData(): bool
     {
-        if ($this->template->loadID($this->templateLink) == false) {
+        if ($this->template->loadID($this->templateLink)->status == false) {
             $this->failed("Unable to find template");
             return false;
-        } elseif ($this->servertype->loadID($this->servertypeLink) == false) {
+        } elseif ($this->servertype->loadID($this->servertypeLink)->status == false) {
             $this->failed("Unable to find server type");
             return false;
-        } elseif ($this->package->loadByPackageUid($this->siteConfig->getPage()) == false) {
+        } elseif ($this->package->loadByPackageUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to load package");
             return false;
         }
@@ -158,11 +157,11 @@ class Update extends ViewAjax
     {
         $this->updatePackageSettings();
         $update_status = $this->package->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed(
                 sprintf(
                     "Unable to update package: %1\$s",
-                    $update_status["message"]
+                    $update_status->message
                 )
             );
             return false;

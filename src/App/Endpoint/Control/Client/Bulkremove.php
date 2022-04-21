@@ -3,19 +3,11 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\EventsQHelper;
-use App\MediaServer\Logic\ApiLogicRevoke;
-use App\Models\Sets\ApirequestsSet;
-use App\Models\Sets\ApisSet;
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\PackageSet;
 use App\Models\Sets\RentalSet;
-use App\Models\Server;
 use App\Models\Sets\RentalnoticeptoutSet;
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\StreamSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Bulkremove extends ViewAjax
+class Bulkremove extends ControlAjax
 {
     public function process(): void
     {
@@ -38,7 +30,7 @@ class Bulkremove extends ViewAjax
         $this->setSwapTag("redirect", "client/bulkremove");
         $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
-            $accept = $this->post("rental" . $rental->getRentalUid());
+            $accept = $this->input->post("rental" . $rental->getRentalUid())->asString();
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;
@@ -53,10 +45,10 @@ class Bulkremove extends ViewAjax
 
             if ($client_rental_notice_opt_outs->getCount() > 0) {
                 $purge = $client_rental_notice_opt_outs->purgeCollection();
-                if ($purge["status"] == false) {
+                if ($purge->status == false) {
                     $this->failed(sprintf(
                         "Failed to purge some client notice opt outs because %1\$s",
-                        $purge["message"]
+                        $purge->message
                     ));
                     return;
                 }
@@ -98,15 +90,15 @@ class Bulkremove extends ViewAjax
             $stream->setRentalLink(null);
             $stream->setNeedWork(1);
             $update_status = $stream->updateEntry();
-            if ($update_status["status"] == false) {
+            if ($update_status->status == false) {
                 $this->failed(sprintf("Error releasing stream from rental %1\$s", $rental->getRentalUid()));
                 return;
             }
             $all_ok = true;
             $remove_status = $rental->removeEntry();
-            $all_ok = $remove_status["status"];
+            $all_ok = $remove_status->status;
             if ($all_ok == false) {
-                $this->failed(sprintf("Error removing old rental %1\$s", $remove_status["message"]));
+                $this->failed(sprintf("Error removing old rental %1\$s", $remove_status->message));
                 return;
             }
             $removed_counter++;

@@ -6,17 +6,16 @@ use App\Models\Rental;
 use App\Models\Rentalnoticeptout;
 use App\Models\Sets\NoticeSet;
 use App\Models\Sets\RentalnoticeptoutSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class NoticeOptout extends ViewAjax
+class NoticeOptOut extends ControlAjax
 {
     public function process(): void
     {
         $this->setSwapTag("redirect", "Client/Manage/" . $this->siteConfig->getPage() . "?tab=tabid6");
         $rental = new Rental();
 
-
-        if ($rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;
@@ -29,7 +28,7 @@ class NoticeOptout extends ViewAjax
             "matches" => ["!="],
         ];
         $load = $noticeLevels->loadWithConfig($whereConfig);
-        if ($load["status"] == false) {
+        if ($load->status == false) {
             $this->failed("Unable to load notice levels");
             return;
         }
@@ -39,10 +38,10 @@ class NoticeOptout extends ViewAjax
         $remove_client_opt_out = new RentalnoticeptoutSet();
 
         $enabledCounter = 0;
-        $opt_out_notice_ids = $client_opt_out->getUniqueArray("noticeLink");
+        $opt_out_notice_ids = $client_opt_out->uniqueNoticeLinks();
         foreach ($noticeLevels as $noticeLevel) {
             if (in_array($noticeLevel->getId(), $opt_out_notice_ids) == true) {
-                $check = $this->post("remove-optout-" . $noticeLevel->getId());
+                $check = $this->input->post("remove-optout-" . $noticeLevel->getId())->asBool();
                 if ($check !== true) {
                     continue;
                 }
@@ -59,7 +58,7 @@ class NoticeOptout extends ViewAjax
                 $remove_client_opt_out->addToCollected($opt_out);
                 continue;
             }
-            $check = $this->post("add-optout-" . $noticeLevel->getId());
+            $check = $this->input->post("add-optout-" . $noticeLevel->getId())->asBool();
             if ($check !== true) {
                 continue;
             }
@@ -67,11 +66,11 @@ class NoticeOptout extends ViewAjax
             $newOptOut->setRentalLink($rental->getId());
             $newOptOut->setNoticeLink($noticeLevel->getId());
             $addStatus = $newOptOut->createEntry();
-            if ($addStatus["status"] == false) {
+            if ($addStatus->status == false) {
                 $this->failed(
                     sprintf(
                         "Unable to create new opt-out because: %1\$s",
-                        $addStatus["message"]
+                        $addStatus->message
                     )
                 );
                 return;
@@ -82,11 +81,11 @@ class NoticeOptout extends ViewAjax
         $removedCounter = $remove_client_opt_out->getCount();
         if ($remove_client_opt_out->getCount() > 0) {
             $status = $remove_client_opt_out->purgeCollection();
-            if ($status["status"] == false) {
+            if ($status->status == false) {
                 $this->failed(
                     sprintf(
                         "Unable to purge unwanted opt-outs because: %1\$s",
-                        $status["message"]
+                        $status->message
                     )
                 );
                 return;

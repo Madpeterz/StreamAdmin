@@ -3,17 +3,15 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\EventsQHelper;
-use App\MediaServer\Logic\ApiLogicRevoke;
-use App\Models\Sets\ApirequestsSet;
 use App\Models\Avatar;
 use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
 use App\Models\Sets\RentalnoticeptoutSet;
-use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Revoke extends ViewAjax
+class Revoke extends ControlAjax
 {
     protected ?Rental $rental;
     protected ?Stream $stream;
@@ -25,7 +23,7 @@ class Revoke extends ViewAjax
     {
         $this->rental = new Rental();
 
-        $accept = $this->post("accept")->asString();
+        $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", null);
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
@@ -42,7 +40,7 @@ class Revoke extends ViewAjax
 
     protected function load(): bool
     {
-        if ($this->rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
+        if ($this->rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find client");
             return false;
         }
@@ -75,27 +73,27 @@ class Revoke extends ViewAjax
         $this->stream->setRentalLink(null);
         $this->stream->setNeedWork(1);
         $update_status = $this->stream->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed("Unable to mark stream as needs work");
             return false;
         }
         $rental_notice_opt_outs = new RentalnoticeptoutSet();
         $load = $rental_notice_opt_outs->loadByRentalLink($this->rental->getId());
-        if ($load["status"] == false) {
+        if ($load->status == false) {
             $this->failed("Unable to load rental notice opt-outs");
             return false;
         }
         if ($rental_notice_opt_outs->getCount() > 0) {
             $purge = $rental_notice_opt_outs->purgeCollection();
-            if ($purge["status"] == false) {
-                $this->failed(sprintf("Unable to remove client notice opt-outs: %1\$s", $purge["message"]));
+            if ($purge->status == false) {
+                $this->failed(sprintf("Unable to remove client notice opt-outs: %1\$s", $purge->message));
                 return false;
             }
         }
 
         $remove_status = $this->rental->removeEntry();
-        if ($remove_status["status"] == false) {
-            $this->failed(sprintf("Unable to remove client: %1\$s", $remove_status["message"]));
+        if ($remove_status->status == false) {
+            $this->failed(sprintf("Unable to remove client: %1\$s", $remove_status->message));
             return false;
         }
         return true;
