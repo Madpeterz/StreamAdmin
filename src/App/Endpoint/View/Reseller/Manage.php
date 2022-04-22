@@ -20,14 +20,14 @@ class Manage extends View
         if ($reseller->loadID($this->siteConfig->getPage()) == false) {
             $this->output->redirect("reseller?bubblemessage=unable to find reseller&bubbletype=warning");
         }
-            $avatar->loadID($reseller->getAvatarLink());
-            $this->output->addSwapTagString("page_title", ":" . $avatar->getAvatarName());
-            $form = new Form();
-            $form->target("reseller/update/" . $this->siteConfig->getPage() . "");
-            $form->required(true);
-            $form->col(6);
-                $form->select("allowed", "Allow", $reseller->getAllowed(), [false => "No",true => "Yes"]);
-                $form->numberInput("rate", "Rate (as %)", $reseller->getRate(), 3, "Max 100");
-            $this->setSwapTag("page_content", $form->render("Update", "primary"));
+        $avatar->loadID($reseller->getAvatarLink());
+        $this->output->addSwapTagString("page_title", ":" . $avatar->getAvatarName());
+        $form = new Form();
+        $form->target("reseller/update/" . $this->siteConfig->getPage() . "");
+        $form->required(true);
+        $form->col(6);
+            $form->select("allowed", "Allow", $reseller->getAllowed(), [false => "No",true => "Yes"]);
+            $form->numberInput("rate", "Rate (as %)", $reseller->getRate(), 3, "Max 100");
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

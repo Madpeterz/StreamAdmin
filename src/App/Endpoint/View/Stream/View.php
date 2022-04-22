@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Stream;
 
+use App\Framework\Menu;
 use App\Models\Package;
 use App\Models\Server;
-use App\Framework\View as BasicView;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {

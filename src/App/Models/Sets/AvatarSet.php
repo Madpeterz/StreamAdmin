@@ -207,6 +207,13 @@ class AvatarSet extends CollectionSet
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
+    public function relatedNotecardmail(): NotecardmailSet
+    {
+        $ids = $this->uniqueIds();
+        $collection = new NotecardmailSet();
+        $collection->loadFromAvatarLinks($ids);
+        return $collection;
+    }
     public function relatedObjects(): ObjectsSet
     {
         $ids = $this->uniqueIds();

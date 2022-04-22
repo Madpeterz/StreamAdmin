@@ -103,15 +103,6 @@ class StreamSet extends CollectionSet
         return parent::uniqueArray("needWork");
     }
     /**
-     * uniqueOriginalAdminUsernames
-     * returns unique values from the collection matching that field
-     * @return array<string>
-     */
-    public function uniqueOriginalAdminUsernames(): array
-    {
-        return parent::uniqueArray("originalAdminUsername");
-    }
-    /**
      * uniqueAdminUsernames
      * returns unique values from the collection matching that field
      * @return array<string>
@@ -306,31 +297,6 @@ class StreamSet extends CollectionSet
     public function loadFromNeedWorks(array $values): SetsLoadReply
     {
         return $this->loadIndexes("needWork", $values);
-    }
-    /**
-     * loadByOriginalAdminUsername
-    */
-    public function loadByOriginalAdminUsername(
-        string $originalAdminUsername, 
-        int $limit = 0, 
-        string $orderBy = "id", 
-        string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
-        return $this->loadOnField(
-            "originalAdminUsername", 
-            $originalAdminUsername, 
-            $limit, 
-            $orderBy, 
-            $orderDir
-        );
-    }
-    /**
-     * loadFromOriginalAdminUsernames
-    */
-    public function loadFromOriginalAdminUsernames(array $values): SetsLoadReply
-    {
-        return $this->loadIndexes("originalAdminUsername", $values);
     }
     /**
      * loadByAdminUsername

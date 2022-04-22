@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Package;
 
+use App\Framework\Menu;
 use App\Models\Template;
-use App\Framework\View as BasicView;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {

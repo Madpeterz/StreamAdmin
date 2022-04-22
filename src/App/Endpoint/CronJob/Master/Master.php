@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CronJob\Master;
+namespace App\Endpoint\CronJob\Master;
 
 use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
@@ -25,7 +25,7 @@ abstract class Master
     protected float $avgSleep = 0;
     protected array $tickOffsets = [];
 
-    public function __construct(int $forceSetGroups = 15)
+    public function doWork(int $forceSetGroups = 15): void
     {
         $this->groups = $forceSetGroups;
         if ($this->lockMaxGroups != null) {
@@ -143,13 +143,13 @@ abstract class Master
         $region = $regionHelper->getRegion();
 
         $slconfig = new Slconfig();
-        if ($slconfig->loadID(1) == false) {
+        if ($slconfig->loadID(1)->status == false) {
             echo "task: " . $this->cronName . " - Unable to load system config:" . $slconfig->getLastErrorBasic();
             return false;
         }
 
         $avatar = new Avatar();
-        if ($avatar->loadID($slconfig->getOwnerAvatarLink()) == false) {
+        if ($avatar->loadID($slconfig->getOwnerAvatarLink())->status == false) {
             echo "task: " . $this->cronName . " - Unable to load owner avatar:" . $avatar->getLastErrorBasic();
             return false;
         }

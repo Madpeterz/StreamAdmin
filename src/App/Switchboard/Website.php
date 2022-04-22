@@ -25,8 +25,6 @@ class Website extends Switchboard
     }
     public function __construct()
     {
-        global $session;
-        $this->session = &$session;
         parent::__construct();
     }
 }

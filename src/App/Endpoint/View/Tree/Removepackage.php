@@ -12,18 +12,18 @@ class Removepackage extends View
     public function process(): void
     {
         $treevender_packages = new Treevenderpackages();
-        if ($treevender_packages->loadID($this->siteConfig->getPage()) == false) {
+        if ($treevender_packages->loadID($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find linked treevender package&bubbletype=warning");
             return;
         }
         $treevender = new Treevender();
-        if ($treevender->loadID($treevender_packages->getTreevenderLink()) == false) {
+        if ($treevender->loadID($treevender_packages->getTreevenderLink())->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find treevender "
             . "thats linked to this package link&bubbletype=warning");
             return;
         }
         $package = new Package();
-        if ($package->loadID($treevender_packages->getPackageLink()) == false) {
+        if ($package->loadID($treevender_packages->getPackageLink())->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find package&bubbletype=warning");
             return;
         }

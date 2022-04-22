@@ -1,14 +1,14 @@
 <?php
 
-namespace App\CronJob\Tasks;
+namespace App\Endpoint\CronJob\Tasks;
 
-use App\CronJob\Master\Master;
+use App\Endpoint\CronJob\Master\Master;
 use App\Endpoint\SecondLifeApi\BotCommandQ\Next;
 use App\Models\Avatar;
 use App\Models\Botconfig;
 use GuzzleHttp\Client;
 
-class BotcommandQ extends Master
+class BotCommandQ extends Master
 {
     protected string $cronName = "botcommandqserver";
     protected int $cronID = 4;

@@ -30,3 +30,12 @@ ALTER TABLE `package`
   DROP `apiAutoSuspendDelayHours`;
 
 ALTER TABLE `slconfig` DROP `apiDefaultEmail`;
+
+ALTER TABLE `notecardmail` 
+ADD CONSTRAINT `notecardmail_avatar_inuse` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `notecardmail` 
+ADD CONSTRAINT `notecardmial_notecard_inuse` FOREIGN KEY (`noticenotecardLink`) REFERENCES `noticenotecard`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+
+UPDATE `stream` set `adminUsername` = `originalAdminUsername` WHERE 1=1;
+
+ALTER TABLE `stream` DROP `originalAdminUsername`;

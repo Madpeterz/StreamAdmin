@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Outbox;
 
+use App\Endpoint\View\Shared\SwapsTable;
 use App\Models\Stream;
-use App\Framework\View as BasicView;
 
-abstract class View extends BasicView
+abstract class View extends SwapsTable
 {
     public function __construct()
     {

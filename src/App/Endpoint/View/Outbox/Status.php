@@ -2,8 +2,6 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Sets\EventsqSet;
-
 class Status extends View
 {
     public function process(): void
@@ -37,11 +35,11 @@ class Status extends View
             $ttc_norm = "";
             if ($count > 0) {
                 $normTime = ($config["norm"] * $count);
-                $ttc_norm = timeleftHoursAndDays(time() + $normTime, true, "");
+                $ttc_norm = $this->timeRemainingHumanReadable(time() + $normTime, true, "");
                 $cronTime = ($config["cron"] * $count);
                 if ($cronTime != $normTime) {
                     $ttc_cron .= "<strong class=\"text-success\">"
-                    . timeleftHoursAndDays(time() + $cronTime, true, "") . "</strong>";
+                    . $this->timeRemainingHumanReadable(time() + $cronTime, true, "") . "</strong>";
                 }
             }
             $entry[] = $ttc_norm;

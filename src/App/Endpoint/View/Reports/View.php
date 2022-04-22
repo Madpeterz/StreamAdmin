@@ -2,10 +2,9 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\Models\Template;
-use App\Framework\View as BasicView;
+use App\Framework\Menu;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     protected function amountChanged($old, $new): string
     {

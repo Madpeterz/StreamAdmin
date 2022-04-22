@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CronJob\Tasks;
+namespace App\Endpoint\CronJob\Tasks;
 
 use App\Endpoint\View\Export\Flow1;
 

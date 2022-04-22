@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Template;
 
-use App\Framework\View as BasicView;
+use App\Endpoint\View\Shared\SwapsTable;
 
-abstract class View extends BasicView
+abstract class View extends SwapsTable
 {
     public function __construct()
     {

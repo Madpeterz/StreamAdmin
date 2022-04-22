@@ -2,8 +2,6 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Botconfig;
-use App\Models\Sets\AvatarSet;
 use App\Models\Sets\MessageSet;
 
 class Mail extends View
@@ -15,10 +13,7 @@ class Mail extends View
         $table_body = [];
         $message_set = new MessageSet();
         $message_set->loadAll();
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($message_set->getAllByField("avatarLink"));
-        $botConfig = new Botconfig();
-        $botConfig->loadID(1);
+        $avatar_set = $message_set->relatedAvatar();
         foreach ($message_set as $message) {
             $avatar = $avatar_set->getObjectByID($message->getAvatarLink());
             $message_content = $message->getMessage();

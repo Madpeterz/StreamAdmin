@@ -12,12 +12,11 @@ class DefaultView extends View
     {
         $this->output->addSwapTagString("page_title", "Toolbox");
 
-        $month = $this->post("month", "integer");
-        $year = $this->post("year", "integer");
+        $month = $this->input->get("month")->asInt();
+        $year = $this->input->get("year")->asInt();
         if ($year < 2013) {
             $year = date("Y");
         }
-
         if ($month < 1) {
             $month = 1;
         } elseif ($month > 12) {
@@ -101,11 +100,10 @@ class DefaultView extends View
         $amount_new = 0;
         $amount_renew = 0;
 
-        global $unixtime_week;
         $transactions_set = new TransactionsSet();
         $whereconfig = [
             "fields" => ["unixtime","unixtime"],
-            "values" => [time() - $unixtime_week,time()],
+            "values" => [time() - $this->siteConfig->unixtimeWeek(),time()],
             "types" => ["i","i"],
             "matches" => [">=","<="],
         ];

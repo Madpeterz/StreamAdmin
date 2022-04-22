@@ -16,6 +16,7 @@ class Menu extends TableView
         global $system;
         $this->siteConfig = $system;
         $this->input = new InputFilter();
+        $this->loadMenu();
         parent::__construct($AutoLoadTemplate);
     }
 
@@ -31,6 +32,9 @@ class Menu extends TableView
 
     protected function loadMenu(): void
     {
+        if ($this->siteConfig->getSession()?->getLoggedIn() !== true) {
+            return;
+        }
         $menu_items = [
             "Dashboard" => [
                 "icon" => "fas fa-home",

@@ -10,18 +10,14 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        $inputFilter = new InputFilter();
-        $pagenum = $inputFilter->varFilter($this->siteConfig->getPage(), "integer");
+        $pagenum = $this->input->varInput($this->siteConfig->getPage())->checkGrtThanEq(0)->asInt();
         if ($pagenum == null) {
             $pagenum = 0;
         }
         $objects_set = new ObjectsSet();
-        $objects_set->loadLimited(1000, "id", "DESC", [], [], "AND", $pagenum);
-        $region_set = new RegionSet();
-        $region_set->loadByValues($objects_set->getAllByField("regionLink"));
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($objects_set->getAllByField("avatarLink"));
-
+        $objects_set->loadLimited(limit:1000, orderDirection:"DESC", page:$pagenum);
+        $region_set = $objects_set->relatedRegion();
+        $avatar_set = $objects_set->relatedAvatar();
         $table_head = ["id","Object name","Script + Version","Last seen","Region","Object mode","Owner"];
         $table_body = [];
         if ($objects_set->getCount() == 0) {

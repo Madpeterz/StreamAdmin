@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\Slconfig;
+namespace App\Endpoint\View\SlConfig;
 
 use YAPF\Bootstrap\Template\Form;
 
@@ -24,7 +24,7 @@ class PaymentKey extends View
             return "Expired";
         }
         if ($giveTimeleft == true) {
-            return timeleftHoursAndDays($keyCheck[1], false, "Expired");
+            return $this->timeRemainingHumanReadable($keyCheck[1], false, "Expired");
         }
         return "ok";
     }
@@ -39,7 +39,13 @@ class PaymentKey extends View
         $form->target("Slconfig/PaymentKeyUpdate");
         $form->required(true);
         $form->col(3);
-        $form->textInput("assignedkey", "key", 23, $this->siteConfig->getSlConfig()->getPaymentKey(), "Keys are not free :P");
+        $form->textInput(
+            "assignedkey",
+            "key",
+            23,
+            $this->siteConfig->getSlConfig()->getPaymentKey(),
+            "Keys are not free :P"
+        );
         $form->col(2);
         $form->directAdd(" ");
         $form->col(7);

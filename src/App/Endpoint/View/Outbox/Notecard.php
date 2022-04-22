@@ -2,9 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Sets\AvatarSet;
 use App\Models\Sets\NotecardSet;
-use App\Models\Sets\RentalSet;
 
 class Notecard extends View
 {
@@ -15,10 +13,8 @@ class Notecard extends View
         $table_body = [];
         $notecard_set = new NotecardSet();
         $notecard_set->loadAll();
-        $rental_set = new RentalSet();
-        $rental_set->loadByValues($notecard_set->getAllByField("rentalLink"));
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
+        $rental_set = $notecard_set->relatedRental();
+        $avatar_set = $rental_set->relatedAvatar();
         foreach ($notecard_set as $notecard) {
             $rental = $rental_set->getObjectByID($notecard->getRentalLink());
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());

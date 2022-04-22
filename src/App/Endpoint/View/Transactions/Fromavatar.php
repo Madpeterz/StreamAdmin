@@ -2,12 +2,12 @@
 
 namespace App\Endpoint\View\Transactions;
 
-class Fromavatar extends Forms
+class FromAvatar extends Forms
 {
     public function process(): void
     {
 
-        $avd = $input->getFilter("avatarsearch");
+        $avd = $this->input->get("avatarsearch")->asString();
         if (strlen($avd) < 3) {
             $this->output->redirectWithMessage("transactions", "Please enter 3 letters/numbers at min");
             return;

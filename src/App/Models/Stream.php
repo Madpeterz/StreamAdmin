@@ -22,7 +22,6 @@ class Stream extends genClass
         "packageLink",
         "port",
         "needWork",
-        "originalAdminUsername",
         "adminUsername",
         "adminPassword",
         "djPassword",
@@ -36,7 +35,6 @@ class Stream extends genClass
         "packageLink" => ["type" => "int", "value" => null],
         "port" => ["type" => "int", "value" => null],
         "needWork" => ["type" => "bool", "value" => 0],
-        "originalAdminUsername" => ["type" => "str", "value" => null],
         "adminUsername" => ["type" => "str", "value" => null],
         "adminPassword" => ["type" => "str", "value" => null],
         "djPassword" => ["type" => "str", "value" => null],
@@ -78,13 +76,6 @@ class Stream extends genClass
     public function setNeedWork(?bool $newValue): UpdateReply
     {
         return $this->updateField("needWork", $newValue);
-    }
-    /**
-    * setOriginalAdminUsername
-    */
-    public function setOriginalAdminUsername(?string $newValue): UpdateReply
-    {
-        return $this->updateField("originalAdminUsername", $newValue);
     }
     /**
     * setAdminUsername
@@ -142,10 +133,6 @@ class Stream extends genClass
     {
         return $this->getField("needWork");
     }
-    public function getOriginalAdminUsername(): ?string
-    {
-        return $this->getField("originalAdminUsername");
-    }
     public function getAdminUsername(): ?string
     {
         return $this->getField("adminUsername");
@@ -200,13 +187,6 @@ class Stream extends genClass
         return $this->loadByField(
             "needWork",
             $needWork
-        );
-    }
-    public function loadByOriginalAdminUsername(string $originalAdminUsername): SingleLoadReply
-    {
-        return $this->loadByField(
-            "originalAdminUsername",
-            $originalAdminUsername
         );
     }
     public function loadByAdminUsername(string $adminUsername): SingleLoadReply

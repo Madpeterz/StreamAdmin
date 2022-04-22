@@ -2,16 +2,15 @@
 
 namespace App\Endpoint\View\Notice;
 
+use App\Endpoint\View\Shared\SwapsTable;
 use App\Models\Stream;
-use App\Framework\View as BasicView;
 
-abstract class View extends BasicView
+abstract class View extends SwapsTable
 {
     public function __construct()
     {
         parent::__construct();
-        $stream = new Stream();
-        if ($stream->HasAny() == false) {
+        if ((new Stream())->HasAny() == false) {
             $this->output->redirect("stream?message=Please create a stream first");
         }
         $this->setSwapTag("html_title", "Notices");

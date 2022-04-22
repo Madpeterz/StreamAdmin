@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Endpoint\View\Slconfig;
+namespace App\Endpoint\View\SlConfig;
 
-use App\Framework\View as BasicView;
+use App\Framework\Menu;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {

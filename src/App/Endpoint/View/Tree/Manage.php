@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\Endpoint\SecondLifeApi\Tree\Getpackages;
+use App\Endpoint\SecondLifeApi\Tree\GetPackages;
 use App\Models\Sets\PackageSet;
 use YAPF\Bootstrap\Template\Form;
 use App\Models\Treevender;
@@ -64,9 +64,9 @@ class Manage extends View
             $improved_packageLinker[$package->getId()] = $info;
         }
 
-        $testOutput = new Getpackages();
+        $testOutput = new GetPackages();
         $testOutput->ProcessWithTreevenderID($treevender->getId());
-        $testing = $testOutput->getOutputObject()->getSecondlifeAjax();
+        $testing = $testOutput->captureOutput();
         if (strlen($testing) > 9000) {
             $this->output->addSwapTagString(
                 "page_content",
@@ -107,8 +107,7 @@ class Manage extends View
 
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
         $this->output->addSwapTagString("page_content", "<br/><hr/><br/>");
-        $treevender_packages_set = new TreevenderpackagesSet();
-        $treevender_packages_set->loadOnField("treevenderLink", $treevender->getId());
+        $treevender_packages_set = $treevender->relatedTreevenderpackages();
         $table_head = ["ID","Name","Action"];
         $table_body = [];
         $used_package_ids = [];

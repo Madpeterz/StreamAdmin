@@ -2,8 +2,6 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\Server;
-
 class NeedWork extends Withstatus
 {
     public function process(): void

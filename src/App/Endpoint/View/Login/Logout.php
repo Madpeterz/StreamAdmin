@@ -6,7 +6,7 @@ class Logout extends View
 {
     public function process(): void
     {
-        $this->siteConfig->getSession()->endSession();
+        $this->siteConfig->getSession()?->endSession();
         $this->output->setSwapTag(
             "page_content",
             "Logged out"

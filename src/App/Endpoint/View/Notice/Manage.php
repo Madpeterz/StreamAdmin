@@ -30,7 +30,7 @@ class Manage extends View
         $notice_notecard_set->loadWithConfig($where_config);
 
         $notice = new Notice();
-        if ($notice->loadID($this->siteConfig->getPage()) == false) {
+        if ($notice->loadID($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("notice?bubblemessage=unable to find notice&bubbletype=warning");
             return;
         }
@@ -97,6 +97,6 @@ class Manage extends View
             $notice_notecard_set->getLinkedArray("id", "name")
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        include ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
+        parent::getSwaps();
     }
 }

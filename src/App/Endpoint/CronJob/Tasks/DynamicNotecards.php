@@ -1,8 +1,8 @@
 <?php
 
-namespace App\CronJob\Tasks;
+namespace App\Endpoint\CronJob\Tasks;
 
-use App\CronJob\Master\Master;
+use App\Endpoint\CronJob\Master\Master;
 
 class DynamicNotecards extends Master
 {

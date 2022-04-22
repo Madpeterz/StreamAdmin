@@ -152,6 +152,13 @@ class NoticenotecardSet extends CollectionSet
         return $this->loadIndexes("missing", $values);
     }
     // Related loaders
+    public function relatedNotecardmail(): NotecardmailSet
+    {
+        $ids = $this->uniqueIds();
+        $collection = new NotecardmailSet();
+        $collection->loadFromNoticenotecardLinks($ids);
+        return $collection;
+    }
     public function relatedNotice(): NoticeSet
     {
         $ids = $this->uniqueIds();

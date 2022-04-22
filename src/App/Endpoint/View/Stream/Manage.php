@@ -26,7 +26,7 @@ class Manage extends View
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $stream = new Stream();
-        if ($stream->loadByField("streamUid", $this->siteConfig->getPage()) == false) {
+        if ($stream->loadByField("streamUid", $this->siteConfig->getPage())->status == false) {
             $this->output->redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
             return;
         }
@@ -47,14 +47,7 @@ class Manage extends View
         $package_set = new PackageSet();
         $package_set->loadAll();
 
-        $api_set = new ApisSet();
-        $api_set->loadAll();
-
-        $improved_serverLinker = [];
-        foreach ($server_set as $server) {
-            $api = $api_set->getObjectByID($server->getApiLink());
-            $improved_serverLinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
-        }
+        $improved_serverLinker = $server_set->getLinkedArray("id", "domain");
 
         $servertypes_set = new ServertypesSet();
         $servertypes_set->loadAll();
@@ -101,13 +94,6 @@ class Manage extends View
         $form->textInput("mountpoint", "Mountpoint", 999, $stream->getMountpoint(), "Stream mount point");
         $form->col(6);
         $form->group("Config");
-        $form->textInput(
-            "originalAdminUsername",
-            "Original admin Usr",
-            5,
-            $stream->getOriginalAdminUsername(),
-            "original adminUsername [Restored by API if enabled]"
-        );
         $form->textInput("adminUsername", "Admin Usr", 5, $stream->getAdminUsername(), "Admin username");
         $form->textInput("adminPassword", "Admin PW", 3, $stream->getAdminPassword(), "Admin password");
         $form->textInput(
@@ -117,15 +103,6 @@ class Manage extends View
             $stream->getDjPassword(),
             "Encoder/Stream password"
         );
-        $form->directAdd("<br/>");
-        $form->col(6);
-        $form->group("API");
-        $form->textInput("apiConfigValue1", "API UID 1", 10, $stream->getApiConfigValue1(), "API id 1");
-        $form->textInput("apiConfigValue2", "API UID 2", 10, $stream->getApiConfigValue2(), "API id 2");
-        $form->textInput("apiConfigValue3", "API UID 3", 10, $stream->getApiConfigValue3(), "API id 3");
-        $form->col(6);
-        $form->group("Magic");
-        $form->select("api_update", "Update on server", 0, $this->yesNo);
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
         include "" . ROOTFOLDER . "/App/Endpoint/View/Stream/api_linking.php";
     }

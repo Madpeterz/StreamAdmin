@@ -5,6 +5,7 @@ namespace App\Models;
 use YAPF\Framework\DbObjects\GenClass\GenClass as GenClass;
 use YAPF\Framework\Responses\DbObjects\UpdateReply as UpdateReply;
 use YAPF\Framework\Responses\DbObjects\SingleLoadReply as SingleLoadReply;
+use App\Models\Sets\NotecardmailSet as NotecardmailSet;
 use App\Models\Sets\NoticeSet as NoticeSet;
 use App\Models\Sets\PackageSet as PackageSet;
 
@@ -61,6 +62,13 @@ class Noticenotecard extends genClass
             "missing",
             $missing
         );
+    }
+    public function relatedNotecardmail(): NotecardmailSet
+    {
+        $ids = [$this->getId()];
+        $collection = new NotecardmailSet();
+        $collection->loadFromNoticenotecardLinks($ids);
+        return $collection;
     }
     public function relatedNotice(): NoticeSet
     {

@@ -26,15 +26,14 @@ abstract class RenderList extends View
 
     public function loadRequired(): void
     {
-        $this->avatar_set = new AvatarSet();
-        $this->avatar_set->loadByValues($this->transaction_set->getAllByField("avatarLink"));
-        $this->package_set->loadByValues($this->transaction_set->getAllByField("packageLink"));
-        $this->region_set->loadByValues($this->transaction_set->getAllByField("regionLink"));
+        $this->avatar_set = $this->transaction_set->relatedAvatar();
+        $this->package_set = $this->transaction_set->relatedPackage();
+        $this->region_set = $this->transaction_set->relatedRegion();
     }
 
     public function loadTransactionsFromAvatar(Avatar $avatar): void
     {
-        $this->transaction_set->loadByField("avatarLink", $avatar->getId(), 250);
+        $this->transaction_set->loadByAvatarLink($avatar->getId(), 150);
     }
 
     public function renderTransactionTable(): string

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\Slconfig;
+namespace App\Endpoint\View\SlConfig;
 
 use YAPF\Bootstrap\Template\Form;
 

@@ -8,15 +8,14 @@ class ComapreYears extends View
 {
     public function process(): void
     {
-
-        $yeara = $input->getFilter("yeara", "integer");
+        $yeara = $this->input->get("yeara")->asInt();
         if ($yeara < 2013) {
             $yeara = 2013;
         } elseif ($yeara > date("Y")) {
             $yeara = date("Y");
         }
 
-        $yearb = $input->getFilter("yearb", "integer");
+        $yearb = $this->input->get("yearb")->asInt();
         if ($yearb < 2013) {
             $yearb = 2013;
         } elseif ($yearb > date("Y")) {
@@ -165,21 +164,19 @@ class ComapreYears extends View
             $dataset2 = $yearb_month_datasets[$index];
             // "title"=>"Dec","new"=>0,"renew"=>0,"amount_new"=>0,"amount_renew"=>0,"sum"=>0,"counted"=>0
             $entry[] = $dataset["title"];
-            if ($dataset["sum"] > 0) {
-                $entry[] = $dataset["sum"];
-                $entry[] = $dataset["counted"];
-            } else {
-                $entry[] = "";
-                $entry[] = "";
+            if ($dataset["sum"] == 0) {
+                $dataset["sum"] = "";
+                $dataset["counted"] = "";
             }
+            $entry[] = $dataset["sum"];
+            $entry[] = $dataset["counted"];
             $entry[] = $dataset["title"];
-            if ($dataset2["sum"] > 0) {
-                $entry[] = $dataset2["counted"];
-                $entry[] = $dataset2["sum"];
-            } else {
-                $entry[] = "";
-                $entry[] = "";
+            if ($dataset2["sum"] == 0) {
+                $dataset2["sum"] = "";
+                $dataset2["counted"] = "";
             }
+            $entry[] = $dataset2["counted"];
+            $entry[] = $dataset2["sum"];
             $entry[] = $this->amountChanged($dataset["sum"], $dataset2["sum"]);
             $entry[] = $this->amountChanged($dataset["counted"], $dataset2["counted"]);
             $table_body[] = $entry;

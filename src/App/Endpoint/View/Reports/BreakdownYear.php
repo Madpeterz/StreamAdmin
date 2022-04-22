@@ -3,14 +3,13 @@
 namespace App\Endpoint\View\Reports;
 
 use App\Models\Sets\TransactionsSet;
-use App\Template\PagedInfo;
+use YAPF\Bootstrap\Template\PagedInfo;
 
 class BreakdownYear extends View
 {
     public function process(): void
     {
-
-        $year = $input->getFilter("year", "integer");
+        $year = $this->input->get("year")->asInt();
         if ($year > date("Y")) {
             $year = date("Y");
         }
@@ -84,12 +83,12 @@ class BreakdownYear extends View
                 $month_datasets[$month_id]["amount_renew"] += $transaction->getAmount();
                 $renewed_rentals++;
                 $amount_renew += $transaction->getAmount();
-            } else {
-                $month_datasets[$month_id]["new"] += 1;
-                $month_datasets[$month_id]["amount_new"] += $transaction->getAmount();
-                $new_rentals++;
-                $amount_new += $transaction->getAmount();
+                continue;
             }
+            $month_datasets[$month_id]["new"] += 1;
+            $month_datasets[$month_id]["amount_new"] += $transaction->getAmount();
+            $new_rentals++;
+            $amount_new += $transaction->getAmount();
         }
 
 
@@ -126,27 +125,27 @@ class BreakdownYear extends View
                 $entry[] = $dataset["renew"];
                 $entry[] = $dataset["amount_new"];
                 $entry[] = $dataset["amount_renew"];
-                if ($last_month["title"] == "None") {
-                    $entry[] = "-";
-                } else {
-                    $entry[] = $this->amountChanged($last_month["sum"], $dataset["sum"]);
+                $c1 = "-";
+                if ($last_month["title"] != "None") {
+                    $c1 = $this->amountChanged($last_month["sum"], $dataset["sum"]);
                 }
+                $entry[] = $c1;
+                $c2 = " / ";
                 if ($dataset["title"] != $best_month["title"]) {
-                    $entry[] = $this->amountChanged($best_month["sum"], $dataset["sum"]);
-                } else {
-                    $entry[] = " / ";
+                    $c2 = $this->amountChanged($best_month["sum"], $dataset["sum"]);
                 }
+                $entry[] = $c2;
                 $last_month = $dataset;
                 if ($dataset["title"] == $best_month["title"]) {
                     $new_entry = [];
-                    $counter = 0;
+                    $counter = -1;
                     foreach ($entry as $point) {
+                        $counter++;
                         if ($counter < 7) {
                             $new_entry[] = "<span class=\"reports-best\">" . $point . "</span>";
-                        } else {
-                            $new_entry[] = $point;
+                            continue;
                         }
-                        $counter++;
+                        $new_entry[] = $point;
                     }
                     $entry = $new_entry;
                 }

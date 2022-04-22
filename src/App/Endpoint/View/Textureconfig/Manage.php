@@ -20,7 +20,7 @@ class Manage extends View
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $textureconfig = new Textureconfig();
-        if ($textureconfig->loadID($this->siteConfig->getPage()) == false) {
+        if ($textureconfig->loadID($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
             return;
         }

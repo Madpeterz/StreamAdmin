@@ -3,14 +3,13 @@
 namespace App\Endpoint\View\Reports;
 
 use App\Models\Sets\TransactionsSet;
-use App\Template\PagedInfo;
+use YAPF\Bootstrap\Template\PagedInfo;
 
 class BreakdownMonth extends View
 {
     public function process(): void
     {
-
-        $year = $input->getFilter("year", "integer");
+        $year = $this->input->get("year")->asInt();
         if ($year < 2013) {
             $year = 2013;
         } elseif ($year > date("Y")) {
@@ -31,7 +30,7 @@ class BreakdownMonth extends View
             11 => "Nov",
             12 => "Dec",
         ];
-        $month = $input->getFilter("month", "integer");
+        $month = $this->input->get("month")->asInt();
         if ($month < 1) {
             $month = 1;
         } elseif ($month > 12) {

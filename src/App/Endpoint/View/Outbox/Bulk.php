@@ -17,7 +17,6 @@ class Bulk extends View
     {
         $rental_set = new RentalSet();
 
-        $input_filter = new InputFilter();
         $source_id = -1;
         $souce_named = "";
         $ok = false;
@@ -25,53 +24,68 @@ class Bulk extends View
 
 
         if ($this->siteConfig->getPage() == "notice") {
-            $message = $input_filter->getString("messageStatus", 800, 10);
+            $message = $this->input->get("messageStatus")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
-            $source_id = $input_filter->getFilter("noticeLink", "integer");
+            $source_id = $this->input->get("noticeLink")->checkGrtThanEq(1)->asInt();
             if ($source_id != null) {
                 $notice = new Notice();
                 $notice->loadID($source_id);
                 $souce_named = $notice->getName();
-                $rental_set->loadOnField("noticeLink", $source_id);
+                $rental_set = $notice->relatedRental();
                 $ok = true;
             }
         } elseif ($this->siteConfig->getPage() == "server") {
-            $message = $input_filter->getString("messageServer", 800, 10);
+            $message = $this->input->get("messageServer")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
-            $source_id = $input_filter->getFilter("serverLink", "integer");
+            $source_id = $this->input->get("serverLink")->checkGrtThanEq(1)->asInt();
             if ($source_id != null) {
                 $server = new Server();
                 $server->loadID($source_id);
                 $souce_named = $server->getDomain();
-                $stream_set = new StreamSet();
-                $stream_set->loadOnField("serverLink", $source_id);
-                $rental_set->loadByValues($stream_set->getAllIds(), "streamLink");
+                $stream_set = $server->relatedStream();
+                $rental_set = $stream_set->relatedRental();
                 $ok = true;
             }
         } elseif ($this->siteConfig->getPage() == "package") {
-            $message = $input_filter->getString("messagePackage", 800, 10);
+            $message = $this->input->get("messagePackage")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
-            $source_id = $input_filter->getFilter("packageLink", "integer");
+            $source_id = $this->input->get("packageLink")->checkGrtThanEq(1)->asInt();
             if ($source_id != null) {
                 $package = new Package();
                 $package->loadID($source_id);
                 $souce_named = $package->getName();
-                $rental_set->loadOnField("packageLink", $source_id);
+                $rental_set = $package->relatedRental();
                 $ok = true;
             }
         } elseif ($this->siteConfig->getPage() == "clients") {
-            $message = $input_filter->getString("messageClients", 800, 10);
+            $message = $this->input->get("messageClients")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
             $rental_set->loadAll();
@@ -89,14 +103,13 @@ class Bulk extends View
             return;
         }
 
-        $this->output->addSwapTagString("page_title", " Bulk sending to " . $this->siteConfig->getPage() . ": " . $souce_named);
-        $stream_set = new StreamSet();
-        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($rental_set->getUniqueArray("avatarLink"));
-        $banlist_set = new BanlistSet();
-        $banlist_set->loadByValues($rental_set->getUniqueArray("avatarLink"), "avatarLink");
-
+        $this->output->addSwapTagString(
+            "page_title",
+            " Bulk sending to " . $this->siteConfig->getPage() . ": " . $souce_named
+        );
+        $stream_set = $rental_set->relatedStream();
+        $avatar_set = $rental_set->relatedAvatar();
+        $banlist_set = $avatar_set->relatedBanlist();
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
             $this->output->redirect("outbox?message=No selectable avatars for the " . $this->siteConfig->getPage());

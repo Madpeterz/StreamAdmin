@@ -152,4 +152,18 @@ class NotecardmailSet extends CollectionSet
         return $this->loadIndexes("noticenotecardLink", $values);
     }
     // Related loaders
+    public function relatedAvatar(): AvatarSet
+    {
+        $ids = $this->uniqueAvatarLinks();
+        $collection = new AvatarSet();
+        $collection->loadFromIds($ids);
+        return $collection;
+    }
+    public function relatedNoticenotecard(): NoticenotecardSet
+    {
+        $ids = $this->uniqueNoticenotecardLinks();
+        $collection = new NoticenotecardSet();
+        $collection->loadFromIds($ids);
+        return $collection;
+    }
 }
