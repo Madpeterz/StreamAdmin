@@ -10,7 +10,7 @@ class DefaultView extends View
         $this->output->addSwapTagString("why_logged_out", $this->siteConfig->getSession()->getWhyLoggedOut());
         $this->output->addSwapTagString(
             "page_content",
-            file_get_contents("" . ROOTFOLDER . "/App/Endpoint/View/Login/login.layout")
+            file_get_contents($this->siteConfig->getRootFolder() . "/App/Endpoint/View/Login/login.layout")
         );
     }
 }

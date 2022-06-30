@@ -2,7 +2,6 @@
 
 namespace App\Endpoint\View\Server;
 
-use App\Models\Sets\ApisSet;
 use App\Models\Server;
 use YAPF\Bootstrap\Template\Form;
 

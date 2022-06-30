@@ -23,7 +23,7 @@ class TransactionsHelper
     ): bool {
         $transaction = new Transactions();
         $uid_transaction = $transaction->createUID("transactionUid", 8);
-        if ($uid_transaction["status"] == false) {
+        if ($uid_transaction->status == false) {
             return false;
         }
         $transaction->setAvatarLink($avatar->getId());
@@ -36,9 +36,9 @@ class TransactionsHelper
         if ($forcesetunixtime != null) {
             $transaction->setUnixtime($forcesetunixtime);
         }
-        $transaction->setTransactionUid($uid_transaction["uid"]);
+        $transaction->setTransactionUid($uid_transaction->uid);
         $transaction->setRenew($renewal);
         $create_status = $transaction->createEntry();
-        return $create_status["status"];
+        return $create_status->status;
     }
 }

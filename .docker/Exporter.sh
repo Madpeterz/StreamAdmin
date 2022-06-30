@@ -4,7 +4,7 @@ FILENAME=/export/$DATE.streamadmin.flow1.xlsx
 LATEST=/export/latest.streamadmin.flow1.xlsx
 
 echo "==> Creating export: "$FILENAME""
-/usr/local/bin/php /srv/website/src/App/CronJob/CronTab.php -t=Export1 > "$FILENAME"
+/usr/local/bin/php /srv/website/src/App/CronTab.php -t=Export1 > "$FILENAME"
 
 echo "==> Creating symlink to latest export: "$FILENAME""
 rm "$LATEST" 2> /dev/null

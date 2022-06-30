@@ -175,15 +175,6 @@ class PackageSet extends CollectionSet
         return parent::uniqueArray("textureInstockSelected");
     }
     /**
-     * uniqueApiTemplates
-     * returns unique values from the collection matching that field
-     * @return array<string>
-     */
-    public function uniqueApiTemplates(): array
-    {
-        return parent::uniqueArray("apiTemplate");
-    }
-    /**
      * uniqueWelcomeNotecardLinks
      * returns unique values from the collection matching that field
      * @return array<int>
@@ -560,31 +551,6 @@ class PackageSet extends CollectionSet
     public function loadFromTextureInstockSelecteds(array $values): SetsLoadReply
     {
         return $this->loadIndexes("textureInstockSelected", $values);
-    }
-    /**
-     * loadByApiTemplate
-    */
-    public function loadByApiTemplate(
-        string $apiTemplate, 
-        int $limit = 0, 
-        string $orderBy = "id", 
-        string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
-        return $this->loadOnField(
-            "apiTemplate", 
-            $apiTemplate, 
-            $limit, 
-            $orderBy, 
-            $orderDir
-        );
-    }
-    /**
-     * loadFromApiTemplates
-    */
-    public function loadFromApiTemplates(array $values): SetsLoadReply
-    {
-        return $this->loadIndexes("apiTemplate", $values);
     }
     /**
      * loadByWelcomeNotecardLink

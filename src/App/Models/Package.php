@@ -33,7 +33,6 @@ class Package extends genClass
         "textureSoldout",
         "textureInstockSmall",
         "textureInstockSelected",
-        "apiTemplate",
         "welcomeNotecardLink",
         "setupNotecardLink",
         "enableGroupInvite",
@@ -53,7 +52,6 @@ class Package extends genClass
         "textureSoldout" => ["type" => "str", "value" => null],
         "textureInstockSmall" => ["type" => "str", "value" => null],
         "textureInstockSelected" => ["type" => "str", "value" => null],
-        "apiTemplate" => ["type" => "str", "value" => null],
         "welcomeNotecardLink" => ["type" => "int", "value" => 1],
         "setupNotecardLink" => ["type" => "int", "value" => 1],
         "enableGroupInvite" => ["type" => "bool", "value" => 1],
@@ -151,13 +149,6 @@ class Package extends genClass
         return $this->updateField("textureInstockSelected", $newValue);
     }
     /**
-    * setApiTemplate
-    */
-    public function setApiTemplate(?string $newValue): UpdateReply
-    {
-        return $this->updateField("apiTemplate", $newValue);
-    }
-    /**
     * setWelcomeNotecardLink
     */
     public function setWelcomeNotecardLink(?int $newValue): UpdateReply
@@ -230,10 +221,6 @@ class Package extends genClass
     public function getTextureInstockSelected(): ?string
     {
         return $this->getField("textureInstockSelected");
-    }
-    public function getApiTemplate(): ?string
-    {
-        return $this->getField("apiTemplate");
     }
     public function getWelcomeNotecardLink(): ?int
     {
@@ -337,13 +324,6 @@ class Package extends genClass
         return $this->loadByField(
             "textureInstockSelected",
             $textureInstockSelected
-        );
-    }
-    public function loadByApiTemplate(string $apiTemplate): SingleLoadReply
-    {
-        return $this->loadByField(
-            "apiTemplate",
-            $apiTemplate
         );
     }
     public function loadByWelcomeNotecardLink(int $welcomeNotecardLink): SingleLoadReply

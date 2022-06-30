@@ -20,10 +20,15 @@ class Config extends BootstrapConfigBox
         // if you are running this in classic mode [ie cpanel]
         // you will need to update the values on the right
         $this->setFlag("SITE_NAME", "Streamadmin");
-        $this->setFlag("SITE_URL", "https://dev.blackatom.live/");
+        $this->setFlag("SITE_URL", "https://dev.vrlife.life/");
+    }
+
+    public function run(): void
+    {
         $timeszone = new Timezones();
         $timeszone->loadID($this->getSlConfig()->getDisplayTimezoneLink());
         date_default_timezone_set($timeszone->getCode());
+        $this->getSession()?->loadFromSession();
     }
 
     protected ?Slconfig $slConfig = null;
@@ -34,7 +39,7 @@ class Config extends BootstrapConfigBox
             $this->slConfig = new Slconfig();
             $this->slConfig->loadID(1);
         }
-        if ($this->slconfig->isLoaded() == false) {
+        if ($this->slConfig->isLoaded() == false) {
             die("SL Config not loaded - Please contact support");
         }
         return $this->slConfig;

@@ -2,9 +2,7 @@
 
 namespace App\Switchboard;
 
-use YAPF\Bootstrap\Switchboard\Switchboard;
-
-class Hud extends Switchboard
+class Hud extends ConfigEnabled
 {
-    protected $targetEndpoint = "HudApi";
+    protected string $targetEndpoint = "HudApi";
 }

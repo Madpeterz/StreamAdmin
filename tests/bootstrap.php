@@ -20,4 +20,5 @@ if(file_exists("src/App/Config/site_installed.php") == true) {
 if(file_exists("src/App/Config/ready.txt") == true) {
     unlink("src/App/Config/ready.txt");
 }
+include "vendor/autoload.php";
 include ROOTFOLDER . "/App/Framework/load.php";

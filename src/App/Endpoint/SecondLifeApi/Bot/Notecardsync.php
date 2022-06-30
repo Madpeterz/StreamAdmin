@@ -65,7 +65,7 @@ class NotecardSync extends SecondlifeAjax
             $this->siteConfig->getSiteURL(),
             $this->siteConfig->getSlConfig()->getHttpInboundSecret()
         );
-        if ($reply == false) {
+        if ($reply->status == false) {
             $this->failed("Unable to add fetch next notecard to bot Q");
             return;
         }

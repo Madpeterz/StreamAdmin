@@ -2,12 +2,19 @@
 
 namespace App\Framework;
 
+use App\Config;
 use App\Models\Staff;
 use YAPF\Framework\Core\SQLi\SqlConnectedClass;
 use YAPF\Framework\Responses\DbObjects\UpdateReply;
 
 class SessionControl extends SqlConnectedClass
 {
+    protected Config $siteConfig;
+    public function __construct()
+    {
+        global $system;
+        $this->siteConfig = $system;
+    }
     protected ?Staff $main_class_object = null;
     protected $logged_in = false;
     protected $session_values = ["lhash","autologout","nextcheck","username","ownerLevel"];
@@ -61,12 +68,11 @@ class SessionControl extends SqlConnectedClass
         $this->main_class_object->setlhash($new_lhash);
         $this->nextcheck = time() + 120;
         $save_status = $this->main_class_object->updateEntry();
-        if ($save_status["status"] == true) {
+        if ($save_status->status == true) {
             $this->lhash = $new_lhash;
             if ($update_session_after == true) {
                 $this->updateSession();
-                global $sql;
-                $sql->sqlSave();
+                $this->siteConfig->getSQL()->sqlSave();
             }
             return true;
         }
@@ -120,7 +126,6 @@ class SessionControl extends SqlConnectedClass
     }
     public function loadFromSession(): bool
     {
-        global $unixtime_hour;
         if (isset($_SESSION) == false) {
             $this->why_logged_out = "Waiting for login";
             return false;
@@ -150,7 +155,7 @@ class SessionControl extends SqlConnectedClass
             $this->why_logged_out = "Inactive auto logout";
             return false;
         }
-        $this->autologout = time() + ($unixtime_hour * 2);
+        $this->autologout = time() + ($this->siteConfig->unixtimeHour() * 2);
         $this->updateSession();
         $this->logged_in = true;
         if ($this->nextcheck < time()) {
@@ -192,19 +197,16 @@ class SessionControl extends SqlConnectedClass
             return false;
         }
         $check_hash = $this->hashUserPassword($input_password);
-        if ($check_hash["status"] == false) {
+        if ($check_hash->status == false) {
             return false;
         }
-        if ($check_hash["phash"] != $this->main_class_object->getPhash()) {
+        if ($check_hash->phash != $this->main_class_object->getPhash()) {
             return false;
         }
         return true;
     }
-    /**
-     * hashUserPassword
-     * @return mixed[] [status => bool, message=>string, new_salt=>bool, salt_value=> string, phash=> string]
-     */
-    public function hashUserPassword(string $input_password, bool $create_new_psalt = false): array
+
+    public function hashUserPassword(string $input_password, bool $create_new_psalt = false): HashReply
     {
         if ($this->main_class_object != null) {
             $p_salt = $this->main_class_object->getPsalt();
@@ -216,20 +218,15 @@ class SessionControl extends SqlConnectedClass
                     $this->main_class_object->getOwnerLevel()
                 );
             }
-            return [
-            "status" => true,
-            "message" => "hashed",
-            "new_salt" => $create_new_psalt,
-            "salt_value" => $p_salt,
-            "phash" => $this->hashPassword(
+            $phash = $this->hashPassword(
                 $input_password,
                 $this->main_class_object->getId(),
                 $p_salt,
                 $this->main_class_object->getOwnerLevel()
-            ),
-            ];
+            );
+            return new HashReply("hashed", true, $create_new_psalt, $p_salt, $phash);
         }
-        return ["status" => false,"message" => "hash_userpassword requires the user object to be loaded!"];
+        return new HashReply("hash_userpassword requires the user object to be loaded!");
     }
     public function attachStaffMember(Staff $staff): void
     {

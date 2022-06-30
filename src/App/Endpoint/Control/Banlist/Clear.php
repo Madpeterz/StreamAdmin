@@ -3,6 +3,7 @@
 namespace App\Endpoint\Control\Banlist;
 
 use App\Models\Banlist;
+use App\Models\Staff;
 use App\Template\ControlAjax;
 
 class Clear extends ControlAjax

@@ -2,7 +2,6 @@
 
 namespace App\Endpoint\View\Server;
 
-use App\Models\Sets\ApisSet;
 use YAPF\Bootstrap\Template\Form;
 
 class Create extends View
@@ -21,7 +20,5 @@ class Create extends View
             $form->textInput("domain", "Domain", 30, "", "ip or uncloudflared proxyed domain/subdomain");
             $form->textInput("controlPanelURL", "Control panel", 200, "", "URL to the control panel");
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
-        include "" . ROOTFOLDER . "/App/Endpoint/View/Server/api_notes.php";
-        include "" . ROOTFOLDER . "/App/Endpoint/View/Server/js_on_select_api.php";
     }
 }

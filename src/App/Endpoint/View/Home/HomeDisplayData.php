@@ -19,21 +19,6 @@ abstract class HomeDisplayData extends HomeLoadData
         $this->displayObjects();
         $this->displayVersions();
         $this->renderDisplay();
-        $this->renderOwnerDisplay();
-    }
-
-    protected function renderOwnerDisplay(): void
-    {
-        if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
-            if ($this->server_set->getCount() == 0) {
-                $this->main_grid->addContent("<hr/>", 12);
-                $this->main_grid->addContent(
-                    "<a href=\"[[SITE_URL]]import\">"
-                    . "<button class=\"btn btn-info btn-block\" type=\"button\">Import from R4</button></a>",
-                    12
-                );
-            }
-        }
     }
 
     protected function renderDisplay(): void
@@ -53,14 +38,14 @@ abstract class HomeDisplayData extends HomeLoadData
     protected function displayVersions(): void
     {
         if (
-            file_exists($this->config->getDeepFolder() . "Versions/" .
+            file_exists("../../Versions/" .
             $this->siteConfig->getSlConfig()->getDbVersion() . ".sql") == true
         ) {
             $this->main_grid->addContent("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
             . "<br/> please run \"Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql\"</div>", 12);
         }
 
-        $infofile = $this->config->getDeepFolder() . "/Versions/about/" .
+        $infofile = "../../Versions/about/" .
         $this->siteConfig->getSlConfig()->getDbVersion() . ".txt";
         if (file_exists($infofile) == true) {
             $this->main_grid->closeRow();

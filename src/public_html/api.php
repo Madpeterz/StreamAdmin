@@ -4,7 +4,6 @@ namespace App;
 
 use App\Switchboard\MainGrid;
 
-include "../../vendor/autoload.php";
-$system = new Config();
+include "../App/Framework/Load.php";
 
 new MainGrid();

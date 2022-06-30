@@ -9,7 +9,7 @@ class Resetwithtoken extends View
         $this->setSwapTag("html_title", "Recover password");
         $this->output->addSwapTagString(
             "page_content",
-            file_get_contents("" . ROOTFOLDER . "/App/Endpoint/View/Login/passwordrecover.layout")
+            file_get_contents($this->siteConfig->getRootFolder() . "/App/Endpoint/View/Login/passwordrecover.layout")
         );
     }
 }

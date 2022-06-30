@@ -63,7 +63,7 @@ class Resetnow extends ControlAjax
         $session_helper->attachStaffMember($staff);
         $update_status = $session_helper->updatePassword($newpw1);
         if ($update_status->status == false) {
-            $this->failed("Something went wrong updating your password");
+            $this->failed($update_status->message);
             return;
         }
         $staff->setEmailResetCode(null);

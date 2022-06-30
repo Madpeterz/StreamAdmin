@@ -11,7 +11,7 @@ class DefaultView extends View
         $check_objects = ["Server","Template","Package","Stream","Slconfig","Textureconfig"];
         $all_ok = true;
         foreach ($check_objects as $check) {
-            $checkObj = "App\\R7\\Model\\" . $check;
+            $checkObj = "App\\Models\\" . $check;
             $obj = new $checkObj();
             if ($obj->HasAny() == false) {
                 $all_ok = false;

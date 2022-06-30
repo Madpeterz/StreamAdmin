@@ -2,9 +2,7 @@
 
 namespace App\Switchboard;
 
-use YAPF\Bootstrap\Switchboard\Switchboard;
-
-class Sys extends Switchboard
+class Sys extends ConfigEnabled
 {
-    protected $targetEndpoint = "SystemApi";
+    protected string $targetEndpoint = "SystemApi";
 }

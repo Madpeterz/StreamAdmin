@@ -2,11 +2,11 @@
 echo "Streamadmin crontab container"
 
 # Setup a cron schedule
-echo "* * * * * /usr/local/bin/php /srv/website/src/App/CronJob/CronTab.php -t=DetailsServer >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/local/bin/php /srv/website/src/App/CronJob/CronTab.php -t=ClientAutoSuspend >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/local/bin/php /srv/website/src/App/CronJob/CronTab.php -t=ApiRequests >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/local/bin/php /srv/website/src/App/CronJob/CronTab.php -t=DynamicNotecards >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/local/bin/php /srv/website/src/App/CronJob/CronTab.php -t=BotcommandQ >/proc/1/fd/1 2>/proc/1/fd/2
+echo "* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=DetailsServer >/proc/1/fd/1 2>/proc/1/fd/2
+* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=ClientAutoSuspend >/proc/1/fd/1 2>/proc/1/fd/2
+* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=ApiRequests >/proc/1/fd/1 2>/proc/1/fd/2
+* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=DynamicNotecards >/proc/1/fd/1 2>/proc/1/fd/2
+* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=BotcommandQ >/proc/1/fd/1 2>/proc/1/fd/2
 ${EXPORT_CRON_TIME} /srv/website/.docker/Exporter.sh >/proc/1/fd/1 2>/proc/1/fd/2
 " > scheduler.txt
 

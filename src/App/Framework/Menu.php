@@ -3,10 +3,10 @@
 namespace App\Framework;
 
 use App\Config;
-use YAPF\Bootstrap\Template\TableView;
+use YAPF\Bootstrap\Template\View;
 use YAPF\InputFilter\InputFilter;
 
-class Menu extends TableView
+class Menu extends View
 {
     protected Config $siteConfig;
     protected InputFilter $input;
@@ -16,8 +16,47 @@ class Menu extends TableView
         global $system;
         $this->siteConfig = $system;
         $this->input = new InputFilter();
-        $this->loadMenu();
         parent::__construct($AutoLoadTemplate);
+        $this->loadMenu();
+        $this->addLib("jquery");
+        $this->addLib("fontawesome");
+        $this->addLib("bootstrap");
+        $this->addLib("bootstrap-notify");
+        $this->addLib("datatables");
+    }
+
+    protected function addLib(string $lib): void
+    {
+        if ($lib == "jquery") {
+            $this->addJsScript("jquery", "jquery-3.4.1.min.js");
+        } elseif ($lib == "bootstrap") {
+            $this->addJsScript("popper", "popper.min.js");
+            $this->addJsScript("bootstrap-4.4.1-dist/js", "bootstrap.min.js");
+            $this->addCssScript("bootstrap-4.4.1-dist/css", "bootstrap.min.css");
+        } elseif ($lib == "bootstrap-notify") {
+            $this->addJsScript("bootstrap-notify-3.1.3/dist", "bootstrap-notify.min.js");
+        } elseif ($lib == "fontawesome") {
+            $this->addCssScript("fontawesome-free-5.12.1-web/css", "all.css");
+        } elseif ($lib == "datatables") {
+            $this->addCssScript("datatables", "datatables.min.css");
+            $this->addJsScript("datatables", "datatables.min.js");
+        }
+    }
+
+    protected function addCssScript(string $folder, string $file): void
+    {
+        $this->output->addSwapTagString(
+            "html_cs_top",
+            '<link rel="stylesheet" type="text/css" href="[[SITE_URL]]3rdparty/' . $folder . '/' . $file . '"/>'
+        );
+    }
+
+    protected function addJsScript(string $folder, string $script): void
+    {
+        $this->output->addSwapTagString(
+            "html_js_bottom",
+            "<script src=\"[[SITE_URL]]3rdparty/" . $folder . "/" . $script . "\" type=\"text/javascript\"></script>"
+        );
     }
 
     protected function renderDatatable(array $tableHead, array $tableBody): string
@@ -96,6 +135,14 @@ class Menu extends TableView
                 ],
             ],
         ];
+        $this->setSwapTag(
+            "page_breadcrumb_icon",
+            '<i class="fas fa-home text-success"></i>'
+        );
+        $this->setSwapTag(
+            "page_breadcrumb_text",
+            '<a href="[[SITE_URL]]">Dashboard</a>'
+        );
 
         $output = "";
         foreach ($menu_items as $menu_key => $menu_config) {
@@ -103,11 +150,11 @@ class Menu extends TableView
             $output .= '<a href="[[SITE_URL]]' . $menu_config["target"] . '" class="nav-link';
             if (in_array(strtolower($this->siteConfig->getModule()), $menu_config["active_on"]) == true) {
                 $output .= " active";
-                $this->addSwapTagString(
+                $this->setSwapTag(
                     "page_breadcrumb_icon",
                     '<i class="' . $menu_config["icon"] . ' text-success"></i>'
                 );
-                $this->addSwapTagString(
+                $this->setSwapTag(
                     "page_breadcrumb_text",
                     '<a href="[[SITE_URL]]' . $menu_config["target"] . '">' . $menu_key . '</a>'
                 );

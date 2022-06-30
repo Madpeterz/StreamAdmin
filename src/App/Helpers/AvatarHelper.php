@@ -18,12 +18,10 @@ class AvatarHelper extends ErrorLogging
         if (strlen($avatarUUID) != 36) {
             return false;
         }
-        if ($this->avatar->loadByField("avatarUUID", $avatarUUID) == true) {
-            if ($avatarName != null) {
-                if ($avatarName != $this->avatar->getAvatarName()) {
-                    $this->avatar->setAvatarName($avatarName);
-                    $this->avatar->updateEntry();
-                }
+        if ($this->avatar->loadByAvatarUUID($avatarUUID)->status == true) {
+            if (($avatarName != null) && ($avatarName != $this->avatar->getAvatarName())) {
+                $this->avatar->setAvatarName($avatarName);
+                $this->avatar->updateEntry();
             }
             return true;
         }
@@ -32,16 +30,16 @@ class AvatarHelper extends ErrorLogging
         }
         $this->avatar = new Avatar();
         $uid = $this->avatar->createUID("avatarUid", 8);
-        if ($uid["status"] == false) {
+        if ($uid->status == false) {
             return false;
         }
-        $this->avatar->setAvatarUid($uid["uid"]);
+        $this->avatar->setAvatarUid($uid->uid);
         $this->avatar->setAvatarName($avatarName);
         $this->avatar->setAvatarUUID($avatarUUID);
         $create_status = $this->avatar->createEntry();
-        if ($create_status["status"] == false) {
-            $this->addError(__FILE__, __FUNCTION__, "unable to create avatar: " . $create_status["message"]);
+        if ($create_status->status == false) {
+            $this->addError("unable to create avatar: " . $create_status->message);
         }
-        return $create_status["status"];
+        return $create_status->status;
     }
 }

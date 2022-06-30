@@ -6,6 +6,7 @@ use App\Models\Avatar;
 use App\Models\Botcommandq;
 use App\Models\Botconfig;
 use App\Models\Message;
+use YAPF\Framework\Responses\DbObjects\CreateReply;
 
 class BotHelper
 {
@@ -37,7 +38,7 @@ class BotHelper
         }
         if ($this->botAvatar == null) {
             $this->botAvatar = new Avatar();
-            if ($this->botAvatar->loadID($this->botconfig->getAvatarLink()) == false) {
+            if ($this->botAvatar->loadID($this->botconfig->getAvatarLink())->status == false) {
                 $this->botAvatar = null;
             }
         }
@@ -47,11 +48,11 @@ class BotHelper
     {
         if ($this->botconfig == null) {
             $this->botconfig = new Botconfig();
-            return $this->botconfig->loadID(1);
+            return $this->botconfig->loadID(1)->status;
         }
         return true;
     }
-    protected function addCommandToQ(string $command, array $args = []): bool
+    protected function addCommandToQ(string $command, array $args = []): CreateReply
     {
         $botcommandQ = new Botcommandq();
         $botcommandQ->setCommand($command);
@@ -59,16 +60,15 @@ class BotHelper
             $botcommandQ->setArgs(json_encode($args));
         }
         $botcommandQ->setUnixtime(time());
-        $reply = $botcommandQ->createEntry();
-        return $reply["status"];
+        return $botcommandQ->createEntry();
     }
-    public function sendBotInvite(Avatar $avatar): bool
+    public function sendBotInvite(Avatar $avatar): CreateReply
     {
         if ($this->getBotConfig() == false) {
-            return false;
+            return new CreateReply("Unable to get bot config");
         }
         if ($this->botconfig->getInvites() == false) {
-            return false;
+            return new CreateReply("Invites are disabled for the bot");
         }
         return $this->addCommandToQ(
             "GroupInvite",
@@ -76,7 +76,7 @@ class BotHelper
         );
     }
 
-    public function sendBotNextNotecard(string $serverurl, string $httpInboundCode): bool
+    public function sendBotNextNotecard(string $serverurl, string $httpInboundCode): CreateReply
     {
         return $this->addCommandToQ(
             "FetchNextNotecard",
@@ -106,17 +106,17 @@ class BotHelper
         string $message,
         bool $allow_bot = false,
         bool $allowObjectIm = true
-    ): array {
+    ): CreateReply {
         if ($this->getBotConfig() == false) {
             return ["status" => false,"message" => "Unable to get bot config"];
         }
         if (($allow_bot == true) && ($this->botconfig->getIms() == true)) {
-            if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(),$message]) == false) {
-                return ["status" => false,"message" => "Unable to add IM to the botQ"];
+            if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(),$message])->status == false) {
+                return new CreateReply("Unable to add IM to the botQ");
             }
         }
         if ($allowObjectIm == false) {
-            return ["status" => true,"message" => "Skipping message via object"];
+            return new CreateReply("Skipping message via object", true);
         }
         return $this->sendMessageToAvatar($avatar, $message);
     }
@@ -124,7 +124,7 @@ class BotHelper
      * sendMessageToAvatar
      * @return mixed[] [status =>  bool, message =>  string]
      */
-    public function sendMessageToAvatar(Avatar $avatar, string $sendmessage): array
+    public function sendMessageToAvatar(Avatar $avatar, string $sendmessage): CreateReply
     {
         $message = new Message();
         $message->setAvatarLink($avatar->getId());

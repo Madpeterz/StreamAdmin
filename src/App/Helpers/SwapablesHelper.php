@@ -7,8 +7,10 @@ use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
+use DateTime;
+use YAPF\Framework\Helpers\FunctionHelper;
 
-class SwapablesHelper
+class SwapablesHelper extends FunctionHelper
 {
     public function getSwappedText(
         string $template,
@@ -18,7 +20,6 @@ class SwapablesHelper
         Server $server,
         Stream $stream
     ): string {
-        global $timezone_name;
           $av_split = explode(" ", $avatar->getAvatarName());
         if (count($av_split) == 1) {
               $av_split[] = "Resident";
@@ -31,7 +32,7 @@ class SwapablesHelper
               "AVATAR_LASTNAME" => $av_split[1],
               "AVATAR_FULLNAME" => $avatar->getAvatarName(),
               "RENTAL_EXPIRES_DATETIME" => date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime()),
-              "RENTAL_TIMELEFT" => timeleftHoursAndDays($rental->getExpireUnixtime()),
+              "RENTAL_TIMELEFT" => $this->timeRemainingHumanReadable($rental->getExpireUnixtime()),
               "STREAM_PORT" => $stream->getPort(),
               "STREAM_ADMINUSERNAME" => $stream->getAdminUsername(),
               "STREAM_ADMINPASSWORD" => $stream->getAdminPassword(),
@@ -47,11 +48,11 @@ class SwapablesHelper
               "NL" => "\n",
               "PACKAGE_UID" => $package->getPackageUid(),
               "RENTAL_UID" => $rental->getRentalUid(),
-              "TIMEZONE" => $timezone_name,
+              "TIMEZONE" => (new DateTime())->getTimezone()->getName(),
               "FirstName" => $av_split[0],
               "LastName" => $av_split[1],
               "ExpiresAt" => date('l jS \of F Y h:i:s A', $rental->getExpireUnixtime()),
-              "TimeLeft" => timeleftHoursAndDays($rental->getExpireUnixtime()),
+              "TimeLeft" => $this->timeRemainingHumanReadable($rental->getExpireUnixtime()),
               "PortNum" => $stream->getPort(),
               "AdminUsername" => $stream->getAdminUsername(),
               "AdminPassword" => $stream->getAdminPassword(),

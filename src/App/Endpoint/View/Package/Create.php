@@ -58,12 +58,9 @@ class Create extends View
         $form->numberInput("autodjSize", "Storage GB", null, 3, "Max GB storage 9999");
         $form->split();
         $form->col(6);
-        $form->group("Ext");
-        $form->textInput("apiTemplate", "API template", 50, "", "API template name");
-        $form->select("welcomeNotecardLink", "Welcome notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
-        $form->select("setupNotecardLink", "Setup notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
-        $form->col(12);
-            $form->group("Options");
+        $form->group("Options");
+            $form->select("welcomeNotecardLink", "Welcome notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
+            $form->select("setupNotecardLink", "Setup notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
             $form->select("enableGroupInvite", "Group Invite", true, $this->disableEnable);
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }

@@ -1,12 +1,6 @@
 <div class="row">
 <div class="col-sm-12">
 <p>
-Welcome to 2.0.0.0
-<hr/>
-</p>
-</div>
-<div class="col-sm-12">
-<p>
 This build uses php 8.1.4 for speed improvements via the Just in time compiler and 
 preloaded of framework files (enabled by default with docker)<br/>
 <br/>
