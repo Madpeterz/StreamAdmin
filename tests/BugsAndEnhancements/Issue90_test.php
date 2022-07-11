@@ -175,7 +175,7 @@ class Issue90 extends TestCase
         $this->package->setCost(5);
         $this->package->setDays(1);
         $reply = $this->package->updateEntry();
-        $this->assertSame(true,$reply["status"],"Failed to update package");
+        $this->assertSame(true,$reply->status,"Failed to update package");
         $paymentAmounts = [
             ["amount"=>5,"start"=>6,"end"=>4],
             ["amount"=>10,"start"=>4,"end"=>3],

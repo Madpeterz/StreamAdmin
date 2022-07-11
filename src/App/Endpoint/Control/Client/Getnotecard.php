@@ -20,9 +20,20 @@ class GetNotecard extends ControlAjax
         $avatar = $rental->relatedAvatar()->getFirst();
         $stream = $rental->relatedStream()->getFirst();
         $server = $stream?->relatedServer()->getFirst();
-        $test = [$package, $template, $avatar, $stream, $server];
-        if (in_array(null, $test) == false) {
-            $this->failed("One or more required objects did not load");
+        $test = [
+            "package" => $package,
+            "template" => $template,
+            "avatar" => $avatar,
+            "stream" => $stream,
+            "server" => $server,
+        ];
+        if (in_array(null, $test) == true) {
+            foreach ($test as $tag => $object) {
+                if ($object == null) {
+                    $this->failed("Failed to load: " . $tag);
+                    break;
+                }
+            }
             return;
         }
         $this->ok((new SwapablesHelper())->getSwappedText(

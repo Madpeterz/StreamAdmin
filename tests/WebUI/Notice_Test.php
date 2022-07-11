@@ -102,7 +102,7 @@ class NoticeTest extends TestCase
     {
         global $system, $_POST;
         $notice = new Notice();
-        $status = $notice->loadByField("name","UnitTest");
+        $status = $notice->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
         $system->setPage($notice->getId());
 
@@ -129,7 +129,7 @@ class NoticeTest extends TestCase
     {
         global $system;
         $notice = new Notice();
-        $status = $notice->loadByField("name","UnitTest Updated");
+        $status = $notice->loadByName("UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
         $system->setPage($notice->getId());
 
@@ -151,7 +151,7 @@ class NoticeTest extends TestCase
     {
         global $system, $_POST;
         $notice = new Notice();
-        $status = $notice->loadByField("name","UnitTest Updated");
+        $status = $notice->loadByName("UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
 
 
@@ -161,7 +161,7 @@ class NoticeTest extends TestCase
         $rental = $rentalSet->getFirst();
         $rental->setNoticeLink($notice->getId());
         $reply = $rental->updateEntry();
-        $this->assertSame(true,$reply["status"],"Failed to assign rental to notice");
+        $this->assertSame(true,$reply->status,"Failed to assign rental to notice");
 
 
         $system->setPage($notice->getId());

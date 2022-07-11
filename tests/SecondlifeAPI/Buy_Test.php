@@ -35,7 +35,7 @@ class SecondlifeApiBuy extends TestCase
             $stream->setServerLink(1);
             $stream->setStreamUid("p".$port);
             $reply = $stream->createEntry();
-            if($reply["status"] == false) {
+            if($reply->status == false) {
                 $allOk = false;
                 $why = $reply["message"];
                 break;

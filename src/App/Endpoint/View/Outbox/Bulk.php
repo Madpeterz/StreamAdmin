@@ -2,13 +2,10 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\BanlistSet;
 use App\Models\Notice;
 use App\Models\Package;
 use App\Models\Sets\RentalSet;
 use App\Models\Server;
-use App\Models\Sets\StreamSet;
 use YAPF\Bootstrap\Template\Form;
 
 class Bulk extends View
@@ -99,6 +96,7 @@ class Bulk extends View
         }
 
         if ($ok == false) {
+            $this->output->addSwapTagString("page_content", "Filter has failed to load");
             $this->output->redirectWithMessage("outbox", "Filter option not supported", "warning");
             return;
         }

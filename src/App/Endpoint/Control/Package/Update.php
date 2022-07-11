@@ -36,8 +36,9 @@ class Update extends ControlAjax
     public function process(): void
     {
         $this->setup();
-        $this->formData();
-        if ($this->tests() == false) {
+        if ($this->formData() == false) {
+            return;
+        } elseif ($this->tests() == false) {
             return;
         } elseif ($this->loadData() == false) {
             return;
@@ -57,9 +58,10 @@ class Update extends ControlAjax
         $this->template = new Template();
         $this->servertype = new Servertypes();
         $this->package = new Package();
+        $this->failed("exit setup");
     }
 
-    protected function formData(): void
+    protected function formData(): bool
     {
         $this->name = $this->input->post("name")->checkStringLength(5, 30)->asString();
         $this->templateLink = $this->input->post("templateLink")->checkGrtThanEq(1)->asInt();
@@ -86,7 +88,7 @@ class Update extends ControlAjax
         foreach ($testing as $key => $value) {
             if ($value === null) {
                 $this->failed("Entry: " . $key . " is not set - " . $this->input->getWhyFailed());
-                return;
+                return false;
             }
         }
 
@@ -96,6 +98,8 @@ class Update extends ControlAjax
         $this->servertypeLink = $this->input->post("servertypeLink")->checkGrtThanEq(1)->asInt();
         $this->welcomeNotecardLink = $this->input->post("welcomeNotecardLink")->checkGrtThanEq(1)->asInt();
         $this->setupNotecardLink = $this->input->post("setupNotecardLink")->checkGrtThanEq(1)->asInt();
+        $this->failed("exit formData");
+        return true;
     }
 
     protected function tests(): bool
@@ -116,7 +120,8 @@ class Update extends ControlAjax
             $this->failed("Unable to find server type");
             return false;
         }
-        return false;
+        $this->failed("exit tests");
+        return true;
     }
 
     protected function loadData(): bool
@@ -131,6 +136,7 @@ class Update extends ControlAjax
             $this->failed("Unable to load package");
             return false;
         }
+        $this->failed("exit loadData");
         return true;
     }
 
@@ -151,6 +157,7 @@ class Update extends ControlAjax
         $this->package->setWelcomeNotecardLink($this->welcomeNotecardLink);
         $this->package->setSetupNotecardLink($this->setupNotecardLink);
         $this->package->setEnableGroupInvite($this->enableGroupInvite);
+        $this->failed("exit updatePackageSettings");
     }
 
     protected function savePackage(): bool
@@ -166,6 +173,7 @@ class Update extends ControlAjax
             );
             return false;
         }
+        $this->failed("exit savePackage");
         return true;
     }
 }

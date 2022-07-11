@@ -90,7 +90,7 @@ class Update extends ControlAjax
             $adjustment_multi
         );
         $this->message = "" . $adjustment_message . "" . $this->message . "";
-        $hours_remain = ceil(($new_unixtime - time()) / $unixtime_hour);
+        $hours_remain = ceil(($new_unixtime - time()) / $system->unixtimeHour());
         $noticeHelper = new NoticesHelper();
         $this->setSwapTag("noticeLevelChanged", false);
         $this->setSwapTag("hoursRemain", $hours_remain);

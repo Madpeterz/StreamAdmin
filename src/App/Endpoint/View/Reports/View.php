@@ -8,6 +8,12 @@ abstract class View extends Menu
 {
     protected function amountChanged($old, $new): string
     {
+        if (is_string($old) == true) {
+            if (is_string($new) == false) {
+                return "<span class=\"reports-gain\"> - </span>";
+            }
+            return "<span class=\"reports-loss\"> - </span>";
+        }
         if ($old == 0) {
             if ($new != 0) {
                 return "<span class=\"reports-gain\"> - </span>";

@@ -18,10 +18,10 @@ class Issue47 extends TestCase
         $packageSet = new PackageSet();
         $reply = $packageSet->loadAll();
         $this->assertSame("ok",$reply["message"],"Unable to load all packages");
-        $this->assertSame(true,$reply["status"],"Unable to load all packages");
+        $this->assertSame(true,$reply->status,"Unable to load all packages");
         $reply = $packageSet->updateFieldInCollection("enableGroupInvite",1);
         $this->assertSame("ok",$reply["message"],"Unable to bulk update enable group invite");
-        $this->assertSame(true,$reply["status"],"Unable to bulk update enable group invite");
+        $this->assertSame(true,$reply->status,"Unable to bulk update enable group invite");
         $botconfig = new Botconfig();
         $reply = $botconfig->loadID(1);
         $this->assertSame(true,$reply,"Failed to load botconfig");
@@ -29,7 +29,7 @@ class Issue47 extends TestCase
         $botconfig->setInviteGroupUUID("test");
         $reply = $botconfig->updateEntry();
         $this->assertSame("ok",$reply["message"],"Unable to update bot config");
-        $this->assertSame(true,$reply["status"],"Unable to update bot config");
+        $this->assertSame(true,$reply->status,"Unable to update bot config");
         $sql->sqlSave();
 
         $this->setupPost("Startrental");

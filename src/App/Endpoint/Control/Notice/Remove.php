@@ -45,7 +45,8 @@ class Remove extends ControlAjax
             notice and current notice can not be the same!");
             return;
         }
-        $notice_set = $notice->relatedNoticenotecard();
+
+        $notice_set = $notice->relatedRentalnoticeptout();
         if ($notice_set->getCount() != 0) {
             $this->failed(
                 sprintf(

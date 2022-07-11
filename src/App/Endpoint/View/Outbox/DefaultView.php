@@ -14,8 +14,8 @@ class DefaultView extends View
     {
         $Status = new Status();
         $Status->process();
-        $this->output = $Status->getOutputObject();
         $this->pages = array_merge(
+            $Status->getPages(),
             (new BulkClients())->getForm(),
             (new BulkNoticeStatus())->getForm(),
             (new BulkServer())->getForm(),

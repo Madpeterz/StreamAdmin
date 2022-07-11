@@ -23,7 +23,6 @@ class OutboxText extends TestCase
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $this->assertStringContainsString("Status",$statuscheck,$missing);
         $this->assertStringContainsString("Pending",$statuscheck,$missing);
-        $this->assertStringContainsString("Api",$statuscheck,$missing);
         $this->assertStringContainsString("object is running normaly",$statuscheck,$missing);
         $this->assertStringContainsString("Package",$statuscheck,$missing);
         $this->assertStringContainsString("Server",$statuscheck,$missing);
@@ -118,12 +117,12 @@ class OutboxText extends TestCase
     {
         global $_GET, $system;
         $system->setPage("notice");
-        $_GET["noticeLink"] = 1;
+        $_GET["noticeLink"] = 10;
         $_GET["messageStatus"] = "Hello world this is a test";
 
         $messagecheck = 'id="message" value="'.$_GET["messageStatus"].'"';
         $sourcecheck = 'id="source" value="notice"';
-        $sourcevaluecheck = 'id="source_id" value="1"';
+        $sourcevaluecheck = 'id="source_id" value="10"';
         $avatarcheck = 'id="max_avatars" value="1"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 

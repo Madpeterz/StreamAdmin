@@ -4,16 +4,21 @@ namespace App\Endpoint\View\Outbox;
 
 class Status extends View
 {
+    /**
+     * @return string[]
+     *  */
+    public function getPages(): array
+    {
+        return $this->pages;
+    }
     public function process(): void
     {
-        global $pages;
         $this->output->addSwapTagString("page_title", " Status");
         $services = [
         "Notecard" => ["norm" => 20,"cron" => 8,"classname" => "App\Models\Sets\NotecardSet"],
         "Docs" => ["norm" => 20,"cron" => 20,"classname" => "App\Models\Sets\NotecardmailSet"],
         "Details" => ["norm" => 15,"cron" => 8,"classname" => "App\Models\Sets\DetailSet"],
         "Mail" => ["norm" => 15,"cron" => 15,"classname" => "App\Models\Sets\MessageSet"],
-        "Api" => ["norm" => 25,"cron" => 8,"classname" => "App\Models\Sets\ApirequestsSet"],
         "Events" => ["norm" => 30,"cron" => 30,"classname" => "App\Models\Sets\EventsqSet"],
         "Bot" => ["norm" => 30,"cron" => 8,"classname" => "App\Models\Sets\BotcommandqSet"],
         ];
@@ -46,7 +51,7 @@ class Status extends View
             $entry[] = $ttc_cron;
             $table_body[] = $entry;
         }
-        $pages["Status"] = "" . $this->renderTable($table_head, $table_body) . "<br><hr/><p>TTC is the Expected "
+        $this->pages["Status"] = "" . $this->renderTable($table_head, $table_body) . "<br><hr/><p>TTC is the Expected "
         . "time to clear<br/> this is if the SL service object is running normaly</p>";
     }
 }

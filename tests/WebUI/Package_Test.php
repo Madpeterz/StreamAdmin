@@ -89,7 +89,6 @@ class PackageTest extends TestCase
         $this->assertStringContainsString("Auto DJ",$statuscheck,$missing);
         $this->assertStringContainsString("Textures",$statuscheck,$missing);
         $this->assertStringContainsString("AlsoUnitTestPackage",$statuscheck,$missing);
-        $this->assertStringContainsString("None",$statuscheck,$missing);
         $this->assertStringContainsString("289c3e36-69b3-40c5-9229-0c6a5d230766",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
         $this->assertStringContainsString("Group Invite",$statuscheck,$missing);
@@ -118,7 +117,6 @@ class PackageTest extends TestCase
         $_POST["textureInstockSelected"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
         $_POST["autodj"] = false;
         $_POST["autodjSize"] = 0;
-        $_POST["apiTemplate"] = "None";
         $_POST["servertypeLink"] = 1;
         $_POST["welcomeNotecardLink"] = 1;
         $_POST["setupNotecardLink"] = 1;

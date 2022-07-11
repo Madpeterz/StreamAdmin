@@ -4,7 +4,7 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Avatar\Create as AvatarCreate;
 use App\Endpoint\Control\Client\Create as ClientCreate;
-use App\Endpoint\Control\Client\Getnotecard;
+use App\Endpoint\Control\Client\GetNotecard;
 use App\Endpoint\Control\Client\Message;
 use App\Endpoint\Control\Client\Revoke as ClientRevoke;
 use App\Endpoint\Control\Client\Update;
@@ -16,7 +16,6 @@ use App\Endpoint\View\Client\DefaultView;
 use App\Endpoint\View\Client\Expired;
 use App\Endpoint\View\Client\ListMode;
 use App\Endpoint\View\Client\Manage;
-use App\Endpoint\View\Client\Revoke;
 use App\Endpoint\View\Client\Soon;
 use App\Models\Avatar;
 use App\Models\Rental;
@@ -255,7 +254,7 @@ class ClientTest extends TestCase
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $system->setPage($rental->getRentalUid());
 
-        $getNotecard = new getNotecard();
+        $getNotecard = new GetNotecard();
         $getNotecard->process();
         $statuscheck = $getNotecard->getOutputObject();
         $this->assertStringContainsString("Control panel:",$statuscheck->getSwapTagString("message"));

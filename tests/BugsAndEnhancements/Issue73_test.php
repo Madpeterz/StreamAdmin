@@ -33,7 +33,7 @@ class Issue73 extends TestCase
         $Botconfig->setInvites(true);
         $Botconfig->setInviteGroupUUID("00000000-0001-0000-0000-000000000000");
         $reply = $Botconfig->updateEntry();
-        $this->assertSame(true,$reply["status"],"Failed to update bot config");
+        $this->assertSame(true,$reply->status,"Failed to update bot config");
     }
 
     /**
@@ -124,7 +124,7 @@ class Issue73 extends TestCase
         $botconfig->setHttpURL("http://127.0.0.1/fake/secondbot.php/");
         $botconfig->setHttpToken("lolwhatlol");
         $reply = $botconfig->updateEntry();
-        $this->assertSame(true,$reply["status"],"Failed to update bot HTTP settings");
+        $this->assertSame(true,$reply->status,"Failed to update bot HTTP settings");
     }
 
     /**

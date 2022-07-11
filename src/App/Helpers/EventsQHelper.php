@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Config;
 use App\Models\Avatar;
 use App\Models\Eventsq;
 use App\Models\Package;
@@ -12,11 +13,11 @@ use App\Models\Stream;
 
 class EventsQHelper
 {
-    protected ?Slconfig $config;
+    protected ?Config $config;
     public function __construct()
     {
-        global $slconfig;
-        $this->config = $slconfig;
+        global $system;
+        $this->config = $system;
     }
     public function addToEventQ(
         string $name,
@@ -28,7 +29,7 @@ class EventsQHelper
         ?int $amountpaid = null,
         ?Avatar $transactionAv = null
     ): void {
-        if ($this->config->getEventsAPI() == false) {
+        if ($this->config->getSlConfig()->getEventsAPI() == false) {
             return;
         }
         $eventq = new Eventsq();

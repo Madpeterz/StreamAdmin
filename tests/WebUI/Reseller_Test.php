@@ -19,11 +19,11 @@ class ResellerTest extends TestCase
     {
         $avatarhelper = new AvatarHelper();
         $status = $avatarhelper->loadOrCreate("289c3fa6-69b3-40c5-92f9-0c6a5d2f0766","Reseller Test");
-        $this->assertSame(true,$status->status,"Unable to create test avatar");
+        $this->assertSame(true,$status,"Unable to create test avatar");
         $avatar = $avatarhelper->getAvatar();
         $resellerhelper = new ResellerHelper();
         $status = $resellerhelper->loadOrCreate($avatar->getId(),true,44);
-        $this->assertSame(true,$status->status,"Unable to create test reseller");
+        $this->assertSame(true,$status,"Unable to create test reseller");
         $reseller = $resellerhelper->getReseller();
 
         $default = new DefaultView();

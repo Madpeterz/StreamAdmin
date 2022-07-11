@@ -151,7 +151,7 @@ class Next extends SecondlifeAjax
     protected function removeCommand(Botcommandq $command): bool
     {
         $reply = $command->removeEntry();
-        if ($reply["status"] == false) {
+        if ($reply->status == false) {
             $this->failed("Unable to remove command from the Q because:" . $reply["message"]);
             return false;
         }

@@ -186,7 +186,7 @@ class UpdateNotecards extends SecondlifeAjax
             ];
         }
         $reply = $noticenotecardset->purgeCollection();
-        if ($reply["status"] == false) {
+        if ($reply->status == false) {
             return [
                 "status" => false,
                 "removed_entrys" => 0,
@@ -214,7 +214,7 @@ class UpdateNotecards extends SecondlifeAjax
         }
         if ($packageSet_welcome->getCount() > 0) {
             $reply = $packageSet_welcome->updateFieldInCollection($onfield, 1);
-            if ($reply["status"] == false) {
+            if ($reply->status == false) {
                 $this->addError("Update:" . $reply["message"]);
                 return false;
             }
