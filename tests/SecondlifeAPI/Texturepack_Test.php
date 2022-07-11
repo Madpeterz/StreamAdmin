@@ -2,15 +2,15 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Texturepack\Getpack;
+use App\Endpoint\SecondLifeApi\Texturepack\GetPack;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiTexturepack extends TestCase
 {
     public function test_Getpack()
     {
-        global $_POST, $slconfig;
-        $this->assertSame(1,$slconfig->getId(1),"config not loaded");
+        global $_POST, $system;
+        $this->assertSame(1,$system->getSlConfig()->getId(1),"config not loaded");
         $_POST["method"] = "Texturepack";
         $_POST["action"] = "Getpack";
         $_POST["mode"] = "test";
@@ -39,23 +39,23 @@ class SecondlifeApiTexturepack extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["texturepack"] = 1;
         $GetPack = new Getpack();
-        $this->assertSame("Not processed",$GetPack->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$GetPack->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$GetPack->getLoadOk(),"Load ok failed");
         $GetPack->process();
         $this->assertSame("ok",$GetPack->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$GetPack->getOutputObject()->getSwapTagString("Texture-Offline"),"incorrect reply");
         $this->assertSame(true,$GetPack->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $_POST["texturepack"] = -45;
-        $GetPack = new Getpack();
+        $GetPack = new GetPack();
         $GetPack->process();
         $this->assertSame(false,$GetPack->getOutputObject()->getSwapTagBool("status"),"incorrectly marked as ok");
         $this->assertSame("Invaild texturepack id (or non sent)",$GetPack->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $_POST["texturepack"] = 93445;
-        $GetPack = new Getpack();
+        $GetPack = new GetPack();
         $GetPack->process();
         $this->assertSame(false,$GetPack->getOutputObject()->getSwapTagBool("status"),"incorrectly marked as ok");
         $this->assertSame("Unable to load texture pack",$GetPack->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -69,9 +69,9 @@ class SecondlifeApiTexturepack extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
-        $GetPack = new Getpack();
+        $GetPack = new GetPack();
         $this->assertSame(true,$GetPack->getLoadOk(),"Load ok failed");
         $GetPack->process();
         $this->assertSame("ok",$GetPack->getOutputObject()->getSwapTagString("message"),"incorrect reply");

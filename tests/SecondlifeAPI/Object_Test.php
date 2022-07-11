@@ -3,14 +3,13 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\SecondLifeApi\Object\Ping;
-use App\Models\Slconfig;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiObject extends TestCase
 {
     public function test_Ping()
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Object";
         $_POST["action"] = "Ping";
         $_POST["mode"] = "test";
@@ -39,10 +38,10 @@ class SecondlifeApiObject extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $ping = new Ping();
-        $this->assertSame("Not processed",$ping->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$ping->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$ping->getLoadOk(),"Load ok failed");
         $ping->process();
         $this->assertSame("pong",$ping->getOutputObject()->getSwapTagString("message"),"incorrect reply");

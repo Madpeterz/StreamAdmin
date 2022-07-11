@@ -19,6 +19,7 @@ use App\Endpoint\View\Client\Manage;
 use App\Endpoint\View\Client\Soon;
 use App\Models\Avatar;
 use App\Models\Rental;
+use App\Models\Sets\RentalSet;
 use PHPUnit\Framework\TestCase;
 
 class ClientTest extends TestCase
@@ -282,35 +283,18 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @depends test_Expired
-     */
-    public function test_forceAddTime()
-    {
-        global $system;
-        $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","MadpeterUnit ZondTest");
-        $this->assertSame(true,$status->status,"Unable to load test avatar");
-        // update adjustment
-        $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status->status,"Unable to load test rental");
-        $system->setPage($rental->getRentalUid());
-        $manageProcess = new Update();
-        $_POST["message"] = $rental->getMessage();
-        $_POST["adjustment_dir"] = "true";
-        $_POST["adjustment_hours"] = "0";
-        $_POST["adjustment_days"] = "21";
-        $manageProcess->process();
-        $statuscheck = $manageProcess->getOutputObject();
-        $this->assertStringContainsString("Adjusted timeleft",$statuscheck->getSwapTagString("message"));
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
-    }
-
-    /**
-     * @depends test_ManageProcess
+     * @depends test_RevokeProcess
      */
     public function test_Active()
     {
+        global $system;
+        $rentals = new RentalSet();
+        $rentals->loadAll();
+        $this->assertSame(1, $rentals->getCount(), "incorrect number of rentals");
+        $rental = $rentals->getFirst();
+        $rental->setExpireUnixtime(time()+$system->unixtimeWeek());
+        $rental->setNoticeLink(10);
+        $rental->updateEntry();
         $Active = new Active();
         $Active->process();
         $statuscheck = $Active->getOutputObject()->getSwapTagString("page_content");

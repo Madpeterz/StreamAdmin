@@ -27,7 +27,7 @@ class SecondlifeApiNoticeserver extends TestCase
         $this->assertSame(true,$rental->updateEntry()["status"],"Unable to update rental");
 
         $Next = new Next();
-        $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
         $Next->process();
         $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -43,7 +43,7 @@ class SecondlifeApiNoticeserver extends TestCase
 
         $_POST["notecards"] = "Unittest1,Unittest2,Magic3,Wolf4,Lineofsight5";
         $UpdateNotecards = new UpdateNotecards();
-        $this->assertSame("Not processed",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$UpdateNotecards->getLoadOk(),"Load ok failed");
         $UpdateNotecards->process();
         $this->assertSame("ok",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -55,7 +55,7 @@ class SecondlifeApiNoticeserver extends TestCase
 
         $_POST["notecards"] = "Magic3,Wolf4,Lineofsight5";
         $UpdateNotecards = new UpdateNotecards();
-        $this->assertSame("Not processed",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$UpdateNotecards->getLoadOk(),"Load ok failed");
         $UpdateNotecards->process();
         $this->assertSame("ok",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -79,7 +79,7 @@ class SecondlifeApiNoticeserver extends TestCase
 
         $_POST["notecards"] = "none";
         $UpdateNotecards = new UpdateNotecards();
-        $this->assertSame("Not processed",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$UpdateNotecards->getLoadOk(),"Load ok failed");
         $UpdateNotecards->process();
         $this->assertSame("ok - purged: 2 notecards",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -102,7 +102,7 @@ class SecondlifeApiNoticeserver extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Noticeserver";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -131,7 +131,7 @@ class SecondlifeApiNoticeserver extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

@@ -48,7 +48,7 @@ class Issue92 extends TestCase
     public function test_ProcessNoticeChange()
     {
         $Next = new Next();
-        $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
         $Next->process();
         $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");

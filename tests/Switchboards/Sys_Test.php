@@ -34,7 +34,7 @@ class Sys_Test extends TestCase
 
     protected function SetupPost()
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Notecard";
         $_POST["action"] = "Next";
         $_POST["mode"] = "test";
@@ -49,7 +49,7 @@ class Sys_Test extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getHttpInboundSecret();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getHttpInboundSecret();
         $_POST["hash"] = sha1($raw);
     }
 }

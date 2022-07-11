@@ -11,7 +11,7 @@ class SystemApiNotecard extends TestCase
     {
         $this->SetupPost("Next");
         $Next = new Next();
-        $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
         $Next->process();
         $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -24,11 +24,11 @@ class SystemApiNotecard extends TestCase
 
     protected function SetupPost($action)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Notecard";
         $_POST["action"] = $action;
         $_POST["unixtime"] = time();
-        $bits = [$_POST["unixtime"],$_POST["method"],$_POST["action"],$slconfig->getHttpInboundSecret()];
+        $bits = [$_POST["unixtime"],$_POST["method"],$_POST["action"],$system->getSlConfig()->getHttpInboundSecret()];
         error_log("test raw:".implode("", $bits));
         $_POST["token"] = sha1(implode("", $bits));
     }

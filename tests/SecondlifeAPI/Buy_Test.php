@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Buy\Checkstock;
-use App\Endpoint\SecondLifeApi\Buy\Getconfig;
-use App\Endpoint\SecondLifeApi\Buy\Startrental;
+use App\Endpoint\SecondLifeApi\Buy\CheckStock;
+use App\Endpoint\SecondLifeApi\Buy\GetConfig;
+use App\Endpoint\SecondLifeApi\Buy\StartRental;
 use App\Models\Package;
 use App\Models\Stream;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,6 @@ class SecondlifeApiBuy extends TestCase
             $stream->setDjPassword("port".$port);
             $stream->setAdminPassword("none");
             $stream->setAdminUsername("user".$port);
-            $stream->setOriginalAdminUsername("user".$port);
             $stream->setMountpoint("/live");
             $stream->setNeedWork(0);
             $stream->setRentalLink(null);
@@ -55,8 +54,8 @@ class SecondlifeApiBuy extends TestCase
         global $_POST;
         $this->setupPost("Checkstock");
         $_POST["packageuid"] = $this->package->getPackageUid();
-        $checkstock = new Checkstock();
-        $this->assertSame("Not processed",$checkstock->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $checkstock = new CheckStock();
+        $this->assertSame("ready",$checkstock->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$checkstock->getLoadOk(),"Load ok failed");
         $checkstock->process();
         $this->assertSame("ok",$checkstock->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -74,8 +73,8 @@ class SecondlifeApiBuy extends TestCase
         $this->setupPost("Getconfig");
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["texturepack"] = 1;
-        $Getconfig = new Getconfig();
-        $this->assertSame("Not processed",$Getconfig->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $Getconfig = new GetConfig();
+        $this->assertSame("ready",$Getconfig->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Getconfig->getLoadOk(),"Load ok failed");
         $Getconfig->process();
         $this->assertSame("ok",$Getconfig->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -97,8 +96,8 @@ class SecondlifeApiBuy extends TestCase
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["amountpaid"] = $this->package->getCost() * 3;
 
-        $startRental = new Startrental();
-        $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $startRental = new StartRental();
+        $this->assertSame("ready",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
         $startRental->process();
         $this->assertSame("Details should be with you shortly",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -111,8 +110,8 @@ class SecondlifeApiBuy extends TestCase
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["amountpaid"] = $this->package->getCost() + 4;
 
-        $startRental = new Startrental();
-        $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $startRental = new StartRental();
+        $this->assertSame("ready",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
         $startRental->process();
         $this->assertSame("Payment amount not accepted",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -123,14 +122,14 @@ class SecondlifeApiBuy extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Buy";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["ownername"] = "Madpeter Zond";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
@@ -152,7 +151,7 @@ class SecondlifeApiBuy extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

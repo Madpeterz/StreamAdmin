@@ -40,10 +40,10 @@ class MainGrid extends TestCase
 
     protected function SetupPost()
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         if($slconfig == null) {
             $slconfig = new Slconfig();
-            $this->assertSame(true,$slconfig->loadID(1),"Unable to load site config");
+            $this->assertSame(true,$system->getSlConfig()->loadID(1),"Unable to load site config");
         }
         $_POST["method"] = "Texturepack";
         $_POST["action"] = "Getpack";
@@ -73,7 +73,7 @@ class MainGrid extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["texturepack"] = 1;
     }

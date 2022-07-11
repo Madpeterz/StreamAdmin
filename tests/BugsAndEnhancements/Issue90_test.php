@@ -59,7 +59,7 @@ class Issue90 extends TestCase
         $_POST["amountpaid"] = $this->package->getCost() * 4;
 
         $startRental = new Startrental();
-        $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
         $startRental->process();
         $this->assertSame("Details should be with you shortly",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -143,7 +143,7 @@ class Issue90 extends TestCase
             $this->assertSame(true,$update["status"],"Rental expires not updated");
             // Tick notice server
             $Next = new Next();
-            $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+            $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
             $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
             $Next->process();
             $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -197,7 +197,7 @@ class Issue90 extends TestCase
             "[".$amount."@".$expectedNoticeLevel[1]."] Incorrect prerenewal notice level ".$log);
             $Renewnow = new Renewnow();
             $oldExpireTime = $rental->getExpireUnixtime();
-            $this->assertSame("Not processed",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+            $this->assertSame("ready",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
             $this->assertSame(true,$Renewnow->getLoadOk(),"Load ok failed");
             $Renewnow->process();
             $this->assertStringStartsWith(
@@ -255,7 +255,7 @@ class Issue90 extends TestCase
 
     protected function setupRenewPost(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Renew";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -284,13 +284,13 @@ class Issue90 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 
     protected function setupPostBuy(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Buy";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -319,7 +319,7 @@ class Issue90 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

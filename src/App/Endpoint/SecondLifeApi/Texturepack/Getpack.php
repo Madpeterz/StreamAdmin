@@ -15,7 +15,7 @@ class GetPack extends SecondlifeAjax
             return;
         }
         $textureconfig = new Textureconfig();
-        if ($textureconfig->loadID($texturepack) == false) {
+        if ($textureconfig->loadID($texturepack)->status == false) {
             $this->failed("Unable to load texture pack");
             return;
         }

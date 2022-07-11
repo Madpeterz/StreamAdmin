@@ -34,8 +34,7 @@ class Bulkupdate extends View
 
         foreach ($stream_set as $stream) {
             $server = $server_set->getObjectByID($stream->getServerLink());
-            if ($stream->getOriginalAdminUsername() == $stream->getAdminUsername()) {
-                $action = '
+            $action = '
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-outline-success">
 <input type="radio" value="update" name="stream' . $stream->getStreamUid() . '" autocomplete="off"> Update
@@ -44,20 +43,19 @@ class Bulkupdate extends View
 <input type="radio" value="skip" name="stream' . $stream->getStreamUid() . '" autocomplete="off" checked> Skip
 </label>
 </div>';
-                $entry = [];
-                //$entry[] = $stream->getId();
-                $entry[] = $action;
-                $entry[] = $server->getDomain();
-                $entry[] = $stream->getPort();
-                $adminPassword = '<input type="text" class="form-control" name="stream' . $stream->getStreamUid()
-                . 'adminpw" value="' . $stream->getAdminPassword() . '" placeholder="Max 20 length">';
-                $djPassword = '<input type="text" class="form-control" name="stream'
-                . $stream->getStreamUid() . 'djpw" value="' . $stream->getDjPassword()
-                . '" placeholder="Max 20 length">';
-                $entry[] = $djPassword;
-                $entry[] = $adminPassword;
-                $table_body[] = $entry;
-            }
+            $entry = [];
+            //$entry[] = $stream->getId();
+            $entry[] = $action;
+            $entry[] = $server->getDomain();
+            $entry[] = $stream->getPort();
+            $adminPassword = '<input type="text" class="form-control" name="stream' . $stream->getStreamUid()
+            . 'adminpw" value="' . $stream->getAdminPassword() . '" placeholder="Max 20 length">';
+            $djPassword = '<input type="text" class="form-control" name="stream'
+            . $stream->getStreamUid() . 'djpw" value="' . $stream->getDjPassword()
+            . '" placeholder="Max 20 length">';
+            $entry[] = $djPassword;
+            $entry[] = $adminPassword;
+            $table_body[] = $entry;
         }
 
         if (count($table_body) == 0) {

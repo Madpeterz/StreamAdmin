@@ -9,7 +9,7 @@ class Create extends ControlAjax
 {
     public function process(): void
     {
-        $name = $this->input->post("name")->checkEndsWith(5, 30)->asString();
+        $name = $this->input->post("name")->checkStringLength(5, 30)->asString();
         if ($name == null) {
             $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;

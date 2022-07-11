@@ -45,7 +45,7 @@ class Issue71 extends TestCase
         $_POST["avatarName"] = "Madpeter Zond";
         $_POST["amountpaid"] = 444;
         $Renewnow = new Renewnow();
-        $this->assertSame("Not processed",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Renewnow->getLoadOk(),"Load ok failed");
         $Renewnow->process();
         $this->assertStringStartsWith(
@@ -84,7 +84,7 @@ class Issue71 extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Renew";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -113,7 +113,7 @@ class Issue71 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

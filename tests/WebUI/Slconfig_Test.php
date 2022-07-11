@@ -2,8 +2,8 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\Slconfig\Update;
-use App\Endpoint\View\Slconfig\DefaultView;
+use App\Endpoint\Control\SlConfig\Update;
+use App\Endpoint\View\SlConfig\DefaultView;
 use App\Models\Avatar;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,6 @@ class Slconfigtest extends TestCase
         $this->assertStringContainsString("Resellers",$statuscheck,$missing);
         $this->assertStringContainsString("resellers rate (As a %)",$statuscheck,$missing);
         $this->assertStringContainsString("Misc settings",$statuscheck,$missing);
-        $this->assertStringContainsString("API default email",$statuscheck,$missing);
         $this->assertStringContainsString("Discord join link",$statuscheck,$missing);
         $this->assertStringContainsString("SL group url",$statuscheck,$missing);
         $this->assertStringContainsString("Renter hud",$statuscheck,$missing);
@@ -34,10 +33,10 @@ class Slconfigtest extends TestCase
      */
     public function test_Manageprocess()
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $updateHandler = new Update();
         $avatar = new Avatar();
-        $status = $avatar->loadID($updateHandler->getSlConfigObject()->getOwnerAvatarLink());
+        $status = $avatar->loadID($system->getSlConfig()->getOwnerAvatarLink());
         $this->assertSame(true,$status->status,"Unable to load system owner avatar");
         
         $_POST["newResellersRate"] = 5;
@@ -46,7 +45,6 @@ class Slconfigtest extends TestCase
         $_POST["owneravuid"] = $avatar->getAvatarUid();
         $_POST["ui_tweaks_clients_fulllist"] = 0;
         $_POST["ui_tweaks_datatableItemsPerPage"] = 25;
-        $_POST["apiDefaultEmail"] = "unittest@gmail.com";
         $_POST["displayTimezoneLink"] = 1;
 
 

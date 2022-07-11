@@ -34,7 +34,7 @@ class Database_Test extends TestCase
         $this->assertSame(true, $status->status, "Failed to load avatar");
         $Avatar->setAvatarName("MadpeterUnit ZondTest");
         $Avatar->setAvatarUid("Madpeter");
-        $Avatar->setAvatarUUID("MadpeterUnit ZondTest");
+        $Avatar->setAvatarUUID("b36971ef-b2a5-f461-025c-81bbc473deb8");
         $status = $Avatar->updateEntry();
         $this->assertSame(true, $status->status, "Failed to update");
         $staff = new Staff();

@@ -10,7 +10,7 @@ class SecondlifeApiDetails extends TestCase
 {
     public function test_Resend()
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Details";
         $_POST["action"] = "Resend";
         $_POST["mode"] = "test";
@@ -39,7 +39,7 @@ class SecondlifeApiDetails extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
 
@@ -51,7 +51,7 @@ class SecondlifeApiDetails extends TestCase
         $_POST["rentalUid"] = $split[0];
 
         $resend = new Resend();
-        $this->assertSame("Not processed",$resend->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$resend->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$resend->getLoadOk(),"Load ok failed");
         $resend->process();
         $this->assertSame("Details request accepted, it should be with you shortly!",$resend->getOutputObject()->getSwapTagString("message"),"incorrect reply");

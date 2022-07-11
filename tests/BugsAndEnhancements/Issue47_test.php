@@ -44,7 +44,7 @@ class Issue47 extends TestCase
         $this->assertSame(6,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q");
 
         $startRental = new Startrental();
-        $this->assertSame("Not processed",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
         $startRental->process();
         $this->assertSame("Details should be with you shortly",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -59,7 +59,7 @@ class Issue47 extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Buy";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -88,7 +88,7 @@ class Issue47 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

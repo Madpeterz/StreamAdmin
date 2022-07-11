@@ -17,8 +17,8 @@ use YAPF\InputFilter\InputFilter;
 abstract class SecondlifeAjax extends TemplateViewAjax
 {
     protected bool $trackObject = true;
-    protected $method = "";
-    protected $action = "";
+    protected ?string $method = "";
+    protected ?string $action = "";
     protected $mode = "";
     protected $objectuuid = "";
     protected $regionname = "";
@@ -135,7 +135,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             if ($typematch == "k") {
                 $value = $this->input->post($fieldname)->isUuid()->asString();
             }
-            if ($value !== null) {
+            if ($value === null) {
                 $this->load_ok = false;
                 $this->failed("Value: " . $fieldname . " is missing");
                 return;

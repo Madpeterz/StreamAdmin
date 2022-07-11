@@ -23,6 +23,7 @@ class Create extends View
         $form->col(6);
         $form->textarea("notecardDetail", "Notecard template", 5000, "", "Use swap tags as the placeholder", 17);
         $this->pages["Create"] = $form->render("Create", "primary");
+        $this->use_paged_swaps = true;
         $this->getSwaps();
         $paged = new PagedInfo();
         $this->setSwapTag("page_content", $paged->render($this->pages));

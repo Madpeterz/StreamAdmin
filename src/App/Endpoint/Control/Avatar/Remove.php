@@ -15,7 +15,7 @@ class Remove extends ControlAjax
             return;
         }
         $this->setSwapTag("redirect", "avatar");
-        $this->failed("Not processed");
+        $this->failed("ready");
         if ($accept != "Accept") {
             $this->setSwapTag("redirect", "avatar/manage/" . $this->siteConfig->getPage() . "");
             $this->failed("Did not Accept");

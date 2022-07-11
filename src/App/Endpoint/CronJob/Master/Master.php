@@ -143,13 +143,13 @@ abstract class Master
         $region = $regionHelper->getRegion();
 
         $slconfig = new Slconfig();
-        if ($slconfig->loadID(1)->status == false) {
-            echo "task: " . $this->cronName . " - Unable to load system config:" . $slconfig->getLastErrorBasic();
+        if ($system->getSlConfig()->loadID(1)->status == false) {
+            echo "task: " . $this->cronName . " - Unable to load system config:" . $system->getSlConfig()->getLastErrorBasic();
             return false;
         }
 
         $avatar = new Avatar();
-        if ($avatar->loadID($slconfig->getOwnerAvatarLink())->status == false) {
+        if ($avatar->loadID($system->getSlConfig()->getOwnerAvatarLink())->status == false) {
             echo "task: " . $this->cronName . " - Unable to load owner avatar:" . $avatar->getLastErrorBasic();
             return false;
         }

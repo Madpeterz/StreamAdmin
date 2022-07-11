@@ -27,7 +27,7 @@ class Update extends ControlAjax
         $bits = [$port,$packageLink,$serverLink,$mountpoint,$adminUsername,$adminPassword,$djPassword];
         if (in_array(null, $bits, true) == true) {
             $this->failed($this->input->getWhyFailed());
-            return false;
+            return;
         }
 
         $stream = new Stream();
@@ -50,7 +50,7 @@ class Update extends ControlAjax
                 $expected_count = 1;
             }
         }
-        if ($count_check == null) {
+        if ($count_check === null) {
             $this->failed("Unable to check if there is a stream on that port already!");
             return;
         }

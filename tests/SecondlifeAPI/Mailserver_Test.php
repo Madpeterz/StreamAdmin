@@ -11,7 +11,7 @@ class SecondlifeApiMailserver extends TestCase
 {
     public function test_Next()
     {
-        global $_POST, $slconfig, $sql;
+        global $_POST, $system, $sql;
         $_POST["method"] = "Mailserver";
         $_POST["action"] = "Next";
         $_POST["mode"] = "test";
@@ -40,7 +40,7 @@ class SecondlifeApiMailserver extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
         $botmessageQ = new BotcommandqSet();
@@ -51,7 +51,7 @@ class SecondlifeApiMailserver extends TestCase
         $this->assertSame(5,$messageSet->getCount(),"Incorrect number of messages in the Q");
 
         $Next = new Next();
-        $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
         $Next->process();
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("hasmessage"),"No message detected but I was expecting one");

@@ -11,11 +11,11 @@ class SecondlifeApiBot extends TestCase
 {
     public function test_Notecardsync()
     {
-        global $_POST, $slconfig;
-        $slconfig->setHttpInboundSecret("httpunit");
-        $this->assertSame(true,$slconfig->updateEntry()["status"],"Unable to set HTTP code as needed");
+        global $_POST, $system;
+        $system->getSlConfig()->setHttpInboundSecret("httpunit");
+        $this->assertSame(true,$system->getSlConfig()->updateEntry()["status"],"Unable to set HTTP code as needed");
         $slconfig = new Slconfig();
-        $this->assertSame(true,$slconfig->loadID(1),"Unable to load updated config");
+        $this->assertSame(true,$system->getSlConfig()->loadID(1),"Unable to load updated config");
         $_POST["method"] = "Bot";
         $_POST["action"] = "Notecardsync";
         $_POST["mode"] = "test";
@@ -44,7 +44,7 @@ class SecondlifeApiBot extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
 
@@ -53,7 +53,7 @@ class SecondlifeApiBot extends TestCase
         $this->assertSame(4,$reply,"Current number of events in the Q is not correct"); 
 
         $Notecardsync = new Notecardsync();
-        $this->assertSame("Not processed",$Notecardsync->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Notecardsync->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Notecardsync->getLoadOk(),"Load ok failed");
         $Notecardsync->process();
         $this->assertSame("ok",$Notecardsync->getOutputObject()->getSwapTagString("message"),"incorrect reply");

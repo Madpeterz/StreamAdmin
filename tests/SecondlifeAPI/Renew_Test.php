@@ -17,7 +17,7 @@ class SecondlifeApiRenew extends TestCase
 
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
         $Details = new Details();
-        $this->assertSame("Not processed",$Details->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Details->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Details->getLoadOk(),"Load ok failed");
         $Details->process();
         $this->assertSame("Client account: Test Buyer",$Details->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -45,7 +45,7 @@ class SecondlifeApiRenew extends TestCase
         $_POST["rentalUid"] = $split[0];
 
         $Costandtime = new Costandtime();
-        $this->assertSame("Not processed",$Costandtime->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Costandtime->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Costandtime->getLoadOk(),"Load ok failed");
         $Costandtime->process();
         $this->assertSame(50,$Costandtime->getOutputObject()->getSwapTagInt("cost"),"incorrect package cost reported");
@@ -75,7 +75,7 @@ class SecondlifeApiRenew extends TestCase
         $_POST["avatarName"] = "Test Buyer";
         $_POST["amountpaid"] = 50;
         $Renewnow = new Renewnow();
-        $this->assertSame("Not processed",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Renewnow->getLoadOk(),"Load ok failed");
         $Renewnow->process();
         $this->assertStringStartsWith(
@@ -91,7 +91,7 @@ class SecondlifeApiRenew extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Renew";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -120,7 +120,7 @@ class SecondlifeApiRenew extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

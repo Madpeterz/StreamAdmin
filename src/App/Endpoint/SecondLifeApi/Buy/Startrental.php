@@ -158,12 +158,12 @@ class StartRental extends SecondlifeAjax
 
         $rental = new Rental();
         $uid_rental = $rental->createUID("rentalUid", 8);
-        $status = $uid_rental["status"];
+        $status = $uid_rental->status;
         if ($status == false) {
             $this->failed("Unable to create rental uid");
             return;
         }
-        $rental->setRentalUid($uid_rental["uid"]);
+        $rental->setRentalUid($uid_rental->uid);
         $rental->setAvatarLink($avatar->getId());
         $rental->setPackageLink($stream->getPackageLink());
         $rental->setStreamLink($stream->getId());
@@ -171,14 +171,14 @@ class StartRental extends SecondlifeAjax
         $rental->setExpireUnixtime($unixtime);
         $rental->setNoticeLink($use_notice_index);
         $rental->setTotalAmount($amountpaid);
-        $status = $rental->createEntry()["status"];
+        $status = $rental->createEntry()->status;
         if ($status == false) {
             $this->failed("Unable to create rental");
             return;
         }
 
         $stream->setRentalLink($rental->getId());
-        $status = $stream->updateEntry()["status"];
+        $status = $stream->updateEntry()->status;
         if ($status == false) {
             $this->failed("Unable to update rental link for stream");
             return;

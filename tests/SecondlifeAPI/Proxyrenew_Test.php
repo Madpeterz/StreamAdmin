@@ -14,7 +14,7 @@ class SecondlifeApiProxyrenew extends TestCase
 
         $_POST["targetuid"] = "Test Buyer";
         $Details = new Details();
-        $this->assertSame("Not processed",$Details->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Details->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Details->getLoadOk(),"Load ok failed");
         $Details->process();
         $this->assertSame("Client account: Test Buyer",$Details->getOutputObject()->getSwapTagString("message"),"incorrect reply");
@@ -27,7 +27,7 @@ class SecondlifeApiProxyrenew extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Proxyrenew";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -56,7 +56,7 @@ class SecondlifeApiProxyrenew extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

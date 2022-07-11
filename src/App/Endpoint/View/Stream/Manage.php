@@ -104,6 +104,5 @@ class Manage extends View
             "Encoder/Stream password"
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        include "" . ROOTFOLDER . "/App/Endpoint/View/Stream/api_linking.php";
     }
 }

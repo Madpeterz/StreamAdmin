@@ -4,7 +4,7 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Transactions\Remove as TransactionsRemove;
 use App\Endpoint\View\Transactions\DefaultView;
-use App\Endpoint\View\Transactions\Inrange;
+use App\Endpoint\View\Transactions\InRange;
 use App\Endpoint\View\Transactions\Remove;
 use App\Helpers\AvatarHelper;
 use App\Helpers\RegionHelper;
@@ -22,11 +22,11 @@ class TransactionsTest extends TestCase
     {
         $avatarhelper = new AvatarHelper();
         $status = $avatarhelper->loadOrCreate("2f9c3e36-6fb3-40c5-92f9-0c6a5d230f66","TransactionTest Avatar");
-        $this->assertSame(true,$status->status,"Unable to find a avatar to use");
+        $this->assertSame(true,$status,"Unable to find a avatar to use");
         $avatar = $avatarhelper->getAvatar();
         $resellerhelper = new ResellerHelper();
         $status = $resellerhelper->loadOrCreate(1,true,40);
-        $this->assertSame(true,$status->status,"Unable to find a reseller to use");
+        $this->assertSame(true,$status,"Unable to find a reseller to use");
         $reseller = $resellerhelper->getReseller();
         $stream = new Stream();
         $status = $stream->loadID(1);
@@ -39,7 +39,7 @@ class TransactionsTest extends TestCase
         $this->assertSame(true,$status->status,"Unable to find a package to use");
         $regionHelper = new RegionHelper();
         $status = $regionHelper->loadOrCreate("Unittest");
-        $this->assertSame(true,$status->status,"Unable to find a region to use");
+        $this->assertSame(true,$status,"Unable to find a region to use");
         $region = $regionHelper->getRegion();
         $TransactionsHelper = new TransactionsHelper();
         $loop = 10;
@@ -52,13 +52,13 @@ class TransactionsTest extends TestCase
             }
             $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,$amount,$flag);
             if($status != true) {
-                $this->assertSame(true,$status->status,"Error creating a test transaction");
+                $this->assertSame(true,$status,"Error creating a test transaction");
                 break;
             }
             $loop--;
         }
         $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,4000,false,mktime(12,12,12,12,12,2019));
-        $this->assertSame(true,$status->status,"Error creating a test transaction");
+        $this->assertSame(true,$status,"Error creating a test transaction");
         $default = new DefaultView();
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
@@ -119,7 +119,7 @@ class TransactionsTest extends TestCase
         global $_GET;
         $_GET["month"] = "12";
         $_GET["year"] = "2019";
-        $view = new Inrange();
+        $view = new InRange();
         $view->process();
         $statuscheck = $view->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing transactions inrange element";

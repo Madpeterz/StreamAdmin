@@ -9,7 +9,7 @@ class SecondlifeApiDetailsserver extends TestCase
 {
     public function test_Next()
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Detailsserver";
         $_POST["action"] = "Next";
         $_POST["mode"] = "test";
@@ -38,10 +38,10 @@ class SecondlifeApiDetailsserver extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $Next = new Next();
-        $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
         $Next->process();
         $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");

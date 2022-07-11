@@ -70,7 +70,7 @@ class OutboxText extends TestCase
         $sourcecheck = 'id="source" value="package"';
         $sourcevaluecheck = 'id="source_id" value="1"';
         $avatarcheck = 'id="max_avatars" value="1"';
-        $checkboxcheck = 'id="avatarmail5" name="avatarids[]" value="5"';
+        $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
         $bulkPackage->process();
@@ -96,7 +96,7 @@ class OutboxText extends TestCase
         $sourcecheck = 'id="source" value="server"';
         $sourcevaluecheck = 'id="source_id" value="1"';
         $avatarcheck = 'id="max_avatars" value="1"';
-        $checkboxcheck = 'id="avatarmail5" name="avatarids[]" value="5"';
+        $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
         $bulkPackage->process();
@@ -123,7 +123,7 @@ class OutboxText extends TestCase
         $sourcecheck = 'id="source" value="notice"';
         $sourcevaluecheck = 'id="source_id" value="10"';
         $avatarcheck = 'id="max_avatars" value="1"';
-        $checkboxcheck = 'id="avatarmail5" name="avatarids[]" value="5"';
+        $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
         $bulkPackage->process();
@@ -152,7 +152,7 @@ class OutboxText extends TestCase
         $_POST["source"] = "package";
         $_POST["source_id"] = 1;
         $_POST["max_avatars"] = 1;
-        $_POST["avatarids"] = [5];
+        $_POST["avatarids"] = [1];
         $sendHandler = new Send();
         $sendHandler->process();
         $statuscheck = $sendHandler->getOutputObject();

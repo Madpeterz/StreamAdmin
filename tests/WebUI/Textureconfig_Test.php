@@ -2,13 +2,12 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\Textureconfig\Create as TextureconfigCreate;
-use App\Endpoint\Control\Textureconfig\Remove as TextureconfigRemove;
-use App\Endpoint\Control\Textureconfig\Update;
+use App\Endpoint\Control\TextureConfig\Create as TextureConfigCreate;
+use App\Endpoint\Control\TextureConfig\Remove;
+use App\Endpoint\Control\TextureConfig\Update;
 use App\Endpoint\View\Textureconfig\Create;
 use App\Endpoint\View\Textureconfig\DefaultView;
 use App\Endpoint\View\Textureconfig\Manage;
-use App\Endpoint\View\Textureconfig\Remove;
 use App\Models\Textureconfig;
 use PHPUnit\Framework\TestCase;
 
@@ -48,7 +47,7 @@ class TextureconfigTest extends TestCase
     public function test_CreateProcess()
     {
         global $_POST;
-        $createHandler = new TextureconfigCreate();
+        $createHandler = new TextureConfigCreate();
         $_POST["name"] = "UnitTestTexturePack";
         $_POST["gettingDetails"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
         $_POST["requestDetails"] = "289c3ea6-69b3-40c5-9229-0c6a5d230766";
@@ -131,7 +130,7 @@ class TextureconfigTest extends TestCase
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
         $system->setPage($textureconfig->getId());
 
-        $removeProcess = new TextureconfigRemove();
+        $removeProcess = new Remove();
         $_POST["accept"] = "Accept";
         $removeProcess->process();
         $statuscheck = $removeProcess->getOutputObject();

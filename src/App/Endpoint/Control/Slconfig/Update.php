@@ -24,7 +24,7 @@ class Update extends ControlAjax
             $reissued = true;
         }
         if ($reissued == true) {
-            $reissueKeys = new Reissue();
+            $reissueKeys = new ReIssue();
             $reissueKeys->reissueKeys();
         }
         return $reissued;

@@ -55,7 +55,7 @@ class SecondlifeApiTree extends TestCase
     }
     public function test_Getpackages()
     {
-        global $_POST, $slconfig;
+        global $_POST, $system;
         $_POST["method"] = "Tree";
         $_POST["action"] = "Getpackages";
         $_POST["mode"] = "test";
@@ -84,13 +84,13 @@ class SecondlifeApiTree extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $slconfig->getSlLinkCode();
+        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $treevender = new Treevender();
         $this->assertSame(true,$treevender->loadByField("name","Demo"),"Load ok failed");
         $_POST["tree_vender_id"] = $treevender->getId();
         $Notecardsync = new Getpackages();
-        $this->assertSame("Not processed",$Notecardsync->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
+        $this->assertSame("ready",$Notecardsync->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Notecardsync->getLoadOk(),"Load ok failed");
         $Notecardsync->process();
         $this->assertSame("ok",$Notecardsync->getOutputObject()->getSwapTagString("message"),"incorrect reply");

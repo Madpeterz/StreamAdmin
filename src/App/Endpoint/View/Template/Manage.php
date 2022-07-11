@@ -52,7 +52,9 @@ class Manage extends View
                 17
             );
         $this->pages["Manage"] = $form->render("Update", "primary");
+        $this->use_paged_swaps = true;
         $this->getSwaps();
+
         $paged = new PagedInfo();
         $this->setSwapTag("page_content", $paged->render($this->pages));
     }

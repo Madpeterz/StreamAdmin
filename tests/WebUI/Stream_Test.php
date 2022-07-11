@@ -2,11 +2,11 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\Stream\Bulkupdate as StreamBulkupdate;
+use App\Endpoint\Control\Stream\BulkUpdate;
 use App\Endpoint\Control\Stream\Create as StreamCreate;
 use App\Endpoint\Control\Stream\Remove as StreamRemove;
 use App\Endpoint\Control\Stream\Update;
-use App\Endpoint\View\Stream\Bulkupdate;
+use App\Endpoint\View\Stream\Bulkupdate as StreamBulkupdate;
 use App\Endpoint\View\Stream\Create;
 use App\Endpoint\View\Stream\DefaultView;
 use App\Endpoint\View\Stream\Inpackage;
@@ -70,10 +70,6 @@ class StreamTest extends TestCase
         $missing = "Missing stream create form element";
         $this->assertStringContainsString("Basics",$statuscheck,$missing);
         $this->assertStringContainsString("Config",$statuscheck,$missing);
-        $this->assertStringContainsString("API",$statuscheck,$missing);
-        $this->assertStringContainsString("Magic",$statuscheck,$missing);
-        $this->assertStringContainsString("API UID 1,2 and 3",$statuscheck,$missing);
-        $this->assertStringContainsString("Note:",$statuscheck,$missing);
     }
 
     /**
@@ -114,9 +110,6 @@ class StreamTest extends TestCase
         $missing = "Missing stream manage form element";
         $this->assertStringContainsString("Basics",$statuscheck,$missing);
         $this->assertStringContainsString("Config",$statuscheck,$missing);
-        $this->assertStringContainsString("API UID 1",$statuscheck,$missing);
-        $this->assertStringContainsString("Magic",$statuscheck,$missing);
-        $this->assertStringContainsString("Centova: Not used",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
         $this->assertStringContainsString("8006",$statuscheck,$missing);
         $this->assertStringContainsString("MoreUnitTesting",$statuscheck,$missing);
@@ -138,7 +131,6 @@ class StreamTest extends TestCase
         $_POST["packageLink"] = 1;
         $_POST["serverLink"] = 1;
         $_POST["mountpoint"] = "/live";
-        $_POST["originalAdminUsername"] = "MoreUnitTesting";
         $_POST["adminUsername"] = "MoreUnitTesting";
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
         $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
@@ -259,10 +251,6 @@ class StreamTest extends TestCase
             $adminpasswords[] = $adp;
             $_POST["djPassword"] = substr(md5($_POST["port"]."".microtime()."b"),0,8);
             $_POST["needswork"] = "1";
-            $_POST["apiConfigValue1"] = "";
-            $_POST["apiConfigValue2"] = "";
-            $_POST["apiConfigValue3"] = "";
-            $_POST["api_create"] = 0;
             $streamCreateHandler->process();
             $statuscheck = $streamCreateHandler->getOutputObject();
             if($statuscheck == false) {
@@ -272,7 +260,7 @@ class StreamTest extends TestCase
             $loop++;
         }
 
-        $Bulkupdate = new Bulkupdate();
+        $Bulkupdate = new StreamBulkupdate();
         $Bulkupdate->process();
         $statuscheck = $Bulkupdate->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing stream Bulk update element";
@@ -313,7 +301,7 @@ class StreamTest extends TestCase
             }
         }
         $updated_counter = $stream_set->getCount() - $updated_counter;
-        $StreamBulkupdate = new StreamBulkupdate();
+        $StreamBulkupdate = new BulkUpdate();
         $_POST["accept"] = "Accept";
         $StreamBulkupdate->process();
         $statuscheck = $StreamBulkupdate->getOutputObject();
