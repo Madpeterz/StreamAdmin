@@ -97,10 +97,7 @@ class BotHelper
         $cooked = sha1($raw);
         return $command . "|||" . implode("~#~", $cleanArgs) . "@@@" . $cooked;
     }
-    /**
-     * sendMessage
-     * @return mixed[] [status =>  bool, message =>  string]
-     */
+
     public function sendMessage(
         Avatar $avatar,
         string $message,

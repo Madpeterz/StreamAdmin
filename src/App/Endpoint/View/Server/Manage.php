@@ -20,6 +20,8 @@ class Manage extends View
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $server = new Server();
+        $server->loadId($this->config->getPage());
+
         $this->output->addSwapTagString("page_title", " :" . $server->getDomain());
         $form = new Form();
         $form->target("server/update/" . $this->siteConfig->getPage() . "");

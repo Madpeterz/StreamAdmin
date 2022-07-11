@@ -97,10 +97,6 @@ class ClientTest extends TestCase
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
         $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
         $_POST["needswork"] = 0;
-        $_POST["apiConfigValue1"] = "";
-        $_POST["apiConfigValue2"] = "";
-        $_POST["apiConfigValue3"] = "";
-        $_POST["api_create"] = 0;
         $streamCreateHandler->process();
         $statuscheck = $streamCreateHandler->getOutputObject();
         $this->assertStringContainsString("Stream created",$statuscheck->getSwapTagString("message"));
@@ -285,6 +281,34 @@ class ClientTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
+    /**
+     * @depends test_Expired
+     */
+    public function test_forceAddTime()
+    {
+        global $system;
+        $avatar = new Avatar();
+        $status = $avatar->loadByField("avatarName","MadpeterUnit ZondTest");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
+        // update adjustment
+        $rental = new Rental();
+        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $this->assertSame(true,$status->status,"Unable to load test rental");
+        $system->setPage($rental->getRentalUid());
+        $manageProcess = new Update();
+        $_POST["message"] = $rental->getMessage();
+        $_POST["adjustment_dir"] = "true";
+        $_POST["adjustment_hours"] = "0";
+        $_POST["adjustment_days"] = "21";
+        $manageProcess->process();
+        $statuscheck = $manageProcess->getOutputObject();
+        $this->assertStringContainsString("Adjusted timeleft",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+    }
+
+    /**
+     * @depends test_ManageProcess
+     */
     public function test_Active()
     {
         $Active = new Active();
@@ -298,6 +322,9 @@ class ClientTest extends TestCase
         $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
 
+    /**
+     * @depends test_Active
+     */
     public function test_Soon()
     {
         $Soon = new Soon();
@@ -310,6 +337,9 @@ class ClientTest extends TestCase
         $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
 
+    /**
+     * @depends test_Soon
+     */
     public function test_Expired()
     {
         $Expired = new Expired();
@@ -321,7 +351,6 @@ class ClientTest extends TestCase
         $this->assertStringContainsString("Avatar",$statuscheck,$missing);
         $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
-
 
 
 }

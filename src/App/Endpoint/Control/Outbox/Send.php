@@ -65,6 +65,7 @@ class Send extends ControlAjax
 
         $sent_counter = 0;
         $seen_avatars = [];
+        $hadError = false;
         foreach ($this->rental_set as $rental) {
             if (in_array($rental->getAvatarLink(), $this->avatarids) == false) {
                 continue;
@@ -88,8 +89,16 @@ class Send extends ControlAjax
                 $server,
                 $stream
             );
-            $bot_helper->sendMessage($avatar, $sendmessage, true);
+            $sendCreateStatus = $bot_helper->sendMessage($avatar, $sendmessage, true);
+            if ($sendCreateStatus->status == false) {
+                $hadError = true;
+                $this->failed($sendCreateStatus->message);
+                break;
+            }
             $sent_counter++;
+        }
+        if ($hadError == true) {
+            return;
         }
         $this->ok(sprintf("Sent to %1\$s avatars", $sent_counter));
         $this->setSwapTag("redirect", "outbox");

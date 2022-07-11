@@ -8,7 +8,6 @@ use App\Endpoint\Control\Server\Update;
 use App\Endpoint\View\Server\Create;
 use App\Endpoint\View\Server\DefaultView;
 use App\Endpoint\View\Server\Manage;
-use App\Endpoint\View\Server\Remove;
 use App\Models\Server;
 use PHPUnit\Framework\TestCase;
 
@@ -35,10 +34,6 @@ class ServerTest extends TestCase
         $missing = "Missing server create form element";
         $this->assertStringContainsString("Basic config",$statuscheck,$missing);
         $this->assertStringContainsString("Domain",$statuscheck,$missing);
-        $this->assertStringContainsString("API / Password",$statuscheck,$missing);
-        $this->assertStringContainsString("Opt / Toggle status",$statuscheck,$missing);
-        $this->assertStringContainsString("Event / Update stream on server",$statuscheck,$missing);
-        $this->assertStringContainsString("Api notes",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
     }
 
@@ -64,7 +59,7 @@ class ServerTest extends TestCase
     {
         global $system;
         $server = new Server();
-        $status = $server->loadByField("domain","MagicServerTest");
+        $status = $server->loadByDomain("MagicServerTest");
         $this->assertSame(true,$status->status,"Unable to load test server");
         $system->setPage($server->getId());
 
@@ -76,10 +71,6 @@ class ServerTest extends TestCase
         $this->assertStringContainsString("http://supernotused.com",$statuscheck,$missing);
         $this->assertStringContainsString("Basic config",$statuscheck,$missing);
         $this->assertStringContainsString("Domain",$statuscheck,$missing);
-        $this->assertStringContainsString("API / Password",$statuscheck,$missing);
-        $this->assertStringContainsString("Opt / Toggle status",$statuscheck,$missing);
-        $this->assertStringContainsString("Event / Update stream on server",$statuscheck,$missing);
-        $this->assertStringContainsString("Api notes",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
     }
 
@@ -90,7 +81,7 @@ class ServerTest extends TestCase
     {
         global $system, $_POST;
         $server = new Server();
-        $status = $server->loadByField("domain","MagicServerTest");
+        $status = $server->loadByDomain("MagicServerTest");
         $this->assertSame(true,$status->status,"Unable to load test server");
         $system->setPage($server->getId());
 
@@ -111,7 +102,8 @@ class ServerTest extends TestCase
     {
         global $system, $_POST;
         $server = new Server();
-        $status = $server->loadByField("domain","SuperMagicTest");
+        $status = $server->loadByDomain("SuperMagicTest");
+        $this->assertSame("Ok",$status->message,"Unable to load test server");
         $this->assertSame(true,$status->status,"Unable to load test server");
         $system->setPage($server->getId());
 

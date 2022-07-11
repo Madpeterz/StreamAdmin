@@ -3,7 +3,6 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Outbox\Send;
-use App\Endpoint\View\Outbox\Api;
 use App\Endpoint\View\Outbox\Bulk;
 use App\Endpoint\View\Outbox\DefaultView;
 use App\Endpoint\View\Outbox\Details;
@@ -71,7 +70,7 @@ class OutboxText extends TestCase
         $sourcecheck = 'id="source" value="package"';
         $sourcevaluecheck = 'id="source_id" value="1"';
         $avatarcheck = 'id="max_avatars" value="1"';
-        $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
+        $checkboxcheck = 'id="avatarmail5" name="avatarids[]" value="5"';
 
         $bulkPackage = new Bulk();
         $bulkPackage->process();
@@ -97,7 +96,7 @@ class OutboxText extends TestCase
         $sourcecheck = 'id="source" value="server"';
         $sourcevaluecheck = 'id="source_id" value="1"';
         $avatarcheck = 'id="max_avatars" value="1"';
-        $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
+        $checkboxcheck = 'id="avatarmail5" name="avatarids[]" value="5"';
 
         $bulkPackage = new Bulk();
         $bulkPackage->process();
@@ -124,7 +123,7 @@ class OutboxText extends TestCase
         $sourcecheck = 'id="source" value="notice"';
         $sourcevaluecheck = 'id="source_id" value="10"';
         $avatarcheck = 'id="max_avatars" value="1"';
-        $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
+        $checkboxcheck = 'id="avatarmail5" name="avatarids[]" value="5"';
 
         $bulkPackage = new Bulk();
         $bulkPackage->process();
@@ -149,11 +148,11 @@ class OutboxText extends TestCase
         $messages = new MessageSet();
         $messages->loadAll();
         $this->assertSame(3,$messages->getCount(),"Incorrect number of messages in outbox before sending");
-        $_POST["messagePackage"] = "Hello world this is a test";
+        $_POST["message"] = "Hello world this is a test";
         $_POST["source"] = "package";
         $_POST["source_id"] = 1;
         $_POST["max_avatars"] = 1;
-        $_POST["avatarids"] = [1];
+        $_POST["avatarids"] = [5];
         $sendHandler = new Send();
         $sendHandler->process();
         $statuscheck = $sendHandler->getOutputObject();
@@ -161,7 +160,7 @@ class OutboxText extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox");
+        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox after sending");
         $botmessageQ = new BotcommandqSet();
         $botmessageQ->loadAll();
         $this->assertSame(2,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q after sending");

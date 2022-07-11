@@ -15,7 +15,27 @@
             <directory>tests/CreateDB</directory>
             <directory>tests/Login</directory>
             <directory>tests/ForcedActions</directory>
-            <directory>tests/WebUI</directory>
+            <file>tests/WebUI/Avatar_Test.php</file>
+            <file>tests/WebUI/Banlist_Test.php</file>
+            <file>tests/WebUI/Bot_Test.php</file>
+            <file>tests/WebUI/Client_Test.php</file>
+            <file>tests/WebUI/Config_Test.php</file>
+            <file>tests/WebUI/Datatable_Test.php</file>
+            <file>tests/WebUI/Notice_Test.php</file>
+            <file>tests/WebUI/Objects_Test.php</file>
+            <file>tests/WebUI/Outbox_Test.php</file>
+            <file>tests/WebUI/Package_Test.php</file>
+            <file>tests/WebUI/Reports_Test.php</file>
+            <file>tests/WebUI/Reseller_Test.php</file>
+            <file>tests/WebUI/Search_Test.php</file>
+            <file>tests/WebUI/Server_Test.php</file>
+            <file>tests/WebUI/Slconfig_Test.php</file>
+            <file>tests/WebUI/Staff_Test.php</file>
+            <file>tests/WebUI/Stream_Test.php</file>
+            <file>tests/WebUI/Template_Test.php</file>
+            <file>tests/WebUI/Textureconfig_Test.php</file>
+            <file>tests/WebUI/Transactions_Test.php</file>
+            <file>tests/WebUI/Tree_Test.php</file>
             <directory>tests/Etc</directory>
             <file>tests/SecondlifeAPI/Object_Test.php</file>
             <file>tests/SecondlifeAPI/Texturepack_Test.php</file>

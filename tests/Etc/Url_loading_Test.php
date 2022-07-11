@@ -8,35 +8,35 @@ class UrlLoadingTest extends TestCase
 {
     public function test_Module()
     {
-        global $module;
-        process_uri("testing");
-        $this->assertSame("testing",$module);
+        global $system;
+        $system->forceProcessURI("testing");
+        $this->assertSame("Testing",$system->getModule());
     }
 
     public function test_ModuleAndArea()
     {
-        global $module, $area;
-        process_uri("access/testing");
-        $this->assertSame("access",$module);
-        $this->assertSame("testing",$area);
+        global $system;
+        $system->forceProcessURI("access/testing");
+        $this->assertSame("Access",$system->getModule());
+        $this->assertSame("Testing",$system->getArea());
     }
 
     public function test_ModuleAreaAndPage()
     {
-        global $module, $area, $system, $optional;
-        process_uri("url/access/testing");
-        $this->assertSame("url",$module);
-        $this->assertSame("access",$area);
-        $this->assertSame("testing",$page);
+        global $system;
+        $system->forceProcessURI("url/access/testing");
+        $this->assertSame("Url",$system->getModule());
+        $this->assertSame("Access",$system->getArea());
+        $this->assertSame("Testing",$system->getPage());
     }
 
     public function test_ModuleAreaPageAndOptional()
     {
-        global $module, $area, $system, $optional;
-        process_uri("dynamic/url/access/testing");
-        $this->assertSame("dynamic",$module);
-        $this->assertSame("url",$area);
-        $this->assertSame("access",$page);
-        $this->assertSame("testing",$optional);
+        global $system;
+        $system->forceProcessURI("dynamic/url/access/testing");
+        $this->assertSame("Dynamic",$system->getModule());
+        $this->assertSame("Url",$system->getArea());
+        $this->assertSame("Access",$system->getPage());
+        $this->assertSame("Testing",$system->getOption());
     }
 }
