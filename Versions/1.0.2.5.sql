@@ -39,3 +39,9 @@ ADD CONSTRAINT `notecardmial_notecard_inuse` FOREIGN KEY (`noticenotecardLink`) 
 UPDATE `stream` set `adminUsername` = `originalAdminUsername` WHERE 1=1;
 
 ALTER TABLE `stream` DROP `originalAdminUsername`;
+
+ALTER TABLE `package` DROP `apiTemplate`;
+
+ALTER TABLE `slconfig`
+  DROP `customLogo`,
+  DROP `customLogoBin`;

@@ -157,24 +157,6 @@ class SlconfigSet extends CollectionSet
         return parent::uniqueArray("displayTimezoneLink");
     }
     /**
-     * uniqueCustomLogos
-     * returns unique values from the collection matching that field
-     * @return array<bool>
-     */
-    public function uniqueCustomLogos(): array
-    {
-        return parent::uniqueArray("customLogo");
-    }
-    /**
-     * uniqueCustomLogoBins
-     * returns unique values from the collection matching that field
-     * @return array<string>
-     */
-    public function uniqueCustomLogoBins(): array
-    {
-        return parent::uniqueArray("customLogoBin");
-    }
-    /**
      * uniqueHudAllowDiscords
      * returns unique values from the collection matching that field
      * @return array<bool>
@@ -546,56 +528,6 @@ class SlconfigSet extends CollectionSet
     public function loadFromDisplayTimezoneLinks(array $values): SetsLoadReply
     {
         return $this->loadIndexes("displayTimezoneLink", $values);
-    }
-    /**
-     * loadByCustomLogo
-    */
-    public function loadByCustomLogo(
-        bool $customLogo, 
-        int $limit = 0, 
-        string $orderBy = "id", 
-        string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
-        return $this->loadOnField(
-            "customLogo", 
-            $customLogo, 
-            $limit, 
-            $orderBy, 
-            $orderDir
-        );
-    }
-    /**
-     * loadFromCustomLogos
-    */
-    public function loadFromCustomLogos(array $values): SetsLoadReply
-    {
-        return $this->loadIndexes("customLogo", $values);
-    }
-    /**
-     * loadByCustomLogoBin
-    */
-    public function loadByCustomLogoBin(
-        string $customLogoBin, 
-        int $limit = 0, 
-        string $orderBy = "id", 
-        string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
-        return $this->loadOnField(
-            "customLogoBin", 
-            $customLogoBin, 
-            $limit, 
-            $orderBy, 
-            $orderDir
-        );
-    }
-    /**
-     * loadFromCustomLogoBins
-    */
-    public function loadFromCustomLogoBins(array $values): SetsLoadReply
-    {
-        return $this->loadIndexes("customLogoBin", $values);
     }
     /**
      * loadByHudAllowDiscord

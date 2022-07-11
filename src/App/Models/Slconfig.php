@@ -26,8 +26,6 @@ class Slconfig extends genClass
         "datatableItemsPerPage",
         "httpInboundSecret",
         "displayTimezoneLink",
-        "customLogo",
-        "customLogoBin",
         "hudAllowDiscord",
         "hudDiscordLink",
         "hudAllowGroup",
@@ -50,8 +48,6 @@ class Slconfig extends genClass
         "datatableItemsPerPage" => ["type" => "int", "value" => 10],
         "httpInboundSecret" => ["type" => "str", "value" => null],
         "displayTimezoneLink" => ["type" => "int", "value" => 11],
-        "customLogo" => ["type" => "bool", "value" => 0],
-        "customLogoBin" => ["type" => "str", "value" => null],
         "hudAllowDiscord" => ["type" => "bool", "value" => 0],
         "hudDiscordLink" => ["type" => "str", "value" => "Not setup yet"],
         "hudAllowGroup" => ["type" => "bool", "value" => 0],
@@ -138,20 +134,6 @@ class Slconfig extends genClass
     public function setDisplayTimezoneLink(?int $newValue): UpdateReply
     {
         return $this->updateField("displayTimezoneLink", $newValue);
-    }
-    /**
-    * setCustomLogo
-    */
-    public function setCustomLogo(?bool $newValue): UpdateReply
-    {
-        return $this->updateField("customLogo", $newValue);
-    }
-    /**
-    * setCustomLogoBin
-    */
-    public function setCustomLogoBin(?string $newValue): UpdateReply
-    {
-        return $this->updateField("customLogoBin", $newValue);
     }
     /**
     * setHudAllowDiscord
@@ -253,14 +235,6 @@ class Slconfig extends genClass
     public function getDisplayTimezoneLink(): ?int
     {
         return $this->getField("displayTimezoneLink");
-    }
-    public function getCustomLogo(): ?bool
-    {
-        return $this->getField("customLogo");
-    }
-    public function getCustomLogoBin(): ?string
-    {
-        return $this->getField("customLogoBin");
     }
     public function getHudAllowDiscord(): ?bool
     {
@@ -370,20 +344,6 @@ class Slconfig extends genClass
         return $this->loadByField(
             "displayTimezoneLink",
             $displayTimezoneLink
-        );
-    }
-    public function loadByCustomLogo(bool $customLogo): SingleLoadReply
-    {
-        return $this->loadByField(
-            "customLogo",
-            $customLogo
-        );
-    }
-    public function loadByCustomLogoBin(string $customLogoBin): SingleLoadReply
-    {
-        return $this->loadByField(
-            "customLogoBin",
-            $customLogoBin
         );
     }
     public function loadByHudAllowDiscord(bool $hudAllowDiscord): SingleLoadReply

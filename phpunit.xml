@@ -12,7 +12,7 @@
 >
   <testsuites>
         <testsuite name="All">
-            <directory>tests/DBLoad</directory>
+            <directory>tests/CreateDB</directory>
             <directory>tests/Login</directory>
             <directory>tests/ForcedActions</directory>
             <directory>tests/WebUI</directory>
@@ -33,14 +33,6 @@
             <file>tests/Switchboards/MainGrid_Test.php</file>
             <file>tests/Switchboards/Sys_Test.php</file>
             <file>tests/Switchboards/Website_Test.php</file>
-            <file>tests/MediaServer/None_Test.php</file>
-            <file>tests/MediaServer/Secondbot_Test.php</file>
-            <file>tests/MediaServer/WhmSonic_Test.php</file>
-            <file>tests/MediaServer/MediaCp_Test.php</file>
-            <file>tests/MediaServer/Centova3_Test.php</file>
-            <file>tests/MediaServer/Azurecast_Test.php</file>
-            <file>tests/MediaServerApi/MediaServerApi_Centovacast_Test.php</file>
-            <file>tests/MediaServerApi/MediaServerApi_Azurecast_Test.php</file>
             <file>tests/Finals/server_test.php</file>
             <file>tests/Finals/client_test.php</file>
             <file>tests/BugsAndEnhancements/Issue12_test.php</file>

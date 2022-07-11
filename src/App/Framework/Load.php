@@ -10,6 +10,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
     }
 }
+
 include "../../vendor/autoload.php";
 
 global $system;

@@ -15,6 +15,8 @@ class Config extends BootstrapConfigBox
 {
     public function __construct()
     {
+        $this->setFlag("SITE_CACHE_ENABLED", true);
+        $this->setFlag("SITE_CACHE_REDIS_HOST", "localhost");
         parent::__construct();
         // left ENV name, Right Dev default
         // if you are running this in classic mode [ie cpanel]
@@ -70,12 +72,12 @@ class Config extends BootstrapConfigBox
 
     public function getRedisHost(): ?string
     {
-        return $this->getFlag("REDIS_HOST");
+        return $this->getFlag("SITE_CACHE_REDIS_HOST");
     }
 
     public function getCacheEnabled(): bool
     {
-        return boolval($this->getFlag("ENABLE_CACHE"));
+        return boolval($this->getFlag("SITE_CACHE_ENABLED"));
     }
 
     public function forceProcessURI(string $uri): void
