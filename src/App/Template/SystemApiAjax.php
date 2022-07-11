@@ -2,13 +2,18 @@
 
 namespace App\Template;
 
+use App\Config;
 use YAPF\Bootstrap\Template\ViewAjax;
+use YAPF\InputFilter\InputFilter;
 
 abstract class SystemApiAjax extends ViewAjax
 {
     protected $unixtime = 0;
     protected $token = "";
     protected bool $soft_fail = false;
+    protected ?InputFilter $input;
+    protected Config $siteConfig;
+
 
     public function getSoftFail(): bool
     {
@@ -18,7 +23,10 @@ abstract class SystemApiAjax extends ViewAjax
 
     public function __construct(bool $AutoLoadTemplate = false)
     {
+        global $system;
         parent::__construct($AutoLoadTemplate);
+        $this->input = new InputFilter();
+        $this->siteConfig = $system;
         $this->requiredValues();
         $this->timeWindow();
         $this->hashok();
@@ -90,13 +98,12 @@ abstract class SystemApiAjax extends ViewAjax
             if ($typematch == "i") {
                 $value = $this->input->post($fieldname)->asInt();
             }
-            if ($value !== null) {
+            if ($value === null) {
                 $this->load_ok = false;
                 $this->failed("Value: " . $fieldname . " is missing");
                 return;
             }
             $this->$fieldname = $value;
-            $this->staticpart .= $value;
         }
     }
 }

@@ -43,7 +43,7 @@ class UpdateNotecards extends SecondlifeAjax
         }
         $status = $noticenotecardset->updateFieldInCollection("missing", 1);
         if ($status->status == false) {
-            $this->failed($status["message"]);
+            $this->failed($status->message);
             return false;
         }
         return true;
@@ -108,7 +108,7 @@ class UpdateNotecards extends SecondlifeAjax
         }
         $status = $noticenotecardset->updateFieldInCollection("missing", 0);
         if ($status->status == false) {
-            $this->setSwapTag("message", $status["message"]);
+            $this->setSwapTag("message", $status->message);
         }
         return true;
     }

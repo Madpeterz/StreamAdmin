@@ -10,7 +10,10 @@ class MainGrid extends TestCase
 {
     public function test_MainGrid()
     {
+        global $system;
+        $system->forceProcessURI("");
         $this->SetupPost();
+        
         new SwitchboardMainGrid();
         
         $json_obj = json_decode($this->getActualOutputForAssertion(),true);
@@ -41,10 +44,6 @@ class MainGrid extends TestCase
     protected function SetupPost()
     {
         global $_POST, $system;
-        if($slconfig == null) {
-            $slconfig = new Slconfig();
-            $this->assertSame(true,$system->getSlConfig()->loadID(1),"Unable to load site config");
-        }
         $_POST["method"] = "Texturepack";
         $_POST["action"] = "Getpack";
         $_POST["mode"] = "test";

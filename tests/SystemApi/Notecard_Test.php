@@ -29,7 +29,6 @@ class SystemApiNotecard extends TestCase
         $_POST["action"] = $action;
         $_POST["unixtime"] = time();
         $bits = [$_POST["unixtime"],$_POST["method"],$_POST["action"],$system->getSlConfig()->getHttpInboundSecret()];
-        error_log("test raw:".implode("", $bits));
         $_POST["token"] = sha1(implode("", $bits));
     }
 

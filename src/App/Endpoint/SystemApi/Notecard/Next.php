@@ -100,9 +100,7 @@ class Next extends SystemApiAjax
             return false;
         }
         if ($this->notecard->getAsNotice() == false) {
-            if ($this->template->loadID($this->package->getTemplateLink()) == false) {
-                return $this->failedLoad("Template");
-            }
+            $this->template = $this->package->relatedTemplate()->getFirst();
             return true;
         }
         if ($this->notice->loadID($this->notecard->getNoticeLink()) == false) {
