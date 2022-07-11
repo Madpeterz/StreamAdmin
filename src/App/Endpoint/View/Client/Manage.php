@@ -37,7 +37,7 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", "Editing client");
 
         $this->rental = new Rental();
-        if ($this->rental->loadByField("rentalUid", $this->siteConfig->getPage()) == false) {
+        if ($this->rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->output->redirect("client?bubblemessage=unable to find client "
             . $this->siteConfig->getPage() . "&bubbletype=warning");
             return;

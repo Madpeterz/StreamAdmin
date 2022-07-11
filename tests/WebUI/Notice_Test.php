@@ -75,7 +75,7 @@ class NoticeTest extends TestCase
     {
         global $system;
         $notice = new Notice();
-        $status = $notice->loadByField("name","UnitTest");
+        $status = $notice->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
         $system->setPage($notice->getId());
 

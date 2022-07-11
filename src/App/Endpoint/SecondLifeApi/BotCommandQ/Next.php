@@ -73,7 +73,7 @@ class Next extends SecondlifeAjax
         }
         $botcommandQset = new BotcommandqSet();
         $loadStatus = $botcommandQset->loadNewest(limit:1, orderDirection:"ASC"); // load oldest
-        if ($loadStatus["status"] == false) {
+        if ($loadStatus->status == false) {
             $this->failed("Unable to load command Q");
             return;
         }
@@ -111,7 +111,7 @@ class Next extends SecondlifeAjax
             $endpoint = "streamadmin/FetchNextNotecard/" . $this->botconfig->getHttpToken();
             $results = $this->restPost($endpoint, $postArgs);
         }
-        if ($results["status"] == false) {
+        if ($results->status == false) {
             $this->failed($results["message"]);
             return;
         }
@@ -122,7 +122,7 @@ class Next extends SecondlifeAjax
         if (array_key_exists("reply", $jsonReply) == false) {
             $this->failed("Reply is not formated as expected " . $results["message"]);
         }
-        if ($jsonReply["status"] == false) {
+        if ($jsonReply->status == false) {
             $this->failed($jsonReply["reply"]);
             return;
         }

@@ -235,7 +235,7 @@ class SessionControl extends SqlConnectedClass
     public function loginWithUsernamePassword(string $username, string $password): bool
     {
         $this->createMainObject(false);
-        if ($this->main_class_object->loadByUsername($username) == false) {
+        if ($this->main_class_object->loadByUsername($username)->status == false) {
             return false;
         }
         if ($this->userPasswordCheck($password) == false) {

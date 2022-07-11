@@ -18,7 +18,7 @@ class Details extends SecondlifeAjax
     public function getRentalDetailsForAvatar(Avatar $avatar): void
     {
         $banlist = new Banlist();
-        if ($banlist->loadByField("avatarLink", $avatar->getId()) == true) {
+        if ($banlist->loadByAvatarLink($avatar->getId())->status == true) {
             $this->failed("Unable to find avatar");
             return;
         }
@@ -56,10 +56,14 @@ class Details extends SecondlifeAjax
     public function process(): void
     {
         $avatarUUID = $this->input->post("avatarUUID")->isUuid()->asString();
+        if ($avatarUUID === null) {
+            $this->failed("Invaild avatar");
+            return;
+        }
         $avatar = new Avatar();
         $this->setSwapTag("dataset_count", 0);
-        if ($avatar->loadByField("avatarUUID", $avatarUUID) == false) {
-            $this->setSwapTag("message", "Unable to find avatar");
+        if ($avatar->loadByAvatarUUID($avatarUUID)->status == false) {
+            $this->failed("Unable to find avatar");
             return;
         }
         $this->getRentalDetailsForAvatar($avatar);

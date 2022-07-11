@@ -20,7 +20,7 @@ class MainGrid extends TestCase
 
         $this->assertSame("ok",$json_obj["message"],"incorrect reply");
         $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["Texture-Offline"],"incorrect reply");
-        $this->assertSame("1",$json_obj["status"],"marked as failed");
+        $this->assertSame("1",$json_obj->status,"marked as failed");
 
     }
 
@@ -35,7 +35,7 @@ class MainGrid extends TestCase
 
         $this->assertSame("ok",$json_obj["message"],"incorrect reply");
         $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["Texture-Offline"],"incorrect reply");
-        $this->assertSame("1",$json_obj["status"],"marked as failed");
+        $this->assertSame("1",$json_obj->status,"marked as failed");
     }
 
     protected function SetupPost()

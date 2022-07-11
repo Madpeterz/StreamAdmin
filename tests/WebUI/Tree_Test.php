@@ -64,7 +64,7 @@ class TreeVendTest extends TestCase
     {
         global $system;
         $tree = new Treevender();
-        $status = $tree->loadByField("name","UnitTestTreeVend");
+        $status = $tree->loadByName("UnitTestTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
         $system->setPage($tree->getId());
 
@@ -90,7 +90,7 @@ class TreeVendTest extends TestCase
     {
         global $system, $_POST;
         $tree = new Treevender();
-        $status = $tree->loadByField("name","UnitTestTreeVend");
+        $status = $tree->loadByName("UnitTestTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
         $system->setPage($tree->getId());
 
@@ -105,7 +105,7 @@ class TreeVendTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
        
         $tree = new Treevender();
-        $status = $tree->loadByField("name","UnitUpdatedTreeVend");
+        $status = $tree->loadByName("UnitUpdatedTreeVend");
         $this->assertSame(true,$status->status,"Unable to load updated tree");
     }
     /**
@@ -115,7 +115,7 @@ class TreeVendTest extends TestCase
     {
         global $system, $_POST;
         $tree = new Treevender();
-        $status = $tree->loadByField("name","UnitUpdatedTreeVend");
+        $status = $tree->loadByName("UnitUpdatedTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
         $system->setPage($tree->getId());
 
@@ -172,7 +172,7 @@ class TreeVendTest extends TestCase
     {
         global $system, $_POST;
         $tree = new Treevender();
-        $status = $tree->loadByField("name","UnitUpdatedTreeVend");
+        $status = $tree->loadByName("UnitUpdatedTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
         $system->setPage($tree->getId());
 

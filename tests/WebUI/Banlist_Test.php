@@ -37,7 +37,7 @@ class BanlistTest extends TestCase
         $this->assertStringContainsString("Avatar created",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","Banlist TestAvatar");
+        $status = $avatar->loadByAvatarName("Banlist TestAvatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
 
         $_POST["uid"] = $avatar->getAvatarUid();
@@ -84,10 +84,10 @@ class BanlistTest extends TestCase
     {
         global $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","Banlist TestAvatar");
+        $status = $avatar->loadByAvatarName("Banlist TestAvatar");
         $this->assertSame(true,$status->status,"Unable to find test avatar");
         $banlist = new Banlist();
-        $status = $banlist->loadByField("avatarLink",$avatar->getId());
+        $status = $banlist->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to find banlist entry");
 
         $system->setPage($banlist->getId());

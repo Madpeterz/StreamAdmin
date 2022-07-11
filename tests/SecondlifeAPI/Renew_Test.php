@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Renew\Costandtime;
+use App\Endpoint\SecondLifeApi\Renew\CostAndTime;
 use App\Endpoint\SecondLifeApi\Renew\Details;
-use App\Endpoint\SecondLifeApi\Renew\Renewnow;
+use App\Endpoint\SecondLifeApi\Renew\RenewNow;
 use App\Models\Rental;
 use PHPUnit\Framework\TestCase;
 
@@ -13,6 +13,7 @@ class SecondlifeApiRenew extends TestCase
     protected $package = null;
     public function test_Details()
     {
+        global $_POST;
         $this->setupPost("Details");
 
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
@@ -33,7 +34,7 @@ class SecondlifeApiRenew extends TestCase
      */
     public function test_Costandtime()
     {
-        sleep(2);
+        sleep(2); // Delay a bit so we get the correct hours
         $this->setupPost("Costandtime");
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
         $Details = new Details();
@@ -44,7 +45,7 @@ class SecondlifeApiRenew extends TestCase
         $this->setupPost("Costandtime");
         $_POST["rentalUid"] = $split[0];
 
-        $Costandtime = new Costandtime();
+        $Costandtime = new CostAndTime();
         $this->assertSame("ready",$Costandtime->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Costandtime->getLoadOk(),"Load ok failed");
         $Costandtime->process();
@@ -67,14 +68,14 @@ class SecondlifeApiRenew extends TestCase
         $this->setupPost("Costandtime");
         $_POST["rentalUid"] = $split[0];
         $rentalOld = new Rental();
-        $this->assertSame(true,$rentalOld->loadByField("rentalUid",$split[0]),"Unable to load rental before to check changes");
+        $this->assertSame(true,$rentalOld->loadByRentalUid($split[0])->status,"Unable to load rental before to check changes");
         $this->assertSame(0,$rentalOld->getRenewals(),"Renewals value is not zero as expected");
         $Costandtime = new Costandtime();
         $Costandtime->process();
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
         $_POST["avatarName"] = "Test Buyer";
         $_POST["amountpaid"] = 50;
-        $Renewnow = new Renewnow();
+        $Renewnow = new RenewNow();
         $this->assertSame("ready",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Renewnow->getLoadOk(),"Load ok failed");
         $Renewnow->process();
@@ -85,7 +86,7 @@ class SecondlifeApiRenew extends TestCase
         );
         $this->assertSame(true,$Renewnow->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $rentalNew = new Rental();
-        $this->assertSame(true,$rentalNew->loadByField("rentalUid",$split[0]),"Unable to load rental after to check changes");
+        $this->assertSame(true,$rentalNew->loadByRentalUid($split[0])->status,"Unable to load rental after to check changes");
         $this->assertSame(1,$rentalNew->getRenewals(),"Renewals value did not change");
     }
 

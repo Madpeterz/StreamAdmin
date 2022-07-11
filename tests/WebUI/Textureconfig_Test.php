@@ -71,7 +71,7 @@ class TextureconfigTest extends TestCase
     {
         global $system;
         $textureconfig = new Textureconfig();
-        $status = $textureconfig->loadByField("name","UnitTestTexturePack");
+        $status = $textureconfig->loadByName("UnitTestTexturePack");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
         $system->setPage($textureconfig->getId());
 
@@ -94,7 +94,7 @@ class TextureconfigTest extends TestCase
     {
         global $system, $_POST;
         $textureconfig = new Textureconfig();
-        $status = $textureconfig->loadByField("name","UnitTestTexturePack");
+        $status = $textureconfig->loadByName("UnitTestTexturePack");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
         $system->setPage($textureconfig->getId());
 
@@ -115,7 +115,7 @@ class TextureconfigTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
        
         $textureconfig = new Textureconfig();
-        $status = $textureconfig->loadByField("name","UnitTestTexturePack Updated");
+        $status = $textureconfig->loadByName("UnitTestTexturePack Updated");
         $this->assertSame(true,$status->status,"Unable to load updated textureconfig");
     }
 
@@ -126,7 +126,7 @@ class TextureconfigTest extends TestCase
     {
         global $system, $_POST;
         $textureconfig = new Textureconfig();
-        $status = $textureconfig->loadByField("name","UnitTestTexturePack Updated");
+        $status = $textureconfig->loadByName("UnitTestTexturePack Updated");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
         $system->setPage($textureconfig->getId());
 

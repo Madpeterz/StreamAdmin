@@ -21,17 +21,17 @@ class Issue69 extends TestCase
         $packages = new PackageSet();
         $loadStatus = $packages->loadAll();
         $this->assertSame("ok",$loadStatus["message"],"Packages did not load correctly");
-        $this->assertSame(true,$loadStatus["status"],"Packages did not load correctly");
+        $this->assertSame(true,$loadStatus->status,"Packages did not load correctly");
         $status = $packages->updateFieldInCollection("apiAutoSuspendDelayHours",2);
         $this->assertSame(5,$status["changes"],"Incorrect number of packages updated: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"Packages bulk update has failed");
+        $this->assertSame(true,$status->status,"Packages bulk update has failed");
         unset($packages);
 
         $rentalSet = new RentalSet();
         $rentalSet->loadAll();
         $status = $rentalSet->updateMultipleFieldsForCollection(["message","avatarLink","noticeLink","expireUnixtime"],[null,1,5,time()-10]);
         $this->assertSame(4,$status["changes"],"Incorrect number of rentals updated: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"rentals bulk update has failed");
+        $this->assertSame(true,$status->status,"rentals bulk update has failed");
 
         $streams = new StreamSet();
         $whereConfig = [
@@ -43,21 +43,21 @@ class Issue69 extends TestCase
         $streams->loadWithConfig($whereConfig);
         $status = $streams->updateMultipleFieldsForCollection(["needWork","rentalLink"],[false,null]);
         $this->assertGreaterThanOrEqual(6,$status["changes"],"Incorrect number of streams updated: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"streams bulk update has failed");
+        $this->assertSame(true,$status->status,"streams bulk update has failed");
         unset($streams);
 
         $messageSet = new MessageSet();
         $messageSet->loadAll();
         $status = $messageSet->purgeCollection();
         $this->assertSame(6,$status["removed_entrys"],"Incorrect number of mail removed: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"mail purge has failed");
+        $this->assertSame(true,$status->status,"mail purge has failed");
         unset($messageSet);
 
         $botmessageQ = new BotcommandqSet();
         $botmessageQ->loadAll();
         $status = $botmessageQ->purgeCollection();
         $this->assertSame(7,$status["removed_entrys"],"Incorrect number of bot commands removed: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"bot comamnds purge has failed");
+        $this->assertSame(true,$status->status,"bot comamnds purge has failed");
         unset($messageSet);
 
         $bulkUpdate = [
@@ -88,7 +88,7 @@ class Issue69 extends TestCase
         $serverSet->loadAll();
         $status = $serverSet->updateMultipleFieldsForCollection(array_keys($bulkUpdate),array_values($bulkUpdate));
         $this->assertSame(3,$status["changes"],"Incorrect number of servers updated: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"servers bulk update has failed");
+        $this->assertSame(true,$status->status,"servers bulk update has failed");
         unset($serverSet);
     }
 

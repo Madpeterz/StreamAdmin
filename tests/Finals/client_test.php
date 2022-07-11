@@ -16,11 +16,11 @@ class FinalsClient extends TestCase
         global $system;
         $clientSet = new RentalSet();
         $status = $clientSet->loadAll();
-        $this->assertSame(true,$status["status"],"Unable to load rentals");
+        $this->assertSame(true,$status->status,"Unable to load rentals");
         $fields = ["expireUnixtime","noticeLink"];
         $values = [time()-($system->unixtimeDay()*3),6];
         $status = $clientSet->updateMultipleFieldsForCollection($fields,$values);
-        $this->assertSame(true,$status["status"],"Unable to update rentals to expired");
+        $this->assertSame(true,$status->status,"Unable to update rentals to expired");
 
         $bulkRemoveView = new BulkRemove();
         $bulkRemoveView->process();

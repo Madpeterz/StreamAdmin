@@ -63,7 +63,7 @@ class Next extends SecondlifeAjax
             $stream
         );
         $sendMessage_status = $bot_helper->sendMessage($avatar, $sendmessage, true);
-        if ($sendMessage_status["status"] == false) {
+        if ($sendMessage_status->status == false) {
             $this->failed("Unable to put message into mailbox for sending!");
             return;
         }

@@ -23,7 +23,7 @@ class GetConfig extends SecondlifeAjax
             return;
         }
         $package = new Package();
-        if ($package->loadByField("packageUid", $packageuid) == false) {
+        if ($package->loadByPackageUid($packageuid) == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }

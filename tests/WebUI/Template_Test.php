@@ -67,7 +67,7 @@ class TemplateTest extends TestCase
     {
         global $system;
         $template = new Template();
-        $status = $template->loadByField("name","UnitTest");
+        $status = $template->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load test template");
         $system->setPage($template->getId());
 
@@ -93,7 +93,7 @@ class TemplateTest extends TestCase
     {
         global $system, $_POST;
         $template = new Template();
-        $status = $template->loadByField("name","UnitTest");
+        $status = $template->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load test template");
         $system->setPage($template->getId());
 
@@ -107,7 +107,7 @@ class TemplateTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
        
         $template = new Template();
-        $status = $template->loadByField("name","UnitTestUpdated");
+        $status = $template->loadByName("UnitTestUpdated");
         $this->assertSame(true,$status->status,"Unable to load updated template");
     }
 
@@ -118,7 +118,7 @@ class TemplateTest extends TestCase
     {
         global $system, $_POST;
         $template = new Template();
-        $status = $template->loadByField("name","UnitTestUpdated");
+        $status = $template->loadByName("UnitTestUpdated");
         $this->assertSame(true,$status->status,"Unable to load test template");
         $system->setPage($template->getId());
 

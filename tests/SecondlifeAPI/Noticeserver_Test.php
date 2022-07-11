@@ -22,9 +22,9 @@ class SecondlifeApiNoticeserver extends TestCase
         $dataset = $Details->getOutputObject()->getSwapTagArray("dataset");
         $split = explode("|||",$dataset[0]);
         $rental = new Rental();
-        $this->assertSame(true,$rental->loadByField("rentalUid",$split[0]),"Unable to load rental to adjust timeleft");
+        $this->assertSame(true,$rental->loadByRentalUid($split[0])->status,"Unable to load rental to adjust timeleft");
         $rental->setExpireUnixtime(time()-120);
-        $this->assertSame(true,$rental->updateEntry()["status"],"Unable to update rental");
+        $this->assertSame(true,$rental->updateEntry()->status,"Unable to update rental");
 
         $Next = new Next();
         $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -50,7 +50,7 @@ class SecondlifeApiNoticeserver extends TestCase
         $this->assertSame(true,$UpdateNotecards->getOutputObject()->getSwapTagBool("status"),"marked as failed");
 
         $noticenotecardset = new NoticenotecardSet();
-        $this->assertSame(true,$noticenotecardset->loadAll()["status"],"Unable to load notecard set");
+        $this->assertSame(true,$noticenotecardset->loadAll()->status,"Unable to load notecard set");
         $this->assertSame(6,$noticenotecardset->getCount(),"Incorrect number of static notecards found");
 
         $_POST["notecards"] = "Magic3,Wolf4,Lineofsight5";
@@ -64,7 +64,7 @@ class SecondlifeApiNoticeserver extends TestCase
 
 
         $noticenotecardset = new NoticenotecardSet();
-        $this->assertSame(true,$noticenotecardset->loadAll()["status"],"Unable to load notecard set");
+        $this->assertSame(true,$noticenotecardset->loadAll()->status,"Unable to load notecard set");
         $this->assertSame(6,$noticenotecardset->getCount(),"Incorrect number of static notecards found");
         $missing_count = 0;
         foreach($noticenotecardset->getAllIds() as $id)
@@ -86,7 +86,7 @@ class SecondlifeApiNoticeserver extends TestCase
         $this->assertSame(true,$UpdateNotecards->getOutputObject()->getSwapTagBool("status"),"marked as failed");
 
         $noticenotecardset = new NoticenotecardSet();
-        $this->assertSame(true,$noticenotecardset->loadAll()["status"],"Unable to load notecard set");
+        $this->assertSame(true,$noticenotecardset->loadAll()->status,"Unable to load notecard set");
         $this->assertSame(4,$noticenotecardset->getCount(),"Incorrect number of static notecards found");
         $missing_count = 0;
         foreach($noticenotecardset->getAllIds() as $id)
@@ -108,8 +108,8 @@ class SecondlifeApiNoticeserver extends TestCase
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["ownername"] = "Madpeter Zond";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";

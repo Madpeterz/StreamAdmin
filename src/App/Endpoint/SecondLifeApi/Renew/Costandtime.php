@@ -29,7 +29,7 @@ class CostAndTime extends SecondlifeAjax
             }
         }
         $masterAvatar = new Avatar();
-        if ($masterAvatar->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
+        if ($masterAvatar->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink())->status == false) {
             $this->failed("Unable to load system owner");
             return;
         }

@@ -28,7 +28,7 @@ class Issue92 extends TestCase
         $this->assertSame(true,$rental->loadid(9),"Unable to load rental");
         $rental->setNoticeLink(10);
         $rental->setExpireUnixtime(time()+($system->unixtimeDay()*7)-$system->unixtimeHour());
-        $this->assertSame(true,$rental->updateEntry()["status"],"Failed to update rental");
+        $this->assertSame(true,$rental->updateEntry()->status,"Failed to update rental");
     }
 
     /**
@@ -39,7 +39,7 @@ class Issue92 extends TestCase
         $optOut = new Rentalnoticeptout();
         $optOut->setRentalLink(9);
         $optOut->setNoticeLink(1);
-        $this->assertSame(true,$optOut->createEntry()["status"],"Failed to create opt out");
+        $this->assertSame(true,$optOut->createEntry()->status,"Failed to create opt out");
     }
 
     /**

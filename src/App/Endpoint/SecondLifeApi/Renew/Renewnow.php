@@ -13,6 +13,7 @@ use App\Models\Stream;
 use App\Models\Transactions;
 use App\Models\Sets\BanlistSet;
 use App\Template\SecondlifeAjax;
+use YAPF\Framework\Responses\DbObjects\CreateUidReply;
 
 class RenewNow extends SecondlifeAjax
 {
@@ -25,7 +26,7 @@ class RenewNow extends SecondlifeAjax
     protected Transactions $transaction;
     protected $amountpaid = 0;
     protected $multipler = 0;
-    protected array $uid_transaction = [];
+    protected ?CreateUidReply $uid_transaction = null;
 
     protected ?string $rentalUid;
     protected ?string $avatarUUID;
@@ -100,7 +101,7 @@ class RenewNow extends SecondlifeAjax
     protected function startTransaction(): bool
     {
         $this->uid_transaction = $this->transaction->createUID("transactionUid", 8);
-        if ($this->uid_transaction["status"] == false) {
+        if ($this->uid_transaction->status == false) {
             $this->failed("Unable to create transaction uid");
             return false;
         }
@@ -132,13 +133,13 @@ class RenewNow extends SecondlifeAjax
         $this->transaction->setRegionLink($this->region->getId());
         $this->transaction->setAmount($this->amountpaid);
         $this->transaction->setUnixtime(time());
-        $this->transaction->setTransactionUid($this->uid_transaction["uid"]);
+        $this->transaction->setTransactionUid($this->uid_transaction->uid);
         $this->transaction->setRenew(true);
         if ($sltransactionUUID != null) {
             $this->transaction->setViaHud(true);
             $this->transaction->setSLtransactionUUID($sltransactionUUID);
         }
-        if ($this->transaction->createEntry()["status"] == false) {
+        if ($this->transaction->createEntry()->status == false) {
             $this->setSwapTag("message", "Unable to create transaction");
             return false;
         }
@@ -161,38 +162,26 @@ class RenewNow extends SecondlifeAjax
 
         $EventsQHelper = new EventsQHelper();
 
-        $addedEvent = false;
+        $tagEvent = "RentalRenewAny";
         if (($old_notice_level == 6) && ($this->rental->getNoticeLink() != 6) && ($unixtime_remain > 0)) {
-            $EventsQHelper->addToEventQ(
-                "RentalRenew",
-                $this->package,
-                $this->accountOwnerAvatar,
-                $this->server,
-                $this->stream,
-                $this->rental,
-                $this->amountpaid,
-                $this->transactionAvatar,
-            );
-            $addedEvent = true;
+            $tagEvent = "RentalRenew";
         }
-        if ($addedEvent == false) {
-            $EventsQHelper->addToEventQ(
-                "RentalRenewAny",
-                $this->package,
-                $this->accountOwnerAvatar,
-                $this->server,
-                $this->stream,
-                $this->rental,
-                $this->amountpaid,
-                $this->transactionAvatar,
-            );
-        }
+        $EventsQHelper->addToEventQ(
+            $tagEvent,
+            $this->package,
+            $this->accountOwnerAvatar,
+            $this->server,
+            $this->stream,
+            $this->rental,
+            $this->amountpaid,
+            $this->transactionAvatar,
+        );
     }
 
     protected function processNoticeChange($unixtime_remain): void
     {
-        global $unixtime_hour;
-        $hours_remain = ceil($unixtime_remain / $unixtime_hour);
+        global $system;
+        $hours_remain = ceil($unixtime_remain / $system->unixtimeHour());
         $noticeHelper = new NoticesHelper();
         $use_notice_index = $noticeHelper->getNoticeLevel($hours_remain);
         if ($use_notice_index != 0) {
@@ -219,7 +208,7 @@ class RenewNow extends SecondlifeAjax
             return true;
         }
         $avatar_system = new Avatar();
-        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
+        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink())->status == false) {
             $this->failed("Unable to find system owner avatar");
             return false;
         }

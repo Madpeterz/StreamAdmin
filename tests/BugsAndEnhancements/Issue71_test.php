@@ -37,7 +37,7 @@ class Issue71 extends TestCase
         $this->setupPost("Costandtime");
         $_POST["rentalUid"] = $split[0];
         $rentalOld = new Rental();
-        $this->assertSame(true,$rentalOld->loadByField("rentalUid",$split[0]),"Unable to load rental before to check changes");
+        $this->assertSame(true,$rentalOld->loadByRentalUid($split[0]),"Unable to load rental before to check changes");
         $this->assertSame(3,$rentalOld->getRenewals(),"Renewals value is not zero as expected");
         $Costandtime = new Costandtime();
         $Costandtime->process();
@@ -55,7 +55,7 @@ class Issue71 extends TestCase
         );
         $this->assertSame(true,$Renewnow->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $rentalNew = new Rental();
-        $this->assertSame(true,$rentalNew->loadByField("rentalUid",$split[0]),"Unable to load rental after to check changes");
+        $this->assertSame(true,$rentalNew->loadByRentalUid($split[0]),"Unable to load rental after to check changes");
         $this->assertSame(4,$rentalNew->getRenewals(),"Renewals value did not change");
     }
 

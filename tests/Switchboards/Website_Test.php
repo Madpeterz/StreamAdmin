@@ -42,6 +42,6 @@ class Website_Test extends TestCase
         $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
 
         $this->assertStringContainsString("Objects cleared from DB",$json_obj["message"]);
-        $this->assertSame(true,$json_obj["status"],"Status check failed");
+        $this->assertSame(true,$json_obj->status,"Status check failed");
     }
 }

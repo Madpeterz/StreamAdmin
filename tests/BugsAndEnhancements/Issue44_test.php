@@ -27,7 +27,7 @@ class Issue44 extends TestCase
         $transaction->setAmount(44);
         $createsStatus = $transaction->createEntry();
         $this->assertSame("ok",$createsStatus["message"],"Failed to create transaction");
-        $this->assertSame(true,$createsStatus["status"],"Failed to create transaction");
+        $this->assertSame(true,$createsStatus->status,"Failed to create transaction");
         $sql->sqlSave();
 
         $system->setPage($package->getPackageUid());

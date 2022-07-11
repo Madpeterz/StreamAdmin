@@ -47,7 +47,7 @@ class NotecardMail extends SecondlifeAjax
             return;
         }
 
-        if ($notecardmail->removeEntry()["status"] == false) {
+        if ($notecardmail->removeEntry()->status == false) {
             $this->setSwapTag("message", "Unable to remove notecardMail from db");
             return;
         }

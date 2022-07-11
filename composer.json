@@ -28,7 +28,7 @@
     ],
     "scripts": {
         "dev-test": [
-            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All "
+            "phpunit --colors=always --configuration phpunit.xml --testdox --testsuite All"
         ],
         "phpcs": "phpcs --parallel=4",
         "phpcbf": "phpcbf",

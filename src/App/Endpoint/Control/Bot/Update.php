@@ -61,7 +61,7 @@ class Update extends ControlAjax
             return;
         }
         $avatar = new Avatar();
-        if ($avatar->loadByField("avatarUid", $avataruid)->status == false) {
+        if ($avatar->loadByAvatarUid($avataruid)->status == false) {
             $this->failed("Unable to load avatar to attach bot to");
             return;
         }

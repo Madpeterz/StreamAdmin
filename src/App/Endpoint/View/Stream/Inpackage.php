@@ -10,7 +10,7 @@ class Inpackage extends Withstatus
     {
         $this->output->addSwapTagString("page_title", " In package: ");
         $package = new Package();
-        if ($package->loadByField("packageUid", $this->siteConfig->getPage())->status == false) {
+        if ($package->loadByPackageUid($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
             return;
         }

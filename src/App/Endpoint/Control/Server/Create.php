@@ -31,7 +31,7 @@ class Create extends ControlAjax
 
     protected function createServer(): bool
     {
-        if ($this->server->loadByField("domain", $this->domain)->status == true) {
+        if ($this->server->loadByDomain($this->domain)->status == true) {
             $this->failed("There is already a server assigned to that domain");
             return false;
         }

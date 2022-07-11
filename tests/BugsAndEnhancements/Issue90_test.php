@@ -140,7 +140,7 @@ class Issue90 extends TestCase
         {
             $rental->setExpireUnixtime(time() + $addUnixtime);
             $update = $rental->updateEntry();
-            $this->assertSame(true,$update["status"],"Rental expires not updated");
+            $this->assertSame(true,$update->status,"Rental expires not updated");
             // Tick notice server
             $Next = new Next();
             $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");

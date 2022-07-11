@@ -46,11 +46,11 @@ class ResellerTest extends TestCase
     {
         global $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","Reseller Test");
+        $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $system->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
         $system->setPage($reseller->getId());
 
@@ -70,11 +70,11 @@ class ResellerTest extends TestCase
     {
         global $_POST, $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","Reseller Test");
+        $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $system->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
         $system->setPage($reseller->getId());
 
@@ -87,7 +87,7 @@ class ResellerTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
         $this->assertSame(false,$reseller->getAllowed(),"Allowed status did not update");
         $this->assertSame(15,$reseller->getRate(),"Rate did not update");
@@ -100,11 +100,11 @@ class ResellerTest extends TestCase
     {
         global $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","Reseller Test");
+        $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $system->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
         $system->setPage($reseller->getId());
 
@@ -125,11 +125,11 @@ class ResellerTest extends TestCase
     {
         global $system, $_POST;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","Reseller Test");
+        $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $system->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
         $system->setPage($reseller->getId());
 

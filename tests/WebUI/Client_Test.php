@@ -136,10 +136,10 @@ class ClientTest extends TestCase
     {
         global $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","ClientTest Avatar");
+        $status = $avatar->loadByAvatarName("ClientTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $system->setPage($rental->getRentalUid());
 
@@ -164,10 +164,10 @@ class ClientTest extends TestCase
     {
         global $_POST, $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","ClientTest Avatar");
+        $status = $avatar->loadByAvatarName("ClientTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $system->setPage($rental->getRentalUid());
         // update message
@@ -179,7 +179,7 @@ class ClientTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         // update adjustment
         $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $system->setPage($rental->getRentalUid());
         $manageProcess = new Update();
@@ -193,10 +193,10 @@ class ClientTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         // update transfer
         $newav = new Avatar();
-        $status = $newav->loadByField("avatarName","OtherTest Avatar");
+        $status = $newav->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $old_owner_id = $rental->getAvatarLink();
         $system->setPage($rental->getRentalUid());
@@ -222,10 +222,10 @@ class ClientTest extends TestCase
     {
         global $_POST, $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","OtherTest Avatar");
+        $status = $avatar->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $system->setPage($rental->getRentalUid());
         // send message to client
@@ -244,10 +244,10 @@ class ClientTest extends TestCase
     {
         global $system;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","OtherTest Avatar");
+        $status = $avatar->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $system->setPage($rental->getRentalUid());
 
@@ -267,10 +267,10 @@ class ClientTest extends TestCase
     {
         global $system, $_POST;
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","OtherTest Avatar");
+        $status = $avatar->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
-        $status = $rental->loadByField("avatarLink",$avatar->getId());
+        $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $system->setPage($rental->getRentalUid());
 

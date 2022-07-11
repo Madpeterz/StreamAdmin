@@ -12,7 +12,7 @@ class CheckStock extends SecondlifeAjax
     {
         $packageuid = $this->input->post("packageuid")->asString();
         $package = new Package();
-        if ($package->loadByField("packageUid", $packageuid) == false) {
+        if ($package->loadByPackageUid($packageuid)->status == false) {
             $this->setSwapTag("message", "Unable to find package");
             return;
         }

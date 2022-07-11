@@ -12,7 +12,7 @@ class Issue95 extends TestCase
     {
         global $system, $_POST;
         $tree = new Treevender();
-        $status = $tree->loadByField("name","Demo");
+        $status = $tree->loadByName("Demo");
         $this->assertSame(true,$status->status,"Unable to load test tree");
         $system->setPage($tree->getId());
 
@@ -29,7 +29,7 @@ class Issue95 extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
        
         $tree = new Treevender();
-        $status = $tree->loadByField("name","UnitUpdatedTreeVendIssue95");
+        $status = $tree->loadByName("UnitUpdatedTreeVendIssue95");
         $this->assertSame(true,$status->status,"Unable to load updated tree");
     }
 }

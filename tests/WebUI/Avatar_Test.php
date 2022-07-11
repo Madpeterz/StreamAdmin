@@ -84,7 +84,7 @@ class AvatarTest extends TestCase
     {
         global $_POST, $system;
         $avatar = new ModelsAvatar();
-        $status = $avatar->loadByField("avatarName","UnitTest Avatar");
+        $status = $avatar->loadByAvatarName("UnitTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $system->setPage($avatar->getAvatarUid());
         $manageProcess = new Update();
@@ -136,7 +136,7 @@ class AvatarTest extends TestCase
     {
         global $system, $_POST;
         $avatar = new ModelsAvatar();
-        $status = $avatar->loadByField("avatarName","UnitTest Updated");
+        $status = $avatar->loadByAvatarName("UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $system->setPage($avatar->getAvatarUid());
         $removeProcess = new AvatarRemove();

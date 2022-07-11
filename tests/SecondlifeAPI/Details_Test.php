@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Details\Resend;
+use App\Endpoint\SecondLifeApi\Details\Send;
 use App\Endpoint\SecondLifeApi\Renew\Details;
 use PHPUnit\Framework\TestCase;
 
@@ -50,7 +50,7 @@ class SecondlifeApiDetails extends TestCase
         $split = explode("|||",$dataset[0]);
         $_POST["rentalUid"] = $split[0];
 
-        $resend = new Resend();
+        $resend = new Send();
         $this->assertSame("ready",$resend->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$resend->getLoadOk(),"Load ok failed");
         $resend->process();

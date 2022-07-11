@@ -22,7 +22,7 @@ class Manage extends View
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $avatar = new Avatar();
-        if ($avatar->loadByField("avatarUid", $this->siteConfig->getPage())->status == false) {
+        if ($avatar->loadByAvatarUid($this->siteConfig->getPage())->status == false) {
             $this->setSwapTag("page_content", "Avatar not found via page config");
             $this->output->redirect("avatar?bubblemessage=unable to find avatar&bubbletype=warning");
             return;

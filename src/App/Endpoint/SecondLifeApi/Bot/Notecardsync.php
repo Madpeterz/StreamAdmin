@@ -12,7 +12,7 @@ class NotecardSync extends SecondlifeAjax
     public function process(): void
     {
         if ($this->owner_override == false) {
-            $this->setSwapTag("message", "This API is owner only");
+            $this->failed("This API is owner only");
             return;
         }
         $bot_helper = new BotHelper();
@@ -26,8 +26,8 @@ class NotecardSync extends SecondlifeAjax
         $checks = $this->input->varInput(
             $this->siteConfig->getSlConfig()->getHttpInboundSecret()
         )->checkStringLength(5, 30)->asString();
-        if ($checks == $this->siteConfig->getSlConfig()->getHttpInboundSecret()) {
-            $this->failed($this->input->getWhyFailed());
+        if ($checks != $this->siteConfig->getSlConfig()->getHttpInboundSecret()) {
+            $this->failed("HTTP inbound secret has issues");
             return;
         }
 
@@ -50,7 +50,7 @@ class NotecardSync extends SecondlifeAjax
         }
 
         $BotcommandQ = new Botcommandq();
-        if ($BotcommandQ->loadByCommand("FetchNextNotecard") == true) {
+        if ($BotcommandQ->loadByCommand("FetchNextNotecard")->status == true) {
             $this->ok("nowork");
             return;
         }

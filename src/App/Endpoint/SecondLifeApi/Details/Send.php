@@ -5,6 +5,7 @@ namespace App\Endpoint\SecondLifeApi\Details;
 use App\Models\Avatar;
 use App\Models\Detail;
 use App\Models\Rental;
+use App\Models\Sets\DetailSet;
 use App\Template\SecondlifeAjax;
 
 class Send extends SecondlifeAjax
@@ -13,7 +14,7 @@ class Send extends SecondlifeAjax
     {
         $rentalUid = $this->input->post("rentalUid")->asString();
         $rental = new Rental();
-        $rental->loadByField("rentalUid", $rentalUid);
+        $rental->loadByRentalUid($rentalUid);
         if ($rental->isLoaded() == false) {
             $this->failed("Unable to find rental");
             return;
@@ -24,20 +25,25 @@ class Send extends SecondlifeAjax
                 return;
             }
         }
-        $detail = new Detail();
-        $load = $detail->loadByRentalLink($rental->getId());
-        if ($load->status == false) {
+
+        $whereConfig = [
+            "fields" => ["rentalLink"],
+            "values" => [$rental->getId()],
+        ];
+        $detail = new DetailSet();
+        $load = $detail->countInDB($whereConfig);
+        if ($load === null) {
             $this->failed("Unable to check if you have a pending details request");
             return;
         }
-        if ($detail->isLoaded() == true) {
+        if ($load > 0) {
             $this->ok("You already have a pending details request - please wait for it or contact support.");
             return;
         }
         $detail = new Detail();
         $detail->setRentalLink($rental->getId());
         $create_status = $detail->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed("Unable to create details request");
             return;
         }

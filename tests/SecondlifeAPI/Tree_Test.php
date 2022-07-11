@@ -34,24 +34,24 @@ class SecondlifeApiTree extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertStringContainsString("Package created",$statuscheck->getSwapTagString("message"));
         $package = new Package();
-        $this->assertSame(true,$package->loadByField("name","AlsoUnitTestPackage"),"Load package failed");
+        $this->assertSame(true,$package->loadByName("AlsoUnitTestPackage"),"Load package failed");
         $treevender = new Treevender();
         $treevender->setName("Demo");
-        $this->assertSame(true,$treevender->createEntry()["status"],"create tree vender failed");
+        $this->assertSame(true,$treevender->createEntry()->status,"create tree vender failed");
         $treevender = new Treevender();
-        $this->assertSame(true,$treevender->loadByField("name","Demo"),"Load ok failed");
+        $this->assertSame(true,$treevender->loadByName("Demo"),"Load ok failed");
         $treepackage = new Treevenderpackages();
         $treepackage->setTreevenderLink($treevender->getId());
         $treepackage->setPackageLink($package->getId());
         $status = $treepackage->createEntry();
         $this->assertSame("ok",$status["message"],"create first tree vender package failed");
-        $this->assertSame(true,$status["status"],"create first tree vender package failed");
+        $this->assertSame(true,$status->status,"create first tree vender package failed");
         $treepackage = new Treevenderpackages();
         $treepackage->setTreevenderLink($treevender->getId());
         $treepackage->setPackageLink(1);
         $status = $treepackage->createEntry();
         $this->assertSame("ok",$status["message"],"create first tree vender package failed");
-        $this->assertSame(true,$status["status"],"create first tree vender package failed");
+        $this->assertSame(true,$status->status,"create first tree vender package failed");
     }
     public function test_Getpackages()
     {
@@ -87,7 +87,7 @@ class SecondlifeApiTree extends TestCase
         $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $treevender = new Treevender();
-        $this->assertSame(true,$treevender->loadByField("name","Demo"),"Load ok failed");
+        $this->assertSame(true,$treevender->loadByName("Demo"),"Load ok failed");
         $_POST["tree_vender_id"] = $treevender->getId();
         $Notecardsync = new Getpackages();
         $this->assertSame("ready",$Notecardsync->getOutputObject()->getSwapTagString("message"),"Ready checks failed");

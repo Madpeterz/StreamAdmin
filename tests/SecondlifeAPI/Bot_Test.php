@@ -2,8 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Bot\Notecardsync;
-use App\Models\Slconfig;
+use App\Endpoint\SecondLifeApi\Bot\NotecardSync;
 use App\Models\Sets\BotcommandqSet;
 use PHPUnit\Framework\TestCase;
 
@@ -13,15 +12,14 @@ class SecondlifeApiBot extends TestCase
     {
         global $_POST, $system;
         $system->getSlConfig()->setHttpInboundSecret("httpunit");
-        $this->assertSame(true,$system->getSlConfig()->updateEntry()["status"],"Unable to set HTTP code as needed");
-        $slconfig = new Slconfig();
-        $this->assertSame(true,$system->getSlConfig()->loadID(1),"Unable to load updated config");
+        $this->assertSame(true,$system->getSlConfig()->updateEntry()->status,"Unable to set HTTP code as needed");
+        $this->assertSame(true,$system->getSlConfig()->loadID(1)->status,"Unable to load updated config");
         $_POST["method"] = "Bot";
         $_POST["action"] = "Notecardsync";
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
@@ -52,7 +50,7 @@ class SecondlifeApiBot extends TestCase
         $reply = $botcommandSet->countInDB();
         $this->assertSame(4,$reply,"Current number of events in the Q is not correct"); 
 
-        $Notecardsync = new Notecardsync();
+        $Notecardsync = new NotecardSync();
         $this->assertSame("ready",$Notecardsync->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Notecardsync->getLoadOk(),"Load ok failed");
         $Notecardsync->process();

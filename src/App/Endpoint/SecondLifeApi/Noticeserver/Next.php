@@ -160,14 +160,14 @@ class Next extends SecondlifeAjax
                 $notice->getUseBot(),
                 $notice->getSendObjectIM()
             );
-            if ($sendMessage_status["status"] == false) {
+            if ($sendMessage_status->status == false) {
                 $this->failed("Unable to put mail into outbox");
                 return;
             }
         }
         $rental->setNoticeLink($notice->getId());
         $save_status = $rental->updateEntry();
-        if ($save_status["status"] == false) {
+        if ($save_status->status == false) {
             $this->failed("Unable to update rental notice level");
             return;
         }
@@ -187,7 +187,7 @@ class Next extends SecondlifeAjax
                 $notecard->setAsNotice(1);
                 $notecard->setNoticeLink($notice->getId());
                 $create_status = $notecard->createEntry();
-                if ($create_status["status"] == false) {
+                if ($create_status->status == false) {
                     $this->failed("Unable to create new notecard");
                     return;
                 }

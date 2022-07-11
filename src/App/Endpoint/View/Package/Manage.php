@@ -30,7 +30,7 @@ class Manage extends View
         $servertypes_set->loadAll();
 
         $package = new Package();
-        if ($package->loadByField("packageUid", $this->siteConfig->getPage()) == false) {
+        if ($package->loadByPackageUid($this->siteConfig->getPage()) == false) {
             $this->output->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
             return;
         }

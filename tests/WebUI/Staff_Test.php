@@ -57,7 +57,7 @@ class StaffTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
         $avatar = new Avatar();
-        $status = $avatar->loadByField("avatarName","StaffTest Avatar");
+        $status = $avatar->loadByAvatarName("StaffTest Avatar");
         $this->assertSame(true,$status->status,"Unable to find avatar to assign to staff");
 
         $createProcess = new StaffCreate();

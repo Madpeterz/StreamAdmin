@@ -26,7 +26,7 @@ class StartRental extends SecondlifeAjax
     protected function notBanned(Avatar $avatar): bool
     {
         $banlist = new Banlist();
-        $banlist->loadByField("avatarLink", $avatar->getId());
+        $banlist->loadByAvatarLink($avatar->getId());
         if ($banlist->getId() > 0) {
             return false;
         }
@@ -46,7 +46,7 @@ class StartRental extends SecondlifeAjax
     protected function getPackage(string $packageuid): ?Package
     {
         $package = new Package();
-        $package->loadByField("packageUid", $packageuid);
+        $package->loadByPackageUid($packageuid);
         if ($package->isLoaded() == true) {
             return $package;
         }
@@ -79,7 +79,7 @@ class StartRental extends SecondlifeAjax
             return;
         }
         $noticeNotecard = new Noticenotecard();
-        if ($noticeNotecard->loadID($staticNotecardid) == false) {
+        if ($noticeNotecard->loadID($staticNotecardid)->status == false) {
             return;
         }
         if ($noticeNotecard->getMissing() == true) {
@@ -93,7 +93,7 @@ class StartRental extends SecondlifeAjax
 
     public function process(): void
     {
-        global $unixtime_hour;
+        global $system;
 
         $package = null;
         $stream = null;
@@ -151,7 +151,7 @@ class StartRental extends SecondlifeAjax
 
         $noticesHelper = new NoticesHelper();
         $use_notice_index = $noticesHelper->getNoticeLevel($hours_remain);
-        $unixtime = time() + ($hours_remain * $unixtime_hour);
+        $unixtime = time() + ($hours_remain * $system->unixtimeHour());
 
         $rentals = new RentalSet();
         $rentals->loadByAvatarLink($avatar->getId());

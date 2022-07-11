@@ -77,7 +77,7 @@ class PackageTest extends TestCase
     {
         global $system;
         $package = new Package();
-        $status = $package->loadByField("name","AlsoUnitTestPackage");
+        $status = $package->loadByName("AlsoUnitTestPackage");
         $this->assertSame(true,$status->status,"Unable to load test package");
         $system->setPage($package->getPackageUid());
 
@@ -101,7 +101,7 @@ class PackageTest extends TestCase
     {
         global $_POST, $system;
         $package = new Package();
-        $status = $package->loadByField("name","AlsoUnitTestPackage");
+        $status = $package->loadByName("AlsoUnitTestPackage");
         $this->assertSame(true,$status->status,"Unable to load test package");
         $system->setPage($package->getPackageUid());
 
@@ -127,7 +127,7 @@ class PackageTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
         $package = new Package();
-        $status = $package->loadByField("name","AlsoUnitTestPackage Updated");
+        $status = $package->loadByName("AlsoUnitTestPackage Updated");
         $this->assertSame(true,$status->status,"Unable to load test package with updated name");
     }
 
@@ -138,7 +138,7 @@ class PackageTest extends TestCase
     {
         global $system, $_POST;
         $package = new Package();
-        $status = $package->loadByField("name","AlsoUnitTestPackage Updated");
+        $status = $package->loadByName("AlsoUnitTestPackage Updated");
         $this->assertSame(true,$status->status,"Unable to load test package");
         $system->setPage($package->getPackageUid());
 

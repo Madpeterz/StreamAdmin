@@ -17,7 +17,7 @@ class Sys_Test extends TestCase
         $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
 
         $this->assertSame("nowork",$json_obj["message"],"incorrect reply");
-        $this->assertSame(true,$json_obj["status"],"marked as failed");
+        $this->assertSame(true,$json_obj->status,"marked as failed");
     }
 
     public function test_SysSwitchboardViaPublichtml()
@@ -29,7 +29,7 @@ class Sys_Test extends TestCase
         $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
 
         $this->assertSame("nowork",$json_obj["message"],"incorrect reply");
-        $this->assertSame(true,$json_obj["status"],"marked as failed");
+        $this->assertSame(true,$json_obj->status,"marked as failed");
     }
 
     protected function SetupPost()
