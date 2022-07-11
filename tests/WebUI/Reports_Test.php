@@ -19,7 +19,7 @@ class ReportsTest extends TestCase
 {
     public function test_Toolbox()
     {
-        global $unixtime_day;
+        global $system;
         $avatarhelper = new AvatarHelper();
         $status = $avatarhelper->loadOrCreate("2f9c3e36-6fb3-40c5-92f9-0c6a5d230f66","TransactionTest Avatar");
         $this->assertSame(true,$status,"Unable to find a avatar to use");
@@ -30,13 +30,13 @@ class ReportsTest extends TestCase
         $reseller = $resellerhelper->getReseller();
         $stream = new Stream();
         $status = $stream->loadID(1);
-        $this->assertSame(true,$status,"Unable to find a stream to use");
+        $this->assertSame(true,$status->status,"Unable to find a stream to use");
         $server = new Server();
         $status = $server->loadID($stream->getServerLink());
-        $this->assertSame(true,$status,"Unable to find a server to use");
+        $this->assertSame(true,$status->status,"Unable to find a server to use");
         $package = new Package();
         $status = $package->loadID(1);
-        $this->assertSame(true,$status,"Unable to find a package to use");
+        $this->assertSame(true,$status->status,"Unable to find a package to use");
         $regionHelper = new RegionHelper();
         $status = $regionHelper->loadOrCreate("Unittest");
         $this->assertSame(true,$status,"Unable to find a region to use");
@@ -51,7 +51,7 @@ class ReportsTest extends TestCase
             if($renewal < 1) { 
                 $flag = true;
             }
-            $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,$amount,$flag,$startunixtime+($unixtime_day*$loop));
+            $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,$amount,$flag,$startunixtime+($system->unixtimeDay()*$loop));
             if($status != true) {
                 $this->assertSame(true,$status,"Error creating a test transaction");
                 break;
@@ -67,7 +67,7 @@ class ReportsTest extends TestCase
             if($renewal < 1) { 
                 $flag = true;
             }
-            $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,$amount,$flag,$startunixtime+($unixtime_day*$loop));
+            $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,$amount,$flag,$startunixtime+($system->unixtimeDay()*$loop));
             if($status != true) {
                 $this->assertSame(true,$status,"Error creating a test transaction");
                 break;

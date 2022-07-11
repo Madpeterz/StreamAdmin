@@ -40,8 +40,8 @@ class ClientTest extends TestCase
      */
     public function test_SelectNotice()
     {
-        global $page;
-        $page = 1;
+        global $system;
+        $system->setPage(1);
         $default = new Bynoticelevel();
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
@@ -138,14 +138,14 @@ class ClientTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","ClientTest Avatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
-        $page = $rental->getRentalUid();
+        $this->assertSame(true,$status->status,"Unable to load test rental");
+        $system->setPage($rental->getRentalUid());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -166,14 +166,14 @@ class ClientTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $_POST, $page;
+        global $_POST, $system;
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","ClientTest Avatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
-        $page = $rental->getRentalUid();
+        $this->assertSame(true,$status->status,"Unable to load test rental");
+        $system->setPage($rental->getRentalUid());
         // update message
         $manageProcess = new Update();
         $_POST["message"] = "Message updated";
@@ -184,8 +184,8 @@ class ClientTest extends TestCase
         // update adjustment
         $rental = new Rental();
         $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
-        $page = $rental->getRentalUid();
+        $this->assertSame(true,$status->status,"Unable to load test rental");
+        $system->setPage($rental->getRentalUid());
         $manageProcess = new Update();
         $_POST["message"] = $rental->getMessage();
         $_POST["adjustment_dir"] = "true";
@@ -198,12 +198,12 @@ class ClientTest extends TestCase
         // update transfer
         $newav = new Avatar();
         $status = $newav->loadByField("avatarName","OtherTest Avatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
+        $this->assertSame(true,$status->status,"Unable to load test rental");
         $old_owner_id = $rental->getAvatarLink();
-        $page = $rental->getRentalUid();
+        $system->setPage($rental->getRentalUid());
         $_POST["adjustment_dir"] = "true";
         $_POST["adjustment_hours"] = "0";
         $_POST["adjustment_days"] = "0";
@@ -215,7 +215,7 @@ class ClientTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $updatedrental = new Rental();
         $status = $updatedrental->loadID($rental->getId());
-        $this->assertSame(true,$status,"Unable to load updated rental");
+        $this->assertSame(true,$status->status,"Unable to load updated rental");
         $this->assertNotSame($old_owner_id,$updatedrental->getAvatarLink(),"Rental did not transfer correctly");
     }
 
@@ -224,14 +224,14 @@ class ClientTest extends TestCase
      */
     public function test_MessageClientProcess()
     {
-        global $_POST, $page;
+        global $_POST, $system;
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","OtherTest Avatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
-        $page = $rental->getRentalUid();
+        $this->assertSame(true,$status->status,"Unable to load test rental");
+        $system->setPage($rental->getRentalUid());
         // send message to client
         $sendMessageToClient = new Message();
         $_POST["mail"] = "This is a test it is only a test";
@@ -246,14 +246,14 @@ class ClientTest extends TestCase
      */
     public function test_GetNotecard()
     {
-        global $page;
+        global $system;
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","OtherTest Avatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
-        $page = $rental->getRentalUid();
+        $this->assertSame(true,$status->status,"Unable to load test rental");
+        $system->setPage($rental->getRentalUid());
 
         $getNotecard = new getNotecard();
         $getNotecard->process();
@@ -269,14 +269,14 @@ class ClientTest extends TestCase
      */
     public function test_RevokeProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","OtherTest Avatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to load test rental");
-        $page = $rental->getRentalUid();
+        $this->assertSame(true,$status->status,"Unable to load test rental");
+        $system->setPage($rental->getRentalUid());
 
         $removeProcess = new ClientRevoke();
         $_POST["accept"] = "Accept";

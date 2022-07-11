@@ -22,24 +22,24 @@ class TransactionsTest extends TestCase
     {
         $avatarhelper = new AvatarHelper();
         $status = $avatarhelper->loadOrCreate("2f9c3e36-6fb3-40c5-92f9-0c6a5d230f66","TransactionTest Avatar");
-        $this->assertSame(true,$status,"Unable to find a avatar to use");
+        $this->assertSame(true,$status->status,"Unable to find a avatar to use");
         $avatar = $avatarhelper->getAvatar();
         $resellerhelper = new ResellerHelper();
         $status = $resellerhelper->loadOrCreate(1,true,40);
-        $this->assertSame(true,$status,"Unable to find a reseller to use");
+        $this->assertSame(true,$status->status,"Unable to find a reseller to use");
         $reseller = $resellerhelper->getReseller();
         $stream = new Stream();
         $status = $stream->loadID(1);
-        $this->assertSame(true,$status,"Unable to find a stream to use");
+        $this->assertSame(true,$status->status,"Unable to find a stream to use");
         $server = new Server();
         $status = $server->loadID($stream->getServerLink());
-        $this->assertSame(true,$status,"Unable to find a server to use");
+        $this->assertSame(true,$status->status,"Unable to find a server to use");
         $package = new Package();
         $status = $package->loadID(1);
-        $this->assertSame(true,$status,"Unable to find a package to use");
+        $this->assertSame(true,$status->status,"Unable to find a package to use");
         $regionHelper = new RegionHelper();
         $status = $regionHelper->loadOrCreate("Unittest");
-        $this->assertSame(true,$status,"Unable to find a region to use");
+        $this->assertSame(true,$status->status,"Unable to find a region to use");
         $region = $regionHelper->getRegion();
         $TransactionsHelper = new TransactionsHelper();
         $loop = 10;
@@ -52,13 +52,13 @@ class TransactionsTest extends TestCase
             }
             $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,$amount,$flag);
             if($status != true) {
-                $this->assertSame(true,$status,"Error creating a test transaction");
+                $this->assertSame(true,$status->status,"Error creating a test transaction");
                 break;
             }
             $loop--;
         }
         $status = $TransactionsHelper->createTransaction($avatar,$package,$stream,$reseller,$region,4000,false,mktime(12,12,12,12,12,2019));
-        $this->assertSame(true,$status,"Error creating a test transaction");
+        $this->assertSame(true,$status->status,"Error creating a test transaction");
         $default = new DefaultView();
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
@@ -76,11 +76,11 @@ class TransactionsTest extends TestCase
      */
     public function test_RemoveForm()
     {
-        global $page;
+        global $system;
         $transaction = new Transactions();
         $status = $transaction->loadByField("amount",995);
-        $this->assertSame(true,$status,"Unable to find a transaction to use");
-        $page = $transaction->getTransactionUid();
+        $this->assertSame(true,$status->status,"Unable to find a transaction to use");
+        $system->setPage($transaction->getTransactionUid());
 
         $removeForm = new Remove();
         $removeForm->process();
@@ -97,11 +97,11 @@ class TransactionsTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $transaction = new Transactions();
         $status = $transaction->loadByField("amount",995);
-        $this->assertSame(true,$status,"Unable to find a transaction to use");
-        $page = $transaction->getTransactionUid();
+        $this->assertSame(true,$status->status,"Unable to find a transaction to use");
+        $system->setPage($transaction->getTransactionUid());
 
         $removeProcess = new TransactionsRemove();
         $_POST["accept"] = "Accept";

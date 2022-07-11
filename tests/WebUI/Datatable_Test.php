@@ -25,8 +25,8 @@ class DatatableTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
-        $page = 2;
+        global $system;
+        $system->setPage(2);
         $manageForm  = new Manage();
         $manageForm->process();
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
@@ -42,8 +42,8 @@ class DatatableTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $_POST, $page;
-        $page = 2;
+        global $_POST, $system;
+        $system->setPage(2);
         $manageProcess = new Update();
         $_POST["col"] = 5;
         $_POST["dir"] = "asc";

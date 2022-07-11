@@ -70,11 +70,11 @@ class TextureconfigTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByField("name","UnitTestTexturePack");
-        $this->assertSame(true,$status,"Unable to load test texture pack");
-        $page = $textureconfig->getId();
+        $this->assertSame(true,$status->status,"Unable to load test texture pack");
+        $system->setPage($textureconfig->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -93,11 +93,11 @@ class TextureconfigTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByField("name","UnitTestTexturePack");
-        $this->assertSame(true,$status,"Unable to load test texture pack");
-        $page = $textureconfig->getId();
+        $this->assertSame(true,$status->status,"Unable to load test texture pack");
+        $system->setPage($textureconfig->getId());
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitTestTexturePack Updated";
@@ -117,7 +117,7 @@ class TextureconfigTest extends TestCase
        
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByField("name","UnitTestTexturePack Updated");
-        $this->assertSame(true,$status,"Unable to load updated textureconfig");
+        $this->assertSame(true,$status->status,"Unable to load updated textureconfig");
     }
 
     /**
@@ -125,11 +125,11 @@ class TextureconfigTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByField("name","UnitTestTexturePack Updated");
-        $this->assertSame(true,$status,"Unable to load test texture pack");
-        $page = $textureconfig->getId();
+        $this->assertSame(true,$status->status,"Unable to load test texture pack");
+        $system->setPage($textureconfig->getId());
 
         $removeProcess = new TextureconfigRemove();
         $_POST["accept"] = "Accept";

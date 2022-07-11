@@ -92,13 +92,6 @@ class Issue90 extends TestCase
         $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
 
-        $apirequests = new ApirequestsSet();
-        $apirequests->loadAll();
-        $status = $apirequests->purgeCollection();
-        $this->assertSame(2,$status["removed_entrys"],"Incorrect number of api requests removed: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"api requests purge has failed");
-        unset($apirequests);
-
         $rentalSet = new RentalSet();
         $whereConfig = [
             "fields" => ["id"],
@@ -107,10 +100,10 @@ class Issue90 extends TestCase
         ];
         $rentalSet->loadWithConfig($whereConfig);
         $this->assertSame(5,$rentalSet->getCount(),"Incorrect number of rentals loaded");
-        global $page, $_POST;
+        global $system, $_POST;
         $_POST["accept"] = "Accept";
         foreach($rentalSet as $rentalRm) {
-            $page = $rentalRm->getRentalUid();
+            $system->setPage($rentalRm->getRentalUid());
             $removeRental = new Revoke();
             $removeRental->process();
             $statuscheck = $removeRental->getOutputObject();
@@ -124,7 +117,7 @@ class Issue90 extends TestCase
      */
     public function test_ExpireRentalInSteps()
     {
-        global $unixtime_day, $unixtime_hour, $_POST;
+        global $system, $_POST;
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
@@ -135,11 +128,11 @@ class Issue90 extends TestCase
 
         // set rental to 6days 23hours
         $setTimes = [
-            ($unixtime_day*6) + ($unixtime_hour*23) => 1,
-            ($unixtime_day*4) + ($unixtime_hour*23) => 2,
-            ($unixtime_day*2) + ($unixtime_hour*23) => 3,
-            ($unixtime_hour*23) => 4,
-            ($unixtime_hour*4) => 5,
+            ($system->unixtimeDay()*6) + ($system->unixtimeHour()*23) => 1,
+            ($system->unixtimeDay()*4) + ($system->unixtimeHour()*23) => 2,
+            ($system->unixtimeDay()*2) + ($system->unixtimeHour()*23) => 3,
+            ($system->unixtimeHour()*23) => 4,
+            ($system->unixtimeHour()*4) => 5,
             -5 => 6,
         ];
 
@@ -168,7 +161,7 @@ class Issue90 extends TestCase
      */
     public function test_RenewBackToActiveInSteps()
     {
-        global $_POST, $unixtime_day;
+        global $_POST, $system;
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
@@ -217,7 +210,7 @@ class Issue90 extends TestCase
             $rental = new Rental();
             $rental->loadByAvatarLink($avatar->getId());
             $this->assertSame(true,$rental->isLoaded(),"[".$amount."@".$expectedNoticeLevel[1]."] Failed to load rental ".$log);
-            $expectedRenewalTime = $oldExpireTime + ($unixtime_day * ($amount/5));
+            $expectedRenewalTime = $oldExpireTime + ($system->unixtimeDay() * ($amount/5));
             $this->assertSame($expectedRenewalTime,$rental->getExpireUnixtime(),
             "[".$amount."@".$expectedNoticeLevel[1]."] rental expire unixtime is not as expected ".$log);
             $this->assertSame($expectedNoticeLevel[1],$rental->getNoticeLink(),
@@ -231,7 +224,7 @@ class Issue90 extends TestCase
      */
     public function test_RemoveTimeViaWebUi()
     {
-        global $_POST, $page;
+        global $_POST, $system;
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
@@ -240,7 +233,7 @@ class Issue90 extends TestCase
         $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
 
-        $page = $rental->getRentalUid();
+        $system->setPage($rental->getRentalUid());
         
         $manageProcess = new Update();
         $_POST["message"] = $rental->getMessage();

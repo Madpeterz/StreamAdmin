@@ -178,14 +178,14 @@ class DefaultView extends View
             "matches" => ["% LIKE %","=","% LIKE %"],
             "values" => [$search,$search,$search],
             "types" => ["s","i","s"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
         if ($search_rental_set->getCount() > 0) {
             $where_config["fields"][] = "id";
             $where_config["matches"][] = "IN";
             $where_config["values"][] = $search_rental_set->uniqueStreamLinks();
             $where_config["types"][] = "i";
-            $where_config["join_with"][] = "OR";
+            $where_config["joinWith"][] = "OR";
         }
         $search_stream_set = new StreamSet();
         $search_stream_set->loadWithConfig($where_config);
@@ -207,7 +207,7 @@ class DefaultView extends View
             "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
             "values" => [$search,$search,$search],
             "types" => ["s","s","s"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
         $search_avatar_set = new AvatarSet();
         $search_avatar_set->loadWithConfig($where_config);
@@ -221,14 +221,14 @@ class DefaultView extends View
             "matches" => ["% LIKE %","% LIKE %"],
             "values" => [$search,$search],
             "types" => ["s","s"],
-            "join_with" => ["OR"],
+            "joinWith" => ["OR"],
         ];
         if ($search_avatar_set->getCount() > 0) {
             $where_config["fields"][] = "avatarLink";
             $where_config["matches"][] = "IN";
             $where_config["values"][] = $search_avatar_set->getAllIds();
             $where_config["types"][] = "i";
-            $where_config["join_with"][] = "OR";
+            $where_config["joinWith"][] = "OR";
         }
         $search_rental_set = new RentalSet();
         $search_rental_set->loadWithConfig($where_config);

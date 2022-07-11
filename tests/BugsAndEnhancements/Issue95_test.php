@@ -10,11 +10,11 @@ class Issue95 extends TestCase
 {
     public function test_ManageProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $tree = new Treevender();
         $status = $tree->loadByField("name","Demo");
-        $this->assertSame(true,$status,"Unable to load test tree");
-        $page = $tree->getId();
+        $this->assertSame(true,$status->status,"Unable to load test tree");
+        $system->setPage($tree->getId());
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitUpdatedTreeVendIssue95";
@@ -30,7 +30,7 @@ class Issue95 extends TestCase
        
         $tree = new Treevender();
         $status = $tree->loadByField("name","UnitUpdatedTreeVendIssue95");
-        $this->assertSame(true,$status,"Unable to load updated tree");
+        $this->assertSame(true,$status->status,"Unable to load updated tree");
     }
 }
 

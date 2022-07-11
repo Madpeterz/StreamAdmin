@@ -61,21 +61,10 @@ class OutboxText extends TestCase
         $this->assertStringContainsString("Start of message",$statuscheck,$missing);
     }
 
-    public function test_OutboxApi()
-    {
-        $details = new Api();
-        $details->process();
-        $missing = "Missing outbox element";
-        $statuscheck = $details->getOutputObject()->getSwapTagString("page_content");
-        $this->assertStringContainsString("Event",$statuscheck,$missing);
-        $this->assertStringContainsString("Attempts",$statuscheck,$missing);
-        $this->assertStringContainsString("Port",$statuscheck,$missing);
-    }
-
     public function test_BulkSendToPackageForm()
     {
-        global $_GET, $page;
-        $page = "package";
+        global $_GET, $system;
+        $system->setPage("package");
         $_GET["packageLink"] = 1;
         $_GET["messagePackage"] = "Hello world this is a test";
 
@@ -100,8 +89,8 @@ class OutboxText extends TestCase
 
     public function test_BulkSendToServerForm()
     {
-        global $_GET, $page;
-        $page = "server";
+        global $_GET, $system;
+        $system->setPage("server");
         $_GET["serverLink"] = 1;
         $_GET["messageServer"] = "Hello world this is a test";
 
@@ -127,8 +116,8 @@ class OutboxText extends TestCase
 
     public function test_BulkSendToNoticeForm()
     {
-        global $_GET, $page;
-        $page = "notice";
+        global $_GET, $system;
+        $system->setPage("notice");
         $_GET["noticeLink"] = 1;
         $_GET["messageStatus"] = "Hello world this is a test";
 

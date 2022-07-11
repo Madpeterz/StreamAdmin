@@ -21,7 +21,7 @@ class Create extends ControlAjax
             $this->failed("Avatar UUID failed:" . $this->input->getWhyFailed());
             return;
         }
-        if ($avatar->loadByAvatarUUID($avatarUUID) == true) {
+        if ($avatar->loadByAvatarUUID($avatarUUID)->status == true) {
             $this->failed("There is already an avatar with that uuid");
             return;
         }

@@ -38,7 +38,7 @@ class Slconfigtest extends TestCase
         $updateHandler = new Update();
         $avatar = new Avatar();
         $status = $avatar->loadID($updateHandler->getSlConfigObject()->getOwnerAvatarLink());
-        $this->assertSame(true,$status,"Unable to load system owner avatar");
+        $this->assertSame(true,$status->status,"Unable to load system owner avatar");
         
         $_POST["newResellersRate"] = 5;
         $_POST["newResellers"] = 1;

@@ -33,10 +33,7 @@
             <file>tests/Switchboards/MainGrid_Test.php</file>
             <file>tests/Switchboards/Sys_Test.php</file>
             <file>tests/Switchboards/Website_Test.php</file>
-            <file>tests/Finals/server_test.php</file>
             <file>tests/Finals/client_test.php</file>
-            <file>tests/BugsAndEnhancements/Issue12_test.php</file>
-            <file>tests/BugsAndEnhancements/Issue28_test.php</file>
             <file>tests/BugsAndEnhancements/Issue36_test.php</file>
             <file>tests/BugsAndEnhancements/Issue43_test.php</file>
             <file>tests/BugsAndEnhancements/Issue44_test.php</file>

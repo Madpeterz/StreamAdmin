@@ -38,13 +38,13 @@ class Create extends ControlAjax
             "matches" => ["=","=","="],
             "values" => [$avataruid,$avataruid,$avataruid],
             "types" => ["s","s","s"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
 
         $avatar_set = new AvatarSet();
         $avatar_set->loadWithConfig($avatar_where_config);
         if ($avatar_set->getCount() != 1) {
-            $this->failed("Unable to find avatar");
+            $this->failed("Unable to find avatar: " . $avatar_set->getLastSql());
             return;
         }
 
@@ -53,7 +53,7 @@ class Create extends ControlAjax
             "matches" => ["=","="],
             "values" => [$streamuid,$streamuid],
             "types" => ["i","s"],
-            "join_with" => ["OR"],
+            "joinWith" => ["OR"],
         ];
         $stream_set = new StreamSet();
         $stream_set->loadWithConfig($stream_where_config);

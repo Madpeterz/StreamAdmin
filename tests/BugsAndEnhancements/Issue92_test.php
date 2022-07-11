@@ -23,11 +23,11 @@ class Issue92 extends TestCase
      */
     public function test_AdjustClient()
     {
-        global $unixtime_day, $unixtime_hour;
+        global $system;
         $rental = new Rental();
         $this->assertSame(true,$rental->loadid(9),"Unable to load rental");
         $rental->setNoticeLink(10);
-        $rental->setExpireUnixtime(time()+($unixtime_day*7)-$unixtime_hour);
+        $rental->setExpireUnixtime(time()+($system->unixtimeDay()*7)-$system->unixtimeHour());
         $this->assertSame(true,$rental->updateEntry()["status"],"Failed to update rental");
     }
 
@@ -73,12 +73,12 @@ class Issue92 extends TestCase
      */
     public function test_UIshowsDisable()
     {
-        global $page;
+        global $system;
 
         $rental = new Rental();
         $this->assertSame(true,$rental->loadid(9),"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
-        $page = $rental->getRentalUid();
+        $system->setPage( $rental->getRentalUid());
         $manageForm  = new Manage();
         $manageForm->process();
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
@@ -93,12 +93,12 @@ class Issue92 extends TestCase
      */
     public function test_UIupdateOptout()
     {
-        global $_POST, $page;
+        global $_POST, $system;
 
         $rental = new Rental();
         $this->assertSame(true,$rental->loadid(9),"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
-        $page = $rental->getRentalUid();
+        $system->setPage( $rental->getRentalUid());
 
         $_POST["remove-optout-1"] = 1;
         $_POST["add-optout-6"] = 1;

@@ -36,7 +36,7 @@ class Issue69 extends TestCase
         $streams = new StreamSet();
         $whereConfig = [
             "fields" => ["id"],
-            "values" => [$rentalSet->getUniqueArray("streamLink")],
+            "values" => [$rentalSet->uniqueStreamLinks()],
             "matches" => ["NOT IN"],
             "types" => ["i"],
         ];
@@ -45,13 +45,6 @@ class Issue69 extends TestCase
         $this->assertGreaterThanOrEqual(6,$status["changes"],"Incorrect number of streams updated: ".json_encode($status));
         $this->assertSame(true,$status["status"],"streams bulk update has failed");
         unset($streams);
-
-        $apirequests = new ApirequestsSet();
-        $apirequests->loadAll();
-        $status = $apirequests->purgeCollection();
-        $this->assertSame(2,$status["removed_entrys"],"Incorrect number of api requests removed: ".json_encode($status));
-        $this->assertSame(true,$status["status"],"api requests purge has failed");
-        unset($apirequests);
 
         $messageSet = new MessageSet();
         $messageSet->loadAll();
@@ -117,47 +110,5 @@ class Issue69 extends TestCase
         $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed"); 
         $this->assertSame(1,$rentalSet->countInDB($whereConfig),"There should have been one rental with the expired notice state");
-        $apirequests = new ApirequestsSet();
-        $this->assertSame(0,$apirequests->countInDB(),"There are API requests in the DB that should not be there");
     }
-
-
-    /**
-     * @depends test_expireRental
-    */
-    public function test_rentalApiPendingCorrect()
-    {
-        $rental = new Rental();
-        $rental->loadByNoticeLink(6);
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
-        $this->assertSame(true,$rental->getApiPendingAutoSuspend(),"Rental does not have the pending auto suspend flag");
-        $this->assertGreaterThan(time(),$rental->getApiPendingAutoSuspendAfter(),"Rental auto suspend is set for the past");
-        $rental->setApiPendingAutoSuspendAfter(time()-10);
-        $update = $rental->updateEntry();
-        $this->assertSame("ok",$update["message"],"Incorrect update status message");
-        $this->assertSame(true,$update["status"],"Incorrect update status");
-    }
-
-    /**
-     * @depends test_rentalApiPendingCorrect
-    */
-    public function test_ClientAutoSuspend()
-    {
-        $Next = new ClientAutoSuspendNext();
-        $this->assertSame("Not processed",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
-        $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
-        $Next->process();
-        $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
-        $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed"); 
-        $apirequests = new ApirequestsSet();
-        $this->assertSame(1,$apirequests->countInDB(),"Expected 1 api request in the Q");
-        $rental = new Rental();
-        $rental->loadByNoticeLink(6);
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
-        $this->assertSame(false,$rental->getApiPendingAutoSuspend(),"Rental should no longer have the pending suspend flag");
-        $this->assertSame(true,$rental->getApiSuspended(),"Rental should have suspend flag");
-        $this->assertSame(null,$rental->getApiPendingAutoSuspendAfter(),"Rental AutoSuspend unixtime should be null");
-    }
-
-
 }

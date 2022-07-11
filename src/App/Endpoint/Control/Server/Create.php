@@ -26,6 +26,7 @@ class Create extends ControlAjax
         if ($this->controlPanelURL === null) {
             return false;
         }
+        return true;
     }
 
     protected function createServer(): bool

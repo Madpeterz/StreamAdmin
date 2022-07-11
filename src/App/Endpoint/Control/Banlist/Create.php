@@ -20,7 +20,7 @@ class Create extends ControlAjax
             "matches" => ["=","=","="],
             "values" => [$avataruid,$avataruid,$avataruid],
             "types" => ["s","s","s"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
         $avatar_set = new AvatarSet();
         $avatar_set->loadWithConfig($avatar_where_config);

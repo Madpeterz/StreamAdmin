@@ -44,8 +44,8 @@ class Login extends TestCase
         $_POST["slusername"] = "MadpeterUnit ZondTest";
         $resetHandeler->process();
         $statuscheck = $resetHandeler->getOutputObject();
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertStringContainsString("reset code is on the way",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 
     public function test_ShowResetWithToken()
@@ -66,7 +66,7 @@ class Login extends TestCase
     {
         global $_POST;
         $staff = new Staff();
-        $this->assertSame(true,$staff->loadID(1),"Unable to load staff account");
+        $this->assertSame(true,$staff->loadID(1)->status,"Unable to load staff account");
         $Resetnow = new Resetnow();
         $_POST["slusername"] = "MadpeterUnit ZondTest";
         $_POST["newpassword1"] = "YfBqfxs8LSiuny";
@@ -93,7 +93,9 @@ class Login extends TestCase
 
     public function test_IsLoggedIn()
     {
-        global $session;
+        global $system;
+        /* Getting the session object from the system object. */
+        $session = $system->getSession();
         $session->loadFromSession();
         $this->assertSame(true,$session->getLoggedIn(),"Not logged in");
         $this->assertSame(true,$session->getOwnerLevel(),"Not logged in as system owner");
@@ -101,7 +103,8 @@ class Login extends TestCase
 
     public function test_Logout()
     {
-        global $session;
+        global $system;
+        $session = $system->getSession();
         $session->loadFromSession();
         $this->assertSame(true,$session->getLoggedIn(),"Not logged in [Required for logout]");
         $logout = new Logout();
@@ -113,7 +116,8 @@ class Login extends TestCase
 
     public function test_LogoutReloadLogin()
     {
-        global $session;
+        global $system;
+        $session = $system->getSession();
         $this->assertSame(false,$session->loadFromSession(),"Still logged in even thou we killed the session");
         $this->assertSame(false,$session->getLoggedIn(),"Still logged in even thou we killed the session");
         $this->test_LoginWithPassword();

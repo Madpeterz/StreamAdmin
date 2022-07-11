@@ -25,13 +25,13 @@ class BotTest extends TestCase
         global $_POST;
         $avatar = new Avatar();
         $status = $avatar->loadID(1);
-        $this->assertSame(true,$status,"Unable to load avatar");
+        $this->assertSame(true,$status->status,"Unable to load avatar");
         $_POST["avataruid"] = $avatar->getAvatarUid();
         $_POST["secret"] = substr(md5(microtime()."bb"),0,8);
         $_POST["notecards"] = 1;
         $_POST["ims"] = 1;
         $_POST["invites"] = 1;
-        $_POST["inviteGroupUUID"] = $avatar->getAvatarUUID();
+        $_POST["inviteGroupUUID"] = "01234567-89ab-cdef-0123-456789abcdef";
         $Update = new Update();
         $Update->process();
         $statuscheck = $Update->getOutputObject();

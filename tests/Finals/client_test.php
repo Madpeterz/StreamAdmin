@@ -11,36 +11,14 @@ use PHPUnit\Framework\TestCase;
 
 class FinalsClient extends TestCase
 {
-    public function test_ClientApi()
-    {
-        global $page, $optional;
-        
-        $rentals = new RentalSet();
-        $rentals->loadNewest(1);
-        $page = $rentals->getFirst()->getRentalUid();
-        $optional = "Stop";
-        $Api = new Api();
-        $Api->process();
-        $statuscheck = $Api->getOutputObject();
-        $this->assertStringContainsString(
-            "API/Ok => server stopped",
-            $statuscheck->getSwapTagString("message"),
-            "incorrect reply"
-        );
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
-    }
-
-    /**
-     * @depends test_ClientApi
-     */
     public function test_ClientBulkRemoveView()
     {
-        global $unixtime_day;
+        global $system;
         $clientSet = new RentalSet();
         $status = $clientSet->loadAll();
         $this->assertSame(true,$status["status"],"Unable to load rentals");
         $fields = ["expireUnixtime","noticeLink"];
-        $values = [time()-($unixtime_day*3),6];
+        $values = [time()-($system->unixtimeDay()*3),6];
         $status = $clientSet->updateMultipleFieldsForCollection($fields,$values);
         $this->assertSame(true,$status["status"],"Unable to update rentals to expired");
 

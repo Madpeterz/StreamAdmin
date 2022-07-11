@@ -73,11 +73,11 @@ class NoticeTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest");
-        $this->assertSame(true,$status,"Unable to load testing notice");
-        $page = $notice->getId();
+        $this->assertSame(true,$status->status,"Unable to load testing notice");
+        $system->setPage($notice->getId());
 
         $manageForm = new Manage();
         $manageForm->process();
@@ -100,11 +100,11 @@ class NoticeTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest");
-        $this->assertSame(true,$status,"Unable to load testing notice");
-        $page = $notice->getId();
+        $this->assertSame(true,$status->status,"Unable to load testing notice");
+        $system->setPage($notice->getId());
 
         $_POST["name"] = "UnitTest Updated";
         $_POST["hoursRemaining"] = "90";
@@ -127,11 +127,11 @@ class NoticeTest extends TestCase
      */
     public function test_RemoveForm()
     {
-        global $page;
+        global $system;
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest Updated");
-        $this->assertSame(true,$status,"Unable to load testing notice");
-        $page = $notice->getId();
+        $this->assertSame(true,$status->status,"Unable to load testing notice");
+        $system->setPage($notice->getId());
 
         $removeForm = new Remove();
         $removeForm->process();
@@ -149,10 +149,10 @@ class NoticeTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest Updated");
-        $this->assertSame(true,$status,"Unable to load testing notice");
+        $this->assertSame(true,$status->status,"Unable to load testing notice");
 
 
         $rentalSet = new RentalSet();
@@ -164,7 +164,7 @@ class NoticeTest extends TestCase
         $this->assertSame(true,$reply["status"],"Failed to assign rental to notice");
 
 
-        $page = $notice->getId();
+        $system->setPage($notice->getId());
         $_POST["accept"] = "Accept";
         $_POST["newNoticeLevel"] = 10;
 

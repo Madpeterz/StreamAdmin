@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\Staff;
 use App\Framework\ViewAjax;
 use App\Template\ControlAjax;
+use YAPF\Framework\Responses\DbObjects\SingleLoadReply;
 
 class Reset extends ControlAjax
 {
@@ -27,7 +28,7 @@ class Reset extends ControlAjax
         $staff = new Staff();
 
         $slusername = $this->input->post("slusername")->asString();
-        $status = false;
+        $status = new SingleLoadReply("Not set", false);
 
         $username_bits = explode(" ", $slusername);
         if (count($username_bits) == 1) {

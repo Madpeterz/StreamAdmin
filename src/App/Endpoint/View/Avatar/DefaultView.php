@@ -35,7 +35,7 @@ class DefaultView extends View
         if ($whereConfig === null) {
             return false;
         }
-        return $this->avatarSet->loadWithConfig($whereConfig);
+        return $this->avatarSet->loadWithConfig($whereConfig)->status;
     }
     public function process(): void
     {

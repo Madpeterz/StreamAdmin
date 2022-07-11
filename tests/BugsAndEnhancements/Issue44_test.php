@@ -13,7 +13,7 @@ class Issue44 extends TestCase
     protected $package = null;
     public function test_removePackageUnlinkTransaction()
     {        
-        global $sql, $page, $_POST;
+        global $sql, $system, $_POST;
         $avatars = new AvatarSet();
         $avatars->loadNewest(1);
         $avatar = $avatars->getFirst();
@@ -30,7 +30,7 @@ class Issue44 extends TestCase
         $this->assertSame(true,$createsStatus["status"],"Failed to create transaction");
         $sql->sqlSave();
 
-        $page = $package->getPackageUid();
+        $system->setPage($package->getPackageUid());
         $removeProcess = new Remove();
         $_POST["accept"] = "Accept";
         $removeProcess->process();
@@ -41,7 +41,7 @@ class Issue44 extends TestCase
 
         $transaction_test = new Transactions();
         $status = $transaction_test->loadByTransactionUid("is44");
-        $this->assertSame(true,$status,"Failed to load transaction to test");
+        $this->assertSame(true,$status->status,"Failed to load transaction to test");
         $this->assertSame(null,$transaction_test->getPackageLink(),"Failed to unlink package");
     }
 }

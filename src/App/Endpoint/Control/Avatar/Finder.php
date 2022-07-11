@@ -21,7 +21,7 @@ class Finder extends ControlAjax
             "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
             "values" => [$avatarfindname,$avatarfindname,$avatarfindname],
             "types" => ["s","s","s"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
         $search_avatar_set = new AvatarSet();
         $search_avatar_set->loadWithConfig($where_config);

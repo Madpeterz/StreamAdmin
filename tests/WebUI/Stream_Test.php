@@ -40,12 +40,12 @@ class StreamTest extends TestCase
      */
     public function test_ViewSelectedPackage()
     {
-        global $page;
+        global $system;
         $package = new Package();
         $status = $package->loadID(1);
-        $this->assertSame(true,$status,"Unable to load test package");
+        $this->assertSame(true,$status->status,"Unable to load test package");
 
-        $page = $package->getPackageUid();
+        $system->setPage($package->getPackageUid());
         $view = new Inpackage();
         $view->process();
         $statuscheck = $view->getOutputObject()->getSwapTagString("page_content");
@@ -91,10 +91,6 @@ class StreamTest extends TestCase
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
         $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
         $_POST["needswork"] = 0;
-        $_POST["apiConfigValue1"] = "";
-        $_POST["apiConfigValue2"] = "";
-        $_POST["apiConfigValue3"] = "";
-        $_POST["api_create"] = 0;
         $streamCreateHandler->process();
         $statuscheck = $streamCreateHandler->getOutputObject();
         $this->assertStringContainsString("Stream created",$statuscheck->getSwapTagString("message"));
@@ -106,11 +102,11 @@ class StreamTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $stream = new Stream();
         $status = $stream->loadByField("port",8006);
-        $this->assertSame(true,$status,"Unable to load test stream");
-        $page = $stream->getStreamUid();
+        $this->assertSame(true,$status->status,"Unable to load test stream");
+        $system->setPage($stream->getStreamUid());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -131,11 +127,11 @@ class StreamTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $stream = new Stream();
         $status = $stream->loadByField("port",8006);
-        $this->assertSame(true,$status,"Unable to load test stream");
-        $page = $stream->getStreamUid();
+        $this->assertSame(true,$status->status,"Unable to load test stream");
+        $system->setPage($stream->getStreamUid());
 
         $manageProcess = new Update();
         $_POST["port"] = 8080;
@@ -147,10 +143,6 @@ class StreamTest extends TestCase
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
         $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
         $_POST["needswork"] = 0;
-        $_POST["apiConfigValue1"] = "";
-        $_POST["apiConfigValue2"] = "";
-        $_POST["apiConfigValue3"] = "";
-        $_POST["api_create"] = 0;
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Stream updated",$statuscheck->getSwapTagString("message"));
@@ -158,7 +150,7 @@ class StreamTest extends TestCase
        
         $stream = new Stream();
         $status = $stream->loadByField("port",8080);
-        $this->assertSame(true,$status,"Unable to load updated stream");
+        $this->assertSame(true,$status->status,"Unable to load updated stream");
     }
 
     /**
@@ -166,11 +158,11 @@ class StreamTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $stream = new Stream();
         $status = $stream->loadByField("port",8080);
-        $this->assertSame(true,$status,"Unable to load test stream");
-        $page = $stream->getStreamUid();
+        $this->assertSame(true,$status->status,"Unable to load test stream");
+        $system->setPage($stream->getStreamUid());
 
         $removeProcess = new StreamRemove();
         $_POST["accept"] = "Accept";
@@ -185,8 +177,8 @@ class StreamTest extends TestCase
      */
     public function test_Onserver()
     {
-        global $page;
-        $page = 1;
+        global $system;
+        $system->setPage(1);
         $Onserver = new Onserver();
         $Onserver->process();
         $statuscheck = $Onserver->getOutputObject()->getSwapTagString("page_content");

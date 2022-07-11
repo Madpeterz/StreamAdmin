@@ -65,11 +65,11 @@ class TemplateTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $template = new Template();
         $status = $template->loadByField("name","UnitTest");
-        $this->assertSame(true,$status,"Unable to load test template");
-        $page = $template->getId();
+        $this->assertSame(true,$status->status,"Unable to load test template");
+        $system->setPage($template->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -91,11 +91,11 @@ class TemplateTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $template = new Template();
         $status = $template->loadByField("name","UnitTest");
-        $this->assertSame(true,$status,"Unable to load test template");
-        $page = $template->getId();
+        $this->assertSame(true,$status->status,"Unable to load test template");
+        $system->setPage($template->getId());
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitTestUpdated";
@@ -108,7 +108,7 @@ class TemplateTest extends TestCase
        
         $template = new Template();
         $status = $template->loadByField("name","UnitTestUpdated");
-        $this->assertSame(true,$status,"Unable to load updated template");
+        $this->assertSame(true,$status->status,"Unable to load updated template");
     }
 
     /**
@@ -116,11 +116,11 @@ class TemplateTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $template = new Template();
         $status = $template->loadByField("name","UnitTestUpdated");
-        $this->assertSame(true,$status,"Unable to load test template");
-        $page = $template->getId();
+        $this->assertSame(true,$status->status,"Unable to load test template");
+        $system->setPage($template->getId());
 
         $removeProcess = new TemplateRemove();
         $_POST["accept"] = "Accept";

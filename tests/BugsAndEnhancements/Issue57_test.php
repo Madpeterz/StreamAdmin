@@ -10,11 +10,11 @@ class Issue57 extends TestCase
 {
     public function test_addGroupInviteToMessageQ()
     {       
-        global $_POST;
+        global $_POST, $system;
         $updateHandler = new Update();
         $avatar = new Avatar();
-        $status = $avatar->loadID($updateHandler->getSlConfigObject()->getOwnerAvatarLink());
-        $this->assertSame(true,$status,"Unable to load system owner avatar");
+        $status = $avatar->loadID(1);
+        $this->assertSame(true,$status->status,"Unable to load system owner avatar");
         
         $_POST["newResellersRate"] = 5;
         $_POST["newResellers"] = 1;

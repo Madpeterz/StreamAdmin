@@ -38,7 +38,7 @@ class BanlistTest extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","Banlist TestAvatar");
-        $this->assertSame(true,$status,"Unable to load test avatar");
+        $this->assertSame(true,$status->status,"Unable to load test avatar");
 
         $_POST["uid"] = $avatar->getAvatarUid();
         $createProcess = new Create();
@@ -82,15 +82,15 @@ class BanlistTest extends TestCase
      */
     public function test_BanlistRemoveProcess()
     {
-        global $page;
+        global $system;
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","Banlist TestAvatar");
-        $this->assertSame(true,$status,"Unable to find test avatar");
+        $this->assertSame(true,$status->status,"Unable to find test avatar");
         $banlist = new Banlist();
         $status = $banlist->loadByField("avatarLink",$avatar->getId());
-        $this->assertSame(true,$status,"Unable to find banlist entry");
+        $this->assertSame(true,$status->status,"Unable to find banlist entry");
 
-        $page = $banlist->getId();
+        $system->setPage($banlist->getId());
         $removeProcess = new Clear();
         $removeProcess->process();
         $statuscheck = $removeProcess->getOutputObject();

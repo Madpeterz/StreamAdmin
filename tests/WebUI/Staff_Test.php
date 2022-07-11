@@ -58,7 +58,7 @@ class StaffTest extends TestCase
 
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","StaffTest Avatar");
-        $this->assertSame(true,$status,"Unable to find avatar to assign to staff");
+        $this->assertSame(true,$status->status,"Unable to find avatar to assign to staff");
 
         $createProcess = new StaffCreate();
         $_POST["avataruid"] = $avatar->getAvatarUid();
@@ -70,7 +70,7 @@ class StaffTest extends TestCase
 
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
-        $this->assertSame(true,$status,"Unable to load created staff member");
+        $this->assertSame(true,$status->status,"Unable to load created staff member");
         $this->assertSame(false,$staff->getOwnerLevel(),"Incorrect owner level applyed");
 
     }
@@ -80,11 +80,11 @@ class StaffTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
-        $this->assertSame(true,$status,"Unable to load test staff member");
-        $page = $staff->getId();
+        $this->assertSame(true,$status->status,"Unable to load test staff member");
+        $system->setPage($staff->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -100,11 +100,11 @@ class StaffTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
-        $this->assertSame(true,$status,"Unable to load test staff member");
-        $page = $staff->getId();
+        $this->assertSame(true,$status->status,"Unable to load test staff member");
+        $system->setPage($staff->getId());
 
         $manageProcess = new Update();
         $_POST["username"] = "UpdatedUsername";
@@ -119,11 +119,11 @@ class StaffTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $staff = new Staff();
         $status = $staff->loadByField("username","UpdatedUsername");
-        $this->assertSame(true,$status,"Unable to load test staff member");
-        $page = $staff->getId();
+        $this->assertSame(true,$status->status,"Unable to load test staff member");
+        $system->setPage($staff->getId());
 
         $removeProcess = new StaffRemove();
         $_POST["accept"] = "Accept";

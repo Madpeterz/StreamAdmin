@@ -12,23 +12,22 @@ class Create extends ControlAjax
 {
     public function process(): void
     {
-        global $stream;
         $package = new Package();
         $server = new Server();
 
-        $port = $this->this->post("port")->checkInRange(1, 99999)->asInt();
-        $packageLink = $this->this->post("packageLink")->checkGrtThanEq(1)->asInt();
-        $serverLink = $this->this->post("serverLink")->checkGrtThanEq(1)->asInt();
-        $mountpoint = $this->this->post("mountpoint")->asString();
-        $adminUsername = $this->this->post("adminUsername")->checkStringLength(3, 50)->asString();
-        $adminPassword = $this->this->post("adminPassword")->checkStringLength(4, 20)->asString();
-        $djPassword = $this->this->post("djPassword")->checkStringLength(4, 20)->asString();
+        $port = $this->input->post("port")->checkInRange(1, 99999)->asInt();
+        $packageLink = $this->input->post("packageLink")->checkGrtThanEq(1)->asInt();
+        $serverLink = $this->input->post("serverLink")->checkGrtThanEq(1)->asInt();
+        $mountpoint = $this->input->post("mountpoint")->asString();
+        $adminUsername = $this->input->post("adminUsername")->checkStringLength(3, 50)->asString();
+        $adminPassword = $this->input->post("adminPassword")->checkStringLength(4, 20)->asString();
+        $djPassword = $this->input->post("djPassword")->checkStringLength(4, 20)->asString();
         $bits = [$port,$packageLink,$serverLink,$mountpoint,$adminUsername,$adminPassword,$djPassword];
         if (in_array(null, $bits, true) == true) {
             $this->failed($this->input->getWhyFailed());
-            return false;
+            return;
         }
-        $needswork = $this->this->post("needswork")->asBool();
+        $needswork = $this->input->post("needswork")->asBool();
         if ($package->loadID($packageLink)->status == false) {
             $this->failed("Unable to find package");
             return;
@@ -68,7 +67,6 @@ class Create extends ControlAjax
         $stream->setNeedWork($needswork);
         $stream->setAdminUsername($adminUsername);
         $stream->setAdminPassword($adminPassword);
-        $stream->setOriginalAdminUsername($adminUsername);
         $stream->setDjPassword($djPassword);
         $stream->setMountpoint($mountpoint);
         $create_status = $stream->createEntry();

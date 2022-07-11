@@ -17,7 +17,7 @@ class FromAvatar extends Forms
             "values" => [$avd,$avd,$avd],
             "types" => ["s","s","s"],
             "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
         $this->avatar_set->loadWithConfig($whereconfig);
         $this->output->addSwapTagString("page_title", " Matching avatar seach: " . $avd);

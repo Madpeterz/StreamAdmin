@@ -19,15 +19,8 @@ use PHPUnit\Framework\TestCase;
 
 class ForcedActions extends TestCase
 {
-    public function setUp(): void
-    {
-        include ROOTFOLDER . "/App/Framework/load.php";  
-    }
     public function test_ShowDashboard()
     {
-        if (defined("INSTALLED") == false) {
-            $this->assertSame(true,false,"INSTALLED flag is not set!");
-        }
         $dashboard = new Dashboard();
         $dashboard->process();
         $statuscheck = $dashboard->getOutputObject()->getSwapTagString("page_content");
@@ -116,10 +109,6 @@ class ForcedActions extends TestCase
         $missing = "Missing server create form element";
         $this->assertStringContainsString("Basic config",$statuscheck,$missing);
         $this->assertStringContainsString("Domain",$statuscheck,$missing);
-        $this->assertStringContainsString("API / Password",$statuscheck,$missing);
-        $this->assertStringContainsString("Opt / Toggle status",$statuscheck,$missing);
-        $this->assertStringContainsString("Event / Update stream on server",$statuscheck,$missing);
-        $this->assertStringContainsString("Api notes",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
     }
 
@@ -129,27 +118,6 @@ class ForcedActions extends TestCase
         $serverCreateHandler = new serverCreateHandler();
         $_POST["domain"] = "Testing";
         $_POST["controlPanelURL"] = "http://notused.com";
-        $_POST["apiLink"] = 1;
-        $_POST["apiURL"] = "";
-        $_POST["apiUsername"] = "";
-        $_POST["apiPassword"] = "";
-        $_POST["optPasswordReset"] = 0;
-        $_POST["optAutodjNext"] = 0;
-        $_POST["optToggleAutodj"] = 0;
-        $_POST["eventEnableStart"] = 0;
-        $_POST["eventDisableExpire"] = 0;
-        $_POST["eventDisableRevoke"] = 0;
-        $_POST["eventResetPasswordRevoke"] = 0;
-        $_POST["eventEnableRenew"] = 0;
-        $_POST["optToggleStatus"] = 0;
-        $_POST["eventStartSyncUsername"] = 0;
-        $_POST["apiServerStatus"] = 0;
-        $_POST["eventClearDjs"] = 0;
-        $_POST["eventRevokeResetUsername"] = 0;
-        $_POST["eventRecreateRevoke"] = 0;
-        $_POST["apiSyncAccounts"] = 0;
-        $_POST["eventCreateStream"] = 0;
-        $_POST["eventUpdateStream"] = 0;
         $serverCreateHandler->process();
         $statuscheck = $serverCreateHandler->getOutputObject();
         $this->assertStringContainsString("Server created",$statuscheck->getSwapTagString("message"));
@@ -176,10 +144,6 @@ class ForcedActions extends TestCase
         $missing = "Missing stream create form element";
         $this->assertStringContainsString("Basics",$statuscheck,$missing);
         $this->assertStringContainsString("Config",$statuscheck,$missing);
-        $this->assertStringContainsString("API",$statuscheck,$missing);
-        $this->assertStringContainsString("Magic",$statuscheck,$missing);
-        $this->assertStringContainsString("API UID 1,2 and 3",$statuscheck,$missing);
-        $this->assertStringContainsString("Note:",$statuscheck,$missing);
     }
 
     public function test_CreateStream()
@@ -194,10 +158,6 @@ class ForcedActions extends TestCase
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
         $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
         $_POST["needswork"] = 0;
-        $_POST["apiConfigValue1"] = "";
-        $_POST["apiConfigValue2"] = "";
-        $_POST["apiConfigValue3"] = "";
-        $_POST["api_create"] = 0;
         $streamCreateHandler->process();
         $statuscheck = $streamCreateHandler->getOutputObject();
         $this->assertStringContainsString("Stream created",$statuscheck->getSwapTagString("message"));
@@ -231,7 +191,7 @@ class ForcedActions extends TestCase
     {
         global $_POST;
         $CreateCleintHandler = new CreateCleintHandler();
-        $_POST["avataruid"] = "MadpeterUnit ZondTest";
+        $_POST["avataruid"] = "Madpeter";
         $_POST["streamuid"] = 8002;
         $_POST["daysremaining"] = 7;
         $CreateCleintHandler->process();

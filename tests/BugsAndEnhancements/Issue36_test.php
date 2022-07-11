@@ -2,9 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Renew\Details;
 use App\Helpers\AvatarHelper;
-use App\Models\Avatar;
 use PHPUnit\Framework\TestCase;
 
 class Issue36 extends TestCase

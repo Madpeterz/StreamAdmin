@@ -23,7 +23,7 @@ class UrlLoadingTest extends TestCase
 
     public function test_ModuleAreaAndPage()
     {
-        global $module, $area, $page, $optional;
+        global $module, $area, $system, $optional;
         process_uri("url/access/testing");
         $this->assertSame("url",$module);
         $this->assertSame("access",$area);
@@ -32,7 +32,7 @@ class UrlLoadingTest extends TestCase
 
     public function test_ModuleAreaPageAndOptional()
     {
-        global $module, $area, $page, $optional;
+        global $module, $area, $system, $optional;
         process_uri("dynamic/url/access/testing");
         $this->assertSame("dynamic",$module);
         $this->assertSame("url",$area);

@@ -44,7 +44,7 @@ class Update extends ControlAjax
         int $adjustment_hours,
         string $adjustment_dir
     ): void {
-        global $unixtime_hour;
+        global $system;
 
         $total_adjust_hours = 0;
         if ($adjustment_hours > 0) {
@@ -57,7 +57,7 @@ class Update extends ControlAjax
             $this->issues .= "[Adjustment] Attempted adjustment but failed no adjustment given?";
             return;
         }
-        $adjustment_unixtime = $unixtime_hour * $total_adjust_hours;
+        $adjustment_unixtime = $system->unixtimeHour() * $total_adjust_hours;
         $adjustment_text = "Added";
         $new_unixtime = $rental->getExpireUnixtime() + $adjustment_unixtime;
         if ($adjustment_dir == false) {

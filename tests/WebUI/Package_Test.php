@@ -75,11 +75,11 @@ class PackageTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $package = new Package();
         $status = $package->loadByField("name","AlsoUnitTestPackage");
-        $this->assertSame(true,$status,"Unable to load test package");
-        $page = $package->getPackageUid();
+        $this->assertSame(true,$status->status,"Unable to load test package");
+        $system->setPage($package->getPackageUid());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -100,11 +100,11 @@ class PackageTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $_POST, $page;
+        global $_POST, $system;
         $package = new Package();
         $status = $package->loadByField("name","AlsoUnitTestPackage");
-        $this->assertSame(true,$status,"Unable to load test package");
-        $page = $package->getPackageUid();
+        $this->assertSame(true,$status->status,"Unable to load test package");
+        $system->setPage($package->getPackageUid());
 
         $manageProcess = new Update();
         $_POST["name"] = "AlsoUnitTestPackage Updated";
@@ -130,7 +130,7 @@ class PackageTest extends TestCase
 
         $package = new Package();
         $status = $package->loadByField("name","AlsoUnitTestPackage Updated");
-        $this->assertSame(true,$status,"Unable to load test package with updated name");
+        $this->assertSame(true,$status->status,"Unable to load test package with updated name");
     }
 
     /**
@@ -138,11 +138,11 @@ class PackageTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $package = new Package();
         $status = $package->loadByField("name","AlsoUnitTestPackage Updated");
-        $this->assertSame(true,$status,"Unable to load test package");
-        $page = $package->getPackageUid();
+        $this->assertSame(true,$status->status,"Unable to load test package");
+        $system->setPage($package->getPackageUid());
 
         $removeProcess = new PackageRemove();
         $_POST["accept"] = "Accept";

@@ -51,27 +51,6 @@ class ServerTest extends TestCase
         $serverCreateHandler = new ServerCreate();
         $_POST["domain"] = "MagicServerTest";
         $_POST["controlPanelURL"] = "http://supernotused.com";
-        $_POST["apiLink"] = 1;
-        $_POST["apiURL"] = "";
-        $_POST["apiUsername"] = "";
-        $_POST["apiPassword"] = "";
-        $_POST["optPasswordReset"] = 0;
-        $_POST["optAutodjNext"] = 0;
-        $_POST["optToggleAutodj"] = 0;
-        $_POST["eventEnableStart"] = 0;
-        $_POST["eventDisableExpire"] = 0;
-        $_POST["eventDisableRevoke"] = 0;
-        $_POST["eventResetPasswordRevoke"] = 0;
-        $_POST["eventEnableRenew"] = 0;
-        $_POST["optToggleStatus"] = 0;
-        $_POST["eventStartSyncUsername"] = 0;
-        $_POST["apiServerStatus"] = 0;
-        $_POST["eventClearDjs"] = 0;
-        $_POST["eventRevokeResetUsername"] = 0;
-        $_POST["eventRecreateRevoke"] = 0;
-        $_POST["apiSyncAccounts"] = 0;
-        $_POST["eventCreateStream"] = 0;
-        $_POST["eventUpdateStream"] = 0;
         $serverCreateHandler->process();
         $statuscheck = $serverCreateHandler->getOutputObject();
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
@@ -83,11 +62,11 @@ class ServerTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $page;
+        global $system;
         $server = new Server();
         $status = $server->loadByField("domain","MagicServerTest");
-        $this->assertSame(true,$status,"Unable to load test server");
-        $page = $server->getId();
+        $this->assertSame(true,$status->status,"Unable to load test server");
+        $system->setPage($server->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -109,37 +88,16 @@ class ServerTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $server = new Server();
         $status = $server->loadByField("domain","MagicServerTest");
-        $this->assertSame(true,$status,"Unable to load test server");
-        $page = $server->getId();
+        $this->assertSame(true,$status->status,"Unable to load test server");
+        $system->setPage($server->getId());
 
 
         $manageProcess = new Update();
         $_POST["domain"] = "SuperMagicTest";
         $_POST["controlPanelURL"] = "http://supernotused.com";
-        $_POST["apiLink"] = 1;
-        $_POST["apiURL"] = "";
-        $_POST["apiUsername"] = "";
-        $_POST["apiPassword"] = "";
-        $_POST["optPasswordReset"] = 0;
-        $_POST["optAutodjNext"] = 0;
-        $_POST["optToggleAutodj"] = 0;
-        $_POST["eventEnableStart"] = 0;
-        $_POST["eventDisableExpire"] = 0;
-        $_POST["eventDisableRevoke"] = 0;
-        $_POST["eventResetPasswordRevoke"] = 0;
-        $_POST["eventEnableRenew"] = 0;
-        $_POST["optToggleStatus"] = 0;
-        $_POST["eventStartSyncUsername"] = 0;
-        $_POST["apiServerStatus"] = 0;
-        $_POST["eventClearDjs"] = 0;
-        $_POST["eventRevokeResetUsername"] = 0;
-        $_POST["eventRecreateRevoke"] = 0;
-        $_POST["apiSyncAccounts"] = 0;
-        $_POST["eventCreateStream"] = 0;
-        $_POST["eventUpdateStream"] = 0;
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Server updated",$statuscheck->getSwapTagString("message"));
@@ -151,11 +109,11 @@ class ServerTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $page, $_POST;
+        global $system, $_POST;
         $server = new Server();
         $status = $server->loadByField("domain","SuperMagicTest");
-        $this->assertSame(true,$status,"Unable to load test server");
-        $page = $server->getId();
+        $this->assertSame(true,$status->status,"Unable to load test server");
+        $system->setPage($server->getId());
 
         $removeProcess = new ServerRemove();
         $_POST["accept"] = "Accept";
