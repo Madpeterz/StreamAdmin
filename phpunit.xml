@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./tests/bootstrap.php" convertWarningsToExceptions="true" convertNoticesToExceptions="true" convertErrorsToExceptions="true" backupStaticAttributes="false" processIsolation="false" stopOnFailure="true" cacheResult="false" backupGlobals="false" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <php>
+      <ini name="display_errors" value="On" />
+      <ini name="display_startup_errors" value="On" />
+  </php>
   <coverage>
     <include>
       <directory>src</directory>
@@ -51,7 +55,6 @@
       <file>tests/SystemApi/Notecard_Test.php</file>
       <file>tests/Switchboards/MainGrid_Test.php</file>
       <file>tests/Switchboards/Sys_Test.php</file>
-      <file>tests/Switchboards/Website_Test.php</file>
       <file>tests/Finals/client_test.php</file>
       <file>tests/BugsAndEnhancements/Issue36_test.php</file>
       <file>tests/BugsAndEnhancements/Issue43_test.php</file>

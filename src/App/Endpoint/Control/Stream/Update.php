@@ -13,9 +13,6 @@ class Update extends ControlAjax
 {
     public function process(): void
     {
-        $package = new Package();
-        $server = new Server();
-
 
         $port = $this->input->post("port")->checkInRange(1, 99999)->asInt();
         $packageLink = $this->input->post("packageLink")->checkGrtThanEq(1)->asInt();
@@ -27,6 +24,13 @@ class Update extends ControlAjax
         $bits = [$port,$packageLink,$serverLink,$mountpoint,$adminUsername,$adminPassword,$djPassword];
         if (in_array(null, $bits, true) == true) {
             $this->failed($this->input->getWhyFailed());
+            return;
+        }
+
+        $package = new Package();
+        $package->loadId($packageLink);
+        if ($package->isLoaded() == false) {
+            $this->failed("Unable to find package");
             return;
         }
 
@@ -81,7 +85,6 @@ class Update extends ControlAjax
             return;
         }
         if ($this->transferRentalPackage($stream, $package) == false) {
-            $this->failed("Unable to transfer rental to new package");
             return;
         }
         $this->ok("Stream updated");
@@ -91,14 +94,21 @@ class Update extends ControlAjax
     protected function transferRentalPackage(Stream $stream, Package $package): bool
     {
         $rental = new Rental();
-        if ($rental->loadByStreamLink($stream->getId())->status == false) {
+        if ($stream->getRentalLink() == null) {
             return true;
+        }
+        if ($rental->loadByStreamLink($stream->getId())->status == false) {
+            $this->failed("Unable to load rental to transfer");
+            return false;
         }
         if ($package->getId() == $rental->getPackageLink()) {
             return true;
         }
         $rental->setPackageLink($package->getId());
         $status = $rental->updateEntry();
+        if ($status->status == false) {
+            $this->failed("Issue updating rental package:" . $status->message);
+        }
         return $status->status;
     }
 }

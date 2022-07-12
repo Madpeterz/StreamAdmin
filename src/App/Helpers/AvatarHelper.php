@@ -15,7 +15,7 @@ class AvatarHelper extends ErrorLogging
     public function loadOrCreate(string $avatarUUID, ?string $avatarName = null): bool
     {
         $this->avatar = new Avatar();
-        if (strlen($avatarUUID) != 36) {
+        if (nullSafeStrLen($avatarUUID) != 36) {
             return false;
         }
         if ($this->avatar->loadByAvatarUUID($avatarUUID)->status == true) {

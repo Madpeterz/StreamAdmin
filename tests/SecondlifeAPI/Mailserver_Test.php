@@ -12,8 +12,7 @@ class SecondlifeApiMailserver extends TestCase
     public function test_Next()
     {
         global $_POST, $system;
-        $_POST["method"] = "Mailserver";
-        $_POST["action"] = "Next";
+        $system->forceProcessURI("Mailserver/Next");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -23,8 +22,6 @@ class SecondlifeApiMailserver extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -40,7 +37,7 @@ class SecondlifeApiMailserver extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "MailserverNext". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
         $botmessageQ = new BotcommandqSet();

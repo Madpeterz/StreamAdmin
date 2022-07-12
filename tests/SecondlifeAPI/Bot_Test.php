@@ -14,8 +14,7 @@ class SecondlifeApiBot extends TestCase
         $system->getSlConfig()->setHttpInboundSecret("httpunit");
         $this->assertSame(true,$system->getSlConfig()->updateEntry()->status,"Unable to set HTTP code as needed");
         $this->assertSame(true,$system->getSlConfig()->loadID(1)->status,"Unable to load updated config");
-        $_POST["method"] = "Bot";
-        $_POST["action"] = "Notecardsync";
+        $system->forceProcessURI("Bot/Notecardsync");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -25,8 +24,6 @@ class SecondlifeApiBot extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -42,7 +39,7 @@ class SecondlifeApiBot extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "BotNotecardsync".implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
 

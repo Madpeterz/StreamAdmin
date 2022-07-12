@@ -4,14 +4,14 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Client\Revoke;
 use App\Endpoint\Control\Client\Update;
-use App\Endpoint\SecondLifeApi\Buy\Startrental;
+use App\Endpoint\SecondLifeApi\Buy\StartRental;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 use App\Endpoint\SecondLifeApi\Renew\Renewnow;
 use App\Helpers\NoticesHelper;
 use App\Models\Avatar;
 use App\Models\Package;
 use App\Models\Rental;
-use App\Models\Sets\ApirequestsSet;
+use App\Models\Sets\DetailSet;
 use App\Models\Sets\RentalSet;
 use PHPUnit\Framework\TestCase;
 
@@ -51,14 +51,14 @@ class Issue90 extends TestCase
     public function test_StartRental()
     {
         global $_POST;
-        $this->setupPostBuy("Startrental");
+        $this->setupPostBuy("StartRental");
 
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $_POST["avatarName"] = "Issue90 Buyer1";
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["amountpaid"] = $this->package->getCost() * 4;
 
-        $startRental = new Startrental();
+        $startRental = new StartRental();
         $this->assertSame("ready",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
         $startRental->process();
@@ -91,6 +91,12 @@ class Issue90 extends TestCase
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+
+        $detailsSet = new DetailSet();
+        $detailsSet->loadAll();
+        $this->assertSame(3, $detailsSet->getCount(), "incorrect number of pending details requests");
+        $reply = $detailsSet->purgeCollection();
+        $this->assertSame(true, $reply->status, "Detail requests not removed");
 
         $rentalSet = new RentalSet();
         $whereConfig = [
@@ -225,13 +231,16 @@ class Issue90 extends TestCase
     public function test_RemoveTimeViaWebUi()
     {
         global $_POST, $system;
+        $_POST = [];
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
-        $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
+        $reply = $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
+        $this->assertSame(true, $reply->status, "Failed to load avatar");
         $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+        $this->assertSame(11, $rental->getId(), "Incorrect rental ID found!");
 
         $system->setPage($rental->getRentalUid());
         
@@ -248,7 +257,9 @@ class Issue90 extends TestCase
 
         // Recheck rental
         $rental = new Rental();
-        $rental->loadByAvatarLink($avatar->getId());
+        $reply = $rental->loadByAvatarLink($avatar->getId());
+        $this->assertSame(true, $reply->status, "Failed to load rental via avatar ".$avatar->getId().": ".$reply->message);
+        $this->assertSame(11, $rental->getId(), "Incorrect rental ID found!");
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
         $this->assertSame(2,$rental->getNoticeLink(),"Incorrect notice level assigned");
     }
@@ -256,19 +267,16 @@ class Issue90 extends TestCase
     protected function setupRenewPost(string $target)
     {
         global $_POST, $system;
-        $_POST["method"] = "Renew";
-        $_POST["action"] = $target;
+        $system->forceProcessURI("Renew/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["ownername"] = "Madpeter Zond";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -284,26 +292,23 @@ class Issue90 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time() ."Renew".$target . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 
     protected function setupPostBuy(string $target)
     {
         global $_POST, $system;
-        $_POST["method"] = "Buy";
-        $_POST["action"] = $target;
+        $system->forceProcessURI("Buy/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["ownername"] = "Madpeter Zond";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -319,7 +324,7 @@ class Issue90 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

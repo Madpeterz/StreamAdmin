@@ -122,7 +122,7 @@ class StreamTest extends TestCase
     {
         global $system, $_POST;
         $stream = new Stream();
-        $status = $stream->loadByField("port",8006);
+        $status = $stream->loadByPort(8004);
         $this->assertSame(true,$status->status,"Unable to load test stream");
         $system->setPage($stream->getStreamUid());
 

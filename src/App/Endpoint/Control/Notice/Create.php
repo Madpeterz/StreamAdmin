@@ -41,7 +41,7 @@ class Create extends ControlAjax
             return;
         }
         if ($sendNotecard == false) {
-            if (strlen($notecardDetail) < 1) {
+            if (nullSafeStrLen($notecardDetail) < 1) {
                 $notecardDetail = "";
             }
         }

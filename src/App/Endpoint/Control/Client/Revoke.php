@@ -4,6 +4,7 @@ namespace App\Endpoint\Control\Client;
 
 use App\Helpers\EventsQHelper;
 use App\Models\Avatar;
+use App\Models\Detail;
 use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
@@ -54,6 +55,12 @@ class Revoke extends ControlAjax
         $this->avatar = $this->rental->relatedAvatar()->getFirst();
         if (in_array(null, [$this->server,$this->package,$this->avatar]) == true) {
             $this->failed("One or more required objects are missing");
+            return false;
+        }
+        $detail = new Detail();
+        $detail->loadByRentalLink($this->rental->getId());
+        if ($detail->isLoaded() == true) {
+            $this->failed("There is a pending details request for this rental!");
             return false;
         }
         return true;

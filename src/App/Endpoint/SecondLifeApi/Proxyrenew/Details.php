@@ -26,7 +26,7 @@ class Details extends SecondlifeAjax
             $lastname = $bits[1];
             $targetuid = "" . $firstname . " " . $lastname . "";
             $load_status = $avatar->loadByAvatarName($targetuid);
-        } elseif (strlen($targetuid) == 36) {
+        } elseif (nullSafeStrLen($targetuid) == 36) {
             $load_status = $avatar->loadByAvatarUUID($targetuid);
         }
         if ($load_status->status == false) {

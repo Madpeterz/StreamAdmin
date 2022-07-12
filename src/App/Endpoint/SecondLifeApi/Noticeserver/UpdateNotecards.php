@@ -177,13 +177,13 @@ class UpdateNotecards extends SecondlifeAjax
             $onfield = "setupNotecardLink";
         }
         if ($reply->status == false) {
-            $this->addError("Load:" . $reply["message"]);
+            $this->addError("Load:" . $reply->message);
             return false;
         }
         if ($packageSet_welcome->getCount() > 0) {
             $reply = $packageSet_welcome->updateFieldInCollection($onfield, 1);
             if ($reply->status == false) {
-                $this->addError("Update:" . $reply["message"]);
+                $this->addError("Update:" . $reply->message);
                 return false;
             }
         }

@@ -103,8 +103,7 @@ class SecondlifeApiNoticeserver extends TestCase
     protected function setupPost(string $target)
     {
         global $_POST, $system;
-        $_POST["method"] = "Noticeserver";
-        $_POST["action"] = $target;
+        $system->forceProcessURI("Noticeserver/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -114,8 +113,6 @@ class SecondlifeApiNoticeserver extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -131,7 +128,7 @@ class SecondlifeApiNoticeserver extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Noticeserver".$target.implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

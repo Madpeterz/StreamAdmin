@@ -67,7 +67,7 @@ class Manage extends View
         $testOutput = new GetPackages();
         $testOutput->ProcessWithTreevenderID($treevender->getId());
         $testing = $testOutput->captureOutput();
-        if (strlen($testing) > 9000) {
+        if (nullSafeStrLen($testing) > 9000) {
             $this->output->addSwapTagString(
                 "page_content",
                 '<div class="alert alert-danger" role="alert">The current setup will fail to talk with SL<br/>

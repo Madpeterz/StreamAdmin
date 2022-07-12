@@ -17,30 +17,15 @@ class Sys_Test extends TestCase
         $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
 
         $this->assertSame("nowork",$json_obj["message"],"incorrect reply");
-        $this->assertSame(true,$json_obj->status,"marked as failed");
-    }
-
-    public function test_SysSwitchboardViaPublichtml()
-    {
-        $this->SetupPost();
-        include "src/public_html/sys.php";
-        $json_obj = json_decode($this->getActualOutputForAssertion(),true);
-        $this->assertSame(true,array_key_exists("message",$json_obj),"Message missing from output: ".$this->getActualOutputForAssertion());
-        $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
-
-        $this->assertSame("nowork",$json_obj["message"],"incorrect reply");
-        $this->assertSame(true,$json_obj->status,"marked as failed");
+        $this->assertSame(true,$json_obj["status"],"marked as failed");
     }
 
     protected function SetupPost()
     {
         global $_POST, $system;
-        $_POST["method"] = "Notecard";
-        $_POST["action"] = "Next";
+        $system->forceProcessURI("Notecard/Next");
         $_POST["mode"] = "test";
         $storage = [
-            "method",
-            "action",
             "mode",
         ];
         $real = [];
@@ -49,7 +34,7 @@ class Sys_Test extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getHttpInboundSecret();
+        $raw = time()  . "NotecardNext". implode("",$real) . $system->getSlConfig()->getHttpInboundSecret();
         $_POST["hash"] = sha1($raw);
     }
 }

@@ -11,8 +11,7 @@ class SecondlifeApiTexturepack extends TestCase
     {
         global $_POST, $system;
         $this->assertSame(1,$system->getSlConfig()->getId(1),"config not loaded");
-        $_POST["method"] = "Texturepack";
-        $_POST["action"] = "Getpack";
+        $system->forceProcessURI("Texturepack/Getpack");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -22,8 +21,6 @@ class SecondlifeApiTexturepack extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -39,7 +36,7 @@ class SecondlifeApiTexturepack extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "TexturepackGetpack" . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["texturepack"] = 1;
         $GetPack = new Getpack();
@@ -69,7 +66,7 @@ class SecondlifeApiTexturepack extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "TexturepackGetpack". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $GetPack = new GetPack();
         $this->assertSame(true,$GetPack->getLoadOk(),"Load ok failed");

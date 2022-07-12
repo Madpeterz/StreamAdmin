@@ -8,7 +8,7 @@ class FromAvatar extends Forms
     {
 
         $avd = $this->input->get("avatarsearch")->asString();
-        if (strlen($avd) < 3) {
+        if (nullSafeStrLen($avd) < 3) {
             $this->output->redirectWithMessage("transactions", "Please enter 3 letters/numbers at min");
             return;
         }

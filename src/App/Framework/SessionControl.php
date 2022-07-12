@@ -87,11 +87,12 @@ class SessionControl extends SqlConnectedClass
         int $length = 42
     ): string {
         $newhash = hash("sha256", implode("", [$arg1,$arg2,$arg3,$arg4]));
-        if (strlen($newhash) > $length) {
+        if (nullSafeStrLen($newhash) > $length) {
             $newhash = substr($newhash, 0, $length);
         }
         return $newhash;
     }
+
     protected function vaildatelhash(): bool
     {
         $this->createMainObject();

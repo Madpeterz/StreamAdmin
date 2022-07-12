@@ -111,16 +111,16 @@ class Next extends SecondlifeAjax
             $endpoint = "streamadmin/FetchNextNotecard/" . $this->botconfig->getHttpToken();
             $results = $this->restPost($endpoint, $postArgs);
         }
-        if ($results->status == false) {
-            $this->failed($results->message);
+        if ($results["status"] == false) {
+            $this->failed($results["message"]);
             return;
         }
-        $jsonReply = json_decode($results->message, true);
+        $jsonReply = json_decode($results["message"], true);
         if (array_key_exists("status", $jsonReply) == false) {
-            $this->failed("Reply is not formated as expected " . $results->message);
+            $this->failed("Reply is not formated as expected " . $results["message"]);
         }
         if (array_key_exists("reply", $jsonReply) == false) {
-            $this->failed("Reply is not formated as expected " . $results->message);
+            $this->failed("Reply is not formated as expected " . $results["message"]);
         }
         if ($jsonReply->status == false) {
             $this->failed($jsonReply["reply"]);
@@ -152,7 +152,7 @@ class Next extends SecondlifeAjax
     {
         $reply = $command->removeEntry();
         if ($reply->status == false) {
-            $this->failed("Unable to remove command from the Q because:" . $reply["message"]);
+            $this->failed("Unable to remove command from the Q because:" . $reply->message);
             return false;
         }
         return true;

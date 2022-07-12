@@ -90,7 +90,7 @@ class Bulk extends View
             $source_id = 1;
             $ok = true;
         }
-        if (strlen($message) < 10) {
+        if (nullSafeStrLen($message) < 10) {
             $this->output->redirectWithMessage("outbox", "Message is to short", "warning");
             return;
         }

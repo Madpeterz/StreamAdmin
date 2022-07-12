@@ -56,6 +56,7 @@ class SecondlifeApiTree extends TestCase
     public function test_Getpackages()
     {
         global $_POST, $system;
+        $system->forceProcessURI("Tree/Getpackages");
         $_POST["method"] = "Tree";
         $_POST["action"] = "Getpackages";
         $_POST["mode"] = "test";
@@ -67,8 +68,6 @@ class SecondlifeApiTree extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -84,7 +83,7 @@ class SecondlifeApiTree extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "TreeGetpackages" . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $treevender = new Treevender();
         $this->assertSame(true,$treevender->loadByName("Demo")->status,"Load ok failed");

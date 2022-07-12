@@ -15,7 +15,7 @@ class DefaultView extends View
     public function process(): void
     {
         $search = trim($this->input->get("search")->asString());
-        if (strlen($search) < 3) {
+        if (nullSafeStrLen($search) < 3) {
             $this->setSwapTag("page_content", "Sorry search requires 3 or more letters");
             return;
         }

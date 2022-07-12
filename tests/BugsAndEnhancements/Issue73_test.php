@@ -17,7 +17,7 @@ class Issue73 extends TestCase
         $botmessageQ = new BotcommandqSet();
         $botmessageQ->loadAll();
         $status = $botmessageQ->purgeCollection();
-        $this->assertSame(1,$status["removed_entrys"],"Incorrect number of bot commands removed: ".json_encode($status));
+        $this->assertSame(1,$status->itemsRemoved,"Incorrect number of bot commands removed: ".json_encode($status));
         $this->assertSame(true,$status->status,"bot comamnds purge has failed");
         unset($messageSet);
     }
@@ -69,19 +69,16 @@ class Issue73 extends TestCase
     public function test_SlService()
     {       
         global $_POST, $system;
-        $_POST["method"] = "Botcommandq";
-        $_POST["action"] = "Next";
+        $system->forceProcessURI("Botcommandq/Next");
         $_POST["mode"] = "botcommandqserver";
         $_POST["objectuuid"] = "b36971ef-f2a5-f461-425c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["ownername"] = "Madpeter Zond";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -97,7 +94,7 @@ class Issue73 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."BotcommandqNext". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $Next = new Next();
         $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -136,9 +133,10 @@ class Issue73 extends TestCase
             define("TESTING",true);
         }
         global $_SERVER;
-        $_SERVER["argv"]["t"] = "BotcommandQ";
+        $_SERVER["argv"] = [];
+        $_SERVER["argv"]["t"] = "BotCommandQ";
         $_SERVER["argv"]["b"] = "true";
-        include "src/App/CronJob/CronTab.php";
+        require "src/App/CronTab.php";
         $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
 
@@ -149,19 +147,16 @@ class Issue73 extends TestCase
     protected function setupPostBuy(string $target)
     {
         global $_POST, $system;
-        $_POST["method"] = "Buy";
-        $_POST["action"] = $target;
+        $system->forceProcessURI("Buy/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["ownername"] = "Madpeter Zond";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -177,7 +172,7 @@ class Issue73 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

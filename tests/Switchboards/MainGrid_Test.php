@@ -10,8 +10,6 @@ class MainGrid extends TestCase
 {
     public function test_MainGrid()
     {
-        global $system;
-        $system->forceProcessURI("");
         $this->SetupPost();
         
         new SwitchboardMainGrid();
@@ -23,29 +21,14 @@ class MainGrid extends TestCase
 
         $this->assertSame("ok",$json_obj["message"],"incorrect reply");
         $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["Texture-Offline"],"incorrect reply");
-        $this->assertSame("1",$json_obj->status,"marked as failed");
+        $this->assertSame("1",$json_obj["status"],"marked as failed");
 
-    }
-
-    public function test_MainGridViaPublichtml()
-    {
-        $this->SetupPost();
-        include "src/public_html/api.php";
-        $json_obj = json_decode($this->getActualOutputForAssertion(),true);
-        $this->assertSame(true,array_key_exists("message",$json_obj),"Message missing from output: ".$this->getActualOutputForAssertion());
-        $this->assertSame(true,array_key_exists("Texture-Offline",$json_obj),"Texture-Offline missing from output: ".$this->getActualOutputForAssertion());
-        $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
-
-        $this->assertSame("ok",$json_obj["message"],"incorrect reply");
-        $this->assertSame("718fdaf8-df99-5c7f-48fb-feb94db12675",$json_obj["Texture-Offline"],"incorrect reply");
-        $this->assertSame("1",$json_obj->status,"marked as failed");
     }
 
     protected function SetupPost()
     {
         global $_POST, $system;
-        $_POST["method"] = "Texturepack";
-        $_POST["action"] = "Getpack";
+        $system->forceProcessURI("Texturepack/Getpack");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -55,8 +38,6 @@ class MainGrid extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -72,7 +53,7 @@ class MainGrid extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."TexturepackGetpack". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["texturepack"] = 1;
     }

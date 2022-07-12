@@ -17,7 +17,7 @@ class SystemApiNotecard extends TestCase
         $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $this->assertNotEquals("",$Next->getOutputObject()->getSwapTagString("AvatarUUID"),"AvatarUUID is empty");
-        $this->assertSame(36,strlen($Next->getOutputObject()->getSwapTagString("AvatarUUID")),"AvatarUUID is to short");
+        $this->assertSame(36,nullSafeStrLen($Next->getOutputObject()->getSwapTagString("AvatarUUID")),"AvatarUUID is to short");
         $this->assertNotEquals("",$Next->getOutputObject()->getSwapTagString("NotecardTitle"),"NotecardTitle is empty");
         $this->assertNotEquals("",$Next->getOutputObject()->getSwapTagString("NotecardContent"),"NotecardContent is empty");
     }

@@ -23,13 +23,14 @@ class DefaultView extends View
         $wherevalues = [];
         $wheretypes = [];
         $wherematchs = [];
-        if (strlen($uuid) == 36) {
+
+        if (nullSafeStrLen($uuid) == 36) {
             $match_with = "uuid";
             $wherefields = ["avatarUUID"];
             $wherevalues = [$uuid];
             $wheretypes = ["s"];
             $wherematchs = ["="];
-        } elseif (strlen($name) >= 2) {
+        } elseif (nullSafeStrLen($name) >= 2) {
             $match_with = "name";
             $wherefields = ["avatarName"];
             $wherevalues = [$name];

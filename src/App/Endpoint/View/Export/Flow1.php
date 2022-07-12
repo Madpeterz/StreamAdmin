@@ -68,7 +68,7 @@ class Flow1 extends ExcelSheet
             }
             $rental = $clients->getObjectByField("streamLink", $stream->getId());
             if ($rental != null) {
-                if (strlen($rental->getMessage()) > 0) {
+                if (nullSafeStrLen($rental->getMessage()) > 0) {
                     $comments = $rental->getMessage();
                 }
                 $clientName = "-Taken-";

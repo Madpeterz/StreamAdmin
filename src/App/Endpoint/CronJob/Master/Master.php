@@ -6,9 +6,9 @@ use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Models\Avatar;
 use App\Models\Objects;
-use App\Models\Slconfig;
+use App\Template\SystemApiAjax;
 
-abstract class Master
+abstract class Master extends SystemApiAjax
 {
     protected string $cronName = "";
     protected int $cronID = 0;
@@ -25,30 +25,16 @@ abstract class Master
     protected float $avgSleep = 0;
     protected array $tickOffsets = [];
 
-    public function doWork(int $forceSetGroups = 15): void
-    {
-        $this->groups = $forceSetGroups;
-        if ($this->lockMaxGroups != null) {
-            if ($this->groups > $this->lockMaxGroups) {
-                $this->groups = $this->lockMaxGroups;
-            }
-        }
-        $this->process();
-    }
-
     protected function report(): void
     {
-        $output = [
-            "task" => $this->cronName,
-            "ticks" => $this->ticks,
-            "sleep" => $this->sleepTime,
-            "startTime" => date("H:i:s", $this->startMicrotime),
-            "endTime" => date("H:i:s", $this->endMicrotime),
-            "totalTime" => date("i:s", $this->endMicrotime - $this->startMicrotime),
-            "avgSleepPerTick" => $this->avgSleep,
-            "offsets" => json_encode($this->tickOffsets),
-        ];
-        echo json_encode($output) . "\n";
+        $this->setSwapTag("task", $this->cronName);
+        $this->setSwapTag("ticks", $this->ticks);
+        $this->setSwapTag("sleep", $this->sleepTime);
+        $this->setSwapTag("startTime", date("H:i:s", $this->startMicrotime));
+        $this->setSwapTag("endTime", date("H:i:s", $this->endMicrotime));
+        $this->setSwapTag("totalTime", date("i:s", $this->endMicrotime - $this->startMicrotime));
+        $this->setSwapTag("avgSleepPerTick", $this->avgSleep);
+        $this->setSwapTag("offsets", json_encode($this->tickOffsets));
     }
 
     protected function splitLooper(): bool
@@ -66,7 +52,7 @@ abstract class Master
                 $sleeps++;
                 $totalsleep += $nextDelay;
                 $this->sleepTime += $nextDelay;
-                sleep($nextDelay);
+                sleep(round($nextDelay));
             }
             $dif = time() - $startUnixTime;
             $this->tickOffsets[] = $dif;
@@ -99,13 +85,12 @@ abstract class Master
     protected function doTask(): bool
     {
         $task = new $this->cronRunClass();
-        $task->setOwnerOverride(true);
         $task->process();
         return $task->getOutputObject()->getSwapTagBool("status");
     }
     protected function save(bool $hadError = false): void
     {
-        global $sql, $cache;
+        global $system, $cache;
         if (($hadError == false) && ($this->myObject != null)) {
             $this->myObject->setLastSeen(time());
             $updateObj = $this->myObject->updateEntry();
@@ -118,16 +103,17 @@ abstract class Master
             if ($cache != null) {
                 $cache->shutdown(); // push changes to cache now.
             }
-            $sql->sqlSave(false); // push changes to DB now.
+            $system->getSQL()->sqlSave(false); // push changes to DB now.
             return;
         }
         if ($cache != null) {
             $cache->purge(); // something is wrong purge the cache.
-            $sql->sqlRollBack(); // something is wrong undo any changes.
+            $system->getSQL()->sqlRollBack(); // something is wrong undo any changes.
         }
     }
     protected function startup(): bool
     {
+        global $system;
         if ($this->cronID != 1) {
             // delay startup by 2 sec so regions can be created
             sleep(2);
@@ -142,9 +128,9 @@ abstract class Master
         }
         $region = $regionHelper->getRegion();
 
-        $slconfig = new Slconfig();
-        if ($system->getSlConfig()->loadID(1)->status == false) {
-            echo "task: " . $this->cronName . " - Unable to load system config:" . $system->getSlConfig()->getLastErrorBasic();
+        if ($system->getSlConfig()->isLoaded() == false) {
+            echo "task: " . $this->cronName . " - Unable to load system config:"
+            . $system->getSlConfig()->getLastErrorBasic();
             return false;
         }
 
@@ -173,8 +159,17 @@ abstract class Master
 
         return true;
     }
-    protected function process(): void
+    public function process(): void
     {
+        $this->groups = 15;
+        if (defined("TESTING") == true) {
+            $this->groups = 1;
+        }
+        if ($this->lockMaxGroups != null) {
+            if ($this->groups > $this->lockMaxGroups) {
+                $this->groups = $this->lockMaxGroups;
+            }
+        }
         $this->startMicrotime = microtime(true);
         if ($this->startup() == false) {
             return;

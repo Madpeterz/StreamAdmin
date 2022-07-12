@@ -12,6 +12,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 include "../../vendor/autoload.php";
+include "../Framework/Functions.php";
 
 global $system;
 $system = new Config();

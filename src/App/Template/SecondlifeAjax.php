@@ -17,8 +17,6 @@ use YAPF\InputFilter\InputFilter;
 abstract class SecondlifeAjax extends TemplateViewAjax
 {
     protected bool $trackObject = true;
-    protected ?string $method = "";
-    protected ?string $action = "";
     protected $mode = "";
     protected $objectuuid = "";
     protected $regionname = "";
@@ -118,8 +116,6 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             return;
         }
         $required_sl = [
-            "method" => "s",
-            "action" => "s",
             "mode" => "s",
             "objectuuid" => "k",
             "regionname" => "s",
@@ -129,6 +125,8 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             "objectname" => "s",
             "objecttype" => "s",
         ];
+
+        $this->staticpart = $this->config->getModule() . "" . $this->config->getArea();
 
         foreach ($required_sl as $fieldname => $typematch) {
             $value = $this->input->post($fieldname)->checkStringLengthMin(1)->asString();
@@ -167,7 +165,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->failed("Unable to vaildate request to API endpoint: ");
+            $this->failed("Unable to vaildate request to API endpoint: " . $raw);
             return;
         }
         $this->continueHashChecks(false);

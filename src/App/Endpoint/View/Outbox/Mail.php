@@ -17,7 +17,7 @@ class Mail extends View
         foreach ($message_set as $message) {
             $avatar = $avatar_set->getObjectByID($message->getAvatarLink());
             $message_content = $message->getMessage();
-            if (strlen($message_content) > 24) {
+            if (nullSafeStrLen($message_content) > 24) {
                 $message_content = substr($message_content, 0, 24) . " ...";
             }
             $entry = [];

@@ -122,8 +122,10 @@ class Update extends ControlAjax
         $transfer_avataruid = $this->input->post("transfer_avataruid")->asString();
         // message
         $this->message = $this->input->post("message")->asString();
-        if (strlen($this->message) < 1) {
-            $this->message = null;
+        if ($this->message != null) {
+            if (nullSafeStrLen($this->message) < 1) {
+                $this->message = null;
+            }
         }
 
         if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
@@ -132,11 +134,13 @@ class Update extends ControlAjax
             return;
         }
 
-        if (strlen($transfer_avataruid) == 8) {
-            $this->transerRental($rental, $transfer_avataruid);
-            if ($this->issues != "") {
-                $this->failed($this->issues);
-                return;
+        if ($transfer_avataruid != null) {
+            if (nullSafeStrLen($transfer_avataruid) == 8) {
+                $this->transerRental($rental, $transfer_avataruid);
+                if ($this->issues != "") {
+                    $this->failed($this->issues);
+                    return;
+                }
             }
         }
 
@@ -147,6 +151,7 @@ class Update extends ControlAjax
                 return;
             }
         }
+
         if ($this->message != $rental->getMessage()) {
             $rental->setMessage($this->message);
             $this->actions_taken .= "\n Message Updated";

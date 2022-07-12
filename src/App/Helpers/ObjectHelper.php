@@ -25,7 +25,7 @@ class ObjectHelper
         string $pos
     ): bool {
         $this->object = new Objects();
-        if (strlen($objectUUID) != 36) {
+        if (nullSafeStrLen($objectUUID) != 36) {
             return false;
         }
         if ($this->object->loadByObjectUUID($objectUUID)->status == false) {

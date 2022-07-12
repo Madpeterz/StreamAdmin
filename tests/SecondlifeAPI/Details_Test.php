@@ -11,8 +11,7 @@ class SecondlifeApiDetails extends TestCase
     public function test_Resend()
     {
         global $_POST, $system;
-        $_POST["method"] = "Details";
-        $_POST["action"] = "Resend";
+        $system->forceProcessURI("Details/Resend");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -22,8 +21,6 @@ class SecondlifeApiDetails extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -39,7 +36,7 @@ class SecondlifeApiDetails extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "DetailsResend".implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
 

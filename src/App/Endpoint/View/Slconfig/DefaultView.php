@@ -13,9 +13,9 @@ class DefaultView extends View
         if ($input === null) {
             return null;
         }
-        if (strlen($input) < $minlen) {
+        if (nullSafeStrLen($input) < $minlen) {
             return "! Needs Reissue !";
-        } elseif (strlen($input) > $maxlen) {
+        } elseif (nullSafeStrLen($input) > $maxlen) {
             return "! Needs Reissue !";
         }
         return $input;

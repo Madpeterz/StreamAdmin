@@ -15,7 +15,7 @@ class Issue71 extends TestCase
     {       
         $EventsqSet = new EventsqSet();
         $reply = $EventsqSet->countInDB();
-        $this->assertSame(8,$reply,"Current number of events in the Q is not correct");
+        $this->assertSame(7,$reply,"Current number of events in the Q is not correct");
     }
 
     /**
@@ -25,7 +25,7 @@ class Issue71 extends TestCase
     {
         global $_POST;
         $this->setupPost("Renewnow");
-        $_POST["avatarUUID"] = "40000000-0000-0000-2800-000000000000";
+        $_POST["avatarUUID"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $Details = new Details();
         $Details->process();
         $outputObj = $Details->getOutputObject();
@@ -37,13 +37,13 @@ class Issue71 extends TestCase
         $this->setupPost("Costandtime");
         $_POST["rentalUid"] = $split[0];
         $rentalOld = new Rental();
-        $this->assertSame(true,$rentalOld->loadByRentalUid($split[0]),"Unable to load rental before to check changes");
-        $this->assertSame(3,$rentalOld->getRenewals(),"Renewals value is not zero as expected");
+        $this->assertSame(true,$rentalOld->loadByRentalUid($split[0])->status,"Unable to load rental before to check changes");
+        $this->assertSame(0,$rentalOld->getRenewals(),"Renewals value is not zero as expected");
         $Costandtime = new Costandtime();
         $Costandtime->process();
-        $_POST["avatarUUID"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["avatarName"] = "Madpeter Zond";
-        $_POST["amountpaid"] = 444;
+        $_POST["avatarUUID"] = "c46971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["avatarName"] = "James Pond";
+        $_POST["amountpaid"] = 200;
         $Renewnow = new Renewnow();
         $this->assertSame("ready",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Renewnow->getLoadOk(),"Load ok failed");
@@ -55,7 +55,7 @@ class Issue71 extends TestCase
         );
         $this->assertSame(true,$Renewnow->getOutputObject()->getSwapTagBool("status"),"marked as failed");
         $rentalNew = new Rental();
-        $this->assertSame(true,$rentalNew->loadByRentalUid($split[0]),"Unable to load rental after to check changes");
+        $this->assertSame(true,$rentalNew->loadByRentalUid($split[0])->status,"Unable to load rental after to check changes");
         $this->assertSame(4,$rentalNew->getRenewals(),"Renewals value did not change");
     }
 
@@ -66,7 +66,7 @@ class Issue71 extends TestCase
     {       
         $EventsqSet = new EventsqSet();
         $reply = $EventsqSet->countInDB();
-        $this->assertSame(9,$reply,"Current number of events in the Q is not correct");
+        $this->assertSame(8,$reply,"Current number of events in the Q is not correct");
     }
 
     /**
@@ -85,19 +85,16 @@ class Issue71 extends TestCase
     protected function setupPost(string $target)
     {
         global $_POST, $system;
-        $_POST["method"] = "Renew";
-        $_POST["action"] = $target;
+        $system->forceProcessURI("Renew/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
-        $_POST["ownerkey"] = "289c3e36-69b3-40c5-9229-0c6a5d230766";
-        $_POST["ownername"] = "Madpeter Zond";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -113,7 +110,7 @@ class Issue71 extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."Renew".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

@@ -15,14 +15,13 @@ class Issue43 extends TestCase
     protected $package = null;
     public function test_updateRentalPackageLink()
     {        
-        global $sql, $system, $_POST;
+        global $system, $_POST;
         $packages = new PackageSet();
         $packages->loadNewest();
         $targetPackage = $packages->getFirst();
 
         $package = new Package();
         $package->setPackageUid("is43");
-        $package->setApiTemplate("is43");
         $package->setName("is43");
         $package->setTextureInstockSelected("289c3e36-69b3-40c5-9229-0c6a5d230766");
         $package->setTextureInstockSmall("289c3e36-69b3-40c5-9229-0c6a5d230766");
@@ -44,7 +43,7 @@ class Issue43 extends TestCase
         $rental->setPackageLink($package->getId());
         $rental->updateEntry();
 
-        $sql->sqlSave();
+        $system->getSQL()->sqlSave();
 
         $manageProcess = new Update();
         $system->setPage($stream->getStreamUid());
@@ -52,7 +51,6 @@ class Issue43 extends TestCase
         $_POST["packageLink"] = $targetPackage->getId(); // package to move to.
         $_POST["serverLink"] = $stream->getServerLink();
         $_POST["mountpoint"] = $stream->getMountpoint();
-        $_POST["originalAdminUsername"] = $stream->getAdminUsername();
         $_POST["adminUsername"] = $stream->getAdminUsername();
         $_POST["adminPassword"] = $stream->getAdminPassword();
         $_POST["djPassword"] = $stream->getDjPassword();
@@ -62,7 +60,7 @@ class Issue43 extends TestCase
         $this->assertStringContainsString("Stream updated",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
-        $sql->sqlSave();
+        $system->getSQL()->sqlSave();
 
         $rental_test = new Rental();
         $rental_test->loadID($rental->getId());

@@ -41,12 +41,12 @@ abstract class SystemApiAjax extends ViewAjax
         if ($this->load_ok == false) {
             return;
         }
-        if (strlen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) < 5) {
+        if (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) < 5) {
             $this->load_ok = false;
             $this->failed("httpcode length must be 5 or longer");
             return;
         }
-        if (strlen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 30) {
+        if (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 30) {
             $this->failed("httpcode length must be 30 or less");
             $this->load_ok = false;
             return;

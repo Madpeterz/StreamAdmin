@@ -28,8 +28,7 @@ class SecondlifeApiProxyrenew extends TestCase
     protected function setupPost(string $target)
     {
         global $_POST, $system;
-        $_POST["method"] = "Proxyrenew";
-        $_POST["action"] = $target;
+        $system->forceProcessURI("Proxyrenew/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -39,8 +38,6 @@ class SecondlifeApiProxyrenew extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -56,7 +53,7 @@ class SecondlifeApiProxyrenew extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Proxyrenew".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

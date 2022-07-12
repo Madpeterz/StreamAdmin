@@ -93,6 +93,7 @@ class SecondlifeApiRenew extends TestCase
     protected function setupPost(string $target)
     {
         global $_POST, $system;
+        $system->forceProcessURI("Renew/".$target);
         $_POST["method"] = "Renew";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -104,8 +105,6 @@ class SecondlifeApiRenew extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -121,7 +120,7 @@ class SecondlifeApiRenew extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Renew".$target.implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

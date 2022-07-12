@@ -19,7 +19,7 @@ class RegionHelper
     public function loadOrCreate(string $regionname): bool
     {
         $this->region = new Region();
-        if (strlen($regionname) < 3) {
+        if (nullSafeStrLen($regionname) < 3) {
             $this->lastError = "Region name to short";
             return false;
         }

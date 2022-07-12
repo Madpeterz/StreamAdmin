@@ -11,16 +11,15 @@ class Update extends ControlAjax
     protected function forceReissue(): bool
     {
         $reissued = false;
-        if (strlen($this->siteConfig->getSlConfig()->getSlLinkCode()) > 10) {
+        if ($this->siteConfig->getSlConfig()->getSlLinkCode() == null) {
             $reissued = true;
-        }
-        if (strlen($this->siteConfig->getSlConfig()->getPublicLinkCode()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getSlLinkCode()) > 10) {
             $reissued = true;
-        }
-        if (strlen($this->siteConfig->getSlConfig()->getHudLinkCode()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getPublicLinkCode()) > 12) {
             $reissued = true;
-        }
-        if (strlen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getHudLinkCode()) > 12) {
+            $reissued = true;
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 12) {
             $reissued = true;
         }
         if ($reissued == true) {
@@ -43,10 +42,10 @@ class Update extends ControlAjax
         if ($hudAllowGroup == false) {
             $hudGroupLink = null;
         }
-        if (strlen($hudGroupLink) == 0) {
+        if (nullSafeStrLen($hudGroupLink) == 0) {
             $hudAllowGroup = false;
         }
-        if (strlen($hudDiscordLink) == 0) {
+        if (nullSafeStrLen($hudDiscordLink) == 0) {
             $hudAllowDiscord = false;
         }
         $hudAllowDetails = $this->input->post("hudAllowDetails")->asBool();

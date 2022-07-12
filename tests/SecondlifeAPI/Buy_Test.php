@@ -36,7 +36,7 @@ class SecondlifeApiBuy extends TestCase
             $reply = $stream->createEntry();
             if($reply->status == false) {
                 $allOk = false;
-                $why = $reply["message"];
+                $why = $reply->message;
                 break;
             }
             $port += 2;
@@ -123,8 +123,7 @@ class SecondlifeApiBuy extends TestCase
     protected function setupPost(string $target)
     {
         global $_POST, $system;
-        $_POST["method"] = "Buy";
-        $_POST["action"] = $target;
+        $system->forceProcessURI("Buy/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -134,8 +133,6 @@ class SecondlifeApiBuy extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
-            "method",
-            "action",
             "mode",
             "objectuuid",
             "regionname",
@@ -151,7 +148,7 @@ class SecondlifeApiBuy extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

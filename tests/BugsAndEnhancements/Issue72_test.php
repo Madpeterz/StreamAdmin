@@ -6,19 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class Issue72 extends TestCase
 {
-    public function test_crontabClientAutoSuspend()
-    {       
-        if(defined("TESTING") == false) { 
-            define("TESTING",true);
-        }
-        global $_SERVER;
-        $_SERVER["argv"]["t"] = "ClientAutoSuspend";
-        include "src/App/CronJob/CronTab.php";
-        $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
-    }
-    /**
-     * @depends test_crontabClientAutoSuspend
-     */
     public function test_DetailsServer()
     {       
         if(defined("TESTING") == false) { 
@@ -26,20 +13,7 @@ class Issue72 extends TestCase
         }
         global $_SERVER;
         $_SERVER["argv"]["t"] = "DetailsServer";
-        include "src/App/CronJob/CronTab.php";
-        $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
-    }
-    /**
-     * @depends test_crontabClientAutoSuspend
-     */
-    public function test_ApiRequestsServer()
-    {       
-        if(defined("TESTING") == false) { 
-            define("TESTING",true);
-        }
-        global $_SERVER;
-        $_SERVER["argv"]["t"] = "ApiRequests";
-        include "src/App/CronJob/CronTab.php";
+        require "src/App/CronTab.php";
         $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
     /**
@@ -52,7 +26,7 @@ class Issue72 extends TestCase
         }
         global $_SERVER;
         $_SERVER["argv"]["t"] = "DynamicNotecards";
-        include "src/App/CronJob/CronTab.php";
+        require "src/App/CronTab.php";
         $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
 }

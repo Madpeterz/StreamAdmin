@@ -26,9 +26,9 @@ class Issue44 extends TestCase
         $transaction->setUnixtime(time());
         $transaction->setAmount(44);
         $createsStatus = $transaction->createEntry();
-        $this->assertSame("ok",$createsStatus["message"],"Failed to create transaction");
+        $this->assertSame("ok",$createsStatus->message,"Failed to create transaction");
         $this->assertSame(true,$createsStatus->status,"Failed to create transaction");
-        $sql->sqlSave();
+        $system->getSQL()->sqlSave();
 
         $system->setPage($package->getPackageUid());
         $removeProcess = new Remove();
@@ -37,7 +37,7 @@ class Issue44 extends TestCase
         $statuscheck = $removeProcess->getOutputObject();
         $this->assertStringContainsString("Package removed",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
-        $sql->sqlSave();
+        $system->getSQL()->sqlSave();
 
         $transaction_test = new Transactions();
         $status = $transaction_test->loadByTransactionUid("is44");
