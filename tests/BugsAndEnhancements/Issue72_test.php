@@ -17,7 +17,7 @@ class Issue72 extends TestCase
         $this->assertStringContainsString('"ticks":1,"sleep":0',$this->getActualOutputForAssertion(),"Reply from crontab is not as we expect");
     }
     /**
-     * @depends test_crontabClientAutoSuspend
+     * @depends test_DetailsServer
      */
     public function test_DynamicNotecards()
     {       

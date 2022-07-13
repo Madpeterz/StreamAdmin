@@ -53,12 +53,13 @@ abstract class SystemApiAjax extends ViewAjax
         }
 
         $bits = [$this->unixtime,$this->method,$this->action,$this->siteConfig->getSlConfig()->getHttpInboundSecret()];
-        $hashcheck = sha1(implode("", $bits));
+        $raw = implode("", $bits);
+        $hashcheck = sha1($raw);
         if ($this->token == $hashcheck) {
             return;
         }
         $this->load_ok = false;
-        $this->failed("Invaild token");
+        $this->failed("Invaild token: " . $raw);
     }
     protected function timeWindow(): void
     {

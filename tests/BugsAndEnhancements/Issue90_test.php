@@ -12,6 +12,7 @@ use App\Models\Avatar;
 use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Sets\DetailSet;
+use App\Models\Sets\NotecardSet;
 use App\Models\Sets\RentalSet;
 use PHPUnit\Framework\TestCase;
 
@@ -94,9 +95,14 @@ class Issue90 extends TestCase
 
         $detailsSet = new DetailSet();
         $detailsSet->loadAll();
-        $this->assertSame(3, $detailsSet->getCount(), "incorrect number of pending details requests");
+        $this->assertSame(2, $detailsSet->getCount(), "incorrect number of pending details requests");
         $reply = $detailsSet->purgeCollection();
         $this->assertSame(true, $reply->status, "Detail requests not removed");
+
+        $notecardSet = new NotecardSet();
+        $notecardSet->loadAll();
+        $reply = $notecardSet->purgeCollection();
+        $this->assertSame(1, $reply->itemsRemoved, "Incorrect number of pending notecards removed");
 
         $rentalSet = new RentalSet();
         $whereConfig = [

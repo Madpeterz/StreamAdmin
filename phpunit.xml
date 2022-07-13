@@ -3,21 +3,23 @@
   <php>
       <ini name="display_errors" value="On" />
       <ini name="display_startup_errors" value="On" />
+      <ini name="xdebug.mode" value="coverage" />
+      <env name="XDEBUG_MODE" value="coverage" />
   </php>
   <coverage>
     <include>
       <directory>src</directory>
     </include>
     <exclude>
-      <directory>src/App/R7</directory>
+      <directory>src/App/Models</directory>
       <directory>src/Gen</directory>
     </exclude>
   </coverage>
   <testsuites>
     <testsuite name="All">
-      <directory>tests/CreateDB</directory>
-      <directory>tests/Login</directory>
-      <directory>tests/ForcedActions</directory>
+      <file>tests/CreateDB/Database_Test.php</file>
+      <file>tests/Login/login_Test.php</file>
+      <file>tests/ForcedActions/forceactions_Test.php</file>
       <file>tests/WebUI/Avatar_Test.php</file>
       <file>tests/WebUI/Banlist_Test.php</file>
       <file>tests/WebUI/Bot_Test.php</file>
@@ -39,7 +41,8 @@
       <file>tests/WebUI/Textureconfig_Test.php</file>
       <file>tests/WebUI/Transactions_Test.php</file>
       <file>tests/WebUI/Tree_Test.php</file>
-      <directory>tests/Etc</directory>
+      <file>tests/Etc/Functions_Test.php</file>
+      <file>tests/Etc/Url_loading_Test.php</file>
       <file>tests/SecondlifeAPI/Object_Test.php</file>
       <file>tests/SecondlifeAPI/Texturepack_Test.php</file>
       <file>tests/SecondlifeAPI/Buy_Test.php</file>

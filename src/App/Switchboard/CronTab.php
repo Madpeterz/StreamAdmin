@@ -5,17 +5,14 @@ namespace App\Switchboard;
 class CronTab extends ConfigEnabled
 {
     protected string $targetEndpoint = "CronJob";
-    public function __construct()
+    protected function accessChecks(): bool
     {
-        global $system;
-        $this->siteConfig = $system;
         $options = $this->getOpts();
         if (array_key_exists("t", $options) == false) {
-            echo "task arg t is missing unable to continue: " . json_encode($options);
-            die();
+            return false;
         }
-        $this->siteConfig->setModule("Tasks");
-        $this->siteConfig->setArea($options["t"]);
-        parent::__construct();
+        $this->loadingModule = "Tasks";
+        $this->loadingArea = $options["t"];
+        return true;
     }
 }

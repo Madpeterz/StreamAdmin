@@ -28,54 +28,62 @@ class DefaultView extends HomeDisplayData
             "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
             <button type='button' class='btn btn-danger'>Invaild key</button></a>"
         );
-        $keyCheck = explode(":", $this->siteConfig->getSlConfig()->getPaymentKey());
-        if (count($keyCheck) != 3) {
-            return;
-        }
-        if (time() > $keyCheck[1]) {
+        if ($this->siteConfig->getSlConfig()->getPaymentKey() != null) {
+            $keyCheck = explode(":", $this->siteConfig->getSlConfig()->getPaymentKey());
+            if (count($keyCheck) != 3) {
+                return;
+            }
+            if (time() > $keyCheck[1]) {
+                $this->setSwapTag(
+                    "page_actions",
+                    "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
+                    <button type='button' class='btn btn-danger'>Expired key</button></a>"
+                );
+                return;
+            }
+            $webCheck = sha1($keyCheck[0] . "" . $keyCheck[1] . "web");
+            $webCheck = substr($webCheck, 0, 3);
+            if ($webCheck != $keyCheck[2]) {
+                $this->setSwapTag(
+                    "page_actions",
+                    "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
+                    <button type='button' class='btn btn-danger'>Invaild key</button></a>"
+                );
+                return;
+            }
+            $dif = $keyCheck[1] - time();
+            $mins = floor(($dif / 60));
+            $hours = floor(($mins / 60));
+            $days = floor($hours / 24);
+            $weeks = floor($days / 7);
+            $timeleftNice = $this->timeRemainingHumanReadable($keyCheck[1], false, "Expired");
+            $color = "info";
+            if ($weeks < 8) {
+                $color = "warning";
+            }
+            if ($weeks < 4) {
+                $color = "danger";
+            }
             $this->setSwapTag(
                 "page_actions",
                 "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
-                <button type='button' class='btn btn-danger'>Expired key</button></a>"
+                <button type='button' class='btn btn-" . $color . "'>" . $timeleftNice . "</button></a>"
             );
+            if (($weeks > (4 * 5))) {
+                $this->setSwapTag(
+                    "page_actions",
+                    "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
+                    <button type='button' class='btn btn-outline-dark'>
+                    <i class=\"fas fa-check text-success\"></i></button></a>"
+                );
+            }
             return;
-        }
-        $webCheck = sha1($keyCheck[0] . "" . $keyCheck[1] . "web");
-        $webCheck = substr($webCheck, 0, 3);
-        if ($webCheck != $keyCheck[2]) {
-            $this->setSwapTag(
-                "page_actions",
-                "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
-                <button type='button' class='btn btn-danger'>Invaild key</button></a>"
-            );
-            return;
-        }
-        $dif = $keyCheck[1] - time();
-        $mins = floor(($dif / 60));
-        $hours = floor(($mins / 60));
-        $days = floor($hours / 24);
-        $weeks = floor($days / 7);
-        $timeleftNice = $this->timeRemainingHumanReadable($keyCheck[1], false, "Expired");
-        $color = "info";
-        if ($weeks < 8) {
-            $color = "warning";
-        }
-        if ($weeks < 4) {
-            $color = "danger";
         }
         $this->setSwapTag(
             "page_actions",
             "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
-            <button type='button' class='btn btn-" . $color . "'>" . $timeleftNice . "</button></a>"
+            <button type='button' class='btn btn-danger'>No Key!</button></a>"
         );
-        if (($weeks > (4 * 5))) {
-            $this->setSwapTag(
-                "page_actions",
-                "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
-                <button type='button' class='btn btn-outline-dark'>
-                <i class=\"fas fa-check text-success\"></i></button></a>"
-            );
-        }
         return;
     }
 

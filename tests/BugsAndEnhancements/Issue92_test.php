@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\Client\NoticeOptout;
+use App\Endpoint\Control\Client\NoticeOptOut;
 use App\Endpoint\SecondLifeApi\Noticeserver\Next;
 use App\Endpoint\View\Client\Manage;
 use App\Models\Rental;
@@ -15,7 +15,7 @@ class Issue92 extends TestCase
     public function test_CheckCurrentMessageQ()
     {
         $MessageSet = new MessageSet();
-        $this->assertSame(7,$MessageSet->countInDB(),"Incorrect number of messages in the Q");
+        $this->assertSame(8,$MessageSet->countInDB(),"Incorrect number of messages in the Q");
     }
 
     /**
@@ -47,6 +47,7 @@ class Issue92 extends TestCase
      */
     public function test_ProcessNoticeChange()
     {
+        $this->setupPost("Noticeserver", "Next");
         $Next = new Next();
         $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
@@ -55,7 +56,9 @@ class Issue92 extends TestCase
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed");
 
         $rental = new Rental();
-        $this->assertSame(true,$rental->loadid(9),"Unable to load rental");
+        $reply = $rental->loadid(11);
+        $this->assertSame(true,$rental->isLoaded(),"Unable to load rental");
+        $this->assertSame(true, $reply->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
     }
 
@@ -65,7 +68,7 @@ class Issue92 extends TestCase
     public function test_ReCheckCurrentMessageQ()
     {
         $MessageSet = new MessageSet();
-        $this->assertSame(7,$MessageSet->countInDB(),"Incorrect number of messages in the Q");
+        $this->assertSame(8,$MessageSet->countInDB(),"Incorrect number of messages in the Q");
     }
 
     /**
@@ -76,7 +79,7 @@ class Issue92 extends TestCase
         global $system;
 
         $rental = new Rental();
-        $this->assertSame(true,$rental->loadid(9)->status,"Unable to load rental");
+        $this->assertSame(true,$rental->loadid(11)->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
         $system->setPage( $rental->getRentalUid());
         $manageForm  = new Manage();
@@ -96,17 +99,49 @@ class Issue92 extends TestCase
         global $_POST, $system;
 
         $rental = new Rental();
-        $this->assertSame(true,$rental->loadid(9)->status,"Unable to load rental");
+        $this->assertSame(true,$rental->loadid(11)->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
         $system->setPage( $rental->getRentalUid());
 
         $_POST["remove-optout-1"] = 1;
         $_POST["add-optout-6"] = 1;
-        $updateOptout = new NoticeOptout();
+        $updateOptout = new NoticeOptOut();
         $updateOptout->process();
         $statuscheck = $updateOptout->getOutputObject();
         $this->assertSame("Opt-outs updated enabled: 1 and removed 1",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+    }
+
+    protected function setupPost(string $module, string $target)
+    {
+        global $_POST, $system;
+        $system->forceProcessURI($module."/".$target);
+        $_POST["mode"] = "test";
+        $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["regionname"] = "Testing";
+        $_POST["ownerkey"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
+        $_POST["ownername"] = "MadpeterUnit ZondTest";
+        $_POST["pos"] = "123,123,55";
+        $_POST["objectname"] = "Testing Object";
+        $_POST["objecttype"] = "Test";
+        $storage = [
+            "mode",
+            "objectuuid",
+            "regionname",
+            "ownerkey",
+            "ownername",
+            "pos",
+            "objectname",
+            "objecttype",
+        ];
+        $real = [];
+        foreach($storage as $valuename)
+        {
+            $real[] = $_POST[$valuename];
+        }
+        $_POST["unixtime"] = time();
+        $raw = time()  .$module.$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $_POST["hash"] = sha1($raw);
     }
 
 }

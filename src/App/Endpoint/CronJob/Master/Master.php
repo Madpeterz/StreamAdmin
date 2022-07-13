@@ -6,9 +6,9 @@ use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Models\Avatar;
 use App\Models\Objects;
-use App\Template\SystemApiAjax;
+use App\Template\CronAjax;
 
-abstract class Master extends SystemApiAjax
+abstract class Master extends CronAjax
 {
     protected string $cronName = "";
     protected int $cronID = 0;

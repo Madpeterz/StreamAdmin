@@ -2,12 +2,12 @@
 
 namespace StreamAdminR7;
 
-use App\Models\Slconfig;
 use App\Switchboard\Sys;
 use PHPUnit\Framework\TestCase;
 
 class Sys_Test extends TestCase
 {
+    protected string $baked = "";
     public function test_SysSwitchboard()
     {
         $this->SetupPost();
@@ -16,25 +16,17 @@ class Sys_Test extends TestCase
         $this->assertSame(true,array_key_exists("message",$json_obj),"Message missing from output: ".$this->getActualOutputForAssertion());
         $this->assertSame(true,array_key_exists("status",$json_obj),"status missing from output: ".$this->getActualOutputForAssertion());
 
-        $this->assertSame("nowork",$json_obj["message"],"incorrect reply");
+        $this->assertSame("nowork",$json_obj["message"],"incorrect reply: ".$this->baked);
         $this->assertSame(true,$json_obj["status"],"marked as failed");
     }
 
     protected function SetupPost()
     {
-        global $_POST, $system;
+        global $system;
         $system->forceProcessURI("Notecard/Next");
-        $_POST["mode"] = "test";
-        $storage = [
-            "mode",
-        ];
-        $real = [];
-        foreach($storage as $valuename)
-        {
-            $real[] = $_POST[$valuename];
-        }
-        $_POST["unixtime"] = time();
-        $raw = time()  . "NotecardNext". implode("",$real) . $system->getSlConfig()->getHttpInboundSecret();
-        $_POST["hash"] = sha1($raw);
+        $unixtime = time();
+        $_POST["unixtime"] = $unixtime;
+        $this->baked = $unixtime  . "NotecardNext". $system->getSlConfig()->getHttpInboundSecret();
+        $_POST["hash"] = sha1($this->baked);
     }
 }
