@@ -3,7 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Package\Create;
-use App\Endpoint\SecondLifeApi\Tree\Getpackages;
+use App\Endpoint\Secondlifeapi\Tree\Getpackages;
 use App\Models\Package;
 use App\Models\Treevender;
 use App\Models\Treevenderpackages;

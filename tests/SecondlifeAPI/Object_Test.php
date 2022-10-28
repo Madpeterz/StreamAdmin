@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Object\Ping;
+use App\Endpoint\Secondlifeapi\Object\Ping;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiObject extends TestCase

@@ -2,8 +2,8 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Details\Send;
-use App\Endpoint\SecondLifeApi\Renew\Details;
+use App\Endpoint\Secondlifeapi\Details\Send;
+use App\Endpoint\Secondlifeapi\Renew\Details;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiDetails extends TestCase

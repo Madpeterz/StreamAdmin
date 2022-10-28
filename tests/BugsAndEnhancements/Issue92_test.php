@@ -3,7 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Control\Client\NoticeOptOut;
-use App\Endpoint\SecondLifeApi\Noticeserver\Next;
+use App\Endpoint\Secondlifeapi\Noticeserver\Next;
 use App\Endpoint\View\Client\Manage;
 use App\Models\Rental;
 use App\Models\Rentalnoticeptout;

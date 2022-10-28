@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Detailsserver\Next;
+use App\Endpoint\Secondlifeapi\Detailsserver\Next;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiDetailsserver extends TestCase

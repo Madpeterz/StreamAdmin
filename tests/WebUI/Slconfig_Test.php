@@ -2,8 +2,8 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\SlConfig\Update;
-use App\Endpoint\View\SlConfig\DefaultView;
+use App\Endpoint\Control\Slconfig\Update;
+use App\Endpoint\View\Slconfig\DefaultView;
 use App\Models\Avatar;
 use PHPUnit\Framework\TestCase;
 

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Stream;
 
-class NeedWork extends Withstatus
+class Needwork extends Withstatus
 {
     public function process(): void
     {

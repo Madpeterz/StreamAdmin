@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\ProxyRenew\Details;
+use App\Endpoint\Secondlifeapi\ProxyRenew\Details;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiProxyrenew extends TestCase

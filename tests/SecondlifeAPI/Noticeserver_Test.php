@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Noticeserver\Next;
-use App\Endpoint\SecondLifeApi\Noticeserver\UpdateNotecards;
-use App\Endpoint\SecondLifeApi\Renew\Details;
+use App\Endpoint\Secondlifeapi\Noticeserver\Next;
+use App\Endpoint\Secondlifeapi\Noticeserver\UpdateNotecards;
+use App\Endpoint\Secondlifeapi\Renew\Details;
 use App\Models\Rental;
 use App\Models\Sets\NoticenotecardSet;
 use PHPUnit\Framework\TestCase;

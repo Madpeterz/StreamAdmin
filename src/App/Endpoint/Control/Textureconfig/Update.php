@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\Control\TextureConfig;
+namespace App\Endpoint\Control\Textureconfig;
 
 use App\Models\Textureconfig;
 use App\Template\ControlAjax;

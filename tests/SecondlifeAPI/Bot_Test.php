@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Bot\NotecardSync;
+use App\Endpoint\Secondlifeapi\Bot\NotecardSync;
 use App\Models\Sets\BotcommandqSet;
 use PHPUnit\Framework\TestCase;
 

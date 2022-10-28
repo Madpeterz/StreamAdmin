@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\EventQ\Next;
+use App\Endpoint\Secondlifeapi\EventQ\Next;
 use App\Models\Sets\EventsqSet;
 use PHPUnit\Framework\TestCase;
 

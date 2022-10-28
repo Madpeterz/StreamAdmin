@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Renew\CostAndTime;
-use App\Endpoint\SecondLifeApi\Renew\Details;
-use App\Endpoint\SecondLifeApi\Renew\RenewNow;
+use App\Endpoint\Secondlifeapi\Renew\CostAndTime;
+use App\Endpoint\Secondlifeapi\Renew\Details;
+use App\Endpoint\Secondlifeapi\Renew\RenewNow;
 use App\Models\Rental;
 use PHPUnit\Framework\TestCase;
 

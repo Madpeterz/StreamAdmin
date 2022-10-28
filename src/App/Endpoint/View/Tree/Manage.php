@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\Endpoint\SecondLifeApi\Tree\GetPackages;
+use App\Endpoint\Secondlifeapi\Tree\GetPackages;
 use App\Models\Sets\PackageSet;
 use YAPF\Bootstrap\Template\Form;
 use App\Models\Treevender;

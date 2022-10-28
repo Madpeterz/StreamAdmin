@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\View\SlConfig;
+namespace App\Endpoint\View\Slconfig;
 
 use App\Models\Avatar;
 use YAPF\Bootstrap\Template\Form;

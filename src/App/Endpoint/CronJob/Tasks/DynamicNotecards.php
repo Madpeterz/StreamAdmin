@@ -8,5 +8,5 @@ class DynamicNotecards extends Master
 {
     protected string $cronName = "notecardsserver";
     protected int $cronID = 5;
-    protected string $cronRunClass = "App\\Endpoint\\SecondLifeApi\\Bot\\Notecardsync";
+    protected string $cronRunClass = "App\\Endpoint\\Secondlifeapi\\Bot\\Notecardsync";
 }

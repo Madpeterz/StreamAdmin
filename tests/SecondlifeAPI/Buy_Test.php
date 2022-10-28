@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Buy\CheckStock;
-use App\Endpoint\SecondLifeApi\Buy\GetConfig;
-use App\Endpoint\SecondLifeApi\Buy\StartRental;
+use App\Endpoint\Secondlifeapi\Buy\CheckStock;
+use App\Endpoint\Secondlifeapi\Buy\GetConfig;
+use App\Endpoint\Secondlifeapi\Buy\StartRental;
 use App\Models\Package;
 use App\Models\Stream;
 use PHPUnit\Framework\TestCase;

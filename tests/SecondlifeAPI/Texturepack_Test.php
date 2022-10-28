@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Texturepack\GetPack;
+use App\Endpoint\Secondlifeapi\Texturepack\GetPack;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiTexturepack extends TestCase

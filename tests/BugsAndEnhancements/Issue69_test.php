@@ -2,8 +2,8 @@
 
 namespace tests\BugReports;
 
-use App\Endpoint\SecondLifeApi\ClientAutoSuspend\Next as ClientAutoSuspendNext;
-use App\Endpoint\SecondLifeApi\Noticeserver\Next;
+use App\Endpoint\Secondlifeapi\ClientAutoSuspend\Next as ClientAutoSuspendNext;
+use App\Endpoint\Secondlifeapi\Noticeserver\Next;
 use App\Models\Rental;
 use App\Models\Sets\ApirequestsSet;
 use App\Models\Sets\BotcommandqSet;

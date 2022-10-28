@@ -4,9 +4,9 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Client\Revoke;
 use App\Endpoint\Control\Client\Update;
-use App\Endpoint\SecondLifeApi\Buy\StartRental;
-use App\Endpoint\SecondLifeApi\Noticeserver\Next;
-use App\Endpoint\SecondLifeApi\Renew\Renewnow;
+use App\Endpoint\Secondlifeapi\Buy\StartRental;
+use App\Endpoint\Secondlifeapi\Noticeserver\Next;
+use App\Endpoint\Secondlifeapi\Renew\Renewnow;
 use App\Helpers\NoticesHelper;
 use App\Models\Avatar;
 use App\Models\Package;

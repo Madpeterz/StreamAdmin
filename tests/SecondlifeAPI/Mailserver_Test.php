@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\SecondLifeApi\Mailserver\Next;
+use App\Endpoint\Secondlifeapi\Mailserver\Next;
 use App\Models\Sets\BotcommandqSet;
 use App\Models\Sets\MessageSet;
 use PHPUnit\Framework\TestCase;

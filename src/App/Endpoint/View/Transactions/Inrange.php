@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Transactions;
 
-class InRange extends Forms
+class Inrange extends Forms
 {
     public function process(): void
     {

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Transactions;
 
-class FromAvatar extends Forms
+class Fromavatar extends Forms
 {
     public function process(): void
     {
