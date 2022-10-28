@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Endpoint\Control\SlConfig;
+namespace App\Endpoint\Control\Slconfig;
 
 use App\Template\ControlAjax;
 
-class ReIssue extends ControlAjax
+class Reissue extends ControlAjax
 {
     protected function lazyPW(
         $length,

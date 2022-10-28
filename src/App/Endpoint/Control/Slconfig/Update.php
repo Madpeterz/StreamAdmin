@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Endpoint\Control\SlConfig;
+namespace App\Endpoint\Control\Slconfig;
 
 use App\Models\Avatar;
 use App\Models\Timezones;

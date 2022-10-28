@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Endpoint\Control\SlConfig;
+namespace App\Endpoint\Control\Slconfig;
 
 use App\Endpoint\View\Slconfig\PaymentKey;
 use App\Template\ControlAjax;
 
-class PaymentKeyUpdate extends ControlAjax
+class Paymentkeyupdate extends ControlAjax
 {
     public function process(): void
     {

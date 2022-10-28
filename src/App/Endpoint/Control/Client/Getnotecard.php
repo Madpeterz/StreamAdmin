@@ -6,7 +6,7 @@ use App\Helpers\SwapablesHelper;
 use App\Models\Rental;
 use App\Template\ControlAjax;
 
-class GetNotecard extends ControlAjax
+class Getnotecard extends ControlAjax
 {
     public function process(): void
     {

@@ -5,7 +5,7 @@ namespace App\Endpoint\Control\Stream;
 use App\Models\Sets\StreamSet;
 use App\Template\ControlAjax;
 
-class BulkUpdate extends ControlAjax
+class Bulkupdate extends ControlAjax
 {
     public function process(): void
     {

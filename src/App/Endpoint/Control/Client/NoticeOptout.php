@@ -8,7 +8,7 @@ use App\Models\Sets\NoticeSet;
 use App\Models\Sets\RentalnoticeptoutSet;
 use App\Template\ControlAjax;
 
-class NoticeOptOut extends ControlAjax
+class Noticeoptout extends ControlAjax
 {
     public function process(): void
     {
