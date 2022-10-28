@@ -11,12 +11,12 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     }
 }
 
-if (defined("TOPLEVEL") == false) {
-    define("TOPLEVEL", "../App/");
+if (defined("APPFOLDER") == false) {
+    define("APPFOLDER", "../App/");
 }
 
-include TOPLEVEL . "../vendor/autoload.php";
-include TOPLEVEL . "Framework/Functions.php";
+include APPFOLDER . "../../vendor/autoload.php";
+include APPFOLDER . "Framework/Functions.php";
 
 global $system;
 $system = new Config();
