@@ -11,8 +11,12 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     }
 }
 
-include "../../vendor/autoload.php";
-include "../Framework/Functions.php";
+if (defined("TOPLEVEL") == false) {
+    define("TOPLEVEL", "../App/");
+}
+
+include TOPLEVEL . "../vendor/autoload.php";
+include TOPLEVEL . "Framework/Functions.php";
 
 global $system;
 $system = new Config();
