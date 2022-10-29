@@ -20,8 +20,6 @@ abstract class Master extends CronAjax
 
     protected int $ticks = 0;
     protected int $sleepTime = 0;
-    protected float $startMicrotime = 0;
-    protected float $endMicrotime = 0;
     protected float $avgSleep = 0;
     protected array $tickOffsets = [];
 
@@ -30,9 +28,6 @@ abstract class Master extends CronAjax
         $this->setSwapTag("task", $this->cronName);
         $this->setSwapTag("ticks", $this->ticks);
         $this->setSwapTag("sleep", $this->sleepTime);
-        $this->setSwapTag("startTime", date("H:i:s", $this->startMicrotime));
-        $this->setSwapTag("endTime", date("H:i:s", $this->endMicrotime));
-        $this->setSwapTag("totalTime", date("i:s", $this->endMicrotime - $this->startMicrotime));
         $this->setSwapTag("avgSleepPerTick", $this->avgSleep);
         $this->setSwapTag("offsets", json_encode($this->tickOffsets));
     }
@@ -170,7 +165,6 @@ abstract class Master extends CronAjax
                 $this->groups = $this->lockMaxGroups;
             }
         }
-        $this->startMicrotime = microtime(true);
         if ($this->startup() == false) {
             return;
         }
@@ -179,7 +173,6 @@ abstract class Master extends CronAjax
         if ($hadError == true) {
             return;
         }
-        $this->endMicrotime = microtime(true);
         $this->save();
         $this->report();
     }
