@@ -1,6 +1,6 @@
 <body>
     <div class="container-fluid">
         <div class="row mt-1 justify-content-between">
-            <div class="col-1"><a href="[[SITE_URL]]"><img class="logo" src="[[SITE_URL]]images/logo.png" alt="logo"/></a></div>
+            <div class="col-1"><a href="[[SITE_URL]]"><img class="logo" src="[[SITE_URL]]img/logo.png" alt="logo"/></a></div>
         </div>
         <div class="row">
