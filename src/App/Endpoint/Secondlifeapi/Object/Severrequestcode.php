@@ -12,6 +12,6 @@ class Severrequestcode extends SecondlifeAjax
             $this->failed("SystemAPI access only - please contact support");
             return;
         }
-        $this->ok($this->siteConfig->getSlConfig()->getPaymentKey());
+        $this->ok(explode("*", $this->siteConfig->getSlConfig()->getPaymentKey())[0]);
     }
 }
