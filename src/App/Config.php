@@ -97,7 +97,7 @@ class Config extends BootstrapConfigBox
 
     public function setArea(string $area): void
     {
-        $this->area = ucfirst($area);
+        $this->area = $area;
     }
 
     public function shutdown(): void
