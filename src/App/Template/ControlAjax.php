@@ -19,11 +19,11 @@ abstract class ControlAjax extends ViewAjax
     }
     protected function redirectWithMessage(string $message, ?string $to = null): void
     {
-        $this->ok();
         if ($to === null) {
             $to = $this->method;
         }
-        $this->output->redirectWithMessage($to, $message);
+        $this->setSwapTag("redirect", $to);
+        $this->ok($message);
     }
     protected function ok(string $message = ""): void
     {
