@@ -35,7 +35,7 @@ class Bulkupdate extends View
         }
 
         foreach ($stream_set as $stream) {
-            $group_server_sets[$stream->getServerLink()] = $stream->getId();
+            $group_server_sets[$stream->getServerLink()][] = $stream->getId();
         }
 
         $form = new Form();
