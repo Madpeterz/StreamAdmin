@@ -29,8 +29,12 @@ class DefaultView extends HomeDisplayData
             <button type='button' class='btn btn-danger'>Invaild key</button></a>"
         );
         if ($this->siteConfig->getSlConfig()->getPaymentKey() != null) {
-            $keyCheck = explode(":", $this->siteConfig->getSlConfig()->getPaymentKey());
-            if (count($keyCheck) != 3) {
+            $webPart = explode("*", $this->siteConfig->getSlConfig()->getPaymentKey());
+            if (count($webPart) != 2) {
+                return;
+            }
+            $keyCheck = explode(":", $webPart[0]);
+            if (count($keyCheck) != 2) {
                 return;
             }
             if (time() > $keyCheck[1]) {

@@ -3,42 +3,43 @@
 namespace App\Endpoint\View\Slconfig;
 
 use YAPF\Bootstrap\Template\Form;
+use YAPF\Framework\Responses\DbObjects\SingleLoadReply;
 
 class PaymentKey extends View
 {
-    public function getKeyStatus(?string $checkKey, bool $giveTimeleft = true): string
+    public function getKeyStatus(?string $checkKey, bool $giveTimeleft = true): SingleLoadReply
     {
         if ($checkKey === null) {
-            return "No key";
+            return new SingleLoadReply("No Key");
         }
         $keyCore = explode("*", $checkKey);
         if (count($keyCore) != 2) {
-            return "Old";
+            return new SingleLoadReply("Old");
         }
         $webHash = $keyCore[1];
         $keyCheck = explode(":", $keyCore[0]);
         if (count($keyCheck) != 2) {
-            return "Invaild";
+            return new SingleLoadReply("Invaild");
         }
         $webCheck = sha1($keyCheck[0] . $this->siteConfig->getSiteURL() . $keyCheck[1] . "web");
         $webCheck = substr($webCheck, 0, 3);
         if ($webCheck != $webHash) {
-            return "Failed";
+            return new SingleLoadReply("Failed");
         }
         if (time() > $keyCheck[1]) {
-            return "Expired";
+            return new SingleLoadReply("Expired");
         }
         if ($giveTimeleft == true) {
-            return $this->timeRemainingHumanReadable($keyCheck[1], false, "Expired");
+            return new SingleLoadReply($this->timeRemainingHumanReadable($keyCheck[1], false, "Expired"), true);
         }
-        return "ok";
+        return new SingleLoadReply("ok", true);
     }
     public function process(): void
     {
         $this->setSwapTag("page_actions", "");
         $this->setSwapTag("html_title", " Payment key");
         $this->setSwapTag("page_title", " Payment key ~ Status: "
-        . $this->getKeyStatus($this->siteConfig->getSlConfig()->getPaymentKey()));
+        . $this->getKeyStatus($this->siteConfig->getSlConfig()->getPaymentKey())->message);
 
         $form = new Form();
         $form->target("Slconfig/PaymentKeyUpdate");
