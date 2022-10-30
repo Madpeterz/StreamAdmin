@@ -142,7 +142,7 @@ $(document).ready(function () {
         var actionTitle = $(this).data('actiontitle');
         $("#confirmModalForm").attr('action',actionEndpoint);
         $("#confirmModalButtonText").text(actionText);
-        $("#confirmModalContent").text(actionMessage);
+        $("#confirmModalContent").html(actionMessage);
         $("#confirmModalTitle").text(actionTitle);
         $("#confirmModal").modal('show');
     });
