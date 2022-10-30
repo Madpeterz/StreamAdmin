@@ -66,7 +66,6 @@ class Manage extends View
         while ($time_remaining < $this->siteConfig->unixtimeHour()) {
             $hours_remaining++;
             $time_remaining -= $this->siteConfig->unixtimeHour();
-            $hours_remaining++;
         }
         $package = $this->rental->relatedPackage()->getFirst();
         $est_refund_value_per_hour = ($package->getCost() / $package->getDays()) / 24;
