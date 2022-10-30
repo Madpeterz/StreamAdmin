@@ -25,7 +25,7 @@ class Issue92 extends TestCase
     {
         global $system;
         $rental = new Rental();
-        $this->assertSame(true,$rental->loadid(11)->status,"Unable to load rental");
+        $this->assertSame(true,$rental->loadid(12)->status,"Unable to load rental");
         $rental->setNoticeLink(10);
         $rental->setExpireUnixtime(time()+($system->unixtimeDay()*7)-$system->unixtimeHour());
         $this->assertSame(true,$rental->updateEntry()->status,"Failed to update rental");
@@ -37,7 +37,7 @@ class Issue92 extends TestCase
     public function test_AddOptOut()
     {
         $optOut = new Rentalnoticeptout();
-        $optOut->setRentalLink(11);
+        $optOut->setRentalLink(12);
         $optOut->setNoticeLink(1);
         $this->assertSame(true,$optOut->createEntry()->status,"Failed to create opt out");
     }
@@ -56,7 +56,7 @@ class Issue92 extends TestCase
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed");
 
         $rental = new Rental();
-        $reply = $rental->loadid(11);
+        $reply = $rental->loadid(12);
         $this->assertSame(true,$rental->isLoaded(),"Unable to load rental");
         $this->assertSame(true, $reply->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
@@ -79,7 +79,7 @@ class Issue92 extends TestCase
         global $system;
 
         $rental = new Rental();
-        $this->assertSame(true,$rental->loadid(11)->status,"Unable to load rental");
+        $this->assertSame(true,$rental->loadid(12)->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
         $system->setPage( $rental->getRentalUid());
         $manageForm  = new Manage();
@@ -99,7 +99,7 @@ class Issue92 extends TestCase
         global $_POST, $system;
 
         $rental = new Rental();
-        $this->assertSame(true,$rental->loadid(11)->status,"Unable to load rental");
+        $this->assertSame(true,$rental->loadid(12)->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
         $system->setPage( $rental->getRentalUid());
 

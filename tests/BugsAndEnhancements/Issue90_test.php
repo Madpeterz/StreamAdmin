@@ -246,7 +246,7 @@ class Issue90 extends TestCase
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
-        $this->assertSame(11, $rental->getId(), "Incorrect rental ID found!");
+        $this->assertSame(12, $rental->getId(), "Incorrect rental ID found!");
 
         $system->setPage($rental->getRentalUid());
         
@@ -265,7 +265,7 @@ class Issue90 extends TestCase
         $rental = new Rental();
         $reply = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true, $reply->status, "Failed to load rental via avatar ".$avatar->getId().": ".$reply->message);
-        $this->assertSame(11, $rental->getId(), "Incorrect rental ID found!");
+        $this->assertSame(12, $rental->getId(), "Incorrect rental ID found!");
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
         $this->assertSame(2,$rental->getNoticeLink(),"Incorrect notice level assigned");
     }
