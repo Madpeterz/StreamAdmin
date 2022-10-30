@@ -81,14 +81,14 @@ class Manage extends View
 
         $paged_info = new TemplatePagedInfo();
         $this->clientManageForm();
-        $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar);
+        $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar, $this->rental->getRentalUid());
         $this->clientMessageForm();
         $this->clientTransactions();
         $this->clientOptOut();
         $this->setSwapTag("page_content", $paged_info->render($this->pages));
     }
 
-    public function clientAllStreamsTable(Avatar $targetAvatar): string
+    public function clientAllStreamsTable(Avatar $targetAvatar, string $ignoreRentalUid = null): string
     {
         $rentalSet = $targetAvatar->relatedRental();
         $streamSet = $rentalSet->relatedStream();
@@ -97,6 +97,9 @@ class Manage extends View
         $tableHead = ["Server","Port","Package","Timeleft","Started","Renewals","Client page","Stream page"];
         $tableBody = [];
         foreach ($rentalSet as $rental) {
+            if ($rental->getRentalUid() == $ignoreRentalUid) {
+                continue;
+            }
             $entry = [];
             $stream = $streamSet->getObjectByID($rental->getStreamLink());
             $server = $this->servers->getObjectByID($stream->getServerLink());
