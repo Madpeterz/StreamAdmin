@@ -2,6 +2,9 @@
 
 namespace App\Endpoint\Control\Client;
 
+use App\Helpers\RegionHelper;
+use App\Helpers\ResellerHelper;
+use App\Helpers\TransactionsHelper;
 use App\Models\Avatar;
 use App\Models\Sets\AvatarSet;
 use App\Models\Sets\NoticeSet;
@@ -77,9 +80,8 @@ class Create extends ControlAjax
         foreach ($sorted_linked as $hours => $index) {
             if ($hours > $hours_remain) {
                 break;
-            } else {
-                $use_notice_index = $index;
             }
+            $use_notice_index = $index;
         }
 
         $avatar = $avatar_set->getFirst();
@@ -107,6 +109,32 @@ class Create extends ControlAjax
         $update_status = $stream->updateEntry();
         if ($update_status->status == false) {
             $this->failed("Unable to mark stream as linked to rental");
+            return;
+        }
+        $package = $stream->relatedPackage()->getFirst();
+        $transactionHelper = new TransactionsHelper();
+        $resellerHelper = new ResellerHelper();
+        if ($resellerHelper->loadOrCreate($this->siteConfig->getSession()->getAvatarLinkId(), true, 0) == false) {
+            $this->failed("Unable to create/load reseller for your account!");
+            return;
+        }
+        $regionHelper = new RegionHelper();
+        if ($regionHelper->loadOrCreate("website") == false) {
+            $this->failed("Unable to create website region used for transaction log");
+            return;
+        }
+        $result = $transactionHelper->createTransaction(
+            $avatar,
+            $package,
+            $stream,
+            $resellerHelper->getReseller(),
+            $regionHelper->getRegion(),
+            0,
+            false,
+            time()
+        );
+        if ($result == false) {
+            $this->failed("Unable to create transaction!");
             return;
         }
         $this->redirectWithMessage("Client created");
