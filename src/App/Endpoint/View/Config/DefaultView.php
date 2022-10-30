@@ -60,10 +60,6 @@ class DefaultView extends View
                 ],
             ];
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
-                $config_areas["R4 import"] = [
-                    "icon" => "fas fa-cloud-upload-alt",
-                    "link" => "Import",
-                ];
                 $config_areas["Bot"] = [
                     "icon" => "fas fa-robot",
                     "link" => "Bot",
