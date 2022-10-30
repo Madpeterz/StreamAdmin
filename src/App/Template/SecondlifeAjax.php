@@ -17,6 +17,7 @@ use YAPF\InputFilter\InputFilter;
 abstract class SecondlifeAjax extends TemplateViewAjax
 {
     protected bool $trackObject = true;
+    protected $version = "";
     protected $mode = "";
     protected $objectuuid = "";
     protected $regionname = "";
@@ -103,11 +104,24 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         $this->requiredValues();
         $this->timeWindow();
         $this->hashCheck();
+        $this->versionCheck();
         if ($this->load_ok == false) {
             $this->setSwapTag("status", false);
             return;
         }
         $this->failed("ready");
+    }
+
+    protected function versionCheck(): void
+    {
+        $modes = [
+            "mail" => "2.0.0.0",
+        ];
+        if (version_compare($this->version, $modes[$this->mode], ">=") == false) {
+            $this->load_ok = false;
+            $this->failed("Requires version: " . $modes[$this->mode] . " or higher given version " . $this->version);
+            return;
+        }
     }
 
     protected function requiredValues(): void
@@ -116,6 +130,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             return;
         }
         $required_sl = [
+            "version" => "s",
             "mode" => "s",
             "objectuuid" => "k",
             "regionname" => "s",
