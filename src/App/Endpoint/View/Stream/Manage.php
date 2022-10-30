@@ -24,7 +24,7 @@ class Manage extends View
         data-actionmessage='This will fail if there are pending actions!' 
         data-targetendpoint='[[SITE_URL]]Stream/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>";
-        $this->setSwapTag("page_actions", $remove_action);
+
 
         $stream = new Stream();
         if ($stream->loadByField("streamUid", $this->siteConfig->getPage())->status == false) {
@@ -34,13 +34,15 @@ class Manage extends View
 
         if ($stream->getNeedWork() == true) {
             $remove_action .= ""
-            . "<button type='button' 
+            . " <button type='button' 
             data-actiontitle='Restore stream " . $this->siteConfig->getPage() . "' 
             data-actiontext='Restore stream' 
             data-actionmessage='Attempt to find the last owner of the stream and restore it to them' 
             data-targetendpoint='[[SITE_URL]]Stream/Restore/" . $this->siteConfig->getPage() . "' 
             class='btn btn-info confirmDialog'>Restore</button></a>";
         }
+
+        $this->setSwapTag("page_actions", $remove_action);
 
         $rental = new Rental();
         $rental->loadByStreamLink($stream->getId());
