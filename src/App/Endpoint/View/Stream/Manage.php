@@ -34,7 +34,7 @@ class Manage extends View
 
         if ($stream->getNeedWork() == true) {
             $remove_action .= ""
-            . " <button type='button' 
+            . " &nbsp;&nbsp;&nbsp;<button type='button' 
             data-actiontitle='Restore stream " . $this->siteConfig->getPage() . "' 
             data-actiontext='Restore stream' 
             data-actionmessage='Attempt to find the last owner of the stream and restore it to them' 
