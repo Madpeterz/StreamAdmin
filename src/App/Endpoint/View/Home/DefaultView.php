@@ -47,7 +47,7 @@ class DefaultView extends HomeDisplayData
             }
             $webCheck = sha1($keyCheck[0] . $this->siteConfig->getSiteURL() . $keyCheck[1] . "web");
             $webCheck = substr($webCheck, 0, 3);
-            if ($webCheck != $keyCheck[1]) {
+            if ($webCheck != $webPart[1]) {
                 $this->setSwapTag(
                     "page_actions",
                     "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
