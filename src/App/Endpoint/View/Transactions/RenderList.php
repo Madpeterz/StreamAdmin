@@ -89,9 +89,12 @@ abstract class RenderList extends View
             }
             $entry[] = $type;
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
-                $entry[] = "<a href=\"[[SITE_URL]]transactions/remove/" . $transaction->getTransactionUid() . "\">"
-                . "<button type=\"button\" class=\"btn btn-danger btn-sm\"><i class=\"fas fa-minus-circle\"></i>"
-                . "</button></a>";
+                $entry[] = "<button type='button' 
+                data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
+                data-actiontext='Remove transaction' 
+                data-actionmessage='This has no change on the rental time!' 
+                data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->getTransactionUid() . "' 
+                class='btn btn-danger confirmDialog'>Remove</button></a>";
             }
             $table_body[] = $entry;
         }
