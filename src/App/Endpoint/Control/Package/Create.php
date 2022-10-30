@@ -45,7 +45,7 @@ class Create extends ControlAjax
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
             if ($value === null) {
-                $this->failed("Entry: " . $key . " is not set - " . $this->input->getWhyFailed());
+                $this->failed("Entry: " . $key . " is not set");
                 return;
             }
         }
