@@ -58,11 +58,26 @@ class Manage extends View
             );
         }
 
+        $hours_remaining = 0;
+        $time_remaining = $this->rental->getExpireUnixtime() - time();
+        if ($time_remaining < 0) {
+            $time_remaining = 0;
+        }
+        while ($time_remaining < $this->siteConfig->unixtimeHour()) {
+            $hours_remaining++;
+            $time_remaining -= $this->siteConfig->unixtimeHour();
+            $hours_remaining++;
+        }
+        $package = $this->rental->relatedPackage()->getFirst();
+        $est_refund_value_per_hour = ($package->getCost() / $package->getDays()) / 24;
+        $est_refund = round($hours_remaining * $est_refund_value_per_hour);
+
 
         $this->output->addSwapTagString("page_actions", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
         . "<button type='button' data-actiontitle='Revoke client " . $this->siteConfig->getPage() . "
         ' data-actiontext='End now' data-actionmessage='This will end the rental 
-        with no refund!' data-targetendpoint='[[SITE_URL]]client/revoke/" . $this->siteConfig->getPage() . "' 
+        with no refund!<br/> Est L$ value: " . $est_refund . "
+        ' data-targetendpoint='[[SITE_URL]]client/revoke/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Revoke</button></a>");
 
         $paged_info = new TemplatePagedInfo();
