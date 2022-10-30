@@ -282,7 +282,10 @@ class Issue90 extends TestCase
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
-        $storage = [
+$_POST["version"] = "2.0.0.0";
+
+$storage = [
+            "version",
             "mode",
             "objectuuid",
             "regionname",
@@ -314,7 +317,10 @@ class Issue90 extends TestCase
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
-        $storage = [
+$_POST["version"] = "2.0.0.0";
+
+$storage = [
+            "version",
             "mode",
             "objectuuid",
             "regionname",

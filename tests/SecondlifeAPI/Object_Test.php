@@ -11,6 +11,7 @@ class SecondlifeApiObject extends TestCase
     {
         global $_POST, $system;
         $system->forceProcessURI("Object/Ping");
+        $_POST["version"] = "2.0.0.0";
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -20,6 +21,7 @@ class SecondlifeApiObject extends TestCase
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
         $storage = [
+            "version",
             "mode",
             "objectuuid",
             "regionname",

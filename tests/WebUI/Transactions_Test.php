@@ -66,34 +66,13 @@ class TransactionsTest extends TestCase
         $this->assertStringContainsString("Client",$statuscheck,$missing);
         $this->assertStringContainsString("Region",$statuscheck,$missing);
         $this->assertStringContainsString("Type",$statuscheck,$missing);
-        $this->assertStringContainsString("transactions/remove/",$statuscheck,$missing);
+        $this->assertStringContainsString("Transactions/Remove/",$statuscheck,$missing);
         $this->assertStringContainsString("Select transation period",$statuscheck,$missing);
         $this->assertStringContainsString("2021",$statuscheck,$missing);
     }
 
     /**
      * @depends test_Default
-     */
-    public function test_RemoveForm()
-    {
-        global $system;
-        $transaction = new Transactions();
-        $status = $transaction->loadByField("amount",995);
-        $this->assertSame(true,$status->status,"Unable to find a transaction to use");
-        $system->setPage($transaction->getTransactionUid());
-
-        $removeForm = new Remove();
-        $removeForm->process();
-        $statuscheck = $removeForm->getOutputObject()->getSwapTagString("page_content");
-        $missing = "Missing transactions remove form element";
-
-        $this->assertStringContainsString("Please note: this will not have any effect on the rental",$statuscheck,$missing);
-        $this->assertStringContainsString("Accept",$statuscheck,$missing);
-        $this->assertStringContainsString('<input type="radio" value="Nevermind" name="accept" autocomplete="off" checked',$statuscheck,$missing);
-    }
-
-    /**
-     * @depends test_RemoveForm
      */
     public function test_RemoveProcess()
     {
