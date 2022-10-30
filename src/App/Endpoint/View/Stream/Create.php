@@ -68,9 +68,9 @@ class Create extends View
         $form->textInput("mountpoint", "Mountpoint", 999, "/live", "Stream mount point");
         $form->col(6);
         $form->group("Config");
-        $form->textInput("adminUsername", "Admin Usr", 5, null, "Admin username");
-        $form->textInput("adminPassword", "Admin PW", 3, null, "Admin password");
-        $form->textInput("djPassword", "Encoder/Stream password", 3, null, "Encoder/Stream password");
+        $form->textInput("adminUsername", "Admin Usr", 50, null, "Admin username");
+        $form->textInput("adminPassword", "Admin PW", 20, null, "Admin password");
+        $form->textInput("djPassword", "Encoder/Stream password", 20, null, "Encoder/Stream password");
         $form->select("needswork", "Needs work", false, $this->yesNo);
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }

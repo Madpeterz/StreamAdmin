@@ -107,12 +107,12 @@ class Manage extends View
         $form->textInput("mountpoint", "Mountpoint", 999, $stream->getMountpoint(), "Stream mount point");
         $form->col(6);
         $form->group("Config");
-        $form->textInput("adminUsername", "Admin Usr", 5, $stream->getAdminUsername(), "Admin username");
-        $form->textInput("adminPassword", "Admin PW", 3, $stream->getAdminPassword(), "Admin password");
+        $form->textInput("adminUsername", "Admin Usr", 50, $stream->getAdminUsername(), "Admin username");
+        $form->textInput("adminPassword", "Admin PW", 20, $stream->getAdminPassword(), "Admin password");
         $form->textInput(
             "djPassword",
             "Encoder/Stream password",
-            3,
+            20,
             $stream->getDjPassword(),
             "Encoder/Stream password"
         );
