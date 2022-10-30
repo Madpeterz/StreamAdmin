@@ -28,6 +28,6 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Texture pack removed");
+        $this->redirectWithMessage("Texture pack removed");
     }
 }

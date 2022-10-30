@@ -45,8 +45,7 @@ class Update extends ControlAjax
         } elseif ($this->savePackage() == false) {
             return;
         }
-        $this->setSwapTag("redirect", "package");
-        $this->ok("Package updated");
+        $this->redirectWithMessage("Package updated");
     }
 
     protected function setup(): void

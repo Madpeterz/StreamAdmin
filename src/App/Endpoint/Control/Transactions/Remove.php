@@ -33,6 +33,6 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Transaction removed");
+        $this->redirectWithMessage("Transaction removed");
     }
 }

@@ -57,14 +57,14 @@ class Bulkupdate extends ControlAjax
             }
             $streams_updated++;
         }
-        $this->ok(
+        $this->redirectWithMessage(
             sprintf(
                 "%1\$s streams updated",
                 $streams_updated
             )
         );
         if ($streams_skipped_passwordChecks > 0) {
-            $this->ok(
+            $this->redirectWithMessage(
                 sprintf(
                     "%1\$s streams updated %2\$s skipped for passwords not being updated",
                     $streams_updated,

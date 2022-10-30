@@ -97,7 +97,7 @@ class Noticeoptout extends ControlAjax
             return;
         }
 
-        $this->ok(
+        $this->redirectWithMessage(
             sprintf(
                 "Opt-outs updated enabled: %1\$s and removed %2\$s",
                 $enabledCounter,

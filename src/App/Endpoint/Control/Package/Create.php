@@ -104,6 +104,6 @@ class Create extends ControlAjax
             );
             return;
         }
-        $this->ok("Package created");
+        $this->redirectWithMessage("Package created");
     }
 }

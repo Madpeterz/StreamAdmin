@@ -32,6 +32,6 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Template removed");
+        $this->redirectWithMessage("Template removed");
     }
 }

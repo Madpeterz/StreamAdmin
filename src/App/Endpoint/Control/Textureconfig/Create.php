@@ -60,7 +60,6 @@ class Create extends ControlAjax
             );
             return;
         }
-        $this->ok("Texture pack created");
-        $this->setSwapTag("redirect", "textureconfig");
+        $this->redirectWithMessage("Texture pack created");
     }
 }

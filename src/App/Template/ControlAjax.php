@@ -17,4 +17,16 @@ abstract class ControlAjax extends ViewAjax
         $this->siteConfig = $system;
         $this->input = new InputFilter();
     }
+    protected function redirectWithMessage(string $message, ?string $to = null): void
+    {
+        $this->ok();
+        if ($to === null) {
+            $to = $this->method;
+        }
+        $this->output->redirectWithMessage($to, $message);
+    }
+    protected function ok(string $message = ""): void
+    {
+        $this->setMessage($message, true);
+    }
 }

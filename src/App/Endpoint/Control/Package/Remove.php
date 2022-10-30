@@ -84,7 +84,7 @@ class Remove extends ControlAjax
             return;
         }
 
-        $this->ok("Package removed");
+        $this->redirectWithMessage("Package removed");
     }
 
     protected function unlinkTransactions(Package $package): bool

@@ -24,6 +24,6 @@ class Clear extends ControlAjax
             );
             return;
         }
-        $this->ok("Objects cleared from DB");
+        $this->redirectWithMessage("Objects cleared from DB");
     }
 }

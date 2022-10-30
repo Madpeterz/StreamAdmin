@@ -39,7 +39,6 @@ class Reissue extends ControlAjax
             );
             return;
         }
-        $this->ok("keys reissued!");
-        $this->setSwapTag("redirect", "slconfig");
+        $this->redirectWithMessage("keys reissued!");
     }
 }

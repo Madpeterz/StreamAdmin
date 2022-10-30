@@ -53,6 +53,6 @@ class Update extends ControlAjax
             $this->failed(sprintf("Unable to update avatar: %1\$s", $update_status->message));
             return;
         }
-        $this->ok("Avatar updated");
+        $this->redirectWithMessage("Avatar updated");
     }
 }

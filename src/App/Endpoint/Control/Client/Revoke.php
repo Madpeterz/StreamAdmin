@@ -36,7 +36,7 @@ class Revoke extends ControlAjax
         if ($this->revoke() == false) {
             return;
         }
-        $this->ok("Client rental revoked");
+        $this->redirectWithMessage("Client rental revoked");
     }
 
     protected function load(): bool

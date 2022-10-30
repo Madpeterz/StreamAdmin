@@ -26,7 +26,6 @@ class Paymentkeyupdate extends ControlAjax
             $this->failed("Unable to update key in DB please check and try again");
             return;
         }
-        $this->ok("Key updated");
-        $this->setSwapTag("redirect", "Slconfig/PaymentKey");
+        $this->redirectWithMessage("Key updated", "Slconfig/Paymentkey");
     }
 }

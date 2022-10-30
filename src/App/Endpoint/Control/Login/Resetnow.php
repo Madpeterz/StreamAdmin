@@ -75,7 +75,6 @@ class Resetnow extends ControlAjax
             $this->failed("Unable to finalize changes to your account");
             return;
         }
-        $this->ok("Password updated please login");
-        $this->setSwapTag("redirect", "login");
+        $this->redirectWithMessage("Password updated please login");
     }
 }

@@ -123,7 +123,7 @@ class Update extends ControlAjax
             return;
         }
 
-        $this->ok("System config updated");
+        $this->redirectWithMessage("System config updated");
         if ($reissuedKeys == true) {
             $this->output->addSwapTagString("message", " [Forced key reissue due to bug]");
         }

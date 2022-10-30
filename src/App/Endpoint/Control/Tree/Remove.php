@@ -36,6 +36,6 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Tree vender removed");
+        $this->redirectWithMessage("Tree vender removed");
     }
 }

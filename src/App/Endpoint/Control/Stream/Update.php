@@ -87,8 +87,7 @@ class Update extends ControlAjax
         if ($this->transferRentalPackage($stream, $package) == false) {
             return;
         }
-        $this->ok("Stream updated");
-        $this->setSwapTag("redirect", "stream");
+        $this->redirectWithMessage("Stream updated");
     }
 
     protected function transferRentalPackage(Stream $stream, Package $package): bool

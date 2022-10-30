@@ -33,7 +33,6 @@ class Create extends ControlAjax
             );
             return;
         }
-        $this->ok("Tree vender created");
-        $this->setSwapTag("redirect", "tree");
+        $this->redirectWithMessage("Tree vender created");
     }
 }

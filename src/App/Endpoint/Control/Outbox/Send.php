@@ -100,7 +100,6 @@ class Send extends ControlAjax
         if ($hadError == true) {
             return;
         }
-        $this->ok(sprintf("Sent to %1\$s avatars", $sent_counter));
-        $this->setSwapTag("redirect", "outbox");
+        $this->redirectWithMessage(sprintf("Sent to %1\$s avatars", $sent_counter));
     }
 }

@@ -109,6 +109,6 @@ class Create extends ControlAjax
             $this->failed("Unable to mark stream as linked to rental");
             return;
         }
-        $this->ok("Client created");
+        $this->redirectWithMessage("Client created");
     }
 }

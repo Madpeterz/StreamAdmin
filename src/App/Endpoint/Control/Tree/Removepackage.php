@@ -30,7 +30,6 @@ class Removepackage extends ControlAjax
             );
             return;
         }
-        $this->setSwapTag("redirect", "tree/manage/" . $redirect_to . "");
-        $this->ok("Tree vender linked package removed");
+        $this->redirectWithMessage("Tree vender linked package removed", "tree/manage/" . $redirect_to);
     }
 }

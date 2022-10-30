@@ -49,7 +49,6 @@ class Addpackage extends ControlAjax
             $this->failed("Unable to attach package to tree vender");
             return;
         }
-        $this->ok("Package added to tree vender");
-        $this->setSwapTag("redirect", "tree/manage/" . $treevender->getId() . "");
+        $this->redirectWithMessage("Package added to tree vender", "tree/manage/" . $treevender->getId());
     }
 }

@@ -79,6 +79,6 @@ class Create extends ControlAjax
             );
             return;
         }
-        $this->ok("Stream created");
+        $this->redirectWithMessage("Stream created on port: " . $port);
     }
 }

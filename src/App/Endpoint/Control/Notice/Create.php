@@ -78,7 +78,6 @@ class Create extends ControlAjax
             );
             return;
         }
-        $this->ok("Notice created");
-        $this->setSwapTag("redirect", "notice");
+        $this->redirectWithMessage("Notice created");
     }
 }

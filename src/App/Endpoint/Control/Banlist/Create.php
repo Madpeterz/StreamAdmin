@@ -41,7 +41,6 @@ class Create extends ControlAjax
             $this->failed("Unable to create a new entry in the ban list");
             return;
         }
-        $this->setSwapTag("redirect", "banlist");
-        $this->ok("Entry created");
+        $this->redirectWithMessage("Entry created");
     }
 }

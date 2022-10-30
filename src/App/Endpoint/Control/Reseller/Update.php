@@ -32,6 +32,6 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->ok("Reseller updated");
+        $this->redirectWithMessage("Reseller updated");
     }
 }

@@ -38,7 +38,6 @@ class Create extends ControlAjax
             );
             return;
         }
-        $this->ok("Template created");
-        $this->setSwapTag("redirect", "template");
+        $this->redirectWithMessage("Template created");
     }
 }

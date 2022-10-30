@@ -49,6 +49,6 @@ class Create extends ControlAjax
             );
             return;
         }
-        $this->ok("Staff member created");
+        $this->redirectWithMessage("Staff member created");
     }
 }

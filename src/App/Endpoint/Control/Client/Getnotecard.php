@@ -36,7 +36,7 @@ class Getnotecard extends ControlAjax
             }
             return;
         }
-        $this->ok((new SwapablesHelper())->getSwappedText(
+        $this->redirectWithMessage((new SwapablesHelper())->getSwappedText(
             $template->getDetail(),
             $avatar,
             $rental,

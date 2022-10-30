@@ -43,6 +43,6 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Server removed");
+        $this->redirectWithMessage("Server removed");
     }
 }

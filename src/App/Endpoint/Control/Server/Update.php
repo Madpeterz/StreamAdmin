@@ -17,8 +17,7 @@ class Update extends Create
         } elseif ($this->updateServer() == false) {
             return;
         }
-        $this->ok("Server updated");
-        $this->setSwapTag("redirect", "server");
+        $this->redirectWithMessage("Server updated");
     }
 
     protected function loadServer(): bool

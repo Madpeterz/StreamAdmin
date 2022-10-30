@@ -67,7 +67,6 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->setSwapTag("redirect", "tree");
-        $this->ok("Treevender updated");
+        $this->redirectWithMessage("Treevender updated");
     }
 }

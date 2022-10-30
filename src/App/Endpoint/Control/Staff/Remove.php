@@ -35,6 +35,6 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Staff member removed");
+        $this->redirectWithMessage("Staff member removed");
     }
 }

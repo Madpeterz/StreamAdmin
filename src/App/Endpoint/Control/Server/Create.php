@@ -57,7 +57,6 @@ class Create extends ControlAjax
         } elseif ($this->createServer() == false) {
             return;
         }
-        $this->ok("Server created");
-        $this->setSwapTag("redirect", "server");
+        $this->redirectWithMessage("Server created");
     }
 }

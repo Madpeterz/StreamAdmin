@@ -64,7 +64,6 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->ok("Texture pack updated");
-        $this->setSwapTag("redirect", "textureconfig");
+        $this->redirectWithMessage("Texture pack updated");
     }
 }

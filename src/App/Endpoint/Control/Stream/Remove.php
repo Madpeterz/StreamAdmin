@@ -36,7 +36,6 @@ class Remove extends ControlAjax
             $this->failed(sprintf("Unable to remove stream: %1\$s", $remove_status->message));
             return;
         }
-        $this->setSwapTag("redirect", "stream");
-        $this->ok("Stream removed");
+        $this->redirectWithMessage("Stream removed");
     }
 }

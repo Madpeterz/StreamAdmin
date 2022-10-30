@@ -112,7 +112,6 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->ok("Notice updated");
-        $this->setSwapTag("redirect", "notice");
+        $this->redirectWithMessage("Notice updated");
     }
 }

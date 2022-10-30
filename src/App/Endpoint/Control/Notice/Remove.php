@@ -77,9 +77,9 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Notice removed");
+        $this->redirectWithMessage("Notice removed");
         if ($transfered_count > 0) {
-            $this->ok(
+            $this->redirectWithMessage(
                 sprintf("Notice removed and transfered: %1\$s clients", $transfered_count)
             );
         }

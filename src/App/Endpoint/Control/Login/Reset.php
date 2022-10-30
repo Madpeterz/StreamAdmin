@@ -62,7 +62,6 @@ class Reset extends ControlAjax
             $this->failed("Unable to find staff/avatar with given details");
             return;
         }
-        $this->setSwapTag("redirect", "here");
-        $this->ok("If the account was found the reset code is on the way.");
+        $this->redirectWithMessage("If the account was found the reset code is on the way.", "here");
     }
 }

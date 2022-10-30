@@ -21,6 +21,6 @@ class Clear extends ControlAjax
             $this->failed("Unable to remove entry");
             return;
         }
-        $this->ok("Entry removed");
+        $this->redirectWithMessage("Entry removed");
     }
 }

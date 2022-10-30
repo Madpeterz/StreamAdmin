@@ -174,7 +174,6 @@ class Update extends ControlAjax
             ));
             return;
         }
-        $this->setSwapTag("redirect", "client/manage/" . $this->siteConfig->getPage());
-        $this->ok($this->actions_taken);
+        $this->redirectWithMessage($this->actions_taken, "client/manage/" . $this->siteConfig->getPage());
     }
 }

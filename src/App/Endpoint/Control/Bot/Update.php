@@ -87,7 +87,6 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->setSwapTag("redirect", "config");
-        $this->ok("Changes saved");
+        $this->redirectWithMessage("Changes saved", "config");
     }
 }

@@ -43,7 +43,7 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $this->ok("Reseller removed");
+        $this->redirectWithMessage("Reseller removed");
     }
 
     protected function transferTransactions(): bool

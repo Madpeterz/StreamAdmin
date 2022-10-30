@@ -31,6 +31,6 @@ class Remove extends ControlAjax
             $this->failed(sprintf("Unable to remove avatar: %1\$s", $remove_status->message));
             return;
         }
-        $this->ok("Avatar removed");
+        $this->redirectWithMessage("Avatar removed");
     }
 }

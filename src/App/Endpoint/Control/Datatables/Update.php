@@ -34,6 +34,6 @@ class Update extends ControlAjax
             $this->failed(sprintf("Unable to update datatable config: %1\$s", $update_status->message));
             return;
         }
-        $this->ok("Datatable config updated");
+        $this->redirectWithMessage("Datatable config updated");
     }
 }

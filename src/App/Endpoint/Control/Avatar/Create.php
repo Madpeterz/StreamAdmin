@@ -31,7 +31,6 @@ class Create extends ControlAjax
             $this->failed("Unable to create avatar");
             return;
         }
-        $this->ok("Avatar created");
-        $this->output->redirect("avatar");
+        $this->redirectWithMessage("Avatar created");
     }
 }

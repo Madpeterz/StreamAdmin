@@ -42,7 +42,6 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->ok("Template updated");
-        $this->setSwapTag("redirect", "template");
+        $this->redirectWithMessage("Template updated");
     }
 }

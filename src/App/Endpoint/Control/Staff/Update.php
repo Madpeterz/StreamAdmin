@@ -39,6 +39,6 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->ok("Staff member updated passwords reset");
+        $this->redirectWithMessage("Staff member updated passwords reset");
     }
 }

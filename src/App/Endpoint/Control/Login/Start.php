@@ -18,7 +18,6 @@ class Start extends ControlAjax
         if ($this->siteConfig->getSession()->loginWithUsernamePassword($staffusername, $staffpassword) == false) {
             return;
         }
-        $this->ok("logged in ^+^");
-        $this->setSwapTag("redirect", "here");
+        $this->redirectWithMessage("logged in ^+^", "here");
     }
 }
