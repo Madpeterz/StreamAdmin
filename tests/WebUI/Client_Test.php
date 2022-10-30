@@ -9,6 +9,7 @@ use App\Endpoint\Control\Client\Message;
 use App\Endpoint\Control\Client\Revoke as ClientRevoke;
 use App\Endpoint\Control\Client\Update;
 use App\Endpoint\Control\Stream\Create as StreamCreate;
+use App\Endpoint\Control\Stream\Restore;
 use App\Endpoint\View\Client\Active;
 use App\Endpoint\View\Client\Bynoticelevel;
 use App\Endpoint\View\Client\Create;
@@ -20,6 +21,7 @@ use App\Endpoint\View\Client\Soon;
 use App\Models\Avatar;
 use App\Models\Rental;
 use App\Models\Sets\RentalSet;
+use App\Models\Stream;
 use PHPUnit\Framework\TestCase;
 
 class ClientTest extends TestCase
@@ -269,6 +271,7 @@ class ClientTest extends TestCase
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
+
         $rental = new Rental();
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
@@ -284,6 +287,44 @@ class ClientTest extends TestCase
 
     /**
      * @depends test_RevokeProcess
+     */
+    public function test_RestoreProcess()
+    {
+        global $system, $_POST;
+        $stream = new Stream();
+        $stream->loadByPort(8004);
+
+        $this->assertSame(true,$stream->getNeedWork(),"Stream should be marked as needs work");
+        $this->assertSame(null,$stream->getRentalLink(),"Stream should not have a linked rental");
+
+        $_POST["accept"] = "Accept";
+        $system->setPage($stream->getStreamUid());
+
+        $restoreProcess = new Restore();
+        $restoreProcess->process();
+        $statuscheck = $restoreProcess->getOutputObject();
+
+        $this->assertStringContainsString("Stream reassigned",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+
+        $stream = new Stream();
+        $stream->loadByPort(8004);
+
+        $this->assertSame(false,$stream->getNeedWork(),"Stream should be marked as assigned");
+        $this->assertGreaterThan(0,$stream->getRentalLink(),"Stream should have a linked rental");
+
+        // tidy up
+        $rental = new Rental();
+        $rental->loadId($stream->getRentalLink());
+        $_POST["accept"] = "Accept";
+        $system->setPage($rental->getRentalUid());
+
+        $removeProcess = new ClientRevoke();
+        $removeProcess->process();
+    }
+
+    /**
+     * @depends test_RestoreProcess
      */
     public function test_Active()
     {
@@ -335,6 +376,8 @@ class ClientTest extends TestCase
         $this->assertStringContainsString("Avatar",$statuscheck,$missing);
         $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
+
+
 
 
 }
