@@ -17,18 +17,29 @@ class Manage extends View
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing stream");
 
-        $this->setSwapTag("page_actions", ""
+        $remove_action = ""
         . "<button type='button' 
         data-actiontitle='Remove stream " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove stream' 
         data-actionmessage='This will fail if there are pending actions!' 
         data-targetendpoint='[[SITE_URL]]Stream/Remove/" . $this->siteConfig->getPage() . "' 
-        class='btn btn-danger confirmDialog'>Remove</button></a>");
+        class='btn btn-danger confirmDialog'>Remove</button></a>";
+        $this->setSwapTag("page_actions", $remove_action);
 
         $stream = new Stream();
         if ($stream->loadByField("streamUid", $this->siteConfig->getPage())->status == false) {
             $this->output->redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
             return;
+        }
+
+        if ($stream->getNeedWork() == true) {
+            $remove_action .= ""
+            . "<button type='button' 
+            data-actiontitle='Restore stream " . $this->siteConfig->getPage() . "' 
+            data-actiontext='Restore stream' 
+            data-actionmessage='Attempt to find the last owner of the stream and restore it to them' 
+            data-targetendpoint='[[SITE_URL]]Stream/Restore/" . $this->siteConfig->getPage() . "' 
+            class='btn btn-info confirmDialog'>Restore</button></a>";
         }
 
         $rental = new Rental();
