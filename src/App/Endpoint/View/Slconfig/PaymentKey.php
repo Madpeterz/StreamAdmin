@@ -11,13 +11,18 @@ class PaymentKey extends View
         if ($checkKey === null) {
             return "No key";
         }
-        $keyCheck = explode(":", $checkKey);
-        if (count($keyCheck) != 3) {
+        $keyCore = explode("*", $checkKey);
+        if (count($keyCore) != 2) {
+            return "Old";
+        }
+        $webHash = $keyCore[1];
+        $keyCheck = explode(":", $keyCore[0]);
+        if (count($keyCheck) != 2) {
             return "Invaild";
         }
-        $webCheck = sha1($keyCheck[0] . "" . $keyCheck[1] . "web");
+        $webCheck = sha1($keyCheck[0] . $this->siteConfig->getSiteURL() . $keyCheck[1] . "web");
         $webCheck = substr($webCheck, 0, 3);
-        if ($webCheck != $keyCheck[2]) {
+        if ($webCheck != $webHash) {
             return "Failed";
         }
         if (time() > $keyCheck[1]) {
