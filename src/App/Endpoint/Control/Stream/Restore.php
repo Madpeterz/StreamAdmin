@@ -53,23 +53,24 @@ class Restore extends ControlAjax
         $rental->setMessage("Restored rental!");
         $uid_rental = $rental->createUID("rentalUid", 8);
         if ($uid_rental->status == false) {
-            $this->failed("Unable to assign uid");
+            $this->failed("Unable to assign uid: " . $uid_rental->message);
             return;
         }
         $rental->setRentalUid($uid_rental->uid);
         $rental->setStreamLink($stream->getId());
         $rental->setPackageLink($stream->getPackageLink());
         $rental->setNoticeLink($use_notice_index);
+        $rental->setStartUnixtime(time());
         $create = $rental->createEntry();
         if ($create->status == false) {
-            $this->failed("Failed to create rental");
+            $this->failed("Failed to create rental: " . $create->message);
             return;
         }
         $stream->setNeedWork(0);
         $stream->setRentalLink($rental->getId());
         $update = $stream->updateEntry();
         if ($update->status == false) {
-            $this->failed("Failed to update stream");
+            $this->failed("Failed to update stream: " . $update->message);
             return;
         }
         $this->redirectWithMessage("Stream reassigned");
