@@ -17,18 +17,23 @@ class SessionControl extends SqlConnectedClass
     }
     protected ?Staff $main_class_object = null;
     protected $logged_in = false;
-    protected $session_values = ["lhash","autologout","nextcheck","username","ownerLevel"];
+    protected $session_values = ["lhash","autologout","nextcheck","username","ownerLevel", "avatarLinkId"];
     protected $lhash = "";
     protected $autologout = 0;
     protected $nextcheck = 0;
     protected $username = "";
     protected $ownerLevel = 0;
+    protected $avatarLinkId = 0;
     public function getOwnerLevel(): bool
     {
         if ($this->ownerLevel == 1) {
             return true;
         }
         return false;
+    }
+    public function getAvatarLinkId(): int
+    {
+        return $this->avatarLinkId;
     }
     protected function populateSessionDataset(): bool
     {
@@ -37,6 +42,7 @@ class SessionControl extends SqlConnectedClass
         $this->nextcheck = time() + 45;
         $this->username = $this->main_class_object->getUsername();
         $this->ownerLevel = $this->main_class_object->getOwnerLevel();
+        $this->avatarLinkId = $this->main_class_object->getAvatarLink();
         $this->updateSession();
         return true;
     }
@@ -50,6 +56,7 @@ class SessionControl extends SqlConnectedClass
         $this->autologout = 0;
         $this->lhash = "";
         $this->nextcheck = 0;
+        $this->avatarLinkId = 0;
         $_SESSION = [];
         session_destroy();
     }
