@@ -20,7 +20,7 @@ abstract class ControlAjax extends ViewAjax
     protected function redirectWithMessage(string $message, ?string $to = null): void
     {
         if ($to === null) {
-            $to = $this->method;
+            $to = $this->siteConfig->getModule();
         }
         $this->setSwapTag("redirect", $to);
         $this->ok($message);
