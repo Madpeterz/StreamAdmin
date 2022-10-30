@@ -63,7 +63,7 @@ class Manage extends View
         if ($time_remaining < 0) {
             $time_remaining = 0;
         }
-        while ($time_remaining < $this->siteConfig->unixtimeHour()) {
+        while ($time_remaining > $this->siteConfig->unixtimeHour()) {
             $hours_remaining++;
             $time_remaining -= $this->siteConfig->unixtimeHour();
         }
