@@ -40,6 +40,7 @@ class Resetnow extends ControlAjax
         $slusername = implode(" ", $username_bits);
         $avatar = new Avatar();
         if ($avatar->loadByAvatarName($slusername)->status == false) {
+            $this->failed("Unable to find avatar by that name did you mess it up?");
             return;
         }
         $staff = $avatar->relatedStaff()->getFirst();
@@ -47,6 +48,7 @@ class Resetnow extends ControlAjax
             return;
         }
         if ($staff->getEmailResetCode() != $token) {
+            $this->failed("Your token is wrong what did you do?");
             return;
         }
         if ($staff->getEmailResetExpires() <= time()) {
