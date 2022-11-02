@@ -6,7 +6,7 @@ services:
     app:
         container_name: SA7Website
         restart: always
-        image: madpeter/streamadmin_r7:dev
+        image: madpeter/streamadmin:php8
         networks:
         - streamadmin
         ports:
@@ -15,17 +15,17 @@ services:
         - '8082/tcp'
         depends_on:
         - SA7Db
-        - SA7Dbredis
+        - SA7Redis
         environment:
         - SITE_NAME={DOMAIN}
         - SITE_URL=StreamAdmin
         - SITE_CACHE_ENABLED=true
-        - SITE_CACHE_REDIS_HOST=SA7Dbredis
+        - SITE_CACHE_REDIS_HOST=SA7Redis
         - SQL_HOST=SA7Db
         - SQL_DB_NAME=streamadmin
         - SQL_DB_USER=streamadminDBuser
         - SQL_DB_PASS={DBPASSWORD}
-        - REDIS_HOST=SA7Dbredis
+        - REDIS_HOST=SA7Redis
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
         volumes:
@@ -48,7 +48,7 @@ services:
         volumes:
         - streamadmin-db:/var/lib/mysql
 
-    SA7Dbphpmyadmin:
+    SA7PHPmyAdmin:
         container_name: SA7PHPmyAdmin
         environment:
         - PMA_HOST=SA7Db
@@ -62,7 +62,7 @@ services:
         depends_on:
         - SA7Db
 
-    SA7Dbredis:
+    SA7Redis:
         container_name: SA7Redis
         image: redis:4.0-alpine
         networks:
