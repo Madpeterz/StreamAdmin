@@ -14,4 +14,10 @@ abstract class ConfigEnabled extends Switchboard
         $this->siteConfig = $system;
         parent::__construct();
     }
+    protected function findMasterClass(): ?string
+    {
+        $this->loadingModule = ucfirst(strtolower($this->loadingModule));
+        $this->loadingArea = ucfirst(strtolower($this->loadingArea));
+        return parent::findMasterClass();
+    }
 }
