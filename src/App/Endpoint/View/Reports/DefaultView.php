@@ -129,10 +129,9 @@ class DefaultView extends View
             12
         );
         $mygrid->addContent("<hr/><h3>Toolbox</h3><br/>", 12);
-        $mygrid->addContent("<h4>Month breakdown</h4>" . $flow_form_month, 6);
-        $mygrid->addContent("<h4>Year breakdown</h4>" . $flow_form_year, 6);
-        $mygrid->addContent("<hr/>", 12);
-        $mygrid->addContent("<h4>Year vs Year</h4>" . $compare_form_year, 6);
+        $mygrid->addContent("<h4>Month breakdown</h4>" . $flow_form_month, 4);
+        $mygrid->addContent("<h4>Year breakdown</h4>" . $flow_form_year, 4);
+        $mygrid->addContent("<h4>Year vs Year</h4>" . $compare_form_year, 4);
         $this->setSwapTag("page_content", $mygrid->getOutput());
     }
 }
