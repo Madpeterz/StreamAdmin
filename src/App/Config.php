@@ -50,24 +50,24 @@ class Config extends BootstrapConfigBox
 
     public function setupCacheTables(): void
     {
-        if ($this->getCacheDriver() == null) {
+        if ($this->getCacheWorker() == null) {
             return;
         }
-        $this->getCacheDriver()->addTableToCache("banlist", 120, true);
-        $this->getCacheDriver()->addTableToCache("botconfig", 120, true);
-        $this->getCacheDriver()->addTableToCache("noticenotecard", 120, true);
-        $this->getCacheDriver()->addTableToCache("notice", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("package", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("region", 120, true);
-        $this->getCacheDriver()->addTableToCache("reseller", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("server", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("servertypes", 120, true);
-        $this->getCacheDriver()->addTableToCache("slconfig", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("template", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("textureconfig", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("timezones", 120, true, true);
-        $this->getCacheDriver()->addTableToCache("treevender", 120, true);
-        $this->getCacheDriver()->addTableToCache("treevenderpackages", 120, true);
+        $this->getCacheWorker()->addTableToCache("banlist", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("botconfig", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("noticenotecard", 120, true);
+        $this->getCacheWorker()->addTableToCache("notice", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("package", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("region", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("reseller", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("server", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("servertypes", 120, true);
+        $this->getCacheWorker()->addTableToCache("slconfig", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("template", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("textureconfig", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("timezones", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("treevender", 120, true, true);
+        $this->getCacheWorker()->addTableToCache("treevenderpackages", 120, true, true);
     }
 
     public function getRedisHost(): ?string

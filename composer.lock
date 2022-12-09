@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7272fc97ef82e862763ac6a868a9e684",
+    "content-hash": "d9cb2d0aab83df44d27bd571052b4c7b",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -400,21 +400,21 @@
         },
         {
             "name": "madpeterz/yapfbootstrap",
-            "version": "2.0.8",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/YAPFbootstrap.git",
-                "reference": "74005835ed4dee07e52c6c51d6865921de6f392c"
+                "reference": "28fc42d8e768f07d3df6fb9faed5059270fb1e01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/YAPFbootstrap/zipball/74005835ed4dee07e52c6c51d6865921de6f392c",
-                "reference": "74005835ed4dee07e52c6c51d6865921de6f392c",
+                "url": "https://api.github.com/repos/Madpeterz/YAPFbootstrap/zipball/28fc42d8e768f07d3df6fb9faed5059270fb1e01",
+                "reference": "28fc42d8e768f07d3df6fb9faed5059270fb1e01",
                 "shasum": ""
             },
             "require": {
                 "madpeterz/yapfinputfilter": "^4.0",
-                "madpeterz/yetonemorephpframework": "^6.0",
+                "madpeterz/yetonemorephpframework": "^7.0",
                 "php": ">=8.1.4"
             },
             "type": "library",
@@ -436,9 +436,9 @@
             "description": "YAPF - Bootstrap 5 workspace",
             "support": {
                 "issues": "https://github.com/Madpeterz/YAPFbootstrap/issues",
-                "source": "https://github.com/Madpeterz/YAPFbootstrap/tree/2.0.8"
+                "source": "https://github.com/Madpeterz/YAPFbootstrap/tree/3.0.0"
             },
-            "time": "2022-11-02T07:29:29+00:00"
+            "time": "2022-11-13T18:12:40+00:00"
         },
         {
             "name": "madpeterz/yapfcore",
@@ -488,16 +488,16 @@
         },
         {
             "name": "madpeterz/yapfinputfilter",
-            "version": "4.1.0",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/YAPFInputFilter.git",
-                "reference": "3ad7b76dbe0d772399d2b46b3d4a2a05bda12471"
+                "reference": "23e7f5de9d96880672a1e30c9229256c636948fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/YAPFInputFilter/zipball/3ad7b76dbe0d772399d2b46b3d4a2a05bda12471",
-                "reference": "3ad7b76dbe0d772399d2b46b3d4a2a05bda12471",
+                "url": "https://api.github.com/repos/Madpeterz/YAPFInputFilter/zipball/23e7f5de9d96880672a1e30c9229256c636948fe",
+                "reference": "23e7f5de9d96880672a1e30c9229256c636948fe",
                 "shasum": ""
             },
             "require": {
@@ -531,20 +531,20 @@
                 "issues": "https://github.com/Madpeterz/YAPFInputFilter/issues",
                 "source": "https://github.com/Madpeterz/YAPFInputFilter"
             },
-            "time": "2022-09-14T22:38:20+00:00"
+            "time": "2022-11-05T08:00:50+00:00"
         },
         {
             "name": "madpeterz/yetonemorephpframework",
-            "version": "6.2.0",
+            "version": "7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-                "reference": "d743529cf62603f6e28c181fb33c498c9abae20f"
+                "reference": "8e6cb71b1337e56ee21b363666984c09a22867fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/d743529cf62603f6e28c181fb33c498c9abae20f",
-                "reference": "d743529cf62603f6e28c181fb33c498c9abae20f",
+                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/8e6cb71b1337e56ee21b363666984c09a22867fd",
+                "reference": "8e6cb71b1337e56ee21b363666984c09a22867fd",
                 "shasum": ""
             },
             "require": {
@@ -578,7 +578,7 @@
                 "issues": "https://github.com/Madpeterz/yetonemorephpframework/issues",
                 "source": "https://github.com/Madpeterz/yetonemorephpframework"
             },
-            "time": "2022-10-02T00:44:03+00:00"
+            "time": "2022-11-13T15:10:55+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -1318,16 +1318,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e"
+                "reference": "8ad114f6b39e2c98a8b0e3bd907732c207c2b534"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
-                "reference": "9344f9cb97f3b19424af1a21a3b0e75b0a7d8d7e",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/8ad114f6b39e2c98a8b0e3bd907732c207c2b534",
+                "reference": "8ad114f6b39e2c98a8b0e3bd907732c207c2b534",
                 "shasum": ""
             },
             "require": {
@@ -1342,7 +1342,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.26-dev"
+                    "dev-main": "1.27-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -1381,7 +1381,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.26.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.27.0"
             },
             "funding": [
                 {
@@ -1397,7 +1397,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-24T11:49:31+00:00"
+            "time": "2022-11-03T14:55:06+00:00"
         }
     ],
     "packages-dev": [
@@ -1532,16 +1532,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.15.1",
+            "version": "v4.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900"
+                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
-                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
+                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
                 "shasum": ""
             },
             "require": {
@@ -1582,9 +1582,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.1"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.2"
             },
-            "time": "2022-09-04T07:30:47+00:00"
+            "time": "2022-11-12T15:38:23+00:00"
         },
         {
             "name": "phar-io/manifest",
