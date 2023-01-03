@@ -73,9 +73,19 @@ class Update extends ControlAjax
             return;
         }
         $newResellers = $this->input->post("newResellers")->asBool();
-        $owneravuid = $this->input->post("owneravuid")->checkStringLength(8, 8)->asString();
+        $owneravuid = $this->input->post("owneravuid")->checkStringLength(6, 8)->asString();
         if ($owneravuid === null) {
-            $this->failed($this->input->getWhyFailed());
+            $this->failed("owneravUID is invaild:" . $this->input->getWhyFailed());
+            return;
+        }
+        $ui_tweaks_clientsShowServer = $this->input->post("ui_tweaks_clientsShowServer")->asBool();
+        if ($ui_tweaks_clientsShowServer === null) {
+            $this->failed("Invaild server on clients option:" . $this->input->getWhyFailed());
+            return;
+        }
+        $ui_tweaks_groupStreamsBy = $this->input->post("ui_tweaks_groupStreamsBy")->checkInRange(0, 1)->asInt();
+        if ($ui_tweaks_groupStreamsBy === null) {
+            $this->failed("Invaild group streams by option:" . $this->input->getWhyFailed());
             return;
         }
         $ui_tweaks_clients_fulllist = $this->input->post("ui_tweaks_clients_fulllist")->asBool();
@@ -84,12 +94,12 @@ class Update extends ControlAjax
             ->checkInRange(10, 200)
             ->asInt();
         if ($ui_tweaks_datatableItemsPerPage === null) {
-            $this->failed($this->input->getWhyFailed());
+            $this->failed("Invaild datatable items per page:" . $this->input->getWhyFailed());
             return;
         }
         $displayTimezoneLink = $this->input->post("displayTimezoneLink")->checkGrtThanEq(1)->asInt();
         if ($displayTimezoneLink === null) {
-            $this->failed($this->input->getWhyFailed());
+            $this->failed("Invaild timezone selected:" . $this->input->getWhyFailed());
             return;
         }
         $eventsAPI = $this->input->post("eventsAPI")->asBool();
@@ -112,6 +122,8 @@ class Update extends ControlAjax
         $this->siteConfig->getSlConfig()->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
         $this->siteConfig->getSlConfig()->setDisplayTimezoneLink($displayTimezoneLink);
         $this->siteConfig->getSlConfig()->setEventsAPI($eventsAPI);
+        $this->siteConfig->getSlConfig()->setClientsDisplayServer($ui_tweaks_clientsShowServer);
+        $this->siteConfig->getSlConfig()->setStreamListOption($ui_tweaks_groupStreamsBy);
 
         $this->updateHudSettings();
         $reissuedKeys = $this->forceReissue();

@@ -12,6 +12,7 @@ class DefaultView extends View
 {
     public function process(): void
     {
+        $this->output->addSwapTagString("page_title", " Info");
         $Status = new Status();
         $Status->process();
         $this->pages = array_merge(

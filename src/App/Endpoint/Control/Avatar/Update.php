@@ -38,11 +38,11 @@ class Update extends ControlAjax
         if ($avatar->getAvatarUUID() == $avatarUUID) {
             $expected_count = 1;
         }
-        if ($count_check === null) {
+        if ($count_check->status == false) {
             $this->failed("Unable to check if UUID in use");
             return;
         }
-        if ($count_check != $expected_count) {
+        if ($count_check->items != $expected_count) {
             $this->failed("Selected UUID is already in use");
             return;
         }

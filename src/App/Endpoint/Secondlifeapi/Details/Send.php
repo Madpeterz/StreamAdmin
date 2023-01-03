@@ -32,11 +32,11 @@ class Send extends SecondlifeAjax
         ];
         $detail = new DetailSet();
         $load = $detail->countInDB($whereConfig);
-        if ($load === null) {
+        if ($load->status == false) {
             $this->failed("Unable to check if you have a pending details request");
             return;
         }
-        if ($load > 0) {
+        if ($load->items > 0) {
             $this->ok("You already have a pending details request - please wait for it or contact support.");
             return;
         }

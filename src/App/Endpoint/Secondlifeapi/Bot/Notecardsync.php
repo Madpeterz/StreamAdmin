@@ -39,12 +39,12 @@ class Notecardsync extends SecondlifeAjax
             "matches" => [">"],
         ];
         $count_data = $notecardSet->countInDB($whereConfig);
-        if ($count_data === null) {
+        if ($count_data->status == false) {
             $this->failed("Unable to check if there are any notecards to send");
             return;
         }
 
-        if ($count_data == 0) {
+        if ($count_data->items == 0) {
             $this->ok("nowork");
             return;
         }

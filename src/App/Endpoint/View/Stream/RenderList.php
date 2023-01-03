@@ -2,20 +2,23 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\Sets\AvatarSet;
+use App\Models\Sets\PackageSet;
 use App\Models\Sets\RentalSet;
-use App\Models\Sets\ServerSet;
 use App\Models\Sets\StreamSet;
 
 abstract class RenderList extends View
 {
     protected RentalSet $rentalSet;
     protected StreamSet $streamSet;
+    protected PackageSet $packageSet;
     protected array $rental_set_ids = [];
-    public function process(): void
+    public function process(bool $usePackageNotServer = false): void
     {
         $table_head = ["id","UID","Server","Port","Status"];
         $table_body = [];
+        if ($usePackageNotServer == true) {
+            $table_head = ["id","UID","Package","Port","Status"];
+        }
 
         $avatar_set = $this->rentalSet->relatedAvatar();
         $server_set = $this->streamSet->relatedServer();
@@ -26,7 +29,12 @@ abstract class RenderList extends View
             $entry[] = $stream->getId();
             $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->getStreamUid() . '">'
             . $stream->getStreamUid() . '</a>';
-            $entry[] = $server->getDomain();
+            $midpoint = $server->getDomain();
+            if ($usePackageNotServer == true) {
+                $package = $this->packageSet->getObjectByID($stream->getPackageLink());
+                $midpoint = $package->getName();
+            }
+            $entry[] = $midpoint;
             $entry[] = $stream->getPort();
             $state = "Rented but cant find rental.";
             if ($stream->getNeedWork() == true) {

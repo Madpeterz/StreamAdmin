@@ -29,8 +29,8 @@ class Status extends View
 
             $object_set = new $config["classname"]();
             $count = $object_set->countInDB();
-            $countText = $count;
-            if ($count == null) {
+            $countText = $count->items;
+            if ($count->status == false) {
                 $count = 0;
                 $countText = "";
             }
@@ -38,10 +38,10 @@ class Status extends View
             $entry[] = $countText;
             $ttc_cron = "";
             $ttc_norm = "";
-            if ($count > 0) {
-                $normTime = ($config["norm"] * $count);
+            if ($count->items > 0) {
+                $normTime = ($config["norm"] * $count->items);
                 $ttc_norm = $this->timeRemainingHumanReadable(time() + $normTime, true, "");
-                $cronTime = ($config["cron"] * $count);
+                $cronTime = ($config["cron"] * $count->items);
                 if ($cronTime != $normTime) {
                     $ttc_cron .= "<strong class=\"text-success\">"
                     . $this->timeRemainingHumanReadable(time() + $cronTime, true, "") . "</strong>";

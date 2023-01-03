@@ -75,7 +75,7 @@ class Getpackages extends SecondlifeAjax
                     "matches" => ["=","=","IS"],
                 ];
                 $stockLevel = $streamsSet->countInDB($whereConfig);
-                if (($stockLevel === null) || ($stockLevel == 0)) {
+                if (($stockLevel->status == false) || ($stockLevel->items == 0)) {
                     $skip = true;
                 }
             }

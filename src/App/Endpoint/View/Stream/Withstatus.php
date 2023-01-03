@@ -8,7 +8,7 @@ use App\Models\Sets\StreamSet;
 abstract class Withstatus extends RenderList
 {
     protected array $whereconfig = [];
-    public function process(): void
+    public function process(bool $usePackageNotServer = false): void
     {
         $this->streamSet = new StreamSet();
         $this->rentalSet = new RentalSet();
@@ -18,6 +18,9 @@ abstract class Withstatus extends RenderList
             $this->rentalSet = $this->streamSet->relatedRental();
             $this->rental_set_ids = $this->rentalSet->getAllIds();
         }
-        parent::process();
+        if ($usePackageNotServer == true) {
+            $this->packageSet = $this->streamSet->relatedPackage();
+        }
+        parent::process($usePackageNotServer);
     }
 }

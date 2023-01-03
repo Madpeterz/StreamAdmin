@@ -11,16 +11,21 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing");
+        $server = new Server();
+        $server->loadId($this->config->getPage());
+
         $this->setSwapTag("page_actions", ""
-        . "<button type='button' 
+        . "<a href=\"[[SITE_URL]]stream/Onserver/" . $server->getId() . "\"><button type='button' 
+        class='btn btn-outline-info'>Streams</button></a>");
+        $this->addSwapTagString("page_actions", ""
+        . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' 
         data-actiontitle='Remove server " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove server' 
         data-actionmessage='This will fail if there is anything using this server!' 
         data-targetendpoint='[[SITE_URL]]Server/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
-        $server = new Server();
-        $server->loadId($this->config->getPage());
+
 
         $this->output->addSwapTagString("page_title", " :" . $server->getDomain());
         $form = new Form();

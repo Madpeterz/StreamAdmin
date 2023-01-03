@@ -54,11 +54,11 @@ class Update extends ControlAjax
                 $expected_count = 1;
             }
         }
-        if ($count_check === null) {
+        if ($count_check->status == false) {
             $this->failed("Unable to check if there is a stream on that port already!");
             return;
         }
-        if ($count_check != $expected_count) {
+        if ($count_check->items != $expected_count) {
             $this->setSwapTag(
                 "message",
                 "There is already a stream on that port for the selected server!"

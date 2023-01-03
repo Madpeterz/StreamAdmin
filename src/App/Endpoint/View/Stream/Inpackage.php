@@ -6,7 +6,7 @@ use App\Models\Package;
 
 class Inpackage extends Withstatus
 {
-    public function process(): void
+    public function process(bool $usePackageNotServer = false): void
     {
         $this->output->addSwapTagString("page_title", " In package: ");
         $package = new Package();
@@ -21,6 +21,6 @@ class Inpackage extends Withstatus
             "types" => ["i"],
             "matches" => ["="],
         ];
-        parent::process();
+        parent::process(false);
     }
 }

@@ -53,8 +53,14 @@ class Manage extends View
         if ($stream->getId() > 0) {
             $this->output->addSwapTagString(
                 "page_actions",
-                "<a href='[[SITE_URL]]Stream/Manage/" . $stream->getStreamUid() . "'>"
-                . "<button type='button' class='btn btn-info'>View Stream</button></a>"
+                "<button type='button' data-rentaluid=\"" . $this->rental->getRentalUid() . "\" data-toggle=\"modal\" 
+                data-target=\"#NotecardModal\" class='btn btn-sm btn-success'>Notecard</button>"
+            );
+
+            $this->output->addSwapTagString(
+                "page_actions",
+                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='[[SITE_URL]]Stream/Manage/" . $stream->getStreamUid() . "'>"
+                . "<button type='button' class='btn btn-outline-light'>View Stream</button></a>"
             );
         }
 

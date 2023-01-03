@@ -30,7 +30,7 @@ class Create extends View
                 "Avatar uid | Madpeter Zond | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
             );
             $form->directAdd("<a data-toggle=\"modal\" data-target=\"#AvatarPicker\" "
-            . "href=\"#\" target=\"_blank\">Find/Add avatar</a><br/>");
+            . "href=\"#\" target=\"_blank\">Find avatar</a><br/>");
             $form->numberInput("daysremaining", "Days remaining", 0, 3, "Max 999");
             $form->textInput("streamuid", "Stream UID (Or port)", 4, "", "Stream uid | Port number");
         $form->col(6);

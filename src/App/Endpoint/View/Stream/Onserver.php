@@ -6,7 +6,7 @@ use App\Models\Server;
 
 class Onserver extends Withstatus
 {
-    public function process(): void
+    public function process(bool $usePackageNotServer = true): void
     {
         $server = new Server();
         $server->loadID($this->siteConfig->getPage());
@@ -17,6 +17,6 @@ class Onserver extends Withstatus
             "types" => ["i"],
             "matches" => ["="],
         ];
-        parent::process();
+        parent::process($usePackageNotServer);
     }
 }

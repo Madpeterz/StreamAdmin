@@ -59,14 +59,14 @@ class Update extends Create
         if ($this->server->getDomain() == $this->domain) {
             $expected_count = 1;
         }
-        if ($count_check === null) {
+        if ($count_check->status == false) {
             $this->setSwapTag(
                 "message",
                 "Unable to check if there is a server assigned to domain already"
             );
             return false;
         }
-        if ($count_check != $expected_count) {
+        if ($count_check->items != $expected_count) {
             $this->failed("There is already a server with that domain");
             return false;
         }

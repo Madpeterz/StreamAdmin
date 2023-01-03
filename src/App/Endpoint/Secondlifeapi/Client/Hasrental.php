@@ -27,7 +27,7 @@ class Hasrental extends SecondlifeAjax
             "values" => [$avatar->getId()],
         ];
         $count = $rentalSet->countInDB($whereConfig);
-        if (($count === null) || ($count == 0)) {
+        if (($count->status == false) || ($count->items == 0)) {
             $this->ok("No streams");
             return;
         }

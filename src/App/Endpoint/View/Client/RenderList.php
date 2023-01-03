@@ -20,6 +20,11 @@ abstract class RenderList extends View
         $this->noticeSet = $this->rentalSet->relatedNotice();
         $table_head = ["id","Rental UID","Avatar","Port","Notecard","Timeleft","Status","Renewals"];
         $table_body = [];
+        if ($this->siteConfig->getSlConfig()->getClientsDisplayServer() == true) {
+            $this->serverSet = $this->streamSet->relatedServer();
+            $table_head[] = "Server";
+        }
+
 
         foreach ($this->rentalSet as $rental) {
             $avatar = $this->avatarSet->getObjectByID($rental->getAvatarLink());
@@ -48,6 +53,10 @@ abstract class RenderList extends View
             $noticeLevel = $this->noticeSet->getObjectByID($rental->getNoticeLink());
             $entry[] = $noticeLevel->getName();
             $entry[] = $rental->getRenewals();
+            if ($this->siteConfig->getSlConfig()->getClientsDisplayServer() == true) {
+                $server = $this->serverSet->getObjectByID($stream->getServerLink());
+                $entry[] = $server->getDomain();
+            }
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body, 3));

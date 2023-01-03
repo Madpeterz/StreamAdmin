@@ -24,14 +24,14 @@ class Checkstock extends SecondlifeAjax
         ];
         $streamSet = new StreamSet();
         $count_data = $streamSet->countInDB($whereconfig);
-        if ($count_data === null) {
+        if ($count_data->status == false) {
             $this->setSwapTag("message", "Unable to check stock level");
             return;
         }
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "ok");
         $this->setSwapTag("package_instock", false);
-        if ($count_data > 0) {
+        if ($count_data->items > 0) {
             $this->setSwapTag("package_instock", true);
         }
         $this->setSwapTag("package_cost", $package->getCost());

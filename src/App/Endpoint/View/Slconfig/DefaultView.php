@@ -60,6 +60,18 @@ class DefaultView extends View
                 $slConfigObj->getDatatableItemsPerPage(),
                 "10 to 200"
             );
+            $form->select(
+                "ui_tweaks_clientsShowServer",
+                "Show server on clients list",
+                $slConfigObj->getClientsDisplayServer(),
+                $this->yesNo
+            );
+            $form->select(
+                "ui_tweaks_groupStreamsBy",
+                "Group streams by",
+                $slConfigObj->getStreamListOption(),
+                [0 => "Package",1 => "Server"]
+            );
         $form->col(6);
             $form->group("Resellers");
             $form->directAdd("<br/>");

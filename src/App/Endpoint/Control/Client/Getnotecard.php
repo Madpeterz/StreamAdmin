@@ -36,6 +36,7 @@ class Getnotecard extends ControlAjax
             }
             return;
         }
+        $this->setSwapTag("rentaluid", $rental->getRentalUid());
         $this->redirectWithMessage((new SwapablesHelper())->getSwappedText(
             $template->getDetail(),
             $avatar,

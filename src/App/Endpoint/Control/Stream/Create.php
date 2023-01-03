@@ -50,11 +50,11 @@ class Create extends ControlAjax
         ];
         $streamSet = new StreamSet();
         $count_check = $streamSet->countInDB($whereConfig);
-        if ($count_check === null) {
+        if ($count_check->status == false) {
             $this->failed("Unable to check if there is a stream on that port already!");
             return;
         }
-        if ($count_check != 0) {
+        if ($count_check->items != 0) {
             $this->failed(
                 "There is already a stream on that port for the selected server!"
             );

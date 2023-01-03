@@ -84,11 +84,11 @@ class Update extends ControlAjax
         if ($notice->getHoursRemaining() == $hoursRemaining) {
             $expected_count = 1;
         }
-        if ($count_check === null) {
+        if ($count_check->status == false) {
             $this->failed("Unable to check if there is a notice assigned already");
             return;
         }
-        if ($count_check != $expected_count) {
+        if ($count_check->items != $expected_count) {
             $this->failed("There is already a notice with that hours remaining trigger");
             return;
         }

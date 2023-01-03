@@ -6,7 +6,7 @@ use App\Models\Server;
 
 class Sold extends Withstatus
 {
-    public function process(): void
+    public function process(bool $usePackageNotServer = false): void
     {
         $this->output->addSwapTagString("page_title", " With status: Sold");
         $this->whereconfig = [
@@ -15,6 +15,6 @@ class Sold extends Withstatus
             "types" => ["s"],
             "matches" => ["IS NOT"],
         ];
-        parent::process();
+        parent::process(false);
     }
 }

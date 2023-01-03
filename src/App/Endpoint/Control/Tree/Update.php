@@ -48,11 +48,11 @@ class Update extends ControlAjax
         if ($treevender->getName() == $name) {
             $expected_count = 1;
         }
-        if ($count_check === null) {
+        if ($count_check->status == false) {
             $this->failed("Unable to check if there is a tree vender assigned already");
             return;
         }
-        if ($count_check > $expected_count) {
+        if ($count_check->items > $expected_count) {
             $this->failed("There is already a tree vender with that name already");
             return;
         }

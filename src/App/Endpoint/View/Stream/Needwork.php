@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Stream;
 
 class Needwork extends Withstatus
 {
-    public function process(): void
+    public function process(bool $usePackageNotServer = true): void
     {
         $this->output->addSwapTagString("page_title", " With status: Need work");
         $this->whereconfig = [
@@ -13,7 +13,7 @@ class Needwork extends Withstatus
             "types" => ["i"],
             "matches" => ["="],
         ];
-        parent::process();
+        parent::process(false);
         $this->setSwapTag(
             "page_actions",
             "<a href='[[SITE_URL]]stream/bulkupdate'><button type='button' class='btn btn-outline-warning btn-sm'>"
