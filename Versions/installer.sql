@@ -775,3 +775,7 @@ ALTER TABLE `package` DROP `apiTemplate`;
 ALTER TABLE `slconfig`
   DROP `customLogo`,
   DROP `customLogoBin`;
+
+ALTER TABLE `slconfig` 
+ADD `streamListOption` INT NOT NULL DEFAULT '0' AFTER `paymentKey`, 
+ADD `clientsDisplayServer` TINYINT(1) NOT NULL DEFAULT '0' AFTER `streamListOption`;
