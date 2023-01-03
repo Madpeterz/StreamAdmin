@@ -14,7 +14,17 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <div class="container">
+          <div class="row">
+            <div class="col-3">
+              <button id="resendNotecard" name="resendNotecard" data-rentaluid="" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Resend">Resend</button>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
