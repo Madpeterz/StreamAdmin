@@ -34,6 +34,8 @@ class Slconfig extends genClass
         "hudAllowRenewal",
         "eventsAPI",
         "paymentKey",
+        "streamListOption",
+        "clientsDisplayServer",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -56,6 +58,8 @@ class Slconfig extends genClass
         "hudAllowRenewal" => ["type" => "bool", "value" => 0],
         "eventsAPI" => ["type" => "bool", "value" => 0],
         "paymentKey" => ["type" => "str", "value" => null],
+        "streamListOption" => ["type" => "int", "value" => 1],
+        "clientsDisplayServer" => ["type" => "bool", "value" => 0],
     ];
     // Setters
     /**
@@ -191,6 +195,20 @@ class Slconfig extends genClass
     {
         return $this->updateField("paymentKey", $newValue);
     }
+    /**
+    * setStreamListOption
+    */
+    public function setStreamListOption(?int $newValue): UpdateReply
+    {
+        return $this->updateField("streamListOption", $newValue);
+    }
+    /**
+    * setClientsDisplayServer
+    */
+    public function setClientsDisplayServer(?bool $newValue): UpdateReply
+    {
+        return $this->updateField("clientsDisplayServer", $newValue);
+    }
     // Getters
     public function getDbVersion(): ?string
     {
@@ -267,6 +285,14 @@ class Slconfig extends genClass
     public function getPaymentKey(): ?string
     {
         return $this->getField("paymentKey");
+    }
+    public function getStreamListOption(): ?int
+    {
+        return $this->getField("streamListOption");
+    }
+    public function getClientsDisplayServer(): ?bool
+    {
+        return $this->getField("clientsDisplayServer");
     }
     // Loaders
     public function loadByDbVersion(string $dbVersion): SingleLoadReply
@@ -400,6 +426,20 @@ class Slconfig extends genClass
         return $this->loadByField(
             "paymentKey",
             $paymentKey
+        );
+    }
+    public function loadByStreamListOption(int $streamListOption): SingleLoadReply
+    {
+        return $this->loadByField(
+            "streamListOption",
+            $streamListOption
+        );
+    }
+    public function loadByClientsDisplayServer(bool $clientsDisplayServer): SingleLoadReply
+    {
+        return $this->loadByField(
+            "clientsDisplayServer",
+            $clientsDisplayServer
         );
     }
     public function relatedAvatar(): AvatarSet

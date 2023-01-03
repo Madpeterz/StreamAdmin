@@ -228,6 +228,24 @@ class SlconfigSet extends CollectionSet
     {
         return parent::uniqueArray("paymentKey");
     }
+    /**
+     * uniqueStreamListOptions
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueStreamListOptions(): array
+    {
+        return parent::uniqueArray("streamListOption");
+    }
+    /**
+     * uniqueClientsDisplayServers
+     * returns unique values from the collection matching that field
+     * @return array<bool>
+     */
+    public function uniqueClientsDisplayServers(): array
+    {
+        return parent::uniqueArray("clientsDisplayServer");
+    }
     // Loaders
     /**
      * loadById
@@ -728,6 +746,56 @@ class SlconfigSet extends CollectionSet
     public function loadFromPaymentKeys(array $values): SetsLoadReply
     {
         return $this->loadIndexes("paymentKey", $values);
+    }
+    /**
+     * loadByStreamListOption
+    */
+    public function loadByStreamListOption(
+        int $streamListOption, 
+        int $limit = 0, 
+        string $orderBy = "id", 
+        string $orderDir = "DESC"
+    ): SetsLoadReply
+    {
+        return $this->loadOnField(
+            "streamListOption", 
+            $streamListOption, 
+            $limit, 
+            $orderBy, 
+            $orderDir
+        );
+    }
+    /**
+     * loadFromStreamListOptions
+    */
+    public function loadFromStreamListOptions(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("streamListOption", $values);
+    }
+    /**
+     * loadByClientsDisplayServer
+    */
+    public function loadByClientsDisplayServer(
+        bool $clientsDisplayServer, 
+        int $limit = 0, 
+        string $orderBy = "id", 
+        string $orderDir = "DESC"
+    ): SetsLoadReply
+    {
+        return $this->loadOnField(
+            "clientsDisplayServer", 
+            $clientsDisplayServer, 
+            $limit, 
+            $orderBy, 
+            $orderDir
+        );
+    }
+    /**
+     * loadFromClientsDisplayServers
+    */
+    public function loadFromClientsDisplayServers(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("clientsDisplayServer", $values);
     }
     // Related loaders
     public function relatedAvatar(): AvatarSet
