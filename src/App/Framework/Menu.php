@@ -3,6 +3,7 @@
 namespace App\Framework;
 
 use App\Config;
+use App\Models\Datatable;
 use YAPF\Bootstrap\Template\View;
 use YAPF\InputFilter\InputFilter;
 
@@ -59,9 +60,41 @@ class Menu extends View
         );
     }
 
-    protected function renderDatatable(array $tableHead, array $tableBody): string
+    protected function renderDatatable(array $tableHead, array $tableBody, ?int $datatableID = null): string
     {
-        return $this->renderTable($tableHead, $tableBody);
+        $defaultRender = $this->renderTable($tableHead, $tableBody, "datatable-default display responsive");
+        if ($datatableID === null) {
+            return $defaultRender;
+        }
+        $datatableDriver = new Datatable();
+        $datatableDriver->limitFields(["hideColZero","col","dir"]);
+        if ($datatableDriver->loadID($datatableID) == false) {
+            return $defaultRender;
+        }
+        $this->output->addSwapTagString("html_js_onready", "
+        $('.customdatatable" . $datatableID . "').DataTable({
+            'order': [[ " . $datatableDriver->getCol() . ", '" . $datatableDriver->getDir() . "' ]],
+            responsive: true,
+                  pageLength: " . $this->siteConfig->getSlConfig()->getDatatableItemsPerPage() . ",
+                  lengthMenu: [[25, 10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
+            language: {
+              searchPlaceholder: 'Search...',
+              sSearch: '',
+              lengthMenu: '_MENU_ items/page',
+              }");
+        if ($datatableDriver->getHideColZero() == true) {
+            $this->output->addSwapTagString(
+                "html_js_onready",
+                ", 'columnDefs': [
+                {
+                    'targets': [ 0 ],
+                    'visible': false,
+                    'searchable': false
+                }]"
+            );
+        }
+        $this->output->addSwapTagString("html_js_onready", "});");
+        return $this->renderTable($tableHead, $tableBody, "customdatatable" . $datatableID . " display responsive");
     }
 
     protected function addSwapTagString(string $tag, string $message): ?string
