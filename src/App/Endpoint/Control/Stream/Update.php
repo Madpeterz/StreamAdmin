@@ -65,7 +65,7 @@ class Update extends ControlAjax
             );
             return;
         }
-
+        $oldvalues = $stream->objectToValueArray();
         $stream->setPackageLink($packageLink);
         $stream->setServerLink($serverLink);
         $stream->setPort($port);
@@ -88,6 +88,12 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Stream updated");
+        $this->createMultiAudit(
+            $stream->getStreamUid(),
+            $stream->getFields(),
+            $oldvalues,
+            $stream->objectToValueArray()
+        );
     }
 
     protected function transferRentalPackage(Stream $stream, Package $package): bool

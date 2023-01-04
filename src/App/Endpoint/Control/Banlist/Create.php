@@ -42,5 +42,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Entry created");
+        $this->createAuditLog($banlist->getId(), "+++", null, $avatar->getAvatarName());
     }
 }

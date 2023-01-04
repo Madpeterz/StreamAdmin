@@ -23,7 +23,6 @@ class Revoke extends ControlAjax
     public function process(): void
     {
         $this->rental = new Rental();
-
         $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", null);
         if ($accept != "Accept") {
@@ -33,10 +32,12 @@ class Revoke extends ControlAjax
         if ($this->load() == false) {
             return;
         }
+        $rentalid = $this->rental->getId();
         if ($this->revoke() == false) {
             return;
         }
         $this->redirectWithMessage("Client rental revoked");
+        $this->createAuditLog($rentalid, "---", $this->avatar->getAvatarName());
     }
 
     protected function load(): bool

@@ -64,6 +64,10 @@ class DefaultView extends View
                     "icon" => "fas fa-robot",
                     "link" => "Bot",
                 ];
+                $config_areas["Auditlog"] = [
+                    "icon" => "fas fa-compact-disc",
+                    "link" => "Auditlog",
+                ];
                 $config_areas["Staff"] = [
                     "icon" => "fas fa-user-lock",
                     "link" => "Staff",

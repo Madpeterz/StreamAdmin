@@ -40,5 +40,6 @@ class Reissue extends ControlAjax
             return;
         }
         $this->redirectWithMessage("keys reissued!");
+        $this->createAuditLog($this->siteConfig->getSlConfig()->getId(), "keys reissued");
     }
 }

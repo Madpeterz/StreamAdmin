@@ -80,5 +80,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Stream created on port: " . $port);
+        $this->createAuditLog($stream->getStreamUid(), "+++", $stream->getPort(), $server->getDomain());
     }
 }

@@ -33,6 +33,8 @@ class Remove extends ControlAjax
             $this->failed("Unable to load selected notice");
             return;
         }
+        $noticeid = $notice->getId();
+        $noticename = $notice->getName();
 
         $transferNotice = new Notice();
         if ($transferNotice->loadID($newNoticeLevel)->status == false) {
@@ -78,6 +80,7 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Notice removed");
+        $this->createAuditLog($noticeid, "---", $noticename);
         if ($transfered_count > 0) {
             $this->redirectWithMessage(
                 sprintf("Notice removed and transfered: %1\$s clients", $transfered_count)

@@ -30,12 +30,16 @@ class Remove extends ControlAjax
                 return;
             }
         }
-
+        $streamid = $stream->getStreamUid();
+        $port = $stream->getPort();
+        $server = $stream->relatedServer()->getFirst();
+        $stream->getPort();
         $remove_status = $stream->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(sprintf("Unable to remove stream: %1\$s", $remove_status->message));
             return;
         }
         $this->redirectWithMessage("Stream removed");
+        $this->createAuditLog($streamid, "---", $port, $server->getDomain());
     }
 }

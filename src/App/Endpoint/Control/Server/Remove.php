@@ -33,6 +33,8 @@ class Remove extends ControlAjax
             );
             return;
         }
+        $serverid = $server->getId();
+        $servername = $server->getDomain();
         $remove_status = $server->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -43,6 +45,7 @@ class Remove extends ControlAjax
             );
             return;
         }
+        $this->createAuditLog($serverid, "---", $servername);
         $this->redirectWithMessage("Server removed");
     }
 }

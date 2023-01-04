@@ -105,5 +105,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Package created");
+        $this->createAuditLog($package->getId(), "+++", null, $package->getName());
     }
 }

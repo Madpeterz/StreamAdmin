@@ -34,5 +34,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Tree vender created");
+        $this->createAuditLog($treevender->getId(), "+++", null, $treevender->getName());
     }
 }

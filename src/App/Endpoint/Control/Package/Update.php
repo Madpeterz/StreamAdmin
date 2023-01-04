@@ -161,6 +161,7 @@ class Update extends ControlAjax
 
     protected function savePackage(): bool
     {
+        $oldvalues = $this->package->objectToValueArray();
         $this->updatePackageSettings();
         $update_status = $this->package->updateEntry();
         if ($update_status->status == false) {
@@ -172,6 +173,12 @@ class Update extends ControlAjax
             );
             return false;
         }
+        $this->createMultiAudit(
+            $this->package->getPackageUid(),
+            $this->package->getFields(),
+            $oldvalues,
+            $this->package->objectToValueArray()
+        );
         $this->failed("exit savePackage");
         return true;
     }

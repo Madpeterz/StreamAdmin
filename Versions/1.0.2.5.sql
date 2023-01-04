@@ -49,3 +49,17 @@ ALTER TABLE `slconfig`
 ALTER TABLE `slconfig` 
 ADD `streamListOption` INT NOT NULL DEFAULT '0' AFTER `paymentKey`, 
 ADD `clientsDisplayServer` TINYINT(1) NOT NULL DEFAULT '0' AFTER `streamListOption`;
+
+CREATE TABLE `auditlog` (`id` INT NOT NULL AUTO_INCREMENT , `store` VARCHAR(12) NOT NULL , `sourceid` INT NOT NULL , `valuename` TEXT NOT NULL , `oldvalue` TEXT NOT NULL , `newvalue` TEXT NOT NULL , `unixtime` INT NOT NULL , `staffLink` INT NOT NULL , PRIMARY KEY (`id`), INDEX (`staffLink`)) ENGINE = InnoDB;
+
+ALTER TABLE `auditlog` ADD CONSTRAINT `auditlog_staff_inuse` FOREIGN KEY (`staffLink`) REFERENCES `staff`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+
+ALTER TABLE `auditlog` CHANGE `staffLink` `avatarLink` INT(11) NOT NULL;
+
+ALTER TABLE `auditlog` DROP FOREIGN KEY `auditlog_staff_inuse`; ALTER TABLE `auditlog` ADD CONSTRAINT `auditlog_staff_inuse` FOREIGN KEY (`avatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
+
+ALTER TABLE `auditlog` CHANGE `sourceid` `sourceid` INT(11) NULL;
+
+ALTER TABLE `auditlog` CHANGE `oldvalue` `oldvalue` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, CHANGE `newvalue` `newvalue` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
+
+ALTER TABLE `auditlog` CHANGE `sourceid` `sourceid` VARCHAR(8) NULL DEFAULT NULL;

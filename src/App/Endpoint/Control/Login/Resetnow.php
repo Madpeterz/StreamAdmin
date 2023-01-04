@@ -9,6 +9,7 @@ use App\Template\ControlAjax;
 
 class Resetnow extends ControlAjax
 {
+    protected ?Avatar $avatar = null;
     public function process(): void
     {
         sleep(1);
@@ -38,12 +39,12 @@ class Resetnow extends ControlAjax
             $username_bits[] = "Resident";
         }
         $slusername = implode(" ", $username_bits);
-        $avatar = new Avatar();
-        if ($avatar->loadByAvatarName($slusername)->status == false) {
+        $this->avatar = new Avatar();
+        if ($this->avatar->loadByAvatarName($slusername)->status == false) {
             $this->failed("Unable to find avatar by that name did you mess it up?");
             return;
         }
-        $staff = $avatar->relatedStaff()->getFirst();
+        $staff = $this->avatar->relatedStaff()->getFirst();
         if ($staff->isLoaded() == false) {
             return;
         }
@@ -76,5 +77,11 @@ class Resetnow extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Password updated please login");
+        $this->createAuditLog(
+            $staff->getId(),
+            "new password applyed",
+            "av:" . $this->avatar->getAvatarName(),
+            "User:" . $staff->getUsername()
+        );
     }
 }

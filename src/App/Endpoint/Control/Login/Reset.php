@@ -23,6 +23,7 @@ class Reset extends ControlAjax
     public function process(): void
     {
         sleep(1);
+        $this->ok("Unable to find staff/avatar with given details");
 
         $avatar = new Avatar();
         $staff = new Staff();
@@ -39,17 +40,14 @@ class Reset extends ControlAjax
             $status = $staff->loadByAvatarLink($avatar->getId());
         }
         if ($status->status == false) {
-            $this->failed("Unable to find staff/avatar with given details");
             return;
         }
         if ($staff->isLoaded() == false) {
-            $this->failed("Unable to find staff/avatar with given details");
             return;
         }
 
         $uid = $staff->createUID("emailResetCode", 8);
         if ($uid->status == false) {
-            $this->failed("Unable to find staff/avatar with given details");
             return;
         }
         $staff->setEmailResetCode($uid->uid);
@@ -59,9 +57,14 @@ class Reset extends ControlAjax
             $status = $this->sendMessageReset($avatar, $uid->uid);
         }
         if ($status == false) {
-            $this->failed("Unable to find staff/avatar with given details");
             return;
         }
         $this->redirectWithMessage("If the account was found the reset code is on the way.", "here");
+        $this->createAuditLog(
+            $staff->getId(),
+            "reset code requested",
+            "av:" . $avatar->getAvatarName(),
+            "User:" . $staff->getUsername()
+        );
     }
 }

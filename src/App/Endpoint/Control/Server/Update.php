@@ -32,6 +32,7 @@ class Update extends Create
 
     protected function updateServer(): bool
     {
+        $oldvalues = $this->server->objectToValueArray();
         $this->server->setDomain($this->domain);
         $this->server->setControlPanelURL($this->controlPanelURL);
         $update_status = $this->server->updateEntry();
@@ -42,6 +43,12 @@ class Update extends Create
             );
             return false;
         }
+        $this->createMultiAudit(
+            $this->server->getId(),
+            $this->server->getFields(),
+            $oldvalues,
+            $this->server->objectToValueArray()
+        );
         return true;
     }
 

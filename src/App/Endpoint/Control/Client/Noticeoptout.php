@@ -104,5 +104,6 @@ class Noticeoptout extends ControlAjax
                 $removedCounter
             )
         );
+        $this->createAuditLog($rental->getRentalUid(), "updated notice opt-outs");
     }
 }

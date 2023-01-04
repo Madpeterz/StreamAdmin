@@ -47,6 +47,7 @@ class Update extends ControlAjax
             $this->setSwapTag("redirect", "textureconfig");
             return;
         }
+        $oldvalues = $textureconfig->objectToValueArray();
         $textureconfig->setName($name);
         $textureconfig->setOffline($offline);
         $textureconfig->setWaitOwner($waitOwner);
@@ -65,5 +66,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Texture pack updated");
+        $this->createMultiAudit(
+            $textureconfig->getId(),
+            $textureconfig->getFields(),
+            $oldvalues,
+            $textureconfig->objectToValueArray()
+        );
     }
 }

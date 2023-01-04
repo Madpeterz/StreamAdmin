@@ -27,6 +27,7 @@ class Update extends ControlAjax
             $this->failed("Unable to find the datatable config");
             return;
         }
+        $oldvalues = $datatable->objectToValueArray();
         $datatable->setCol($col);
         $datatable->setDir($dir);
         $update_status = $datatable->updateEntry();
@@ -35,5 +36,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Datatable config updated");
+        $this->createMultiAudit(
+            $datatable->getId(),
+            $datatable->getFields(),
+            $oldvalues,
+            $datatable->objectToValueArray()
+        );
     }
 }

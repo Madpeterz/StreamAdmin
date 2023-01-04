@@ -60,6 +60,7 @@ class Update extends ControlAjax
             $this->failed("Unable to find bot config");
             return;
         }
+        $oldvalues = $botconfig->objectToValueArray();
         $avatar = new Avatar();
         if ($avatar->loadByAvatarUid($avataruid)->status == false) {
             $this->failed("Unable to load avatar to attach bot to");
@@ -88,5 +89,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Changes saved", "config");
+        $this->createMultiAudit(
+            $botconfig->getId(),
+            $botconfig->getFields(),
+            $oldvalues,
+            $botconfig->objectToValueArray()
+        );
     }
 }

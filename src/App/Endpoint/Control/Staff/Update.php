@@ -28,6 +28,9 @@ class Update extends ControlAjax
             $this->failed("Unable to load staff member");
             return;
         }
+        if ($username != $staff->getUsername()) {
+            $this->createAuditLog($staff->getId(), "Username changed", $staff->getUsername(), $username);
+        }
         $staff->setUsername($username);
         $staff->setPhash(sha1("phash install" . microtime() . "" . $username));
         $staff->setLhash(sha1("lhash install" . microtime() . "" . $username));

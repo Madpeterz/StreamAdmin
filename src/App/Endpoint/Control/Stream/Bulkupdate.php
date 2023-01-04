@@ -44,6 +44,7 @@ class Bulkupdate extends ControlAjax
                 $streams_skipped_passwordChecks++;
                 continue;
             }
+            $oldvalues = $stream->objectToValueArray();
             $stream->setAdminPassword($newadminpw);
             $stream->setDjPassword($newdjpw);
             $stream->setNeedWork(0);
@@ -55,6 +56,12 @@ class Bulkupdate extends ControlAjax
                 ));
                 return;
             }
+            $this->createMultiAudit(
+                $stream->getStreamUid(),
+                $stream->getFields(),
+                $oldvalues,
+                $stream->objectToValueArray()
+            );
             $streams_updated++;
         }
         $this->redirectWithMessage(
@@ -63,6 +70,7 @@ class Bulkupdate extends ControlAjax
                 $streams_updated
             )
         );
+        $this->createAuditLog(null, "Bulk stream update", $streams_updated . " streams updated");
         if ($streams_skipped_passwordChecks > 0) {
             $this->redirectWithMessage(
                 sprintf(

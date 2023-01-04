@@ -116,6 +116,7 @@ class Update extends ControlAjax
         if ($avatar->getId() != $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) {
             $this->siteConfig->getSlConfig()->setOwnerAvatarLink($avatar->getId());
         }
+        $oldvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
         $this->siteConfig->getSlConfig()->setNewResellers($newResellers);
         $this->siteConfig->getSlConfig()->setNewResellersRate($newResellersRate);
         $this->siteConfig->getSlConfig()->setClientsListMode($ui_tweaks_clients_fulllist);
@@ -124,8 +125,8 @@ class Update extends ControlAjax
         $this->siteConfig->getSlConfig()->setEventsAPI($eventsAPI);
         $this->siteConfig->getSlConfig()->setClientsDisplayServer($ui_tweaks_clientsShowServer);
         $this->siteConfig->getSlConfig()->setStreamListOption($ui_tweaks_groupStreamsBy);
-
         $this->updateHudSettings();
+        $newvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
         $reissuedKeys = $this->forceReissue();
         $update_status = $this->siteConfig->getSlConfig()->updateEntry();
         if ($update_status->status == false) {
@@ -137,7 +138,13 @@ class Update extends ControlAjax
 
         $this->redirectWithMessage("System config updated");
         if ($reissuedKeys == true) {
-            $this->output->addSwapTagString("message", " [Forced key reissue due to bug]");
+            $this->output->addSwapTagString("message", " [Forced key reissue]");
         }
+        $this->createMultiAudit(
+            $this->siteConfig->getSlConfig()->getId(),
+            $this->siteConfig->getSlConfig()->getFields(),
+            $oldvalues,
+            $newvalues
+        );
     }
 }

@@ -50,5 +50,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Staff member created");
+        $this->createAuditLog($staff->getId(), "+++", null, $avatar->getAvatarName());
     }
 }

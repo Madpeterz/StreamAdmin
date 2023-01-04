@@ -36,6 +36,8 @@ class Remove extends ControlAjax
                 return;
             }
         }
+        $resellerid = $reseller->getId();
+        $avatar = $reseller->relatedAvatar()->getFirst();
         $remove_status = $reseller->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -44,6 +46,7 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Reseller removed");
+        $this->createAuditLog($resellerid, "---", $avatar->getAvatarName());
     }
 
     protected function transferTransactions(): bool

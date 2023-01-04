@@ -165,6 +165,7 @@ class Menu extends View
                     "server",
                     "datatables",
                     "export",
+                    "auditlog",
                 ],
             ],
         ];

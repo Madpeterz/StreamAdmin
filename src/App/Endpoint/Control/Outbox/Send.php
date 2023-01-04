@@ -101,5 +101,6 @@ class Send extends ControlAjax
             return;
         }
         $this->redirectWithMessage(sprintf("Sent to %1\$s avatars", $sent_counter));
+        $this->createAuditLog(null, "send mail", "total avatars", $sent_counter);
     }
 }

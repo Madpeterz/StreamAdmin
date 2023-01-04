@@ -19,5 +19,10 @@ class Start extends ControlAjax
             return;
         }
         $this->redirectWithMessage("logged in ^+^", "here");
+        $this->createAuditLog(
+            $this->siteConfig->getSession()->getAvatarLinkId(),
+            "login",
+            $staffusername,
+        );
     }
 }

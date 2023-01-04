@@ -14,5 +14,6 @@ class Resend extends ControlAjax
         $resend = new Send();
         $resend->process();
         $this->output = $resend->getOutputObject();
+        $this->createAuditLog($this->siteConfig->getPage(), "resend details");
     }
 }

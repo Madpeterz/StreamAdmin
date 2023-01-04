@@ -73,6 +73,8 @@ class Remove extends ControlAjax
             );
             return;
         }
+        $packageid = $package->getId();
+        $packagename = $package->getName();
         $remove_status = $package->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -83,7 +85,7 @@ class Remove extends ControlAjax
             );
             return;
         }
-
+        $this->createAuditLog($packageid, "---", $packagename);
         $this->redirectWithMessage("Package removed");
     }
 

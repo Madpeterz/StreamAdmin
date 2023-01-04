@@ -39,5 +39,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Template created");
+        $this->createAuditLog($template->getId(), "+++", null, $template->getName());
     }
 }

@@ -61,5 +61,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Texture pack created");
+        $this->createAuditLog($textureconfig->getId(), "+++", null, $textureconfig->getName());
     }
 }

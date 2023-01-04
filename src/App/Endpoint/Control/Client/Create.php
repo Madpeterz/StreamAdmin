@@ -137,6 +137,8 @@ class Create extends ControlAjax
             $this->failed("Unable to create transaction!");
             return;
         }
+        $server = $stream->relatedServer()->getFirst();
         $this->redirectWithMessage("Client created");
+        $this->createAuditLog($rental->getRentalUid(), "+++", $avatar->getAvatarName(), "Port: " . $stream->getPort() . " Server: " . $server->getDomain());
     }
 }

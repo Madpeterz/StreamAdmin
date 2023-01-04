@@ -21,6 +21,8 @@ class Remove extends ControlAjax
             $this->failed("Unable to find texture pack");
             return;
         }
+        $textureid = $textureconfig->getId();
+        $texturename = $textureconfig->getName();
         $remove_status = $textureconfig->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -29,5 +31,6 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Texture pack removed");
+        $this->createAuditLog($textureid, "---", $texturename);
     }
 }

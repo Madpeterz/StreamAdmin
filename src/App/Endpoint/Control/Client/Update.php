@@ -10,7 +10,7 @@ use App\Template\ControlAjax;
 class Update extends ControlAjax
 {
     protected $actions_taken = "";
-    protected $isseus = "";
+    protected $issues = "";
     protected $message = "";
     protected $apiAllowSuspend = true;
     protected function transerRental(Rental $rental, string $transfer_avataruid): void
@@ -57,7 +57,7 @@ class Update extends ControlAjax
             $this->issues .= "[Adjustment] Attempted adjustment but failed no adjustment given?";
             return;
         }
-        $adjustment_unixtime = $system->unixtimeHour() * $total_adjust_hours;
+        $adjustment_unixtime = $this->siteConfig->unixtimeHour() * $total_adjust_hours;
         $adjustment_text = "Added";
         $new_unixtime = $rental->getExpireUnixtime() + $adjustment_unixtime;
         if ($adjustment_dir == false) {
@@ -90,7 +90,7 @@ class Update extends ControlAjax
             $adjustment_multi
         );
         $this->message = "" . $adjustment_message . "" . $this->message . "";
-        $hours_remain = ceil(($new_unixtime - time()) / $system->unixtimeHour());
+        $hours_remain = ceil(($new_unixtime - time()) / $this->siteConfig->unixtimeHour());
         $noticeHelper = new NoticesHelper();
         $this->setSwapTag("noticeLevelChanged", false);
         $this->setSwapTag("hoursRemain", $hours_remain);
@@ -133,7 +133,7 @@ class Update extends ControlAjax
             $this->setSwapTag("redirect", "client");
             return;
         }
-
+        $oldvalues = $rental->objectToValueArray();
         if ($transfer_avataruid != null) {
             if (nullSafeStrLen($transfer_avataruid) == 8) {
                 $this->transerRental($rental, $transfer_avataruid);
@@ -174,6 +174,12 @@ class Update extends ControlAjax
             ));
             return;
         }
-        $this->redirectWithMessage($this->actions_taken, "client/manage/" . $this->siteConfig->getPage());
+        $this->redirectWithMessage($this->actions_taken, "Client/Manage/" . $this->siteConfig->getPage());
+        $this->createMultiAudit(
+            $rental->getRentalUid(),
+            $rental->getFields(),
+            $oldvalues,
+            $rental->objectToValueArray()
+        );
     }
 }

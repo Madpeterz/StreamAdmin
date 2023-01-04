@@ -5,6 +5,7 @@ namespace App\Models;
 use YAPF\Framework\DbObjects\GenClass\GenClass as GenClass;
 use YAPF\Framework\Responses\DbObjects\UpdateReply as UpdateReply;
 use YAPF\Framework\Responses\DbObjects\SingleLoadReply as SingleLoadReply;
+use App\Models\Sets\AuditlogSet as AuditlogSet;
 use App\Models\Sets\BanlistSet as BanlistSet;
 use App\Models\Sets\BotconfigSet as BotconfigSet;
 use App\Models\Sets\MessageSet as MessageSet;
@@ -89,6 +90,13 @@ class Avatar extends genClass
             "avatarUid",
             $avatarUid
         );
+    }
+    public function relatedAuditlog(): AuditlogSet
+    {
+        $ids = [$this->getId()];
+        $collection = new AuditlogSet();
+        $collection->loadFromAvatarLinks($ids);
+        return $collection;
     }
     public function relatedBanlist(): BanlistSet
     {

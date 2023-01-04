@@ -3,6 +3,7 @@
 namespace App\Framework;
 
 use App\Config;
+use App\Models\Sets\AuditlogSet;
 use App\Models\Staff;
 use YAPF\Framework\Core\SQLi\SqlConnectedClass;
 use YAPF\Framework\Responses\DbObjects\UpdateReply;
@@ -240,6 +241,22 @@ class SessionControl extends SqlConnectedClass
     {
         $this->main_class_object = $staff;
     }
+    protected function cleanAuditLog(): void
+    {
+        $auditLog = new AuditlogSet();
+        $oneyearago = time() - ($this->siteConfig->unixtimeDay() * 365);
+        $whereConfig = [
+            "fields" => ["unixtime"],
+            "values" => [$oneyearago],
+            "types" => ["i"],
+            "matches" => ["<="],
+        ];
+        $auditLog->loadWithConfig($whereConfig);
+        if ($auditLog->getCount() == 0) {
+            return;
+        }
+        $auditLog->purgeCollection();
+    }
     public function loginWithUsernamePassword(string $username, string $password): bool
     {
         $this->createMainObject(false);
@@ -251,6 +268,7 @@ class SessionControl extends SqlConnectedClass
             return false;
         }
         // login ok build session.
+        $this->cleanAuditLog();
         return $this->populateSessionDataset();
     }
 }

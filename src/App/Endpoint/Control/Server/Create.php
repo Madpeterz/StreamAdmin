@@ -58,5 +58,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Server created");
+        $this->createAuditLog($this->server->getId(), "+++", null, $this->server->getDomain());
     }
 }

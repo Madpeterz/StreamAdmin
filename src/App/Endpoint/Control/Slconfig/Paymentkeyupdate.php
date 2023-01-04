@@ -27,5 +27,6 @@ class Paymentkeyupdate extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Key updated", "Slconfig/Paymentkey");
+        $this->createAuditLog($this->siteConfig->getSlConfig()->getId(), "payment key changed");
     }
 }

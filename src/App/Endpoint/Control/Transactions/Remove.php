@@ -26,6 +26,10 @@ class Remove extends ControlAjax
             $this->failed("Unable to find transaction");
             return;
         }
+        $avatar = $transaction->relatedAvatar()->getFirst();
+        $transactionid = $transaction->getTransactionUid();
+        $amount = $transaction->getAmount();
+
         $remove_status = $transaction->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -34,5 +38,6 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Transaction removed");
+        $this->createAuditLog($transactionid, "---", "L$" . $amount, $avatar->getAvatarName());
     }
 }

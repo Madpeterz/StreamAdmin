@@ -25,5 +25,6 @@ class Clear extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Objects cleared from DB");
+        $this->createAuditLog(null, "---", "all objects");
     }
 }

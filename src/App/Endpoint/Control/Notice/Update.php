@@ -95,6 +95,7 @@ class Update extends ControlAjax
         if ($notecardDetail == null) {
             $notecardDetail = " ";
         }
+        $oldvalues = $notice->objectToValueArray();
         $notice->setName($name);
         $notice->setSendObjectIM($sendObjectIM);
         $notice->setImMessage($imMessage);
@@ -113,5 +114,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Notice updated");
+        $this->createMultiAudit(
+            $notice->getId(),
+            $notice->getFields(),
+            $oldvalues,
+            $notice->objectToValueArray()
+        );
     }
 }

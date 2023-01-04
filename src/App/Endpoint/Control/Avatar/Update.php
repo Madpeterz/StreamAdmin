@@ -46,6 +46,7 @@ class Update extends ControlAjax
             $this->failed("Selected UUID is already in use");
             return;
         }
+        $oldvalues = $avatar->objectToValueArray();
         $avatar->setAvatarName($avatarName);
         $avatar->setAvatarUUID($avatarUUID);
         $update_status = $avatar->updateEntry();
@@ -54,5 +55,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Avatar updated");
+        $this->createMultiAudit(
+            $avatar->getId(),
+            $avatar->getFields(),
+            $oldvalues,
+            $avatar->objectToValueArray()
+        );
     }
 }

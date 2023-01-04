@@ -50,5 +50,6 @@ class Addpackage extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Package added to tree vender", "tree/manage/" . $treevender->getId());
+        $this->createAuditLog($treevender_package->getId(), "link package", "Tree:" . $treevender->getName(), "package: " . $package->getName());
     }
 }

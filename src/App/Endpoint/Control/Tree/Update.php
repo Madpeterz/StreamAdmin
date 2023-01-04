@@ -36,6 +36,7 @@ class Update extends ControlAjax
             $this->failed("Unable to find treevender");
             return;
         }
+        $oldvalues = $treevender->objectToValueArray();
         $whereConfig = [
             "fields" => ["name"],
             "values" => [$name],
@@ -68,5 +69,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Treevender updated");
+        $this->createMultiAudit(
+            $treevender->getId(),
+            $treevender->getFields(),
+            $oldvalues,
+            $treevender->objectToValueArray()
+        );
     }
 }

@@ -186,6 +186,13 @@ class AvatarSet extends CollectionSet
         return $this->loadIndexes("avatarUid", $values);
     }
     // Related loaders
+    public function relatedAuditlog(): AuditlogSet
+    {
+        $ids = $this->uniqueIds();
+        $collection = new AuditlogSet();
+        $collection->loadFromAvatarLinks($ids);
+        return $collection;
+    }
     public function relatedBanlist(): BanlistSet
     {
         $ids = $this->uniqueIds();

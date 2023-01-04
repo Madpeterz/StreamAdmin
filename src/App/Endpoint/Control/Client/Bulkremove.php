@@ -105,7 +105,11 @@ class Bulkremove extends ControlAjax
         }
         $this->redirectWithMessage(sprintf("Removed %1\$s rentals!", $removed_counter));
         if ($skipped_counter > 0) {
-            $this->redirectWithMessage(sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter));
+            $this->redirectWithMessage(sprintf(
+                "Removed %1\$s rentals! and skipped %2\$s",
+                $removed_counter,
+                $skipped_counter
+            ));
         }
     }
 }

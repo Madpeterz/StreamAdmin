@@ -29,6 +29,7 @@ class Update extends ControlAjax
             $this->failed("Unable to find template");
             return;
         }
+        $oldvalues = $template->objectToValueArray();
         $template->setName($name);
         $template->setDetail($detail);
         $template->setNotecardDetail($notecardDetail);
@@ -43,5 +44,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Template updated");
+        $this->createMultiAudit(
+            $template->getId(),
+            $template->getFields(),
+            $oldvalues,
+            $template->objectToValueArray()
+        );
     }
 }

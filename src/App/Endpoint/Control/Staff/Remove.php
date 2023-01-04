@@ -2,6 +2,7 @@
 
 namespace App\Endpoint\Control\Staff;
 
+use App\Models\Sets\AuditlogSet;
 use App\Models\Staff;
 use App\Template\ControlAjax;
 
@@ -28,6 +29,8 @@ class Remove extends ControlAjax
             );
             return;
         }
+        $avatar = $staff->relatedAvatar()->getFirst();
+        $staffid = $staff->getId();
         $remove_status = $staff->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -36,5 +39,6 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Staff member removed");
+        $this->createAuditLog($staffid, "---", $avatar->getAvatarName());
     }
 }

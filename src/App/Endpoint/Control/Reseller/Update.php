@@ -23,6 +23,7 @@ class Update extends ControlAjax
             $this->failed("Unable to load reseller");
             return;
         }
+        $oldvalues = $reseller->objectToValueArray();
         $reseller->setRate($rate);
         $reseller->setAllowed($allowed);
         $update_status = $reseller->updateEntry();
@@ -33,5 +34,11 @@ class Update extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Reseller updated");
+        $this->createMultiAudit(
+            $reseller->getId(),
+            $reseller->getFields(),
+            $oldvalues,
+            $reseller->objectToValueArray()
+        );
     }
 }

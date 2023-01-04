@@ -73,6 +73,13 @@ class Restore extends ControlAjax
             $this->failed("Failed to update stream: " . $update->message);
             return;
         }
+        $server = $stream->relatedServer()->getFirst();
         $this->redirectWithMessage("Stream reassigned");
+        $this->createAuditLog(
+            $stream->getStreamUid(),
+            "restored",
+            $avatar->getAvatarName(),
+            "Port: " . $stream->getPort() . " Server: " . $server->getDomain()
+        );
     }
 }

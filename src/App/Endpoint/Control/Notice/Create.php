@@ -79,5 +79,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Notice created");
+        $this->createAuditLog($notice->getId(), "+++", null, $notice->getName());
     }
 }
