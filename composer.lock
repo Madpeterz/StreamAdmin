@@ -535,16 +535,16 @@
         },
         {
             "name": "madpeterz/yetonemorephpframework",
-            "version": "7.0.3",
+            "version": "7.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-                "reference": "d39375e2377410abe6e2afae7a85b7a1c9e01cbe"
+                "reference": "fa74cf790b46329b68b696053d52e5819f7b07b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/d39375e2377410abe6e2afae7a85b7a1c9e01cbe",
-                "reference": "d39375e2377410abe6e2afae7a85b7a1c9e01cbe",
+                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/fa74cf790b46329b68b696053d52e5819f7b07b6",
+                "reference": "fa74cf790b46329b68b696053d52e5819f7b07b6",
                 "shasum": ""
             },
             "require": {
@@ -578,7 +578,7 @@
                 "issues": "https://github.com/Madpeterz/yetonemorephpframework/issues",
                 "source": "https://github.com/Madpeterz/yetonemorephpframework"
             },
-            "time": "2023-02-01T21:33:29+00:00"
+            "time": "2023-02-01T21:51:49+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
