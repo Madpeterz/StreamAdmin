@@ -2,9 +2,8 @@
 
 use App\Config;
 
-define("ErrorConsole", true);
-@ini_set('display_errors', 1);
-@ini_set('log_errors', 1);
+@ini_set('display_errors', "0");
+@ini_set('log_errors', "1");
 @ini_set('session.gc_maxlifetime', ((60 * 60) * 2));
 if (session_status() !== PHP_SESSION_ACTIVE) {
     if (headers_sent() == false) {
@@ -18,6 +17,9 @@ if (defined("APPFOLDER") == false) {
 
 include APPFOLDER . "../../vendor/autoload.php";
 include APPFOLDER . "Framework/Functions.php";
+
+define("ERRORCONSOLE", "yes");
+define("ERRORCONSOLEPRINT", "yes");
 
 global $system;
 $system = new Config();

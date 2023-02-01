@@ -442,16 +442,16 @@
         },
         {
             "name": "madpeterz/yapfcore",
-            "version": "2.0.5",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/YAPFCore.git",
-                "reference": "9e3659806c323f655b2ee61b44b841e1e773695a"
+                "reference": "ee41f15071b15b2e38ce0abcb42d5733ea19b2bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/YAPFCore/zipball/9e3659806c323f655b2ee61b44b841e1e773695a",
-                "reference": "9e3659806c323f655b2ee61b44b841e1e773695a",
+                "url": "https://api.github.com/repos/Madpeterz/YAPFCore/zipball/ee41f15071b15b2e38ce0abcb42d5733ea19b2bb",
+                "reference": "ee41f15071b15b2e38ce0abcb42d5733ea19b2bb",
                 "shasum": ""
             },
             "require": {
@@ -484,7 +484,7 @@
                 "issues": "https://github.com/Madpeterz/YAPFInputFilter/issues",
                 "source": "https://github.com/Madpeterz/YAPFInputFilter"
             },
-            "time": "2022-08-28T14:31:29+00:00"
+            "time": "2023-02-01T22:23:45+00:00"
         },
         {
             "name": "madpeterz/yapfinputfilter",
