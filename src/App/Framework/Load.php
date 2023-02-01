@@ -2,6 +2,7 @@
 
 use App\Config;
 
+define("ErrorConsole", true);
 @ini_set('display_errors', 1);
 @ini_set('log_errors', 1);
 @ini_set('session.gc_maxlifetime', ((60 * 60) * 2));
