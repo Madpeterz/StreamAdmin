@@ -20,6 +20,10 @@ include APPFOLDER . "Framework/Functions.php";
 
 define("ERRORCONSOLE", "yes");
 define("ERRORCONSOLEPRINT", "yes");
+if (getenv('DB_HOST') !== false) {
+    echo "Using live<br/>";
+}
+echo getenv('DB_HOST') . "<br/>";
 
 global $system;
 $system = new Config();
