@@ -1,7 +1,5 @@
 <?php
 
-namespace App;
-
 use YAPF\Core\ErrorControl\ErrorLogging;
 
 class Db extends ErrorLogging
