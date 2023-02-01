@@ -44,15 +44,15 @@ class ResellerTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $testsystem->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
         $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage($reseller->getId());
+        $testsystem->setPage($reseller->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -68,15 +68,15 @@ class ResellerTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $testsystem->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
         $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage($reseller->getId());
+        $testsystem->setPage($reseller->getId());
 
         $manageProcess = new Update();
         $_POST["rate"] = 15;
@@ -98,15 +98,15 @@ class ResellerTest extends TestCase
      */
     public function test_RemoveForm()
     {
-        global $system;
+        global $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $testsystem->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
         $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage($reseller->getId());
+        $testsystem->setPage($reseller->getId());
 
         $removeForm = new Remove();
         $removeForm->process();
@@ -123,15 +123,15 @@ class ResellerTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $testsystem->setPage($avatar->getAvatarUid());
         $reseller = new Reseller();
         $status = $reseller->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage($reseller->getId());
+        $testsystem->setPage($reseller->getId());
 
         $removeProcess = new ResellerRemove();
         $_POST["accept"] = "Accept";

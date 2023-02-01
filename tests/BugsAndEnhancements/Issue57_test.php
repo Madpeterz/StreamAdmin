@@ -10,7 +10,7 @@ class Issue57 extends TestCase
 {
     public function test_addGroupInviteToMessageQ()
     {       
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $updateHandler = new Update();
         $avatar = new Avatar();
         $status = $avatar->loadID(1);

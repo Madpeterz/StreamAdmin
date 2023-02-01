@@ -87,7 +87,7 @@ class FinalsClient extends TestCase
      */
     public function test_ClientBulkRemoveView()
     {
-        global $system;
+        global $testsystem;
         $bulkRemoveView = new BulkRemove();
         $bulkRemoveView->process();
         $statuscheck = $bulkRemoveView->getOutputObject()->getSwapTagString("page_content");

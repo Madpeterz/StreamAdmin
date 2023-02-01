@@ -82,7 +82,7 @@ class BanlistTest extends TestCase
      */
     public function test_BanlistRemoveProcess()
     {
-        global $system;
+        global $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("Banlist TestAvatar");
         $this->assertSame(true,$status->status,"Unable to find test avatar");
@@ -90,7 +90,7 @@ class BanlistTest extends TestCase
         $status = $banlist->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to find banlist entry");
 
-        $system->setPage($banlist->getId());
+        $testsystem->setPage($banlist->getId());
         $removeProcess = new Clear();
         $removeProcess->process();
         $statuscheck = $removeProcess->getOutputObject();

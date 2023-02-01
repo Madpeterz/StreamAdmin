@@ -80,11 +80,11 @@ class StaffTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
         $this->assertSame(true,$status->status,"Unable to load test staff member");
-        $system->setPage($staff->getId());
+        $testsystem->setPage($staff->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -100,11 +100,11 @@ class StaffTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
         $this->assertSame(true,$status->status,"Unable to load test staff member");
-        $system->setPage($staff->getId());
+        $testsystem->setPage($staff->getId());
 
         $manageProcess = new Update();
         $_POST["username"] = "UpdatedUsername";
@@ -119,11 +119,11 @@ class StaffTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $staff = new Staff();
         $status = $staff->loadByField("username","UpdatedUsername");
         $this->assertSame(true,$status->status,"Unable to load test staff member");
-        $system->setPage($staff->getId());
+        $testsystem->setPage($staff->getId());
 
         $removeProcess = new StaffRemove();
         $_POST["accept"] = "Accept";

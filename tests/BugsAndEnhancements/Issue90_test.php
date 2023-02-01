@@ -112,10 +112,10 @@ class Issue90 extends TestCase
         ];
         $rentalSet->loadWithConfig($whereConfig);
         $this->assertSame(5,$rentalSet->getCount(),"Incorrect number of rentals loaded");
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $_POST["accept"] = "Accept";
         foreach($rentalSet as $rentalRm) {
-            $system->setPage($rentalRm->getRentalUid());
+            $testsystem->setPage($rentalRm->getRentalUid());
             $removeRental = new Revoke();
             $removeRental->process();
             $statuscheck = $removeRental->getOutputObject();
@@ -129,7 +129,7 @@ class Issue90 extends TestCase
      */
     public function test_ExpireRentalInSteps()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
@@ -140,11 +140,11 @@ class Issue90 extends TestCase
 
         // set rental to 6days 23hours
         $setTimes = [
-            ($system->unixtimeDay()*6) + ($system->unixtimeHour()*23) => 1,
-            ($system->unixtimeDay()*4) + ($system->unixtimeHour()*23) => 2,
-            ($system->unixtimeDay()*2) + ($system->unixtimeHour()*23) => 3,
-            ($system->unixtimeHour()*23) => 4,
-            ($system->unixtimeHour()*4) => 5,
+            ($testsystem->unixtimeDay()*6) + ($testsystem->unixtimeHour()*23) => 1,
+            ($testsystem->unixtimeDay()*4) + ($testsystem->unixtimeHour()*23) => 2,
+            ($testsystem->unixtimeDay()*2) + ($testsystem->unixtimeHour()*23) => 3,
+            ($testsystem->unixtimeHour()*23) => 4,
+            ($testsystem->unixtimeHour()*4) => 5,
             -5 => 6,
         ];
 
@@ -173,7 +173,7 @@ class Issue90 extends TestCase
      */
     public function test_RenewBackToActiveInSteps()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
@@ -222,7 +222,7 @@ class Issue90 extends TestCase
             $rental = new Rental();
             $rental->loadByAvatarLink($avatar->getId());
             $this->assertSame(true,$rental->isLoaded(),"[".$amount."@".$expectedNoticeLevel[1]."] Failed to load rental ".$log);
-            $expectedRenewalTime = $oldExpireTime + ($system->unixtimeDay() * ($amount/5));
+            $expectedRenewalTime = $oldExpireTime + ($testsystem->unixtimeDay() * ($amount/5));
             $this->assertSame($expectedRenewalTime,$rental->getExpireUnixtime(),
             "[".$amount."@".$expectedNoticeLevel[1]."] rental expire unixtime is not as expected ".$log);
             $this->assertSame($expectedNoticeLevel[1],$rental->getNoticeLink(),
@@ -236,7 +236,7 @@ class Issue90 extends TestCase
      */
     public function test_RemoveTimeViaWebUi()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $_POST = [];
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
@@ -248,7 +248,7 @@ class Issue90 extends TestCase
         $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
         $this->assertSame(12, $rental->getId(), "Incorrect rental ID found!");
 
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
         
         $manageProcess = new Update();
         $_POST["message"] = $rental->getMessage();
@@ -272,8 +272,8 @@ class Issue90 extends TestCase
 
     protected function setupRenewPost(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Renew/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Renew/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -301,14 +301,14 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time() ."Renew".$target . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time() ."Renew".$target . implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 
     protected function setupPostBuy(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Buy/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Buy/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -336,7 +336,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."Buy".$target. implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

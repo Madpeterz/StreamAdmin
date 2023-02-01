@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Secondlifeapi\Buy\CheckStock;
-use App\Endpoint\Secondlifeapi\Buy\GetConfig;
-use App\Endpoint\Secondlifeapi\Buy\StartRental;
+use App\Endpoint\Secondlifeapi\Buy\Checkstock;
+use App\Endpoint\Secondlifeapi\Buy\Getconfig;
+use App\Endpoint\Secondlifeapi\Buy\Startrental;
 use App\Models\Package;
 use App\Models\Stream;
 use PHPUnit\Framework\TestCase;
@@ -54,7 +54,7 @@ class SecondlifeApiBuy extends TestCase
         global $_POST;
         $this->setupPost("Checkstock");
         $_POST["packageuid"] = $this->package->getPackageUid();
-        $checkstock = new CheckStock();
+        $checkstock = new Checkstock();
         $this->assertSame("ready",$checkstock->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$checkstock->getLoadOk(),"Load ok failed");
         $checkstock->process();
@@ -73,7 +73,7 @@ class SecondlifeApiBuy extends TestCase
         $this->setupPost("Getconfig");
         $_POST["packageuid"] = $this->package->getPackageUid();
         $_POST["texturepack"] = 1;
-        $Getconfig = new GetConfig();
+        $Getconfig = new Getconfig();
         $this->assertSame("ready",$Getconfig->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Getconfig->getLoadOk(),"Load ok failed");
         $Getconfig->process();
@@ -122,8 +122,8 @@ class SecondlifeApiBuy extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Buy/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Buy/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -151,7 +151,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Buy".$target. implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

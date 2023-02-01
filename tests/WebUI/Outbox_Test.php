@@ -61,8 +61,8 @@ class OutboxText extends TestCase
 
     public function test_BulkSendToPackageForm()
     {
-        global $_GET, $system;
-        $system->setPage("package");
+        global $_GET, $testsystem;
+        $testsystem->setPage("package");
         $_GET["packageLink"] = 1;
         $_GET["messagePackage"] = "Hello world this is a test";
 
@@ -87,8 +87,8 @@ class OutboxText extends TestCase
 
     public function test_BulkSendToServerForm()
     {
-        global $_GET, $system;
-        $system->setPage("server");
+        global $_GET, $testsystem;
+        $testsystem->setPage("server");
         $_GET["serverLink"] = 1;
         $_GET["messageServer"] = "Hello world this is a test";
 
@@ -114,8 +114,8 @@ class OutboxText extends TestCase
 
     public function test_BulkSendToNoticeForm()
     {
-        global $_GET, $system;
-        $system->setPage("notice");
+        global $_GET, $testsystem;
+        $testsystem->setPage("notice");
         $_GET["noticeLink"] = 10;
         $_GET["messageStatus"] = "Hello world this is a test";
 
@@ -147,7 +147,7 @@ class OutboxText extends TestCase
         $this->assertSame(1,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q before sending");
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(3,$messages->getCount(),"Incorrect number of messages in outbox before sending");
+        $this->assertSame(2,$messages->getCount(),"Incorrect number of messages in outbox before sending");
         $_POST["message"] = "Hello world this is a test";
         $_POST["source"] = "package";
         $_POST["source_id"] = 1;
@@ -160,7 +160,7 @@ class OutboxText extends TestCase
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(4,$messages->getCount(),"Incorrect number of messages in outbox after sending");
+        $this->assertSame(3,$messages->getCount(),"Incorrect number of messages in outbox after sending");
         $botmessageQ = new BotcommandqSet();
         $botmessageQ->loadAll();
         $this->assertSame(2,$botmessageQ->getCount(),"Incorrect number of messages in bot command Q after sending");

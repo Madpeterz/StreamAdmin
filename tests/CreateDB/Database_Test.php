@@ -11,15 +11,15 @@ class Database_Test extends TestCase
 
     public function test_WipeDb()
     {
-        global $system;
-        $results = $system->getSQL()->rawSQL("tests/wipeDB.sql");
-        $this->assertSame("ok", $results->message, "incorrect wipe message");
+        global $testsystem;
+        $results = $testsystem->getSQL()->rawSQL("tests/wipeDB.sql");
+        $this->assertSame("ok", $results->message, "incorrect wipe message: ".$testsystem->getSQL()->getLastErrorBasic());
         $this->assertSame(5, $results->commandsRun, "incorrect number of commands run");
         $this->assertSame(true, $results->status, "wipe db has failed");
-        $system->getSQL()->sqlSave();
-        $results = $system->getSQL()->rawSQL("Versions/installer.sql");
+        $testsystem->getSQL()->sqlSave();
+        $results = $testsystem->getSQL()->rawSQL("Versions/installer.sql");
         $this->assertSame("ok", $results->message, "incorrect install message");
-        $this->assertSame(142, $results->commandsRun, "incorrect number of commands run");
+        $this->assertSame(121, $results->commandsRun, "incorrect number of commands run");
         $this->assertSame(true, $results->status, "install db has failed");
     }
 

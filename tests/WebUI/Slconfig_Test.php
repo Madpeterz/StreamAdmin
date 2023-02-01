@@ -33,10 +33,10 @@ class Slconfigtest extends TestCase
      */
     public function test_Manageprocess()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $updateHandler = new Update();
         $avatar = new Avatar();
-        $status = $avatar->loadID($system->getSlConfig()->getOwnerAvatarLink());
+        $status = $avatar->loadID($testsystem->getSlConfig()->getOwnerAvatarLink());
         $this->assertSame(true,$status->status,"Unable to load system owner avatar");
         
         $_POST["newResellersRate"] = 5;
@@ -47,6 +47,7 @@ class Slconfigtest extends TestCase
         $_POST["ui_tweaks_datatableItemsPerPage"] = 25;
         $_POST["displayTimezoneLink"] = 1;
 
+        $_POST["ui_tweaks_groupStreamsBy"] = 1;
 
         $_POST["hudAllowDiscord"] = 0;
         $_POST["hudDiscordLink"] = "testing";
@@ -58,7 +59,7 @@ class Slconfigtest extends TestCase
 
         $updateHandler->process();
         $statuscheck = $updateHandler->getOutputObject();
-        $this->assertSame("System config updated [Forced key reissue due to bug]",$statuscheck->getSwapTagString("message"));
+        $this->assertSame("System config updated",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
 }

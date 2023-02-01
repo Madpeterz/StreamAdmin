@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\TextureConfig\Create as TextureConfigCreate;
-use App\Endpoint\Control\TextureConfig\Remove;
-use App\Endpoint\Control\TextureConfig\Update;
+use App\Endpoint\Control\Textureconfig\Create as TextureConfigCreate;
+use App\Endpoint\Control\Textureconfig\Remove;
+use App\Endpoint\Control\Textureconfig\Update;
 use App\Endpoint\View\Textureconfig\Create;
 use App\Endpoint\View\Textureconfig\DefaultView;
 use App\Endpoint\View\Textureconfig\Manage;
@@ -69,11 +69,11 @@ class TextureconfigTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByName("UnitTestTexturePack");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
-        $system->setPage($textureconfig->getId());
+        $testsystem->setPage($textureconfig->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -92,11 +92,11 @@ class TextureconfigTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByName("UnitTestTexturePack");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
-        $system->setPage($textureconfig->getId());
+        $testsystem->setPage($textureconfig->getId());
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitTestTexturePack Updated";
@@ -124,11 +124,11 @@ class TextureconfigTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByName("UnitTestTexturePack Updated");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
-        $system->setPage($textureconfig->getId());
+        $testsystem->setPage($textureconfig->getId());
 
         $removeProcess = new Remove();
         $_POST["accept"] = "Accept";

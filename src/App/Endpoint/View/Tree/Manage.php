@@ -2,12 +2,11 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\Endpoint\Secondlifeapi\Tree\GetPackages;
+use App\Endpoint\Secondlifeapi\Tree\Getpackages;
 use App\Models\Sets\PackageSet;
 use YAPF\Bootstrap\Template\Form;
 use App\Models\Treevender;
 use App\Models\Sets\ServertypesSet;
-use App\Models\Sets\TreevenderpackagesSet;
 
 class Manage extends View
 {
@@ -64,7 +63,7 @@ class Manage extends View
             $improved_packageLinker[$package->getId()] = $info;
         }
 
-        $testOutput = new GetPackages();
+        $testOutput = new Getpackages();
         $testOutput->ProcessWithTreevenderID($treevender->getId());
         $testing = $testOutput->captureOutput();
         if (nullSafeStrLen($testing) > 9000) {

@@ -75,11 +75,11 @@ class PackageTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $package = new Package();
         $status = $package->loadByName("AlsoUnitTestPackage");
         $this->assertSame(true,$status->status,"Unable to load test package");
-        $system->setPage($package->getPackageUid());
+        $testsystem->setPage($package->getPackageUid());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -99,11 +99,11 @@ class PackageTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $package = new Package();
         $status = $package->loadByName("AlsoUnitTestPackage");
         $this->assertSame(true,$status->status,"Unable to load test package");
-        $system->setPage($package->getPackageUid());
+        $testsystem->setPage($package->getPackageUid());
 
         $manageProcess = new Update();
         $_POST["name"] = "AlsoUnitTestPackage Updated";
@@ -136,11 +136,11 @@ class PackageTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $package = new Package();
         $status = $package->loadByName("AlsoUnitTestPackage Updated");
         $this->assertSame(true,$status->status,"Unable to load test package");
-        $system->setPage($package->getPackageUid());
+        $testsystem->setPage($package->getPackageUid());
 
         $removeProcess = new PackageRemove();
         $_POST["accept"] = "Accept";

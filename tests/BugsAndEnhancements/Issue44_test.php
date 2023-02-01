@@ -13,7 +13,7 @@ class Issue44 extends TestCase
     protected $package = null;
     public function test_removePackageUnlinkTransaction()
     {        
-        global $sql, $system, $_POST;
+        global $sql, $testsystem, $_POST;
         $avatars = new AvatarSet();
         $avatars->loadNewest(1);
         $avatar = $avatars->getFirst();
@@ -28,16 +28,16 @@ class Issue44 extends TestCase
         $createsStatus = $transaction->createEntry();
         $this->assertSame("ok",$createsStatus->message,"Failed to create transaction");
         $this->assertSame(true,$createsStatus->status,"Failed to create transaction");
-        $system->getSQL()->sqlSave();
+        $testsystem->getSQL()->sqlSave();
 
-        $system->setPage($package->getPackageUid());
+        $testsystem->setPage($package->getPackageUid());
         $removeProcess = new Remove();
         $_POST["accept"] = "Accept";
         $removeProcess->process();
         $statuscheck = $removeProcess->getOutputObject();
         $this->assertStringContainsString("Package removed",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
-        $system->getSQL()->sqlSave();
+        $testsystem->getSQL()->sqlSave();
 
         $transaction_test = new Transactions();
         $status = $transaction_test->loadByTransactionUid("is44");

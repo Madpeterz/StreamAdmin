@@ -65,11 +65,11 @@ class TemplateTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $template = new Template();
         $status = $template->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load test template");
-        $system->setPage($template->getId());
+        $testsystem->setPage($template->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -91,11 +91,11 @@ class TemplateTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $template = new Template();
         $status = $template->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load test template");
-        $system->setPage($template->getId());
+        $testsystem->setPage($template->getId());
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitTestUpdated";
@@ -116,11 +116,11 @@ class TemplateTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $template = new Template();
         $status = $template->loadByName("UnitTestUpdated");
         $this->assertSame(true,$status->status,"Unable to load test template");
-        $system->setPage($template->getId());
+        $testsystem->setPage($template->getId());
 
         $removeProcess = new TemplateRemove();
         $_POST["accept"] = "Accept";

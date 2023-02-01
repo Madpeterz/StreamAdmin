@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Secondlifeapi\BotCommandQ\Next;
+use App\Endpoint\Secondlifeapi\Botcommandq\Next;
 use App\Endpoint\Secondlifeapi\Buy\Startrental;
 use App\Models\Botconfig;
 use App\Models\Package;
@@ -59,7 +59,7 @@ class Issue73 extends TestCase
 
         $botcommandSet = new BotcommandqSet();
         $reply = $botcommandSet->countInDB();
-        $this->assertSame(1,$reply,"Current number of events in the Q is not correct"); 
+        $this->assertSame(1,$reply->items,"Current number of events in the Q is not correct"); 
         // Should have a group invite in the Q
     }
 
@@ -68,8 +68,8 @@ class Issue73 extends TestCase
      */
     public function test_SlService()
     {       
-        global $_POST, $system;
-        $system->forceProcessURI("Botcommandq/Next");
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Botcommandq/Next");
         $_POST["mode"] = "botcommandqserver";
         $_POST["objectuuid"] = "b36971ef-f2a5-f461-425c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -97,7 +97,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."BotcommandqNext". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."BotcommandqNext". implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $Next = new Next();
         $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
@@ -109,7 +109,7 @@ $storage = [
 
         $botcommandSet = new BotcommandqSet();
         $reply = $botcommandSet->countInDB();
-        $this->assertSame(0,$reply,"Current number of events in the Q is not correct"); 
+        $this->assertSame(0,$reply->items,"Current number of events in the Q is not correct"); 
     }
 
     /**
@@ -149,8 +149,8 @@ $storage = [
 
     protected function setupPostBuy(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Buy/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Buy/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -178,7 +178,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."Buy".$target. implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

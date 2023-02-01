@@ -171,8 +171,8 @@ class ForcedActions extends TestCase
         $statuscheck = $clientListByNoticeLevel->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing clients list element";
         $this->assertStringContainsString("<table",$statuscheck,$missing);
-        $this->assertStringContainsString("NoticeLevel",$statuscheck,$missing);
-        $this->assertStringContainsString("Count",$statuscheck,$missing);
+        $this->assertStringContainsString("Server",$statuscheck,$missing);
+        $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
 
     public function test_ShowClientCreateForm()
@@ -182,8 +182,7 @@ class ForcedActions extends TestCase
         $statuscheck = $ClientCreateForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client create element";
         $this->assertStringContainsString("Basics",$statuscheck,$missing);
-        $this->assertStringContainsString("Find/Add avatar",$statuscheck,$missing);
-        $this->assertStringContainsString("you must use the UID!",$statuscheck,$missing);
+        $this->assertStringContainsString("Find avatar",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
     }
 

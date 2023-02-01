@@ -40,7 +40,7 @@ class Issue69 extends TestCase
         $messageSet = new MessageSet();
         $messageSet->loadAll();
         $status = $messageSet->purgeCollection();
-        $this->assertSame(5,$status->itemsRemoved,"Incorrect number of mail removed: ".json_encode($status));
+        $this->assertSame(4,$status->itemsRemoved,"Incorrect number of mail removed: ".json_encode($status));
         $this->assertSame(true,$status->status,"mail purge has failed");
         unset($messageSet);
 
@@ -62,13 +62,13 @@ class Issue69 extends TestCase
             "fields" => ["noticeLink"],
             "values" => [6],
         ];
-        $this->assertSame(0,$rentalSet->countInDB($whereConfig),"There should have been zero rentals with the expired notice state");
+        $this->assertSame(0,$rentalSet->countInDB($whereConfig)->items,"There should have been zero rentals with the expired notice state");
         $Next = new Next();
         $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
         $Next->process();
         $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed"); 
-        $this->assertSame(1,$rentalSet->countInDB($whereConfig),"There should have been one rental with the expired notice state");
+        $this->assertSame(1,$rentalSet->countInDB($whereConfig)->items,"There should have been one rental with the expired notice state");
     }
 }

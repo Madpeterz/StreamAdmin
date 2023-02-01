@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\Stream\BulkUpdate;
+use App\Endpoint\Control\Stream\Bulkupdate;
 use App\Endpoint\Control\Stream\Create as StreamCreate;
 use App\Endpoint\Control\Stream\Remove as StreamRemove;
 use App\Endpoint\Control\Stream\Update;
@@ -11,10 +11,9 @@ use App\Endpoint\View\Stream\Create;
 use App\Endpoint\View\Stream\DefaultView;
 use App\Endpoint\View\Stream\Inpackage;
 use App\Endpoint\View\Stream\Manage;
-use App\Endpoint\View\Stream\NeedWork;
+use App\Endpoint\View\Stream\Needwork;
 use App\Endpoint\View\Stream\Onserver;
 use App\Endpoint\View\Stream\Ready;
-use App\Endpoint\View\Stream\Remove;
 use App\Endpoint\View\Stream\Sold;
 use App\Models\Package;
 use App\Models\Stream;
@@ -40,12 +39,12 @@ class StreamTest extends TestCase
      */
     public function test_ViewSelectedPackage()
     {
-        global $system;
+        global $testsystem;
         $package = new Package();
         $status = $package->loadID(1);
         $this->assertSame(true,$status->status,"Unable to load test package");
 
-        $system->setPage($package->getPackageUid());
+        $testsystem->setPage($package->getPackageUid());
         $view = new Inpackage();
         $view->process();
         $statuscheck = $view->getOutputObject()->getSwapTagString("page_content");
@@ -98,11 +97,11 @@ class StreamTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $stream = new Stream();
         $status = $stream->loadByField("port",8006);
         $this->assertSame(true,$status->status,"Unable to load test stream");
-        $system->setPage($stream->getStreamUid());
+        $testsystem->setPage($stream->getStreamUid());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -120,11 +119,11 @@ class StreamTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $stream = new Stream();
         $status = $stream->loadByPort(8004);
         $this->assertSame(true,$status->status,"Unable to load test stream");
-        $system->setPage($stream->getStreamUid());
+        $testsystem->setPage($stream->getStreamUid());
 
         $manageProcess = new Update();
         $_POST["port"] = 8080;
@@ -150,11 +149,11 @@ class StreamTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $stream = new Stream();
         $status = $stream->loadByField("port",8080);
         $this->assertSame(true,$status->status,"Unable to load test stream");
-        $system->setPage($stream->getStreamUid());
+        $testsystem->setPage($stream->getStreamUid());
 
         $removeProcess = new StreamRemove();
         $_POST["accept"] = "Accept";
@@ -169,8 +168,8 @@ class StreamTest extends TestCase
      */
     public function test_Onserver()
     {
-        global $system;
-        $system->setPage(1);
+        global $testsystem;
+        $testsystem->setPage(1);
         $Onserver = new Onserver();
         $Onserver->process();
         $statuscheck = $Onserver->getOutputObject()->getSwapTagString("page_content");
@@ -178,7 +177,7 @@ class StreamTest extends TestCase
         $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
         $this->assertStringContainsString("8002",$statuscheck,$missing);
         $this->assertStringContainsString("Sold",$statuscheck,$missing);
-        $this->assertStringContainsString("Testing",$statuscheck,$missing);
+        $this->assertStringContainsString("UnitTestPackage",$statuscheck,$missing);
     }
 
     /**
@@ -201,7 +200,7 @@ class StreamTest extends TestCase
      */
     public function test_needWork()
     {
-        $NeedWork = new NeedWork();
+        $NeedWork = new Needwork();
         $NeedWork->process();
         $statuscheck = $NeedWork->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing stream list needwork element";
@@ -301,7 +300,7 @@ class StreamTest extends TestCase
             }
         }
         $updated_counter = $stream_set->getCount() - $updated_counter;
-        $StreamBulkupdate = new BulkUpdate();
+        $StreamBulkupdate = new Bulkupdate();
         $_POST["accept"] = "Accept";
         $StreamBulkupdate->process();
         $statuscheck = $StreamBulkupdate->getOutputObject();

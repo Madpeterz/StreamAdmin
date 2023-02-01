@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Secondlifeapi\ProxyRenew\Details;
+use App\Endpoint\Secondlifeapi\Proxyrenew\Details;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiProxyrenew extends TestCase
@@ -27,8 +27,8 @@ class SecondlifeApiProxyrenew extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Proxyrenew/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Proxyrenew/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -56,7 +56,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "Proxyrenew".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Proxyrenew".$target. implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

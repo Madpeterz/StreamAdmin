@@ -9,8 +9,8 @@ class SecondlifeApiObject extends TestCase
 {
     public function test_Ping()
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Object/Ping");
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Object/Ping");
         $_POST["version"] = "2.0.0.0";
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
@@ -37,7 +37,7 @@ class SecondlifeApiObject extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."ObjectPing". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."ObjectPing". implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $ping = new Ping();
         $this->assertSame("ready",$ping->getOutputObject()->getSwapTagString("message"),"Ready checks failed");

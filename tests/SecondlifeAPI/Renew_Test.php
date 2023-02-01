@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Secondlifeapi\Renew\CostAndTime;
+use App\Endpoint\Secondlifeapi\Renew\Costandtime;
 use App\Endpoint\Secondlifeapi\Renew\Details;
-use App\Endpoint\Secondlifeapi\Renew\RenewNow;
+use App\Endpoint\Secondlifeapi\Renew\Renewnow;
 use App\Models\Rental;
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +45,7 @@ class SecondlifeApiRenew extends TestCase
         $this->setupPost("Costandtime");
         $_POST["rentalUid"] = $split[0];
 
-        $Costandtime = new CostAndTime();
+        $Costandtime = new Costandtime();
         $this->assertSame("ready",$Costandtime->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$Costandtime->getLoadOk(),"Load ok failed");
         $Costandtime->process();
@@ -92,8 +92,8 @@ class SecondlifeApiRenew extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Renew/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Renew/".$target);
         $_POST["method"] = "Renew";
         $_POST["action"] = $target;
         $_POST["mode"] = "test";
@@ -123,7 +123,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "Renew".$target.implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Renew".$target.implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

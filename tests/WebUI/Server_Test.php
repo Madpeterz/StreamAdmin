@@ -57,11 +57,11 @@ class ServerTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $server = new Server();
         $status = $server->loadByDomain("MagicServerTest");
         $this->assertSame(true,$status->status,"Unable to load test server");
-        $system->setPage($server->getId());
+        $testsystem->setPage($server->getId());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -79,11 +79,11 @@ class ServerTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $server = new Server();
         $status = $server->loadByDomain("MagicServerTest");
         $this->assertSame(true,$status->status,"Unable to load test server");
-        $system->setPage($server->getId());
+        $testsystem->setPage($server->getId());
 
 
         $manageProcess = new Update();
@@ -100,12 +100,12 @@ class ServerTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $server = new Server();
         $status = $server->loadByDomain("SuperMagicTest");
         $this->assertSame("Ok",$status->message,"Unable to load test server");
         $this->assertSame(true,$status->status,"Unable to load test server");
-        $system->setPage($server->getId());
+        $testsystem->setPage($server->getId());
 
         $removeProcess = new ServerRemove();
         $_POST["accept"] = "Accept";

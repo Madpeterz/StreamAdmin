@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Secondlifeapi\EventQ\Next;
+use App\Endpoint\Secondlifeapi\Eventq\Next;
 use App\Models\Sets\EventsqSet;
 use PHPUnit\Framework\TestCase;
 
@@ -10,8 +10,8 @@ class SecondlifeApiEventsQserver extends TestCase
 {
     public function test_Next()
     {
-        global $_POST, $system;
-        $system->forceProcessURI("EventQ/Next");
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("EventQ/Next");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -39,7 +39,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "EventQNext". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "EventQNext". implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
         $EventsqSet = new EventsqSet();
@@ -55,7 +55,7 @@ $storage = [
         $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("hasmessage"),"No message detected but I was expecting one");
         $this->assertStringStartsWith('{"package":"UnitTestPackage","uuid":"499c3e36-69b3-40e5-9229-0cfa5db30766","name":"Test Buyer"',
             $Next->getOutputObject()->getSwapTagString("eventMessage"),"incorrect eventmessage");
-        $system->getSQL()->sqlSave();
+        $testsystem->getSQL()->sqlSave();
         $EventsqSet = new EventsqSet();
         $this->assertSame(true,$EventsqSet->loadAll()->status,"Unable to load message set to check workspace");
         $this->assertSame(2,$EventsqSet->getCount(),"Incorrect number of messages in the Q");

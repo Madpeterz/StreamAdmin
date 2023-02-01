@@ -24,11 +24,11 @@ class SystemApiNotecard extends TestCase
 
     protected function SetupPost($action)
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $_POST["method"] = "Notecard";
         $_POST["action"] = $action;
         $_POST["unixtime"] = time();
-        $bits = [$_POST["unixtime"],$_POST["method"],$_POST["action"],$system->getSlConfig()->getHttpInboundSecret()];
+        $bits = [$_POST["unixtime"],$_POST["method"],$_POST["action"],$testsystem->getSlConfig()->getHttpInboundSecret()];
         $_POST["token"] = sha1(implode("", $bits));
     }
 

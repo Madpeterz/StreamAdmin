@@ -2,16 +2,16 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Secondlifeapi\Texturepack\GetPack;
+use App\Endpoint\Secondlifeapi\Texturepack\Getpack;
 use PHPUnit\Framework\TestCase;
 
 class SecondlifeApiTexturepack extends TestCase
 {
     public function test_Getpack()
     {
-        global $_POST, $system;
-        $this->assertSame(1,$system->getSlConfig()->getId(1),"config not loaded");
-        $system->forceProcessURI("Texturepack/Getpack");
+        global $_POST, $testsystem;
+        $this->assertSame(1,$testsystem->getSlConfig()->getId(1),"config not loaded");
+        $testsystem->forceProcessURI("Texturepack/Getpack");
         $_POST["version"] = "2.0.0.0";
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
@@ -38,7 +38,7 @@ class SecondlifeApiTexturepack extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "TexturepackGetpack" . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "TexturepackGetpack" . implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["texturepack"] = 1;
         $GetPack = new Getpack();
@@ -68,7 +68,7 @@ class SecondlifeApiTexturepack extends TestCase
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "TexturepackGetpack". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "TexturepackGetpack". implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $GetPack = new GetPack();
         $this->assertSame(true,$GetPack->getLoadOk(),"Load ok failed");

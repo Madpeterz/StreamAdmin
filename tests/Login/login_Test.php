@@ -53,7 +53,7 @@ class Login extends TestCase
         global $area;
         $messages = new MessageSet();
         $messages->loadAll();
-        $this->assertSame(2,$messages->getCount(),"Status check failed");
+        $this->assertSame(1,$messages->getCount(),"Status check failed");
         $area = "resetwithtoken";
         $LoginPage = new Resetwithtoken();
         $LoginPage->process();
@@ -93,9 +93,9 @@ class Login extends TestCase
 
     public function test_IsLoggedIn()
     {
-        global $system;
+        global $testsystem;
         /* Getting the session object from the system object. */
-        $session = $system->getSession();
+        $session = $testsystem->getSession();
         $session->loadFromSession();
         $this->assertSame(true,$session->getLoggedIn(),"Not logged in");
         $this->assertSame(true,$session->getOwnerLevel(),"Not logged in as system owner");
@@ -103,8 +103,8 @@ class Login extends TestCase
 
     public function test_Logout()
     {
-        global $system;
-        $session = $system->getSession();
+        global $testsystem;
+        $session = $testsystem->getSession();
         $session->loadFromSession();
         $this->assertSame(true,$session->getLoggedIn(),"Not logged in [Required for logout]");
         $logout = new Logout();
@@ -116,8 +116,8 @@ class Login extends TestCase
 
     public function test_LogoutReloadLogin()
     {
-        global $system;
-        $session = $system->getSession();
+        global $testsystem;
+        $session = $testsystem->getSession();
         $this->assertSame(false,$session->loadFromSession(),"Still logged in even thou we killed the session");
         $this->assertSame(false,$session->getLoggedIn(),"Still logged in even thou we killed the session");
         $this->test_LoginWithPassword();

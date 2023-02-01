@@ -4,7 +4,7 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Avatar\Create as AvatarCreate;
 use App\Endpoint\Control\Client\Create as ClientCreate;
-use App\Endpoint\Control\Client\GetNotecard;
+use App\Endpoint\Control\Client\Getnotecard;
 use App\Endpoint\Control\Client\Message;
 use App\Endpoint\Control\Client\Revoke as ClientRevoke;
 use App\Endpoint\Control\Client\Update;
@@ -33,8 +33,8 @@ class ClientTest extends TestCase
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client list by notice level element";
         $this->assertStringContainsString("7 day notice",$statuscheck,$missing);
-        $this->assertStringContainsString("NoticeLevel",$statuscheck,$missing);
-        $this->assertStringContainsString("Count",$statuscheck,$missing);
+        $this->assertStringContainsString("Server",$statuscheck,$missing);
+        $this->assertStringContainsString("Renewals",$statuscheck,$missing);
     }
 
     /**
@@ -42,8 +42,8 @@ class ClientTest extends TestCase
      */
     public function test_SelectNotice()
     {
-        global $system;
-        $system->setPage(1);
+        global $testsystem;
+        $testsystem->setPage(1);
         $default = new Bynoticelevel();
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
@@ -78,7 +78,7 @@ class ClientTest extends TestCase
         $createForm->process();
         $statuscheck = $createForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client create form element";
-        $this->assertStringContainsString("Find/Add avatar",$statuscheck,$missing);
+        $this->assertStringContainsString("Find avatar",$statuscheck,$missing);
         $this->assertStringContainsString("Days remaining",$statuscheck,$missing);
         $this->assertStringContainsString("Stream UID (Or port)",$statuscheck,$missing);
         $this->assertStringContainsString("multiple streams with",$statuscheck,$missing);
@@ -136,14 +136,14 @@ class ClientTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("ClientTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -164,14 +164,14 @@ class ClientTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("ClientTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
         // update message
         $manageProcess = new Update();
         $_POST["message"] = "Message updated";
@@ -183,7 +183,7 @@ class ClientTest extends TestCase
         $rental = new Rental();
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
         $manageProcess = new Update();
         $_POST["message"] = $rental->getMessage();
         $_POST["adjustment_dir"] = "true";
@@ -201,7 +201,7 @@ class ClientTest extends TestCase
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
         $old_owner_id = $rental->getAvatarLink();
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
         $_POST["adjustment_dir"] = "true";
         $_POST["adjustment_hours"] = "0";
         $_POST["adjustment_days"] = "0";
@@ -222,14 +222,14 @@ class ClientTest extends TestCase
      */
     public function test_MessageClientProcess()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
         // send message to client
         $sendMessageToClient = new Message();
         $_POST["mail"] = "This is a test it is only a test";
@@ -244,16 +244,16 @@ class ClientTest extends TestCase
      */
     public function test_GetNotecard()
     {
-        global $system;
+        global $testsystem;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
         $rental = new Rental();
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
 
-        $getNotecard = new GetNotecard();
+        $getNotecard = new Getnotecard();
         $getNotecard->process();
         $statuscheck = $getNotecard->getOutputObject();
         $this->assertStringContainsString("Control panel:",$statuscheck->getSwapTagString("message"));
@@ -267,7 +267,7 @@ class ClientTest extends TestCase
      */
     public function test_RevokeProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $avatar = new Avatar();
         $status = $avatar->loadByAvatarName("OtherTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
@@ -275,7 +275,7 @@ class ClientTest extends TestCase
         $rental = new Rental();
         $status = $rental->loadByAvatarLink($avatar->getId());
         $this->assertSame(true,$status->status,"Unable to load test rental");
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
 
         $removeProcess = new ClientRevoke();
         $_POST["accept"] = "Accept";
@@ -290,7 +290,7 @@ class ClientTest extends TestCase
      */
     public function test_RestoreProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $stream = new Stream();
         $stream->loadByPort(8004);
 
@@ -298,7 +298,7 @@ class ClientTest extends TestCase
         $this->assertSame(null,$stream->getRentalLink(),"Stream should not have a linked rental");
 
         $_POST["accept"] = "Accept";
-        $system->setPage($stream->getStreamUid());
+        $testsystem->setPage($stream->getStreamUid());
 
         $restoreProcess = new Restore();
         $restoreProcess->process();
@@ -317,7 +317,7 @@ class ClientTest extends TestCase
         $rental = new Rental();
         $rental->loadId($stream->getRentalLink());
         $_POST["accept"] = "Accept";
-        $system->setPage($rental->getRentalUid());
+        $testsystem->setPage($rental->getRentalUid());
 
         $removeProcess = new ClientRevoke();
         $removeProcess->process();
@@ -328,12 +328,12 @@ class ClientTest extends TestCase
      */
     public function test_Active()
     {
-        global $system;
+        global $testsystem;
         $rentals = new RentalSet();
         $rentals->loadAll();
         $this->assertSame(1, $rentals->getCount(), "incorrect number of rentals");
         $rental = $rentals->getFirst();
-        $rental->setExpireUnixtime(time()+$system->unixtimeWeek());
+        $rental->setExpireUnixtime(time()+$testsystem->unixtimeWeek());
         $rental->setNoticeLink(10);
         $rental->updateEntry();
         $Active = new Active();

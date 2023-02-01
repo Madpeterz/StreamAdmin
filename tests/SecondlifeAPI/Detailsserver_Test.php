@@ -9,8 +9,8 @@ class SecondlifeApiDetailsserver extends TestCase
 {
     public function test_Next()
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Detailsserver/Next");
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Detailsserver/Next");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -38,7 +38,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "DetailsserverNext".implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "DetailsserverNext".implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $Next = new Next();
         $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");

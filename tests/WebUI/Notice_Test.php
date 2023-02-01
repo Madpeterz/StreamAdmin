@@ -73,11 +73,11 @@ class NoticeTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $notice = new Notice();
         $status = $notice->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
-        $system->setPage($notice->getId());
+        $testsystem->setPage($notice->getId());
 
         $manageForm = new Manage();
         $manageForm->process();
@@ -100,11 +100,11 @@ class NoticeTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $notice = new Notice();
         $status = $notice->loadByName("UnitTest");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
-        $system->setPage($notice->getId());
+        $testsystem->setPage($notice->getId());
 
         $_POST["name"] = "UnitTest Updated";
         $_POST["hoursRemaining"] = "90";
@@ -127,11 +127,11 @@ class NoticeTest extends TestCase
      */
     public function test_RemoveForm()
     {
-        global $system;
+        global $testsystem;
         $notice = new Notice();
         $status = $notice->loadByName("UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
-        $system->setPage($notice->getId());
+        $testsystem->setPage($notice->getId());
 
         $removeForm = new Remove();
         $removeForm->process();
@@ -149,7 +149,7 @@ class NoticeTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $notice = new Notice();
         $status = $notice->loadByName("UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
@@ -164,7 +164,7 @@ class NoticeTest extends TestCase
         $this->assertSame(true,$reply->status,"Failed to assign rental to notice");
 
 
-        $system->setPage($notice->getId());
+        $testsystem->setPage($notice->getId());
         $_POST["accept"] = "Accept";
         $_POST["newNoticeLevel"] = 10;
 

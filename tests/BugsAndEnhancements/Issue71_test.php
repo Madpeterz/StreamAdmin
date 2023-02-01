@@ -15,7 +15,7 @@ class Issue71 extends TestCase
     {       
         $EventsqSet = new EventsqSet();
         $reply = $EventsqSet->countInDB();
-        $this->assertSame(7,$reply,"Current number of events in the Q is not correct");
+        $this->assertSame(7,$reply->items,"Current number of events in the Q is not correct");
     }
 
     /**
@@ -66,7 +66,7 @@ class Issue71 extends TestCase
     {       
         $EventsqSet = new EventsqSet();
         $reply = $EventsqSet->countInDB();
-        $this->assertSame(8,$reply,"Current number of events in the Q is not correct");
+        $this->assertSame(8,$reply->items,"Current number of events in the Q is not correct");
     }
 
     /**
@@ -84,8 +84,8 @@ class Issue71 extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Renew/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Renew/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -113,7 +113,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."Renew".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."Renew".$target. implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

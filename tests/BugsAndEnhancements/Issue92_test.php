@@ -2,7 +2,7 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\Control\Client\NoticeOptOut;
+use App\Endpoint\Control\Client\Noticeoptout;
 use App\Endpoint\Secondlifeapi\Noticeserver\Next;
 use App\Endpoint\View\Client\Manage;
 use App\Models\Rental;
@@ -15,7 +15,7 @@ class Issue92 extends TestCase
     public function test_CheckCurrentMessageQ()
     {
         $MessageSet = new MessageSet();
-        $this->assertSame(8,$MessageSet->countInDB(),"Incorrect number of messages in the Q");
+        $this->assertSame(8,$MessageSet->countInDB()->items,"Incorrect number of messages in the Q");
     }
 
     /**
@@ -23,11 +23,11 @@ class Issue92 extends TestCase
      */
     public function test_AdjustClient()
     {
-        global $system;
+        global $testsystem;
         $rental = new Rental();
         $this->assertSame(true,$rental->loadid(12)->status,"Unable to load rental");
         $rental->setNoticeLink(10);
-        $rental->setExpireUnixtime(time()+($system->unixtimeDay()*7)-$system->unixtimeHour());
+        $rental->setExpireUnixtime(time()+($testsystem->unixtimeDay()*7)-$testsystem->unixtimeHour());
         $this->assertSame(true,$rental->updateEntry()->status,"Failed to update rental");
     }
 
@@ -68,7 +68,7 @@ class Issue92 extends TestCase
     public function test_ReCheckCurrentMessageQ()
     {
         $MessageSet = new MessageSet();
-        $this->assertSame(8,$MessageSet->countInDB(),"Incorrect number of messages in the Q");
+        $this->assertSame(8,$MessageSet->countInDB()->items,"Incorrect number of messages in the Q");
     }
 
     /**
@@ -76,12 +76,12 @@ class Issue92 extends TestCase
      */
     public function test_UIshowsDisable()
     {
-        global $system;
+        global $testsystem;
 
         $rental = new Rental();
         $this->assertSame(true,$rental->loadid(12)->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
-        $system->setPage( $rental->getRentalUid());
+        $testsystem->setPage( $rental->getRentalUid());
         $manageForm  = new Manage();
         $manageForm->process();
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
@@ -96,16 +96,16 @@ class Issue92 extends TestCase
      */
     public function test_UIupdateOptout()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
 
         $rental = new Rental();
         $this->assertSame(true,$rental->loadid(12)->status,"Unable to load rental");
         $this->assertSame(1,$rental->getNoticeLink(),"Rental has incorrect notice level");
-        $system->setPage( $rental->getRentalUid());
+        $testsystem->setPage( $rental->getRentalUid());
 
         $_POST["remove-optout-1"] = 1;
         $_POST["add-optout-6"] = 1;
-        $updateOptout = new NoticeOptOut();
+        $updateOptout = new Noticeoptout();
         $updateOptout->process();
         $statuscheck = $updateOptout->getOutputObject();
         $this->assertSame("Opt-outs updated enabled: 1 and removed 1",$statuscheck->getSwapTagString("message"));
@@ -114,8 +114,8 @@ class Issue92 extends TestCase
 
     protected function setupPost(string $module, string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI($module."/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI($module."/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -143,7 +143,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  .$module.$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  .$module.$target. implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 

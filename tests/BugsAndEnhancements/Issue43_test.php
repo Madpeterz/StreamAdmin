@@ -15,7 +15,7 @@ class Issue43 extends TestCase
     protected $package = null;
     public function test_updateRentalPackageLink()
     {        
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $packages = new PackageSet();
         $packages->loadNewest();
         $targetPackage = $packages->getFirst();
@@ -43,10 +43,10 @@ class Issue43 extends TestCase
         $rental->setPackageLink($package->getId());
         $rental->updateEntry();
 
-        $system->getSQL()->sqlSave();
+        $testsystem->getSQL()->sqlSave();
 
         $manageProcess = new Update();
-        $system->setPage($stream->getStreamUid());
+        $testsystem->setPage($stream->getStreamUid());
         $_POST["port"] = $stream->getPort();
         $_POST["packageLink"] = $targetPackage->getId(); // package to move to.
         $_POST["serverLink"] = $stream->getServerLink();
@@ -60,7 +60,7 @@ class Issue43 extends TestCase
         $this->assertStringContainsString("Stream updated",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
-        $system->getSQL()->sqlSave();
+        $testsystem->getSQL()->sqlSave();
 
         $rental_test = new Rental();
         $rental_test->loadID($rental->getId());

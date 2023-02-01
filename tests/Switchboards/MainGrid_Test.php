@@ -27,8 +27,8 @@ class MainGrid extends TestCase
 
     protected function SetupPost()
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Texturepack/Getpack");
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Texturepack/Getpack");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -56,7 +56,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."TexturepackGetpack". implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."TexturepackGetpack". implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $_POST["texturepack"] = 1;
     }

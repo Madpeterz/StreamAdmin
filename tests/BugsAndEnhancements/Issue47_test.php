@@ -13,7 +13,7 @@ class Issue47 extends TestCase
 {
     public function test_addGroupInviteToMessageQ()
     {       
-        global $system;
+        global $testsystem;
         $packageSet = new PackageSet();
         $reply = $packageSet->loadAll();
         $this->assertSame("ok",$reply->message,"Unable to load all packages");
@@ -29,7 +29,7 @@ class Issue47 extends TestCase
         $reply = $botconfig->updateEntry();
         $this->assertSame("ok",$reply->message,"Unable to update bot config");
         $this->assertSame(true,$reply->status,"Unable to update bot config");
-        $system->getSQL()->sqlSave();
+        $testsystem->getSQL()->sqlSave();
 
         $this->setupPost("Startrental");
 
@@ -58,8 +58,8 @@ class Issue47 extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Buy/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Buy/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -87,7 +87,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  ."Buy".$target. implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);

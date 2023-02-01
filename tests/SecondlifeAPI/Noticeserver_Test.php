@@ -3,7 +3,7 @@
 namespace StreamAdminR7;
 
 use App\Endpoint\Secondlifeapi\Noticeserver\Next;
-use App\Endpoint\Secondlifeapi\Noticeserver\UpdateNotecards;
+use App\Endpoint\Secondlifeapi\Noticeserver\Updatenotecards;
 use App\Endpoint\Secondlifeapi\Renew\Details;
 use App\Models\Rental;
 use App\Models\Sets\NoticenotecardSet;
@@ -42,7 +42,7 @@ class SecondlifeApiNoticeserver extends TestCase
         $this->setupPost("UpdateNotecards");
 
         $_POST["notecards"] = "Unittest1,Unittest2,Magic3,Wolf4,Lineofsight5";
-        $UpdateNotecards = new UpdateNotecards();
+        $UpdateNotecards = new Updatenotecards();
         $this->assertSame("ready",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$UpdateNotecards->getLoadOk(),"Load ok failed");
         $UpdateNotecards->process();
@@ -54,7 +54,7 @@ class SecondlifeApiNoticeserver extends TestCase
         $this->assertSame(6,$noticenotecardset->getCount(),"Incorrect number of static notecards found");
 
         $_POST["notecards"] = "Magic3,Wolf4,Lineofsight5";
-        $UpdateNotecards = new UpdateNotecards();
+        $UpdateNotecards = new Updatenotecards();
         $this->assertSame("ready",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$UpdateNotecards->getLoadOk(),"Load ok failed");
         $UpdateNotecards->process();
@@ -78,7 +78,7 @@ class SecondlifeApiNoticeserver extends TestCase
         $this->assertSame(2,$missing_count,"Incorrect number of notecards marked as missing");
 
         $_POST["notecards"] = "none";
-        $UpdateNotecards = new UpdateNotecards();
+        $UpdateNotecards = new Updatenotecards();
         $this->assertSame("ready",$UpdateNotecards->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
         $this->assertSame(true,$UpdateNotecards->getLoadOk(),"Load ok failed");
         $UpdateNotecards->process();
@@ -102,8 +102,8 @@ class SecondlifeApiNoticeserver extends TestCase
 
     protected function setupPost(string $target)
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Noticeserver/".$target);
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Noticeserver/".$target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -131,7 +131,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "Noticeserver".$target.implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Noticeserver".$target.implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 }

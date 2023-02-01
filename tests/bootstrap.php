@@ -11,9 +11,10 @@ define("UNITTEST", "yep");
 require "./vendor/autoload.php";
 require "test.db.php";
 require "./src/App/Framework/Functions.php";
-global $system;
-$system = new Config();
-$system->setFolders("src", "");
+global $testsystem, $system;
+$testsystem = new Config();
+$testsystem->setFolders("src", "");
+$system = &$testsystem;
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     if (headers_sent() == false) {

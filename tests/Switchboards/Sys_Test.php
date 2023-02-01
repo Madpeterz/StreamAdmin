@@ -22,11 +22,11 @@ class Sys_Test extends TestCase
 
     protected function SetupPost()
     {
-        global $system;
-        $system->forceProcessURI("Notecard/Next");
+        global $testsystem;
+        $testsystem->forceProcessURI("Notecard/Next");
         $unixtime = time();
         $_POST["unixtime"] = $unixtime;
-        $this->baked = $unixtime  . "NotecardNext". $system->getSlConfig()->getHttpInboundSecret();
+        $this->baked = $unixtime  . "NotecardNext". $testsystem->getSlConfig()->getHttpInboundSecret();
         $_POST["hash"] = sha1($this->baked);
     }
 }

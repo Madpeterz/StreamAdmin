@@ -4,8 +4,7 @@ namespace StreamAdminR7;
 
 use App\Endpoint\Control\Transactions\Remove as TransactionsRemove;
 use App\Endpoint\View\Transactions\DefaultView;
-use App\Endpoint\View\Transactions\InRange;
-use App\Endpoint\View\Transactions\Remove;
+use App\Endpoint\View\Transactions\Inrange;
 use App\Helpers\AvatarHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
@@ -76,11 +75,11 @@ class TransactionsTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $transaction = new Transactions();
         $status = $transaction->loadByField("amount",995);
         $this->assertSame(true,$status->status,"Unable to find a transaction to use");
-        $system->setPage($transaction->getTransactionUid());
+        $testsystem->setPage($transaction->getTransactionUid());
 
         $removeProcess = new TransactionsRemove();
         $_POST["accept"] = "Accept";
@@ -98,7 +97,7 @@ class TransactionsTest extends TestCase
         global $_GET;
         $_GET["month"] = "12";
         $_GET["year"] = "2019";
-        $view = new InRange();
+        $view = new Inrange();
         $view->process();
         $statuscheck = $view->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing transactions inrange element";

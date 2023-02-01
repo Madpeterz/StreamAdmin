@@ -10,11 +10,11 @@ class SearchTest extends TestCase
 {
     public function test_Default()
     {
-        global $system;
+        global $testsystem;
         $rentalSet = new RentalSet();
         $rentalSet->loadAll();
         $rental = $rentalSet->getFirst();
-        $rental->setExpireUnixtime(time()+$system->unixtimeWeek());
+        $rental->setExpireUnixtime(time()+$testsystem->unixtimeWeek());
         $rental->updateEntry();
         global $_GET;
         $default = new DefaultView();
@@ -23,7 +23,7 @@ class SearchTest extends TestCase
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing search result element";
         $this->assertStringContainsString("Clients [1]",$statuscheck,$missing);
-        $this->assertStringContainsString("Avatars [1]",$statuscheck,$missing);
+        $this->assertStringContainsString("Avatars [2]",$statuscheck,$missing);
         $this->assertStringContainsString("Streams [1]",$statuscheck,$missing);
         $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
         $this->assertStringContainsString("Active",$statuscheck,$missing);

@@ -33,7 +33,7 @@ abstract class ControlAjax extends ViewAjax
     }
     public function createAuditLog(
         ?string $sourceid = null,
-        string $valuename,
+        string $valuename = "Not Set",
         ?string $oldvalue = null,
         ?string $newvalue = null,
         ?string $moduleName = null

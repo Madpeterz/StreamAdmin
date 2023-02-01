@@ -10,8 +10,8 @@ class SecondlifeApiDetails extends TestCase
 {
     public function test_Resend()
     {
-        global $_POST, $system;
-        $system->forceProcessURI("Details/Resend");
+        global $_POST, $testsystem;
+        $testsystem->forceProcessURI("Details/Resend");
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -39,7 +39,7 @@ $storage = [
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  . "DetailsResend".implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "DetailsResend".implode("",$real) . $testsystem->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
 
 

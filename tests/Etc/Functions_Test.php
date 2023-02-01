@@ -75,13 +75,13 @@ class FunctionsTest extends TestCase
 
     public function test_timeleftHoursAndDays()
     {
-        global $system;
+        global $testsystem;
         $helper = new FunctionHelperPublic();
-        $timeleft =  $helper->timeRemainingHumanReadable(time()+$system->unixtimeWeek(),false);
+        $timeleft =  $helper->timeRemainingHumanReadable(time()+$testsystem->unixtimeWeek(),false);
         $this->assertSame("7 days, 0 hours",$timeleft);
-        $timeleft = $helper->timeRemainingHumanReadable(time()+$system->unixtimeMin(),true);
+        $timeleft = $helper->timeRemainingHumanReadable(time()+$testsystem->unixtimeMin(),true);
         $this->assertSame("1 mins, 0 secs",$timeleft);
-        $timeleft = $helper->timeRemainingHumanReadable(time()+($system->unixtimeHour()*2),false);
+        $timeleft = $helper->timeRemainingHumanReadable(time()+($testsystem->unixtimeHour()*2),false);
         $this->assertSame("2 hours, 0 mins",$timeleft);
         $timeleft = $helper->timeRemainingHumanReadable(time()+1,false);
         $this->assertSame("0 mins",$timeleft);

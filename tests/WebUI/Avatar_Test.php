@@ -62,11 +62,11 @@ class AvatarTest extends TestCase
      */
     public function test_ManageForm()
     {
-        global $system;
+        global $testsystem;
         $avatar = new ModelsAvatar();
         $status = $avatar->loadByAvatarName("UnitTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $testsystem->setPage($avatar->getAvatarUid());
         $manageForm  = new Manage();
         $manageForm->process();
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
@@ -82,11 +82,11 @@ class AvatarTest extends TestCase
      */
     public function test_ManageProcess()
     {
-        global $_POST, $system;
+        global $_POST, $testsystem;
         $avatar = new ModelsAvatar();
         $status = $avatar->loadByAvatarName("UnitTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $testsystem->setPage($avatar->getAvatarUid());
         $manageProcess = new Update();
         $_POST["avatarName"] = "UnitTest Updated";
         $_POST["avatarUUID"] = "289c3ea6-69b3-40c5-9229-000a5d230766";
@@ -134,11 +134,11 @@ class AvatarTest extends TestCase
      */
     public function test_RemoveProcess()
     {
-        global $system, $_POST;
+        global $testsystem, $_POST;
         $avatar = new ModelsAvatar();
         $status = $avatar->loadByAvatarName("UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $testsystem->setPage($avatar->getAvatarUid());
         $removeProcess = new AvatarRemove();
         $_POST["accept"] = "Accept";
         $removeProcess->process();
