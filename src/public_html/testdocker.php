@@ -2,4 +2,8 @@
 
 namespace App;
 
-print json_encode($_ENV);
+if (getenv('DB_HOST') !== false) {
+    echo "ENV value was set<br/>";
+}
+
+echo getenv('DB_HOST') . " VS " . $_ENV["DB_HOST"];
