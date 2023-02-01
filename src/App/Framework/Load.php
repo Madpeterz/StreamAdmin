@@ -18,7 +18,7 @@ if (defined("APPFOLDER") == false) {
 include APPFOLDER . "../../vendor/autoload.php";
 include APPFOLDER . "Framework/Functions.php";
 
-//define("ERRORCONSOLE", "yes");
+define("ERRORCONSOLE", "yes");
 //define("ERRORCONSOLEPRINT", "yes");
 
 global $system;
