@@ -5,7 +5,7 @@ namespace App\Endpoint\View\Slconfig;
 use YAPF\Bootstrap\Template\Form;
 use YAPF\Framework\Responses\DbObjects\SingleLoadReply;
 
-class PaymentKey extends View
+class Paymentkey extends View
 {
     public function getKeyStatus(?string $checkKey, bool $giveTimeleft = true): SingleLoadReply
     {
