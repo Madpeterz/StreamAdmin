@@ -84,6 +84,23 @@ $(document).ready(function () {
     if(tab != false) {
         $("#"+tab).click();
     }
+    var bubblemessage = getUrlParameter("bubblemessage");
+    var bubbletype = getUrlParameter("bubbletype");
+    if(bubblemessage != false) {
+        bubblemessage = bubblemessage.replace(/<(?!br\s*\/?)[^>]+>/g, '');
+        if(bubbletype == "warning") {
+            alert_warning(bubblemessage);
+        }
+        else if(bubbletype == "info") {
+            alert_info(bubblemessage);
+        }
+        else if(bubbletype == "success") {
+            alert_success(bubblemessage);
+        }
+        else {
+            alert_error(bubblemessage);
+        }
+    }
     
 
     $(".bulksenduncheck").click(function (e) {

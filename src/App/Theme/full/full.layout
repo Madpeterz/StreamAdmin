@@ -26,7 +26,7 @@
         </div>
     </div>
     [[html_js_bottom]]
-    <script type="text/javascript" src="[[SITE_URL]]js/site.js?v=1025"></script>
+    <script type="text/javascript" src="[[SITE_URL]]js/site.js?v=1026"></script>
     <script type="text/javascript">
         var SITE_URL = '[[SITE_URL]]';
         $( document ).ready(function() {
