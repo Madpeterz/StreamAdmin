@@ -119,7 +119,7 @@ class Update extends ControlAjax
             $adjustment_dir = false;
         }
         // transfer
-        $transfer_avataruid = $this->input->post("transfer_avataruid")->asString();
+        $transfer_avataruid = $this->input->post("transfer_avataruid")->checkStringLengthMin(1)->asString();
         // message
         $this->message = $this->input->post("message")->asString();
         if ($this->message != null) {
@@ -135,12 +135,14 @@ class Update extends ControlAjax
         }
         $oldvalues = $rental->objectToValueArray();
         if ($transfer_avataruid != null) {
-            if (nullSafeStrLen($transfer_avataruid) == 8) {
-                $this->transerRental($rental, $transfer_avataruid);
-                if ($this->issues != "") {
-                    $this->failed($this->issues);
-                    return;
-                }
+            if (nullSafeStrLen($transfer_avataruid) != 8) {
+                $this->failed("Invaild avatar UID given");
+                return;
+            }
+            $this->transerRental($rental, $transfer_avataruid);
+            if ($this->issues != "") {
+                $this->failed($this->issues);
+                return;
             }
         }
 
