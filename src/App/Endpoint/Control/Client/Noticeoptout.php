@@ -12,7 +12,7 @@ class Noticeoptout extends ControlAjax
 {
     public function process(): void
     {
-        $this->redirectWithMessage("No changes", "Client/Manage/" . $this->siteConfig->getPage() . "?tab=tabid6");
+        $this->redirectWithMessage("No changes", "Client/Manage/" . $this->siteConfig->getPage() . "?tab=tabid5");
         $rental = new Rental();
 
         if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
