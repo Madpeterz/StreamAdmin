@@ -135,9 +135,8 @@ abstract class HomeLoadData extends View
 
     protected function loadObjects(): void
     {
-        global $system;
         $this->loadOwnerObjects();
-        $one_hour_ago = (time() - $system->unixtimeHour());
+        $one_hour_ago = (time() - $this->siteConfig->unixtimeHour());
         $this->objects_set = new ObjectsSet();
         $where_config = [
         "fields" => ["avatarLink","lastSeen","objectMode"],

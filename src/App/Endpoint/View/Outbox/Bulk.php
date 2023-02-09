@@ -20,7 +20,7 @@ class Bulk extends View
         $message = "";
 
 
-        if ($this->siteConfig->getPage() == "notice") {
+        if ($this->siteConfig->getPage() == "Notice") {
             $message = $this->input->get("messageStatus")->checkStringLength(10, 800)->asString();
             if ($message == null) {
                 $this->output->redirectWithMessage(
@@ -38,7 +38,7 @@ class Bulk extends View
                 $rental_set = $notice->relatedRental();
                 $ok = true;
             }
-        } elseif ($this->siteConfig->getPage() == "server") {
+        } elseif ($this->siteConfig->getPage() == "Server") {
             $message = $this->input->get("messageServer")->checkStringLength(10, 800)->asString();
             if ($message == null) {
                 $this->output->redirectWithMessage(
@@ -57,7 +57,7 @@ class Bulk extends View
                 $rental_set = $stream_set->relatedRental();
                 $ok = true;
             }
-        } elseif ($this->siteConfig->getPage() == "package") {
+        } elseif ($this->siteConfig->getPage() == "Package") {
             $message = $this->input->get("messagePackage")->checkStringLength(10, 800)->asString();
             if ($message == null) {
                 $this->output->redirectWithMessage(
@@ -75,7 +75,7 @@ class Bulk extends View
                 $rental_set = $package->relatedRental();
                 $ok = true;
             }
-        } elseif ($this->siteConfig->getPage() == "clients") {
+        } elseif ($this->siteConfig->getPage() == "Clients") {
             $message = $this->input->get("messageClients")->checkStringLength(10, 800)->asString();
             if ($message == null) {
                 $this->output->redirectWithMessage(
@@ -91,7 +91,7 @@ class Bulk extends View
             $ok = true;
         }
         if (nullSafeStrLen($message) < 10) {
-            $this->output->redirectWithMessage("outbox", "Message is to short", "warning");
+            $this->output->redirectWithMessage("outbox", "No message was given :(", "warning");
             return;
         }
 
