@@ -42,7 +42,7 @@ class DefaultView extends View
             $tp_url = str_replace(' ', '%20', $tp_url);
             $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
             . $region->getName() . "</a>";
-            $entry[] = $object->getObjectXYZ();
+            $entry[] = $object->getObjectMode();
             $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
