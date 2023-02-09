@@ -12,6 +12,7 @@ class Manage extends View
     {
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing reseller");
+
         $this->setSwapTag("page_actions", "<a href='[[SITE_URL]]reseller/remove/"
         . $this->siteConfig->getPage() . "'><button type='button' class='btn btn-danger'>Remove</button></a>");
 
@@ -22,6 +23,9 @@ class Manage extends View
         }
         $avatar->loadID($reseller->getAvatarLink());
         $this->output->addSwapTagString("page_title", ":" . $avatar->getAvatarName());
+        if ($this->siteConfig->getSlConfig()->getOwnerAvatarLink() == $avatar->getId()) {
+            $this->setSwapTag("page_actions", "");
+        }
         $form = new Form();
         $form->target("reseller/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
