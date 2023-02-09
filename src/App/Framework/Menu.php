@@ -62,18 +62,25 @@ class Menu extends View
 
     protected function renderDatatable(array $tableHead, array $tableBody, ?int $datatableID = null): string
     {
-        $defaultRender = $this->renderTable($tableHead, $tableBody, "datatable-default display responsive");
-        if ($datatableID === null) {
-            return $defaultRender;
+        $targetCol = 0;
+        $hidecolzero = true;
+        $orderDir = "desc";
+        $useDtId = substr(md5(time() . "asdasd" . rand(1, 5) . "asd" . microtime(true)), 0, 6);
+
+        if ($datatableID !== null) {
+            $datatableDriver = new Datatable();
+            $datatableDriver->limitFields(["hideColZero","col","dir"]);
+            if ($datatableDriver->loadID($datatableID) == true) {
+                $targetCol = $datatableDriver->getCol();
+                $hidecolzero = $datatableDriver->getHideColZero();
+                $orderDir = $datatableDriver->getDir();
+                $useDtId = $datatableDriver->getId();
+            }
         }
-        $datatableDriver = new Datatable();
-        $datatableDriver->limitFields(["hideColZero","col","dir"]);
-        if ($datatableDriver->loadID($datatableID) == false) {
-            return $defaultRender;
-        }
+
         $this->output->addSwapTagString("html_js_onready", "
-        $('.customdatatable" . $datatableID . "').DataTable({
-            'order': [[ " . $datatableDriver->getCol() . ", '" . $datatableDriver->getDir() . "' ]],
+        $('.customdatatable" . $useDtId . "').DataTable({
+            'order': [[ " . $targetCol . ", '" . $orderDir . "' ]],
             responsive: true,
                   pageLength: " . $this->siteConfig->getSlConfig()->getDatatableItemsPerPage() . ",
                   lengthMenu: [[25, 10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
@@ -82,7 +89,7 @@ class Menu extends View
               sSearch: '',
               lengthMenu: '_MENU_ items/page',
               }");
-        if ($datatableDriver->getHideColZero() == true) {
+        if ($hidecolzero == true) {
             $this->output->addSwapTagString(
                 "html_js_onready",
                 ", 'columnDefs': [
@@ -94,7 +101,7 @@ class Menu extends View
             );
         }
         $this->output->addSwapTagString("html_js_onready", "});");
-        return $this->renderTable($tableHead, $tableBody, "customdatatable" . $datatableID . " display responsive");
+        return $this->renderTable($tableHead, $tableBody, "customdatatable" . $useDtId . " display responsive");
     }
 
     protected function addSwapTagString(string $tag, string $message): ?string
