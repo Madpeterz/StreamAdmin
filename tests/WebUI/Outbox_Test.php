@@ -70,7 +70,7 @@ class OutboxText extends TestCase
         $messagecheck = 'name="message" id="message" value="Hello world this is a test"';
         $sourcecheck = 'id="source" value="Package"';
         $sourcevaluecheck = 'id="source_id" value="1"';
-        $avatarcheck = 'id="max_avatars" value="2"';
+        $avatarcheck = 'id="max_avatars" value="1"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
@@ -96,7 +96,7 @@ class OutboxText extends TestCase
         $messagecheck = 'id="message" value="'.$_GET["messageServer"].'"';
         $sourcecheck = 'id="source" value="Server"';
         $sourcevaluecheck = 'id="source_id" value="1"';
-        $avatarcheck = 'id="max_avatars" value="2"';
+        $avatarcheck = 'id="max_avatars" value="1"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
@@ -123,7 +123,7 @@ class OutboxText extends TestCase
         $messagecheck = 'id="message" value="'.$_GET["messageStatus"].'"';
         $sourcecheck = 'id="source" value="Notice"';
         $sourcevaluecheck = 'id="source_id" value="10"';
-        $avatarcheck = 'id="max_avatars" value="2"';
+        $avatarcheck = 'id="max_avatars" value="1"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
