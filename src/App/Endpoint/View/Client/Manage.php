@@ -230,7 +230,7 @@ class Manage extends View
         return '
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-danger">
-            <input type="radio" value="1" name="add-optout-' . $noticeID . '" autocomplete="off"> Disable messages
+            <input type="radio" value="1" name="add-optout-' . $noticeID . '" autocomplete="off"> Skip
         </label>
         <label class="btn btn-outline-info" active>
             <input type="radio" checked value="0" name="add-optout-' . $noticeID . '" autocomplete="off"> Normal
