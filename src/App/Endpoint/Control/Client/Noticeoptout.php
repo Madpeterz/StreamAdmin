@@ -12,7 +12,7 @@ class Noticeoptout extends ControlAjax
 {
     public function process(): void
     {
-        $this->setSwapTag("redirect", "Client/Manage/" . $this->siteConfig->getPage() . "?tab=tabid6");
+        $this->redirectWithMessage("No changes", "Client/Manage/" . $this->siteConfig->getPage() . "?tab=tabid6");
         $rental = new Rental();
 
         if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
@@ -97,13 +97,11 @@ class Noticeoptout extends ControlAjax
             return;
         }
 
-        $this->redirectWithMessage(
-            sprintf(
-                "Opt-outs updated enabled: %1\$s and removed %2\$s",
-                $enabledCounter,
-                $removedCounter
-            )
-        );
+        $this->setMessage(sprintf(
+            "Opt-outs updated enabled: %1\$s and removed %2\$s",
+            $enabledCounter,
+            $removedCounter
+        ), true);
         $this->createAuditLog($rental->getRentalUid(), "updated notice opt-outs");
     }
 }
