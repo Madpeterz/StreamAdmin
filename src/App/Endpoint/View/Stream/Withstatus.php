@@ -13,7 +13,10 @@ abstract class Withstatus extends RenderList
         $this->streamSet = new StreamSet();
         $this->rentalSet = new RentalSet();
         if (count($this->whereconfig) > 0) {
-            $this->setSwapTag("page_actions", "");
+            $this->setSwapTag(
+                "page_actions",
+                "<a href='[[SITE_URL]]stream/create'><button type='button' class='btn btn-success'>Create</button></a>"
+            );
             $this->streamSet->loadWithConfig($this->whereconfig);
             $this->rentalSet = $this->streamSet->relatedRental();
             $this->rental_set_ids = $this->rentalSet->getAllIds();
