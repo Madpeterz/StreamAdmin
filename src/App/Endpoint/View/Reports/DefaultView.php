@@ -36,7 +36,7 @@ class DefaultView extends View
         }
 
         $form = new Form();
-        $form->target("reports/BreakdownMonth");
+        $form->target("reports/Breakdownmonth");
         $form->mode("get");
         $form->required(true);
         $monthtonum = [
@@ -65,7 +65,7 @@ class DefaultView extends View
         $flow_form_month = $form->render("View", "primary");
 
         $form = new Form();
-        $form->target("reports/BreakdownYear");
+        $form->target("reports/Breakdownyear");
         $form->mode("get");
         $form->required(true);
         $start_year = 2013;
@@ -79,7 +79,7 @@ class DefaultView extends View
         $flow_form_year = $form->render("View", "primary");
 
         $form = new Form();
-        $form->target("reports/ComapreYears");
+        $form->target("reports/Comapreyears");
         $form->mode("get");
         $form->required(true);
         $start_year = 2013;

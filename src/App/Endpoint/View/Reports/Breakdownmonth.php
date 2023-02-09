@@ -5,66 +5,73 @@ namespace App\Endpoint\View\Reports;
 use App\Models\Sets\TransactionsSet;
 use YAPF\Bootstrap\Template\PagedInfo;
 
-class BreakdownYear extends View
+class Breakdownmonth extends View
 {
     public function process(): void
     {
         $year = $this->input->get("year")->asInt();
-        if ($year > date("Y")) {
-            $year = date("Y");
-        }
         if ($year < 2013) {
             $year = 2013;
+        } elseif ($year > date("Y")) {
+            $year = date("Y");
         }
 
-        $this->output->addSwapTagString("page_title", "Year breakdown: " . $year);
+        $months = [
+            1 => "Jan",
+            2 => "Feb",
+            3 => "Mar",
+            4 => "Apr",
+            5 => "May",
+            6 => "June",
+            7 => "July",
+            8 => "Aug",
+            9 => "Sep",
+            10 => "Oct",
+            11 => "Nov",
+            12 => "Dec",
+        ];
+        $month = $this->input->get("month")->asInt();
+        if ($month < 1) {
+            $month = 1;
+        } elseif ($month > 12) {
+            $month = 12;
+        }
+
+        $this->output->addSwapTagString("page_title", "Month breakdown: " . $months[$month] . " / " . $year);
 
         $transactions_set = new TransactionsSet();
         $whereconfig = [
         "fields" => ["unixtime","unixtime"],
         "values" => [
-            mktime(0, 0, 1, 1, 1, $year),
-            mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year),
+            mktime(0, 0, 1, $month, 1, $year),
+            mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year),
         ],
         "types" => ["i","i"],
         "matches" => [">=","<="],
         ];
         $transactions_set->loadWithConfig($whereconfig);
 
-    // totals
+// totals
         $new_rentals = 0;
         $renewed_rentals = 0;
         $amount_new = 0;
         $amount_renew = 0;
 
         $lookups = [
-        mktime(23, 59, 59, 1, cal_days_in_month(CAL_GREGORIAN, 1, $year), $year) => 1,
-        mktime(23, 59, 59, 2, cal_days_in_month(CAL_GREGORIAN, 2, $year), $year) => 2,
-        mktime(23, 59, 59, 3, cal_days_in_month(CAL_GREGORIAN, 3, $year), $year) => 3,
-        mktime(23, 59, 59, 4, cal_days_in_month(CAL_GREGORIAN, 4, $year), $year) => 4,
-        mktime(23, 59, 59, 5, cal_days_in_month(CAL_GREGORIAN, 5, $year), $year) => 5,
-        mktime(23, 59, 59, 6, cal_days_in_month(CAL_GREGORIAN, 6, $year), $year) => 6,
-        mktime(23, 59, 59, 7, cal_days_in_month(CAL_GREGORIAN, 7, $year), $year) => 7,
-        mktime(23, 59, 59, 8, cal_days_in_month(CAL_GREGORIAN, 8, $year), $year) => 8,
-        mktime(23, 59, 59, 9, cal_days_in_month(CAL_GREGORIAN, 9, $year), $year) => 9,
-        mktime(23, 59, 59, 10, cal_days_in_month(CAL_GREGORIAN, 10, $year), $year) => 10,
-        mktime(23, 59, 59, 11, cal_days_in_month(CAL_GREGORIAN, 11, $year), $year) => 11,
-        mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year) => 12,
+        mktime(23, 59, 59, $month, 7, $year) => 1,
+        mktime(23, 59, 59, $month, 14, $year) => 2,
+        mktime(23, 59, 59, $month, 21, $year) => 3,
+        mktime(23, 59, 59, $month, 28, $year) => 4,
+        mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year) => 5,
         ];
-        $defaults_month = ["new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0];
+
+        $default_month = ["new" => 0,"renew" => 0,"amount_new" => 0,"amount_renew" => 0,"sum" => 0,"counted" => 0];
         $month_datasets = [
-            1 => array_merge($defaults_month, ["title" => "Jan"]),
-            2 => array_merge($defaults_month, ["title" => "Feb"]),
-            3 => array_merge($defaults_month, ["title" => "Mar"]),
-            4 => array_merge($defaults_month, ["title" => "Apr"]),
-            5 => array_merge($defaults_month, ["title" => "May"]),
-            6 => array_merge($defaults_month, ["title" => "June"]),
-            7 => array_merge($defaults_month, ["title" => "July"]),
-            8 => array_merge($defaults_month, ["title" => "Aug"]),
-            9 => array_merge($defaults_month, ["title" => "Sep"]),
-            10 => array_merge($defaults_month, ["title" => "Oct"]),
-            11 => array_merge($defaults_month, ["title" => "Nov"]),
-            12 => array_merge($defaults_month, ["title" => "Dec"]),
+        1 => array_merge($default_month, ["title" => "Week 1"]),
+        2 => array_merge($default_month, ["title" => "Week 2"]),
+        3 => array_merge($default_month, ["title" => "Week 3"]),
+        4 => array_merge($default_month, ["title" => "Week 4"]),
+        5 => array_merge($default_month, ["title" => "Week 5"]),
         ];
 
 
@@ -92,7 +99,7 @@ class BreakdownYear extends View
         }
 
 
-        $last_month = array_merge($defaults_month, ["title" => "None"]);
+        $last_month = array_merge($default_month, ["title" => "None"]);
         $best_month = $last_month;
 
         $best_month_total = 0;
@@ -111,8 +118,8 @@ class BreakdownYear extends View
             "Count / Renew",
             "L$ / total new",
             "L$ total renew",
-            "Change from last month",
-            "Change from best month",
+            "Change from last week",
+            "Change from best week",
         ];
         $table_body = [];
         foreach ($month_datasets as $dataset) {
@@ -125,27 +132,27 @@ class BreakdownYear extends View
                 $entry[] = $dataset["renew"];
                 $entry[] = $dataset["amount_new"];
                 $entry[] = $dataset["amount_renew"];
-                $c1 = "-";
-                if ($last_month["title"] != "None") {
-                    $c1 = $this->amountChanged($last_month["sum"], $dataset["sum"]);
+                if ($last_month["title"] == "None") {
+                    $entry[] = "-";
+                } else {
+                    $entry[] = $this->amountChanged($last_month["sum"], $dataset["sum"]);
                 }
-                $entry[] = $c1;
-                $c2 = " / ";
                 if ($dataset["title"] != $best_month["title"]) {
-                    $c2 = $this->amountChanged($best_month["sum"], $dataset["sum"]);
+                    $entry[] = $this->amountChanged($best_month["sum"], $dataset["sum"]);
+                } else {
+                    $entry[] = " / ";
                 }
-                $entry[] = $c2;
                 $last_month = $dataset;
                 if ($dataset["title"] == $best_month["title"]) {
                     $new_entry = [];
-                    $counter = -1;
+                    $counter = 0;
                     foreach ($entry as $point) {
-                        $counter++;
                         if ($counter < 7) {
                             $new_entry[] = "<span class=\"reports-best\">" . $point . "</span>";
-                            continue;
+                        } else {
+                            $new_entry[] = $point;
                         }
-                        $new_entry[] = $point;
+                        $counter++;
                     }
                     $entry = $new_entry;
                 }

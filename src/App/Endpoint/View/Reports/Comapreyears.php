@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Reports;
 
 use App\Models\Sets\TransactionsSet;
 
-class ComapreYears extends View
+class Comapreyears extends View
 {
     public function process(): void
     {
