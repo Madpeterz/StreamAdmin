@@ -217,11 +217,11 @@ class Manage extends View
         if ($enabled == true) {
             return '
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-outline-danger active">
+            <label class="btn btn-outline-secondary active">
                 <input type="radio" checked value="0" name="remove-optout-'
                 . $noticeID . '" autocomplete="off"> Disable messages
             </label>
-            <label class="btn btn-outline-secondary">
+            <label class="btn btn-outline-success">
                 <input type="radio" value="1" name="remove-optout-'
                 . $noticeID . '" autocomplete="off"> Restore
             </label>
@@ -232,7 +232,7 @@ class Manage extends View
         <label class="btn btn-outline-danger">
             <input type="radio" value="1" name="add-optout-' . $noticeID . '" autocomplete="off"> Disable messages
         </label>
-        <label class="btn btn-outline-secondary" active>
+        <label class="btn btn-outline-info" active>
             <input type="radio" checked value="0" name="add-optout-' . $noticeID . '" autocomplete="off"> Normal
         </label>
         </div>';
