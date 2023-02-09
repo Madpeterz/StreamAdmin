@@ -24,17 +24,17 @@ class Send extends ControlAjax
             $this->failed("To many avatars sent vs what was expected");
             return false;
         }
-        if ($source == "notice") {
+        if ($source == "Notice") {
             $this->rental_set->loadByNoticeLink($source_id);
-        } elseif ($source == "server") {
+        } elseif ($source == "Server") {
             $stream_set = new StreamSet();
             $stream_set->loadByServerLink($source_id);
             $this->rental_set = $stream_set->relatedRental();
-        } elseif ($source == "package") {
+        } elseif ($source == "Package") {
             $this->rental_set->loadByPackageLink($source_id);
-        } elseif ($source == "selectedRental") {
+        } elseif ($source == "Selectedrental") {
             $this->rental_set->loadById($source_id);
-        } elseif ($source == "clients") {
+        } elseif ($source == "Clients") {
             $this->rental_set->loadAll();
         }
         if ($this->rental_set->getCount() == 0) {

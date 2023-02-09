@@ -26,7 +26,7 @@ class Message extends ControlAjax
         global $_POST;
         $_POST["message"] = $message;
         $_POST["max_avatars"] = 1;
-        $_POST["source"] = "selectedRental";
+        $_POST["source"] = "Selectedrental";
         $_POST["source_id"] = $rental->getId();
         $_POST["avatarids"] = [$rental->getAvatarLink()];
         $Send->process();

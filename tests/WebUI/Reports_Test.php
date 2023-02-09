@@ -2,9 +2,9 @@
 
 namespace StreamAdminR7;
 
-use App\Endpoint\View\Reports\BreakdownMonth;
-use App\Endpoint\View\Reports\BreakdownYear;
-use App\Endpoint\View\Reports\ComapreYears;
+use App\Endpoint\View\Reports\Breakdownmonth;
+use App\Endpoint\View\Reports\Breakdownyear;
+use App\Endpoint\View\Reports\Comapreyears;
 use App\Endpoint\View\Reports\DefaultView;
 use App\Helpers\AvatarHelper;
 use App\Helpers\RegionHelper;
@@ -95,7 +95,7 @@ class ReportsTest extends TestCase
         global $_GET;
         $_GET["month"] = 4;
         $_GET["year"] = 2019;
-        $monthBreakdown = new BreakdownMonth();
+        $monthBreakdown = new Breakdownmonth();
         $monthBreakdown->process();
         $statuscheck = $monthBreakdown->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing BreakdownMonth reports page element";
@@ -114,7 +114,7 @@ class ReportsTest extends TestCase
     {
         global $_GET;
         $_GET["year"] = 2019;
-        $monthBreakdown = new BreakdownYear();
+        $monthBreakdown = new Breakdownyear();
         $monthBreakdown->process();
         $statuscheck = $monthBreakdown->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing BreakdownYear reports page element";
@@ -134,7 +134,7 @@ class ReportsTest extends TestCase
         global $_GET;
         $_GET["yeara"] = 2019;
         $_GET["yearb"] = 2021;
-        $monthBreakdown = new ComapreYears();
+        $monthBreakdown = new Comapreyears();
         $monthBreakdown->process();
         $statuscheck = $monthBreakdown->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing ComapreYears reports page element";

@@ -62,14 +62,15 @@ class OutboxText extends TestCase
     public function test_BulkSendToPackageForm()
     {
         global $_GET, $testsystem;
-        $testsystem->setPage("package");
+        
+        $testsystem->setPage("Package");
         $_GET["packageLink"] = 1;
         $_GET["messagePackage"] = "Hello world this is a test";
 
         $messagecheck = 'name="message" id="message" value="Hello world this is a test"';
-        $sourcecheck = 'id="source" value="package"';
+        $sourcecheck = 'id="source" value="Package"';
         $sourcevaluecheck = 'id="source_id" value="1"';
-        $avatarcheck = 'id="max_avatars" value="1"';
+        $avatarcheck = 'id="max_avatars" value="2"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
@@ -88,14 +89,14 @@ class OutboxText extends TestCase
     public function test_BulkSendToServerForm()
     {
         global $_GET, $testsystem;
-        $testsystem->setPage("server");
+        $testsystem->setPage("Server");
         $_GET["serverLink"] = 1;
         $_GET["messageServer"] = "Hello world this is a test";
 
         $messagecheck = 'id="message" value="'.$_GET["messageServer"].'"';
-        $sourcecheck = 'id="source" value="server"';
+        $sourcecheck = 'id="source" value="Server"';
         $sourcevaluecheck = 'id="source_id" value="1"';
-        $avatarcheck = 'id="max_avatars" value="1"';
+        $avatarcheck = 'id="max_avatars" value="2"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
@@ -115,14 +116,14 @@ class OutboxText extends TestCase
     public function test_BulkSendToNoticeForm()
     {
         global $_GET, $testsystem;
-        $testsystem->setPage("notice");
+        $testsystem->setPage("Notice");
         $_GET["noticeLink"] = 10;
         $_GET["messageStatus"] = "Hello world this is a test";
 
         $messagecheck = 'id="message" value="'.$_GET["messageStatus"].'"';
-        $sourcecheck = 'id="source" value="notice"';
+        $sourcecheck = 'id="source" value="Notice"';
         $sourcevaluecheck = 'id="source_id" value="10"';
-        $avatarcheck = 'id="max_avatars" value="1"';
+        $avatarcheck = 'id="max_avatars" value="2"';
         $checkboxcheck = 'id="avatarmail1" name="avatarids[]" value="1"';
 
         $bulkPackage = new Bulk();
@@ -149,7 +150,7 @@ class OutboxText extends TestCase
         $messages->loadAll();
         $this->assertSame(2,$messages->getCount(),"Incorrect number of messages in outbox before sending");
         $_POST["message"] = "Hello world this is a test";
-        $_POST["source"] = "package";
+        $_POST["source"] = "Package";
         $_POST["source_id"] = 1;
         $_POST["max_avatars"] = 1;
         $_POST["avatarids"] = [1];

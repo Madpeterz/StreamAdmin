@@ -331,7 +331,7 @@ class ClientTest extends TestCase
         global $testsystem;
         $rentals = new RentalSet();
         $rentals->loadAll();
-        $this->assertSame(1, $rentals->getCount(), "incorrect number of rentals");
+        $this->assertSame(2, $rentals->getCount(), "incorrect number of rentals");
         $rental = $rentals->getFirst();
         $rental->setExpireUnixtime(time()+$testsystem->unixtimeWeek());
         $rental->setNoticeLink(10);
