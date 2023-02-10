@@ -219,7 +219,7 @@ class Manage extends View
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-outline-secondary active">
                 <input type="radio" checked value="0" name="remove-optout-'
-                . $noticeID . '" autocomplete="off"> Disable messages
+                . $noticeID . '" autocomplete="off"> Skipped
             </label>
             <label class="btn btn-outline-success">
                 <input type="radio" value="1" name="remove-optout-'
