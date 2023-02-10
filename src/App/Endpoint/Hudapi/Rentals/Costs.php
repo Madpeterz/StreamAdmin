@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Hudapi\Rentals;
 
-use App\Endpoint\Secondlifeapi\Renew\CostAndTime;
+use App\Endpoint\Secondlifeapi\Renew\Costandtime;
 use App\Template\SecondlifeHudAjax;
 
 class Costs extends SecondlifeHudAjax
@@ -17,7 +17,7 @@ class Costs extends SecondlifeHudAjax
             $this->failed("Hud renewals are currently disabled");
             return;
         }
-        $Costandtime = new CostAndTime();
+        $Costandtime = new Costandtime();
         $Costandtime->getCostOfRental($this->Object_OwnerAvatar);
         $this->output = $Costandtime->getOutputObject();
     }
