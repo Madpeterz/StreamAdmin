@@ -36,12 +36,15 @@ class Costandtime extends SecondlifeAjax
         $this->setSwapTag("systemowner", $masterAvatar->getAvatarUUID());
         $this->setSwapTag("cost", $package->getCost());
         $this->setSwapTag("word", "Day");
+        $this->setSwapTag("stacksize", $package->getDays());
         if ($package->getDays() == 7) {
             $this->setSwapTag("word", "Week");
+            $this->setSwapTag("stacksize", 1);
         } elseif ($package->getDays() == 31) {
             $this->setSwapTag("word", "Month");
+            $this->setSwapTag("stacksize", 1);
         }
-        $this->setSwapTag("days", $package->getDays());
+
         $this->ok($this->timeRemainingHumanReadable($rental->getExpireUnixtime()));
     }
     public function process(): void
