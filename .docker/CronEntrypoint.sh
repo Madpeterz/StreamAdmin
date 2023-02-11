@@ -3,8 +3,6 @@ echo "Streamadmin crontab container"
 
 # Setup a cron schedule
 echo "* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=Detailsserver >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=Clientautosuspend >/proc/1/fd/1 2>/proc/1/fd/2
-* * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=Apirequests >/proc/1/fd/1 2>/proc/1/fd/2
 * * * * * /usr/local/bin/php /srv/website/src/App/CronTab.php -t=Dynamicnotecards >/proc/1/fd/1 2>/proc/1/fd/2
 " > scheduler.txt
 
