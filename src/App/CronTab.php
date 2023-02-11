@@ -5,11 +5,16 @@ namespace App;
 use App\Switchboard\CronTab;
 
 if (defined("TESTING") == false) {
-    include "vendor/autoload.php";
-    set_time_limit(60);
+    chdir(__DIR__);
+    if (defined("APPFOLDER") == false) {
+        define("APPFOLDER", "../App/");
+    }
+    include APPFOLDER . "../../vendor/autoload.php";
+    set_time_limit(65);
 
+    global $system;
     $system = new Config();
-    $system->setFolders("src/App", "src");
+    $system->run();
 }
 
 
