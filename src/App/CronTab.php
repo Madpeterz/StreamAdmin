@@ -10,6 +10,7 @@ if (defined("TESTING") == false) {
         define("APPFOLDER", "../App/");
     }
     include APPFOLDER . "../../vendor/autoload.php";
+    include APPFOLDER . "Framework/Functions.php";
     set_time_limit(65);
 
     global $system;
