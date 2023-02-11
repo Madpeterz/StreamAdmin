@@ -25,12 +25,12 @@ class Details extends SecondlifeAjax
         $rental_set = new RentalSet();
         $rental_set->loadByAvatarLink($avatar->getId());
         if ($rental_set->getCount() < 1) {
-            $this->failed("Unable to find any active rentals");
+            $this->ok("Unable to find any active rentals");
             return;
         }
         $stream_set = $rental_set->relatedStream();
         if ($stream_set->getCount() < 1) {
-            $this->failed("Unable to find any streams linked to rentals, Please note if "
+            $this->ok("Unable to find any streams linked to rentals, Please note if "
             . "a stream is busy with an API request it will be hidden from this list!");
             return;
         }

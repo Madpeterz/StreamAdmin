@@ -44,8 +44,6 @@ class Update extends ControlAjax
         int $adjustment_hours,
         string $adjustment_dir
     ): void {
-        global $system;
-
         $total_adjust_hours = 0;
         if ($adjustment_hours > 0) {
             $total_adjust_hours += $adjustment_hours;

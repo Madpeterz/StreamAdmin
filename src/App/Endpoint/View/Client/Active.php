@@ -6,10 +6,9 @@ class Active extends Withstatus
 {
     public function process(): void
     {
-        global $unixtime_day;
         $this->whereconfig = [
         "fields" => ["expireUnixtime"],
-        "values" => [time() + $unixtime_day],
+        "values" => [time() + $this->siteConfig->unixtimeDay()],
         "types" => ["i"],
         "matches" => [">="],
         ];

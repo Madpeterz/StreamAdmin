@@ -158,7 +158,7 @@ class Next extends SecondlifeAjax
         return true;
     }
 
-
+    protected array $options = [];
     /**
      * getPostFormated
      * @return mixed[] [form_params => array]

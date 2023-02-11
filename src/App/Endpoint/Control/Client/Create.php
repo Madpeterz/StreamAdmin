@@ -16,8 +16,6 @@ class Create extends ControlAjax
 {
     public function process(): void
     {
-        global $unixtime_day;
-
         $avatar = new Avatar();
 
         $avataruid = $this->input->post("avataruid")->checkStringLengthMin(3)->asString();
@@ -85,7 +83,7 @@ class Create extends ControlAjax
         }
 
         $avatar = $avatar_set->getFirst();
-        $unixtime = time() + ($daysremaining * $unixtime_day);
+        $unixtime = time() + ($daysremaining * $this->siteConfig->unixtimeDay());
         $rental = new Rental();
         $uid = $rental->createUID("rentalUid", 8);
         if ($uid->status == false) {
@@ -139,6 +137,11 @@ class Create extends ControlAjax
         }
         $server = $stream->relatedServer()->getFirst();
         $this->redirectWithMessage("Client created");
-        $this->createAuditLog($rental->getRentalUid(), "+++", $avatar->getAvatarName(), "Port: " . $stream->getPort() . " Server: " . $server->getDomain());
+        $this->createAuditLog(
+            $rental->getRentalUid(),
+            "+++",
+            $avatar->getAvatarName(),
+            "Port: " . $stream->getPort() . " Server: " . $server->getDomain()
+        );
     }
 }

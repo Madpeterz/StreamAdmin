@@ -93,8 +93,6 @@ class Startrental extends SecondlifeAjax
 
     public function process(): void
     {
-        global $system;
-
         $package = null;
         $stream = null;
         $avatar = null;
@@ -151,7 +149,7 @@ class Startrental extends SecondlifeAjax
 
         $noticesHelper = new NoticesHelper();
         $use_notice_index = $noticesHelper->getNoticeLevel($hours_remain);
-        $unixtime = time() + ($hours_remain * $system->unixtimeHour());
+        $unixtime = time() + ($hours_remain * $this->siteConfig->unixtimeHour());
 
         $rentals = new RentalSet();
         $rentals->loadByAvatarLink($avatar->getId());

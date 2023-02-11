@@ -180,8 +180,7 @@ class Renewnow extends SecondlifeAjax
 
     protected function processNoticeChange($unixtime_remain): void
     {
-        global $system;
-        $hours_remain = ceil($unixtime_remain / $system->unixtimeHour());
+        $hours_remain = ceil($unixtime_remain / $this->siteConfig->unixtimeHour());
         $noticeHelper = new NoticesHelper();
         $use_notice_index = $noticeHelper->getNoticeLevel($hours_remain);
         if ($use_notice_index != 0) {

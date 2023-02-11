@@ -21,6 +21,5 @@ include APPFOLDER . "Framework/Functions.php";
 //define("ERRORCONSOLE", "yes");
 //define("ERRORCONSOLEPRINT", "yes");
 
-global $system;
 $system = new Config();
 $system->run();

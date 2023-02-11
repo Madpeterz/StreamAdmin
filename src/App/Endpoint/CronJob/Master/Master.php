@@ -85,7 +85,6 @@ abstract class Master extends CronAjax
     }
     protected function save(bool $hadError = false): void
     {
-        global $system, $cache;
         if (($hadError == false) && ($this->myObject != null)) {
             $this->myObject->setLastSeen(time());
             $updateObj = $this->myObject->updateEntry();
@@ -95,20 +94,19 @@ abstract class Master extends CronAjax
             }
         }
         if ($hadError == false) {
-            if ($cache != null) {
-                $cache->shutdown(); // push changes to cache now.
+            if ($this->siteConfig->getCacheWorker() != null) {
+                $this->siteConfig->getCacheWorker()->shutdown(); // push changes to cache now.
             }
-            $system->getSQL()->sqlSave(false); // push changes to DB now.
+            $this->siteConfig->getSQL()->sqlSave(false); // push changes to DB now.
             return;
         }
-        if ($cache != null) {
-            $cache->purge(); // something is wrong purge the cache.
-            $system->getSQL()->sqlRollBack(); // something is wrong undo any changes.
+        if ($this->siteConfig->getCacheWorker() != null) {
+            $this->siteConfig->getCacheWorker()->purge(); // something is wrong purge the cache.
+            $this->siteConfig->getSQL()->sqlRollBack(); // something is wrong undo any changes.
         }
     }
     protected function startup(): bool
     {
-        global $system;
         if ($this->cronID != 1) {
             // delay startup by 2 sec so regions can be created
             sleep(2);
@@ -123,14 +121,14 @@ abstract class Master extends CronAjax
         }
         $region = $regionHelper->getRegion();
 
-        if ($system->getSlConfig()->isLoaded() == false) {
+        if ($this->siteConfig->getSlConfig()->isLoaded() == false) {
             echo "task: " . $this->cronName . " - Unable to load system config:"
-            . $system->getSlConfig()->getLastErrorBasic();
+            . $this->siteConfig->getSlConfig()->getLastErrorBasic();
             return false;
         }
 
         $avatar = new Avatar();
-        if ($avatar->loadID($system->getSlConfig()->getOwnerAvatarLink())->status == false) {
+        if ($avatar->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink())->status == false) {
             echo "task: " . $this->cronName . " - Unable to load owner avatar:" . $avatar->getLastErrorBasic();
             return false;
         }
