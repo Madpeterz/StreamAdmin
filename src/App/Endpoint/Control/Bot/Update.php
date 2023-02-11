@@ -31,7 +31,7 @@ class Update extends ControlAjax
             $httpMode = false;
         }
         $httpURL = $this->input->post("httpURL")->isUrl()->asString();
-        $httpToken = $this->input->post("httpToken")->isNot("")->asArray();
+        $httpToken = $this->input->post("httpToken")->isNot("")->asString();
 
         $notecards = $this->input->post("notecards")->asBool();
         if ($notecards === null) {
