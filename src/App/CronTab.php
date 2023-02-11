@@ -14,7 +14,6 @@ if (defined("TESTING") == false) {
     include APPFOLDER . "Framework/Functions.php";
     set_time_limit(65);
 
-    global $system;
     $system = new Config();
     $system->run();
 }
