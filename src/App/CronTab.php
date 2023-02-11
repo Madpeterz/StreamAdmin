@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Switchboard\CronTab;
+use App\Config;
 
 if (defined("TESTING") == false) {
     chdir(__DIR__);
