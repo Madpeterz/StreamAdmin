@@ -2,15 +2,10 @@
 
 namespace tests\BugReports;
 
-use App\Endpoint\Secondlifeapi\ClientAutoSuspend\Next as ClientAutoSuspendNext;
 use App\Endpoint\Secondlifeapi\Noticeserver\Next;
-use App\Models\Rental;
-use App\Models\Sets\ApirequestsSet;
 use App\Models\Sets\BotcommandqSet;
 use App\Models\Sets\MessageSet;
-use App\Models\Sets\PackageSet;
 use App\Models\Sets\RentalSet;
-use App\Models\Sets\ServerSet;
 use App\Models\Sets\StreamSet;
 use PHPUnit\Framework\TestCase;
 
