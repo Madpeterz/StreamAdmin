@@ -25,6 +25,7 @@ abstract class Master extends CronAjax
 
     protected function report(): void
     {
+        $this->ok("cronjob finished");
         $this->setSwapTag("task", $this->cronName);
         $this->setSwapTag("ticks", $this->ticks);
         $this->setSwapTag("sleep", $this->sleepTime);
@@ -87,6 +88,10 @@ abstract class Master extends CronAjax
     protected function save(bool $hadError = false): void
     {
         if ($hadError == true) {
+            $this->siteConfig->getSQL()->sqlRollBack();
+            if ($this->siteConfig->getCacheEnabled() == true) {
+                $this->siteConfig->getCacheWorker()->shutdown();
+            }
             die("Something has gone wrong in the crontab " . $this->getLastErrorBasic());
         }
         if ($this->siteConfig->getSQL()->sqlSave(false) == false) {
