@@ -86,24 +86,17 @@ abstract class Master extends CronAjax
     }
     protected function save(bool $hadError = false): void
     {
-        if (($hadError == false) && ($this->myObject != null)) {
-            $this->myObject->setLastSeen(time());
-            $updateObj = $this->myObject->updateEntry();
-            $hadError = !$updateObj->status;
-            if ($hadError == true) {
-                echo "task: " . $this->cronName . " - Failed to up object last seen timer\n";
-            }
+        if ($hadError == true) {
+            die("Something has gone wrong in the crontab " . $this->getLastErrorBasic());
         }
-        if ($hadError == false) {
-            if ($this->siteConfig->getCacheWorker() != null) {
-                $this->siteConfig->getCacheWorker()->shutdown(); // push changes to cache now.
-            }
-            $this->siteConfig->getSQL()->sqlSave(false); // push changes to DB now.
+        if ($this->siteConfig->getSQL()->sqlSave(false) == false) {
+            die("Failed to save changes to DB " . $this->siteConfig->getSQL()->getLastErrorBasic());
+        }
+        if ($this->siteConfig->getCacheEnabled() == false) {
             return;
         }
-        if ($this->siteConfig->getCacheWorker() != null) {
-            $this->siteConfig->getCacheWorker()->purge(); // something is wrong purge the cache.
-            $this->siteConfig->getSQL()->sqlRollBack(); // something is wrong undo any changes.
+        if ($this->siteConfig->getCacheWorker()->save() == false) {
+            die("Failed to save changes to Cache " . $this->siteConfig->getCacheWorker()->getLastErrorBasic());
         }
     }
     protected function startup(): bool
