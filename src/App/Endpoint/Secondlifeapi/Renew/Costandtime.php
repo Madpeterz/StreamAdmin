@@ -40,7 +40,7 @@ class Costandtime extends SecondlifeAjax
         if (($package->getDays() % 7) == 0) {
             $this->setSwapTag("word", "Week");
             $this->setSwapTag("stacksize", $this->getStackSize($package->getDays(), 7));
-        } elseif (($package->getDays() % 31) == 31) {
+        } elseif ((($package->getDays() % 31) == 0) || (($package->getDays() % 30) == 0)) {
             $this->setSwapTag("word", "Month");
             $this->setSwapTag("stacksize", $this->getStackSize($package->getDays(), 31));
         }
