@@ -88,7 +88,7 @@ class Update extends ControlAjax
             );
             return;
         }
-        $this->redirectWithMessage("Changes saved", "config");
+        $this->redirectWithMessage("Changes saved", "Bot");
         $this->createMultiAudit(
             $botconfig->getId(),
             $botconfig->getFields(),
