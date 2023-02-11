@@ -11,7 +11,7 @@ use GuzzleHttp\Client;
 class Botcommandq extends Master
 {
     protected string $cronName = "botcommandqserver";
-    protected int $cronID = 4;
+    protected int $cronID = 2;
     protected string $cronRunClass = "Not Used";
 
     protected ?Botconfig $botconfig = null;
