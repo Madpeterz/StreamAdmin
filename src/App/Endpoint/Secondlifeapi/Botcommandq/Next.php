@@ -122,8 +122,8 @@ class Next extends SecondlifeAjax
         if (array_key_exists("reply", $jsonReply) == false) {
             $this->failed("Reply is not formated as expected " . $results["message"]);
         }
-        if ($jsonReply->status == false) {
-            $this->failed($jsonReply["reply"]);
+        if ($jsonReply["status"] == false) {
+            $this->failed($results["message"]);
             return;
         }
         if ($this->removeCommand($command) == false) {
