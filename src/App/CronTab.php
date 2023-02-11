@@ -5,9 +5,6 @@ namespace App;
 use App\Switchboard\CronTab;
 use App\Config;
 
-define("ERRORCONSOLE", "yes");
-define("ERRORCONSOLEPRINT", "yes");
-
 if (defined("TESTING") == false) {
     chdir(__DIR__);
     if (defined("APPFOLDER") == false) {
