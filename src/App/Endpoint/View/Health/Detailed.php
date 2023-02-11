@@ -8,6 +8,7 @@ use App\Models\Sets\ResellerSet;
 
 class Detailed extends View
 {
+    protected array $owner_objects_list = [];
     public function process(): void
     {
         $region = new Region();
@@ -20,12 +21,10 @@ class Detailed extends View
         . $region->getName());
 
         $this->owner_objects_list = [
-            "apirequests",
             "mailserver",
             "noticeserver",
             "detailsserver",
             "notecardsserver",
-            "clientautosuspendserver",
             "eventsserver",
         ];
         $resellers = new ResellerSet();

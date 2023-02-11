@@ -8,6 +8,7 @@ use App\Models\Sets\ResellerSet;
 
 class DefaultView extends View
 {
+    protected array $owner_objects_list = [];
     public function process(): void
     {
         $this->owner_objects_list = [
@@ -15,7 +16,6 @@ class DefaultView extends View
             "noticeserver",
             "detailsserver",
             "notecardsserver",
-            "clientautosuspendserver",
             "eventsserver",
             "botcommandqserver",
         ];
