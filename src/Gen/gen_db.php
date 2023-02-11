@@ -14,5 +14,6 @@ class Db extends ErrorLogging
         $this->dbHost = $GEN_DATABASE_HOST;
         $this->dbUser = $GEN_DATABASE_USERNAME;
         $this->dbPass = $GEN_DATABASE_PASSWORD;
+        $this->addError("Using GEN db config - if you see this message on live something is very wrong");
     }
 }

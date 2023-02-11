@@ -19,6 +19,8 @@ class Db extends ErrorLogging
             $this->dbName = getenv('DB_DATABASE');
             $this->dbUser = getenv('DB_USERNAME');
             $this->dbPass = getenv('DB_PASSWORD');
+            return;
         }
+        $this->addError("using default config");
     }
 }
