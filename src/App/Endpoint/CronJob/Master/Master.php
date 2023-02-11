@@ -44,10 +44,11 @@ abstract class Master extends CronAjax
         $startUnixTime = time();
         while ($exitNow == false) {
             if ($nextDelay > 0) {
+                $delayTime = round($nextDelay);
                 $sleeps++;
-                $totalsleep += $nextDelay;
-                $this->sleepTime += $nextDelay;
-                sleep(round($nextDelay));
+                $totalsleep += $delayTime;
+                $this->sleepTime += $delayTime;
+                sleep($delayTime);
             }
             $dif = time() - $startUnixTime;
             $this->tickOffsets[] = $dif;
