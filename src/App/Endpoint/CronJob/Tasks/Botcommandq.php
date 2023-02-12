@@ -32,13 +32,13 @@ class Botcommandq extends Master
             return false;
         }
         $this->task = new Next();
+        $this->task->setCronConnected();
+        $this->task->setOwnerOverride(true);
+        $this->task->attachBotConfig($this->botconfig);
         if ($this->makeHTTPClient() == false) {
             return false;
         }
-        $this->task->setCronConnected();
-        $this->task->setOwnerOverride(true);
         $this->task->attachBotAvatar($this->botavatar);
-        $this->task->attachBotConfig($this->botconfig);
         $this->task->process();
         if ($this->task->getOutputObject()->getSwapTagBool("status") == false) {
             $this->failed("Error: " . $this->task->getLastErrorBasic());
