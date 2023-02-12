@@ -145,20 +145,25 @@ abstract class Master extends ControlAjax
             }
             $endLoopTime = time();
             $dif = floor($endLoopTime - $startLoopTime);
+            $sleepfor = 0;
             if ($dif < 5) {
                 $sleepfor = 5 - $dif;
                 $this->sleepTime += $sleepfor;
                 $dif = 5;
-                sleep($sleepfor); // loop is to fast, wait upto 5 secs before continue
             }
+            $this->ticks++;
             if ((time() + $dif) > $this->autoExitTime) {
                 $exit = true; // next loop will not finish in time
             }
-            $this->ticks++;
             if ($this->ticks >= $groups) {
-                $exit = true;
+                $exit = true; // we are done for this set of cron activations
+            }
+            if ($sleepfor > 0) {
+                sleep($sleepfor); // loop is to fast, wait upto 5 secs before continue
             }
         }
-        $this->reportCard();
+        if ($loopFailed == false) {
+            $this->reportCard();
+        }
     }
 }
