@@ -86,9 +86,10 @@ abstract class Master extends ControlAjax
             $this->addError(
                 "task: " . $this->taskNicename . " - Unable to load/create object:" . $objectHelper->getLastWhyFailed()
             );
-            $this->save(); // update the ping timer
             return false;
         }
+        $this->save(); // update the ping timer
+        return true;
     }
 
     public function save(): void
