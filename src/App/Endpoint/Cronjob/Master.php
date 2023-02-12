@@ -106,7 +106,9 @@ abstract class Master extends ControlAjax
             return true;
         }
         if ($this->siteConfig->getCacheWorker()->save() == false) {
-            $this->failed("Failed to save changes to Cache " . $this->siteConfig->getCacheWorker()->getLastErrorBasic());
+            $this->failed(
+                "Failed to save changes to Cache " . $this->siteConfig->getCacheWorker()->getLastErrorBasic()
+            );
             return false;
         }
         return true;
@@ -124,7 +126,7 @@ abstract class Master extends ControlAjax
         $this->taskLoop();
     }
     protected bool $create = false;
-    protected int $groups = 12;
+    public int $groups = 12;
 
     protected function taskLoop(): void
     {
@@ -162,7 +164,7 @@ abstract class Master extends ControlAjax
             if ((time() + $dif) > $this->autoExitTime) {
                 $exit = true; // next loop will not finish in time
             }
-            if ($this->ticks >= $groups) {
+            if ($this->ticks >= $this->groups) {
                 $exit = true; // we are done for this set of cron activations
             }
             if ($sleepfor > 0) {

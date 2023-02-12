@@ -91,7 +91,7 @@ class Botcommandq extends Master
         $this->botavatar->loadID($this->botconfig->getAvatarLink());
         if ($this->botavatar->isLoaded() == false) {
             $this->botavatar = null;
-            echo "error - Unable to create avatar linked to bot\n";
+            $this->failed("Unable to create avatar linked to bot");
             return false;
         }
         return true;
