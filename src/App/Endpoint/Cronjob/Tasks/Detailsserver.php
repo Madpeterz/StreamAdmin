@@ -9,6 +9,7 @@ class Detailsserver extends Master
 {
     public function __construct()
     {
+        parent::__construct();
         $this->taskClass = new Next();
         $this->objectType = "detailsserver";
         $this->taskNicename = "Details server crontask";

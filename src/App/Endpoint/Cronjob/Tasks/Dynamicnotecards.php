@@ -9,6 +9,7 @@ class Dynamicnotecards extends Master
 {
     public function __construct()
     {
+        parent::__construct();
         $this->taskClass = new Notecardsync();
         $this->objectType = "notecardsserver";
         $this->taskNicename = "Dynamic notecards crontask";

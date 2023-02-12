@@ -17,6 +17,7 @@ class Botcommandq extends Master
     protected Next $task;
     public function __construct()
     {
+        parent::__construct();
         $this->objectType = "botcommandqserver";
         $this->taskNicename = "Bot commandQ crontask";
         $this->taskId = 3;
