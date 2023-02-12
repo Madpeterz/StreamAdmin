@@ -4,7 +4,7 @@ namespace App\Switchboard;
 
 class CronTab extends ConfigEnabled
 {
-    protected string $targetEndpoint = "CronJob";
+    protected string $targetEndpoint = "Cronjob";
     protected function accessChecks(): bool
     {
         $options = $this->getOpts();
