@@ -57,7 +57,9 @@ abstract class Master extends ControlAjax
             return false;
         }
         if ($this->create == true) {
-            $this->save();
+            if ($this->save() == false) {
+                return false;
+            }
         }
         $this->region = $regionHelper->getRegion();
         return true;
@@ -88,22 +90,24 @@ abstract class Master extends ControlAjax
             );
             return false;
         }
-        $this->save(); // update the ping timer
-        return true;
+        return $this->save(); // update the ping timer
     }
 
-    public function save(): void
+    public function save(): bool
     {
         // force save changes now
         if ($this->siteConfig->getSQL()->sqlSave(false) == false) {
-            die("Failed to save changes to DB " . $this->siteConfig->getSQL()->getLastErrorBasic());
+            $this->failed("Failed to save changes to DB " . $this->siteConfig->getSQL()->getLastErrorBasic());
+            return false;
         }
         if ($this->siteConfig->getCacheEnabled() == false) {
-            return;
+            return true;
         }
         if ($this->siteConfig->getCacheWorker()->save() == false) {
-            die("Failed to save changes to Cache " . $this->siteConfig->getCacheWorker()->getLastErrorBasic());
+            $this->failed("Failed to save changes to Cache " . $this->siteConfig->getCacheWorker()->getLastErrorBasic());
+            return false;
         }
+        return true;
     }
 
     public function process(): void
@@ -122,6 +126,7 @@ abstract class Master extends ControlAjax
 
     protected function taskLoop(): void
     {
+        print "Starting task: " . $this->taskNicename . "\n";
         $loopFailed = false;
         $exit = false;
         if (defined("TESTING") == true) {
