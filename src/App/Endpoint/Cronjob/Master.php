@@ -36,6 +36,8 @@ abstract class Master extends ControlAjax
     }
     protected function doTask(): bool
     {
+        $this->taskClass->setRegion($this->region);
+        $this->taskClass->setOwnerOverride(true);
         $this->taskClass->process();
         $reply = $this->taskClass->getOutputObject();
         if ($reply->getSwapTagBool("status") == false) {
