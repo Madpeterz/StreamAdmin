@@ -7,11 +7,11 @@ use App\Helpers\RegionHelper;
 use App\Models\Avatar;
 use App\Models\Region;
 use App\Template\ControlAjax;
-use YAPF\Bootstrap\Template\ViewAjax;
+use App\Template\SecondlifeAjax;
 
 abstract class Master extends ControlAjax
 {
-    protected ViewAjax $taskClass;
+    protected SecondlifeAjax $taskClass;
     protected string $taskNicename = "";
     protected string $objectType = "";
     protected int $autoExitTime = 0;
