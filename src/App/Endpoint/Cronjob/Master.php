@@ -36,6 +36,7 @@ abstract class Master extends ControlAjax
     }
     protected function doTask(): bool
     {
+        $this->taskClass->process();
         $reply = $this->taskClass->getOutputObject();
         if ($reply->getSwapTagBool("status") == false) {
             $this->failed($reply->getSwapTagString("message"));
