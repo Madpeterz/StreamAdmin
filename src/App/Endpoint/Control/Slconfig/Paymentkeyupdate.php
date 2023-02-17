@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Slconfig;
 
-use App\Endpoint\View\Slconfig\PaymentKey;
+use App\Endpoint\View\Slconfig\Paymentkey;
 use App\Template\ControlAjax;
 
 class Paymentkeyupdate extends ControlAjax
@@ -10,7 +10,7 @@ class Paymentkeyupdate extends ControlAjax
     public function process(): void
     {
         $key = $this->input->post("assignedkey")->checkStringLength(23, 23)->asString();
-        $keyCheck = new PaymentKey();
+        $keyCheck = new Paymentkey();
         $results = $keyCheck->getKeyStatus($key, false);
         if ($results->status == false) {
             $this->failed("Key failed checks: " . $results->message);
