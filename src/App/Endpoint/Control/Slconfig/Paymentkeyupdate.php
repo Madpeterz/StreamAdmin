@@ -12,7 +12,7 @@ class Paymentkeyupdate extends ControlAjax
         $key = $this->input->post("assignedkey")->checkStringLength(23, 23)->asString();
         $keyCheck = new PaymentKey();
         $results = $keyCheck->getKeyStatus($key, false);
-        if ($results->status != true) {
+        if ($results->status == false) {
             $this->failed("Key failed checks: " . $results->message);
             return;
         }

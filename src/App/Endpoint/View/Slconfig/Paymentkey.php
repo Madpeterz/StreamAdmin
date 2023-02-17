@@ -42,7 +42,7 @@ class Paymentkey extends View
         . $this->getKeyStatus($this->siteConfig->getSlConfig()->getPaymentKey())->message);
 
         $form = new Form();
-        $form->target("Slconfig/PaymentKeyUpdate");
+        $form->target("Slconfig/Paymentkeyupdate");
         $form->required(true);
         $form->col(3);
         $form->textInput(
