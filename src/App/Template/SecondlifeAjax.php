@@ -266,4 +266,13 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             return;
         }
     }
+
+    protected function hasAccessOwner(): bool
+    {
+        if ($this->owner_override == false) {
+            $this->failed("SystemAPI access only - please contact support");
+            return false;
+        }
+        return true;
+    }
 }
