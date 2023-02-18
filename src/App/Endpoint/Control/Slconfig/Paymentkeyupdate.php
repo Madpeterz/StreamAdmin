@@ -21,7 +21,6 @@ class Paymentkeyupdate extends ControlAjax
             return;
         }
         $this->siteConfig->getSlConfig()->setPaymentKey($key);
-        $this->siteConfig->getSlConfig()->enableConsoleErrors();
         $results = $this->siteConfig->getSlConfig()->updateEntry();
         if ($results->status == false) {
             $this->failed("Unable to update key in DB please check and try again");
