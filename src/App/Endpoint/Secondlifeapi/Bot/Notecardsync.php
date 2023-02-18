@@ -9,28 +9,32 @@ use App\Template\SecondlifeAjax;
 
 class Notecardsync extends SecondlifeAjax
 {
-    public function process(): void
+    protected BotHelper $botHelper;
+
+    protected function setupHelper(): bool
     {
-        if ($this->owner_override == false) {
-            $this->failed("This API is owner only");
-            return;
-        }
-        $bot_helper = new BotHelper();
-        if ($bot_helper->getNotecards() == false) {
-            $this->setSwapTag("status", true);
+        $this->botHelper = new BotHelper();
+        if ($this->botHelper->getNotecards() == false) {
+            $this->ok("Notecards not enabled on bot");
             $this->setSwapTag("hassyncmessage", "2");
-            $this->setSwapTag("message", "Notecards not enabled on bot");
-            return;
+            return false;
         }
-        $this->setSwapTag("haserrormessage", false);
+        if ($this->botHelper->getBotUUID() == null) {
+            $this->failed("Unable to load bot UUID");
+            return false;
+        }
         $checks = $this->input->varInput(
             $this->siteConfig->getSlConfig()->getHttpInboundSecret()
         )->checkStringLength(5, 30)->asString();
         if ($checks != $this->siteConfig->getSlConfig()->getHttpInboundSecret()) {
             $this->failed("HTTP inbound secret has issues");
-            return;
+            return false;
         }
+        return true;
+    }
 
+    protected function checkHaveStaticNotecardTask(): bool
+    {
         $notecardSet = new NotecardSet();
         $whereConfig = [
             "fields" => ["id"],
@@ -41,27 +45,30 @@ class Notecardsync extends SecondlifeAjax
         $count_data = $notecardSet->countInDB($whereConfig);
         if ($count_data->status == false) {
             $this->failed("Unable to check if there are any notecards to send");
-            return;
+            return false;
         }
 
         if ($count_data->items == 0) {
             $this->ok("nowork");
-            return;
+            return false;
         }
+        return true;
+    }
 
+    protected function checkHaveBotCommandTask(): bool
+    {
         $BotcommandQ = new Botcommandq();
         if ($BotcommandQ->loadByCommand("FetchNextNotecard")->status == true) {
             $this->ok("nowork");
-            return;
+            return false;
         }
+        return true;
+    }
 
-        $bot_helper = new BotHelper();
-        $botUUID = $bot_helper->getBotUUID();
-        if ($botUUID == null) {
-            $this->failed("Unable to load bot UUID");
-            return;
-        }
-        $reply = $bot_helper->sendBotNextNotecard(
+    protected function nextBotTask(): void
+    {
+        $this->setSwapTag("haserrormessage", false);
+        $reply = $this->botHelper->sendBotNextNotecard(
             $this->siteConfig->getSiteURL(),
             $this->siteConfig->getSlConfig()->getHttpInboundSecret()
         );
@@ -70,5 +77,26 @@ class Notecardsync extends SecondlifeAjax
             return;
         }
         $this->ok("ok");
+    }
+
+    public function process(): void
+    {
+        if ($this->owner_override == false) {
+            $this->failed("This API is owner only");
+            return;
+        }
+        if ($this->setupHelper() == false) {
+            return;
+        }
+
+        if ($this->checkHaveStaticNotecardTask() == false) {
+            return;
+        }
+
+        if ($this->checkHaveBotCommandTask() == false) {
+            return;
+        }
+
+        $this->nextBotTask();
     }
 }
