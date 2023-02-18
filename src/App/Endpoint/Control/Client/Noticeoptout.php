@@ -35,7 +35,7 @@ class Noticeoptout extends ControlAjax
 
         $client_opt_out = $rental->relatedRentalnoticeptout();
 
-        $remove_client_opt_out = new RentalnoticeptoutSet();
+        $optOutSet = new RentalnoticeptoutSet();
 
         $enabledCounter = 0;
         $opt_out_notice_ids = $client_opt_out->uniqueNoticeLinks();
@@ -55,7 +55,7 @@ class Noticeoptout extends ControlAjax
                     );
                     return;
                 }
-                $remove_client_opt_out->addToCollected($opt_out);
+                $optOutSet->addToCollected($opt_out);
                 continue;
             }
             $check = $this->input->post("add-optout-" . $noticeLevel->getId())->asBool();
@@ -78,9 +78,9 @@ class Noticeoptout extends ControlAjax
             $enabledCounter++;
         }
 
-        $removedCounter = $remove_client_opt_out->getCount();
-        if ($remove_client_opt_out->getCount() > 0) {
-            $status = $remove_client_opt_out->purgeCollection();
+        $removedCounter = $optOutSet->getCount();
+        if ($optOutSet->getCount() > 0) {
+            $status = $optOutSet->purgeCollection();
             if ($status->status == false) {
                 $this->failed(
                     sprintf(

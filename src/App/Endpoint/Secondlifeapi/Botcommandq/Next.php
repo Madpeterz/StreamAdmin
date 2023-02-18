@@ -41,19 +41,15 @@ class Next extends SecondlifeAjax
         return $this->client;
     }
 
-    public function process(): void
+    protected function setupBot(): bool
     {
-        if ($this->owner_override == false) {
-            $this->setSwapTag("message", "SystemAPI access only - please contact support");
-            return;
-        }
         if ($this->botconfig == null) {
             $this->botconfig = new Botconfig();
             $this->botconfig->loadID(1);
         }
         if ($this->botconfig->isLoaded() == false) {
             $this->failed("Unable to load bot config");
-            return;
+            return false;
         }
         if ($this->bot == null) {
             $this->bot = new Avatar();
@@ -61,14 +57,33 @@ class Next extends SecondlifeAjax
         }
         if ($this->bot->isLoaded() == false) {
             $this->failed("Unable to load bot avatar config");
-            return;
+            return false;
         }
+        return true;
+    }
+
+    protected function setupChecks(): bool
+    {
         if (($this->connectedViaCron == true) && ($this->botconfig->getHttpMode() == false)) {
             $this->failed("Do not run botcommandQ in cron without HTTP enabled!");
-            return;
+            return false;
         }
         if (($this->connectedViaCron == false) && ($this->botconfig->getHttpMode() == true)) {
             $this->failed("Do not run botcommandQ via SL with HTTP enabled!");
+            return false;
+        }
+        return true;
+    }
+
+    public function process(): void
+    {
+        if ($this->hasAccessOwner() == false) {
+            return;
+        }
+        if ($this->setupBot() == false) {
+            return;
+        }
+        if ($this->setupChecks() == false) {
             return;
         }
         $botcommandQset = new BotcommandqSet();
@@ -88,12 +103,23 @@ class Next extends SecondlifeAjax
         $this->processAsObjectIM($botcommandQset->getFirst());
     }
 
-    protected function processAsHTTP(Botcommandq $command): void
+    /**
+     * It takes a Botcommandq object, and returns an array of results.  The results array has two elements:
+     *  "status" and "message".  The "status" element is a boolean, and the "message" element is a string.
+     * The "status" element is true if the command was successful, and false if it was not.  The "message"
+     * element is a string that contains the results of the command
+     * @param Botcommandq command The command to execute
+     * @return array<mixed> An array with two elements:
+     * * status: true or false
+     * * message: the message to be sent to the user
+     */
+    protected function httpCommands(Botcommandq $command): array
     {
         $args = [];
         if ($command->getArgs() !== null) {
             $args = json_decode($command->getArgs());
         }
+
         $results = ["status" => false,"message" => "Unknown command: " . $command->getCommand()];
         if (($command->getCommand() == "IM") && (count($args) == 2)) {
             $endpoint = "chat/IM/" . $args[0] . "/" . $this->botconfig->getHttpToken();
@@ -111,6 +137,13 @@ class Next extends SecondlifeAjax
             $endpoint = "streamadmin/FetchNextNotecard/" . $this->botconfig->getHttpToken();
             $results = $this->restPost($endpoint, $postArgs);
         }
+        return $results;
+    }
+
+    protected function processAsHTTP(Botcommandq $command): void
+    {
+        $results = $this->httpCommands($command);
+
         if ($results["status"] == false) {
             $this->failed($results["message"]);
             return;
@@ -192,13 +225,12 @@ class Next extends SecondlifeAjax
             $res = $this->client->request($method, $endpoint, $body);
             if ($res->getStatusCode() == 200) {
                 return ["status" => true,"message" => $res->getBody()->getContents()];
-            } else {
-                return [
-                    "status" => false,
-                    "message" => "http error [" . $endpoint . "] :"
-                    . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
-                ];
             }
+            return [
+                "status" => false,
+                "message" => "http error [" . $endpoint . "] :"
+                . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
+            ];
         } catch (Exception $e) {
             return ["status" => false,"message" => "[" . $endpoint . "] Request failed in a fireball"];
         }
