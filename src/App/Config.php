@@ -13,16 +13,13 @@ use YAPF\Bootstrap\ConfigBox\BootstrapConfigBox;
 
 class Config extends BootstrapConfigBox
 {
-    public function __construct()
+    protected function loadFromEnv(): void
     {
-        $this->setFlag("SITE_CACHE_ENABLED", true);
+        $this->setFlag("SITE_CACHE_ENABLED", false);
         $this->setFlag("SITE_CACHE_REDIS_HOST", "localhost");
-        parent::__construct();
-        // left ENV name, Right Dev default
-        // if you are running this in classic mode [ie cpanel]
-        // you will need to update the values on the right
         $this->setFlag("SITE_NAME", "Streamadmin");
-        $this->setFlag("SITE_URL", "https://dev.vrlife.life/");
+        $this->setFlag("SITE_URL", "https://dev.blackatom.win/");
+        parent::loadFromEnv();
     }
 
     public function run(): void
@@ -111,6 +108,7 @@ class Config extends BootstrapConfigBox
     public function & getSession(): ?SessionControl
     {
         if (($this->session == null) && ($this->enableRestart == true)) {
+            $this->addError("No SessionControl - creating new");
             $this->session = new SessionControl(); // session super object
         }
         return $this->session;

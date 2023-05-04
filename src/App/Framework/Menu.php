@@ -29,7 +29,7 @@ class Menu extends View
     protected function addLib(string $lib): void
     {
         if ($lib == "jquery") {
-            $this->addJsScript("jquery", "jquery-3.4.1.min.js");
+            $this->addJsScript("jquery", "jquery-3.6.4.min.js");
         } elseif ($lib == "bootstrap") {
             $this->addJsScript("popper", "popper.min.js");
             $this->addJsScript("bootstrap-4.4.1-dist/js", "bootstrap.min.js");

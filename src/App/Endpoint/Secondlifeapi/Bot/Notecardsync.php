@@ -15,7 +15,7 @@ class Notecardsync extends SecondlifeAjax
     {
         $this->botHelper = new BotHelper();
         if ($this->botHelper->getNotecards() == false) {
-            $this->ok("Notecards not enabled on bot");
+            $this->failed("Notecards not enabled on bot");
             $this->setSwapTag("hassyncmessage", "2");
             return false;
         }

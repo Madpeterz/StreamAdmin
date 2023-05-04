@@ -127,7 +127,7 @@ class Next extends SystemApiAjax
 
         $remove_status = $this->notecard->removeEntry();
         if ($remove_status->status == false) {
-            $this->failed("Unable to remove old entry");
+            $this->failed("Unable to remove old entry: " . $remove_status->message);
             return;
         }
         $this->ok("ok");

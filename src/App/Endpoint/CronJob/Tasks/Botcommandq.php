@@ -13,11 +13,13 @@ class Botcommandq extends Master
     protected ?Botconfig $botconfig = null;
     protected ?Avatar $botavatar = null;
     protected ?Client $httpClient = null;
-
     protected Next $task;
+
     public function __construct()
     {
         parent::__construct();
+        $this->taskClass = new Next();
+        $this->task = new Next();
         $this->objectType = "botcommandqserver";
         $this->taskNicename = "Bot commandQ crontask";
         $this->taskId = 3;
@@ -40,10 +42,7 @@ class Botcommandq extends Master
         }
         $this->task->attachBotAvatar($this->botavatar);
         $this->task->process();
-        if ($this->task->getOutputObject()->getSwapTagBool("status") == false) {
-            $this->failed("Error: " . $this->task->getLastErrorBasic());
-            return false;
-        }
+        $this->taskClass = $this->task;
         return true;
     }
 

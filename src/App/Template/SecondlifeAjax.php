@@ -95,7 +95,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         return $this->load_ok;
     }
 
-    public function __construct(bool $AutoLoadTemplate = false)
+    public function __construct(bool $AutoLoadTemplate = false, bool $bypassHash = false)
     {
         parent::__construct($AutoLoadTemplate);
         global $system;
@@ -103,7 +103,9 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         $this->input = new InputFilter();
         $this->requiredValues();
         $this->timeWindow();
-        $this->hashCheck();
+        if ($bypassHash == false) {
+            $this->hashCheck();
+        }
         $this->versionCheck();
         if ($this->load_ok == false) {
             $this->setSwapTag("status", false);

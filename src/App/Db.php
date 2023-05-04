@@ -7,7 +7,7 @@ use YAPF\Core\ErrorControl\ErrorLogging as ErrorLogging;
 class Db extends ErrorLogging
 {
     protected string $dbHost = "localhost";
-    protected string $dbName = "streamadmin";
+    protected string $dbName = "test";
     protected string $dbUser = "root";
     protected string $dbPass = "";
     public function __construct()

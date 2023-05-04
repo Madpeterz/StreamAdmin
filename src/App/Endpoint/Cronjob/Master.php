@@ -11,63 +11,100 @@ use App\Template\SecondlifeAjax;
 
 abstract class Master extends ControlAjax
 {
-    protected SecondlifeAjax $taskClass;
-    protected string $taskNicename = "";
+    protected ?SecondlifeAjax $taskClass = null;
     protected string $objectType = "";
-    protected int $autoExitTime = 0;
+    protected string $taskNicename = "";
     protected int $taskId = 0;
+    protected bool $createRegion = false;
 
-    // stats
-    protected int $ticks = 0;
-    protected int $sleepTime = 0;
-    protected array $tickOffsets = [];
-    protected int $startUnixtime = 0;
     protected Region $region;
 
-    protected function reportCard(): void
+    protected int $taskTime = 55;
+    protected int $ticks = 0;
+    protected int $startUnix = 0;
+    protected int $endUnix = 0;
+    protected int $sleepTime = 0;
+    protected int $sleeps = 0;
+
+    public function process(): void
     {
-        $this->ok("cronFinished");
-        $this->setSwapTag("ticks", $this->ticks);
-        $this->setSwapTag("totalSleep", $this->sleepTime);
-        $this->setSwapTag("sleepAvg", round($this->sleepTime / $this->ticks));
-        $this->setSwapTag("tickOffsets", $this->tickOffsets);
-        $this->setSwapTag("startUnixtime", $this->startUnixtime);
-        $this->setSwapTag("endUnixtime", time());
+        $this->startUnix = time();
+        if ($this->taskClass === null) {
+            return;
+        }
+        $this->loadRegion();
+        if ($this->loadObject() == false) {
+            $this->failed("Unable to create cron object");
+            return;
+        }
+        $this->taskClass->setOwnerOverride(true);
+        $this->taskClass->setRegion($this->region);
+        $this->cronLoop();
+        $this->report();
     }
+
+    protected function report(): void
+    {
+        $this->setSwapTag("ticks", $this->ticks);
+        $this->setSwapTag("sleeps", $this->sleeps);
+        $this->setSwapTag("sleepTime", $this->sleepTime);
+        $this->setSwapTag("sleepAvg", 0);
+        if ($this->sleeps > 0) {
+            $this->setSwapTag("sleepAvg", round($this->sleepTime / $this->sleeps, 2));
+        }
+        $this->setSwapTag("start", $this->startUnix);
+        $this->setSwapTag("end", time());
+        $this->setSwapTag("unused", $this->taskTime);
+    }
+
     protected function doTask(): bool
     {
-        $this->taskClass->setRegion($this->region);
-        $this->taskClass->setOwnerOverride(true);
         $this->taskClass->process();
-        $reply = $this->taskClass->getOutputObject();
-        if ($reply->getSwapTagBool("status") == false) {
-            $this->failed($reply->getSwapTagString("message"));
-            return false;
-        }
-        return true;
-    }
-    protected function cronRegion(): bool
-    {
-        if ($this->create == false) {
-            sleep(2); // force a small delay to allow regions to be setup (cron load ordering)
-        }
-        $regionHelper = new RegionHelper();
-        if ($regionHelper->loadOrCreate("cronJob") == false) {
-            $this->addError(
-                "task: " . $this->taskNicename . " - Unable to load/create region:" . $regionHelper->getLastError()
-            );
-            return false;
-        }
-        if ($this->create == true) {
-            if ($this->save() == false) {
-                return false;
-            }
-        }
-        $this->region = $regionHelper->getRegion();
         return true;
     }
 
-    protected function cronObject(): bool
+    protected function cronLoop(): void
+    {
+        $exit = false;
+        while ($exit == false) {
+            $startLoop = time();
+            $this->ticks++;
+            if ($this->doTask() == false) {
+                $exit = true;
+            }
+            $this->output = $this->taskClass->getOutputObject();
+            $dif = time() - $startLoop;
+            $sleepTime = 5 - $dif;
+            if ($dif < 0) {
+                $sleepTime = 0;
+            }
+            $this->taskTime -= $dif;
+            $this->taskTime -= $sleepTime;
+            if ($this->output->getSwapTagBool("status") == false) {
+                $exit = true;
+                break;
+            }
+            if ($this->taskTime < 5) {
+                $exit = true;
+            }
+            if (defined("UNITTEST") == true) {
+                $exit = true;
+                $sleepTime = 0;
+            }
+            if ($exit == false) {
+                sleep($sleepTime);
+                $this->sleeps++;
+                $this->sleepTime += $sleepTime;
+            }
+        }
+    }
+
+    protected function save(): bool
+    {
+        return $this->siteConfig->getSQL()->sqlSave(false);
+    }
+
+    protected function loadObject(): bool
     {
         $avatar = new Avatar();
         if ($avatar->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink())->status == false) {
@@ -92,87 +129,20 @@ abstract class Master extends ControlAjax
             );
             return false;
         }
-        return $this->save(); // update the ping timer
+        return $this->save();
     }
 
-    public function save(): bool
+    protected function loadRegion(): bool
     {
-        // force save changes now
-        if ($this->siteConfig->getSQL()->sqlSave(false) == false) {
-            $this->failed("Failed to save changes to DB " . $this->siteConfig->getSQL()->getLastErrorBasic());
+        if ($this->createRegion == false) {
+            $this->taskTime -= 2;
+            sleep(2);
+        }
+        $regionHelper = new RegionHelper();
+        if ($regionHelper->loadOrCreate("cron") == false) {
             return false;
         }
-        if ($this->siteConfig->getCacheEnabled() == false) {
-            return true;
-        }
-        if ($this->siteConfig->getCacheWorker()->save() == false) {
-            $this->failed(
-                "Failed to save changes to Cache " . $this->siteConfig->getCacheWorker()->getLastErrorBasic()
-            );
-            return false;
-        }
+        $this->region = $regionHelper->getRegion();
         return true;
-    }
-
-    public function process(): void
-    {
-        $this->startUnixtime = time();
-        $this->autoExitTime = $this->startUnixtime + 56;
-        if ($this->objectType == "") {
-            $this->failed("Unknown cronjob task selected");
-            return;
-        }
-        $this->cronRegion();
-        $this->taskLoop();
-    }
-    protected bool $create = false;
-    public int $groups = 12;
-
-    protected function taskLoop(): void
-    {
-        print "Starting task: " . $this->taskNicename . "\n";
-        $loopFailed = false;
-        $exit = false;
-        if (defined("TESTING") == true) {
-            $groups = 1;
-        }
-
-        while (($loopFailed == false) && ($exit == false)) {
-            $startLoopTime = time();
-            $this->tickOffsets[] = $startLoopTime;
-            if ($this->cronObject() == false) {
-                $loopFailed = true;
-                break;
-            }
-            if ($this->doTask() == false) {
-                $loopFailed = true;
-                break;
-            }
-            if ($this->cronObject() == false) {
-                $loopFailed = true;
-                break;
-            }
-            $endLoopTime = time();
-            $dif = floor($endLoopTime - $startLoopTime);
-            $sleepfor = 0;
-            if ($dif < 5) {
-                $sleepfor = 5 - $dif;
-                $this->sleepTime += $sleepfor;
-                $dif = 5;
-            }
-            $this->ticks++;
-            if ((time() + $dif) > $this->autoExitTime) {
-                $exit = true; // next loop will not finish in time
-            }
-            if ($this->ticks >= $this->groups) {
-                $exit = true; // we are done for this set of cron activations
-            }
-            if ($sleepfor > 0) {
-                sleep($sleepfor); // loop is to fast, wait upto 5 secs before continue
-            }
-        }
-        if ($loopFailed == false) {
-            $this->reportCard();
-        }
     }
 }

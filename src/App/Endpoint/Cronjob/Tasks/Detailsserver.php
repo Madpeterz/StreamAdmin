@@ -14,6 +14,6 @@ class Detailsserver extends Master
         $this->objectType = "detailsserver";
         $this->taskNicename = "Details server crontask";
         $this->taskId = 1;
-        $this->create = true;
+        $this->createRegion = true;
     }
 }
