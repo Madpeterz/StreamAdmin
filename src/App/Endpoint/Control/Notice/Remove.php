@@ -7,48 +7,59 @@ use App\Template\ControlAjax;
 
 class Remove extends ControlAjax
 {
-    public function process(): void
+    protected ?int $newNoticeLevel = 0;
+    protected Notice $notice = new Notice();
+    protected Notice $transferNotice = new Notice();
+    protected function postChecks(): bool
     {
-        $notice = new Notice();
-
-        $accept = $this->input->post("accept")->asString();
-        $newNoticeLevel = $this->input->post("newNoticeLevel")->checkGrtThanEq(1)->asInt();
         $this->setSwapTag("redirect", "notice");
-        if ($newNoticeLevel == null) {
-            $this->failed("Unable to find transfer notice level");
-            $this->setSwapTag("redirect", "notice/manage/" . $this->siteConfig->getPage() . "");
-            return;
-        }
-        if ($accept != "Accept") {
+
+        if ($this->input->post("accept")->asString() != "Accept") {
             $this->failed("Did not Accept");
             $this->setSwapTag("redirect", "notice/manage/" . $this->siteConfig->getPage() . "");
-            return;
+            return false;
+        }
+        $this->newNoticeLevel = $this->input->post("newNoticeLevel")->checkGrtThanEq(1)->asInt();
+        if ($this->newNoticeLevel == null) {
+            $this->failed("Unable to find transfer notice level");
+            $this->setSwapTag("redirect", "notice/manage/" . $this->siteConfig->getPage() . "");
+            return false;
         }
         if (in_array($this->siteConfig->getPage(), [6,10]) == true) {
             $this->failed("Selected notice is protected");
+            return false;
+        }
+        return true;
+    }
+    protected function transferChecks(): bool
+    {
+        if ($this->transferNotice->loadID($this->newNoticeLevel)->status == false) {
+            $this->failed("Unable to load transfer notice");
+            return false;
+        }
+        if ($this->transferNotice->getId() == $this->notice->getId()) {
+            $this->failed("Not sure how you did it but the transfer 
+            notice and current notice can not be the same!");
+            return false;
+        }
+        return true;
+    }
+    public function process(): void
+    {
+        if ($this->postChecks() == false) {
             return;
         }
-
-        if ($notice->loadID($this->siteConfig->getPage())->status == false) {
+        if ($this->notice->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to load selected notice");
             return;
         }
-        $noticeid = $notice->getId();
-        $noticename = $notice->getName();
-
-        $transferNotice = new Notice();
-        if ($transferNotice->loadID($newNoticeLevel)->status == false) {
-            $this->failed("Unable to load transfer notice");
+        $noticeid = $this->notice->getId();
+        $noticename = $this->notice->getName();
+        if ($this->transferChecks() == false) {
             return;
         }
 
-        if ($transferNotice->getId() == $notice->getId()) {
-            $this->failed("Not sure how you did it but the transfer 
-            notice and current notice can not be the same!");
-            return;
-        }
-
-        $notice_set = $notice->relatedRentalnoticeptout();
+        $notice_set = $this->notice->relatedRentalnoticeptout();
         if ($notice_set->getCount() != 0) {
             $this->failed(
                 sprintf(
@@ -59,12 +70,12 @@ class Remove extends ControlAjax
             return;
         }
 
-        $RentalSet = $notice->relatedRental();
+        $RentalSet = $this->notice->relatedRental();
 
         $reply = true;
         $transfered_count = 0;
         if ($RentalSet->getCount() > 0) {
-            $check = $RentalSet->updateFieldInCollection("noticeLink", $transferNotice->getId());
+            $check = $RentalSet->updateFieldInCollection("noticeLink", $this->transferNotice->getId());
             $reply = $check->status;
             $transfered_count = $check->changes;
         }
@@ -72,7 +83,7 @@ class Remove extends ControlAjax
             $this->failed("Failed to transfer rentals to the new notice level");
             return;
         }
-        $remove_status = $notice->removeEntry();
+        $remove_status = $this->notice->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
                 sprintf("Unable to remove notice: %1\$s", $remove_status->message)
