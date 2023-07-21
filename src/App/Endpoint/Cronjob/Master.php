@@ -73,11 +73,13 @@ abstract class Master extends ControlAjax
 
         while (($exit == false) && ($this->fastExit == false)) {
             $startLoop = time();
+            $this->objectHelper->updateLastSeen();
             $this->ticks++;
             $this->tickTimes[] = ($startLoop - $this->startUnix);
             if ($this->doTask() == false) {
                 $this->fastExit = true;
             }
+            $this->forceSave();
             $this->output = $this->taskClass->getOutputObject();
             $dif = time() - $startLoop;
             $sleepTime = 2 - $dif;
@@ -110,7 +112,7 @@ abstract class Master extends ControlAjax
     {
         return $this->siteConfig->getSQL()->sqlSave(false);
     }
-
+    protected ObjectHelper $objectHelper;
     protected function loadObject(): bool
     {
         $avatar = new Avatar();
@@ -120,9 +122,9 @@ abstract class Master extends ControlAjax
             );
             return false;
         }
-        $objectHelper = new ObjectHelper();
+        $this->objectHelper = new ObjectHelper();
         if (
-            $objectHelper->loadOrCreate(
+            $this->objectHelper->loadOrCreate(
                 $avatar->getId(),
                 $this->region->getId(),
                 "00000000-0000-0000-0000-00000000000" . $this->taskId,
@@ -132,7 +134,8 @@ abstract class Master extends ControlAjax
             ) == false
         ) {
             $this->addError(
-                "task: " . $this->taskNicename . " - Unable to load/create object:" . $objectHelper->getLastWhyFailed()
+                "task: " . $this->taskNicename . " - Unable to load/create object:"
+                . $this->objectHelper->getLastWhyFailed()
             );
             return false;
         }

@@ -41,19 +41,26 @@ class ObjectHelper
             $this->whyfailed = $save_status->message;
             return $save_status->status;
         }
+        if ($objectName != $this->object->getObjectName()) {
+            $this->object->setObjectName($objectName);
+        }
+        if ($this->object->getRegionLink() != $region_id) {
+            $this->object->setRegionLink($region_id);
+        }
+        if ($this->updateLastSeen() == false) {
+            return false;
+        }
+        $this->whyfailed = "Current";
+        return true;
+    }
+    public function updateLastSeen(): bool
+    {
         if ($this->object->getLastSeen() != time()) {
             $this->object->setLastSeen(time());
-            if ($objectName != $this->object->getObjectName()) {
-                $this->object->setObjectName($objectName);
-            }
-            if ($this->object->getRegionLink() != $region_id) {
-                $this->object->setRegionLink($region_id);
-            }
             $save_status = $this->object->updateEntry();
             $this->whyfailed = $save_status->message;
             return $save_status->status;
         }
-        $this->whyfailed = "Current";
         return true;
     }
 }
