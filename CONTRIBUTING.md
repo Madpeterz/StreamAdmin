@@ -32,7 +32,7 @@ Both issue lists are sorted by total number of comments. While not perfect, numb
 
 Streamadmin for local dev we suggest for windows
 
-Xammp, php 7.4, MYSQL, VScode with "PHP Intelephense" and "PHP Sniffer"
+Xammp, php 8.2, MYSQL, VScode with "PHP Intelephense" and "PHP Sniffer"
 
 ### Pull Requests
 
