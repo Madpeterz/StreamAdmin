@@ -21,10 +21,12 @@ abstract class Master extends ControlAjax
 
     protected int $taskTime = 55;
     protected int $ticks = 0;
+    protected array $tickTimes = [];
     protected int $startUnix = 0;
     protected int $endUnix = 0;
     protected int $sleepTime = 0;
     protected int $sleeps = 0;
+    protected bool $fastExit = false;
 
     public function process(): void
     {
@@ -46,6 +48,7 @@ abstract class Master extends ControlAjax
     protected function report(): void
     {
         $this->setSwapTag("ticks", $this->ticks);
+        $this->setSwapTag("tickTimes", implode(",", $this->tickTimes));
         $this->setSwapTag("sleeps", $this->sleeps);
         $this->setSwapTag("sleepTime", $this->sleepTime);
         $this->setSwapTag("sleepAvg", 0);
@@ -55,6 +58,7 @@ abstract class Master extends ControlAjax
         $this->setSwapTag("start", $this->startUnix);
         $this->setSwapTag("end", time());
         $this->setSwapTag("unused", $this->taskTime);
+        $this->setSwapTag("fastExit", $this->fastExit);
     }
 
     protected function doTask(): bool
@@ -66,11 +70,13 @@ abstract class Master extends ControlAjax
     protected function cronLoop(): void
     {
         $exit = false;
-        while ($exit == false) {
+
+        while (($exit == false) && ($this->fastExit == false)) {
             $startLoop = time();
             $this->ticks++;
+            $this->tickTimes[] = ($this->startUnix - $startLoop);
             if ($this->doTask() == false) {
-                $exit = true;
+                $this->fastExit = true;
             }
             $this->output = $this->taskClass->getOutputObject();
             $dif = time() - $startLoop;
@@ -81,17 +87,18 @@ abstract class Master extends ControlAjax
             $this->taskTime -= $dif;
             $this->taskTime -= $sleepTime;
             if ($this->output->getSwapTagBool("status") == false) {
-                $exit = true;
+                $this->fastExit = true;
                 break;
             }
             if ($this->taskTime < 5) {
                 $exit = true;
             }
             if (defined("UNITTEST") == true) {
-                $exit = true;
+                $this->fastExit = true;
                 $sleepTime = 0;
+                break;
             }
-            if ($exit == false) {
+            if (($sleepTime > 0) && ($exit == false)) {
                 sleep($sleepTime);
                 $this->sleeps++;
                 $this->sleepTime += $sleepTime;
