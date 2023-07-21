@@ -74,7 +74,7 @@ abstract class Master extends ControlAjax
             }
             $this->output = $this->taskClass->getOutputObject();
             $dif = time() - $startLoop;
-            $sleepTime = 5 - $dif;
+            $sleepTime = 2 - $dif;
             if ($dif < 0) {
                 $sleepTime = 0;
             }
