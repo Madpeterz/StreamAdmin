@@ -23,3 +23,4 @@ if (defined("TESTING") == false) {
 }
 
 new CronTab();
+print "\n";

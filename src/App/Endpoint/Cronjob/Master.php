@@ -74,7 +74,7 @@ abstract class Master extends ControlAjax
         while (($exit == false) && ($this->fastExit == false)) {
             $startLoop = time();
             $this->ticks++;
-            $this->tickTimes[] = ($this->startUnix - $startLoop);
+            $this->tickTimes[] = ($startLoop - $this->startUnix);
             if ($this->doTask() == false) {
                 $this->fastExit = true;
             }
