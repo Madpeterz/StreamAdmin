@@ -11,6 +11,7 @@ use Tests\Mytest;
 
 class Issue47 extends Mytest
 {
+    protected Package $package;
     public function test_addGroupInviteToMessageQ()
     {       
         global $system;

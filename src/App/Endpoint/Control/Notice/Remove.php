@@ -8,8 +8,8 @@ use App\Template\ControlAjax;
 class Remove extends ControlAjax
 {
     protected ?int $newNoticeLevel = 0;
-    protected Notice $notice = new Notice();
-    protected Notice $transferNotice = new Notice();
+    protected Notice $notice;
+    protected Notice $transferNotice;
     protected function postChecks(): bool
     {
         $this->setSwapTag("redirect", "notice");
@@ -46,6 +46,8 @@ class Remove extends ControlAjax
     }
     public function process(): void
     {
+        $this->notice = new Notice();
+        $this->transferNotice = new Notice();
         if ($this->postChecks() == false) {
             return;
         }

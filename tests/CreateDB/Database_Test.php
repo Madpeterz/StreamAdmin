@@ -2,16 +2,18 @@
 
 namespace StreamAdminR7;
 
+use App\Config;
 use App\Models\Avatar;
 use App\Models\Staff;
-use Tests\Mytest;
+use PHPUnit\Framework\TestCase;
 
-class Database_Test extends Mytest
+class Database_Test extends TestCase
 {
 
     public function test_WipeDb()
     {
         global $system;
+        $system = new Config();
         $results = $system->getSQL()->rawSQL("tests/wipeDB.sql");
         $this->assertSame("ok", $results->message, "incorrect wipe message: ".$system->getSQL()->getLastErrorBasic());
         $this->assertSame(5, $results->commandsRun, "incorrect number of commands run");
