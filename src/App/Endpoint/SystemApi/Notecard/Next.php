@@ -39,7 +39,7 @@ class Next extends SystemApiAjax
         $swap_helper = new SwapablesHelper();
         $this->notecard_title = "Streamdetails for "
         . $this->avatar->getAvatarName() . " port: "
-        . $this->stream->getPort() . "";
+        . $this->stream->getPort() . " [Created on: " . date('l jS \of F Y h:i:s A', time()) . "]";
         if ($this->template->getNotecarddetail() == null) {
             $this->failed("Selected template: " . $this->template->getName() . " is empty");
             return false;
