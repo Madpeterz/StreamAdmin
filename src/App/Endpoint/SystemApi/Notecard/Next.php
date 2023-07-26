@@ -37,9 +37,9 @@ class Next extends SystemApiAjax
     protected function asNotice(): bool
     {
         $swap_helper = new SwapablesHelper();
-        $this->notecard_title = "Streamdetails for "
-        . $this->avatar->getAvatarName() . " port: "
-        . $this->stream->getPort() . " [Created on: " . date('l jS \of F Y h:i:s A', time()) . "]";
+        $this->notecard_title = "Details for "
+        . explode(" ", $this->avatar->getAvatarName())[0] . " port: "
+        . $this->stream->getPort() . " [" . date('Y-m-d H:i:s', time()) . "]";
         if ($this->template->getNotecarddetail() == null) {
             $this->failed("Selected template: " . $this->template->getName() . " is empty");
             return false;
