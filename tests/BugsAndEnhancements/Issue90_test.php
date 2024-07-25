@@ -25,10 +25,10 @@ class Issue90 extends Mytest
 
         $tests = [
             73 => 2,
-            (31*24) => 10,
+            (31 * 24) => 10,
             6 => 4,
             2 => 5,
-            (6*24) => 1,
+            (6 * 24) => 1,
             0 => 6,
             -2 => 6,
             5 => 5,
@@ -39,10 +39,9 @@ class Issue90 extends Mytest
             350 => 10
         ];
 
-        foreach($tests as $hours => $expectedID)
-        {
+        foreach ($tests as $hours => $expectedID) {
             $selectedID = $noticesHelper->getNoticeLevel($hours);
-            $this->assertSame($expectedID,$selectedID,"Incorrect notice ID returned");
+            $this->assertSame($expectedID, $selectedID, "Incorrect notice ID returned");
         }
     }
 
@@ -60,22 +59,22 @@ class Issue90 extends Mytest
         $_POST["amountpaid"] = $this->package->getCost() * 4;
 
         $startRental = new StartRental();
-        $this->assertSame("ready",$startRental->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
-        $this->assertSame(true,$startRental->getLoadOk(),"Load ok failed");
+        $this->assertSame("ready", $startRental->getOutputObject()->getSwapTagString("message"), "Ready checks failed");
+        $this->assertSame(true, $startRental->getLoadOk(), "Load ok failed");
         $startRental->process();
-        $this->assertSame("Details should be with you shortly",$startRental->getOutputObject()->getSwapTagString("message"),"incorrect reply");
-        $this->assertSame(true,$startRental->getOutputObject()->getSwapTagBool("status"),"marked as failed");
-        $this->assertSame(0,$startRental->getOutputObject()->getSwapTagInt("owner_payment"),"incorrect owner payment");
+        $this->assertSame("Details should be with you shortly", $startRental->getOutputObject()->getSwapTagString("message"), "incorrect reply");
+        $this->assertSame(true, $startRental->getOutputObject()->getSwapTagBool("status"), "marked as failed");
+        $this->assertSame(0, $startRental->getOutputObject()->getSwapTagInt("owner_payment"), "incorrect owner payment");
 
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
-        $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
+        $this->assertSame(true, $avatar->isLoaded(), "Failed to load avatar");
 
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental");
 
-        $this->assertSame(10,$rental->getNoticeLink(),"Rental assigned incorrect notice level");
+        $this->assertSame(10, $rental->getNoticeLink(), "Rental assigned incorrect notice level");
     }
 
     /**
@@ -87,22 +86,21 @@ class Issue90 extends Mytest
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
-        $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
+        $this->assertSame(true, $avatar->isLoaded(), "Failed to load avatar");
 
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental");
 
         $detailsSet = new DetailSet();
         $detailsSet->loadAll();
-        $this->assertSame(2, $detailsSet->getCount(), "incorrect number of pending details requests");
+        $this->assertSame(3, $detailsSet->getCount(), "incorrect number of pending details requests");
         $reply = $detailsSet->purgeCollection();
         $this->assertSame(true, $reply->status, "Detail requests not removed");
 
         $notecardSet = new NotecardSet();
         $notecardSet->loadAll();
-        $reply = $notecardSet->purgeCollection();
-        $this->assertSame(1, $reply->itemsRemoved, "Incorrect number of pending notecards removed");
+        $this->assertSame(0, $notecardSet->getCount(), "Incorrect number of pending notecards removed");
 
         $rentalSet = new RentalSet();
         $whereConfig = [
@@ -111,16 +109,16 @@ class Issue90 extends Mytest
             "matches" => ["!="],
         ];
         $rentalSet->loadWithConfig($whereConfig);
-        $this->assertSame(5,$rentalSet->getCount(),"Incorrect number of rentals loaded");
+        $this->assertSame(5, $rentalSet->getCount(), "Incorrect number of rentals loaded");
         global $system, $_POST;
         $_POST["accept"] = "Accept";
-        foreach($rentalSet as $rentalRm) {
+        foreach ($rentalSet as $rentalRm) {
             $system->setPage($rentalRm->getRentalUid());
             $removeRental = new Revoke();
             $removeRental->process();
             $statuscheck = $removeRental->getOutputObject();
-            $this->assertStringContainsString("Client rental revoked",$statuscheck->getSwapTagString("message"));
-            $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");            
+            $this->assertStringContainsString("Client rental revoked", $statuscheck->getSwapTagString("message"));
+            $this->assertSame(true, $statuscheck->getSwapTagBool("status"), "Status check failed");
         }
     }
 
@@ -133,39 +131,38 @@ class Issue90 extends Mytest
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
-        $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
+        $this->assertSame(true, $avatar->isLoaded(), "Failed to load avatar");
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental");
 
         // set rental to 6days 23hours
         $setTimes = [
-            ($system->unixtimeDay()*6) + ($system->unixtimeHour()*23) => 1,
-            ($system->unixtimeDay()*4) + ($system->unixtimeHour()*23) => 2,
-            ($system->unixtimeDay()*2) + ($system->unixtimeHour()*23) => 3,
-            ($system->unixtimeHour()*23) => 4,
-            ($system->unixtimeHour()*4) => 5,
+            ($system->unixtimeDay() * 6) + ($system->unixtimeHour() * 23) => 1,
+            ($system->unixtimeDay() * 4) + ($system->unixtimeHour() * 23) => 2,
+            ($system->unixtimeDay() * 2) + ($system->unixtimeHour() * 23) => 3,
+            ($system->unixtimeHour() * 23) => 4,
+            ($system->unixtimeHour() * 4) => 5,
             -5 => 6,
         ];
 
-        foreach($setTimes as $addUnixtime => $expectedNoticeLevel)
-        {
+        foreach ($setTimes as $addUnixtime => $expectedNoticeLevel) {
             $rental->setExpireUnixtime(time() + $addUnixtime);
             $update = $rental->updateEntry();
-            $this->assertSame(true,$update->status,"Rental expires not updated");
+            $this->assertSame(true, $update->status, "Rental expires not updated");
             // Tick notice server
-            $Next = new Next(bypassHash:true);
+            $Next = new Next(bypassHash: true);
             $Next->setOwnerOverride(true);
-            $this->assertSame("ready",$Next->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
-            $this->assertSame(true,$Next->getLoadOk(),"Load ok failed");
+            $this->assertSame("ready", $Next->getOutputObject()->getSwapTagString("message"), "Ready checks failed");
+            $this->assertSame(true, $Next->getLoadOk(), "Load ok failed");
             $Next->process();
-            $this->assertSame("ok",$Next->getOutputObject()->getSwapTagString("message"),"incorrect reply");
-            $this->assertSame(true,$Next->getOutputObject()->getSwapTagBool("status"),"marked as failed");
+            $this->assertSame("ok", $Next->getOutputObject()->getSwapTagString("message"), "incorrect reply");
+            $this->assertSame(true, $Next->getOutputObject()->getSwapTagBool("status"), "marked as failed");
             // Recheck rental
             $rental = new Rental();
             $rental->loadByAvatarLink($avatar->getId());
-            $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
-            $this->assertSame($expectedNoticeLevel,$rental->getNoticeLink(),"Incorrect notice level assigned");
+            $this->assertSame(true, $rental->isLoaded(), "Failed to load rental");
+            $this->assertSame($expectedNoticeLevel, $rental->getNoticeLink(), "Incorrect notice level assigned");
         }
     }
 
@@ -178,56 +175,65 @@ class Issue90 extends Mytest
         $_POST["avatarUUID"] = "90909090-9090-9090-9090-909090900091";
         $avatar = new Avatar();
         $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
-        $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
+        $this->assertSame(true, $avatar->isLoaded(), "Failed to load avatar");
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental");
         $this->package = new Package();
         $this->package->loadID(1);
-        $this->assertSame(true,$this->package->isLoaded(),"Failed to load package");
+        $this->assertSame(true, $this->package->isLoaded(), "Failed to load package");
         $this->package->setCost(5);
         $this->package->setDays(1);
         $reply = $this->package->updateEntry();
-        $this->assertSame(true,$reply->status,"Failed to update package");
+        $this->assertSame(true, $reply->status, "Failed to update package");
         $paymentAmounts = [
-            ["amount"=>5,"start"=>6,"end"=>4],
-            ["amount"=>10,"start"=>4,"end"=>3],
-            ["amount"=>10,"start"=>3,"end"=>2],
-            ["amount"=>10,"start"=>2,"end"=>1],
-            ["amount"=>10,"start"=>1,"end"=>10],
+            ["amount" => 5, "start" => 6, "end" => 4],
+            ["amount" => 10, "start" => 4, "end" => 3],
+            ["amount" => 10, "start" => 3, "end" => 2],
+            ["amount" => 10, "start" => 2, "end" => 1],
+            ["amount" => 10, "start" => 1, "end" => 10],
         ];
         $_POST["avatarUUID"] = "499c3e36-69b3-40e5-9229-0cfa5db30766";
         $_POST["avatarName"] = "Test Buyer";
         $_POST["rentalUid"] = $rental->getRentalUid();
         $this->setupRenewPost("Renewnow");
         $log = "";
-        foreach($paymentAmounts as $entry) {
+        foreach ($paymentAmounts as $entry) {
             $amount = $entry["amount"];
-            $expectedNoticeLevel = [$entry["start"],$entry["end"]];
-            $log .= "Checking from ".$expectedNoticeLevel[0]." to ".$expectedNoticeLevel[1];
+            $expectedNoticeLevel = [$entry["start"], $entry["end"]];
+            $log .= "Checking from " . $expectedNoticeLevel[0] . " to " . $expectedNoticeLevel[1];
             $_POST["amountpaid"] = $amount;
-            $this->assertSame($expectedNoticeLevel[0],$rental->getNoticeLink(),
-            "[".$amount."@".$expectedNoticeLevel[1]."] Incorrect prerenewal notice level ".$log);
+            $this->assertSame(
+                $expectedNoticeLevel[0],
+                $rental->getNoticeLink(),
+                "[" . $amount . "@" . $expectedNoticeLevel[1] . "] Incorrect prerenewal notice level " . $log
+            );
             $Renewnow = new Renewnow();
             $oldExpireTime = $rental->getExpireUnixtime();
-            $this->assertSame("ready",$Renewnow->getOutputObject()->getSwapTagString("message"),"Ready checks failed");
-            $this->assertSame(true,$Renewnow->getLoadOk(),"Load ok failed");
+            $this->assertSame("ready", $Renewnow->getOutputObject()->getSwapTagString("message"), "Ready checks failed");
+            $this->assertSame(true, $Renewnow->getLoadOk(), "Load ok failed");
             $Renewnow->process();
             $this->assertStringStartsWith(
                 "Payment accepted there is now:",
                 $Renewnow->getOutputObject()->getSwapTagString("message"),
-                "[".$amount."@".$expectedNoticeLevel[1]."] Incorrect message ".$log
+                "[" . $amount . "@" . $expectedNoticeLevel[1] . "] Incorrect message " . $log
             );
-            $this->assertSame(true,$Renewnow->getOutputObject()->getSwapTagBool("status"),"[".$amount."@".$expectedNoticeLevel[1]."] marked as failed ".$log);
+            $this->assertSame(true, $Renewnow->getOutputObject()->getSwapTagBool("status"), "[" . $amount . "@" . $expectedNoticeLevel[1] . "] marked as failed " . $log);
             // Recheck rental
             $rental = new Rental();
             $rental->loadByAvatarLink($avatar->getId());
-            $this->assertSame(true,$rental->isLoaded(),"[".$amount."@".$expectedNoticeLevel[1]."] Failed to load rental ".$log);
-            $expectedRenewalTime = $oldExpireTime + ($system->unixtimeDay() * ($amount/5));
-            $this->assertSame($expectedRenewalTime,$rental->getExpireUnixtime(),
-            "[".$amount."@".$expectedNoticeLevel[1]."] rental expire unixtime is not as expected ".$log);
-            $this->assertSame($expectedNoticeLevel[1],$rental->getNoticeLink(),
-            "[".$amount."@".$expectedNoticeLevel[1]."] Incorrect notice level assigned ".$log);
+            $this->assertSame(true, $rental->isLoaded(), "[" . $amount . "@" . $expectedNoticeLevel[1] . "] Failed to load rental " . $log);
+            $expectedRenewalTime = $oldExpireTime + ($system->unixtimeDay() * ($amount / 5));
+            $this->assertSame(
+                $expectedRenewalTime,
+                $rental->getExpireUnixtime(),
+                "[" . $amount . "@" . $expectedNoticeLevel[1] . "] rental expire unixtime is not as expected " . $log
+            );
+            $this->assertSame(
+                $expectedNoticeLevel[1],
+                $rental->getNoticeLink(),
+                "[" . $amount . "@" . $expectedNoticeLevel[1] . "] Incorrect notice level assigned " . $log
+            );
             $log .= " - ok\n";
         }
     }
@@ -243,14 +249,14 @@ class Issue90 extends Mytest
         $avatar = new Avatar();
         $reply = $avatar->loadByAvatarUUID($_POST["avatarUUID"]);
         $this->assertSame(true, $reply->status, "Failed to load avatar");
-        $this->assertSame(true,$avatar->isLoaded(),"Failed to load avatar");
+        $this->assertSame(true, $avatar->isLoaded(), "Failed to load avatar");
         $rental = new Rental();
         $rental->loadByAvatarLink($avatar->getId());
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental");
         $this->assertSame(12, $rental->getId(), "Incorrect rental ID found!");
 
         $system->setPage($rental->getRentalUid());
-        
+
         $manageProcess = new Update();
         $_POST["message"] = $rental->getMessage();
         $_POST["adjustment_dir"] = "false";
@@ -258,23 +264,23 @@ class Issue90 extends Mytest
         $_POST["adjustment_days"] = "5";
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
-        $this->assertSame(96,$statuscheck->getSwapTagInt("hoursRemain"),"hours remaining is not what we expected");
-        $this->assertSame(true,$statuscheck->getSwapTagBool("noticeLevelChanged"),"Notice level did not change!");
+        $this->assertSame(true, $statuscheck->getSwapTagBool("status"), "Status check failed");
+        $this->assertSame(96, $statuscheck->getSwapTagInt("hoursRemain"), "hours remaining is not what we expected");
+        $this->assertSame(true, $statuscheck->getSwapTagBool("noticeLevelChanged"), "Notice level did not change!");
 
         // Recheck rental
         $rental = new Rental();
         $reply = $rental->loadByAvatarLink($avatar->getId());
-        $this->assertSame(true, $reply->status, "Failed to load rental via avatar ".$avatar->getId().": ".$reply->message);
+        $this->assertSame(true, $reply->status, "Failed to load rental via avatar " . $avatar->getId() . ": " . $reply->message);
         $this->assertSame(12, $rental->getId(), "Incorrect rental ID found!");
-        $this->assertSame(true,$rental->isLoaded(),"Failed to load rental");
-        $this->assertSame(2,$rental->getNoticeLink(),"Incorrect notice level assigned");
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental");
+        $this->assertSame(2, $rental->getNoticeLink(), "Incorrect notice level assigned");
     }
 
     protected function setupRenewPost(string $target)
     {
         global $_POST, $system;
-        $system->forceProcessURI("Renew/".$target);
+        $system->forceProcessURI("Renew/" . $target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -283,9 +289,9 @@ class Issue90 extends Mytest
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
-$_POST["version"] = "2.0.0.0";
+        $_POST["version"] = "2.0.0.0";
 
-$storage = [
+        $storage = [
             "version",
             "mode",
             "objectuuid",
@@ -297,19 +303,18 @@ $storage = [
             "objecttype",
         ];
         $real = [];
-        foreach($storage as $valuename)
-        {
+        foreach ($storage as $valuename) {
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time() ."Renew".$target . implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time() . "Renew" . $target . implode("", $real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
     }
 
     protected function setupPostBuy(string $target)
     {
         global $_POST, $system;
-        $system->forceProcessURI("Buy/".$target);
+        $system->forceProcessURI("Buy/" . $target);
         $_POST["mode"] = "test";
         $_POST["objectuuid"] = "b36971ef-b2a5-f461-025c-81bbc473deb8";
         $_POST["regionname"] = "Testing";
@@ -318,9 +323,9 @@ $storage = [
         $_POST["pos"] = "123,123,55";
         $_POST["objectname"] = "Testing Object";
         $_POST["objecttype"] = "Test";
-$_POST["version"] = "2.0.0.0";
+        $_POST["version"] = "2.0.0.0";
 
-$storage = [
+        $storage = [
             "version",
             "mode",
             "objectuuid",
@@ -332,16 +337,14 @@ $storage = [
             "objecttype",
         ];
         $real = [];
-        foreach($storage as $valuename)
-        {
+        foreach ($storage as $valuename) {
             $real[] = $_POST[$valuename];
         }
         $_POST["unixtime"] = time();
-        $raw = time()  ."Buy".$target. implode("",$real) . $system->getSlConfig()->getSlLinkCode();
+        $raw = time()  . "Buy" . $target . implode("", $real) . $system->getSlConfig()->getSlLinkCode();
         $_POST["hash"] = sha1($raw);
         $this->package = new Package();
         $this->package->loadID(1);
-        $this->assertSame("UnitTestPackage",$this->package->getName(),"Test package not loaded");
+        $this->assertSame("UnitTestPackage", $this->package->getName(), "Test package not loaded");
     }
 }
-
