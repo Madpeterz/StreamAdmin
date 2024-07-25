@@ -72,7 +72,7 @@ class BotHelper
         }
         return $this->addCommandToQ(
             "GroupInvite",
-            [$this->botconfig->getInviteGroupUUID(),$avatar->getAvatarUUID(),"everyone"]
+            [$this->botconfig->getInviteGroupUUID(), $avatar->getAvatarUUID(), "everyone"]
         );
     }
 
@@ -80,7 +80,7 @@ class BotHelper
     {
         return $this->addCommandToQ(
             "FetchNextNotecard",
-            [$serverurl,$httpInboundCode]
+            [$serverurl, $httpInboundCode]
         );
     }
 
@@ -105,10 +105,10 @@ class BotHelper
         bool $allowObjectIm = true
     ): CreateReply {
         if ($this->getBotConfig() == false) {
-            return ["status" => false,"message" => "Unable to get bot config"];
+            return ["status" => false, "message" => "Unable to get bot config"];
         }
         if (($allow_bot == true) && ($this->botconfig->getIms() == true)) {
-            if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(),$message])->status == false) {
+            if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(), $message])->status == false) {
                 return new CreateReply("Unable to add IM to the botQ");
             }
         }
