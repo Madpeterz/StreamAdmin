@@ -87,7 +87,7 @@ class Next extends SecondlifeAjax
             return;
         }
         $botcommandQset = new BotcommandqSet();
-        $loadStatus = $botcommandQset->loadNewest(limit:1, orderDirection:"ASC"); // load oldest
+        $loadStatus = $botcommandQset->loadNewest(limit: 1, orderDirection: "ASC"); // load oldest
         if ($loadStatus->status == false) {
             $this->failed("Unable to load command Q");
             return;
@@ -119,25 +119,16 @@ class Next extends SecondlifeAjax
         if ($command->getArgs() !== null) {
             $args = json_decode($command->getArgs());
         }
-
-        $results = ["status" => false,"message" => "Unknown command: " . $command->getCommand()];
-        if (($command->getCommand() == "IM") && (count($args) == 2)) {
-            $endpoint = "chat/IM/" . $args[0] . "/" . $this->botconfig->getHttpToken();
-            $results = $this->restPost($endpoint, ["message" => $args[1]]);
-        } elseif (($command->getCommand() == "GroupInvite") && (count($args) == 3)) {
-            $args[] = $this->botconfig->getHttpToken();
-            $bits = implode("/", $args);
-            $endpoint = "group/GroupInvite/" . $bits;
-            $results = $this->restGet($endpoint);
-        } elseif (($command->getCommand() == "FetchNextNotecard") && (count($args) == 2)) {
-            $postArgs = [
-                "endpoint" => $args[0],
-                "endpointcode" => $args[1],
-            ];
-            $endpoint = "streamadmin/FetchNextNotecard/" . $this->botconfig->getHttpToken();
-            $results = $this->restPost($endpoint, $postArgs);
-        }
-        return $results;
+        $commandArgs = [
+            "commandName" => $command->getCommand(),
+            "unixtime" => time(),
+            "signing" => "",
+            "args" => implode("~#~", $args),
+        ];
+        $raw = $commandArgs["commandName"] . $commandArgs["args"] .
+            $commandArgs["unixtime"] . $this->botconfig->getSecret();
+        $commandArgs["signing"] = sha1($raw);
+        return $this->restPost("api/Run", $commandArgs);
     }
 
     protected function processAsHTTP(Botcommandq $command): void
@@ -224,15 +215,15 @@ class Next extends SecondlifeAjax
             }
             $res = $this->client->request($method, $endpoint, $body);
             if ($res->getStatusCode() == 200) {
-                return ["status" => true,"message" => $res->getBody()->getContents()];
+                return ["status" => true, "message" => $res->getBody()->getContents()];
             }
             return [
                 "status" => false,
                 "message" => "http error [" . $endpoint . "] :"
-                . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
+                    . $res->getStatusCode() . " : " . $res->getBody()->getContents(),
             ];
         } catch (Exception $e) {
-            return ["status" => false,"message" => "[" . $endpoint . "] Request failed in a fireball"];
+            return ["status" => false, "message" => "[" . $endpoint . "] Request failed in a fireball"];
         }
     }
     /**
