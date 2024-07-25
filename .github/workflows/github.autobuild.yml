@@ -2,11 +2,17 @@ name: autobuild
 
 on:
   push:
+    tags:
+    - '*'
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - uses: olegtarasov/get-tag@v2.1.3
+        id: tagName
+        with:
+          tagRegexGroup: 1 # Optional. Default is 1.
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up QEMU
@@ -23,4 +29,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: madpeter/streamadmin:dev-build
+          tags: madpeter/streamadmin:${{ steps.tagName.outputs.tag }}
