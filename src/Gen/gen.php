@@ -9,6 +9,4 @@ include "gen.config.php";
 include "gen_db.php";
 
 $system = new Config();
-$db_objects_factory = new DbObjectsFactory(false);
-$db_objects_factory->enableConsoleErrors();
-$db_objects_factory->start();
+new DbObjectsFactory(rebuildOutputFolders: true);
