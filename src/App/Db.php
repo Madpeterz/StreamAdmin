@@ -12,13 +12,13 @@ class Db extends ErrorLogging
     protected string $dbPass = "";
     public function __construct()
     {
-        if (getenv('DB_HOST') !== false) {
+        if (getenv('SQL_HOST') !== false) {
             // Live
             $this->addError("Switching to live config");
-            $this->dbHost = getenv('DB_HOST');
-            $this->dbName = getenv('DB_DATABASE');
-            $this->dbUser = getenv('DB_USERNAME');
-            $this->dbPass = getenv('DB_PASSWORD');
+            $this->dbHost = getenv('SQL_HOST');
+            $this->dbName = getenv('SQL_DB_NAME');
+            $this->dbUser = getenv('SQL_DB_USER');
+            $this->dbPass = getenv('SQL_DB_PASS');
             return;
         }
         $this->addError("using default config");
