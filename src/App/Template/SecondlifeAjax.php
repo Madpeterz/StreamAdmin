@@ -180,7 +180,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->failed("Unable to vaildate request to API endpoint: " . $raw);
+            $this->failed("Unable to vaildate request to API endpoint");
             return;
         }
         $this->continueHashChecks(false);
