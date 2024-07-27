@@ -18,8 +18,5 @@ RUN composer install \
 
 # Setup entry points
 RUN chmod +x .docker/CronEntrypoint.sh \
-    && chmod +x .docker/CronEntrypointWithBot.sh \
-    && chmod +x .docker/CronEntrypointAndExporter.sh \
-    && chmod +x .docker/CronEntrypointWithBotAndExporter.sh \
     && chmod +x .docker/Exporter.sh \
     && apt-get update
