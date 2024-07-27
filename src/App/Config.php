@@ -4,6 +4,7 @@
     App/Config.php
     flags and settings for the website
 */
+
 namespace App;
 
 use App\Framework\SessionControl;
@@ -32,14 +33,15 @@ class Config extends BootstrapConfigBox
 
     protected ?Slconfig $slConfig = null;
 
-    public function & getSlConfig(): Slconfig
+    public function &getSlConfig(): Slconfig
     {
         if ($this->slConfig == null) {
             $this->slConfig = new Slconfig();
             $this->slConfig->loadID(1);
         }
         if ($this->slConfig->isLoaded() == false) {
-            die("SL Config not loaded - Please contact support");
+            die("SL Config not loaded - Please contact support load error: "
+                . $this->slConfig->getLastErrorBasic());
         }
         return $this->slConfig;
     }
@@ -105,7 +107,7 @@ class Config extends BootstrapConfigBox
 
     protected ?SessionControl $session = null;
 
-    public function & getSession(): ?SessionControl
+    public function &getSession(): ?SessionControl
     {
         if (($this->session == null) && ($this->enableRestart == true)) {
             $this->addError("No SessionControl - creating new");
