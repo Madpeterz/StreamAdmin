@@ -16,7 +16,7 @@ class Next extends SecondlifeAjax
             return;
         }
         $message_set = new MessageSet();
-        $message_set->loadNewest(limit:1, orderDirection:"ASC");
+        $message_set->loadNewest(limit: 1, orderDirection: "ASC");
         if ($message_set->getCount() == 0) {
             $this->ok("nowork");
             return;
