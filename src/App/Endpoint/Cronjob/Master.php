@@ -79,7 +79,7 @@ abstract class Master extends ControlAjax
             if ($this->doTask() == false) {
                 $this->fastExit = true;
             }
-            $this->forceSave();
+            $this->save();
             $this->output = $this->taskClass->getOutputObject();
             $dif = time() - $startLoop;
             $sleepTime = 2 - $dif;
@@ -110,7 +110,14 @@ abstract class Master extends ControlAjax
 
     protected function save(): bool
     {
-        return $this->siteConfig->getSQL()->sqlSave(false);
+        $cacheok = true;
+        if ($this->siteConfig->getCacheEnabled() == true) {
+            $cacheok = $this->siteConfig->getCacheWorker()->save();
+        }
+        if ($cacheok == true) {
+            return $this->siteConfig->getSQL()->sqlSave(false);
+        }
+        return false;
     }
     protected ObjectHelper $objectHelper;
     protected function loadObject(): bool
@@ -153,6 +160,6 @@ abstract class Master extends ControlAjax
             return false;
         }
         $this->region = $regionHelper->getRegion();
-        return true;
+        return $this->save();
     }
 }

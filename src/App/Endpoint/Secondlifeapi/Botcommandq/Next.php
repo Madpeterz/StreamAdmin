@@ -6,6 +6,7 @@ use App\Helpers\BotHelper;
 use App\Models\Avatar;
 use App\Models\Botcommandq;
 use App\Models\Botconfig;
+use App\Models\Message;
 use App\Models\Sets\BotcommandqSet;
 use App\Template\SecondlifeAjax;
 use Exception;
@@ -62,30 +63,19 @@ class Next extends SecondlifeAjax
         return true;
     }
 
-    protected function setupChecks(): bool
-    {
-        if (($this->connectedViaCron == true) && ($this->botconfig->getHttpMode() == false)) {
-            $this->failed("Do not run botcommandQ in cron without HTTP enabled!");
-            return false;
-        }
-        if (($this->connectedViaCron == false) && ($this->botconfig->getHttpMode() == true)) {
-            $this->failed("Do not run botcommandQ via SL with HTTP enabled!");
-            return false;
-        }
-        return true;
-    }
+
 
     public function process(): void
     {
+        $this->failed("starting stage 1 checks");
         if ($this->hasAccessOwner() == false) {
             return;
         }
+        $this->failed("mid stage 1 checks");
         if ($this->setupBot() == false) {
             return;
         }
-        if ($this->setupChecks() == false) {
-            return;
-        }
+        $this->failed("past stage 1 checks");
         $botcommandQset = new BotcommandqSet();
         $loadStatus = $botcommandQset->loadNewest(limit: 1, orderDirection: "ASC"); // load oldest
         if ($loadStatus->status == false) {
@@ -167,8 +157,9 @@ class Next extends SecondlifeAjax
         if ($this->removeCommand($command) == false) {
             return;
         }
-        $this->setSwapTag("cmd", $formatedCmd);
-        $this->setSwapTag("avatar", $this->bot->getAvatarUUID());
+        $message = new Message();
+        $message->setAvatarLink($bothelper->getBotAvatarLink());
+        $message->setMessage($formatedCmd);
         $this->ok("send");
     }
 

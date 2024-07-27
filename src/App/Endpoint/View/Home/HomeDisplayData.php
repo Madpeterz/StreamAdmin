@@ -39,14 +39,14 @@ abstract class HomeDisplayData extends HomeLoadData
     {
         if (
             file_exists("../../Versions/" .
-            $this->siteConfig->getSlConfig()->getDbVersion() . ".sql") == true
+                $this->siteConfig->getSlConfig()->getDbVersion() . ".sql") == true
         ) {
             $this->main_grid->addContent("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
-            . "<br/> please run \"Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql\"</div>", 12);
+                . "<br/> please run \"Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql\"</div>", 12);
         }
 
         $infofile = "../../Versions/about/" .
-        $this->siteConfig->getSlConfig()->getDbVersion() . ".txt";
+            $this->siteConfig->getSlConfig()->getDbVersion() . ".txt";
         if (file_exists($infofile) == true) {
             $this->main_grid->closeRow();
             $this->main_grid->addContent("<br/>Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "", 12);
@@ -64,7 +64,7 @@ abstract class HomeDisplayData extends HomeLoadData
     protected function displayObjects(): void
     {
         $seen_objects = [];
-        $table_head = ["Object type","Last connected","Region"];
+        $table_head = ["Object type", "Last connected", "Region"];
         $table_body = [];
         $issues = 0;
 
@@ -112,7 +112,7 @@ abstract class HomeDisplayData extends HomeLoadData
                 $name = str_replace("server", " ", $name);
                 $name = ucfirst($name);
                 $entry[] = '<span class="' . $color . '">'
-                . $name . '</span>';
+                    . $name . '</span>';
                 $color = "text-success";
 
                 if ($dif > 240) {
@@ -128,13 +128,13 @@ abstract class HomeDisplayData extends HomeLoadData
                 }
 
                 $entry[] = '<span class="' . $color . '">'
-                . $this->expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
+                    . $this->expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
                 $tp_url = "http://maps.secondlife.com/secondlife/" . $regionName . "/"
-                . implode("/", explode(",", $object->getObjectXYZ())) . "";
+                    . implode("/", explode(",", $object->getObjectXYZ())) . "";
                 $tp_url = str_replace(' ', '%20', $tp_url);
                 $regionLinkURL = "<a href=\"" . $tp_url . "\" target=\"_blank\">" .
-                "<i class=\"fas fa-map-marked-alt\"></i> " . $regionName . "</a>";
-                if ($regionName == "cronJob") {
+                    "<i class=\"fas fa-map-marked-alt\"></i> " . $regionName . "</a>";
+                if ($regionName == "cron") {
                     $regionLinkURL = "<i class=\"fas fa-history\"></i> Cron";
                 }
                 $entry[] = $regionLinkURL;
@@ -171,18 +171,18 @@ abstract class HomeDisplayData extends HomeLoadData
 
     protected function displayServers(): void
     {
-        $table_head = ["Server","Status"];
+        $table_head = ["Server", "Status"];
         $table_body = [];
         foreach ($this->server_set as $server) {
             $entry = [];
             $servername = '<a href="[[SITE_URL]]stream/onserver/' . $server->getId() . '"><h5>'
-            . $server->getDomain() . '</h5></a>';
+                . $server->getDomain() . '</h5></a>';
             $servername .= '<h6><span class="badge badge-success">Ready <span class="badge badge-light">'
-            . $this->server_loads[$server->getId()]["ready"] . '</span></span> ';
+                . $this->server_loads[$server->getId()]["ready"] . '</span></span> ';
             $servername .= '<span class="badge badge-warning">NeedWork <span class="badge badge-light">'
-            . $this->server_loads[$server->getId()]["needWork"] . '</span></span> ';
+                . $this->server_loads[$server->getId()]["needWork"] . '</span></span> ';
             $servername .= '<span class="badge badge-info">Sold <span class="badge badge-light">'
-            . $this->server_loads[$server->getId()]["sold"] . '</span></span></h6>';
+                . $this->server_loads[$server->getId()]["sold"] . '</span></span></h6>';
             $entry[] = $servername;
             $serverstatus = '<div class="serverstatusdisplay">';
             $serverstatus .= '<sub> </sub>';
@@ -201,17 +201,17 @@ abstract class HomeDisplayData extends HomeLoadData
         $this->sub_grid_clients->addContent('<strong>Clients</strong>', 12);
         $this->sub_grid_clients->addContent(
             '<h5><a href="[[SITE_URL]]client/expired"><span class="badge badge-danger">Expired '
-            . '<span class="badge badge-light">' . $this->client_expired . '</span></span></a></h5>',
+                . '<span class="badge badge-light">' . $this->client_expired . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_clients->addContent(
             '<h5><a href="[[SITE_URL]]client/soon"><span class="badge badge-warning">Expires in 24 '
-            . 'hours <span class="badge badge-light">' . $this->client_expires_soon . '</span></span></a></h5>',
+                . 'hours <span class="badge badge-light">' . $this->client_expires_soon . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_clients->addContent(
             '<h5><a href="[[SITE_URL]]client/active"><span class="badge badge-success">Ok '
-            . '<span class="badge badge-light">' . $this->client_ok . '</span></span></a></h5><br/>',
+                . '<span class="badge badge-light">' . $this->client_ok . '</span></span></a></h5><br/>',
             4
         );
     }
@@ -225,17 +225,17 @@ abstract class HomeDisplayData extends HomeLoadData
         );
         $this->sub_grid_streams->addContent(
             '<h5><a href="[[SITE_URL]]stream/ready"><span class="badge badge-success">'
-            . 'Ready <span class="badge badge-light">' . $this->stream_total_ready . '</span></span></a></h5>',
+                . 'Ready <span class="badge badge-light">' . $this->stream_total_ready . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_streams->addContent(
             '<h5><a href="[[SITE_URL]]stream/Needwork"><span class="badge badge-warning">'
-            . 'NeedWork <span class="badge badge-light">' . $this->stream_total_needWork . '</span></span></a></h5>',
+                . 'NeedWork <span class="badge badge-light">' . $this->stream_total_needWork . '</span></span></a></h5>',
             4
         );
         $this->sub_grid_streams->addContent(
             '<h5><a href="[[SITE_URL]]stream/sold"><span class="badge badge-info">'
-            . 'Sold <span class="badge badge-light">' . $this->stream_total_sold . '</span></span></a></h5><br/>',
+                . 'Sold <span class="badge badge-light">' . $this->stream_total_sold . '</span></span></a></h5><br/>',
             4
         );
     }

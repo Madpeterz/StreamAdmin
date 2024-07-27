@@ -17,6 +17,13 @@ class BotHelper
         $this->botAvatar = $av;
         $this->botconfig = $config;
     }
+    public function getBotAvatarLink(): int
+    {
+        if ($this->botAvatar == null) {
+            return 1;
+        }
+        return $this->botAvatar->getId();
+    }
     public function getBotUUID(): ?string
     {
         if ($this->getBotAvatar() == null) {
