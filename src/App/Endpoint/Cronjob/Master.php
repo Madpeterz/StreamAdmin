@@ -47,8 +47,8 @@ abstract class Master extends ControlAjax
 
     protected function report(): void
     {
+        $this->setSwapTag("task", $this->objectType);
         $this->setSwapTag("ticks", $this->ticks);
-        $this->setSwapTag("tickTimes", implode(",", $this->tickTimes));
         $this->setSwapTag("sleeps", $this->sleeps);
         $this->setSwapTag("sleepTime", $this->sleepTime);
         $this->setSwapTag("sleepAvg", 0);
@@ -135,7 +135,7 @@ abstract class Master extends ControlAjax
         ) {
             $this->addError(
                 "task: " . $this->taskNicename . " - Unable to load/create object:"
-                . $this->objectHelper->getLastWhyFailed()
+                    . $this->objectHelper->getLastWhyFailed()
             );
             return false;
         }
