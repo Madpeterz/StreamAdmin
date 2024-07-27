@@ -25,7 +25,7 @@ class Next extends SecondlifeAjax
         if ($markFailed == true) {
             $loadAmount = 20;
         }
-        $this->detailSet->loadNewest(limit:$loadAmount, orderDirection:"ASC");
+        $this->detailSet->loadNewest(limit: $loadAmount, orderDirection: "ASC");
         if ($this->detailSet->getCount() == 0) {
             $this->ok("nowork");
             return false;
@@ -49,7 +49,7 @@ class Next extends SecondlifeAjax
         $server = $stream?->relatedServer()?->getFirst();
         $package = $this->rental?->relatedPackage()?->getFirst();
         $template = $package?->relatedTemplate()?->getFirst();
-        $test = [$detail,$this->rental,$avatar,$stream,$server,$package,$template];
+        $test = [$detail, $this->rental, $avatar, $stream, $server, $package, $template];
         if (in_array(null, $test) == true) {
             $this->failed("One or more required objects failed to load");
             return;
