@@ -79,7 +79,10 @@ abstract class Master extends ControlAjax
             if ($this->doTask() == false) {
                 $this->fastExit = true;
             }
-            $this->save();
+            if ($this->save() == false) {
+                $this->fastExit = true;
+                break;
+            }
             $this->output = $this->taskClass->getOutputObject();
             $dif = time() - $startLoop;
             $sleepTime = 2 - $dif;
@@ -114,10 +117,16 @@ abstract class Master extends ControlAjax
         if ($this->siteConfig->getCacheEnabled() == true) {
             $cacheok = $this->siteConfig->getCacheWorker()->save();
         }
-        if ($cacheok == true) {
-            return $this->siteConfig->getSQL()->sqlSave(false);
+        if ($cacheok == false) {
+            $this->setSwapTag("save-error", $this->siteConfig->getCacheWorker()->getLastErrorBasic());
+            return false;
         }
-        return false;
+        $sqlok = $this->siteConfig->getSQL()->sqlSave(false);
+        if ($sqlok == false) {
+            $this->setSwapTag("save-error", $this->siteConfig->getSQL()->getLastErrorBasic());
+            return false;
+        }
+        return true;
     }
     protected ObjectHelper $objectHelper;
     protected function loadObject(): bool
