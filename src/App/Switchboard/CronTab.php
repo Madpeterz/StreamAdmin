@@ -2,18 +2,11 @@
 
 namespace App\Switchboard;
 
+use App\Models\Avatar;
 use App\Template\SecondlifeAjax;
 
 class CronTab extends ConfigEnabled
 {
-    public function __construct()
-    {
-        global $system;
-        $this->siteConfig = $system;
-        $_POST["version"] = $this->siteConfig->getSlConfig()->getDbVersion();
-
-        parent::__construct();
-    }
     protected string $targetEndpoint = "Cronjob";
     protected function accessChecks(): bool
     {
@@ -36,9 +29,15 @@ class CronTab extends ConfigEnabled
         } elseif ($options["t"] == "Dynamicnotecards") {
             $objecttaskid = 3;
         }
+        $ownerAv = new Avatar();
+        $ownerAv->loadId($this->siteConfig->getSlConfig()->getOwnerAvatarLink());
+        if ($ownerAv->isLoaded() == false) {
+            return false;
+        }
+        $_POST["version"] = $this->siteConfig->getSlConfig()->getDbVersion();
         $_POST["objectuuid"] = "" . $objecttaskid . "0000000-0000-0000-0000-000000000000";
-        $_POST["ownername"] = "cron";
-        $_POST["ownerkey"] = "cron";
+        $_POST["ownername"] = $ownerAv->getAvatarName();
+        $_POST["ownerkey"] = $ownerAv->getAvatarUUID();
         $_POST["pos"] = "0,0,0";
         $_POST["regionname"] = "cron";
         $_POST["objecttype"] = "cron";
