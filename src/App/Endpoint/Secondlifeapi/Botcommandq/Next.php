@@ -117,10 +117,6 @@ class Next extends SecondlifeAjax
             $this->failed("Unable to remove command from the Q because:" . $reply->message);
             return;
         }
-        if ($reply->itemsRemoved != 1) {
-            $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
-            return;
-        }
         $this->ok($jsonReply["reply"]);
     }
 
@@ -135,10 +131,6 @@ class Next extends SecondlifeAjax
         $reply = $command->removeEntry();
         if ($reply->status == false) {
             $this->failed("Unable to remove command from the Q because:" . $reply->message);
-            return;
-        }
-        if ($reply->itemsRemoved != 1) {
-            $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
             return;
         }
         $messageSet = new MessageSet();
