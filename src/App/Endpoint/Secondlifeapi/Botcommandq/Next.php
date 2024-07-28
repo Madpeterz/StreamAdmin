@@ -8,6 +8,7 @@ use App\Models\Botcommandq;
 use App\Models\Botconfig;
 use App\Models\Message;
 use App\Models\Sets\BotcommandqSet;
+use App\Models\Sets\MessageSet;
 use App\Template\SecondlifeAjax;
 use Exception;
 use GuzzleHttp\Client;
@@ -168,6 +169,15 @@ class Next extends SecondlifeAjax
         }
         if ($reply->itemsRemoved != 1) {
             $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
+            return;
+        }
+        $messageSet = new MessageSet();
+        $count = $messageSet->countInDB([
+            "fields" => ["avatarLink"],
+            "values" => [$bothelper->getBotAvatarLink()],
+        ]);
+        if ($count->items > 0) {
+            $this->failed("To many pending mail commands to the bot");
             return;
         }
         $message = new Message();
