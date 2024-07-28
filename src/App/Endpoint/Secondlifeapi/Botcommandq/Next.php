@@ -160,7 +160,11 @@ class Next extends SecondlifeAjax
         $message = new Message();
         $message->setAvatarLink($bothelper->getBotAvatarLink());
         $message->setMessage($formatedCmd);
-        $this->ok("send");
+        if ($message->createEntry()->status == true) {
+            $this->ok("send");
+            return;
+        }
+        $this->failed("Failed to send message to bot");
     }
 
     protected function removeCommand(Botcommandq $command): bool
