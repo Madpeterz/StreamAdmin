@@ -22,6 +22,47 @@ if (defined("TESTING") == false) {
     $system->run();
 }
 
-
+$opts = [];
+foreach ($_SERVER["argv"] as $argKey => $argValue) {
+    $value = $argValue;
+    $key = $argKey;
+    if (preg_match('@\-\-(.+)=(.+)@', $argValue, $matches)) {
+        $key = $matches[1];
+        $value = $matches[2];
+    } elseif (preg_match('@\-\-(.+)@', $argValue, $matches)) {
+        $key = $matches[1];
+        $value = true;
+    } elseif (preg_match('@\-(.+)=(.+)@', $argValue, $matches)) {
+        $key = $matches[1];
+        $value = $matches[2];
+    } elseif (preg_match('@\-(.+)@', $argValue, $matches)) {
+        $key = $matches[1];
+        $value = true;
+    }
+    $opts[$key] = $value;
+}
+$delay = intval($opts["d"]);
+if (($delay < 1) || ($delay > 55)) {
+    print "d value not set\n";
+    die();
+}
+$objectmode = "";
+if ($options["t"] == "Botcommandq") {
+    $objecttaskid = 1;
+    $objectmode = "botcommandqserver";
+} elseif ($options["t"] == "Detailsserver") {
+    $objecttaskid = 2;
+    $objectmode = "detailsserver";
+} elseif ($options["t"] == "Dynamicnotecards") {
+    $objecttaskid = 3;
+    $objectmode = "notecardsserver";
+}
+if ($objectmode == "") {
+    print "t value not set\n";
+    die();
+}
+print "\n";
+print $objectmode . " waiting for " . $delay . " to trigger\n";
+sleep($delay);
 new CronTab();
 print "\n";

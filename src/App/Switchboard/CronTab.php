@@ -18,10 +18,6 @@ class CronTab extends ConfigEnabled
         if (array_key_exists("d", $options) == false) {
             return false;
         }
-        $delay = intval($options["d"]);
-        if (($delay < 1) || ($delay > 55)) {
-            return false;
-        }
         $objecttaskid = 0;
         $objectmode = "";
         if ($options["t"] == "Botcommandq") {
@@ -66,7 +62,6 @@ class CronTab extends ConfigEnabled
         ];
         $this->debugraw = implode("", $required_sl);
         $_POST["hash"] = sha1($this->debugraw);
-        sleep($delay);
         $this->loadingModule = "Tasks";
         $this->loadingArea = $options["t"];
         return true;
