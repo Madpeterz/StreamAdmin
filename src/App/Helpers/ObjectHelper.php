@@ -29,6 +29,8 @@ class ObjectHelper
             return false;
         }
         if ($this->object->loadByObjectUUID($objectUUID)->status == false) {
+            $this->whyfailed = $this->object->getLastErrorBasic();
+            return false;
             $this->object = new Objects();
             $this->object->setAvatarLink($avatar_id);
             $this->object->setRegionLink($region_id);
