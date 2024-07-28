@@ -46,8 +46,6 @@ class CronTab extends ConfigEnabled
         $_POST["objectname"] = $options["t"];
         $_POST["unixtime"] = time();
         $required_sl = [
-            ucfirst(strtolower("Tasks")),
-            ucfirst(strtolower($options["t"])),
             $_POST["unixtime"],
             $_POST["version"],
             $_POST["mode"],
@@ -104,7 +102,6 @@ class CronTab extends ConfigEnabled
          */
         $this->loadedObject = new $use_class();
         $this->loadedObject->setOwnerOverride(true);
-        $this->loadedObject->getOutputObject()->setSwapTag("debugraw", $this->debugraw);
         if ($this->loadedObject->getLoadOk() == true) {
             $this->finalize();
         }
