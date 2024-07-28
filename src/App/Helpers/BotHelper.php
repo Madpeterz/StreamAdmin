@@ -85,6 +85,10 @@ class BotHelper
 
     public function sendBotNextNotecard(string $serverurl, string $httpInboundCode): CreateReply
     {
+        $BotcommandQ = new Botcommandq();
+        if ($BotcommandQ->loadByCommand("FetchNextNotecard")->status == true) {
+            return new CreateReply("already in Q", true, 0);
+        }
         return $this->addCommandToQ(
             "FetchNextNotecard",
             [$serverurl, $httpInboundCode]
