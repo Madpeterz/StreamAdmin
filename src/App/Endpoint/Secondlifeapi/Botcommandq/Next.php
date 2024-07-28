@@ -140,9 +140,16 @@ class Next extends SecondlifeAjax
             $this->failed($results["message"]);
             return;
         }
-        if ($this->removeCommand($command) == false) {
-            return;
+        $reply = $command->removeEntry();
+        if ($reply->status == false) {
+            $this->failed("Unable to remove command from the Q because:" . $reply->message);
+            return false;
         }
+        if ($reply->itemsRemoved != 1) {
+            $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
+            return false;
+        }
+        $this->setSwapTag("deleteCmd", json_encode([$reply->status, $reply->message, $reply->itemsRemoved]));
         $this->ok($jsonReply["reply"]);
     }
 
@@ -154,8 +161,14 @@ class Next extends SecondlifeAjax
         if ($command->getArgs() != null) {
             $formatedCmd = $bothelper->getBotCommand($command->getCommand(), json_decode($command->getArgs()));
         }
-        if ($this->removeCommand($command) == false) {
-            return;
+        $reply = $command->removeEntry();
+        if ($reply->status == false) {
+            $this->failed("Unable to remove command from the Q because:" . $reply->message);
+            return false;
+        }
+        if ($reply->itemsRemoved != 1) {
+            $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
+            return false;
         }
         $message = new Message();
         $message->setAvatarLink($bothelper->getBotAvatarLink());
@@ -165,16 +178,6 @@ class Next extends SecondlifeAjax
             return;
         }
         $this->failed("Failed to send message to bot");
-    }
-
-    protected function removeCommand(Botcommandq $command): bool
-    {
-        $reply = $command->removeEntry();
-        if ($reply->status == false) {
-            $this->failed("Unable to remove command from the Q because:" . $reply->message);
-            return false;
-        }
-        return true;
     }
 
     protected array $options = [];
