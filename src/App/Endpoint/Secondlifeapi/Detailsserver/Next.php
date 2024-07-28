@@ -4,104 +4,94 @@ namespace App\Endpoint\Secondlifeapi\Detailsserver;
 
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
-use App\Models\Avatar;
+use App\Models\Detail;
+use App\Models\Sets\AvatarSet;
 use App\Models\Sets\DetailSet;
-use App\Models\Notecard;
-use App\Models\Rental;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
+use App\Models\Sets\TemplateSet;
 use App\Template\SecondlifeAjax;
 
 class Next extends SecondlifeAjax
 {
-    protected DetailSet $detailSet;
-    protected function loadDetailsSet(): bool
+    protected BotHelper $botHelper;
+    protected function processDetailRequest(Detail $detail): bool
     {
-        $this->detailSet = new DetailSet();
-
-        $markFailed = $this->input->post("failed")->asBool();
-        if ($markFailed == null) {
-            $markFailed = false;
+        $rental = $this->rentals->getObjectByID($detail->getRentalLink());
+        $avatar = $this->avatars->getObjectByID($rental->getAvatarLink());
+        $stream = $this->streams->getObjectByID($rental->getStreamLink());
+        $server = $this->servers->getObjectByID($stream->getServerLink());
+        $package = $this->packages->getObjectByID($stream->getPackageLink());
+        $template = $this->templates->getObjectByID($package->getTemplateLink());
+        $test = [$detail, $rental, $avatar, $stream, $server, $package, $template];
+        if (in_array(null, $test) == true) {
+            $this->failed("One or more required objects failed to load");
+            return false;
         }
-        $loadAmount = 1;
-        if ($markFailed == true) {
-            $loadAmount = 20;
+        $swapables_helper = new SwapablesHelper();
+        $sendmessage = $swapables_helper->getSwappedText(
+            $template->getDetail(),
+            $avatar,
+            $rental,
+            $package,
+            $server,
+            $stream
+        );
+        if ($this->sendMessageToAvatar($avatar, $sendmessage)->status == false) {
+            return false;
         }
-        $this->detailSet->loadNewest(limit: $loadAmount, orderDirection: "ASC");
-        if ($this->detailSet->getCount() == 0) {
-            $this->ok("nowork");
+        if ($this->botHelper->sendMessage($avatar, $sendmessage)->status == false) {
             return false;
         }
         return true;
     }
+
+    protected RentalSet $rentals;
+    protected AvatarSet $avatars;
+    protected StreamSet $streams;
+    protected ServerSet $servers;
+    protected PackageSet $packages;
+    protected TemplateSet $templates;
     public function process(): void
     {
         if ($this->hasAccessOwner() == false) {
             return;
         }
-        if ($this->loadDetailsSet() == false) {
+        $detailsRequests = new DetailSet();
+        $detailsRequests->loadAll();
+        if ($detailsRequests->getCount() == 0) {
+            $this->ok("nowork");
             return;
         }
-
-        $ids = $this->detailSet->getAllIds();
-        $detail = $this->detailSet->getObjectByID($ids[array_rand($ids)]);
-        $this->rental = $detail?->relatedRental()?->getFirst();
-        $avatar = $this->rental?->relatedAvatar()?->getFirst();
-        $stream = $this->rental?->relatedStream()?->getFirst();
-        $server = $stream?->relatedServer()?->getFirst();
-        $package = $this->rental?->relatedPackage()?->getFirst();
-        $template = $package?->relatedTemplate()?->getFirst();
-        $test = [$detail, $this->rental, $avatar, $stream, $server, $package, $template];
-        if (in_array(null, $test) == true) {
-            $this->failed("One or more required objects failed to load");
-            return;
-        }
-        $remove_status = $detail->removeEntry();
-        if ($remove_status->status == false) {
-            $this->failed("Unable to remove detail request");
-            return;
-        }
+        $this->rentals = $detailsRequests->relatedRental();
+        $this->avatars = $this->rentals->relatedAvatar();
+        $this->streams = $this->rentals->relatedStream();
+        $this->servers = $this->streams->relatedServer();
+        $this->packages = $this->streams->relatedPackage();
+        $this->templates = $this->packages->relatedTemplate();
+        $this->setupBot();
+        $allok = true;
         $this->botHelper = new BotHelper();
-        $swapables_helper = new SwapablesHelper();
-        $sendmessage = $swapables_helper->getSwappedText(
-            $template->getDetail(),
-            $avatar,
-            $this->rental,
-            $package,
-            $server,
-            $stream
-        );
-        if ($this->createBotMessage($avatar, $sendmessage) == false) {
+        if ($this->botconfig != null) {
+            $this->botHelper->attachBotSetup($this->bot, $this->botconfig);
+        }
+        foreach ($detailsRequests as $detailObject) {
+            $allok = $this->processDetailRequest($detailObject);
+            if ($allok == false) {
+                break;
+            }
+        }
+        if ($allok == false) {
+            $this->failed("Failed to unpack detail requests");
             return;
         }
-        if ($this->createNotecardRequest() == false) {
+        $purge = $detailsRequests->purgeCollection();
+        if ($purge->status == false) {
+            $this->failed("Failed to remove processed detail requests");
             return;
         }
         $this->ok("ok");
-    }
-
-    protected BotHelper $botHelper;
-    protected ?Rental $rental = null;
-
-    protected function createBotMessage(Avatar $avatar, string $sendmessage): bool
-    {
-        $sendMessage_status = $this->botHelper->sendMessage($avatar, $sendmessage, true);
-        if ($sendMessage_status->status == false) {
-            $this->failed("Unable to put message into mailbox for sending!");
-            return false;
-        }
-        return true;
-    }
-
-    protected function createNotecardRequest(): bool
-    {
-        if ($this->botHelper->getNotecards() == true) {
-            $notecard = new Notecard();
-            $notecard->setRentalLink($this->rental->getId());
-            $create_status = $notecard->createEntry();
-            if ($create_status->status == false) {
-                $this->failed("Unable to add notecard to be created!");
-                return false;
-            }
-        }
-        return true;
     }
 }

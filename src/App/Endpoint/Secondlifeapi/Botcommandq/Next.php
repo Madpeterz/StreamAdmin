@@ -16,8 +16,6 @@ use GuzzleHttp\Client;
 class Next extends SecondlifeAjax
 {
     protected bool $connectedViaCron = false;
-    protected ?Botconfig $botconfig = null;
-    protected ?Avatar $bot = null;
 
     // HTTP
     protected ?Client $client = null;
@@ -42,41 +40,14 @@ class Next extends SecondlifeAjax
         $this->makeGuzzle($this->botconfig->getHttpURL());
         return $this->client;
     }
-
-    protected function setupBot(): bool
-    {
-        if ($this->botconfig == null) {
-            $this->botconfig = new Botconfig();
-            $this->botconfig->loadID(1);
-        }
-        if ($this->botconfig->isLoaded() == false) {
-            $this->failed("Unable to load bot config");
-            return false;
-        }
-        if ($this->bot == null) {
-            $this->bot = new Avatar();
-            $this->bot->loadID($this->botconfig->getAvatarLink());
-        }
-        if ($this->bot->isLoaded() == false) {
-            $this->failed("Unable to load bot avatar config");
-            return false;
-        }
-        return true;
-    }
-
-
-
     public function process(): void
     {
-        $this->failed("starting stage 1 checks");
         if ($this->hasAccessOwner() == false) {
             return;
         }
-        $this->failed("mid stage 1 checks");
         if ($this->setupBot() == false) {
             return;
         }
-        $this->failed("past stage 1 checks");
         $botcommandQset = new BotcommandqSet();
         $loadStatus = $botcommandQset->loadNewest(limit: 1, orderDirection: "ASC"); // load oldest
         if ($loadStatus->status == false) {
@@ -150,7 +121,6 @@ class Next extends SecondlifeAjax
             $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
             return;
         }
-        $this->setSwapTag("deleteCmd", json_encode([$reply->status, $reply->message, $reply->itemsRemoved]));
         $this->ok($jsonReply["reply"]);
     }
 
@@ -180,14 +150,12 @@ class Next extends SecondlifeAjax
             $this->failed("To many pending mail commands to the bot");
             return;
         }
-        $message = new Message();
-        $message->setAvatarLink($bothelper->getBotAvatarLink());
-        $message->setMessage($formatedCmd);
-        if ($message->createEntry()->status == true) {
-            $this->ok("send");
+        if ($this->sendMessageToAvatar($this->bot, $formatedCmd)->status == false) {
+            $this->failed("Failed to send message to bot");
             return;
         }
-        $this->failed("Failed to send message to bot");
+        $this->ok("passed command to mail server");
+        return;
     }
 
     protected array $options = [];
@@ -211,15 +179,16 @@ class Next extends SecondlifeAjax
         }
     }
     /**
-     * restProcess
+     * restPost
      * @return mixed[] [status => bool, message => string]
      */
-    protected function restProcess(string $method, string $endpoint, array $postdata = []): array
+    protected function restPost(string $endpoint, array $args = []): array
     {
+        $method = "POST";
         try {
             $body = [];
-            if (count($postdata) > 0) {
-                $body = $this->getPostFormated($postdata);
+            if (count($args) > 0) {
+                $body = $this->getPostFormated($args);
             }
             $res = $this->client->request($method, $endpoint, $body);
             if ($res->getStatusCode() == 200) {
@@ -233,21 +202,5 @@ class Next extends SecondlifeAjax
         } catch (Exception $e) {
             return ["status" => false, "message" => "[" . $endpoint . "] Request failed in a fireball"];
         }
-    }
-    /**
-     * restGet
-     * @return mixed[] [status => bool, message => string]
-     */
-    protected function restGet(string $endpoint): array
-    {
-        return $this->restProcess('GET', $endpoint);
-    }
-    /**
-     * restPost
-     * @return mixed[] [status => bool, message => string]
-     */
-    protected function restPost(string $endpoint, array $args = []): array
-    {
-        return $this->restProcess('POST', $endpoint, $args);
     }
 }

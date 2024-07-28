@@ -8,10 +8,13 @@ use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
 use App\Models\Avatar;
+use App\Models\Botconfig;
+use App\Models\Message;
 use App\Models\Objects;
 use App\Models\Region;
 use App\Models\Reseller;
 use YAPF\Bootstrap\Template\ViewAjax as TemplateViewAjax;
+use YAPF\Framework\Responses\DbObjects\CreateReply;
 use YAPF\InputFilter\InputFilter;
 
 abstract class SecondlifeAjax extends TemplateViewAjax
@@ -40,6 +43,37 @@ abstract class SecondlifeAjax extends TemplateViewAjax
     protected bool $soft_fail = false;
     protected InputFilter $input;
     protected Config $siteConfig;
+
+    protected ?Botconfig $botconfig = null;
+    protected ?Avatar $bot = null;
+    protected function setupBot(): bool
+    {
+        if ($this->botconfig == null) {
+            $this->botconfig = new Botconfig();
+            $this->botconfig->loadID(1);
+        }
+        if ($this->botconfig->isLoaded() == false) {
+            $this->failed("Unable to load bot config");
+            return false;
+        }
+        if ($this->bot == null) {
+            $this->bot = new Avatar();
+            $this->bot->loadID($this->botconfig->getAvatarLink());
+        }
+        if ($this->bot->isLoaded() == false) {
+            $this->bot = null;
+            $this->failed("Unable to load bot avatar config");
+            return false;
+        }
+        return true;
+    }
+    protected function sendMessageToAvatar(Avatar $av, string $sendmessage): CreateReply
+    {
+        $message = new Message();
+        $message->setAvatarLink($av->getId());
+        $message->setMessage($sendmessage);
+        return $message->createEntry();
+    }
 
     public function renderPage(): void
     {

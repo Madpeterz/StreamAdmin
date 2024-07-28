@@ -12,7 +12,7 @@ class BotHelper
 {
     protected ?Avatar $botAvatar = null;
     protected ?Botconfig $botconfig = null;
-    public function attachBotSetup(Avatar $av, Botconfig $config): void
+    public function attachBotSetup(?Avatar $av, ?Botconfig $config): void
     {
         $this->botAvatar = $av;
         $this->botconfig = $config;
@@ -112,31 +112,13 @@ class BotHelper
     public function sendMessage(
         Avatar $avatar,
         string $message,
-        bool $allow_bot = false,
-        bool $allowObjectIm = true
     ): CreateReply {
         if ($this->getBotConfig() == false) {
-            return ["status" => false, "message" => "Unable to get bot config"];
+            return new CreateReply("Unable to get bot config");
         }
-        if (($allow_bot == true) && ($this->botconfig->getIms() == true)) {
-            if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(), $message])->status == false) {
-                return new CreateReply("Unable to add IM to the botQ");
-            }
+        if ($this->botconfig->getIms() == false) {
+            return new CreateReply("Bot send IM not enabled", true);
         }
-        if ($allowObjectIm == false) {
-            return new CreateReply("Skipping message via object", true);
-        }
-        return $this->sendMessageToAvatar($avatar, $message);
-    }
-    /**
-     * sendMessageToAvatar
-     * @return mixed[] [status =>  bool, message =>  string]
-     */
-    public function sendMessageToAvatar(Avatar $avatar, string $sendmessage): CreateReply
-    {
-        $message = new Message();
-        $message->setAvatarLink($avatar->getId());
-        $message->setMessage($sendmessage);
-        return $message->createEntry();
+        return $this->addCommandToQ("IM", [$avatar->getAvatarUUID(), $message]);
     }
 }
