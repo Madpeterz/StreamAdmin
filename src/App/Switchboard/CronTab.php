@@ -8,6 +8,7 @@ use App\Template\SecondlifeAjax;
 class CronTab extends ConfigEnabled
 {
     protected string $targetEndpoint = "Cronjob";
+    protected string $debugraw = "";
     protected function accessChecks(): bool
     {
         $options = $this->getOpts();
@@ -45,8 +46,8 @@ class CronTab extends ConfigEnabled
         $_POST["objectname"] = $options["t"];
         $_POST["unixtime"] = time();
         $required_sl = [
-            "Tasks",
-            $options["t"],
+            ucfirst(strtolower("Tasks")),
+            ucfirst(strtolower($options["t"])),
             $_POST["unixtime"],
             $_POST["version"],
             $_POST["mode"],
@@ -59,7 +60,8 @@ class CronTab extends ConfigEnabled
             $_POST["objecttype"],
             $this->siteConfig->getSlConfig()->getSlLinkCode(),
         ];
-        $_POST["hash"] = sha1(implode("", $required_sl));
+        $this->debugraw = implode("", $required_sl);
+        $_POST["hash"] = sha1($this->debugraw);
         sleep($delay);
         $this->loadingModule = "Tasks";
         $this->loadingArea = $options["t"];
@@ -102,6 +104,7 @@ class CronTab extends ConfigEnabled
          */
         $this->loadedObject = new $use_class();
         $this->loadedObject->setOwnerOverride(true);
+        $this->loadedObject->getOutputObject()->setSwapTag("debugraw", $this->debugraw);
         if ($this->loadedObject->getLoadOk() == true) {
             $this->finalize();
         }
