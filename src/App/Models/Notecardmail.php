@@ -62,17 +62,23 @@ class Notecardmail extends genClass
             $noticenotecardLink
         );
     }
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = [$this->getAvatarLink()];
         $collection = new AvatarSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedNoticenotecard(): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields = null): NoticenotecardSet
     {
         $ids = [$this->getNoticenotecardLink()];
         $collection = new NoticenotecardSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

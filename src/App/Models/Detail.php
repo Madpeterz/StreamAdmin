@@ -41,10 +41,13 @@ class Detail extends genClass
             $rentalLink
         );
     }
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = [$this->getRentalLink()];
         $collection = new RentalSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

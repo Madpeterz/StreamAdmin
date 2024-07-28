@@ -143,17 +143,16 @@ class BotconfigSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -168,17 +167,16 @@ class BotconfigSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -193,17 +191,16 @@ class BotconfigSet extends CollectionSet
      * loadBySecret
     */
     public function loadBySecret(
-        string $secret, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $secret,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "secret", 
-            $secret, 
-            $limit, 
-            $orderBy, 
+            "secret",
+            $secret,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -218,17 +215,16 @@ class BotconfigSet extends CollectionSet
      * loadByNotecards
     */
     public function loadByNotecards(
-        bool $notecards, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $notecards,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "notecards", 
-            $notecards, 
-            $limit, 
-            $orderBy, 
+            "notecards",
+            $notecards,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -243,17 +239,16 @@ class BotconfigSet extends CollectionSet
      * loadByIms
     */
     public function loadByIms(
-        bool $ims, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $ims,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "ims", 
-            $ims, 
-            $limit, 
-            $orderBy, 
+            "ims",
+            $ims,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -268,17 +263,16 @@ class BotconfigSet extends CollectionSet
      * loadByInvites
     */
     public function loadByInvites(
-        bool $invites, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $invites,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "invites", 
-            $invites, 
-            $limit, 
-            $orderBy, 
+            "invites",
+            $invites,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -293,17 +287,16 @@ class BotconfigSet extends CollectionSet
      * loadByInviteGroupUUID
     */
     public function loadByInviteGroupUUID(
-        string $inviteGroupUUID, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $inviteGroupUUID,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "inviteGroupUUID", 
-            $inviteGroupUUID, 
-            $limit, 
-            $orderBy, 
+            "inviteGroupUUID",
+            $inviteGroupUUID,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -318,17 +311,16 @@ class BotconfigSet extends CollectionSet
      * loadByHttpMode
     */
     public function loadByHttpMode(
-        bool $httpMode, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $httpMode,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "httpMode", 
-            $httpMode, 
-            $limit, 
-            $orderBy, 
+            "httpMode",
+            $httpMode,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -343,17 +335,16 @@ class BotconfigSet extends CollectionSet
      * loadByHttpURL
     */
     public function loadByHttpURL(
-        string $httpURL, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $httpURL,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "httpURL", 
-            $httpURL, 
-            $limit, 
-            $orderBy, 
+            "httpURL",
+            $httpURL,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -368,17 +359,16 @@ class BotconfigSet extends CollectionSet
      * loadByHttpToken
     */
     public function loadByHttpToken(
-        string $httpToken, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $httpToken,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "httpToken", 
-            $httpToken, 
-            $limit, 
-            $orderBy, 
+            "httpToken",
+            $httpToken,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -390,10 +380,13 @@ class BotconfigSet extends CollectionSet
         return $this->loadIndexes("httpToken", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

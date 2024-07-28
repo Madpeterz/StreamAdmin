@@ -81,10 +81,13 @@ class Template extends genClass
             $notecardDetail
         );
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = [$this->getId()];
         $collection = new PackageSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromTemplateLinks($ids);
         return $collection;
     }

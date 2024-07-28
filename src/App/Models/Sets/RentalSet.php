@@ -152,17 +152,16 @@ class RentalSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -177,17 +176,16 @@ class RentalSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -202,17 +200,16 @@ class RentalSet extends CollectionSet
      * loadByStreamLink
     */
     public function loadByStreamLink(
-        int $streamLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $streamLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "streamLink", 
-            $streamLink, 
-            $limit, 
-            $orderBy, 
+            "streamLink",
+            $streamLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -227,17 +224,16 @@ class RentalSet extends CollectionSet
      * loadByPackageLink
     */
     public function loadByPackageLink(
-        int $packageLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $packageLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "packageLink", 
-            $packageLink, 
-            $limit, 
-            $orderBy, 
+            "packageLink",
+            $packageLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -252,17 +248,16 @@ class RentalSet extends CollectionSet
      * loadByNoticeLink
     */
     public function loadByNoticeLink(
-        int $noticeLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $noticeLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "noticeLink", 
-            $noticeLink, 
-            $limit, 
-            $orderBy, 
+            "noticeLink",
+            $noticeLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -277,17 +272,16 @@ class RentalSet extends CollectionSet
      * loadByStartUnixtime
     */
     public function loadByStartUnixtime(
-        int $startUnixtime, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $startUnixtime,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "startUnixtime", 
-            $startUnixtime, 
-            $limit, 
-            $orderBy, 
+            "startUnixtime",
+            $startUnixtime,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -302,17 +296,16 @@ class RentalSet extends CollectionSet
      * loadByExpireUnixtime
     */
     public function loadByExpireUnixtime(
-        int $expireUnixtime, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $expireUnixtime,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "expireUnixtime", 
-            $expireUnixtime, 
-            $limit, 
-            $orderBy, 
+            "expireUnixtime",
+            $expireUnixtime,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -327,17 +320,16 @@ class RentalSet extends CollectionSet
      * loadByRenewals
     */
     public function loadByRenewals(
-        int $renewals, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $renewals,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "renewals", 
-            $renewals, 
-            $limit, 
-            $orderBy, 
+            "renewals",
+            $renewals,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -352,17 +344,16 @@ class RentalSet extends CollectionSet
      * loadByTotalAmount
     */
     public function loadByTotalAmount(
-        int $totalAmount, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $totalAmount,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "totalAmount", 
-            $totalAmount, 
-            $limit, 
-            $orderBy, 
+            "totalAmount",
+            $totalAmount,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -377,17 +368,16 @@ class RentalSet extends CollectionSet
      * loadByMessage
     */
     public function loadByMessage(
-        string $message, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $message,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "message", 
-            $message, 
-            $limit, 
-            $orderBy, 
+            "message",
+            $message,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -402,17 +392,16 @@ class RentalSet extends CollectionSet
      * loadByRentalUid
     */
     public function loadByRentalUid(
-        string $rentalUid, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $rentalUid,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "rentalUid", 
-            $rentalUid, 
-            $limit, 
-            $orderBy, 
+            "rentalUid",
+            $rentalUid,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -424,52 +413,73 @@ class RentalSet extends CollectionSet
         return $this->loadIndexes("rentalUid", $values);
     }
     // Related loaders
-    public function relatedDetail(): DetailSet
+    public function relatedDetail(?array $limitFields=null): DetailSet
     {
         $ids = $this->uniqueIds();
         $collection = new DetailSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromRentalLinks($ids);
         return $collection;
     }
-    public function relatedNotecard(): NotecardSet
+    public function relatedNotecard(?array $limitFields=null): NotecardSet
     {
         $ids = $this->uniqueIds();
         $collection = new NotecardSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromRentalLinks($ids);
         return $collection;
     }
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedNotice(): NoticeSet
+    public function relatedNotice(?array $limitFields=null): NoticeSet
     {
         $ids = $this->uniqueNoticeLinks();
         $collection = new NoticeSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields=null): PackageSet
     {
         $ids = $this->uniquePackageLinks();
         $collection = new PackageSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedStream(): StreamSet
+    public function relatedStream(?array $limitFields=null): StreamSet
     {
         $ids = $this->uniqueStreamLinks();
         $collection = new StreamSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRentalnoticeptout(): RentalnoticeptoutSet
+    public function relatedRentalnoticeptout(?array $limitFields=null): RentalnoticeptoutSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalnoticeptoutSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromRentalLinks($ids);
         return $collection;
     }

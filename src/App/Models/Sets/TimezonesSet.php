@@ -80,17 +80,16 @@ class TimezonesSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -105,17 +104,16 @@ class TimezonesSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -130,17 +128,16 @@ class TimezonesSet extends CollectionSet
      * loadByCode
     */
     public function loadByCode(
-        string $code, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $code,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "code", 
-            $code, 
-            $limit, 
-            $orderBy, 
+            "code",
+            $code,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -152,10 +149,13 @@ class TimezonesSet extends CollectionSet
         return $this->loadIndexes("code", $values);
     }
     // Related loaders
-    public function relatedSlconfig(): SlconfigSet
+    public function relatedSlconfig(?array $limitFields=null): SlconfigSet
     {
         $ids = $this->uniqueIds();
         $collection = new SlconfigSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromDisplayTimezoneLinks($ids);
         return $collection;
     }

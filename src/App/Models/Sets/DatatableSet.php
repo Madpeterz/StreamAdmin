@@ -107,17 +107,16 @@ class DatatableSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -132,17 +131,16 @@ class DatatableSet extends CollectionSet
      * loadByHideColZero
     */
     public function loadByHideColZero(
-        bool $hideColZero, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $hideColZero,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hideColZero", 
-            $hideColZero, 
-            $limit, 
-            $orderBy, 
+            "hideColZero",
+            $hideColZero,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -157,17 +155,16 @@ class DatatableSet extends CollectionSet
      * loadByCol
     */
     public function loadByCol(
-        int $col, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $col,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "col", 
-            $col, 
-            $limit, 
-            $orderBy, 
+            "col",
+            $col,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -182,17 +179,16 @@ class DatatableSet extends CollectionSet
      * loadByCols
     */
     public function loadByCols(
-        string $cols, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $cols,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "cols", 
-            $cols, 
-            $limit, 
-            $orderBy, 
+            "cols",
+            $cols,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -207,17 +203,16 @@ class DatatableSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -232,17 +227,16 @@ class DatatableSet extends CollectionSet
      * loadByDir
     */
     public function loadByDir(
-        string $dir, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $dir,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "dir", 
-            $dir, 
-            $limit, 
-            $orderBy, 
+            "dir",
+            $dir,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }

@@ -71,17 +71,16 @@ class DetailSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -96,17 +95,16 @@ class DetailSet extends CollectionSet
      * loadByRentalLink
     */
     public function loadByRentalLink(
-        int $rentalLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $rentalLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "rentalLink", 
-            $rentalLink, 
-            $limit, 
-            $orderBy, 
+            "rentalLink",
+            $rentalLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -118,10 +116,13 @@ class DetailSet extends CollectionSet
         return $this->loadIndexes("rentalLink", $values);
     }
     // Related loaders
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields=null): RentalSet
     {
         $ids = $this->uniqueRentalLinks();
         $collection = new RentalSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

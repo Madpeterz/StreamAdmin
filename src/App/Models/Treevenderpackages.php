@@ -62,17 +62,23 @@ class Treevenderpackages extends genClass
             $packageLink
         );
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = [$this->getPackageLink()];
         $collection = new PackageSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTreevender(): TreevenderSet
+    public function relatedTreevender(?array $limitFields = null): TreevenderSet
     {
         $ids = [$this->getTreevenderLink()];
         $collection = new TreevenderSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

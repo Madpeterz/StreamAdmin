@@ -201,10 +201,13 @@ class Botconfig extends genClass
             $httpToken
         );
     }
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = [$this->getAvatarLink()];
         $collection = new AvatarSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

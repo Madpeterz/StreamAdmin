@@ -206,17 +206,16 @@ class PackageSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -231,17 +230,16 @@ class PackageSet extends CollectionSet
      * loadByPackageUid
     */
     public function loadByPackageUid(
-        string $packageUid, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $packageUid,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "packageUid", 
-            $packageUid, 
-            $limit, 
-            $orderBy, 
+            "packageUid",
+            $packageUid,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -256,17 +254,16 @@ class PackageSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -281,17 +278,16 @@ class PackageSet extends CollectionSet
      * loadByAutodj
     */
     public function loadByAutodj(
-        bool $autodj, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $autodj,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "autodj", 
-            $autodj, 
-            $limit, 
-            $orderBy, 
+            "autodj",
+            $autodj,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -306,17 +302,16 @@ class PackageSet extends CollectionSet
      * loadByAutodjSize
     */
     public function loadByAutodjSize(
-        string $autodjSize, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $autodjSize,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "autodjSize", 
-            $autodjSize, 
-            $limit, 
-            $orderBy, 
+            "autodjSize",
+            $autodjSize,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -331,17 +326,16 @@ class PackageSet extends CollectionSet
      * loadByListeners
     */
     public function loadByListeners(
-        int $listeners, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $listeners,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "listeners", 
-            $listeners, 
-            $limit, 
-            $orderBy, 
+            "listeners",
+            $listeners,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -356,17 +350,16 @@ class PackageSet extends CollectionSet
      * loadByBitrate
     */
     public function loadByBitrate(
-        int $bitrate, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $bitrate,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "bitrate", 
-            $bitrate, 
-            $limit, 
-            $orderBy, 
+            "bitrate",
+            $bitrate,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -381,17 +374,16 @@ class PackageSet extends CollectionSet
      * loadByTemplateLink
     */
     public function loadByTemplateLink(
-        int $templateLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $templateLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "templateLink", 
-            $templateLink, 
-            $limit, 
-            $orderBy, 
+            "templateLink",
+            $templateLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -406,17 +398,16 @@ class PackageSet extends CollectionSet
      * loadByServertypeLink
     */
     public function loadByServertypeLink(
-        int $servertypeLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $servertypeLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "servertypeLink", 
-            $servertypeLink, 
-            $limit, 
-            $orderBy, 
+            "servertypeLink",
+            $servertypeLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -431,17 +422,16 @@ class PackageSet extends CollectionSet
      * loadByCost
     */
     public function loadByCost(
-        int $cost, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $cost,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "cost", 
-            $cost, 
-            $limit, 
-            $orderBy, 
+            "cost",
+            $cost,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -456,17 +446,16 @@ class PackageSet extends CollectionSet
      * loadByDays
     */
     public function loadByDays(
-        int $days, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $days,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "days", 
-            $days, 
-            $limit, 
-            $orderBy, 
+            "days",
+            $days,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -481,17 +470,16 @@ class PackageSet extends CollectionSet
      * loadByTextureSoldout
     */
     public function loadByTextureSoldout(
-        string $textureSoldout, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $textureSoldout,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "textureSoldout", 
-            $textureSoldout, 
-            $limit, 
-            $orderBy, 
+            "textureSoldout",
+            $textureSoldout,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -506,17 +494,16 @@ class PackageSet extends CollectionSet
      * loadByTextureInstockSmall
     */
     public function loadByTextureInstockSmall(
-        string $textureInstockSmall, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $textureInstockSmall,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "textureInstockSmall", 
-            $textureInstockSmall, 
-            $limit, 
-            $orderBy, 
+            "textureInstockSmall",
+            $textureInstockSmall,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -531,17 +518,16 @@ class PackageSet extends CollectionSet
      * loadByTextureInstockSelected
     */
     public function loadByTextureInstockSelected(
-        string $textureInstockSelected, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $textureInstockSelected,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "textureInstockSelected", 
-            $textureInstockSelected, 
-            $limit, 
-            $orderBy, 
+            "textureInstockSelected",
+            $textureInstockSelected,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -556,17 +542,16 @@ class PackageSet extends CollectionSet
      * loadByWelcomeNotecardLink
     */
     public function loadByWelcomeNotecardLink(
-        int $welcomeNotecardLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $welcomeNotecardLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "welcomeNotecardLink", 
-            $welcomeNotecardLink, 
-            $limit, 
-            $orderBy, 
+            "welcomeNotecardLink",
+            $welcomeNotecardLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -581,17 +566,16 @@ class PackageSet extends CollectionSet
      * loadBySetupNotecardLink
     */
     public function loadBySetupNotecardLink(
-        int $setupNotecardLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $setupNotecardLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "setupNotecardLink", 
-            $setupNotecardLink, 
-            $limit, 
-            $orderBy, 
+            "setupNotecardLink",
+            $setupNotecardLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -606,17 +590,16 @@ class PackageSet extends CollectionSet
      * loadByEnableGroupInvite
     */
     public function loadByEnableGroupInvite(
-        bool $enableGroupInvite, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $enableGroupInvite,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "enableGroupInvite", 
-            $enableGroupInvite, 
-            $limit, 
-            $orderBy, 
+            "enableGroupInvite",
+            $enableGroupInvite,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -628,52 +611,73 @@ class PackageSet extends CollectionSet
         return $this->loadIndexes("enableGroupInvite", $values);
     }
     // Related loaders
-    public function relatedNoticenotecard(): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields=null): NoticenotecardSet
     {
         $ids = $this->uniqueWelcomeNotecardLinks();
         $collection = new NoticenotecardSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedServertypes(): ServertypesSet
+    public function relatedServertypes(?array $limitFields=null): ServertypesSet
     {
         $ids = $this->uniqueServertypeLinks();
         $collection = new ServertypesSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTemplate(): TemplateSet
+    public function relatedTemplate(?array $limitFields=null): TemplateSet
     {
         $ids = $this->uniqueTemplateLinks();
         $collection = new TemplateSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields=null): RentalSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromPackageLinks($ids);
         return $collection;
     }
-    public function relatedStream(): StreamSet
+    public function relatedStream(?array $limitFields=null): StreamSet
     {
         $ids = $this->uniqueIds();
         $collection = new StreamSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromPackageLinks($ids);
         return $collection;
     }
-    public function relatedTransactions(): TransactionsSet
+    public function relatedTransactions(?array $limitFields=null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromPackageLinks($ids);
         return $collection;
     }
-    public function relatedTreevenderpackages(): TreevenderpackagesSet
+    public function relatedTreevenderpackages(?array $limitFields=null): TreevenderpackagesSet
     {
         $ids = $this->uniqueIds();
         $collection = new TreevenderpackagesSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromPackageLinks($ids);
         return $collection;
     }

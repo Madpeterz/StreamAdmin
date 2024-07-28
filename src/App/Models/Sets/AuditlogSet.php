@@ -125,17 +125,16 @@ class AuditlogSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -150,17 +149,16 @@ class AuditlogSet extends CollectionSet
      * loadByStore
     */
     public function loadByStore(
-        string $store, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $store,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "store", 
-            $store, 
-            $limit, 
-            $orderBy, 
+            "store",
+            $store,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -175,17 +173,16 @@ class AuditlogSet extends CollectionSet
      * loadBySourceid
     */
     public function loadBySourceid(
-        string $sourceid, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $sourceid,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "sourceid", 
-            $sourceid, 
-            $limit, 
-            $orderBy, 
+            "sourceid",
+            $sourceid,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -200,17 +197,16 @@ class AuditlogSet extends CollectionSet
      * loadByValuename
     */
     public function loadByValuename(
-        string $valuename, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $valuename,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "valuename", 
-            $valuename, 
-            $limit, 
-            $orderBy, 
+            "valuename",
+            $valuename,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -225,17 +221,16 @@ class AuditlogSet extends CollectionSet
      * loadByOldvalue
     */
     public function loadByOldvalue(
-        string $oldvalue, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $oldvalue,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "oldvalue", 
-            $oldvalue, 
-            $limit, 
-            $orderBy, 
+            "oldvalue",
+            $oldvalue,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -250,17 +245,16 @@ class AuditlogSet extends CollectionSet
      * loadByNewvalue
     */
     public function loadByNewvalue(
-        string $newvalue, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $newvalue,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "newvalue", 
-            $newvalue, 
-            $limit, 
-            $orderBy, 
+            "newvalue",
+            $newvalue,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -275,17 +269,16 @@ class AuditlogSet extends CollectionSet
      * loadByUnixtime
     */
     public function loadByUnixtime(
-        int $unixtime, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $unixtime,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "unixtime", 
-            $unixtime, 
-            $limit, 
-            $orderBy, 
+            "unixtime",
+            $unixtime,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -300,17 +293,16 @@ class AuditlogSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -322,10 +314,13 @@ class AuditlogSet extends CollectionSet
         return $this->loadIndexes("avatarLink", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

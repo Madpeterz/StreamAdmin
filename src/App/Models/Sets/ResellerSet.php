@@ -89,17 +89,16 @@ class ResellerSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -114,17 +113,16 @@ class ResellerSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -139,17 +137,16 @@ class ResellerSet extends CollectionSet
      * loadByAllowed
     */
     public function loadByAllowed(
-        bool $allowed, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $allowed,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "allowed", 
-            $allowed, 
-            $limit, 
-            $orderBy, 
+            "allowed",
+            $allowed,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -164,17 +161,16 @@ class ResellerSet extends CollectionSet
      * loadByRate
     */
     public function loadByRate(
-        int $rate, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $rate,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "rate", 
-            $rate, 
-            $limit, 
-            $orderBy, 
+            "rate",
+            $rate,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -186,17 +182,23 @@ class ResellerSet extends CollectionSet
         return $this->loadIndexes("rate", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTransactions(): TransactionsSet
+    public function relatedTransactions(?array $limitFields=null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromResellerLinks($ids);
         return $collection;
     }

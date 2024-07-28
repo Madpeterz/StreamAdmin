@@ -161,17 +161,16 @@ class TransactionsSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -186,17 +185,16 @@ class TransactionsSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -211,17 +209,16 @@ class TransactionsSet extends CollectionSet
      * loadByPackageLink
     */
     public function loadByPackageLink(
-        int $packageLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $packageLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "packageLink", 
-            $packageLink, 
-            $limit, 
-            $orderBy, 
+            "packageLink",
+            $packageLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -236,17 +233,16 @@ class TransactionsSet extends CollectionSet
      * loadByStreamLink
     */
     public function loadByStreamLink(
-        int $streamLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $streamLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "streamLink", 
-            $streamLink, 
-            $limit, 
-            $orderBy, 
+            "streamLink",
+            $streamLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -261,17 +257,16 @@ class TransactionsSet extends CollectionSet
      * loadByResellerLink
     */
     public function loadByResellerLink(
-        int $resellerLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $resellerLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "resellerLink", 
-            $resellerLink, 
-            $limit, 
-            $orderBy, 
+            "resellerLink",
+            $resellerLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -286,17 +281,16 @@ class TransactionsSet extends CollectionSet
      * loadByRegionLink
     */
     public function loadByRegionLink(
-        int $regionLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $regionLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "regionLink", 
-            $regionLink, 
-            $limit, 
-            $orderBy, 
+            "regionLink",
+            $regionLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -311,17 +305,16 @@ class TransactionsSet extends CollectionSet
      * loadByAmount
     */
     public function loadByAmount(
-        int $amount, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $amount,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "amount", 
-            $amount, 
-            $limit, 
-            $orderBy, 
+            "amount",
+            $amount,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -336,17 +329,16 @@ class TransactionsSet extends CollectionSet
      * loadByUnixtime
     */
     public function loadByUnixtime(
-        int $unixtime, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $unixtime,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "unixtime", 
-            $unixtime, 
-            $limit, 
-            $orderBy, 
+            "unixtime",
+            $unixtime,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -361,17 +353,16 @@ class TransactionsSet extends CollectionSet
      * loadByTransactionUid
     */
     public function loadByTransactionUid(
-        string $transactionUid, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $transactionUid,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "transactionUid", 
-            $transactionUid, 
-            $limit, 
-            $orderBy, 
+            "transactionUid",
+            $transactionUid,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -386,17 +377,16 @@ class TransactionsSet extends CollectionSet
      * loadByRenew
     */
     public function loadByRenew(
-        bool $renew, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $renew,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "renew", 
-            $renew, 
-            $limit, 
-            $orderBy, 
+            "renew",
+            $renew,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -411,17 +401,16 @@ class TransactionsSet extends CollectionSet
      * loadBySLtransactionUUID
     */
     public function loadBySLtransactionUUID(
-        string $SLtransactionUUID, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $SLtransactionUUID,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "SLtransactionUUID", 
-            $SLtransactionUUID, 
-            $limit, 
-            $orderBy, 
+            "SLtransactionUUID",
+            $SLtransactionUUID,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -436,17 +425,16 @@ class TransactionsSet extends CollectionSet
      * loadByViaHud
     */
     public function loadByViaHud(
-        bool $ViaHud, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $ViaHud,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "ViaHud", 
-            $ViaHud, 
-            $limit, 
-            $orderBy, 
+            "ViaHud",
+            $ViaHud,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -458,38 +446,53 @@ class TransactionsSet extends CollectionSet
         return $this->loadIndexes("ViaHud", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields=null): PackageSet
     {
         $ids = $this->uniquePackageLinks();
         $collection = new PackageSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRegion(): RegionSet
+    public function relatedRegion(?array $limitFields=null): RegionSet
     {
         $ids = $this->uniqueRegionLinks();
         $collection = new RegionSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedReseller(): ResellerSet
+    public function relatedReseller(?array $limitFields=null): ResellerSet
     {
         $ids = $this->uniqueResellerLinks();
         $collection = new ResellerSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedStream(): StreamSet
+    public function relatedStream(?array $limitFields=null): StreamSet
     {
         $ids = $this->uniqueStreamLinks();
         $collection = new StreamSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

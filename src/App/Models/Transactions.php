@@ -245,38 +245,53 @@ class Transactions extends genClass
             $ViaHud
         );
     }
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = [$this->getAvatarLink()];
         $collection = new AvatarSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = [$this->getPackageLink()];
         $collection = new PackageSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRegion(): RegionSet
+    public function relatedRegion(?array $limitFields = null): RegionSet
     {
         $ids = [$this->getRegionLink()];
         $collection = new RegionSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedReseller(): ResellerSet
+    public function relatedReseller(?array $limitFields = null): ResellerSet
     {
         $ids = [$this->getResellerLink()];
         $collection = new ResellerSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedStream(): StreamSet
+    public function relatedStream(?array $limitFields = null): StreamSet
     {
         $ids = [$this->getStreamLink()];
         $collection = new StreamSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

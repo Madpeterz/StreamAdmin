@@ -71,17 +71,16 @@ class ServertypesSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -96,17 +95,16 @@ class ServertypesSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -118,10 +116,13 @@ class ServertypesSet extends CollectionSet
         return $this->loadIndexes("name", $values);
     }
     // Related loaders
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields=null): PackageSet
     {
         $ids = $this->uniqueIds();
         $collection = new PackageSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromServertypeLinks($ids);
         return $collection;
     }

@@ -89,17 +89,16 @@ class BotcommandqSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -114,17 +113,16 @@ class BotcommandqSet extends CollectionSet
      * loadByCommand
     */
     public function loadByCommand(
-        string $command, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $command,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "command", 
-            $command, 
-            $limit, 
-            $orderBy, 
+            "command",
+            $command,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -139,17 +137,16 @@ class BotcommandqSet extends CollectionSet
      * loadByArgs
     */
     public function loadByArgs(
-        string $args, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $args,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "args", 
-            $args, 
-            $limit, 
-            $orderBy, 
+            "args",
+            $args,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -164,17 +161,16 @@ class BotcommandqSet extends CollectionSet
      * loadByUnixtime
     */
     public function loadByUnixtime(
-        int $unixtime, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $unixtime,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "unixtime", 
-            $unixtime, 
-            $limit, 
-            $orderBy, 
+            "unixtime",
+            $unixtime,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }

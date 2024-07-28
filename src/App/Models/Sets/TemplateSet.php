@@ -89,17 +89,16 @@ class TemplateSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -114,17 +113,16 @@ class TemplateSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -139,17 +137,16 @@ class TemplateSet extends CollectionSet
      * loadByDetail
     */
     public function loadByDetail(
-        string $detail, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $detail,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "detail", 
-            $detail, 
-            $limit, 
-            $orderBy, 
+            "detail",
+            $detail,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -164,17 +161,16 @@ class TemplateSet extends CollectionSet
      * loadByNotecardDetail
     */
     public function loadByNotecardDetail(
-        string $notecardDetail, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $notecardDetail,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "notecardDetail", 
-            $notecardDetail, 
-            $limit, 
-            $orderBy, 
+            "notecardDetail",
+            $notecardDetail,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -186,10 +182,13 @@ class TemplateSet extends CollectionSet
         return $this->loadIndexes("notecardDetail", $values);
     }
     // Related loaders
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields=null): PackageSet
     {
         $ids = $this->uniqueIds();
         $collection = new PackageSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromTemplateLinks($ids);
         return $collection;
     }

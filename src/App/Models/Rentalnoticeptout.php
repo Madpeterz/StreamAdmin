@@ -62,17 +62,23 @@ class Rentalnoticeptout extends genClass
             $noticeLink
         );
     }
-    public function relatedNotice(): NoticeSet
+    public function relatedNotice(?array $limitFields = null): NoticeSet
     {
         $ids = [$this->getNoticeLink()];
         $collection = new NoticeSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = [$this->getRentalLink()];
         $collection = new RentalSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

@@ -442,17 +442,23 @@ class Slconfig extends genClass
             $clientsDisplayServer
         );
     }
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = [$this->getOwnerAvatarLink()];
         $collection = new AvatarSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTimezones(): TimezonesSet
+    public function relatedTimezones(?array $limitFields = null): TimezonesSet
     {
         $ids = [$this->getDisplayTimezoneLink()];
         $collection = new TimezonesSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

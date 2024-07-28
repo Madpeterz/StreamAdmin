@@ -224,31 +224,43 @@ class Stream extends genClass
             $mountpoint
         );
     }
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = [$this->getId()];
         $collection = new RentalSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromStreamLinks($ids);
         return $collection;
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = [$this->getPackageLink()];
         $collection = new PackageSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedServer(): ServerSet
+    public function relatedServer(?array $limitFields = null): ServerSet
     {
         $ids = [$this->getServerLink()];
         $collection = new ServerSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTransactions(): TransactionsSet
+    public function relatedTransactions(?array $limitFields = null): TransactionsSet
     {
         $ids = [$this->getId()];
         $collection = new TransactionsSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromStreamLinks($ids);
         return $collection;
     }

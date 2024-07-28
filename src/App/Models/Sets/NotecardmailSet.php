@@ -80,17 +80,16 @@ class NotecardmailSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -105,17 +104,16 @@ class NotecardmailSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -130,17 +128,16 @@ class NotecardmailSet extends CollectionSet
      * loadByNoticenotecardLink
     */
     public function loadByNoticenotecardLink(
-        int $noticenotecardLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $noticenotecardLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "noticenotecardLink", 
-            $noticenotecardLink, 
-            $limit, 
-            $orderBy, 
+            "noticenotecardLink",
+            $noticenotecardLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -152,17 +149,23 @@ class NotecardmailSet extends CollectionSet
         return $this->loadIndexes("noticenotecardLink", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedNoticenotecard(): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields=null): NoticenotecardSet
     {
         $ids = $this->uniqueNoticenotecardLinks();
         $collection = new NoticenotecardSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

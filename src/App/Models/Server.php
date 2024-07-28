@@ -61,10 +61,13 @@ class Server extends genClass
             $controlPanelURL
         );
     }
-    public function relatedStream(): StreamSet
+    public function relatedStream(?array $limitFields = null): StreamSet
     {
         $ids = [$this->getId()];
         $collection = new StreamSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromServerLinks($ids);
         return $collection;
     }

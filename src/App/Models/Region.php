@@ -42,17 +42,23 @@ class Region extends genClass
             $name
         );
     }
-    public function relatedObjects(): ObjectsSet
+    public function relatedObjects(?array $limitFields = null): ObjectsSet
     {
         $ids = [$this->getId()];
         $collection = new ObjectsSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromRegionLinks($ids);
         return $collection;
     }
-    public function relatedTransactions(): TransactionsSet
+    public function relatedTransactions(?array $limitFields = null): TransactionsSet
     {
         $ids = [$this->getId()];
         $collection = new TransactionsSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromRegionLinks($ids);
         return $collection;
     }

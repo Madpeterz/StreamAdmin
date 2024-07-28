@@ -89,17 +89,16 @@ class EventsqSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -114,17 +113,16 @@ class EventsqSet extends CollectionSet
      * loadByEventName
     */
     public function loadByEventName(
-        string $eventName, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $eventName,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "eventName", 
-            $eventName, 
-            $limit, 
-            $orderBy, 
+            "eventName",
+            $eventName,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -139,17 +137,16 @@ class EventsqSet extends CollectionSet
      * loadByEventMessage
     */
     public function loadByEventMessage(
-        string $eventMessage, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $eventMessage,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "eventMessage", 
-            $eventMessage, 
-            $limit, 
-            $orderBy, 
+            "eventMessage",
+            $eventMessage,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -164,17 +161,16 @@ class EventsqSet extends CollectionSet
      * loadByEventUnixtime
     */
     public function loadByEventUnixtime(
-        int $eventUnixtime, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $eventUnixtime,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "eventUnixtime", 
-            $eventUnixtime, 
-            $limit, 
-            $orderBy, 
+            "eventUnixtime",
+            $eventUnixtime,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }

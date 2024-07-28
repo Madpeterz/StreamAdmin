@@ -152,17 +152,16 @@ class StreamSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -177,17 +176,16 @@ class StreamSet extends CollectionSet
      * loadByServerLink
     */
     public function loadByServerLink(
-        int $serverLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $serverLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "serverLink", 
-            $serverLink, 
-            $limit, 
-            $orderBy, 
+            "serverLink",
+            $serverLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -202,17 +200,16 @@ class StreamSet extends CollectionSet
      * loadByRentalLink
     */
     public function loadByRentalLink(
-        int $rentalLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $rentalLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "rentalLink", 
-            $rentalLink, 
-            $limit, 
-            $orderBy, 
+            "rentalLink",
+            $rentalLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -227,17 +224,16 @@ class StreamSet extends CollectionSet
      * loadByPackageLink
     */
     public function loadByPackageLink(
-        int $packageLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $packageLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "packageLink", 
-            $packageLink, 
-            $limit, 
-            $orderBy, 
+            "packageLink",
+            $packageLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -252,17 +248,16 @@ class StreamSet extends CollectionSet
      * loadByPort
     */
     public function loadByPort(
-        int $port, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $port,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "port", 
-            $port, 
-            $limit, 
-            $orderBy, 
+            "port",
+            $port,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -277,17 +272,16 @@ class StreamSet extends CollectionSet
      * loadByNeedWork
     */
     public function loadByNeedWork(
-        bool $needWork, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $needWork,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "needWork", 
-            $needWork, 
-            $limit, 
-            $orderBy, 
+            "needWork",
+            $needWork,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -302,17 +296,16 @@ class StreamSet extends CollectionSet
      * loadByAdminUsername
     */
     public function loadByAdminUsername(
-        string $adminUsername, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $adminUsername,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "adminUsername", 
-            $adminUsername, 
-            $limit, 
-            $orderBy, 
+            "adminUsername",
+            $adminUsername,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -327,17 +320,16 @@ class StreamSet extends CollectionSet
      * loadByAdminPassword
     */
     public function loadByAdminPassword(
-        string $adminPassword, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $adminPassword,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "adminPassword", 
-            $adminPassword, 
-            $limit, 
-            $orderBy, 
+            "adminPassword",
+            $adminPassword,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -352,17 +344,16 @@ class StreamSet extends CollectionSet
      * loadByDjPassword
     */
     public function loadByDjPassword(
-        string $djPassword, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $djPassword,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "djPassword", 
-            $djPassword, 
-            $limit, 
-            $orderBy, 
+            "djPassword",
+            $djPassword,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -377,17 +368,16 @@ class StreamSet extends CollectionSet
      * loadByStreamUid
     */
     public function loadByStreamUid(
-        string $streamUid, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $streamUid,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "streamUid", 
-            $streamUid, 
-            $limit, 
-            $orderBy, 
+            "streamUid",
+            $streamUid,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -402,17 +392,16 @@ class StreamSet extends CollectionSet
      * loadByMountpoint
     */
     public function loadByMountpoint(
-        string $mountpoint, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $mountpoint,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "mountpoint", 
-            $mountpoint, 
-            $limit, 
-            $orderBy, 
+            "mountpoint",
+            $mountpoint,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -424,31 +413,43 @@ class StreamSet extends CollectionSet
         return $this->loadIndexes("mountpoint", $values);
     }
     // Related loaders
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields=null): RentalSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromStreamLinks($ids);
         return $collection;
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields=null): PackageSet
     {
         $ids = $this->uniquePackageLinks();
         $collection = new PackageSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedServer(): ServerSet
+    public function relatedServer(?array $limitFields=null): ServerSet
     {
         $ids = $this->uniqueServerLinks();
         $collection = new ServerSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTransactions(): TransactionsSet
+    public function relatedTransactions(?array $limitFields=null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromStreamLinks($ids);
         return $collection;
     }

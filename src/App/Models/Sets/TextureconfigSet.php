@@ -152,17 +152,16 @@ class TextureconfigSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -177,17 +176,16 @@ class TextureconfigSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -202,17 +200,16 @@ class TextureconfigSet extends CollectionSet
      * loadByOffline
     */
     public function loadByOffline(
-        string $offline, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $offline,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "offline", 
-            $offline, 
-            $limit, 
-            $orderBy, 
+            "offline",
+            $offline,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -227,17 +224,16 @@ class TextureconfigSet extends CollectionSet
      * loadByWaitOwner
     */
     public function loadByWaitOwner(
-        string $waitOwner, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $waitOwner,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "waitOwner", 
-            $waitOwner, 
-            $limit, 
-            $orderBy, 
+            "waitOwner",
+            $waitOwner,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -252,17 +248,16 @@ class TextureconfigSet extends CollectionSet
      * loadByStockLevels
     */
     public function loadByStockLevels(
-        string $stockLevels, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $stockLevels,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "stockLevels", 
-            $stockLevels, 
-            $limit, 
-            $orderBy, 
+            "stockLevels",
+            $stockLevels,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -277,17 +272,16 @@ class TextureconfigSet extends CollectionSet
      * loadByMakePayment
     */
     public function loadByMakePayment(
-        string $makePayment, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $makePayment,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "makePayment", 
-            $makePayment, 
-            $limit, 
-            $orderBy, 
+            "makePayment",
+            $makePayment,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -302,17 +296,16 @@ class TextureconfigSet extends CollectionSet
      * loadByInUse
     */
     public function loadByInUse(
-        string $inUse, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $inUse,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "inUse", 
-            $inUse, 
-            $limit, 
-            $orderBy, 
+            "inUse",
+            $inUse,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -327,17 +320,16 @@ class TextureconfigSet extends CollectionSet
      * loadByRenewHere
     */
     public function loadByRenewHere(
-        string $renewHere, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $renewHere,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "renewHere", 
-            $renewHere, 
-            $limit, 
-            $orderBy, 
+            "renewHere",
+            $renewHere,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -352,17 +344,16 @@ class TextureconfigSet extends CollectionSet
      * loadByProxyRenew
     */
     public function loadByProxyRenew(
-        string $proxyRenew, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $proxyRenew,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "proxyRenew", 
-            $proxyRenew, 
-            $limit, 
-            $orderBy, 
+            "proxyRenew",
+            $proxyRenew,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -377,17 +368,16 @@ class TextureconfigSet extends CollectionSet
      * loadByGettingDetails
     */
     public function loadByGettingDetails(
-        string $gettingDetails, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $gettingDetails,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "gettingDetails", 
-            $gettingDetails, 
-            $limit, 
-            $orderBy, 
+            "gettingDetails",
+            $gettingDetails,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -402,17 +392,16 @@ class TextureconfigSet extends CollectionSet
      * loadByRequestDetails
     */
     public function loadByRequestDetails(
-        string $requestDetails, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $requestDetails,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "requestDetails", 
-            $requestDetails, 
-            $limit, 
-            $orderBy, 
+            "requestDetails",
+            $requestDetails,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }

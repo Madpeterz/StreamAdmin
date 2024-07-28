@@ -125,17 +125,16 @@ class ObjectsSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -150,17 +149,16 @@ class ObjectsSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -175,17 +173,16 @@ class ObjectsSet extends CollectionSet
      * loadByRegionLink
     */
     public function loadByRegionLink(
-        int $regionLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $regionLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "regionLink", 
-            $regionLink, 
-            $limit, 
-            $orderBy, 
+            "regionLink",
+            $regionLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -200,17 +197,16 @@ class ObjectsSet extends CollectionSet
      * loadByObjectUUID
     */
     public function loadByObjectUUID(
-        string $objectUUID, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $objectUUID,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "objectUUID", 
-            $objectUUID, 
-            $limit, 
-            $orderBy, 
+            "objectUUID",
+            $objectUUID,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -225,17 +221,16 @@ class ObjectsSet extends CollectionSet
      * loadByObjectName
     */
     public function loadByObjectName(
-        string $objectName, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $objectName,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "objectName", 
-            $objectName, 
-            $limit, 
-            $orderBy, 
+            "objectName",
+            $objectName,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -250,17 +245,16 @@ class ObjectsSet extends CollectionSet
      * loadByObjectMode
     */
     public function loadByObjectMode(
-        string $objectMode, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $objectMode,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "objectMode", 
-            $objectMode, 
-            $limit, 
-            $orderBy, 
+            "objectMode",
+            $objectMode,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -275,17 +269,16 @@ class ObjectsSet extends CollectionSet
      * loadByObjectXYZ
     */
     public function loadByObjectXYZ(
-        string $objectXYZ, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $objectXYZ,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "objectXYZ", 
-            $objectXYZ, 
-            $limit, 
-            $orderBy, 
+            "objectXYZ",
+            $objectXYZ,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -300,17 +293,16 @@ class ObjectsSet extends CollectionSet
      * loadByLastSeen
     */
     public function loadByLastSeen(
-        int $lastSeen, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $lastSeen,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "lastSeen", 
-            $lastSeen, 
-            $limit, 
-            $orderBy, 
+            "lastSeen",
+            $lastSeen,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -322,17 +314,23 @@ class ObjectsSet extends CollectionSet
         return $this->loadIndexes("lastSeen", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRegion(): RegionSet
+    public function relatedRegion(?array $limitFields=null): RegionSet
     {
         $ids = $this->uniqueRegionLinks();
         $collection = new RegionSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

@@ -162,17 +162,23 @@ class Objects extends genClass
             $lastSeen
         );
     }
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = [$this->getAvatarLink()];
         $collection = new AvatarSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRegion(): RegionSet
+    public function relatedRegion(?array $limitFields = null): RegionSet
     {
         $ids = [$this->getRegionLink()];
         $collection = new RegionSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

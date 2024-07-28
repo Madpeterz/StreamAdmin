@@ -98,17 +98,16 @@ class TreevenderSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -123,17 +122,16 @@ class TreevenderSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -148,17 +146,16 @@ class TreevenderSet extends CollectionSet
      * loadByTextureWaiting
     */
     public function loadByTextureWaiting(
-        string $textureWaiting, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $textureWaiting,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "textureWaiting", 
-            $textureWaiting, 
-            $limit, 
-            $orderBy, 
+            "textureWaiting",
+            $textureWaiting,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -173,17 +170,16 @@ class TreevenderSet extends CollectionSet
      * loadByTextureInuse
     */
     public function loadByTextureInuse(
-        string $textureInuse, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $textureInuse,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "textureInuse", 
-            $textureInuse, 
-            $limit, 
-            $orderBy, 
+            "textureInuse",
+            $textureInuse,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -198,17 +194,16 @@ class TreevenderSet extends CollectionSet
      * loadByHideSoldout
     */
     public function loadByHideSoldout(
-        bool $hideSoldout, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $hideSoldout,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hideSoldout", 
-            $hideSoldout, 
-            $limit, 
-            $orderBy, 
+            "hideSoldout",
+            $hideSoldout,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -220,10 +215,13 @@ class TreevenderSet extends CollectionSet
         return $this->loadIndexes("hideSoldout", $values);
     }
     // Related loaders
-    public function relatedTreevenderpackages(): TreevenderpackagesSet
+    public function relatedTreevenderpackages(?array $limitFields=null): TreevenderpackagesSet
     {
         $ids = $this->uniqueIds();
         $collection = new TreevenderpackagesSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromTreevenderLinks($ids);
         return $collection;
     }

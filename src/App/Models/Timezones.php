@@ -61,10 +61,13 @@ class Timezones extends genClass
             $code
         );
     }
-    public function relatedSlconfig(): SlconfigSet
+    public function relatedSlconfig(?array $limitFields = null): SlconfigSet
     {
         $ids = [$this->getId()];
         $collection = new SlconfigSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromDisplayTimezoneLinks($ids);
         return $collection;
     }

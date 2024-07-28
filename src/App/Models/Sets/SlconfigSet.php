@@ -251,17 +251,16 @@ class SlconfigSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -276,17 +275,16 @@ class SlconfigSet extends CollectionSet
      * loadByDbVersion
     */
     public function loadByDbVersion(
-        string $dbVersion, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $dbVersion,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "dbVersion", 
-            $dbVersion, 
-            $limit, 
-            $orderBy, 
+            "dbVersion",
+            $dbVersion,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -301,17 +299,16 @@ class SlconfigSet extends CollectionSet
      * loadByNewResellers
     */
     public function loadByNewResellers(
-        bool $newResellers, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $newResellers,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "newResellers", 
-            $newResellers, 
-            $limit, 
-            $orderBy, 
+            "newResellers",
+            $newResellers,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -326,17 +323,16 @@ class SlconfigSet extends CollectionSet
      * loadByNewResellersRate
     */
     public function loadByNewResellersRate(
-        int $newResellersRate, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $newResellersRate,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "newResellersRate", 
-            $newResellersRate, 
-            $limit, 
-            $orderBy, 
+            "newResellersRate",
+            $newResellersRate,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -351,17 +347,16 @@ class SlconfigSet extends CollectionSet
      * loadBySlLinkCode
     */
     public function loadBySlLinkCode(
-        string $slLinkCode, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $slLinkCode,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "slLinkCode", 
-            $slLinkCode, 
-            $limit, 
-            $orderBy, 
+            "slLinkCode",
+            $slLinkCode,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -376,17 +371,16 @@ class SlconfigSet extends CollectionSet
      * loadByClientsListMode
     */
     public function loadByClientsListMode(
-        bool $clientsListMode, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $clientsListMode,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "clientsListMode", 
-            $clientsListMode, 
-            $limit, 
-            $orderBy, 
+            "clientsListMode",
+            $clientsListMode,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -401,17 +395,16 @@ class SlconfigSet extends CollectionSet
      * loadByPublicLinkCode
     */
     public function loadByPublicLinkCode(
-        string $publicLinkCode, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $publicLinkCode,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "publicLinkCode", 
-            $publicLinkCode, 
-            $limit, 
-            $orderBy, 
+            "publicLinkCode",
+            $publicLinkCode,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -426,17 +419,16 @@ class SlconfigSet extends CollectionSet
      * loadByHudLinkCode
     */
     public function loadByHudLinkCode(
-        string $hudLinkCode, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $hudLinkCode,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hudLinkCode", 
-            $hudLinkCode, 
-            $limit, 
-            $orderBy, 
+            "hudLinkCode",
+            $hudLinkCode,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -451,17 +443,16 @@ class SlconfigSet extends CollectionSet
      * loadByOwnerAvatarLink
     */
     public function loadByOwnerAvatarLink(
-        int $ownerAvatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $ownerAvatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "ownerAvatarLink", 
-            $ownerAvatarLink, 
-            $limit, 
-            $orderBy, 
+            "ownerAvatarLink",
+            $ownerAvatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -476,17 +467,16 @@ class SlconfigSet extends CollectionSet
      * loadByDatatableItemsPerPage
     */
     public function loadByDatatableItemsPerPage(
-        int $datatableItemsPerPage, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $datatableItemsPerPage,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "datatableItemsPerPage", 
-            $datatableItemsPerPage, 
-            $limit, 
-            $orderBy, 
+            "datatableItemsPerPage",
+            $datatableItemsPerPage,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -501,17 +491,16 @@ class SlconfigSet extends CollectionSet
      * loadByHttpInboundSecret
     */
     public function loadByHttpInboundSecret(
-        string $httpInboundSecret, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $httpInboundSecret,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "httpInboundSecret", 
-            $httpInboundSecret, 
-            $limit, 
-            $orderBy, 
+            "httpInboundSecret",
+            $httpInboundSecret,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -526,17 +515,16 @@ class SlconfigSet extends CollectionSet
      * loadByDisplayTimezoneLink
     */
     public function loadByDisplayTimezoneLink(
-        int $displayTimezoneLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $displayTimezoneLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "displayTimezoneLink", 
-            $displayTimezoneLink, 
-            $limit, 
-            $orderBy, 
+            "displayTimezoneLink",
+            $displayTimezoneLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -551,17 +539,16 @@ class SlconfigSet extends CollectionSet
      * loadByHudAllowDiscord
     */
     public function loadByHudAllowDiscord(
-        bool $hudAllowDiscord, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $hudAllowDiscord,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hudAllowDiscord", 
-            $hudAllowDiscord, 
-            $limit, 
-            $orderBy, 
+            "hudAllowDiscord",
+            $hudAllowDiscord,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -576,17 +563,16 @@ class SlconfigSet extends CollectionSet
      * loadByHudDiscordLink
     */
     public function loadByHudDiscordLink(
-        string $hudDiscordLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $hudDiscordLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hudDiscordLink", 
-            $hudDiscordLink, 
-            $limit, 
-            $orderBy, 
+            "hudDiscordLink",
+            $hudDiscordLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -601,17 +587,16 @@ class SlconfigSet extends CollectionSet
      * loadByHudAllowGroup
     */
     public function loadByHudAllowGroup(
-        bool $hudAllowGroup, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $hudAllowGroup,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hudAllowGroup", 
-            $hudAllowGroup, 
-            $limit, 
-            $orderBy, 
+            "hudAllowGroup",
+            $hudAllowGroup,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -626,17 +611,16 @@ class SlconfigSet extends CollectionSet
      * loadByHudGroupLink
     */
     public function loadByHudGroupLink(
-        string $hudGroupLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $hudGroupLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hudGroupLink", 
-            $hudGroupLink, 
-            $limit, 
-            $orderBy, 
+            "hudGroupLink",
+            $hudGroupLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -651,17 +635,16 @@ class SlconfigSet extends CollectionSet
      * loadByHudAllowDetails
     */
     public function loadByHudAllowDetails(
-        bool $hudAllowDetails, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $hudAllowDetails,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hudAllowDetails", 
-            $hudAllowDetails, 
-            $limit, 
-            $orderBy, 
+            "hudAllowDetails",
+            $hudAllowDetails,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -676,17 +659,16 @@ class SlconfigSet extends CollectionSet
      * loadByHudAllowRenewal
     */
     public function loadByHudAllowRenewal(
-        bool $hudAllowRenewal, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $hudAllowRenewal,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hudAllowRenewal", 
-            $hudAllowRenewal, 
-            $limit, 
-            $orderBy, 
+            "hudAllowRenewal",
+            $hudAllowRenewal,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -701,17 +683,16 @@ class SlconfigSet extends CollectionSet
      * loadByEventsAPI
     */
     public function loadByEventsAPI(
-        bool $eventsAPI, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $eventsAPI,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "eventsAPI", 
-            $eventsAPI, 
-            $limit, 
-            $orderBy, 
+            "eventsAPI",
+            $eventsAPI,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -726,17 +707,16 @@ class SlconfigSet extends CollectionSet
      * loadByPaymentKey
     */
     public function loadByPaymentKey(
-        string $paymentKey, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $paymentKey,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "paymentKey", 
-            $paymentKey, 
-            $limit, 
-            $orderBy, 
+            "paymentKey",
+            $paymentKey,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -751,17 +731,16 @@ class SlconfigSet extends CollectionSet
      * loadByStreamListOption
     */
     public function loadByStreamListOption(
-        int $streamListOption, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $streamListOption,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "streamListOption", 
-            $streamListOption, 
-            $limit, 
-            $orderBy, 
+            "streamListOption",
+            $streamListOption,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -776,17 +755,16 @@ class SlconfigSet extends CollectionSet
      * loadByClientsDisplayServer
     */
     public function loadByClientsDisplayServer(
-        bool $clientsDisplayServer, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $clientsDisplayServer,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "clientsDisplayServer", 
-            $clientsDisplayServer, 
-            $limit, 
-            $orderBy, 
+            "clientsDisplayServer",
+            $clientsDisplayServer,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -798,17 +776,23 @@ class SlconfigSet extends CollectionSet
         return $this->loadIndexes("clientsDisplayServer", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueOwnerAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTimezones(): TimezonesSet
+    public function relatedTimezones(?array $limitFields=null): TimezonesSet
     {
         $ids = $this->uniqueDisplayTimezoneLinks();
         $collection = new TimezonesSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

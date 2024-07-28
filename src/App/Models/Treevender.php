@@ -101,10 +101,13 @@ class Treevender extends genClass
             $hideSoldout
         );
     }
-    public function relatedTreevenderpackages(): TreevenderpackagesSet
+    public function relatedTreevenderpackages(?array $limitFields = null): TreevenderpackagesSet
     {
         $ids = [$this->getId()];
         $collection = new TreevenderpackagesSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromTreevenderLinks($ids);
         return $collection;
     }

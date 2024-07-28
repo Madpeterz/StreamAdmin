@@ -41,10 +41,13 @@ class Servertypes extends genClass
             $name
         );
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = [$this->getId()];
         $collection = new PackageSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromServertypeLinks($ids);
         return $collection;
     }

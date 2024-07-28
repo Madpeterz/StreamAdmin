@@ -63,24 +63,33 @@ class Noticenotecard extends genClass
             $missing
         );
     }
-    public function relatedNotecardmail(): NotecardmailSet
+    public function relatedNotecardmail(?array $limitFields = null): NotecardmailSet
     {
         $ids = [$this->getId()];
         $collection = new NotecardmailSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticenotecardLinks($ids);
         return $collection;
     }
-    public function relatedNotice(): NoticeSet
+    public function relatedNotice(?array $limitFields = null): NoticeSet
     {
         $ids = [$this->getId()];
         $collection = new NoticeSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeNotecardLinks($ids);
         return $collection;
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = [$this->getId()];
         $collection = new PackageSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromWelcomeNotecardLinks($ids);
         return $collection;
     }

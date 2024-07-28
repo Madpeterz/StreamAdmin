@@ -184,31 +184,43 @@ class Notice extends genClass
             $noticeNotecardLink
         );
     }
-    public function relatedNotecard(): NotecardSet
+    public function relatedNotecard(?array $limitFields = null): NotecardSet
     {
         $ids = [$this->getId()];
         $collection = new NotecardSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }
-    public function relatedNoticenotecard(): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields = null): NoticenotecardSet
     {
         $ids = [$this->getNoticeNotecardLink()];
         $collection = new NoticenotecardSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = [$this->getId()];
         $collection = new RentalSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }
-    public function relatedRentalnoticeptout(): RentalnoticeptoutSet
+    public function relatedRentalnoticeptout(?array $limitFields = null): RentalnoticeptoutSet
     {
         $ids = [$this->getId()];
         $collection = new RentalnoticeptoutSet();
+        if ($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }

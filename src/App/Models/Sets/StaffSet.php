@@ -134,17 +134,16 @@ class StaffSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -159,17 +158,16 @@ class StaffSet extends CollectionSet
      * loadByUsername
     */
     public function loadByUsername(
-        string $username, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $username,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "username", 
-            $username, 
-            $limit, 
-            $orderBy, 
+            "username",
+            $username,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -184,17 +182,16 @@ class StaffSet extends CollectionSet
      * loadByEmailResetCode
     */
     public function loadByEmailResetCode(
-        string $emailResetCode, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $emailResetCode,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "emailResetCode", 
-            $emailResetCode, 
-            $limit, 
-            $orderBy, 
+            "emailResetCode",
+            $emailResetCode,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -209,17 +206,16 @@ class StaffSet extends CollectionSet
      * loadByEmailResetExpires
     */
     public function loadByEmailResetExpires(
-        int $emailResetExpires, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $emailResetExpires,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "emailResetExpires", 
-            $emailResetExpires, 
-            $limit, 
-            $orderBy, 
+            "emailResetExpires",
+            $emailResetExpires,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -234,17 +230,16 @@ class StaffSet extends CollectionSet
      * loadByAvatarLink
     */
     public function loadByAvatarLink(
-        int $avatarLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $avatarLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "avatarLink", 
-            $avatarLink, 
-            $limit, 
-            $orderBy, 
+            "avatarLink",
+            $avatarLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -259,17 +254,16 @@ class StaffSet extends CollectionSet
      * loadByPhash
     */
     public function loadByPhash(
-        string $phash, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $phash,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "phash", 
-            $phash, 
-            $limit, 
-            $orderBy, 
+            "phash",
+            $phash,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -284,17 +278,16 @@ class StaffSet extends CollectionSet
      * loadByLhash
     */
     public function loadByLhash(
-        string $lhash, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $lhash,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "lhash", 
-            $lhash, 
-            $limit, 
-            $orderBy, 
+            "lhash",
+            $lhash,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -309,17 +302,16 @@ class StaffSet extends CollectionSet
      * loadByPsalt
     */
     public function loadByPsalt(
-        string $psalt, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $psalt,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "psalt", 
-            $psalt, 
-            $limit, 
-            $orderBy, 
+            "psalt",
+            $psalt,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -334,17 +326,16 @@ class StaffSet extends CollectionSet
      * loadByOwnerLevel
     */
     public function loadByOwnerLevel(
-        bool $ownerLevel, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $ownerLevel,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "ownerLevel", 
-            $ownerLevel, 
-            $limit, 
-            $orderBy, 
+            "ownerLevel",
+            $ownerLevel,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -356,10 +347,13 @@ class StaffSet extends CollectionSet
         return $this->loadIndexes("ownerLevel", $values);
     }
     // Related loaders
-    public function relatedAvatar(): AvatarSet
+    public function relatedAvatar(?array $limitFields=null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

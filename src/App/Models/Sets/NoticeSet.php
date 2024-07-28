@@ -134,17 +134,16 @@ class NoticeSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -159,17 +158,16 @@ class NoticeSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -184,17 +182,16 @@ class NoticeSet extends CollectionSet
      * loadByImMessage
     */
     public function loadByImMessage(
-        string $imMessage, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $imMessage,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "imMessage", 
-            $imMessage, 
-            $limit, 
-            $orderBy, 
+            "imMessage",
+            $imMessage,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -209,17 +206,16 @@ class NoticeSet extends CollectionSet
      * loadBySendObjectIM
     */
     public function loadBySendObjectIM(
-        bool $sendObjectIM, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $sendObjectIM,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "sendObjectIM", 
-            $sendObjectIM, 
-            $limit, 
-            $orderBy, 
+            "sendObjectIM",
+            $sendObjectIM,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -234,17 +230,16 @@ class NoticeSet extends CollectionSet
      * loadByUseBot
     */
     public function loadByUseBot(
-        bool $useBot, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $useBot,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "useBot", 
-            $useBot, 
-            $limit, 
-            $orderBy, 
+            "useBot",
+            $useBot,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -259,17 +254,16 @@ class NoticeSet extends CollectionSet
      * loadBySendNotecard
     */
     public function loadBySendNotecard(
-        bool $sendNotecard, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $sendNotecard,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "sendNotecard", 
-            $sendNotecard, 
-            $limit, 
-            $orderBy, 
+            "sendNotecard",
+            $sendNotecard,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -284,17 +278,16 @@ class NoticeSet extends CollectionSet
      * loadByNotecardDetail
     */
     public function loadByNotecardDetail(
-        string $notecardDetail, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $notecardDetail,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "notecardDetail", 
-            $notecardDetail, 
-            $limit, 
-            $orderBy, 
+            "notecardDetail",
+            $notecardDetail,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -309,17 +302,16 @@ class NoticeSet extends CollectionSet
      * loadByHoursRemaining
     */
     public function loadByHoursRemaining(
-        int $hoursRemaining, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $hoursRemaining,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "hoursRemaining", 
-            $hoursRemaining, 
-            $limit, 
-            $orderBy, 
+            "hoursRemaining",
+            $hoursRemaining,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -334,17 +326,16 @@ class NoticeSet extends CollectionSet
      * loadByNoticeNotecardLink
     */
     public function loadByNoticeNotecardLink(
-        int $noticeNotecardLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $noticeNotecardLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "noticeNotecardLink", 
-            $noticeNotecardLink, 
-            $limit, 
-            $orderBy, 
+            "noticeNotecardLink",
+            $noticeNotecardLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -356,31 +347,43 @@ class NoticeSet extends CollectionSet
         return $this->loadIndexes("noticeNotecardLink", $values);
     }
     // Related loaders
-    public function relatedNotecard(): NotecardSet
+    public function relatedNotecard(?array $limitFields=null): NotecardSet
     {
         $ids = $this->uniqueIds();
         $collection = new NotecardSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }
-    public function relatedNoticenotecard(): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields=null): NoticenotecardSet
     {
         $ids = $this->uniqueNoticeNotecardLinks();
         $collection = new NoticenotecardSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRental(): RentalSet
+    public function relatedRental(?array $limitFields=null): RentalSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }
-    public function relatedRentalnoticeptout(): RentalnoticeptoutSet
+    public function relatedRentalnoticeptout(?array $limitFields=null): RentalnoticeptoutSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalnoticeptoutSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }

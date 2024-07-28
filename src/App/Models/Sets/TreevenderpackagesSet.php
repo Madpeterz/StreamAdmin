@@ -80,17 +80,16 @@ class TreevenderpackagesSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -105,17 +104,16 @@ class TreevenderpackagesSet extends CollectionSet
      * loadByTreevenderLink
     */
     public function loadByTreevenderLink(
-        int $treevenderLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $treevenderLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "treevenderLink", 
-            $treevenderLink, 
-            $limit, 
-            $orderBy, 
+            "treevenderLink",
+            $treevenderLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -130,17 +128,16 @@ class TreevenderpackagesSet extends CollectionSet
      * loadByPackageLink
     */
     public function loadByPackageLink(
-        int $packageLink, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $packageLink,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "packageLink", 
-            $packageLink, 
-            $limit, 
-            $orderBy, 
+            "packageLink",
+            $packageLink,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -152,17 +149,23 @@ class TreevenderpackagesSet extends CollectionSet
         return $this->loadIndexes("packageLink", $values);
     }
     // Related loaders
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields=null): PackageSet
     {
         $ids = $this->uniquePackageLinks();
         $collection = new PackageSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTreevender(): TreevenderSet
+    public function relatedTreevender(?array $limitFields=null): TreevenderSet
     {
         $ids = $this->uniqueTreevenderLinks();
         $collection = new TreevenderSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromIds($ids);
         return $collection;
     }

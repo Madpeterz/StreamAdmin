@@ -80,17 +80,16 @@ class ServerSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -105,17 +104,16 @@ class ServerSet extends CollectionSet
      * loadByDomain
     */
     public function loadByDomain(
-        string $domain, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $domain,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "domain", 
-            $domain, 
-            $limit, 
-            $orderBy, 
+            "domain",
+            $domain,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -130,17 +128,16 @@ class ServerSet extends CollectionSet
      * loadByControlPanelURL
     */
     public function loadByControlPanelURL(
-        string $controlPanelURL, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $controlPanelURL,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "controlPanelURL", 
-            $controlPanelURL, 
-            $limit, 
-            $orderBy, 
+            "controlPanelURL",
+            $controlPanelURL,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -152,10 +149,13 @@ class ServerSet extends CollectionSet
         return $this->loadIndexes("controlPanelURL", $values);
     }
     // Related loaders
-    public function relatedStream(): StreamSet
+    public function relatedStream(?array $limitFields=null): StreamSet
     {
         $ids = $this->uniqueIds();
         $collection = new StreamSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromServerLinks($ids);
         return $collection;
     }

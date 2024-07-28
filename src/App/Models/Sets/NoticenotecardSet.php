@@ -80,17 +80,16 @@ class NoticenotecardSet extends CollectionSet
      * loadById
     */
     public function loadById(
-        int $id, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        int $id,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "id", 
-            $id, 
-            $limit, 
-            $orderBy, 
+            "id",
+            $id,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -105,17 +104,16 @@ class NoticenotecardSet extends CollectionSet
      * loadByName
     */
     public function loadByName(
-        string $name, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        string $name,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "name", 
-            $name, 
-            $limit, 
-            $orderBy, 
+            "name",
+            $name,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -130,17 +128,16 @@ class NoticenotecardSet extends CollectionSet
      * loadByMissing
     */
     public function loadByMissing(
-        bool $missing, 
-        int $limit = 0, 
-        string $orderBy = "id", 
+        bool $missing,
+        int $limit = 0,
+        string $orderBy = "id",
         string $orderDir = "DESC"
-    ): SetsLoadReply
-    {
+    ): SetsLoadReply {
         return $this->loadOnField(
-            "missing", 
-            $missing, 
-            $limit, 
-            $orderBy, 
+            "missing",
+            $missing,
+            $limit,
+            $orderBy,
             $orderDir
         );
     }
@@ -152,24 +149,33 @@ class NoticenotecardSet extends CollectionSet
         return $this->loadIndexes("missing", $values);
     }
     // Related loaders
-    public function relatedNotecardmail(): NotecardmailSet
+    public function relatedNotecardmail(?array $limitFields=null): NotecardmailSet
     {
         $ids = $this->uniqueIds();
         $collection = new NotecardmailSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticenotecardLinks($ids);
         return $collection;
     }
-    public function relatedNotice(): NoticeSet
+    public function relatedNotice(?array $limitFields=null): NoticeSet
     {
         $ids = $this->uniqueIds();
         $collection = new NoticeSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromNoticeNotecardLinks($ids);
         return $collection;
     }
-    public function relatedPackage(): PackageSet
+    public function relatedPackage(?array $limitFields=null): PackageSet
     {
         $ids = $this->uniqueIds();
         $collection = new PackageSet();
+        if($limitFields !== null) {
+            $collection->limitFields($limitFields);
+        }
         $collection->loadFromWelcomeNotecardLinks($ids);
         return $collection;
     }
