@@ -70,3 +70,5 @@ ALTER TABLE `auditlog`
 
 ALTER TABLE `auditlog`
   ADD CONSTRAINT `auditlog_staff_inuse` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION;
+
+  ALTER TABLE `objects` ADD UNIQUE(`objectUUID`);
