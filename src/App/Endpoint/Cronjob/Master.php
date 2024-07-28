@@ -64,7 +64,7 @@ abstract class Master extends ControlAjax
     protected function doTask(): bool
     {
         $this->taskClass->process();
-        return true;
+        return $this->taskClass->getOutputObject()->getSwapTagBool("status");
     }
 
     protected function cronLoop(): void
@@ -77,6 +77,7 @@ abstract class Master extends ControlAjax
             $this->ticks++;
             $this->tickTimes[] = ($startLoop - $this->startUnix);
             if ($this->doTask() == false) {
+                $this->output = $this->taskClass->getOutputObject();
                 $this->fastExit = true;
             }
             if ($this->save() == false) {
@@ -114,18 +115,22 @@ abstract class Master extends ControlAjax
     protected function save(): bool
     {
         $cacheok = true;
+        $redisstatus = "";
         if ($this->siteConfig->getCacheEnabled() == true) {
+            $redisstatus = json_encode($this->siteConfig->getCacheWorker()->getDriver()->getStats());
             $cacheok = $this->siteConfig->getCacheWorker()->save();
         }
         if ($cacheok == false) {
             $this->setSwapTag("save-error", $this->siteConfig->getCacheWorker()->getLastErrorBasic());
             return false;
         }
+        $sqlstatus = json_encode($this->siteConfig->getSQL()->getSQLstats());
         $sqlok = $this->siteConfig->getSQL()->sqlSave(false);
         if ($sqlok == false) {
             $this->setSwapTag("save-error", $this->siteConfig->getSQL()->getLastErrorBasic());
             return false;
         }
+        $this->setSwapTag("save-error", "no error: " . json_encode(["redis" => $redisstatus, "sql" => $sqlstatus]));
         return true;
     }
     protected ObjectHelper $objectHelper;
