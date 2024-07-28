@@ -43,6 +43,23 @@ class CronTab extends ConfigEnabled
         $_POST["objecttype"] = "cron";
         $_POST["mode"] = "cron";
         $_POST["objectname"] = $options["t"];
+        $_POST["unixtime"] = time();
+        $required_sl = [
+            "Tasks",
+            $options["t"],
+            $_POST["unixtime"],
+            $_POST["version"],
+            $_POST["mode"],
+            $_POST["objectuuid"],
+            $_POST["regionname"],
+            $_POST["ownerkey"],
+            $_POST["ownername"],
+            $_POST["pos"],
+            $_POST["objectname"],
+            $_POST["objecttype"],
+            $this->siteConfig->getSlConfig()->getSlLinkCode(),
+        ];
+        $_POST["hash"] = sha1(implode("", $required_sl));
         sleep($delay);
         $this->loadingModule = "Tasks";
         $this->loadingArea = $options["t"];
