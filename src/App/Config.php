@@ -14,15 +14,12 @@ use YAPF\Bootstrap\ConfigBox\BootstrapConfigBox;
 
 class Config extends BootstrapConfigBox
 {
-    protected function loadFromEnv(): void
+    protected function loadURL(string $process = null): void
     {
-        $this->setFlag("SITE_CACHE_ENABLED", false);
-        $this->setFlag("SITE_CACHE_REDIS_HOST", "localhost");
+        parent::loadURL($process);
         $this->setFlag("SITE_NAME", "Streamadmin");
         $this->setFlag("SITE_URL", "https://dev.blackatom.win/");
-        parent::loadFromEnv();
     }
-
     public function run(): void
     {
         $timeszone = new Timezones();
@@ -44,39 +41,6 @@ class Config extends BootstrapConfigBox
                 . $this->slConfig->getLastErrorBasic());
         }
         return $this->slConfig;
-    }
-
-
-    public function setupCacheTables(): void
-    {
-        if ($this->getCacheWorker() == null) {
-            return;
-        }
-        $this->getCacheWorker()->addTableToCache("banlist", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("botconfig", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("noticenotecard", 120, true);
-        $this->getCacheWorker()->addTableToCache("notice", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("package", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("region", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("reseller", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("server", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("servertypes", 120, true);
-        $this->getCacheWorker()->addTableToCache("slconfig", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("template", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("textureconfig", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("timezones", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("treevender", 120, true, true);
-        $this->getCacheWorker()->addTableToCache("treevenderpackages", 120, true, true);
-    }
-
-    public function getRedisHost(): ?string
-    {
-        return $this->getFlag("SITE_CACHE_REDIS_HOST");
-    }
-
-    public function getCacheEnabled(): bool
-    {
-        return boolval($this->getFlag("SITE_CACHE_ENABLED"));
     }
 
     public function forceProcessURI(string $uri): void

@@ -23,24 +23,24 @@ class ForcedActions extends Mytest
     public function test_ShowDashboard()
     {
         global $system;
-        $this->assertSame(true, $system->getSession()->getLoggedIn(), "Expected to be logged in but im not :/ ".$system->getLastErrorBasic());
+        $this->assertSame(true, $system->getSession()->getLoggedIn(), "Expected to be logged in but im not :/ " . $system->getLastErrorBasic());
         $dashboard = new Dashboard();
         $dashboard->process();
         $statuscheck = $dashboard->getOutputObject()->getSwapTagString("page_content");
         $missing_dashboard = "Missing dashboard element";
-        $this->assertStringContainsString("System health",$statuscheck,$missing_dashboard);
-        $this->assertStringContainsString("servers",$statuscheck,$missing_dashboard);
-        $this->assertStringContainsString("Clients",$statuscheck,$missing_dashboard);
-        $this->assertStringContainsString("Streams",$statuscheck,$missing_dashboard);
-        $this->assertStringContainsString("Version",$statuscheck,$missing_dashboard);
+        $this->assertStringContainsString("System health", $statuscheck, $missing_dashboard);
+        $this->assertStringContainsString("servers", $statuscheck, $missing_dashboard);
+        $this->assertStringContainsString("Clients", $statuscheck, $missing_dashboard);
+        $this->assertStringContainsString("Streams", $statuscheck, $missing_dashboard);
+        $this->assertStringContainsString("Version", $statuscheck, $missing_dashboard);
 
         $missing_menu = "Missing menu element";
         $tags = array_keys($dashboard->getOutputObject()->getAllTags());
-        $this->assertSame(20,count($tags),"expected tags not found: ".json_encode($tags));
+        $this->assertSame(19, count($tags), "expected tags not found: " . json_encode($tags));
         $statuscheck = $dashboard->getOutputObject()->getSwapTagString("html_menu");
-        $this->assertStringContainsString("Dashboard",$statuscheck,$missing_menu);
-        $this->assertStringContainsString("Streams",$statuscheck,$missing_menu);
-        $this->assertStringContainsString("Config",$statuscheck,$missing_menu);
+        $this->assertStringContainsString("Dashboard", $statuscheck, $missing_menu);
+        $this->assertStringContainsString("Streams", $statuscheck, $missing_menu);
+        $this->assertStringContainsString("Config", $statuscheck, $missing_menu);
     }
 
     public function test_ShowPackages()
@@ -49,10 +49,10 @@ class ForcedActions extends Mytest
         $PackagesList->process();
         $statuscheck = $PackagesList->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing package list element";
-        $this->assertStringContainsString("<table",$statuscheck,$missing);
-        $this->assertStringContainsString("Days",$statuscheck,$missing);
-        $this->assertStringContainsString("Kbps",$statuscheck,$missing);
-        $this->assertStringContainsString("Listeners",$statuscheck,$missing);
+        $this->assertStringContainsString("<table", $statuscheck, $missing);
+        $this->assertStringContainsString("Days", $statuscheck, $missing);
+        $this->assertStringContainsString("Kbps", $statuscheck, $missing);
+        $this->assertStringContainsString("Listeners", $statuscheck, $missing);
     }
 
     public function test_ShowPackagesCreateForm()
@@ -61,11 +61,11 @@ class ForcedActions extends Mytest
         $PackageCreateForm->process();
         $statuscheck = $PackageCreateForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing package create form element";
-        $this->assertStringContainsString("Terms",$statuscheck,$missing);
-        $this->assertStringContainsString("Basics",$statuscheck,$missing);
-        $this->assertStringContainsString("Textures",$statuscheck,$missing);
-        $this->assertStringContainsString("Auto DJ",$statuscheck,$missing);
-        $this->assertStringContainsString("Create",$statuscheck,$missing);
+        $this->assertStringContainsString("Terms", $statuscheck, $missing);
+        $this->assertStringContainsString("Basics", $statuscheck, $missing);
+        $this->assertStringContainsString("Textures", $statuscheck, $missing);
+        $this->assertStringContainsString("Auto DJ", $statuscheck, $missing);
+        $this->assertStringContainsString("Create", $statuscheck, $missing);
     }
 
     public function test_CreatePackage()
@@ -89,9 +89,8 @@ class ForcedActions extends Mytest
         $_POST["setupNotecardLink"] = 1;
         $PackageCreateHandler->process();
         $statuscheck = $PackageCreateHandler->getOutputObject();
-        $this->assertStringContainsString("Package created",$statuscheck->getSwapTagString("message"));
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
-        
+        $this->assertStringContainsString("Package created", $statuscheck->getSwapTagString("message"));
+        $this->assertSame(true, $statuscheck->getSwapTagBool("status"), "Status check failed");
     }
 
     public function test_ShowServers()
@@ -100,8 +99,8 @@ class ForcedActions extends Mytest
         $ServersList->process();
         $statuscheck = $ServersList->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing servers list element";
-        $this->assertStringContainsString("<table",$statuscheck,$missing);
-        $this->assertStringContainsString("Domain",$statuscheck,$missing);
+        $this->assertStringContainsString("<table", $statuscheck, $missing);
+        $this->assertStringContainsString("Domain", $statuscheck, $missing);
     }
 
     public function test_ShowServersCreateForm()
@@ -110,9 +109,9 @@ class ForcedActions extends Mytest
         $ServerCreateForm->process();
         $statuscheck = $ServerCreateForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing server create form element";
-        $this->assertStringContainsString("Basic config",$statuscheck,$missing);
-        $this->assertStringContainsString("Domain",$statuscheck,$missing);
-        $this->assertStringContainsString("Create",$statuscheck,$missing);
+        $this->assertStringContainsString("Basic config", $statuscheck, $missing);
+        $this->assertStringContainsString("Domain", $statuscheck, $missing);
+        $this->assertStringContainsString("Create", $statuscheck, $missing);
     }
 
     public function test_CreateServer()
@@ -123,8 +122,8 @@ class ForcedActions extends Mytest
         $_POST["controlPanelURL"] = "http://notused.com";
         $serverCreateHandler->process();
         $statuscheck = $serverCreateHandler->getOutputObject();
-        $this->assertStringContainsString("Server created",$statuscheck->getSwapTagString("message"));
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        $this->assertStringContainsString("Server created", $statuscheck->getSwapTagString("message"));
+        $this->assertSame(true, $statuscheck->getSwapTagBool("status"), "Status check failed");
     }
 
     public function test_ShowStreamsPackageSelect()
@@ -133,10 +132,10 @@ class ForcedActions extends Mytest
         $StreamPackageSelect->process();
         $statuscheck = $StreamPackageSelect->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing streams packages list element";
-        $this->assertStringContainsString("<table",$statuscheck,$missing);
-        $this->assertStringContainsString("Name",$statuscheck,$missing);
-        $this->assertStringContainsString("Sold",$statuscheck,$missing);
-        $this->assertStringContainsString("Ready",$statuscheck,$missing);
+        $this->assertStringContainsString("<table", $statuscheck, $missing);
+        $this->assertStringContainsString("Name", $statuscheck, $missing);
+        $this->assertStringContainsString("Sold", $statuscheck, $missing);
+        $this->assertStringContainsString("Ready", $statuscheck, $missing);
     }
 
     public function test_ShowStreamsCreateForm()
@@ -145,8 +144,8 @@ class ForcedActions extends Mytest
         $StreamCreateForm->process();
         $statuscheck = $StreamCreateForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing stream create form element";
-        $this->assertStringContainsString("Basics",$statuscheck,$missing);
-        $this->assertStringContainsString("Config",$statuscheck,$missing);
+        $this->assertStringContainsString("Basics", $statuscheck, $missing);
+        $this->assertStringContainsString("Config", $statuscheck, $missing);
     }
 
     public function test_CreateStream()
@@ -158,13 +157,13 @@ class ForcedActions extends Mytest
         $_POST["serverLink"] = 1;
         $_POST["mountpoint"] = "/live";
         $_POST["adminUsername"] = "UnitTesting";
-        $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
-        $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
+        $_POST["adminPassword"] = substr(md5(microtime() . "a"), 0, 8);
+        $_POST["djPassword"] = substr(md5(microtime() . "b"), 0, 8);
         $_POST["needswork"] = 0;
         $streamCreateHandler->process();
         $statuscheck = $streamCreateHandler->getOutputObject();
-        $this->assertStringContainsString("Stream created",$statuscheck->getSwapTagString("message"));
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        $this->assertStringContainsString("Stream created", $statuscheck->getSwapTagString("message"));
+        $this->assertSame(true, $statuscheck->getSwapTagBool("status"), "Status check failed");
     }
 
     public function test_clientListByNoticeLevel()
@@ -173,8 +172,8 @@ class ForcedActions extends Mytest
         $clientListByNoticeLevel->process();
         $statuscheck = $clientListByNoticeLevel->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing clients list element";
-        $this->assertStringContainsString("<table",$statuscheck,$missing);
-        $this->assertStringContainsString("Renewals",$statuscheck,$missing);
+        $this->assertStringContainsString("<table", $statuscheck, $missing);
+        $this->assertStringContainsString("Renewals", $statuscheck, $missing);
     }
 
     public function test_ShowClientCreateForm()
@@ -183,9 +182,9 @@ class ForcedActions extends Mytest
         $ClientCreateForm->process();
         $statuscheck = $ClientCreateForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client create element";
-        $this->assertStringContainsString("Basics",$statuscheck,$missing);
-        $this->assertStringContainsString("Find avatar",$statuscheck,$missing);
-        $this->assertStringContainsString("Create",$statuscheck,$missing);
+        $this->assertStringContainsString("Basics", $statuscheck, $missing);
+        $this->assertStringContainsString("Find avatar", $statuscheck, $missing);
+        $this->assertStringContainsString("Create", $statuscheck, $missing);
     }
 
     public function test_CreateClient()
@@ -197,8 +196,7 @@ class ForcedActions extends Mytest
         $_POST["daysremaining"] = 7;
         $CreateCleintHandler->process();
         $statuscheck = $CreateCleintHandler->getOutputObject();
-        $this->assertStringContainsString("Client created",$statuscheck->getSwapTagString("message"));
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        $this->assertStringContainsString("Client created", $statuscheck->getSwapTagString("message"));
+        $this->assertSame(true, $statuscheck->getSwapTagBool("status"), "Status check failed");
     }
-
 }

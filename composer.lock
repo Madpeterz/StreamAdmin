@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ae03b3fd1e15d2eb3b670470c8900f0",
+    "content-hash": "829b579a6b635342acb32c7598e844e8",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -394,22 +394,22 @@
         },
         {
             "name": "madpeterz/yapfbootstrap",
-            "version": "3.0.7",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/YAPFbootstrap.git",
-                "reference": "ac9c519887c7415f2dfb26ffdc64ca7477be52cb"
+                "reference": "6a9820c430a56b005c5d4e2110e1c638d8deded2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/YAPFbootstrap/zipball/ac9c519887c7415f2dfb26ffdc64ca7477be52cb",
-                "reference": "ac9c519887c7415f2dfb26ffdc64ca7477be52cb",
+                "url": "https://api.github.com/repos/Madpeterz/YAPFbootstrap/zipball/6a9820c430a56b005c5d4e2110e1c638d8deded2",
+                "reference": "6a9820c430a56b005c5d4e2110e1c638d8deded2",
                 "shasum": ""
             },
             "require": {
                 "madpeterz/yapfinputfilter": "^4.0",
-                "madpeterz/yetonemorephpframework": "^7.0",
-                "php": ">=8.1.4"
+                "madpeterz/yetonemorephpframework": "^8.0",
+                "php": ">=8.2.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.6"
@@ -433,9 +433,9 @@
             "description": "YAPF - Bootstrap 5 workspace",
             "support": {
                 "issues": "https://github.com/Madpeterz/YAPFbootstrap/issues",
-                "source": "https://github.com/Madpeterz/YAPFbootstrap/tree/3.0.7"
+                "source": "https://github.com/Madpeterz/YAPFbootstrap/tree/5.0.1"
             },
-            "time": "2023-05-04T12:27:22+00:00"
+            "time": "2024-07-28T19:04:23+00:00"
         },
         {
             "name": "madpeterz/yapfcore",
@@ -532,16 +532,16 @@
         },
         {
             "name": "madpeterz/yetonemorephpframework",
-            "version": "7.3.7",
+            "version": "8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-                "reference": "d8b29f16ce2c5ed26f162a0b3a1ece6584c11e48"
+                "reference": "c6e1aedfc93910995f1798abcdff6935a81980d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/d8b29f16ce2c5ed26f162a0b3a1ece6584c11e48",
-                "reference": "d8b29f16ce2c5ed26f162a0b3a1ece6584c11e48",
+                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/c6e1aedfc93910995f1798abcdff6935a81980d0",
+                "reference": "c6e1aedfc93910995f1798abcdff6935a81980d0",
                 "shasum": ""
             },
             "require": {
@@ -575,7 +575,7 @@
                 "issues": "https://github.com/Madpeterz/yetonemorephpframework/issues",
                 "source": "https://github.com/Madpeterz/yetonemorephpframework"
             },
-            "time": "2024-04-19T12:49:17+00:00"
+            "time": "2024-07-28T18:30:04+00:00"
         },
         {
             "name": "maennchen/zipstream-php",

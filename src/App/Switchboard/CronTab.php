@@ -113,13 +113,9 @@ class CronTab extends ConfigEnabled
         }
         $this->loadedObject->getoutput();
         $statussql = $this->loadedObject->getOutputObject()->getSwapTagBool("status");
-
-        if (($statussql === false) || ($statussql === null)) {
-            $this->config->getCacheWorker()?->shutdown(false);
+        if ($statussql === false) {
             $this->config->getSQL()->flagError();
-            return;
         }
-        $this->config->getCacheWorker()?->shutdown(true);
         $this->config->shutdown();
     }
 }
