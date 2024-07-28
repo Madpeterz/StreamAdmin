@@ -41,24 +41,32 @@ foreach ($_SERVER["argv"] as $argKey => $argValue) {
     }
     $opts[$key] = $value;
 }
-$delay = intval($opts["d"]);
-if (($delay < 1) || ($delay > 55)) {
+if (array_key_exists("d", $opts) == false) {
     print "d value not set\n";
     die();
 }
+if (array_key_exists("t", $opts) == false) {
+    print "d value not set\n";
+    die();
+}
+$delay = intval($opts["d"]);
+if (($delay < 1) || ($delay > 55)) {
+    print "d value not in a vaild range\n";
+    die();
+}
 $objectmode = "";
-if ($options["t"] == "Botcommandq") {
+if ($opts["t"] == "Botcommandq") {
     $objecttaskid = 1;
     $objectmode = "botcommandqserver";
-} elseif ($options["t"] == "Detailsserver") {
+} elseif ($opts["t"] == "Detailsserver") {
     $objecttaskid = 2;
     $objectmode = "detailsserver";
-} elseif ($options["t"] == "Dynamicnotecards") {
+} elseif ($opts["t"] == "Dynamicnotecards") {
     $objecttaskid = 3;
     $objectmode = "notecardsserver";
 }
 if ($objectmode == "") {
-    print "t value not set\n";
+    print "t value not supported\n";
     die();
 }
 print "\n";
