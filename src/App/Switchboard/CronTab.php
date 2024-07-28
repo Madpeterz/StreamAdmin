@@ -42,7 +42,7 @@ class CronTab extends ConfigEnabled
         $_POST["regionname"] = "cron";
         $_POST["objecttype"] = "cron";
         $_POST["mode"] = "cron";
-        $_POSt["objectname"] = $options["t"];
+        $_POST["objectname"] = $options["t"];
         sleep($delay);
         $this->loadingModule = "Tasks";
         $this->loadingArea = $options["t"];
