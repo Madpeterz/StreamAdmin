@@ -23,13 +23,19 @@ class CronTab extends ConfigEnabled
             return false;
         }
         $objecttaskid = 0;
+        $objectmode = "";
         if ($options["t"] == "Botcommandq") {
             $objecttaskid = 1;
+            $objectmode = "botcommandqserver";
         } elseif ($options["t"] == "Detailsserver") {
             $objecttaskid = 2;
+            $objectmode = "detailsserver";
         } elseif ($options["t"] == "Dynamicnotecards") {
             $objecttaskid = 3;
+            $objectmode = "notecardsserver";
         }
+
+
         $ownerAv = new Avatar();
         $ownerAv->loadId($this->siteConfig->getSlConfig()->getOwnerAvatarLink());
         if ($ownerAv->isLoaded() == false) {
@@ -41,8 +47,8 @@ class CronTab extends ConfigEnabled
         $_POST["ownerkey"] = $ownerAv->getAvatarUUID();
         $_POST["pos"] = "0,0,0";
         $_POST["regionname"] = "cron";
-        $_POST["objecttype"] = "cron";
-        $_POST["mode"] = "cron";
+        $_POST["objecttype"] = $objectmode;
+        $_POST["mode"] = $objectmode;
         $_POST["objectname"] = $options["t"];
         $_POST["unixtime"] = time();
         $required_sl = [
