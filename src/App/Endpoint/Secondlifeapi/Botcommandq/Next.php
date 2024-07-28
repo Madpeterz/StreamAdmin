@@ -143,11 +143,11 @@ class Next extends SecondlifeAjax
         $reply = $command->removeEntry();
         if ($reply->status == false) {
             $this->failed("Unable to remove command from the Q because:" . $reply->message);
-            return false;
+            return;
         }
         if ($reply->itemsRemoved != 1) {
             $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
-            return false;
+            return;
         }
         $this->setSwapTag("deleteCmd", json_encode([$reply->status, $reply->message, $reply->itemsRemoved]));
         $this->ok($jsonReply["reply"]);
@@ -164,11 +164,11 @@ class Next extends SecondlifeAjax
         $reply = $command->removeEntry();
         if ($reply->status == false) {
             $this->failed("Unable to remove command from the Q because:" . $reply->message);
-            return false;
+            return;
         }
         if ($reply->itemsRemoved != 1) {
             $this->failed("Unable to remove command from the Q (item check) because:" . $reply->message);
-            return false;
+            return;
         }
         $message = new Message();
         $message->setAvatarLink($bothelper->getBotAvatarLink());
