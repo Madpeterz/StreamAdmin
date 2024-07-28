@@ -7,21 +7,6 @@ use App\Config;
 
 #define("ERRORCONSOLE", "yes");
 #define("ERRORCONSOLEPRINT", "yes");
-
-if (defined("TESTING") == false) {
-    chdir(__DIR__);
-    if (defined("APPFOLDER") == false) {
-        define("APPFOLDER", "../App/");
-    }
-    include APPFOLDER . "../../vendor/autoload.php";
-    include APPFOLDER . "Framework/Functions.php";
-    set_time_limit(65);
-
-    global $system;
-    $system = new Config();
-    $system->run();
-}
-
 $opts = [];
 foreach ($_SERVER["argv"] as $argKey => $argValue) {
     $value = $argValue;
@@ -46,7 +31,7 @@ if (array_key_exists("d", $opts) == false) {
     die();
 }
 if (array_key_exists("t", $opts) == false) {
-    print "d value not set\n";
+    print "t value not set\n";
     die();
 }
 $delay = intval($opts["d"]);
@@ -72,5 +57,19 @@ if ($objectmode == "") {
 print "\n";
 print $objectmode . " waiting for " . $delay . " to trigger\n";
 sleep($delay);
+
+if (defined("TESTING") == false) {
+    chdir(__DIR__);
+    if (defined("APPFOLDER") == false) {
+        define("APPFOLDER", "../App/");
+    }
+    include APPFOLDER . "../../vendor/autoload.php";
+    include APPFOLDER . "Framework/Functions.php";
+    set_time_limit(65);
+
+    global $system;
+    $system = new Config();
+    $system->run();
+}
 new CronTab();
 print "\n";
