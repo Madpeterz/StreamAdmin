@@ -17,6 +17,6 @@ $GEN_SOLO_PATH = "../App/Models/";
 $GEN_SET_PATH = "../App/Models/Sets/";
 $GEN_TABLES_ARRAY = null;
 
-$GEN_DATABASES = ["streamadmin"];
+$GEN_DATABASES = ["test"];
 $GEN_SOLO_NS = "App\Models";
 $GEN_SET_NS = "App\Models\Sets";
