@@ -1,6 +1,0 @@
-MysqliEnabled -> 
-MysqliQuery ->
-MysqliChange ->
-MysqliProcess -> 
-MysqliWhere -> 
-MysqliFunctions
