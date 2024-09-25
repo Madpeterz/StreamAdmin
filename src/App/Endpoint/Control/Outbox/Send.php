@@ -4,74 +4,70 @@ namespace App\Endpoint\Control\Outbox;
 
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\BanlistSet;
-use App\R7\Set\NoticeSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
+use App\Framework\ViewAjax;
+use App\Template\ControlAjax;
 
-class Send extends ViewAjax
+class Send extends ControlAjax
 {
+    protected ?RentalSet $rental_set;
+    protected array $avatarids = [];
+    protected function loadData(): bool
+    {
+        $this->rental_set = new RentalSet();
+        $max_avatars = $this->input->post("max_avatars")->checkGrtThanEq(1)->asInt();
+        $source = $this->input->post("source")->asString();
+        $source_id = $this->input->post("source_id")->checkGrtThanEq(1)->asInt();
+        $this->avatarids = $this->input->post("avatarids")->asArray();
+        if (count($this->avatarids) > $max_avatars) {
+            $this->failed("To many avatars sent vs what was expected");
+            return false;
+        }
+        if ($source == "Notice") {
+            $this->rental_set->loadByNoticeLink($source_id);
+        } elseif ($source == "Server") {
+            $stream_set = new StreamSet();
+            $stream_set->loadByServerLink($source_id);
+            $this->rental_set = $stream_set->relatedRental();
+        } elseif ($source == "Package") {
+            $this->rental_set->loadByPackageLink($source_id);
+        } elseif ($source == "Selectedrental") {
+            $this->rental_set->loadById($source_id);
+        } elseif ($source == "Clients") {
+            $this->rental_set->loadAll();
+        }
+        if ($this->rental_set->getCount() == 0) {
+            $this->failed("No rentals found with selected source/id pair");
+            return false;
+        }
+        return true;
+    }
     public function process(): void
     {
-        $input_filter = new InputFilter();
-        $rental_set = new RentalSet();
-        $stream_set = new StreamSet();
-        $avatar_set = new AvatarSet();
-        $banlist_set = new BanlistSet();
-        $bot_helper = new BotHelper();
-        $swapables_helper = new SwapablesHelper();
-        $notice_set = new NoticeSet();
-        $server_set = new ServerSet();
-        $package_set = new PackageSet();
+        $message = $this->input->post("message")->asString();
+        $this->loadData();
 
-        $message = $input_filter->postFilter("message");
-        $max_avatars = $input_filter->postFilter("max_avatars", "integer");
-        $source = $input_filter->postFilter("source");
-        $source_id = $input_filter->postFilter("source_id", "integer");
-        $avatarids = $input_filter->postFilter("avatarids", "array");
-        if (count($avatarids) > $max_avatars) {
-            $this->failed("To many avatars sent vs what was expected");
-            return;
-        }
-        if ($source == "notice") {
-            $rental_set->loadOnField("noticeLink", $source_id);
-        } elseif ($source == "server") {
-            $stream_set->loadOnField("serverLink", $source_id);
-            $rental_set->loadByValues($stream_set->getAllIds(), "streamLink");
-        } elseif ($source == "package") {
-            $rental_set->loadOnField("packageLink", $source_id);
-        } elseif ($source == "selectedRental") {
-            $rental_set->loadOnField("id", $source_id);
-        } elseif ($source == "clients") {
-            $rental_set->loadAll();
-        }
-        if ($rental_set->getCount() == 0) {
-            $this->failed("No rentals found with selected source/id pair");
-            return;
-        }
-        $stream_set = new StreamSet();
-        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
-        $avatar_set->loadByValues($rental_set->getUniqueArray("avatarLink"));
-        $banlist_set->loadByValues($rental_set->getUniqueArray("avatarLink"), "avatarLink");
-        $banned_ids = $banlist_set->getAllByField("avatarLink");
+        $stream_set = $this->rental_set->relatedStream();
+        $avatar_set = $this->rental_set->relatedAvatar();
+        $banlist_set = $avatar_set->relatedBanlist();
+        $banned_ids = $banlist_set->uniqueAvatarLinks();
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
             $this->failed("No avatars found to send to");
             return;
         }
-        $package_set->loadAll();
-        $server_set->loadAll();
-        $notice_set->loadAll();
+        $package_set = $stream_set->relatedPackage();
+        $server_set = $stream_set->relatedServer();
+
+        $bot_helper = new BotHelper();
+        $swapables_helper = new SwapablesHelper();
 
         $sent_counter = 0;
         $seen_avatars = [];
-        foreach ($rental_set as $rental) {
-            if (in_array($rental->getAvatarLink(), $avatarids) == false) {
+        $hadError = false;
+        foreach ($this->rental_set as $rental) {
+            if (in_array($rental->getAvatarLink(), $this->avatarids) == false) {
                 continue;
             }
             if (in_array($rental->getAvatarLink(), $seen_avatars) == true) {
@@ -93,10 +89,18 @@ class Send extends ViewAjax
                 $server,
                 $stream
             );
-            $bot_helper->sendMessage($avatar, $sendmessage, true);
+            $sendCreateStatus = $bot_helper->sendMessage($avatar, $sendmessage, true);
+            if ($sendCreateStatus->status == false) {
+                $hadError = true;
+                $this->failed($sendCreateStatus->message);
+                break;
+            }
             $sent_counter++;
         }
-        $this->ok(sprintf("Sent to %1\$s avatars", $sent_counter));
-        $this->setSwapTag("redirect", "outbox");
+        if ($hadError == true) {
+            return;
+        }
+        $this->redirectWithMessage(sprintf("Sent to %1\$s avatars", $sent_counter));
+        $this->createAuditLog(null, "send mail", "total avatars", $sent_counter);
     }
 }

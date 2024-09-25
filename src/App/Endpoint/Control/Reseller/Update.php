@@ -2,44 +2,43 @@
 
 namespace App\Endpoint\Control\Reseller;
 
-use App\R7\Model\Reseller;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Reseller;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $reseller = new Reseller();
 
-        $rate = $input->postInteger("rate");
-        $allowed = $input->postBool("allowed");
-        if ($allowed === null) {
-            $allowed = false;
-        }
-        if ($rate < 1) {
-            $this->failed("Rate must be 1 or more (use Allow to disable)");
+        $rate = $this->input->post("rate")->checkInRange(1, 100)->asInt();
+        if ($rate === null) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
-        if ($rate > 100) {
-            $this->failed("Rate must be 100 or less");
-            return;
-        }
+        $allowed = $this->input->post("allowed")->asBool();
         $this->setSwapTag("redirect", "reseller");
-        if ($reseller->loadID($this->page) == false) {
+        if ($reseller->loadID($this->siteConfig->getPage()) == false) {
             $this->failed("Unable to load reseller");
             return;
         }
+        $oldvalues = $reseller->objectToValueArray();
         $reseller->setRate($rate);
         $reseller->setAllowed($allowed);
         $update_status = $reseller->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed(
-                sprintf("Unable to update reseller: %1\$s", $update_status["message"])
+                sprintf("Unable to update reseller: %1\$s", $update_status->message)
             );
             return;
         }
-        $this->ok("Reseller updated");
+        $this->redirectWithMessage("Reseller updated");
+        $this->createMultiAudit(
+            $reseller->getId(),
+            $reseller->getFields(),
+            $oldvalues,
+            $reseller->objectToValueArray()
+        );
     }
 }

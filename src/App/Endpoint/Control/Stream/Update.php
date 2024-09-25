@@ -2,70 +2,40 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\MediaServer\Logic\ApiLogicUpdate;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Sets\StreamSet;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     public function process(): void
     {
+
+        $port = $this->input->post("port")->checkInRange(1, 99999)->asInt();
+        $packageLink = $this->input->post("packageLink")->checkGrtThanEq(1)->asInt();
+        $serverLink = $this->input->post("serverLink")->checkGrtThanEq(1)->asInt();
+        $mountpoint = $this->input->post("mountpoint")->asString();
+        $adminUsername = $this->input->post("adminUsername")->checkStringLength(3, 50)->asString();
+        $adminPassword = $this->input->post("adminPassword")->checkStringLength(4, 20)->asString();
+        $djPassword = $this->input->post("djPassword")->checkStringLength(4, 20)->asString();
+        $bits = [$port,$packageLink,$serverLink,$mountpoint,$adminUsername,$adminPassword,$djPassword];
+        if (in_array(null, $bits, true) == true) {
+            $this->failed($this->input->getWhyFailed());
+            return;
+        }
+
         $package = new Package();
-        $server = new Server();
-        $input = new InputFilter();
-
-        $port = $input->postInteger("port");
-        $packageLink = $input->postInteger("packageLink");
-        $serverLink = $input->postInteger("serverLink");
-        $mountpoint = $input->postString("mountpoint");
-        $adminUsername = $input->postString("adminUsername", 50, 3);
-        if ($adminUsername == null) {
-            $this->failed("Admin username failed:" . $input->getWhyFailed());
-            return;
-        }
-        $adminPassword = $input->postString("adminPassword", 20, 4);
-        if ($adminUsername == null) {
-            $this->failed("Admin password failed:" . $input->getWhyFailed());
-            return;
-        }
-        $djPassword = $input->postString("djPassword", 20, 4);
-        if ($adminUsername == null) {
-            $this->failed("DJ password failed:" . $input->getWhyFailed());
-            return;
-        }
-        $originalAdminUsername = $input->postString("originalAdminUsername", 50, 3);
-        if ($originalAdminUsername == null) {
-            $this->failed("Original admin username failed:" . $input->getWhyFailed());
-            return;
-        }
-        $apiConfigValue1 = $input->postString("apiConfigValue1");
-        $apiConfigValue2 = $input->postString("apiConfigValue2");
-        $apiConfigValue3 = $input->postString("apiConfigValue3");
-        $api_update = $input->postBool("api_update");
-
-        if ($port < 1) {
-            $this->failed("Port must be 1 or more");
-            return;
-        }
-        if ($port > 99999) {
-            $this->failed("Port must be 99999 or less");
-            return;
-        }
-        if ($package->loadID($packageLink) == false) {
+        $package->loadId($packageLink);
+        if ($package->isLoaded() == false) {
             $this->failed("Unable to find package");
-            return;
-        }
-        if ($server->loadID($serverLink) == false) {
-            $this->failed("Unable to find server");
             return;
         }
 
         $stream = new Stream();
-        if ($stream->loadByField("streamUid", $this->page) == false) {
+        if ($stream->loadByStreamUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find stream with that uid");
             return;
         }
@@ -76,25 +46,26 @@ class Update extends ViewAjax
             "types" => ["i","i"],
             "matches" => ["=","="],
         ];
-        $count_check = $this->sql->basicCountV2($stream->getTable(), $whereConfig);
+        $streamSet = new StreamSet();
+        $count_check = $streamSet->countInDB($whereConfig);
         $expected_count = 0;
         if ($stream->getPort() == $port) {
             if ($stream->getServerLink() == $serverLink) {
                 $expected_count = 1;
             }
         }
-        if ($count_check["status"] == false) {
+        if ($count_check->status == false) {
             $this->failed("Unable to check if there is a stream on that port already!");
             return;
         }
-        if ($count_check["count"] != $expected_count) {
+        if ($count_check->items != $expected_count) {
             $this->setSwapTag(
                 "message",
                 "There is already a stream on that port for the selected server!"
             );
             return;
         }
-
+        $oldvalues = $stream->objectToValueArray();
         $stream->setPackageLink($packageLink);
         $stream->setServerLink($serverLink);
         $stream->setPort($port);
@@ -103,49 +74,46 @@ class Update extends ViewAjax
         $stream->setAdminPassword($adminPassword);
         $stream->setDjPassword($djPassword);
         $stream->setMountpoint($mountpoint);
-        $stream->setOriginalAdminUsername($originalAdminUsername);
-        $stream->setApiConfigValue1($apiConfigValue1);
-        $stream->setApiConfigValue2($apiConfigValue2);
-        $stream->setApiConfigValue3($apiConfigValue3);
         $update_status = $stream->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed(
                 sprintf(
                     "Unable to update stream: %1\$s",
-                    $update_status["message"]
+                    $update_status->message
                 )
             );
             return;
         }
         if ($this->transferRentalPackage($stream, $package) == false) {
-            $this->failed("Unable to transfer rental to new package");
             return;
         }
-        if ($api_update == true) {
-            $apilogic = new ApiLogicUpdate();
-            $apilogic->setStream($stream);
-            $apilogic->setServer($server);
-            $reply = $apilogic->createNextApiRequest();
-            if ($reply["status"] == false) {
-                $this->failed("Bad reply: " . $reply["message"]);
-                return;
-            }
-        }
-        $this->ok("Stream updated");
-        $this->setSwapTag("redirect", "stream");
+        $this->redirectWithMessage("Stream updated");
+        $this->createMultiAudit(
+            $stream->getStreamUid(),
+            $stream->getFields(),
+            $oldvalues,
+            $stream->objectToValueArray()
+        );
     }
 
     protected function transferRentalPackage(Stream $stream, Package $package): bool
     {
         $rental = new Rental();
-        if ($rental->loadByStreamLink($stream->getId()) == null) {
+        if ($stream->getRentalLink() == null) {
             return true;
+        }
+        if ($rental->loadByStreamLink($stream->getId())->status == false) {
+            $this->failed("Unable to load rental to transfer");
+            return false;
         }
         if ($package->getId() == $rental->getPackageLink()) {
             return true;
         }
         $rental->setPackageLink($package->getId());
         $status = $rental->updateEntry();
-        return $status["status"];
+        if ($status->status == false) {
+            $this->failed("Issue updating rental package:" . $status->message);
+        }
+        return $status->status;
     }
 }

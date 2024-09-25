@@ -2,28 +2,28 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\R7\Model\Package;
-use App\Template\Form;
-use App\R7\Model\Treevender;
-use App\R7\Model\Treevenderpackages;
+use App\Models\Package;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Treevender;
+use App\Models\Treevenderpackages;
 
 class Removepackage extends View
 {
     public function process(): void
     {
         $treevender_packages = new Treevenderpackages();
-        if ($treevender_packages->loadID($this->page) == false) {
+        if ($treevender_packages->loadID($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find linked treevender package&bubbletype=warning");
             return;
         }
         $treevender = new Treevender();
-        if ($treevender->loadID($treevender_packages->getTreevenderLink()) == false) {
+        if ($treevender->loadID($treevender_packages->getTreevenderLink())->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find treevender "
             . "thats linked to this package link&bubbletype=warning");
             return;
         }
         $package = new Package();
-        if ($package->loadID($treevender_packages->getPackageLink()) == false) {
+        if ($package->loadID($treevender_packages->getPackageLink())->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find package&bubbletype=warning");
             return;
         }
@@ -32,7 +32,7 @@ class Removepackage extends View
         $this->setSwapTag("page_actions", "");
 
         $form = new Form();
-        $form->target("tree/removepackage/" . $this->page . "");
+        $form->target("tree/removepackage/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Warning");

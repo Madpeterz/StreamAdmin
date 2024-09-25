@@ -2,10 +2,9 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Model\Botconfig;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\NotecardmailSet;
-use App\R7\Set\NoticenotecardSet;
+use App\Models\Botconfig;
+use App\Models\Sets\NotecardmailSet;
+use App\Models\Sets\NoticenotecardSet;
 
 class Docs extends View
 {
@@ -14,12 +13,10 @@ class Docs extends View
         $this->output->addSwapTagString("page_title", " Unsent static doc notecards");
         $table_head = ["id","Avatar name","Notecard"];
         $table_body = [];
-        $noticenotecards = new NoticenotecardSet();
-        $noticenotecards->loadAll();
         $notecardmail = new NotecardmailSet();
         $notecardmail->loadAll();
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($notecardmail->getUniqueArray("avatarLink"));
+        $noticenotecards = $notecardmail->relatedNoticenotecard();
+        $avatar_set = $notecardmail->relatedAvatar();
         $botConfig = new Botconfig();
         $botConfig->loadID(1);
         foreach ($notecardmail as $staticnotecard) {
@@ -27,7 +24,7 @@ class Docs extends View
             $notecard = $noticenotecards->getObjectByID($staticnotecard->getNoticenotecardLink());
             $entry = [];
             $entry[] = $staticnotecard->getId();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $entry[] = $notecard->getName();
             $table_body[] = $entry;

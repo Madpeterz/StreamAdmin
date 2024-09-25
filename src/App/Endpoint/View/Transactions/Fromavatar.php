@@ -2,15 +2,13 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use YAPF\InputFilter\InputFilter;
-
 class Fromavatar extends Forms
 {
     public function process(): void
     {
-        $input = new InputFilter();
-        $avd = $input->getFilter("avatarsearch");
-        if (strlen($avd) < 3) {
+
+        $avd = $this->input->get("avatarsearch")->asString();
+        if (nullSafeStrLen($avd) < 3) {
             $this->output->redirectWithMessage("transactions", "Please enter 3 letters/numbers at min");
             return;
         }
@@ -19,7 +17,7 @@ class Fromavatar extends Forms
             "values" => [$avd,$avd,$avd],
             "types" => ["s","s","s"],
             "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
         $this->avatar_set->loadWithConfig($whereconfig);
         $this->output->addSwapTagString("page_title", " Matching avatar seach: " . $avd);

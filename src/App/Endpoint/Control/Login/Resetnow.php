@@ -3,27 +3,27 @@
 namespace App\Endpoint\Control\Login;
 
 use App\Framework\SessionControl;
-use App\R7\Model\Avatar;
-use App\R7\Model\Staff;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Staff;
+use App\Template\ControlAjax;
 
-class Resetnow extends ViewAjax
+class Resetnow extends ControlAjax
 {
+    protected ?Avatar $avatar = null;
     public function process(): void
     {
         sleep(1);
-        $input = new InputFilter();
-        $slusername = $input->postString("slusername");
-        $token = $input->postString("token");
-        $newpw1 = $input->postString("newpassword1", 30, 7);
+
+        $slusername = $this->input->post("slusername")->checkStringLengthMin(3)->asString();
+        $token = $this->input->post("token")->checkStringLength(8, 8)->asString();
+        $newpw1 = $this->input->post("newpassword1")->checkStringLength(7, 30)->asString();
         if ($newpw1 == null) {
-            $this->failed("New password failed:" . $input->getWhyFailed());
+            $this->failed("New password failed:" . $this->input->getWhyFailed());
             return;
         }
-        $newpw2 = $input->postString("newpassword2", 30, 7);
+        $newpw2 = $this->input->post("newpassword2")->checkStringLength(7, 30)->asString();
         if ($newpw2 == null) {
-            $this->failed("New password (Repeated) failed:" . $input->getWhyFailed());
+            $this->failed("New password (Repeated) failed:" . $this->input->getWhyFailed());
             return;
         }
         if ($newpw1 != $newpw2) {
@@ -39,15 +39,17 @@ class Resetnow extends ViewAjax
             $username_bits[] = "Resident";
         }
         $slusername = implode(" ", $username_bits);
-        $avatar = new Avatar();
-        if ($avatar->loadByAvatarName($slusername) == false) {
+        $this->avatar = new Avatar();
+        if ($this->avatar->loadByAvatarName($slusername)->status == false) {
+            $this->failed("Unable to find avatar by that name did you mess it up?");
             return;
         }
-        $staff = new Staff();
-        if ($staff->loadByField("avatarLink", $avatar->getId()) == false) {
+        $staff = $this->avatar->relatedStaff()->getFirst();
+        if ($staff->isLoaded() == false) {
             return;
         }
         if ($staff->getEmailResetCode() != $token) {
+            $this->failed("Your token is wrong what did you do?");
             return;
         }
         if ($staff->getEmailResetExpires() <= time()) {
@@ -63,18 +65,23 @@ class Resetnow extends ViewAjax
         $session_helper = new SessionControl();
         $session_helper->attachStaffMember($staff);
         $update_status = $session_helper->updatePassword($newpw1);
-        if ($update_status["status"] == false) {
-            $this->failed("Something went wrong updating your password");
+        if ($update_status->status == false) {
+            $this->failed($update_status->message);
             return;
         }
         $staff->setEmailResetCode(null);
         $staff->setEmailResetExpires(time() - 1);
         $update_status = $staff->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed("Unable to finalize changes to your account");
             return;
         }
-        $this->ok("Password updated please login");
-        $this->setSwapTag("redirect", "login");
+        $this->redirectWithMessage("Password updated please login");
+        $this->createAuditLog(
+            $staff->getId(),
+            "new password applyed",
+            "av:" . $this->avatar->getAvatarName(),
+            "User:" . $staff->getUsername()
+        );
     }
 }

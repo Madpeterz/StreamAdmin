@@ -2,61 +2,58 @@
 
 namespace App\Endpoint\View\Avatar;
 
-use App\R7\Set\AvatarSet;
-use App\Template\Form as Form;
-use YAPF\InputFilter\InputFilter as InputFilter;
+use App\Models\Sets\AvatarSet;
+use YAPF\Bootstrap\Template\Form;
 
 class DefaultView extends View
 {
+    protected ?avatarSet $avatarSet = null;
+    protected ?string $name = "";
+    protected ?string $uuid = "";
+    protected function searchMatch(): bool
+    {
+        $this->name = $this->input->get("name")->checkStringLengthMin(2)->asString();
+        $this->uuid = $this->input->get("uuid")->isUuid()->asString();
+        $whereConfig = null;
+        if ($this->name != null) {
+            $whereConfig = [
+                "fields" => ["avatarName"],
+                "values" => [$this->name],
+                "types" => ["s"],
+                "matches" => ["% LIKE %"],
+            ];
+            $this->setSwapTag("page_title", "Names containing: " . $this->name);
+        } elseif ($this->uuid != null) {
+            $whereConfig = [
+                "fields" => ["avatarUUID"],
+                "values" => [$this->uuid],
+                "types" => ["s"],
+                "matches" => ["="],
+            ];
+            $this->setSwapTag("page_title", "UUID: " . $this->uuid);
+        }
+        if ($whereConfig === null) {
+            return false;
+        }
+        return $this->avatarSet->loadWithConfig($whereConfig)->status;
+    }
     public function process(): void
     {
-        $input = new InputFilter();
-        $match_with = "newest";
-        $name = $input->getFilter("name");
-        $uuid = $input->getFilter("uuid");
-        $wherefields = [];
-        $wherevalues = [];
-        $wheretypes = [];
-        $wherematchs = [];
-        if (strlen($uuid) == 36) {
-            $match_with = "uuid";
-            $wherefields = ["avatarUUID"];
-            $wherevalues = [$uuid];
-            $wheretypes = ["s"];
-            $wherematchs = ["="];
-        } elseif (strlen($name) >= 2) {
-            $match_with = "name";
-            $wherefields = ["avatarName"];
-            $wherevalues = [$name];
-            $wheretypes = ["s"];
-            $wherematchs = ["% LIKE %"];
-        }
-        $avatarSet = new AvatarSet();
-        if ($match_with == "newest") {
-            $avatarSet->loadNewest(30);
+        $this->avatarSet = new avatarSet();
+        $load = $this->searchMatch();
+        if ($load == false) {
+            $this->avatarSet->loadNewest(30);
             $this->setSwapTag("page_title", "Newest 30 avatars");
-        } else {
-            $where_config = [
-                "fields" => $wherefields,
-                "values" => $wherevalues,
-                "types" => $wheretypes,
-                "matches" => $wherematchs,
-            ];
-            $avatarSet->loadWithConfig($where_config);
-            if ($match_with == "name") {
-                $this->setSwapTag("page_title", "Names containing: " . $name);
-            } else {
-                $this->setSwapTag("page_title", "UUID: " . $uuid);
-            }
         }
+
         $table_head = ["id","UID","Name"];
         $table_body = [];
-        foreach ($avatarSet as $avatar) {
+        foreach ($this->avatarSet as $avatar) {
             $entry = [];
             $entry[] = $avatar->getId();
-            $entry[] = '<a href="[[url_base]]avatar/manage/' . $avatar->getAvatarUid() . '">'
+            $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->getAvatarUid() . '">'
             . $avatar->getAvatarUid() . '</a>';
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }
@@ -68,8 +65,8 @@ class DefaultView extends View
         $form->required(false);
         $form->col(4);
         $form->group("Search: Name or UUID");
-        $form->textInput("name", "Name", 30, $name, "2 letters min to match");
-        $form->textInput("uuid", "SL UUID", 36, $uuid, "a full UUID to match");
+        $form->textInput("name", "Name", 30, $this->name, "2 letters min to match");
+        $form->textInput("uuid", "SL UUID", 36, $this->uuid, "a full UUID to match");
         $this->output->addSwapTagString("page_content", $form->render("Start", "info"));
     }
 }

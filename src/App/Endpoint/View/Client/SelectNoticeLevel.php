@@ -2,8 +2,9 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\NoticeSet;
-use App\R7\Model\Rental;
+use App\Models\Sets\NoticeSet;
+use App\Models\Rental;
+use App\Models\Sets\RentalSet;
 
 class SelectNoticeLevel extends View
 {
@@ -13,17 +14,17 @@ class SelectNoticeLevel extends View
         $notice_set = new NoticeSet();
         $notice_set->loadAll();
         $rental = new Rental();
-        $group_count = $this->sql->groupCountV2($rental->getTable(), "noticeLink");
+        $group_count = $this->siteConfig->getSQL()->groupCountV2($rental->getTable(), "noticeLink");
         $table_head = ["id","NoticeLevel","Count"];
         $table_body = [];
-        if ($group_count["status"] == true) {
-            foreach ($group_count["dataset"] as $countentry) {
+        if ($group_count->status == true) {
+            foreach ($group_count->dataset as $countentry) {
                 $notice = $notice_set->getObjectByID($countentry["noticeLink"]);
                 $entry = [];
                 $entry[] = $notice->getId();
-                $entry[] = '<a href="[[url_base]]client/bynoticelevel/' . $notice->getId() . '">'
+                $entry[] = '<a href="[[SITE_URL]]client/bynoticelevel/' . $notice->getId() . '">'
                  . $notice->getName() . '</a>';
-                $entry[] = $countentry["Entrys"];
+                $entry[] = $countentry["items"];
                 $table_body[] = $entry;
             }
         }

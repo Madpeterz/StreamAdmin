@@ -2,16 +2,14 @@
 
 namespace App\Endpoint\Control\Objects;
 
-use App\R7\Set\ObjectsSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\ObjectsSet;
+use App\Template\ControlAjax;
 
-class Clear extends ViewAjax
+class Clear extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", "objects");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
@@ -20,12 +18,13 @@ class Clear extends ViewAjax
         $objects_set = new ObjectsSet();
         $objects_set->loadAll();
         $purge_status = $objects_set->purgeCollection();
-        if ($purge_status["status"] == false) {
+        if ($purge_status->status == false) {
             $this->failed(
-                sprintf("Unable to clear objects from DB because: %1\$s", $purge_status["message"])
+                sprintf("Unable to clear objects from DB because: %1\$s", $purge_status->message)
             );
             return;
         }
-        $this->ok("Objects cleared from DB");
+        $this->redirectWithMessage("Objects cleared from DB");
+        $this->createAuditLog(null, "---", "all objects");
     }
 }

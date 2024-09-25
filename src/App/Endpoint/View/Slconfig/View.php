@@ -2,14 +2,14 @@
 
 namespace App\Endpoint\View\Slconfig;
 
-use App\Template\View as BasicView;
+use App\Framework\Menu;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->output->redirectWithMessage("home", "Only the system owner can adjust setup!");
             return;
         }

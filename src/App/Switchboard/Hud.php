@@ -2,7 +2,7 @@
 
 namespace App\Switchboard;
 
-class Hud extends Switchboard
+class Hud extends ConfigEnabled
 {
-    protected $targetEndpoint = "HudApi";
+    protected string $targetEndpoint = "Hudapi";
 }

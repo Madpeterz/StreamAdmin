@@ -2,23 +2,21 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\Template\Form;
-use App\Template\Grid;
-use App\R7\Set\TransactionsSet;
-use YAPF\InputFilter\InputFilter;
+use YAPF\Bootstrap\Template\Form;
+use YAPF\Bootstrap\Template\Grid;
+use App\Models\Sets\TransactionsSet;
 
 class DefaultView extends View
 {
     public function process(): void
     {
         $this->output->addSwapTagString("page_title", "Toolbox");
-        $input = new InputFilter();
-        $month = $input->postFilter("month", "integer");
-        $year = $input->postFilter("year", "integer");
+
+        $month = $this->input->get("month")->asInt();
+        $year = $this->input->get("year")->asInt();
         if ($year < 2013) {
             $year = date("Y");
         }
-
         if ($month < 1) {
             $month = 1;
         } elseif ($month > 12) {
@@ -38,7 +36,7 @@ class DefaultView extends View
         }
 
         $form = new Form();
-        $form->target("reports/BreakdownMonth");
+        $form->target("reports/Breakdownmonth");
         $form->mode("get");
         $form->required(true);
         $monthtonum = [
@@ -67,7 +65,7 @@ class DefaultView extends View
         $flow_form_month = $form->render("View", "primary");
 
         $form = new Form();
-        $form->target("reports/BreakdownYear");
+        $form->target("reports/Breakdownyear");
         $form->mode("get");
         $form->required(true);
         $start_year = 2013;
@@ -81,7 +79,7 @@ class DefaultView extends View
         $flow_form_year = $form->render("View", "primary");
 
         $form = new Form();
-        $form->target("reports/ComapreYears");
+        $form->target("reports/Comapreyears");
         $form->mode("get");
         $form->required(true);
         $start_year = 2013;
@@ -102,11 +100,10 @@ class DefaultView extends View
         $amount_new = 0;
         $amount_renew = 0;
 
-        global $unixtime_week;
         $transactions_set = new TransactionsSet();
         $whereconfig = [
             "fields" => ["unixtime","unixtime"],
-            "values" => [time() - $unixtime_week,time()],
+            "values" => [time() - $this->siteConfig->unixtimeWeek(),time()],
             "types" => ["i","i"],
             "matches" => [">=","<="],
         ];
@@ -132,10 +129,9 @@ class DefaultView extends View
             12
         );
         $mygrid->addContent("<hr/><h3>Toolbox</h3><br/>", 12);
-        $mygrid->addContent("<h4>Month breakdown</h4>" . $flow_form_month, 6);
-        $mygrid->addContent("<h4>Year breakdown</h4>" . $flow_form_year, 6);
-        $mygrid->addContent("<hr/>", 12);
-        $mygrid->addContent("<h4>Year vs Year</h4>" . $compare_form_year, 6);
+        $mygrid->addContent("<h4>Month breakdown</h4>" . $flow_form_month, 4);
+        $mygrid->addContent("<h4>Year breakdown</h4>" . $flow_form_year, 4);
+        $mygrid->addContent("<h4>Year vs Year</h4>" . $compare_form_year, 4);
         $this->setSwapTag("page_content", $mygrid->getOutput());
     }
 }

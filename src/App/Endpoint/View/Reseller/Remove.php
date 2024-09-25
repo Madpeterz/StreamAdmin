@@ -2,17 +2,17 @@
 
 namespace App\Endpoint\View\Reseller;
 
-use App\Template\Form;
+use YAPF\Bootstrap\Template\Form;
 
 class Remove extends View
 {
     public function process(): void
     {
         $this->output->addSwapTagString("html_title", " ~ Remove");
-        $this->output->addSwapTagString("page_title", "Remove reseller:" . $this->page);
+        $this->output->addSwapTagString("page_title", "Remove reseller:" . $this->siteConfig->getPage());
         $this->setSwapTag("page_actions", "");
         $form = new Form();
-        $form->target("reseller/remove/" . $this->page . "");
+        $form->target("reseller/remove/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Warning</h4><p>If the reseller is currenly in use this will fail"

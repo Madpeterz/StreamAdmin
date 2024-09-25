@@ -2,12 +2,8 @@
 
 namespace App\Endpoint\View\Bot;
 
-use App\Template\View as BasicView;
+use App\Framework\Menu;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
 }

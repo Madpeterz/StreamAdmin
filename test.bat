@@ -1,1 +1,2 @@
+cls
 composer dev-test

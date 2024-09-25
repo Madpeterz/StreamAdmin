@@ -2,13 +2,13 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Model\Rental;
-use App\R7\Set\ApisSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\ServertypesSet;
-use App\R7\Model\Stream;
-use App\Template\Form;
+use App\Models\Rental;
+use App\Models\Sets\ApisSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\ServertypesSet;
+use App\Models\Stream;
+use YAPF\Bootstrap\Template\Form;
 
 class Manage extends View
 {
@@ -17,26 +17,39 @@ class Manage extends View
         $this->output->addSwapTagString("html_title", " ~ Manage");
         $this->output->addSwapTagString("page_title", " Editing stream");
 
-        $this->setSwapTag("page_actions", ""
+        $remove_action = ""
         . "<button type='button' 
-        data-actiontitle='Remove stream " . $this->page . "' 
+        data-actiontitle='Remove stream " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove stream' 
         data-actionmessage='This will fail if there are pending actions!' 
-        data-targetendpoint='[[url_base]]Stream/Remove/" . $this->page . "' 
-        class='btn btn-danger confirmDialog'>Remove</button></a>");
+        data-targetendpoint='[[SITE_URL]]Stream/Remove/" . $this->siteConfig->getPage() . "' 
+        class='btn btn-danger confirmDialog'>Remove</button></a>";
+
 
         $stream = new Stream();
-        if ($stream->loadByField("streamUid", $this->page) == false) {
+        if ($stream->loadByField("streamUid", $this->siteConfig->getPage())->status == false) {
             $this->output->redirect("stream?bubblemessage=unable to find stream&bubbletype=warning");
             return;
         }
+
+        if ($stream->getNeedWork() == true) {
+            $remove_action .= ""
+            . " &nbsp;&nbsp;&nbsp;<button type='button' 
+            data-actiontitle='Restore stream " . $this->siteConfig->getPage() . "' 
+            data-actiontext='Restore stream' 
+            data-actionmessage='Attempt to find the last owner of the stream and restore it to them' 
+            data-targetendpoint='[[SITE_URL]]Stream/Restore/" . $this->siteConfig->getPage() . "' 
+            class='btn btn-info confirmDialog'>Restore</button></a>";
+        }
+
+        $this->setSwapTag("page_actions", $remove_action);
 
         $rental = new Rental();
         $rental->loadByStreamLink($stream->getId());
         if ($rental->getId() > 0) {
             $this->setSwapTag(
                 "page_actions",
-                "<a href='[[url_base]]Client/Manage/" . $rental->getRentalUid() . "'>"
+                "<a href='[[SITE_URL]]Client/Manage/" . $rental->getRentalUid() . "'>"
                 . "<button type='button' class='btn btn-info'>View Client</button></a>"
             );
         }
@@ -47,14 +60,7 @@ class Manage extends View
         $package_set = new PackageSet();
         $package_set->loadAll();
 
-        $api_set = new ApisSet();
-        $api_set->loadAll();
-
-        $improved_serverLinker = [];
-        foreach ($server_set as $server) {
-            $api = $api_set->getObjectByID($server->getApiLink());
-            $improved_serverLinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
-        }
+        $improved_serverLinker = $server_set->getLinkedArray("id", "domain");
 
         $servertypes_set = new ServertypesSet();
         $servertypes_set->loadAll();
@@ -91,7 +97,7 @@ class Manage extends View
         }
 
         $form = new Form();
-        $form->target("stream/update/" . $this->page . "");
+        $form->target("stream/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Basics");
@@ -101,32 +107,15 @@ class Manage extends View
         $form->textInput("mountpoint", "Mountpoint", 999, $stream->getMountpoint(), "Stream mount point");
         $form->col(6);
         $form->group("Config");
-        $form->textInput(
-            "originalAdminUsername",
-            "Original admin Usr",
-            5,
-            $stream->getOriginalAdminUsername(),
-            "original adminUsername [Restored by API if enabled]"
-        );
-        $form->textInput("adminUsername", "Admin Usr", 5, $stream->getAdminUsername(), "Admin username");
-        $form->textInput("adminPassword", "Admin PW", 3, $stream->getAdminPassword(), "Admin password");
+        $form->textInput("adminUsername", "Admin Usr", 50, $stream->getAdminUsername(), "Admin username");
+        $form->textInput("adminPassword", "Admin PW", 20, $stream->getAdminPassword(), "Admin password");
         $form->textInput(
             "djPassword",
             "Encoder/Stream password",
-            3,
+            20,
             $stream->getDjPassword(),
             "Encoder/Stream password"
         );
-        $form->directAdd("<br/>");
-        $form->col(6);
-        $form->group("API");
-        $form->textInput("apiConfigValue1", "API UID 1", 10, $stream->getApiConfigValue1(), "API id 1");
-        $form->textInput("apiConfigValue2", "API UID 2", 10, $stream->getApiConfigValue2(), "API id 2");
-        $form->textInput("apiConfigValue3", "API UID 3", 10, $stream->getApiConfigValue3(), "API id 3");
-        $form->col(6);
-        $form->group("Magic");
-        $form->select("api_update", "Update on server", 0, $this->yesNo);
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
-        include "" . ROOTFOLDER . "/App/Endpoint/View/Stream/api_linking.php";
     }
 }

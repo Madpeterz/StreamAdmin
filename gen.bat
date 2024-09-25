@@ -1,6 +1,5 @@
-cd D:\php projects\streamadmin\src\public_html
+cd D:\php\StreamAdmin\src\Gen
 d:
 php gen.php
-php genr4.php
 cd ..
 cd ..

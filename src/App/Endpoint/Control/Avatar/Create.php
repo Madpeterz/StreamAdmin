@@ -3,27 +3,25 @@
 namespace App\Endpoint\Control\Avatar;
 
 use App\Helpers\AvatarHelper;
-use App\R7\Model\Avatar;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
         $avatar = new Avatar();
-        $input = new InputFilter();
-        $avatarName = $input->postString("avatarName", 125, 5);
-        $avatarUUID = $input->postUUID("avatarUUID");
+        $avatarName = $this->input->post("avatarName")->checkStringLength(5, 125)->asString();
         if ($avatarName == null) {
-            $this->failed("Avatar name failed:" . $input->getWhyFailed());
-        }
-        if ($avatarUUID == null) {
-            $this->failed("Avatar UUID failed:" . $input->getWhyFailed());
+            $this->failed("Avatar name failed:" . $this->input->getWhyFailed());
             return;
         }
-
-        if ($avatar->loadByAvatarUUID($avatarUUID) == true) {
+        $avatarUUID = $this->input->post("avatarUUID")->isUuid()->asString();
+        if ($avatarUUID == null) {
+            $this->failed("Avatar UUID failed:" . $this->input->getWhyFailed());
+            return;
+        }
+        if ($avatar->loadByAvatarUUID($avatarUUID)->status == true) {
             $this->failed("There is already an avatar with that uuid");
             return;
         }
@@ -33,7 +31,7 @@ class Create extends ViewAjax
             $this->failed("Unable to create avatar");
             return;
         }
-        $this->ok("Avatar created");
-        $this->setSwapTag("redirect", "avatar");
+        $this->redirectWithMessage("Avatar created");
+        $this->createAuditLog($avatar_helper->getAvatar()->getId(), "+++", null, $avatarName);
     }
 }

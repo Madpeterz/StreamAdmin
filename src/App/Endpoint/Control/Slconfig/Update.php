@@ -2,30 +2,28 @@
 
 namespace App\Endpoint\Control\Slconfig;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Timezones;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Timezones;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     protected function forceReissue(): bool
     {
         $reissued = false;
-        if (strlen($this->slconfig->getSlLinkCode()) > 10) {
+        if ($this->siteConfig->getSlConfig()->getSlLinkCode() == null) {
             $reissued = true;
-        }
-        if (strlen($this->slconfig->getPublicLinkCode()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getSlLinkCode()) > 10) {
             $reissued = true;
-        }
-        if (strlen($this->slconfig->getHudLinkCode()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getPublicLinkCode()) > 12) {
             $reissued = true;
-        }
-        if (strlen($this->slconfig->getHttpInboundSecret()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getHudLinkCode()) > 12) {
+            $reissued = true;
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 12) {
             $reissued = true;
         }
         if ($reissued == true) {
-            $reissueKeys = new Reissue();
+            $reissueKeys = new ReIssue();
             $reissueKeys->reissueKeys();
         }
         return $reissued;
@@ -33,110 +31,120 @@ class Update extends ViewAjax
 
     protected function updateHudSettings(): void
     {
-        $input = new InputFilter();
-        $hudAllowDiscord = $input->postBool("hudAllowDiscord");
-        $hudDiscordLink = $input->postString("hudDiscordLink");
+
+        $hudAllowDiscord = $this->input->post("hudAllowDiscord")->asBool();
+        $hudDiscordLink = $this->input->post("hudDiscordLink")->asString();
         if ($hudAllowDiscord == false) {
             $hudDiscordLink = null;
         }
-        $hudAllowGroup = $input->postBool("hudAllowGroup");
-        $hudGroupLink = $input->postString("hudGroupLink");
-        $hudDiscordLink = $input->postString("hudDiscordLink");
+        $hudAllowGroup = $this->input->post("hudAllowGroup")->asBool();
+        $hudGroupLink = $this->input->post("hudGroupLink")->asString();
         if ($hudAllowGroup == false) {
             $hudGroupLink = null;
         }
-        if (strlen($hudGroupLink) == 0) {
+        if (nullSafeStrLen($hudGroupLink) == 0) {
             $hudAllowGroup = false;
         }
-        if (strlen($hudDiscordLink) == 0) {
+        if (nullSafeStrLen($hudDiscordLink) == 0) {
             $hudAllowDiscord = false;
         }
-        $hudAllowDetails = $input->postBool("hudAllowDetails");
-        $hudAllowRenewal = $input->postBool("hudAllowRenewal");
+        $hudAllowDetails = $this->input->post("hudAllowDetails")->asBool();
+        $hudAllowRenewal = $this->input->post("hudAllowRenewal")->asBool();
         if ($hudAllowRenewal == false) {
             $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
         }
-        $this->slconfig->setHudAllowDiscord($hudAllowDiscord);
-        $this->slconfig->setHudDiscordLink($hudDiscordLink);
-        $this->slconfig->setHudAllowGroup($hudAllowGroup);
-        $this->slconfig->setHudGroupLink($hudGroupLink);
-        $this->slconfig->setHudAllowDetails($hudAllowDetails);
-        $this->slconfig->setHudAllowRenewal($hudAllowRenewal);
+        $this->siteConfig->getSlConfig()->setHudAllowDiscord($hudAllowDiscord);
+        $this->siteConfig->getSlConfig()->setHudDiscordLink($hudDiscordLink);
+        $this->siteConfig->getSlConfig()->setHudAllowGroup($hudAllowGroup);
+        $this->siteConfig->getSlConfig()->setHudGroupLink($hudGroupLink);
+        $this->siteConfig->getSlConfig()->setHudAllowDetails($hudAllowDetails);
+        $this->siteConfig->getSlConfig()->setHudAllowRenewal($hudAllowRenewal);
     }
 
     public function process(): void
     {
         $avatar = new Avatar();
         $timezone = new Timezones();
-        $input = new InputFilter();
 
-        $newResellersRate = $input->postInteger("newResellersRate");
-        $newResellers = $input->postBool("newResellers");
-        $owneravuid = $input->postString("owneravuid", 8, 8);
-        $ui_tweaks_clients_fulllist = $input->postBool("ui_tweaks_clients_fulllist");
-        $ui_tweaks_datatableItemsPerPage = $input->postInteger("ui_tweaks_datatableItemsPerPage");
-        $apiDefaultEmail = $input->postEmail("apiDefaultEmail");
-        $displayTimezoneLink = $input->postInteger("displayTimezoneLink");
-        $eventsAPI = $input->postBool("eventsAPI");
 
-        if ($newResellersRate < 0) {
-            $this->failed("newResellersRate must be 1 or more");
+        $newResellersRate = $this->input->post("newResellersRate")->checkInRange(1, 100)->asInt();
+        if ($newResellersRate === null) {
+            $this->failed($this->input->getWhyFailed());
             return;
         }
-        if ($newResellersRate > 100) {
-            $this->failed("newResellersRate must be 100 or less");
+        $newResellers = $this->input->post("newResellers")->asBool();
+        $owneravuid = $this->input->post("owneravuid")->checkStringLength(6, 8)->asString();
+        if ($owneravuid === null) {
+            $this->failed("owneravUID is invaild:" . $this->input->getWhyFailed());
             return;
         }
-        if ($ui_tweaks_datatableItemsPerPage < 10) {
-            $this->failed("Datatable entrys per page length must be 10 or more");
+        $ui_tweaks_clientsShowServer = $this->input->post("ui_tweaks_clientsShowServer")->asBool();
+        if ($ui_tweaks_clientsShowServer === null) {
+            $this->failed("Invaild server on clients option:" . $this->input->getWhyFailed());
             return;
         }
-        if ($ui_tweaks_datatableItemsPerPage > 200) {
-            $this->failed("Datatable entrys per page must be 200 or less");
+        $ui_tweaks_groupStreamsBy = $this->input->post("ui_tweaks_groupStreamsBy")->checkInRange(0, 1)->asInt();
+        if ($ui_tweaks_groupStreamsBy === null) {
+            $this->failed("Invaild group streams by option:" . $this->input->getWhyFailed());
             return;
         }
-        if (strlen($owneravuid) != 8) {
-            $this->failed("Owner AV uid length must be 8");
+        $ui_tweaks_clients_fulllist = $this->input->post("ui_tweaks_clients_fulllist")->asBool();
+        $ui_tweaks_datatableItemsPerPage = $this->input
+            ->post("ui_tweaks_datatableItemsPerPage")
+            ->checkInRange(10, 200)
+            ->asInt();
+        if ($ui_tweaks_datatableItemsPerPage === null) {
+            $this->failed("Invaild datatable items per page:" . $this->input->getWhyFailed());
             return;
         }
-        if ($avatar->loadByField("avatarUid", $owneravuid) == false) {
+        $displayTimezoneLink = $this->input->post("displayTimezoneLink")->checkGrtThanEq(1)->asInt();
+        if ($displayTimezoneLink === null) {
+            $this->failed("Invaild timezone selected:" . $this->input->getWhyFailed());
+            return;
+        }
+        $eventsAPI = $this->input->post("eventsAPI")->asBool();
+        if ($avatar->loadByAvatarUid($owneravuid) == false) {
             $this->failed("Unable to load avatar from uid");
             return;
         }
-        if ($timezone->loadID($displayTimezoneLink) == false) {
+        if ($timezone->loadID($displayTimezoneLink)->status == false) {
             $this->failed("Timezone selected not supported");
-            return;
-        }
-        if (strlen($apiDefaultEmail) < 7) {
-            $this->failed("API default email address does not appear to be vaild");
             return;
         }
 
         $this->setSwapTag("redirect", "slconfig");
-        if ($avatar->getId() != $this->slconfig->getOwnerAvatarLink()) {
-            $this->slconfig->setOwnerAvatarLink($avatar->getId());
+        if ($avatar->getId() != $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) {
+            $this->siteConfig->getSlConfig()->setOwnerAvatarLink($avatar->getId());
         }
-        $this->slconfig->setNewResellers($newResellers);
-        $this->slconfig->setNewResellersRate($newResellersRate);
-        $this->slconfig->setClientsListMode($ui_tweaks_clients_fulllist);
-        $this->slconfig->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
-        $this->slconfig->setDisplayTimezoneLink($displayTimezoneLink);
-        $this->slconfig->setApiDefaultEmail($apiDefaultEmail);
-        $this->slconfig->setEventsAPI($eventsAPI);
-
+        $oldvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
+        $this->siteConfig->getSlConfig()->setNewResellers($newResellers);
+        $this->siteConfig->getSlConfig()->setNewResellersRate($newResellersRate);
+        $this->siteConfig->getSlConfig()->setClientsListMode($ui_tweaks_clients_fulllist);
+        $this->siteConfig->getSlConfig()->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
+        $this->siteConfig->getSlConfig()->setDisplayTimezoneLink($displayTimezoneLink);
+        $this->siteConfig->getSlConfig()->setEventsAPI($eventsAPI);
+        $this->siteConfig->getSlConfig()->setClientsDisplayServer($ui_tweaks_clientsShowServer);
+        $this->siteConfig->getSlConfig()->setStreamListOption($ui_tweaks_groupStreamsBy);
         $this->updateHudSettings();
+        $newvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
         $reissuedKeys = $this->forceReissue();
-        $update_status = $this->slconfig->updateEntry();
-        if ($update_status["status"] == false) {
+        $update_status = $this->siteConfig->getSlConfig()->updateEntry();
+        if ($update_status->status == false) {
             $this->failed(
-                sprintf("Unable to update system config: %1\$s", $update_status["message"])
+                sprintf("Unable to update system config: %1\$s", $update_status->message)
             );
             return;
         }
 
-        $this->ok("System config updated");
+        $this->redirectWithMessage("System config updated");
         if ($reissuedKeys == true) {
-            $this->output->addSwapTagString("message", " [Forced key reissue due to bug]");
+            $this->output->addSwapTagString("message", " [Forced key reissue]");
         }
+        $this->createMultiAudit(
+            $this->siteConfig->getSlConfig()->getId(),
+            $this->siteConfig->getSlConfig()->getFields(),
+            $oldvalues,
+            $newvalues
+        );
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\StreamSet;
+use App\Template\ControlAjax;
 
-class Bulkupdate extends ViewAjax
+class Bulkupdate extends ControlAjax
 {
     public function process(): void
     {
@@ -19,22 +18,17 @@ class Bulkupdate extends ViewAjax
         $stream_set = new StreamSet();
         $stream_set->loadWithConfig($whereconfig);
         $this->setSwapTag("redirect", "stream/bulkupdate");
-        $input = new InputFilter();
+
         $streams_updated = 0;
-        $streams_skipped_originalAdminUsername = 0;
         $streams_skipped_passwordChecks = 0;
         foreach ($stream_set->getAllIds() as $stream_id) {
             $stream = $stream_set->getObjectByID($stream_id);
-            if ($stream->getOriginalAdminUsername() != $stream->getAdminUsername()) {
-                $streams_skipped_originalAdminUsername++;
-                continue;
-            }
-            $accept = $input->postString("stream" . $stream->getStreamUid() . "");
+            $accept = $this->input->post("stream" . $stream->getStreamUid() . "")->asString();
             if ($accept != "update") {
                 continue;
             }
-            $newadminpw = $input->postString('stream' . $stream->getStreamUid() . 'adminpw');
-            $newdjpw = $input->postString('stream' . $stream->getStreamUid() . 'djpw');
+            $newadminpw = $this->input->post('stream' . $stream->getStreamUid() . 'adminpw')->asString();
+            $newdjpw = $this->input->post('stream' . $stream->getStreamUid() . 'djpw')->asString();
             $allowAdminPassword = true;
             if ($stream->getAdminPassword() == $newadminpw) {
                 $allowAdminPassword = false;
@@ -50,31 +44,38 @@ class Bulkupdate extends ViewAjax
                 $streams_skipped_passwordChecks++;
                 continue;
             }
+            $oldvalues = $stream->objectToValueArray();
             $stream->setAdminPassword($newadminpw);
             $stream->setDjPassword($newdjpw);
             $stream->setNeedWork(0);
             $update_status = $stream->updateEntry();
-            if ($update_status["status"] == false) {
+            if ($update_status->status == false) {
                 $this->failed(sprintf(
                     "Unable to update stream %1\$s",
-                    $update_status["message"]
+                    $update_status->message
                 ));
                 return;
             }
+            $this->createMultiAudit(
+                $stream->getStreamUid(),
+                $stream->getFields(),
+                $oldvalues,
+                $stream->objectToValueArray()
+            );
             $streams_updated++;
         }
-        $this->ok(
+        $this->redirectWithMessage(
             sprintf(
                 "%1\$s streams updated",
                 $streams_updated
             )
         );
-        if (($streams_skipped_originalAdminUsername > 0) || ($streams_skipped_passwordChecks > 0)) {
-            $this->ok(
+        $this->createAuditLog(null, "Bulk stream update", $streams_updated . " streams updated");
+        if ($streams_skipped_passwordChecks > 0) {
+            $this->redirectWithMessage(
                 sprintf(
-                    "%1\$s streams updated %2\$s skipped due to admin username not matching and %3\$s skipped for passwords not being updated",
+                    "%1\$s streams updated %2\$s skipped for passwords not being updated",
                     $streams_updated,
-                    $streams_skipped_originalAdminUsername,
                     $streams_skipped_passwordChecks
                 )
             );

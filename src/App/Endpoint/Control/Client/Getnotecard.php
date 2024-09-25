@@ -3,55 +3,47 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\SwapablesHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Model\Template;
-use App\Template\ViewAjax;
+use App\Models\Rental;
+use App\Template\ControlAjax;
 
-class Getnotecard extends ViewAjax
+class Getnotecard extends ControlAjax
 {
     public function process(): void
     {
         $rental = new Rental();
-        if ($rental->loadByRentalUid($this->page) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to load rental");
             return;
         }
-        $avatar = new Avatar();
-        if ($avatar->loadID($rental->getAvatarLink()) == false) {
-            $this->failed("Unable to load avatar");
+        $package = $rental->relatedPackage()->getFirst();
+        $template = $package?->relatedTemplate()->getFirst();
+        $avatar = $rental->relatedAvatar()->getFirst();
+        $stream = $rental->relatedStream()->getFirst();
+        $server = $stream?->relatedServer()->getFirst();
+        $test = [
+            "package" => $package,
+            "template" => $template,
+            "avatar" => $avatar,
+            "stream" => $stream,
+            "server" => $server,
+        ];
+        if (in_array(null, $test) == true) {
+            foreach ($test as $tag => $object) {
+                if ($object == null) {
+                    $this->failed("Failed to load: " . $tag);
+                    break;
+                }
+            }
             return;
         }
-
-        $stream = new Stream();
-        if ($stream->loadID($rental->getStreamLink()) == false) {
-            $this->failed("Unable to load stream");
-            return;
-        }
-
-        $package = new Package();
-        if ($package->loadID($stream->getPackageLink()) == false) {
-            $this->failed("Unable to load package");
-            return;
-        }
-
-        $server = new Server();
-        if ($server->loadID($stream->getServerLink()) == false) {
-            $this->failed("Unable to load server");
-            return;
-        }
-
-        $template = new Template();
-        if ($template->loadID($package->getTemplateLink()) == false) {
-            $this->failed("Unable to load server");
-            return;
-        }
-
-        $viewnotecard = $template->getDetail();
-        $swapables_helper = new SwapablesHelper();
-        $this->ok($swapables_helper->getSwappedText($viewnotecard, $avatar, $rental, $package, $server, $stream));
+        $this->setSwapTag("rentaluid", $rental->getRentalUid());
+        $this->redirectWithMessage((new SwapablesHelper())->getSwappedText(
+            $template->getDetail(),
+            $avatar,
+            $rental,
+            $package,
+            $server,
+            $stream
+        ));
     }
 }

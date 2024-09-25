@@ -2,35 +2,35 @@
 
 namespace App\Endpoint\View\Banlist;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\BanlistSet;
-use App\Template\Form as Form;
-use App\Template\Grid;
-use YAPF\InputFilter\InputFilter as InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\BanlistSet;
+use YAPF\Bootstrap\Template\Form as Form;
+use YAPF\Bootstrap\Template\Grid;
 
 class DefaultView extends View
 {
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() != 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() != 1) {
             $this->output->redirect("?bubblemessage=sorry owner only&bubbletype=warning");
             return;
         }
         $match_with = "newest";
-        $input = new inputFilter();
-        $name = $input->getFilter("name");
-        $uuid = $input->getFilter("uuid");
+
+        $name = $this->input->get("name")->asString();
+        $uuid = $this->input->get("uuid")->asString();
         $wherefields = [];
         $wherevalues = [];
         $wheretypes = [];
         $wherematchs = [];
-        if (strlen($uuid) == 36) {
+
+        if (nullSafeStrLen($uuid) == 36) {
             $match_with = "uuid";
             $wherefields = ["avatarUUID"];
             $wherevalues = [$uuid];
             $wheretypes = ["s"];
             $wherematchs = ["="];
-        } elseif (strlen($name) >= 2) {
+        } elseif (nullSafeStrLen($name) >= 2) {
             $match_with = "name";
             $wherefields = ["avatarName"];
             $wherevalues = [$name];
@@ -41,7 +41,7 @@ class DefaultView extends View
         $avatar_set = new AvatarSet();
         if ($match_with == "newest") {
             $banlist_set->loadNewest(30);
-            $avatar_set->loadByValues($banlist_set->getUniqueArray("avatarLink"));
+            $avatar_set = $banlist_set->relatedAvatar();
             $this->output->addSwapTagString("page_title", " Newest 30 avatars banned");
         } else {
             $where_config = [
@@ -56,7 +56,7 @@ class DefaultView extends View
             } else {
                 $this->output->addSwapTagString("page_title", "UUID: " . $uuid);
             }
-            $banlist_set->loadByValues($avatar_set->getAllIds(), "avatarLink");
+            $banlist_set = $avatar_set->relatedBanlist();
         }
 
         $table_head = ["id","Name","Remove"];

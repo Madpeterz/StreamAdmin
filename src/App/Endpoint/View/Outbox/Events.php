@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\EventsqSet;
+use App\Models\Sets\EventsqSet;
 
 class Events extends View
 {

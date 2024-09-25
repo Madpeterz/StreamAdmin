@@ -2,11 +2,10 @@
 
 namespace App\Endpoint\View\Export;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\StreamSet;
 use App\Template\ExcelSheet;
 
 class Flow1 extends ExcelSheet
@@ -14,7 +13,7 @@ class Flow1 extends ExcelSheet
     protected $deleleted_entrys = 0;
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() != 1) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() != 1) {
             $this->asAjax = true;
             $this->failed("Only the system owner can access this area");
             $this->setSwapTag("redirect", "");
@@ -44,8 +43,7 @@ class Flow1 extends ExcelSheet
         $servers->loadAll();
         $packages = new PackageSet();
         $packages->loadAll();
-        $avatars = new AvatarSet();
-        $avatars->loadByValues($clients->getAllByField("avatarLink"));
+        $avatars = $clients->relatedAvatar();
 
         $worksheetData = $this->spreadsheet->createSheet();
         $worksheetData->setTitle("Data");
@@ -69,7 +67,7 @@ class Flow1 extends ExcelSheet
             }
             $rental = $clients->getObjectByField("streamLink", $stream->getId());
             if ($rental != null) {
-                if (strlen($rental->getMessage()) > 0) {
+                if (nullSafeStrLen($rental->getMessage()) > 0) {
                     $comments = $rental->getMessage();
                 }
                 $clientName = "-Taken-";

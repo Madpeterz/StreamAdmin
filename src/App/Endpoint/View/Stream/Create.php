@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Set\ApisSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\ServertypesSet;
-use App\Template\Form;
+use App\Models\Sets\ApisSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\ServerSet;
+use App\Models\Sets\ServertypesSet;
+use YAPF\Bootstrap\Template\Form;
 
 class Create extends View
 {
@@ -22,14 +22,7 @@ class Create extends View
         $package_set = new PackageSet();
         $package_set->loadAll();
 
-        $api_set = new ApisSet();
-        $api_set->loadAll();
-
-        $improved_serverLinker = [];
-        foreach ($server_set as $server) {
-            $api = $api_set->getObjectByID($server->getApiLink());
-            $improved_serverLinker[$server->getId()] = $server->getDomain() . " {" . $api->getName() . "}";
-        }
+        $improved_serverLinker = $server_set->getLinkedArray("id", "domain");
 
         $servertypes_set = new ServertypesSet();
         $servertypes_set->loadAll();
@@ -75,20 +68,10 @@ class Create extends View
         $form->textInput("mountpoint", "Mountpoint", 999, "/live", "Stream mount point");
         $form->col(6);
         $form->group("Config");
-        $form->textInput("adminUsername", "Admin Usr", 5, null, "Admin username");
-        $form->textInput("adminPassword", "Admin PW", 3, null, "Admin password");
-        $form->textInput("djPassword", "Encoder/Stream password", 3, null, "Encoder/Stream password");
+        $form->textInput("adminUsername", "Admin Usr", 50, null, "Admin username");
+        $form->textInput("adminPassword", "Admin PW", 20, null, "Admin password");
+        $form->textInput("djPassword", "Encoder/Stream password", 20, null, "Encoder/Stream password");
         $form->select("needswork", "Needs work", false, $this->yesNo);
-        $form->directAdd("<br/>");
-        $form->col(6);
-        $form->group("API");
-        $form->textInput("apiConfigValue1", "API UID 1", 10, null, "API id 1");
-        $form->textInput("apiConfigValue2", "API UID 2", 10, null, "API id 2");
-        $form->textInput("apiConfigValue3", "API UID 3", 10, null, "API id 3");
-        $form->col(6);
-        $form->group("Magic");
-        $form->select("api_create", "Create on server", 0, $this->yesNo);
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
-        include "" . ROOTFOLDER . "/App/Endpoint/View/Stream/api_linking.php";
     }
 }

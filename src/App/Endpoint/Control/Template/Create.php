@@ -2,28 +2,26 @@
 
 namespace App\Endpoint\Control\Template;
 
-use App\R7\Model\Template;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Template;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
-        $name = $input->postString("name", 30, 5);
+        $name = $this->input->post("name")->checkStringLength(5, 30)->asString();
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $detail = $input->postString("detail", 800, 5);
+        $detail = $this->input->post("detail")->checkStringLength(5, 800)->asString();
         if ($detail == null) {
-            $this->failed("Template failed:" . $input->getWhyFailed());
+            $this->failed("Template failed:" . $this->input->getWhyFailed());
             return;
         }
-        $notecardDetail = $input->postString("notecardDetail", 5000, 5);
+        $notecardDetail = $this->input->post("notecardDetail")->checkStringLength(5, 5000)->asString();
         if ($notecardDetail == null) {
-            $this->failed("Template failed:" . $input->getWhyFailed());
+            $this->failed("Template failed:" . $this->input->getWhyFailed());
             return;
         }
         $template = new Template();
@@ -31,16 +29,16 @@ class Create extends ViewAjax
         $template->setDetail($detail);
         $template->setNotecardDetail($notecardDetail);
         $create_status = $template->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed(
                 sprintf(
                     "Unable to create Template: %1\$s",
-                    $create_status["message"]
+                    $create_status->message
                 )
             );
             return;
         }
-        $this->ok("Template created");
-        $this->setSwapTag("redirect", "template");
+        $this->redirectWithMessage("Template created");
+        $this->createAuditLog($template->getId(), "+++", null, $template->getName());
     }
 }

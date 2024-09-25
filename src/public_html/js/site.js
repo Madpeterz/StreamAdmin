@@ -84,6 +84,23 @@ $(document).ready(function () {
     if(tab != false) {
         $("#"+tab).click();
     }
+    var bubblemessage = getUrlParameter("bubblemessage");
+    var bubbletype = getUrlParameter("bubbletype");
+    if(bubblemessage != false) {
+        bubblemessage = bubblemessage.replace(/<(?!br\s*\/?)[^>]+>/g, '');
+        if(bubbletype == "warning") {
+            alert_warning(bubblemessage);
+        }
+        else if(bubbletype == "info") {
+            alert_info(bubblemessage);
+        }
+        else if(bubbletype == "success") {
+            alert_success(bubblemessage);
+        }
+        else {
+            alert_error(bubblemessage);
+        }
+    }
     
 
     $(".bulksenduncheck").click(function (e) {
@@ -142,7 +159,7 @@ $(document).ready(function () {
         var actionTitle = $(this).data('actiontitle');
         $("#confirmModalForm").attr('action',actionEndpoint);
         $("#confirmModalButtonText").text(actionText);
-        $("#confirmModalContent").text(actionMessage);
+        $("#confirmModalContent").html(actionMessage);
         $("#confirmModalTitle").text(actionTitle);
         $("#confirmModal").modal('show');
     });
@@ -235,7 +252,7 @@ function ajaxForm(form)
                         if (jsondata.hasOwnProperty('redirect')) {
                             if (jsondata.redirect != null) {
                                 jsondata.redirect = jsondata.redirect.replace("here", "");
-                                var urlgoto = url_base + jsondata.redirect;
+                                var urlgoto = SITE_URL + jsondata.redirect;
                                 setTimeout(function () { $(location).attr('href', urlgoto) }, redirectdelay);
                             } else {
                                 setTimeout(function () { ajax_busy = false }, 1000);
@@ -264,15 +281,51 @@ function ajaxForm(form)
     }
 }
 
-$('#NotecardModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
+$('#NotecardModal').on('click', function (event) {
+    var button = $(event.target); // Button that triggered the modal
     var rentaluid = button.data('rentaluid'); // Extract info from data-* attributes
+    if(rentaluid.length < 4)
+    {
+        alert_error("No rental uid given unable to resend.");
+        return;
+    }
+    $.ajax({
+        type: "post",
+        url: SITE_URL + "Client/Resend/" + rentaluid,
+        success: function (data) {
+            try {
+                jsondata = JSON.parse(data);
+                if (jsondata.hasOwnProperty('status')) {
+                    alert_success(jsondata.message);
+                }
+                else {
+                    alert_error("Reply from server is not vaild please reload the page and try again.");
+                }
+            }
+            catch (e) {
+                alert_warning("Unable to process reply, please reload the page and try again!");
+            }
+        },
+        error: function (data) {
+            alert_error("something broke :(");
+        }
+    });
+});
+
+$('#NotecardModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var rentaluid = button.data('rentaluid'); // Extract info from data-* attributes
+    if(rentaluid.length < 4)
+    {
+        alert_error("No rental uid given unable to display notecard.");
+        return;
+    }
     var modal = $(this);
     modal.find('#ModalTitle').text('Loading');
     modal.find('#ModalText').val("Fetching notecard for rental " + rentaluid);
     $.ajax({
         type: "post",
-        url: url_base + "client/getnotecard/" + rentaluid,
+        url: SITE_URL + "Client/Getnotecard/" + rentaluid,
         success: function (data) {
             try {
                 jsondata = JSON.parse(data);
@@ -281,6 +334,7 @@ $('#NotecardModal').on('show.bs.modal', function (event) {
                     if (jsondata.hasOwnProperty('message')) {
                         modal.find('#ModalTitle').text('Notecard');
                         modal.find('#ModalText').val(jsondata.message);
+                        modal.find('#resendNotecard').attr("data-rentaluid", jsondata.rentaluid);
                     }
                 }
                 else {
@@ -292,7 +346,7 @@ $('#NotecardModal').on('show.bs.modal', function (event) {
             }
         },
         error: function (data) {
-            alert_error(data);
+            alert_error("something broke :(");
         }
     });
 })

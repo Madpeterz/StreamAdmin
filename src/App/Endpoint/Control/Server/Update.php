@@ -2,29 +2,27 @@
 
 namespace App\Endpoint\Control\Server;
 
+use App\Models\Sets\ServerSet;
+
 class Update extends Create
 {
-
     public function process(): void
     {
         $this->setup();
         $this->formData();
         if ($this->loadServer() == false) {
             return;
-        } elseif ($this->tests() == false) {
-            return;
         } elseif ($this->extendedDomainCheck() == false) {
             return;
         } elseif ($this->updateServer() == false) {
             return;
         }
-        $this->ok("Server updated");
-        $this->setSwapTag("redirect", "server");
+        $this->redirectWithMessage("Server updated");
     }
 
     protected function loadServer(): bool
     {
-        if ($this->server->loadID($this->page) == false) {
+        if ($this->server->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find server");
             $this->setSwapTag("redirect", "server");
             return false;
@@ -34,15 +32,23 @@ class Update extends Create
 
     protected function updateServer(): bool
     {
-        $this->setupServer();
+        $oldvalues = $this->server->objectToValueArray();
+        $this->server->setDomain($this->domain);
+        $this->server->setControlPanelURL($this->controlPanelURL);
         $update_status = $this->server->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->setSwapTag(
                 "message",
-                sprintf("Unable to update server: %1\$s", $update_status["message"])
+                sprintf("Unable to update server: %1\$s", $update_status->message)
             );
             return false;
         }
+        $this->createMultiAudit(
+            $this->server->getId(),
+            $this->server->getFields(),
+            $oldvalues,
+            $this->server->objectToValueArray()
+        );
         return true;
     }
 
@@ -54,19 +60,20 @@ class Update extends Create
             "types" => ["s"],
             "matches" => ["="],
         ];
-        $count_check = $this->sql->basicCountV2($this->server->getTable(), $whereConfig);
+        $serverSet = new ServerSet();
+        $count_check = $serverSet->countInDB($whereConfig);
         $expected_count = 0;
         if ($this->server->getDomain() == $this->domain) {
             $expected_count = 1;
         }
-        if ($count_check["status"] == false) {
+        if ($count_check->status == false) {
             $this->setSwapTag(
                 "message",
                 "Unable to check if there is a server assigned to domain already"
             );
             return false;
         }
-        if ($count_check["count"] != $expected_count) {
+        if ($count_check->items != $expected_count) {
             $this->failed("There is already a server with that domain");
             return false;
         }

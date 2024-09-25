@@ -3,24 +3,22 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Endpoint\Control\Outbox\Send;
-use App\R7\Model\Rental;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Rental;
+use App\Template\ControlAjax;
 
-class Message extends ViewAjax
+class Message extends ControlAjax
 {
     public function process(): void
     {
         $rental = new Rental();
-        $input = new InputFilter();
-        if ($rental->loadByRentalUid($this->page) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;
         }
-        $message = $input->postString("mail", 800, 10);
+        $message = $this->input->post("mail")->checkStringLength(10, 800)->asString();
         if ($message == null) {
-            $this->failed("message failed:" . $input->getWhyFailed());
+            $this->failed("message failed:" . $this->input->getWhyFailed());
             return;
         }
 
@@ -28,7 +26,7 @@ class Message extends ViewAjax
         global $_POST;
         $_POST["message"] = $message;
         $_POST["max_avatars"] = 1;
-        $_POST["source"] = "selectedRental";
+        $_POST["source"] = "Selectedrental";
         $_POST["source_id"] = $rental->getId();
         $_POST["avatarids"] = [$rental->getAvatarLink()];
         $Send->process();

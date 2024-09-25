@@ -2,40 +2,35 @@
 
 namespace App\Endpoint\Control\Package;
 
-use App\R7\Model\Package;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
-use App\R7\Set\TransactionsSet;
-use App\R7\Set\TreevenderpackagesSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\StreamSet;
+use App\Models\Sets\TransactionsSet;
+use App\Models\Sets\TreevenderpackagesSet;
+use App\Template\ControlAjax;
 
-class Remove extends ViewAjax
+class Remove extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
+
         $package = new Package();
         $stream_set = new StreamSet();
         $rental_set = new RentalSet();
         $treevender_packages_set = new TreevenderpackagesSet();
 
-        $accept = $input->postString("accept");
+        $accept = $this->input->post("accept")->asString();
         $this->setSwapTag("redirect", "package");
         if ($accept != "Accept") {
             $this->failed("Did not Accept");
-            $this->setSwapTag("redirect", "package/manage/" . $this->page . "");
+            $this->setSwapTag("redirect", "package/manage/" . $this->siteConfig->getPage() . "");
             return;
         }
-        if ($package->loadByPackageUid($this->page) == false) {
+        if ($package->loadByPackageUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find package");
             return;
         }
-        $load_status = $stream_set->loadByPackageLink($package->getId());
-        if ($load_status["status"] == false) {
-            $this->failed("Unable to check if package is being used by any streams");
-            return;
-        }
+        $stream_set = $package->relatedStream();
         if ($stream_set->getCount() != 0) {
             $this->failed(
                 sprintf(
@@ -51,7 +46,7 @@ class Remove extends ViewAjax
         }
 
         $load_status = $rental_set->loadByPackageLink($package->getId());
-        if ($load_status["status"] == false) {
+        if ($load_status->status == false) {
             $this->failed("Unable to check if package is being used by any clients");
             return;
         }
@@ -65,7 +60,7 @@ class Remove extends ViewAjax
             return;
         }
         $load_status = $treevender_packages_set->loadByPackageLink($package->getId());
-        if ($load_status["status"] == false) {
+        if ($load_status->status == false) {
             $this->failed("Unable to check if package is being used by any treevenders");
             return;
         }
@@ -78,25 +73,27 @@ class Remove extends ViewAjax
             );
             return;
         }
+        $packageid = $package->getId();
+        $packagename = $package->getName();
         $remove_status = $package->removeEntry();
-        if ($remove_status["status"] == false) {
+        if ($remove_status->status == false) {
             $this->failed(
                 sprintf(
                     "Unable to remove package: %1\$s",
-                    $remove_status["message"]
+                    $remove_status->message
                 )
             );
             return;
         }
-
-        $this->ok("Package removed");
+        $this->createAuditLog($packageid, "---", $packagename);
+        $this->redirectWithMessage("Package removed");
     }
 
     protected function unlinkTransactions(Package $package): bool
     {
         $transaction_set = new TransactionsSet();
         $load_status = $transaction_set->loadByPackageLink($package->getId());
-        if ($load_status["status"] == false) {
+        if ($load_status->status == false) {
             $this->failed("Unable to check if package is being used by any transactions");
             return false;
         }
@@ -104,8 +101,8 @@ class Remove extends ViewAjax
             return true;
         }
         $reply = $transaction_set->updateFieldInCollection("packageLink", null);
-        if ($reply["status"] == false) {
-            $this->failed("Unable to unattach transactions from package because: " . $reply["message"]);
+        if ($reply->status == false) {
+            $this->failed("Unable to unattach transactions from package because: " . $reply->message);
             return false;
         }
         return true;

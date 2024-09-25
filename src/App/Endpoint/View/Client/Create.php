@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\PackageSet;
-use App\R7\Set\ServerSet;
-use App\Template\Form;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\ServerSet;
+use YAPF\Bootstrap\Template\Form;
 
 class Create extends View
 {
@@ -25,14 +25,14 @@ class Create extends View
             $form->textInput(
                 "avataruid",
                 "Avatar UID (Or UUID/Full name)",
-                30,
+                0,
                 "",
                 "Avatar uid | Madpeter Zond | xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
             );
             $form->directAdd("<a data-toggle=\"modal\" data-target=\"#AvatarPicker\" "
-            . "href=\"#\" target=\"_blank\">Find/Add avatar</a><br/>");
+            . "href=\"#\" target=\"_blank\">Find avatar</a><br/>");
             $form->numberInput("daysremaining", "Days remaining", 0, 3, "Max 999");
-            $form->textInput("streamuid", "Stream UID (Or port)", 30, "", "Stream uid | Port number");
+            $form->textInput("streamuid", "Stream UID (Or port)", 4, "", "Stream uid | Port number");
         $form->col(6);
         $form->col(6);
             $form->directAdd("<br/>If there are multiple streams with the same port number you must use the UID!");

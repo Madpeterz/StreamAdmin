@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Objects;
 
-use App\Template\Form;
+use YAPF\Bootstrap\Template\Form;
 
 class Clear extends View
 {

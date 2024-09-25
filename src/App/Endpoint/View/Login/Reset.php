@@ -9,7 +9,7 @@ class Reset extends View
         $this->setSwapTag("html_title", "Reset password");
         $this->output->addSwapTagString(
             "page_content",
-            file_get_contents("" . ROOTFOLDER . "/App/Endpoint/View/Login/reset.layout")
+            file_get_contents($this->siteConfig->getRootFolder() . "/App/Endpoint/View/Login/reset.layout")
         );
     }
 }

@@ -11,7 +11,7 @@ abstract class SecondlifeHudAjax extends SecondlifeAjax
         if ($this->load_ok == false) {
             return;
         }
-        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->slconfig->getHudLinkCode();
+        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->siteConfig->getSlConfig()->getHudLinkCode();
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;

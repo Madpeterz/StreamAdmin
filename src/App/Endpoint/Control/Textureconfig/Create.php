@@ -2,31 +2,29 @@
 
 namespace App\Endpoint\Control\Textureconfig;
 
-use App\R7\Model\Textureconfig;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Textureconfig;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
         $textureconfig = new Textureconfig();
 
-        $name = $input->postString("name", 30, 4);
+        $name = $this->input->post("name")->checkStringLength(4, 30)->asString();
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $gettingDetails = $input->postUUID("gettingDetails");
-        $requestDetails = $input->postUUID("requestDetails");
-        $offline = $input->postUUID("offline");
-        $waitOwner = $input->postUUID("waitOwner");
-        $inUse = $input->postUUID("inUse");
-        $makePayment = $input->postUUID("makePayment");
-        $stockLevels = $input->postUUID("stockLevels");
-        $renewHere = $input->postUUID("renewHere");
-        $proxyRenew = $input->postUUID("proxyRenew");
+        $gettingDetails = $this->input->post("gettingDetails")->isUuid()->asString();
+        $requestDetails = $this->input->post("requestDetails")->isUuid()->asString();
+        $offline = $this->input->post("offline")->isUuid()->asString();
+        $waitOwner = $this->input->post("waitOwner")->isUuid()->asString();
+        $inUse = $this->input->post("inUse")->isUuid()->asString();
+        $makePayment = $this->input->post("makePayment")->isUuid()->asString();
+        $stockLevels = $this->input->post("stockLevels")->isUuid()->asString();
+        $renewHere = $this->input->post("renewHere")->isUuid()->asString();
+        $proxyRenew = $this->input->post("proxyRenew")->isUuid()->asString();
         $testing = [
             "gettingDetail" => $gettingDetails,
             "requestDetails" => $requestDetails,
@@ -41,7 +39,7 @@ class Create extends ViewAjax
         $testing = array_reverse($testing, true);
         foreach ($testing as $key => $value) {
             if ($value == null) {
-                $this->failed("Entry: " . $key . " is not set - " . $input->getWhyFailed());
+                $this->failed("Entry: " . $key . " is not set - " . $this->input->getWhyFailed());
                 return;
             }
         }
@@ -56,13 +54,13 @@ class Create extends ViewAjax
         $textureconfig->setRequestDetails($requestDetails);
         $textureconfig->setProxyRenew($proxyRenew);
         $create_status = $textureconfig->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed(
-                sprintf("Unable to create Texture pack: %1\$s", $create_status["message"])
+                sprintf("Unable to create Texture pack: %1\$s", $create_status->message)
             );
             return;
         }
-        $this->ok("Texture pack created");
-        $this->setSwapTag("redirect", "textureconfig");
+        $this->redirectWithMessage("Texture pack created");
+        $this->createAuditLog($textureconfig->getId(), "+++", null, $textureconfig->getName());
     }
 }

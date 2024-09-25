@@ -3,63 +3,66 @@
 namespace App\Endpoint\SystemApi\Notecard;
 
 use App\Helpers\SwapablesHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Notecard;
-use App\R7\Set\NotecardSet;
-use App\R7\Model\Notice;
-use App\R7\Model\Package;
-use App\R7\Model\Rental;
-use App\R7\Model\Server;
-use App\R7\Model\Stream;
-use App\R7\Model\Template;
+use App\Models\Avatar;
+use App\Models\Notecard;
+use App\Models\Sets\NotecardSet;
+use App\Models\Notice;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Server;
+use App\Models\Stream;
+use App\Models\Template;
 use App\Template\SystemApiAjax;
 
 class Next extends SystemApiAjax
 {
     protected Notecard $notecard;
-    protected Rental $rental;
-    protected Package $package;
-    protected Avatar $avatar;
-    protected Template $template;
-    protected Stream $stream;
-    protected Server $server;
-    protected Notice $notice;
+    protected ?Rental $rental;
+    protected ?Package $package;
+    protected ?Avatar $avatar;
+    protected ?Template $template;
+    protected ?Stream $stream;
+    protected ?Server $server;
+    protected ?Notice $notice;
 
     protected $notecard_title = "";
     protected $notecard_content = "";
 
     protected function failedLoad(string $whyfailed): bool
     {
-        $this->setSwapTag("message", "Unable to load: " . $whyfailed);
+        $this->failed("Unable to load: " . $whyfailed);
         return false;
     }
 
-    protected function loadContent(): bool
+    protected function asNotice(): bool
     {
         $swap_helper = new SwapablesHelper();
-        if ($this->notecard->getAsNotice() == false) {
-            $this->notecard_title = "Streamdetails for "
-            . $this->avatar->getAvatarName() . " port: "
-            . $this->stream->getPort() . "";
-            if ($this->template->getNotecarddetail() == null) {
-                $this->setSwapTag("message", "Selected template: " . $this->template->getName() . " is empty");
-                return false;
-            }
-            $this->notecard_content = $swap_helper->getSwappedText(
-                $this->template->getNotecarddetail(),
-                $this->avatar,
-                $this->rental,
-                $this->package,
-                $this->server,
-                $this->stream
-            );
-            return true;
+        $this->notecard_title = "Details for "
+        . explode(" ", $this->avatar->getAvatarName())[0] . " port: "
+        . $this->stream->getPort() . " [" . date('Y-m-d H:i:s', time()) . "]";
+        if ($this->template->getNotecarddetail() == null) {
+            $this->failed("Selected template: " . $this->template->getName() . " is empty");
+            return false;
         }
+        $this->notecard_content = $swap_helper->getSwappedText(
+            $this->template->getNotecarddetail(),
+            $this->avatar,
+            $this->rental,
+            $this->package,
+            $this->server,
+            $this->stream
+        );
+        return true;
+    }
+
+    protected function asNotecard(): bool
+    {
+        $swap_helper = new SwapablesHelper();
         $this->notecard_title = "Reminder for "
         . $this->avatar->getAvatarName() . " port: "
         . $this->stream->getPort() . "";
         if ($this->notice->getNotecarddetail() == null) {
-            $this->setSwapTag("message", "Selected notice: " . $this->notice->getName() . " is empty");
+            $this->failed("Selected notice: " . $this->notice->getName() . " is empty");
             return false;
         }
         $this->notecard_content = $swap_helper->getSwappedText(
@@ -73,38 +76,35 @@ class Next extends SystemApiAjax
         return true;
     }
 
+    protected function loadContent(): bool
+    {
+
+        if ($this->notecard->getAsNotice() == false) {
+            return $this->asNotice();
+        }
+        return $this->asNotecard();
+    }
+
     protected function loadData(): bool
     {
-        $this->rental = new Rental();
-        $this->package = new Package();
-        $this->avatar = new Avatar();
-        $this->template = new Template();
-        $this->stream = new Stream();
-        $this->server = new Server();
         $this->notice = new Notice();
-        if ($this->rental->loadID($this->notecard->getRentalLink()) == false) {
-            return $this->failedLoad("Rental");
-        }
-        if ($this->avatar->loadID($this->rental->getAvatarLink()) == false) {
-            return $this->failedLoad("Avatar");
-        }
-        if ($this->stream->loadID($this->rental->getStreamLink()) == false) {
-            return $this->failedLoad("Stream");
-        }
-        if ($this->server->loadID($this->stream->getServerLink()) == false) {
-            return $this->failedLoad("Server");
-        }
-        if ($this->package->loadID($this->stream->getPackageLink()) == false) {
-            return $this->failedLoad("Package");
+
+        $this->rental = $this->notecard->relatedRental()->getFirst();
+        $this->avatar = $this->rental?->relatedAvatar()->getFirst();
+        $this->stream = $this->rental?->relatedStream()->getFirst();
+        $this->server = $this->stream?->relatedServer()->getFirst();
+        $this->package = $this->rental?->relatedPackage()->getFirst();
+        $test = [$this->rental,$this->avatar,$this->stream,$this->server,$this->package];
+        if (in_array(null, $test) == true) {
+            $this->failed("One or more required objects did not load!");
+            return false;
         }
         if ($this->notecard->getAsNotice() == false) {
-            if ($this->template->loadID($this->package->getTemplateLink()) == false) {
-                return $this->failedLoad("Template");
-            }
+            $this->template = $this->package->relatedTemplate()->getFirst();
             return true;
         }
         if ($this->notice->loadID($this->notecard->getNoticeLink()) == false) {
-            return $this->failedLoad("Template");
+            return $this->failedLoad("Notice");
         }
         return true;
     }
@@ -112,10 +112,9 @@ class Next extends SystemApiAjax
     {
         $this->notecard = new Notecard();
         $notecard_set = new NotecardSet();
-        $notecard_set->loadNewest(1, [], [], "id", "ASC"); // lol loading oldest with newest command ^+^ hax
+        $notecard_set->loadNewest(limit:1, orderDirection:"ASC");
         if ($notecard_set->getCount() == 0) {
-            $this->setSwapTag("status", true);
-            $this->setSwapTag("message", "nowork");
+            $this->ok("nowork");
             return;
         }
         $this->notecard = $notecard_set->getFirst();
@@ -127,12 +126,11 @@ class Next extends SystemApiAjax
         }
 
         $remove_status = $this->notecard->removeEntry();
-        if ($remove_status["status"] == false) {
-            $this->setSwapTag("message", "Unable to remove old entry");
+        if ($remove_status->status == false) {
+            $this->failed("Unable to remove old entry: " . $remove_status->message);
             return;
         }
-        $this->setSwapTag("status", true);
-        $this->setSwapTag("message", "ok");
+        $this->ok("ok");
         $this->setSwapTag("AvatarUUID", $this->avatar->getAvatarUUID());
         $this->setSwapTag("NotecardTitle", $this->notecard_title);
         $this->setSwapTag("NotecardContent", $this->notecard_content);

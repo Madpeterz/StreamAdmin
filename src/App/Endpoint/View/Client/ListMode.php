@@ -2,9 +2,7 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\StreamSet;
+use App\Models\Sets\RentalSet;
 
 class ListMode extends RenderList
 {
@@ -12,11 +10,8 @@ class ListMode extends RenderList
     {
         $this->rentalSet = new RentalSet();
         $this->rentalSet->loadAll("id", "DESC");
-        $this->avatarSet = new AvatarSet();
-        $this->avatarSet->loadByValues($this->rentalSet->getAllByField("avatarLink"));
-        $this->streamSet = new StreamSet();
-        $this->streamSet->loadByValues($this->rentalSet->getAllByField("streamLink"));
-
+        $this->avatarSet = $this->rentalSet->relatedAvatar();
+        $this->streamSet = $this->rentalSet->relatedStream();
         $this->output->addSwapTagString("page_title", " [All]");
         parent::process();
     }

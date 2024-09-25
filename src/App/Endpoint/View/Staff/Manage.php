@@ -2,14 +2,14 @@
 
 namespace App\Endpoint\View\Staff;
 
-use App\R7\Model\Staff;
-use App\Template\Form;
+use App\Models\Staff;
+use YAPF\Bootstrap\Template\Form;
 
 class Manage extends View
 {
     public function process(): void
     {
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->output->redirect("staff?bubblemessage=Owner level access needed&bubbletype=warning");
             return;
         }
@@ -17,22 +17,22 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", ": Editing staff member");
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove staff member " . $this->page . "' 
+        data-actiontitle='Remove staff member " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove staff member' 
         data-actionmessage='This will fail is the staff is owner level' 
-        data-targetendpoint='[[url_base]]Staff/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Staff/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
         $staff = new Staff();
-        if ($staff->loadByField("id", $this->page) == false) {
+        if ($staff->loadByField("id", $this->siteConfig->getPage()) == false) {
             $this->output->redirect("staff?bubblemessage=unable to find staff member&bubbletype=warning");
             return;
         }
-        if ($this->slconfig->getOwnerAvatarLink() == $staff->getAvatarLink()) {
+        if ($this->siteConfig->getSlConfig()->getOwnerAvatarLink() == $staff->getAvatarLink()) {
             $this->setSwapTag("page_actions", "");
         }
 
         $form = new Form();
-        $form->target("staff/update/" . $this->page . "");
+        $form->target("staff/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->textInput(

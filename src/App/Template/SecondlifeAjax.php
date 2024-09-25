@@ -2,21 +2,25 @@
 
 namespace App\Template;
 
+use App\Config;
 use App\Helpers\AvatarHelper;
 use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
-use App\R7\Model\Avatar;
-use App\R7\Model\Objects;
-use App\R7\Model\Region;
-use App\R7\Model\Reseller;
+use App\Models\Avatar;
+use App\Models\Botconfig;
+use App\Models\Message;
+use App\Models\Objects;
+use App\Models\Region;
+use App\Models\Reseller;
+use YAPF\Bootstrap\Template\ViewAjax as TemplateViewAjax;
+use YAPF\Framework\Responses\DbObjects\CreateReply;
 use YAPF\InputFilter\InputFilter;
 
-abstract class SecondlifeAjax extends View
+abstract class SecondlifeAjax extends TemplateViewAjax
 {
     protected bool $trackObject = true;
-    protected $method = "";
-    protected $action = "";
+    protected $version = "";
     protected $mode = "";
     protected $objectuuid = "";
     protected $regionname = "";
@@ -37,7 +41,73 @@ abstract class SecondlifeAjax extends View
     protected bool $owner_override = false;
     protected ?Objects $object;
     protected bool $soft_fail = false;
+    protected InputFilter $input;
+    protected Config $siteConfig;
 
+    protected ?Botconfig $botconfig = null;
+    protected ?Avatar $bot = null;
+    protected function setupBot(): bool
+    {
+        if ($this->botconfig == null) {
+            $this->botconfig = new Botconfig();
+            $this->botconfig->loadID(1);
+        }
+        if ($this->botconfig->isLoaded() == false) {
+            $this->failed("Unable to load bot config");
+            return false;
+        }
+        if ($this->bot == null) {
+            $this->bot = new Avatar();
+            $this->bot->loadID($this->botconfig->getAvatarLink());
+        }
+        if ($this->bot->isLoaded() == false) {
+            $this->bot = null;
+            $this->failed("Unable to load bot avatar config");
+            return false;
+        }
+        return true;
+    }
+    protected function sendMessageToAvatar(Avatar $av, string $sendmessage): CreateReply
+    {
+        $message = new Message();
+        $message->setAvatarLink($av->getId());
+        $message->setMessage($sendmessage);
+        return $message->createEntry();
+    }
+
+    public function renderPage(): void
+    {
+        $output = $this->getOutputObject();
+        $tags = $output->getAllTags();
+        foreach ($tags as $tagname => $tagvalue) {
+            if (is_bool($tagvalue) == false) {
+                continue;
+            }
+            if ($tagvalue == true) {
+                $this->setSwapTag($tagname, "1");
+                continue;
+            }
+            $this->setSwapTag($tagname, "0");
+        }
+        parent::renderPage();
+    }
+    public function captureOutput(): string
+    {
+        $output = $this->getOutputObject();
+        $tags = $output->getAllTags();
+        foreach ($tags as $tagname => $tagvalue) {
+            if (is_bool($tagvalue) == false) {
+                continue;
+            }
+            if ($tagvalue == true) {
+                $this->setSwapTag($tagname, "1");
+                continue;
+            }
+            $this->setSwapTag($tagname, "0");
+        }
+        $this->setSwapTag("render", "Ajax");
+        return json_encode($output->getAllTags());
+    }
     public function setReseller(Reseller $reseller): void
     {
         $this->reseller = $reseller;
@@ -59,18 +129,33 @@ abstract class SecondlifeAjax extends View
         return $this->load_ok;
     }
 
-    public function __construct(bool $AutoLoadTemplate = false)
+    public function __construct(bool $AutoLoadTemplate = false, bool $bypassHash = false)
     {
         parent::__construct($AutoLoadTemplate);
+        global $system;
+        $this->siteConfig = $system;
+        $this->input = new InputFilter();
         $this->requiredValues();
         $this->timeWindow();
-        $this->hashCheck();
+        if ($bypassHash == false) {
+            $this->hashCheck();
+        }
+        $this->versionCheck();
         if ($this->load_ok == false) {
             $this->setSwapTag("status", false);
             return;
         }
         $this->failed("ready");
-        $this->output->tempateSecondLifeAjax();
+    }
+
+    protected function versionCheck(): void
+    {
+        $min_version = "2.0.0.0";
+        if (version_compare($this->version, $min_version, ">=") == false) {
+            $this->load_ok = false;
+            $this->failed("Requires version: " . $min_version . " or higher given version " . $this->version);
+            return;
+        }
     }
 
     protected function requiredValues(): void
@@ -79,38 +164,40 @@ abstract class SecondlifeAjax extends View
             return;
         }
         $required_sl = [
-            "method",
-            "action",
-            "mode",
-            "objectuuid",
-            "regionname",
-            "ownerkey",
-            "ownername",
-            "pos",
-            "objectname",
-            "objecttype",
+            "version" => "s",
+            "mode" => "s",
+            "objectuuid" => "k",
+            "regionname" => "s",
+            "ownerkey" => "k",
+            "ownername" => "s",
+            "pos" => "s",
+            "objectname" => "s",
+            "objecttype" => "s",
         ];
 
-        $input = new InputFilter();
-        $this->staticpart = "";
-        foreach ($required_sl as $slvalue) {
-            $value = $input->postFilter($slvalue);
-            if ($value !== null) {
-                $this->$slvalue = $value;
-                $this->staticpart .= $value;
-            } else {
+        $this->staticpart = $this->config->getModule() . "" . $this->config->getArea();
+
+        foreach ($required_sl as $fieldname => $typematch) {
+            $value = $this->input->post($fieldname)->checkStringLengthMin(1)->asString();
+            if ($typematch == "k") {
+                $value = $this->input->post($fieldname)->isUuid()->asString();
+            }
+            if ($value === null) {
                 $this->load_ok = false;
-                $this->failed("Value: " . $slvalue . " is missing");
+                $this->failed("Value: " . $fieldname . " is missing");
                 return;
             }
+            $this->$fieldname = $value;
+            $this->staticpart .= $value;
         }
-        $this->unixtime = $input->postFilter("unixtime");
+
+        $this->unixtime = $this->input->post("unixtime")->asInt();
         if ($this->unixtime === null) {
             $this->failed("Missing unixtime value");
             $this->load_ok = false;
             return;
         }
-        $this->hash = $input->postFilter("hash");
+        $this->hash = $this->input->post("hash")->asString();
         if ($this->hash === null) {
             $this->load_ok = false;
             $this->failed("Missing hash value");
@@ -123,11 +210,11 @@ abstract class SecondlifeAjax extends View
         if ($this->load_ok == false) {
             return;
         }
-        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->slconfig->getSlLinkCode();
+        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->siteConfig->getSlConfig()->getSlLinkCode();
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->failed("Unable to vaildate request to API endpoint: ");
+            $this->failed("Unable to vaildate request to API endpoint");
             return;
         }
         $this->continueHashChecks(false);
@@ -155,8 +242,8 @@ abstract class SecondlifeAjax extends View
             $reseller_helper = new ResellerHelper();
             $get_reseller_status = $reseller_helper->loadOrCreate(
                 $this->Object_OwnerAvatar->getId(),
-                $this->slconfig->getNewResellers(),
-                $this->slconfig->getNewResellersRate()
+                $this->siteConfig->getSlConfig()->getNewResellers(),
+                $this->siteConfig->getSlConfig()->getNewResellersRate()
             );
             if ($get_reseller_status == false) {
                 $this->load_ok = false;
@@ -165,7 +252,7 @@ abstract class SecondlifeAjax extends View
             }
             if ($skip_reseller == false) {
                 $this->reseller = $reseller_helper->getReseller();
-                if ($this->slconfig->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
+                if ($this->siteConfig->getSlConfig()->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
                     $this->owner_override = true;
                 }
                 if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
@@ -216,8 +303,12 @@ abstract class SecondlifeAjax extends View
         }
     }
 
-    public function renderPage(): void
+    protected function hasAccessOwner(): bool
     {
-        $this->output->renderSecondlifeAjax();
+        if ($this->owner_override == false) {
+            $this->failed("SystemAPI access only - please contact support");
+            return false;
+        }
+        return true;
     }
 }

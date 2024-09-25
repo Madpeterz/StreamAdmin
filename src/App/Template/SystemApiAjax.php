@@ -2,6 +2,8 @@
 
 namespace App\Template;
 
+use App\Config;
+use YAPF\Bootstrap\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 
 abstract class SystemApiAjax extends ViewAjax
@@ -9,6 +11,9 @@ abstract class SystemApiAjax extends ViewAjax
     protected $unixtime = 0;
     protected $token = "";
     protected bool $soft_fail = false;
+    protected ?InputFilter $input;
+    protected Config $siteConfig;
+
 
     public function getSoftFail(): bool
     {
@@ -18,7 +23,10 @@ abstract class SystemApiAjax extends ViewAjax
 
     public function __construct(bool $AutoLoadTemplate = false)
     {
+        global $system;
         parent::__construct($AutoLoadTemplate);
+        $this->input = new InputFilter();
+        $this->siteConfig = $system;
         $this->requiredValues();
         $this->timeWindow();
         $this->hashok();
@@ -27,31 +35,31 @@ abstract class SystemApiAjax extends ViewAjax
             return;
         }
         $this->failed("ready");
-        $this->output->tempateSecondLifeAjax();
     }
     protected function hashok(): void
     {
         if ($this->load_ok == false) {
             return;
         }
-        if (strlen($this->slconfig->getHttpInboundSecret()) < 5) {
+        if (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) < 5) {
             $this->load_ok = false;
             $this->failed("httpcode length must be 5 or longer");
             return;
         }
-        if (strlen($this->slconfig->getHttpInboundSecret()) > 30) {
+        if (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 30) {
             $this->failed("httpcode length must be 30 or less");
             $this->load_ok = false;
             return;
         }
 
-        $bits = [$this->unixtime,$this->method,$this->action,$this->slconfig->getHttpInboundSecret()];
-        $hashcheck = sha1(implode("", $bits));
+        $bits = [$this->unixtime,$this->method,$this->action,$this->siteConfig->getSlConfig()->getHttpInboundSecret()];
+        $raw = implode("", $bits);
+        $hashcheck = sha1($raw);
         if ($this->token == $hashcheck) {
             return;
         }
         $this->load_ok = false;
-        $this->failed("Invaild token");
+        $this->failed("Invaild token: " . $raw);
     }
     protected function timeWindow(): void
     {
@@ -81,22 +89,22 @@ abstract class SystemApiAjax extends ViewAjax
             return;
         }
         $required_values = [
-            "unixtime",
-            "token",
-            "method",
-            "action",
+            "unixtime" => "i",
+            "token" => "s",
+            "method" => "s",
+            "action" => "s",
         ];
-        $input = new InputFilter();
-        $this->staticpart = "";
-        foreach ($required_values as $slvalue) {
-            $value = $input->postFilter($slvalue);
+        foreach ($required_values as $fieldname => $typematch) {
+            $value = $this->input->post($fieldname)->checkStringLengthMin(1)->asString();
+            if ($typematch == "i") {
+                $value = $this->input->post($fieldname)->asInt();
+            }
             if ($value === null) {
                 $this->load_ok = false;
-                $this->failed("Value: " . $slvalue . " is missing");
+                $this->failed("Value: " . $fieldname . " is missing");
                 return;
             }
-            $this->$slvalue = $value;
-            $this->staticpart .= $value;
+            $this->$fieldname = $value;
         }
     }
 }

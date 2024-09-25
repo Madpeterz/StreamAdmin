@@ -2,14 +2,13 @@
 
 namespace App\Endpoint\View\Template;
 
-use App\Template\Form;
-use App\Template\PagedInfo;
+use YAPF\Bootstrap\Template\Form;
+use YAPF\Bootstrap\Template\PagedInfo;
 
 class Create extends View
 {
     public function process(): void
     {
-        global $pages;
         $this->output->addSwapTagString("html_title", " ~ Create");
         $this->output->addSwapTagString("page_title", " Create new");
         $this->setSwapTag("page_actions", "");
@@ -23,11 +22,10 @@ class Create extends View
         $form->textarea("detail", "Template [Object+Bot IM]", 800, "", "Use swap tags as the placeholders!", 17);
         $form->col(6);
         $form->textarea("notecardDetail", "Notecard template", 5000, "", "Use swap tags as the placeholder", 17);
-        $pages = [];
-        $pages["Create"] = $form->render("Create", "primary");
-        include ROOTFOLDER . "/App/Flags/swaps_table_paged.php";
-        include ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
+        $this->pages["Create"] = $form->render("Create", "primary");
+        $this->use_paged_swaps = true;
+        $this->getSwaps();
         $paged = new PagedInfo();
-        $this->setSwapTag("page_content", $paged->render($pages));
+        $this->setSwapTag("page_content", $paged->render($this->pages));
     }
 }

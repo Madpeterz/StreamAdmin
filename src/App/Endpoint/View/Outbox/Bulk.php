@@ -2,15 +2,11 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\BanlistSet;
-use App\R7\Model\Notice;
-use App\R7\Model\Package;
-use App\R7\Set\RentalSet;
-use App\R7\Model\Server;
-use App\R7\Set\StreamSet;
-use App\Template\Form;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Notice;
+use App\Models\Package;
+use App\Models\Sets\RentalSet;
+use App\Models\Server;
+use YAPF\Bootstrap\Template\Form;
 
 class Bulk extends View
 {
@@ -18,61 +14,75 @@ class Bulk extends View
     {
         $rental_set = new RentalSet();
 
-        $input_filter = new InputFilter();
         $source_id = -1;
         $souce_named = "";
         $ok = false;
         $message = "";
 
 
-        if ($this->page == "notice") {
-            $message = $input_filter->getString("messageStatus", 800, 10);
+        if ($this->siteConfig->getPage() == "Notice") {
+            $message = $this->input->get("messageStatus")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
-            $source_id = $input_filter->getFilter("noticeLink", "integer");
+            $source_id = $this->input->get("noticeLink")->checkGrtThanEq(1)->asInt();
             if ($source_id != null) {
                 $notice = new Notice();
                 $notice->loadID($source_id);
                 $souce_named = $notice->getName();
-                $rental_set->loadOnField("noticeLink", $source_id);
+                $rental_set = $notice->relatedRental();
                 $ok = true;
             }
-        } elseif ($this->page == "server") {
-            $message = $input_filter->getString("messageServer", 800, 10);
+        } elseif ($this->siteConfig->getPage() == "Server") {
+            $message = $this->input->get("messageServer")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
-            $source_id = $input_filter->getFilter("serverLink", "integer");
+            $source_id = $this->input->get("serverLink")->checkGrtThanEq(1)->asInt();
             if ($source_id != null) {
                 $server = new Server();
                 $server->loadID($source_id);
                 $souce_named = $server->getDomain();
-                $stream_set = new StreamSet();
-                $stream_set->loadOnField("serverLink", $source_id);
-                $rental_set->loadByValues($stream_set->getAllIds(), "streamLink");
+                $stream_set = $server->relatedStream();
+                $rental_set = $stream_set->relatedRental();
                 $ok = true;
             }
-        } elseif ($this->page == "package") {
-            $message = $input_filter->getString("messagePackage", 800, 10);
+        } elseif ($this->siteConfig->getPage() == "Package") {
+            $message = $this->input->get("messagePackage")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
-            $source_id = $input_filter->getFilter("packageLink", "integer");
+            $source_id = $this->input->get("packageLink")->checkGrtThanEq(1)->asInt();
             if ($source_id != null) {
                 $package = new Package();
                 $package->loadID($source_id);
                 $souce_named = $package->getName();
-                $rental_set->loadOnField("packageLink", $source_id);
+                $rental_set = $package->relatedRental();
                 $ok = true;
             }
-        } elseif ($this->page == "clients") {
-            $message = $input_filter->getString("messageClients", 800, 10);
+        } elseif ($this->siteConfig->getPage() == "Clients") {
+            $message = $this->input->get("messageClients")->checkStringLength(10, 800)->asString();
             if ($message == null) {
-                $this->output->redirectWithMessage("outbox", "message failed:" . $input_filter->getWhyFailed(), "warning");
+                $this->output->redirectWithMessage(
+                    "outbox",
+                    "message failed:" . $this->input->getWhyFailed(),
+                    "warning"
+                );
                 return;
             }
             $rental_set->loadAll();
@@ -80,34 +90,34 @@ class Bulk extends View
             $source_id = 1;
             $ok = true;
         }
-        if (strlen($message) < 10) {
-            $this->output->redirectWithMessage("outbox", "Message is to short", "warning");
+        if (nullSafeStrLen($message) < 10) {
+            $this->output->redirectWithMessage("outbox", "No message was given :(", "warning");
             return;
         }
 
         if ($ok == false) {
+            $this->output->addSwapTagString("page_content", "Filter has failed to load");
             $this->output->redirectWithMessage("outbox", "Filter option not supported", "warning");
             return;
         }
 
-        $this->output->addSwapTagString("page_title", " Bulk sending to " . $this->page . ": " . $souce_named);
-        $stream_set = new StreamSet();
-        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($rental_set->getUniqueArray("avatarLink"));
-        $banlist_set = new BanlistSet();
-        $banlist_set->loadByValues($rental_set->getUniqueArray("avatarLink"), "avatarLink");
-
+        $this->output->addSwapTagString(
+            "page_title",
+            " Bulk sending to " . $this->siteConfig->getPage() . ": " . $souce_named
+        );
+        $stream_set = $rental_set->relatedStream();
+        $avatar_set = $rental_set->relatedAvatar();
+        $banlist_set = $avatar_set->relatedBanlist();
         $max_avatar_count = $avatar_set->getCount() - $banlist_set->getCount();
         if ($max_avatar_count == 0) {
-            $this->output->redirect("outbox?message=No selectable avatars for the " . $this->page);
+            $this->output->redirect("outbox?message=No selectable avatars for the " . $this->siteConfig->getPage());
             return;
         }
         $form = new Form();
         $form->target("outbox/send");
         $form->hiddenInput("message", $message);
         $form->hiddenInput("max_avatars", $max_avatar_count);
-        $form->hiddenInput("source", $this->page);
+        $form->hiddenInput("source", $this->siteConfig->getPage());
         $form->hiddenInput("source_id", $source_id);
 
         $table_head = ["<a href=\"#\" class=\"bulksenduncheck\">X</a>","Name"];

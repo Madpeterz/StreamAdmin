@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Reseller;
+use App\Models\Reseller;
 
 class ResellerHelper
 {
@@ -20,13 +20,12 @@ class ResellerHelper
         if ($avatarLinkid < 1) {
             return false;
         }
-        if ($this->reseller->loadByField("avatarLink", $avatarLinkid) == false) {
+        if ($this->reseller->loadByAvatarLink($avatarLinkid)->status == false) {
             $this->reseller = new Reseller();
             $this->reseller->setAvatarLink($avatarLinkid);
             $this->reseller->setAllowed($auto_accept);
             $this->reseller->setRate($auto_accept_rate);
-            $save_status = $this->reseller->createEntry();
-            return $save_status["status"];
+            return $this->reseller->createEntry()->status;
         }
         return true;
     }

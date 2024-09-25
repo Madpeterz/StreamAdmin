@@ -2,64 +2,62 @@
 
 namespace App\Endpoint\Control\Notice;
 
-use App\R7\Model\Notice;
-use App\R7\Model\Noticenotecard;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Notice;
+use App\Models\Noticenotecard;
+use App\Models\Sets\NoticeSet;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
         $static_notecard = new Noticenotecard();
-        $name = $input->postString("name", 100, 5);
+        $name = $this->input->post("name")->checkStringLength(5, 100)->asString();
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
         $minValue = 1;
-        if ($this->page == 6) {
+        if ($this->siteConfig->getPage() == 6) {
             $minValue = 0;
         }
-        $hoursRemaining = $input->postInteger("hoursRemaining");
+        $hoursRemaining = $this->input->post("hoursRemaining")->checkGrtThanEq($minValue)->asInt();
         if ($hoursRemaining < $minValue) {
-            $this->failed("Hours remain failed: can not be less than " . $minValue);
+            $this->failed("Hours remaining failed:" . $this->input->getWhyFailed());
             return;
         }
-        if ($this->page == 6) {
+        if ($this->siteConfig->getPage() == 6) {
             $hoursRemaining = 0;
         }
-        $imMessage = $input->postString("imMessage", 800, 5);
+        $imMessage = $this->input->post("imMessage")->checkStringLength(5, 800)->asString();
         if ($imMessage === null) {
-            $this->failed("IM message failed:" . $input->getWhyFailed());
+            $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
-        $sendObjectIM = $input->postBool("sendObjectIM");
+        $sendObjectIM = $this->input->post("sendObjectIM")->asBool();
         if ($sendObjectIM === null) {
             $sendObjectIM = false;
         }
 
-        $useBot = $input->postBool("useBot");
+        $useBot = $this->input->post("useBot")->asBool();
         if ($useBot === null) {
             $useBot = false;
         }
-
-        $sendNotecard = $input->postBool("sendNotecard");
+        $sendNotecard = $this->input->post("sendNotecard")->asBool();
         if ($sendNotecard === null) {
             $sendNotecard = false;
         }
-        $notecardDetail = $input->postString("notecardDetail");
-        if ($sendObjectIM === null) {
-            $this->failed("Notecard detail failed:" . $input->getWhyFailed());
+        $notecardDetail = $this->input->post("notecardDetail")->asString();
+        if ($notecardDetail === null) {
+            $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
-        $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
+        $noticeNotecardLink = $this->input->post("noticeNotecardLink")->checkGrtThanEq(1)->asInt();
         if ($noticeNotecardLink === null) {
-            $this->failed("Static notecard failed:" . $input->getWhyFailed());
+            $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;
         }
-        if ($static_notecard->loadID($noticeNotecardLink) == false) {
+        if ($static_notecard->loadID($noticeNotecardLink)->status == false) {
             $this->failed("Unable to find selected static notecard");
             return;
         }
@@ -69,7 +67,7 @@ class Update extends ViewAjax
         }
 
         $notice = new Notice();
-        if ($notice->loadID($this->page) == false) {
+        if ($notice->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find notice");
             $this->setSwapTag("redirect", "notice");
             return;
@@ -80,22 +78,24 @@ class Update extends ViewAjax
             "types" => ["i"],
             "matches" => ["="],
         ];
-        $count_check = $this->sql->basicCountV2($notice->getTable(), $whereConfig);
+        $noticeSet = new NoticeSet();
+        $count_check = $noticeSet->countInDB($whereConfig);
         $expected_count = 0;
         if ($notice->getHoursRemaining() == $hoursRemaining) {
             $expected_count = 1;
         }
-        if ($count_check["status"] == false) {
+        if ($count_check->status == false) {
             $this->failed("Unable to check if there is a notice assigned already");
             return;
         }
-        if ($count_check["count"] != $expected_count) {
+        if ($count_check->items != $expected_count) {
             $this->failed("There is already a notice with that hours remaining trigger");
             return;
         }
         if ($notecardDetail == null) {
             $notecardDetail = " ";
         }
+        $oldvalues = $notice->objectToValueArray();
         $notice->setName($name);
         $notice->setSendObjectIM($sendObjectIM);
         $notice->setImMessage($imMessage);
@@ -103,17 +103,22 @@ class Update extends ViewAjax
         $notice->setSendNotecard($sendNotecard);
         $notice->setNotecardDetail($notecardDetail);
         $notice->setNoticeNotecardLink($static_notecard->getId());
-        if (in_array($this->page, [6,10]) == false) {
+        if (in_array($this->siteConfig->getPage(), [6,10]) == false) {
             $notice->setHoursRemaining($hoursRemaining);
         }
         $update_status = $notice->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed(
-                sprintf("Unable to update notice: %1\$s", $update_status["message"])
+                sprintf("Unable to update notice: %1\$s", $update_status->message)
             );
             return;
         }
-        $this->ok("Notice updated");
-        $this->setSwapTag("redirect", "notice");
+        $this->redirectWithMessage("Notice updated");
+        $this->createMultiAudit(
+            $notice->getId(),
+            $notice->getFields(),
+            $oldvalues,
+            $notice->objectToValueArray()
+        );
     }
 }

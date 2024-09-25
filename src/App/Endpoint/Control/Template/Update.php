@@ -2,49 +2,53 @@
 
 namespace App\Endpoint\Control\Template;
 
-use App\R7\Model\Template;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Template;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
-        $name = $input->postString("name", 30, 5);
+        $name = $this->input->post("name")->checkStringLength(5, 30)->asString();
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $detail = $input->postString("detail", 800, 5);
+        $detail = $this->input->post("detail")->checkStringLength(5, 800)->asString();
         if ($detail == null) {
-            $this->failed("Template failed:" . $input->getWhyFailed());
+            $this->failed("Template failed:" . $this->input->getWhyFailed());
             return;
         }
-        $notecardDetail = $input->postString("notecardDetail", 5000, 5);
+        $notecardDetail = $this->input->post("notecardDetail")->checkStringLength(5, 5000)->asString();
         if ($notecardDetail == null) {
-            $this->failed("Template failed:" . $input->getWhyFailed());
+            $this->failed("Template failed:" . $this->input->getWhyFailed());
             return;
         }
         $template = new Template();
-        if ($template->loadID($this->page) == false) {
+        if ($template->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find template");
             return;
         }
+        $oldvalues = $template->objectToValueArray();
         $template->setName($name);
         $template->setDetail($detail);
         $template->setNotecardDetail($notecardDetail);
         $update_status = $template->updateEntry();
-        if ($update_status["status"] == false) {
+        if ($update_status->status == false) {
             $this->failed(
                 sprintf(
                     "Unable to update Template: %1\$s",
-                    $update_status["message"]
+                    $update_status->message
                 )
             );
             return;
         }
-        $this->ok("Template updated");
-        $this->setSwapTag("redirect", "template");
+        $this->redirectWithMessage("Template updated");
+        $this->createMultiAudit(
+            $template->getId(),
+            $template->getFields(),
+            $oldvalues,
+            $template->objectToValueArray()
+        );
     }
 }

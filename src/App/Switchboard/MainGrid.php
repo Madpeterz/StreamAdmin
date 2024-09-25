@@ -2,7 +2,7 @@
 
 namespace App\Switchboard;
 
-class MainGrid extends Switchboard
+class MainGrid extends ConfigEnabled
 {
-    protected $targetEndpoint = "SecondLifeApi";
+    protected string $targetEndpoint = "Secondlifeapi";
 }

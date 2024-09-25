@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Template;
 
-use App\Template\View as BasicView;
+use App\Endpoint\View\Shared\SwapsTable;
 
-abstract class View extends BasicView
+abstract class View extends SwapsTable
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ abstract class View extends BasicView
         );
         $this->setSwapTag(
             "page_actions",
-            "<a href='[[url_base]]template/create'><button type='button' class='btn btn-success'>Create</button></a>"
+            "<a href='[[SITE_URL]]template/create'><button type='button' class='btn btn-success'>Create</button></a>"
         );
     }
 }

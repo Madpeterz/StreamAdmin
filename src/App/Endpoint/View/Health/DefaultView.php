@@ -2,21 +2,20 @@
 
 namespace App\Endpoint\View\Health;
 
-use App\R7\Set\ObjectsSet;
-use App\R7\Set\RegionSet;
-use App\R7\Set\ResellerSet;
+use App\Models\Sets\ObjectsSet;
+use App\Models\Sets\RegionSet;
+use App\Models\Sets\ResellerSet;
 
 class DefaultView extends View
 {
+    protected array $owner_objects_list = [];
     public function process(): void
     {
         $this->owner_objects_list = [
-            "apirequests",
             "mailserver",
             "noticeserver",
             "detailsserver",
             "notecardsserver",
-            "clientautosuspendserver",
             "eventsserver",
             "botcommandqserver",
         ];
@@ -26,12 +25,11 @@ class DefaultView extends View
         $whereConfig = [
             "fields" => ["avatarLink","objectMode"],
             "matches" => ["IN","NOT IN"],
-            "values" => [$resellers->getUniqueArray("avatarLink"),$this->owner_objects_list],
+            "values" => [$resellers->uniqueAvatarLinks(),$this->owner_objects_list],
             "types" => ["i","s"],
         ];
         $venderHealth->loadWithConfig($whereConfig);
-        $regionsSet = new RegionSet();
-        $regionsSet->loadByValues($venderHealth->getUniqueArray("regionLink"));
+        $regionsSet = $venderHealth->relatedRegion();
         $goodMinTime = time() - 120;
         $regions_report = [];
         foreach ($venderHealth as $object) {
@@ -76,7 +74,7 @@ class DefaultView extends View
             }
             $entry = [];
             $entry[] = $region_id;
-            $entry[] = "<a href=\"[[url_base]]health/detailed/"
+            $entry[] = "<a href=\"[[SITE_URL]]health/detailed/"
             . $region->getId() . "\">" . $region->getName() . "</a>";
             $entry[] = "<span class=\"text-" . $statuscolor . "\">" . $statustext . "</span>";
             $entry[] = $pcent . "%";

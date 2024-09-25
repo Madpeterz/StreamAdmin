@@ -2,31 +2,30 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\R7\Model\Package;
-use App\R7\Model\Treevender;
-use App\R7\Model\Treevenderpackages;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Package;
+use App\Models\Treevender;
+use App\Models\Treevenderpackages;
+use App\Template\ControlAjax;
 
-class Addpackage extends ViewAjax
+class Addpackage extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
-        $package_id = $input->postFilter("package", "integer");
-
-        $treevender = new Treevender();
-        $this->setSwapTag("redirect", "tree");
-        if ($treevender->loadID($this->page) == false) {
-            $this->failed("Unable to find tree vender");
-            return;
-        }
-        if ($package_id <= 0) {
+        $package_id = $this->input->post("package")->checkGrtThanEq(1)->asInt();
+        if ($package_id == null) {
             $this->failed("Unable to find package");
             return;
         }
+
+        $treevender = new Treevender();
+        $this->setSwapTag("redirect", "tree");
+        if ($treevender->loadID($this->siteConfig->getPage())->status == false) {
+            $this->failed("Unable to find tree vender");
+            return;
+        }
+
         $package = new Package();
-        if ($package->loadID($package_id) == false) {
+        if ($package->loadID($package_id)->status == false) {
             $this->failed("Unable to load package");
             return;
         }
@@ -37,7 +36,7 @@ class Addpackage extends ViewAjax
         "types" => ["i","i"],
         "matches" => ["=","="],
         ];
-        if ($treevender_package->loadWithConfig($where_fields) == true) {
+        if ($treevender_package->loadWithConfig($where_fields)->status == true) {
             $this->failed("This package is already assigend to this tree vender");
             $this->setSwapTag("redirect", "");
             return;
@@ -46,11 +45,16 @@ class Addpackage extends ViewAjax
         $treevender_package->setPackageLink($package->getId());
         $treevender_package->setTreevenderLink($treevender->getId());
         $create_status = $treevender_package->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed("Unable to attach package to tree vender");
             return;
         }
-        $this->ok("Package added to tree vender");
-        $this->setSwapTag("redirect", "tree/manage/" . $treevender->getId() . "");
+        $this->redirectWithMessage("Package added to tree vender", "tree/manage/" . $treevender->getId());
+        $this->createAuditLog(
+            $treevender_package->getId(),
+            "link package",
+            "Tree:" . $treevender->getName(),
+            "package: " . $package->getName()
+        );
     }
 }

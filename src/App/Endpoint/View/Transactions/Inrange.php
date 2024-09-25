@@ -2,15 +2,13 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use YAPF\InputFilter\InputFilter;
-
 class Inrange extends Forms
 {
     public function process(): void
     {
-        $input = new InputFilter();
-        $this->month = $input->getFilter("month", "integer");
-        $this->year = $input->getFilter("year", "integer");
+
+        $this->month = $this->input->get("month")->asInt();
+        $this->year = $this->input->get("year")->asInt();
 
         if ($this->month < 1) {
             $this->month = 1;

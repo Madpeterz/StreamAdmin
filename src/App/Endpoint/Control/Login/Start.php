@@ -2,24 +2,27 @@
 
 namespace App\Endpoint\Control\Login;
 
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Template\ControlAjax;
 
-class Start extends ViewAjax
+class Start extends ControlAjax
 {
     public function process(): void
     {
-        $input = new InputFilter();
-        $staffusername = $input->postString("staffusername");
-        $staffpassword = $input->postString("staffpassword");
+
+        $staffusername = $this->input->post("staffusername")->checkStringLengthMin(3)->asString();
+        $staffpassword = $this->input->post("staffpassword")->checkStringLengthMin(3)->asString();
         $this->failed("Username or Password is invaild");
-        if ((strlen($staffusername) == 0) || (strlen($staffpassword) == 0)) {
+        if (($staffusername == null) || ($staffpassword == null)) {
             return;
         }
-        if ($this->session->loginWithUsernamePassword($staffusername, $staffpassword) == false) {
+        if ($this->siteConfig->getSession()->loginWithUsernamePassword($staffusername, $staffpassword) == false) {
             return;
         }
-        $this->ok("logged in ^+^");
-        $this->setSwapTag("redirect", "here");
+        $this->redirectWithMessage("logged in ^+^", "here");
+        $this->createAuditLog(
+            $this->siteConfig->getSession()->getAvatarLinkId(),
+            "login",
+            $staffusername,
+        );
     }
 }

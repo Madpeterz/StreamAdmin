@@ -2,19 +2,27 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Botcommandq;
-use App\R7\Model\Botconfig;
-use App\R7\Model\Message;
+use App\Models\Avatar;
+use App\Models\Botcommandq;
+use App\Models\Botconfig;
+use App\Models\Message;
+use YAPF\Framework\Responses\DbObjects\CreateReply;
 
 class BotHelper
 {
     protected ?Avatar $botAvatar = null;
     protected ?Botconfig $botconfig = null;
-    public function attachBotSetup(Avatar $av, Botconfig $config): void
+    public function attachBotSetup(?Avatar $av, ?Botconfig $config): void
     {
         $this->botAvatar = $av;
         $this->botconfig = $config;
+    }
+    public function getBotAvatarLink(): int
+    {
+        if ($this->botAvatar == null) {
+            return 1;
+        }
+        return $this->botAvatar->getId();
     }
     public function getBotUUID(): ?string
     {
@@ -37,7 +45,7 @@ class BotHelper
         }
         if ($this->botAvatar == null) {
             $this->botAvatar = new Avatar();
-            if ($this->botAvatar->loadID($this->botconfig->getAvatarLink()) == false) {
+            if ($this->botAvatar->loadID($this->botconfig->getAvatarLink())->status == false) {
                 $this->botAvatar = null;
             }
         }
@@ -47,11 +55,11 @@ class BotHelper
     {
         if ($this->botconfig == null) {
             $this->botconfig = new Botconfig();
-            return $this->botconfig->loadID(1);
+            return $this->botconfig->loadID(1)->status;
         }
         return true;
     }
-    protected function addCommandToQ(string $command, array $args = []): bool
+    protected function addCommandToQ(string $command, array $args = []): CreateReply
     {
         $botcommandQ = new Botcommandq();
         $botcommandQ->setCommand($command);
@@ -59,28 +67,31 @@ class BotHelper
             $botcommandQ->setArgs(json_encode($args));
         }
         $botcommandQ->setUnixtime(time());
-        $reply = $botcommandQ->createEntry();
-        return $reply["status"];
+        return $botcommandQ->createEntry();
     }
-    public function sendBotInvite(Avatar $avatar): bool
+    public function sendBotInvite(Avatar $avatar): CreateReply
     {
         if ($this->getBotConfig() == false) {
-            return false;
+            return new CreateReply("Unable to get bot config");
         }
         if ($this->botconfig->getInvites() == false) {
-            return false;
+            return new CreateReply("Invites are disabled for the bot");
         }
         return $this->addCommandToQ(
             "GroupInvite",
-            [$this->botconfig->getInviteGroupUUID(),$avatar->getAvatarUUID(),"everyone"]
+            [$this->botconfig->getInviteGroupUUID(), $avatar->getAvatarUUID(), "everyone"]
         );
     }
 
-    public function sendBotNextNotecard(string $serverurl, string $httpInboundCode): bool
+    public function sendBotNextNotecard(string $serverurl, string $httpInboundCode): CreateReply
     {
+        $BotcommandQ = new Botcommandq();
+        if ($BotcommandQ->loadByCommand("FetchNextNotecard")->status == true) {
+            return new CreateReply("already in Q", true, 0);
+        }
         return $this->addCommandToQ(
             "FetchNextNotecard",
-            [$serverurl,$httpInboundCode]
+            [$serverurl, $httpInboundCode]
         );
     }
 
@@ -97,38 +108,26 @@ class BotHelper
         $cooked = sha1($raw);
         return $command . "|||" . implode("~#~", $cleanArgs) . "@@@" . $cooked;
     }
-    /**
-     * sendMessage
-     * @return mixed[] [status =>  bool, message =>  string]
-     */
+
     public function sendMessage(
         Avatar $avatar,
         string $message,
-        bool $allow_bot = false,
-        bool $allowObjectIm = true
-    ): array {
+    ): CreateReply {
+        // send via Mail server
+        $mail = new Message();
+        $mail->setAvatarLink($avatar->getId());
+        $mail->setMessage($message);
+        $create = $mail->createEntry();
+        if ($create->status == false) {
+            return $create;
+        }
+        // send via bot
         if ($this->getBotConfig() == false) {
-            return ["status" => false,"message" => "Unable to get bot config"];
+            return $create;
         }
-        if (($allow_bot == true) && ($this->botconfig->getIms() == true)) {
-            if ($this->addCommandToQ("IM", [$avatar->getAvatarUUID(),$message]) == false) {
-                return ["status" => false,"message" => "Unable to add IM to the botQ"];
-            }
+        if ($this->botconfig->getIms() == false) {
+            return $create;
         }
-        if ($allowObjectIm == false) {
-            return ["status" => true,"message" => "Skipping message via object"];
-        }
-        return $this->sendMessageToAvatar($avatar, $message);
-    }
-    /**
-     * sendMessageToAvatar
-     * @return mixed[] [status =>  bool, message =>  string]
-     */
-    public function sendMessageToAvatar(Avatar $avatar, string $sendmessage): array
-    {
-        $message = new Message();
-        $message->setAvatarLink($avatar->getId());
-        $message->setMessage($sendmessage);
-        return $message->createEntry();
+        return $this->addCommandToQ("IM", [$avatar->getAvatarUUID(), $message]);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Transactions;
 
-use App\R7\Model\Avatar;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RegionSet;
-use App\R7\Set\TransactionsSet;
+use App\Models\Avatar;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\PackageSet;
+use App\Models\Sets\RegionSet;
+use App\Models\Sets\TransactionsSet;
 
 abstract class RenderList extends View
 {
@@ -26,15 +26,14 @@ abstract class RenderList extends View
 
     public function loadRequired(): void
     {
-        $this->avatar_set = new AvatarSet();
-        $this->avatar_set->loadByValues($this->transaction_set->getAllByField("avatarLink"));
-        $this->package_set->loadByValues($this->transaction_set->getAllByField("packageLink"));
-        $this->region_set->loadByValues($this->transaction_set->getAllByField("regionLink"));
+        $this->avatar_set = $this->transaction_set->relatedAvatar();
+        $this->package_set = $this->transaction_set->relatedPackage();
+        $this->region_set = $this->transaction_set->relatedRegion();
     }
 
     public function loadTransactionsFromAvatar(Avatar $avatar): void
     {
-        $this->transaction_set->loadByField("avatarLink", $avatar->getId(), 250);
+        $this->transaction_set->loadByAvatarLink($avatar->getId(), 150);
     }
 
     public function renderTransactionTable(): string
@@ -51,7 +50,7 @@ abstract class RenderList extends View
             "Datetime",
             "Type",
         ];
-        if ($this->session->getOwnerLevel() == true) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
             $table_head[] = "Remove";
         }
         $table_body = [];
@@ -74,7 +73,7 @@ abstract class RenderList extends View
             $entry = [];
             $entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $entry[] = $packagename;
             $entry[] = $regionname;
@@ -89,10 +88,13 @@ abstract class RenderList extends View
                 ' . $transaction->getSLtransactionUUID() . '"><i class="fab fa-quinscape"></i> Hud</span>';
             }
             $entry[] = $type;
-            if ($this->session->getOwnerLevel() == 1) {
-                $entry[] = "<a href=\"[[url_base]]transactions/remove/" . $transaction->getTransactionUid() . "\">"
-                . "<button type=\"button\" class=\"btn btn-danger btn-sm\"><i class=\"fas fa-minus-circle\"></i>"
-                . "</button></a>";
+            if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
+                $entry[] = "<button type='button' 
+                data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
+                data-actiontext='Remove transaction' 
+                data-actionmessage='This has no change on the rental time!' 
+                data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->getTransactionUid() . "' 
+                class='btn btn-danger confirmDialog'>Remove</button></a>";
             }
             $table_body[] = $entry;
         }

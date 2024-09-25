@@ -2,12 +2,11 @@
 
 namespace App\Endpoint\View\Tree;
 
-use App\Endpoint\SecondLifeApi\Tree\Getpackages;
-use App\R7\Set\PackageSet;
-use App\Template\Form;
-use App\R7\Model\Treevender;
-use App\R7\Set\ServertypesSet;
-use App\R7\Set\TreevenderpackagesSet;
+use App\Endpoint\Secondlifeapi\Tree\Getpackages;
+use App\Models\Sets\PackageSet;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Treevender;
+use App\Models\Sets\ServertypesSet;
 
 class Manage extends View
 {
@@ -17,14 +16,14 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", " Editing");
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove tree vender " . $this->page . "' 
+        data-actiontitle='Remove tree vender " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove tree vender' 
         data-actionmessage='Are you sure you wish to remove this tree vender?' 
-        data-targetendpoint='[[url_base]]Tree/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Tree/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $treevender = new Treevender();
-        if ($treevender->loadID(intval($this->page)) == false) {
+        if ($treevender->loadID(intval($this->siteConfig->getPage())) == false) {
             $this->output->redirect("tree?bubblemessage=unable to find tree vender&bubbletype=warning");
             return;
         }
@@ -66,8 +65,8 @@ class Manage extends View
 
         $testOutput = new Getpackages();
         $testOutput->ProcessWithTreevenderID($treevender->getId());
-        $testing = $testOutput->getOutputObject()->getSecondlifeAjax();
-        if (strlen($testing) > 9000) {
+        $testing = $testOutput->captureOutput();
+        if (nullSafeStrLen($testing) > 9000) {
             $this->output->addSwapTagString(
                 "page_content",
                 '<div class="alert alert-danger" role="alert">The current setup will fail to talk with SL<br/>
@@ -77,7 +76,7 @@ class Manage extends View
 
         $this->output->addSwapTagString("page_title", ":" . $treevender->getName());
         $form = new Form();
-        $form->target("tree/update/" . $this->page . "");
+        $form->target("tree/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Basic");
@@ -107,8 +106,7 @@ class Manage extends View
 
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
         $this->output->addSwapTagString("page_content", "<br/><hr/><br/>");
-        $treevender_packages_set = new TreevenderpackagesSet();
-        $treevender_packages_set->loadOnField("treevenderLink", $treevender->getId());
+        $treevender_packages_set = $treevender->relatedTreevenderpackages();
         $table_head = ["ID","Name","Action"];
         $table_body = [];
         $used_package_ids = [];
@@ -119,7 +117,7 @@ class Manage extends View
             $entry[] = $treevender_package->getId();
             $entry[] = $improved_packageLinker[$treevender_package->getPackageLink()];
 
-            $entry[] = "<a href='[[url_base]]tree/removepackage/" . $treevender_package->getId() . "'>"
+            $entry[] = "<a href='[[SITE_URL]]tree/removepackage/" . $treevender_package->getId() . "'>"
             . "<button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
             $table_body[] = $entry;
         }
@@ -132,7 +130,7 @@ class Manage extends View
         }
         if (count($unUsed_index) > 0) {
             $form = new Form();
-            $form->target("tree/addpackage/" . $this->page . "");
+            $form->target("tree/addpackage/" . $this->siteConfig->getPage() . "");
             $form->select("package", "Package", "", $unUsed_index);
             $this->output->addSwapTagString("page_content", $form->render("Add package", "success"));
         }

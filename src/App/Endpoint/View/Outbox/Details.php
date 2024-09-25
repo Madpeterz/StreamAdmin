@@ -2,9 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\DetailSet;
-use App\R7\Set\RentalSet;
+use App\Models\Sets\DetailSet;
 
 class Details extends View
 {
@@ -15,17 +13,15 @@ class Details extends View
         $table_body = [];
         $detail_set = new DetailSet();
         $detail_set->loadAll();
-        $rental_set = new RentalSet();
-        $rental_set->loadByValues($detail_set->getAllByField("rentalLink"));
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
+        $rental_set = $detail_set->relatedRental();
+        $avatar_set = $rental_set->relatedAvatar();
         foreach ($detail_set as $detail) {
             $rental = $rental_set->getObjectByID($detail->getRentalLink());
             $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
             $entry = [];
             $entry[] = $detail->getId();
             $entry[] = $rental->getRentalUid();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }

@@ -2,12 +2,12 @@
 
 namespace App\Helpers;
 
-use App\R7\Model\Avatar;
-use App\R7\Model\Package;
-use App\R7\Model\Region;
-use App\R7\Model\Reseller;
-use App\R7\Model\Stream;
-use App\R7\Model\Transactions;
+use App\Models\Avatar;
+use App\Models\Package;
+use App\Models\Region;
+use App\Models\Reseller;
+use App\Models\Stream;
+use App\Models\Transactions;
 
 class TransactionsHelper
 {
@@ -22,8 +22,8 @@ class TransactionsHelper
         ?int $forcesetunixtime = null
     ): bool {
         $transaction = new Transactions();
-        $uid_transaction = $transaction->createUID("transactionUid", 8, 10);
-        if ($uid_transaction["status"] == false) {
+        $uid_transaction = $transaction->createUID("transactionUid", 8);
+        if ($uid_transaction->status == false) {
             return false;
         }
         $transaction->setAvatarLink($avatar->getId());
@@ -36,9 +36,9 @@ class TransactionsHelper
         if ($forcesetunixtime != null) {
             $transaction->setUnixtime($forcesetunixtime);
         }
-        $transaction->setTransactionUid($uid_transaction["uid"]);
+        $transaction->setTransactionUid($uid_transaction->uid);
         $transaction->setRenew($renewal);
         $create_status = $transaction->createEntry();
-        return $create_status["status"];
+        return $create_status->status;
     }
 }

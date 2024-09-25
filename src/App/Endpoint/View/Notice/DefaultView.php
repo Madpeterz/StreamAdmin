@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\R7\Set\NoticeSet;
+use App\Models\Sets\NoticeSet;
 
 class DefaultView extends View
 {
@@ -14,16 +14,17 @@ class DefaultView extends View
         $notice_set->loadAll();
 
         foreach ($notice_set as $notice) {
-            if ($notice->getHoursRemaining() != 999) {
-                $entry = [];
-                $entry[] = $notice->getHoursRemaining();
-                $entry[] = '<a href="[[url_base]]notice/manage/' . $notice->getId() . '"
-                .">' . $notice->getName() . '</a>';
-                $entry[] = $this->yesNo[$notice->getSendObjectIM()];
-                $entry[] = $this->yesNo[$notice->getUseBot()];
-                $entry[] = $notice->getHoursRemaining();
-                $table_body[] = $entry;
+            if ($notice->getHoursRemaining() == 999) {
+                continue;
             }
+            $entry = [];
+            $entry[] = $notice->getHoursRemaining();
+            $entry[] = '<a href="[[SITE_URL]]notice/manage/' . $notice->getId() . '"
+            .">' . $notice->getName() . '</a>';
+            $entry[] = $this->yesNo[$notice->getSendObjectIM()];
+            $entry[] = $this->yesNo[$notice->getUseBot()];
+            $entry[] = $notice->getHoursRemaining();
+            $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));
     }

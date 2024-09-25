@@ -2,8 +2,10 @@
 
 namespace App\Template;
 
+use App\Config;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use YAPF\Bootstrap\Template\View;
 
 abstract class ExcelSheet extends View
 {
@@ -12,8 +14,12 @@ abstract class ExcelSheet extends View
     protected bool $asAjax = false;
     protected Spreadsheet $spreadsheet;
     protected string $filename = "";
+    protected Config $siteConfig;
     public function __construct(bool $AutoLoadTemplate = false)
     {
+        parent::__construct($AutoLoadTemplate);
+        global $system;
+        $this->siteConfig = $system;
         parent::__construct($AutoLoadTemplate);
         $this->output->tempateAjax();
         $this->spreadsheet = new Spreadsheet();

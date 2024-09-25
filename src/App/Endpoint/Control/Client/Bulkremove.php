@@ -3,20 +3,11 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\EventsQHelper;
-use App\MediaServer\Logic\ApiLogicRevoke;
-use App\R7\Set\ApirequestsSet;
-use App\R7\Set\ApisSet;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalSet;
-use App\R7\Model\Server;
-use App\R7\Set\RentalnoticeptoutSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\RentalnoticeptoutSet;
+use App\Template\ControlAjax;
 
-class Bulkremove extends ViewAjax
+class Bulkremove extends ControlAjax
 {
     public function process(): void
     {
@@ -25,34 +16,21 @@ class Bulkremove extends ViewAjax
         "values" => [time(),6],
         "matches" => ["<=","="],
         ];
-        $input = new InputFilter();
+
         $template_parts["page_actions"] = "";
         $rental_set = new RentalSet();
-        $stream_set = new StreamSet();
-        $package_set = new PackageSet();
-        $avatar_set = new AvatarSet();
-        $server_set = new ServerSet();
-        $api_requests_set = new ApirequestsSet();
-        $apis_set = new ApisSet();
-        $rental_notice_opt_outs = new RentalnoticeptoutSet();
         $rental_set->loadWithConfig($whereconfig);
-        $avatar_set->loadByValues($rental_set->getAllByField("avatarLink"));
-        $package_set->loadByValues($rental_set->getAllByField("packageLink"));
-        $stream_set->loadByValues($rental_set->getAllByField("streamLink"));
-        $api_requests_set->loadByValues($rental_set->getAllIds(), "rentalLink");
-        $rental_notice_opt_outs->loadByValues($rental_set->getAllIds(), "rentalLink");
-        $apis_set->loadAll();
-        $server_set->loadAll();
+        $avatar_set = $rental_set->relatedAvatar();
+        $package_set = $rental_set->relatedPackage();
+        $stream_set = $rental_set->relatedStream();
+        $rental_notice_opt_outs = $rental_set->relatedRentalnoticeptout();
+        $server_set = $stream_set->relatedServer();
         $removed_counter = 0;
         $skipped_counter = 0;
         $this->setSwapTag("redirect", "client/bulkremove");
         $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
-            if ($api_requests_set->getObjectByField("rentalLink", $rental->getId()) != null) {
-                $skipped_counter++;
-                continue;
-            }
-            $accept = $input->postString("rental" . $rental->getRentalUid());
+            $accept = $this->input->post("rental" . $rental->getRentalUid())->asString();
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;
@@ -67,10 +45,10 @@ class Bulkremove extends ViewAjax
 
             if ($client_rental_notice_opt_outs->getCount() > 0) {
                 $purge = $client_rental_notice_opt_outs->purgeCollection();
-                if ($purge["status"] == false) {
+                if ($purge->status == false) {
                     $this->failed(sprintf(
                         "Failed to purge some client notice opt outs because %1\$s",
-                        $purge["message"]
+                        $purge->message
                     ));
                     return;
                 }
@@ -112,32 +90,26 @@ class Bulkremove extends ViewAjax
             $stream->setRentalLink(null);
             $stream->setNeedWork(1);
             $update_status = $stream->updateEntry();
-            if ($update_status["status"] == false) {
+            if ($update_status->status == false) {
                 $this->failed(sprintf("Error releasing stream from rental %1\$s", $rental->getRentalUid()));
                 return;
             }
             $all_ok = true;
             $remove_status = $rental->removeEntry();
-            $all_ok = $remove_status["status"];
+            $all_ok = $remove_status->status;
             if ($all_ok == false) {
-                $this->failed(sprintf("Error removing old rental %1\$s", $remove_status["message"]));
-                return;
-            }
-            // Server API support
-            $apilogic = new ApiLogicRevoke();
-            $apilogic->setStream($stream);
-            $apilogic->setServer($server);
-            $reply = $apilogic->createNextApiRequest();
-            if ($reply["status"] == false) {
-                $this->failed("Bad reply: " . $reply["message"]);
+                $this->failed(sprintf("Error removing old rental %1\$s", $remove_status->message));
                 return;
             }
             $removed_counter++;
         }
-        $this->ok(sprintf("Removed %1\$s rentals!", $removed_counter));
+        $this->redirectWithMessage(sprintf("Removed %1\$s rentals!", $removed_counter));
         if ($skipped_counter > 0) {
-            $this->ok(sprintf("Removed %1\$s rentals! and skipped %2\$s", $removed_counter, $skipped_counter));
+            $this->redirectWithMessage(sprintf(
+                "Removed %1\$s rentals! and skipped %2\$s",
+                $removed_counter,
+                $skipped_counter
+            ));
         }
-        $this->setSwapTag("redirect", "client");
     }
 }

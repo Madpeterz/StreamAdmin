@@ -3,27 +3,27 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\NoticesHelper;
-use App\R7\Model\Avatar;
-use App\R7\Set\NoticeSet;
-use App\R7\Model\Rental;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Avatar;
+use App\Models\Rental;
+use App\Template\ControlAjax;
 
-class Update extends ViewAjax
+class Update extends ControlAjax
 {
     protected $actions_taken = "";
-    protected $isseus = "";
+    protected $issues = "";
     protected $message = "";
     protected $apiAllowSuspend = true;
     protected function transerRental(Rental $rental, string $transfer_avataruid): void
     {
         $avatar = new Avatar();
         $avatar_from = new Avatar();
-        if ($avatar->loadByAvatarUid($transfer_avataruid) == false) {
+        $avatar->loadByAvatarUid($transfer_avataruid);
+        $avatar_from->loadID($rental->getAvatarLink());
+        if ($avatar->isLoaded() == false) {
             $this->issues .= "Unable to find avatar to transfer to";
             return;
         }
-        if ($avatar_from->loadID($rental->getAvatarLink()) == false) {
+        if ($avatar_from->isLoaded() == false) {
             $this->issues .= "Unable to find avatar to transfer from";
             return;
         }
@@ -44,8 +44,6 @@ class Update extends ViewAjax
         int $adjustment_hours,
         string $adjustment_dir
     ): void {
-        global $unixtime_hour;
-
         $total_adjust_hours = 0;
         if ($adjustment_hours > 0) {
             $total_adjust_hours += $adjustment_hours;
@@ -57,7 +55,7 @@ class Update extends ViewAjax
             $this->issues .= "[Adjustment] Attempted adjustment but failed no adjustment given?";
             return;
         }
-        $adjustment_unixtime = $unixtime_hour * $total_adjust_hours;
+        $adjustment_unixtime = $this->siteConfig->unixtimeHour() * $total_adjust_hours;
         $adjustment_text = "Added";
         $new_unixtime = $rental->getExpireUnixtime() + $adjustment_unixtime;
         if ($adjustment_dir == false) {
@@ -90,7 +88,7 @@ class Update extends ViewAjax
             $adjustment_multi
         );
         $this->message = "" . $adjustment_message . "" . $this->message . "";
-        $hours_remain = ceil(($new_unixtime - time()) / $unixtime_hour);
+        $hours_remain = ceil(($new_unixtime - time()) / $this->siteConfig->unixtimeHour());
         $noticeHelper = new NoticesHelper();
         $this->setSwapTag("noticeLevelChanged", false);
         $this->setSwapTag("hoursRemain", $hours_remain);
@@ -108,38 +106,37 @@ class Update extends ViewAjax
     public function process(): void
     {
         $rental = new Rental();
-        $input = new InputFilter();
-
         $this->actions_taken = "";
         $this->issues = "";
 
         // adjustment
-        $adjustment_days = $input->postInteger("adjustment_days");
-        $adjustment_hours = $input->postInteger("adjustment_hours");
-        $adjustment_dir = $input->postBool("adjustment_dir");
+        $adjustment_days = $this->input->post("adjustment_days")->asInt();
+        $adjustment_hours = $this->input->post("adjustment_hours")->asInt();
+        $adjustment_dir = $this->input->post("adjustment_dir")->asInt();
         if ($adjustment_dir === null) {
             $adjustment_dir = false;
         }
         // transfer
-        $transfer_avataruid = $input->postString("transfer_avataruid");
+        $transfer_avataruid = $this->input->post("transfer_avataruid")->checkStringLengthMin(1)->asString();
         // message
-        $this->message = $input->postString("message");
-        if (strlen($this->message) < 1) {
-            $this->message = null;
-        }
-        // API flag
-        $this->apiAllowSuspend = $input->postBool("apiAllowSuspend");
-        if ($this->apiAllowSuspend === null) {
-            $this->apiAllowSuspend = false;
+        $this->message = $this->input->post("message")->asString();
+        if ($this->message != null) {
+            if (nullSafeStrLen($this->message) < 1) {
+                $this->message = null;
+            }
         }
 
-        if ($rental->loadByRentalUid($this->page) == false) {
+        if ($rental->loadByRentalUid($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to find client");
             $this->setSwapTag("redirect", "client");
             return;
         }
-
-        if (strlen($transfer_avataruid) == 8) {
+        $oldvalues = $rental->objectToValueArray();
+        if ($transfer_avataruid != null) {
+            if (nullSafeStrLen($transfer_avataruid) != 8) {
+                $this->failed("Invaild avatar UID given");
+                return;
+            }
             $this->transerRental($rental, $transfer_avataruid);
             if ($this->issues != "") {
                 $this->failed($this->issues);
@@ -154,14 +151,10 @@ class Update extends ViewAjax
                 return;
             }
         }
+
         if ($this->message != $rental->getMessage()) {
             $rental->setMessage($this->message);
             $this->actions_taken .= "\n Message Updated";
-        }
-
-        if ($this->apiAllowSuspend != $rental->getApiAllowAutoSuspend()) {
-            $rental->setApiAllowAutoSuspend($this->apiAllowSuspend);
-            $this->actions_taken .= "\n API allow auto suspend Updated";
         }
 
         if ($this->actions_taken == "") {
@@ -172,20 +165,21 @@ class Update extends ViewAjax
             $this->failed($this->issues);
             return;
         }
-        if ($rental->getExpireUnixtime() > time()) {
-            $rental->setApiSuspended(false);
-            $rental->setApiPendingAutoSuspend(false);
-            $rental->setApiPendingAutoSuspendAfter(null);
-        }
+
         $change_status = $rental->updateEntry();
-        if ($change_status["status"] != true) {
+        if ($change_status->status != true) {
             $this->failed(sprintf(
                 "Unable to update because: %1\$s",
-                $change_status["message"]
+                $change_status->message
             ));
             return;
         }
-        $this->setSwapTag("redirect", "client/manage/" . $this->page);
-        $this->ok($this->actions_taken);
+        $this->redirectWithMessage($this->actions_taken, "Client/Manage/" . $this->siteConfig->getPage());
+        $this->createMultiAudit(
+            $rental->getRentalUid(),
+            $rental->getFields(),
+            $oldvalues,
+            $rental->objectToValueArray()
+        );
     }
 }

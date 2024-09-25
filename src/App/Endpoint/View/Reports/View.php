@@ -2,13 +2,18 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\R7\Model\Template;
-use App\Template\View as BasicView;
+use App\Framework\Menu;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     protected function amountChanged($old, $new): string
     {
+        if (is_string($old) == true) {
+            if (is_string($new) == false) {
+                return "<span class=\"reports-gain\"> - </span>";
+            }
+            return "<span class=\"reports-loss\"> - </span>";
+        }
         if ($old == 0) {
             if ($new != 0) {
                 return "<span class=\"reports-gain\"> - </span>";

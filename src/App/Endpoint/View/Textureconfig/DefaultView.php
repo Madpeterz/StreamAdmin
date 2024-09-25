@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Textureconfig;
 
-use App\R7\Set\TextureconfigSet;
+use App\Models\Sets\TextureconfigSet;
 
 class DefaultView extends View
 {
@@ -18,7 +18,7 @@ class DefaultView extends View
             $entry = [];
             $entry[] = $textureconfig->getId();
             $entry[] = $textureconfig->getId();
-            $entry[] = '<a href="[[url_base]]textureconfig/manage/' . $textureconfig->getId() . '">'
+            $entry[] = '<a href="[[SITE_URL]]textureconfig/manage/' . $textureconfig->getId() . '">'
              . $textureconfig->getName() . '</a>';
             $table_body[] = $entry;
         }

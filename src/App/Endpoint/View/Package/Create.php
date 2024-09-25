@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Package;
 
-use App\R7\Set\NoticenotecardSet;
-use App\R7\Set\ServertypesSet;
-use App\Template\Form;
-use App\R7\Set\TemplateSet;
+use App\Models\Sets\NoticenotecardSet;
+use App\Models\Sets\ServertypesSet;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Sets\TemplateSet;
 
 class Create extends View
 {
@@ -58,24 +58,10 @@ class Create extends View
         $form->numberInput("autodjSize", "Storage GB", null, 3, "Max GB storage 9999");
         $form->split();
         $form->col(6);
-        $form->group("Ext");
-        $form->textInput("apiTemplate", "API template", 50, "", "API template name");
-        $form->select("welcomeNotecardLink", "Welcome notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
-        $form->select("setupNotecardLink", "Setup notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
-        $form->col(6);
-            $form->group("Options");
+        $form->group("Options");
+            $form->select("welcomeNotecardLink", "Welcome notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
+            $form->select("setupNotecardLink", "Setup notecard", 1, $noticeNotecards->getLinkedArray("id", "name"));
             $form->select("enableGroupInvite", "Group Invite", true, $this->disableEnable);
-        $form->split();
-        $form->col(6);
-            $form->group("API");
-            $form->select("apiAllowAutoSuspend", "Allow auto suspend", true, $this->yesNo);
-            $form->numberInput(
-                "apiAutoSuspendDelayHours",
-                "Auto suspend delay [in hours]",
-                0,
-                3,
-                "set to zero to skip the delay"
-            );
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
     }
 }

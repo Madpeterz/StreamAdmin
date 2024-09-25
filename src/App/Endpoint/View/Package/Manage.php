@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Package;
 
-use App\R7\Model\Package;
-use App\R7\Set\NoticenotecardSet;
-use App\R7\Set\ServertypesSet;
-use App\Template\Form;
-use App\R7\Set\TemplateSet;
+use App\Models\Package;
+use App\Models\Sets\NoticenotecardSet;
+use App\Models\Sets\ServertypesSet;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Sets\TemplateSet;
 
 class Manage extends View
 {
@@ -18,10 +18,10 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", " Editing package");
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove package " . $this->page . "' 
+        data-actiontitle='Remove package " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove package' 
         data-actionmessage='This will fail if the package is in use!' 
-        data-targetendpoint='[[url_base]]Package/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Package/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $template_set = new TemplateSet();
@@ -30,13 +30,13 @@ class Manage extends View
         $servertypes_set->loadAll();
 
         $package = new Package();
-        if ($package->loadByField("packageUid", $this->page) == false) {
+        if ($package->loadByPackageUid($this->siteConfig->getPage()) == false) {
             $this->output->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
             return;
         }
         $this->output->addSwapTagString("page_title", ":" . $package->getName());
         $form = new Form();
-        $form->target("package/update/" . $this->page . "");
+        $form->target("package/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
             $form->group("Basics");
@@ -90,7 +90,6 @@ class Manage extends View
         $form->split();
         $form->col(6);
             $form->group("Ext");
-            $form->textInput("apiTemplate", "API template", 50, $package->getApiTemplate(), "API template name");
             $form->select(
                 "welcomeNotecardLink",
                 "Welcome notecard",
@@ -103,25 +102,7 @@ class Manage extends View
                 $package->getSetupNotecardLink(),
                 $noticeNotecards->getLinkedArray("id", "name")
             );
-        $form->col(6);
-            $form->group("Options");
             $form->select("enableGroupInvite", "Group Invite", $package->getEnableGroupInvite(), $this->disableEnable);
-        $form->split();
-            $form->col(6);
-            $form->group("API");
-            $form->select(
-                "apiAllowAutoSuspend",
-                "Allow auto suspend",
-                $package->getApiAllowAutoSuspend(),
-                $this->yesNo
-            );
-            $form->numberInput(
-                "apiAutoSuspendDelayHours",
-                "Auto suspend delay [in hours]",
-                $package->getApiAutoSuspendDelayHours(),
-                3,
-                "set to zero to skip the delay"
-            );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

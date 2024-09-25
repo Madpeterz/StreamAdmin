@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Textureconfig;
 
-use App\R7\Model\Stream;
-use App\Template\View as BasicView;
+use App\Framework\Menu;
+use App\Models\Stream;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {
@@ -19,7 +19,7 @@ abstract class View extends BasicView
         $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / ");
         $this->setSwapTag(
             "page_actions",
-            "<a href='[[url_base]]textureconfig/create'><button type='button' "
+            "<a href='[[SITE_URL]]textureconfig/create'><button type='button' "
             . "class='btn btn-success'>Create</button></a>"
         );
     }

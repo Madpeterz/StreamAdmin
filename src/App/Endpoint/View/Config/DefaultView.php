@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Config;
 
-use App\Template\Grid;
+use YAPF\Bootstrap\Template\Grid;
 
 class DefaultView extends View
 {
@@ -11,7 +11,7 @@ class DefaultView extends View
         $check_objects = ["Server","Template","Package","Stream","Slconfig","Textureconfig"];
         $all_ok = true;
         foreach ($check_objects as $check) {
-            $checkObj = "App\\R7\\Model\\" . $check;
+            $checkObj = "App\\Models\\" . $check;
             $obj = new $checkObj();
             if ($obj->HasAny() == false) {
                 $all_ok = false;
@@ -59,14 +59,14 @@ class DefaultView extends View
                     "link" => "Datatables",
                 ],
             ];
-            if ($this->session->getOwnerLevel() == 1) {
-                $config_areas["R4 import"] = [
-                    "icon" => "fas fa-cloud-upload-alt",
-                    "link" => "Import",
-                ];
+            if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $config_areas["Bot"] = [
                     "icon" => "fas fa-robot",
                     "link" => "Bot",
+                ];
+                $config_areas["Auditlog"] = [
+                    "icon" => "fas fa-compact-disc",
+                    "link" => "Auditlog",
                 ];
                 $config_areas["Staff"] = [
                     "icon" => "fas fa-user-lock",
@@ -85,7 +85,7 @@ class DefaultView extends View
             $grid = new Grid();
             foreach ($config_areas as $key => $value) {
                 $element = '
-                <a href="[[url_base]]' . $value["link"] . '">
+                <a href="[[SITE_URL]]' . $value["link"] . '">
                 <button type="button" class="btn btn-outline-success btn-lg btn-block mt-2 mb-3">
                 <h5 class="text-black"><i class="' . $value["icon"] . '"></i></h5>
                 ' . $key . '

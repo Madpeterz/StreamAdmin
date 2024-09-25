@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Datatables;
 
-use App\Template\View as BasicView;
+use App\Framework\Menu;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {

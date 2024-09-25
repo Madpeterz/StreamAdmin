@@ -2,18 +2,16 @@
 
 namespace App\Endpoint\Control\Avatar;
 
-use App\R7\Set\AvatarSet;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Template\ControlAjax;
 
-class Finder extends ViewAjax
+class Finder extends ControlAjax
 {
     public function process(): void
     {
         $this->setSwapTag("status", true);
 
-        $input = new inputFilter();
-        $avatarfindname = $input->postString("avatarfind");
+        $avatarfindname = $this->input->post("avatarfind")->checkStringLengthMin(3)->asString();
         if ($avatarfindname == null) {
             $this->failed("Avatar UID/Name/UUID was not sent!");
             return;
@@ -23,7 +21,7 @@ class Finder extends ViewAjax
             "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
             "values" => [$avatarfindname,$avatarfindname,$avatarfindname],
             "types" => ["s","s","s"],
-            "join_with" => ["OR","OR"],
+            "joinWith" => ["OR","OR"],
         ];
         $search_avatar_set = new AvatarSet();
         $search_avatar_set->loadWithConfig($where_config);

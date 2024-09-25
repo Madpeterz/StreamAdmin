@@ -2,15 +2,15 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\R7\Model\Package;
+use App\Models\Package;
 
 class Inpackage extends Withstatus
 {
-    public function process(): void
+    public function process(bool $usePackageNotServer = false): void
     {
         $this->output->addSwapTagString("page_title", " In package: ");
         $package = new Package();
-        if ($package->loadByField("packageUid", $this->page) == false) {
+        if ($package->loadByPackageUid($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
             return;
         }
@@ -21,6 +21,6 @@ class Inpackage extends Withstatus
             "types" => ["i"],
             "matches" => ["="],
         ];
-        parent::process();
+        parent::process(false);
     }
 }

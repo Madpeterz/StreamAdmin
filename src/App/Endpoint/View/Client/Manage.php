@@ -2,24 +2,16 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Helpers\ServerApi\ServerApiHelper;
-use App\R7\Model\Avatar;
-use App\R7\Set\AvatarSet;
-use App\R7\Model\Package;
-use App\R7\Set\RegionSet;
-use App\R7\Model\Rental;
-use App\R7\Set\ResellerSet;
-use App\R7\Model\Stream;
-use App\R7\Set\NoticeSet;
-use App\R7\Set\PackageSet;
-use App\R7\Set\RentalnoticeptoutSet;
-use App\R7\Set\RentalSet;
-use App\R7\Set\ServerSet;
-use App\R7\Set\StreamSet;
-use App\Template\Form;
-use App\Template\Grid;
-use App\R7\Set\TransactionsSet;
-use App\Template\PagedInfo;
+use App\Models\Avatar;
+use App\Models\Sets\AvatarSet;
+use App\Models\Rental;
+use App\Models\Sets\NoticeSet;
+use App\Models\Sets\RentalnoticeptoutSet;
+use App\Models\Sets\RentalSet;
+use App\Models\Sets\ServerSet;
+use YAPF\Bootstrap\Template\Form;
+use App\Models\Sets\TransactionsSet;
+use YAPF\Bootstrap\Template\PagedInfo as TemplatePagedInfo;
 
 class Manage extends View
 {
@@ -31,81 +23,103 @@ class Manage extends View
     protected function loadServers(): bool
     {
         $this->servers = new ServerSet();
-        return $this->servers->loadAll()["status"];
+        return $this->servers->loadAll()->status;
     }
 
     public function process(): void
     {
         if ($this->loadServers() == false) {
             $this->output->redirect("client?bubblemessage=unable to load servers "
-            . $this->page . "&bubbletype=danger");
+            . $this->siteConfig->getPage() . "&bubbletype=danger");
             return;
         }
         $this->output->addSwapTagString("html_title", "~ Manage");
         $this->output->addSwapTagString("page_title", "Editing client");
 
         $this->rental = new Rental();
-        if ($this->rental->loadByField("rentalUid", $this->page) == false) {
+        if ($this->rental->loadByRentalUid($this->siteConfig->getPage()) == false) {
             $this->output->redirect("client?bubblemessage=unable to find client "
-            . $this->page . "&bubbletype=warning");
+            . $this->siteConfig->getPage() . "&bubbletype=warning");
             return;
         }
 
-        $stream = new Stream();
-        $stream->loadID($this->rental->getStreamLink());
+        $stream = $this->rental->relatedStream()->getFirst();
+        if ($stream === null) {
+            $this->output->redirect("client?bubblemessage=unable to load stream "
+            . $this->siteConfig->getPage() . "&bubbletype=danger");
+            return;
+        }
         $this->setSwapTag("page_actions", "");
         if ($stream->getId() > 0) {
             $this->output->addSwapTagString(
                 "page_actions",
-                "<a href='[[url_base]]Stream/Manage/" . $stream->getStreamUid() . "'>"
-                . "<button type='button' class='btn btn-info'>View Stream</button></a>"
+                "<button type='button' data-rentaluid=\"" . $this->rental->getRentalUid() . "\" data-toggle=\"modal\" 
+                data-target=\"#NotecardModal\" class='btn btn-sm btn-success'>Notecard</button>"
+            );
+
+            $this->output->addSwapTagString(
+                "page_actions",
+                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='[[SITE_URL]]Stream/Manage/" . $stream->getStreamUid() . "'>"
+                . "<button type='button' class='btn btn-outline-light'>View Stream</button></a>"
             );
         }
 
+        $hours_remaining = 0;
+        $time_remaining = $this->rental->getExpireUnixtime() - time();
+        if ($time_remaining < 0) {
+            $time_remaining = 0;
+        }
+        while ($time_remaining > $this->siteConfig->unixtimeHour()) {
+            $hours_remaining++;
+            $time_remaining -= $this->siteConfig->unixtimeHour();
+        }
+        $package = $this->rental->relatedPackage()->getFirst();
+        $est_refund_value_per_hour = ($package->getCost() / $package->getDays()) / 24;
+        $est_refund = round($hours_remaining * $est_refund_value_per_hour);
+
 
         $this->output->addSwapTagString("page_actions", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-        . "<button type='button' data-actiontitle='Revoke client " . $this->page . "' data-actiontext='End now' data-actionmessage='This will end the rental 
-        with no refund!' data-targetendpoint='[[url_base]]client/revoke/" . $this->page . "' 
+        . "<button type='button' data-actiontitle='Revoke client " . $this->siteConfig->getPage() . "
+        ' data-actiontext='End now' data-actionmessage='This will end the rental 
+        with no refund!<br/> Est L$ value: " . $est_refund . "
+        ' data-targetendpoint='[[SITE_URL]]client/revoke/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Revoke</button></a>");
 
-        $paged_info = new PagedInfo();
+        $paged_info = new TemplatePagedInfo();
         $this->clientManageForm();
-        $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar);
+        $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar, $this->rental->getRentalUid());
         $this->clientMessageForm();
-        $this->clientApiActions();
         $this->clientTransactions();
         $this->clientOptOut();
         $this->setSwapTag("page_content", $paged_info->render($this->pages));
     }
 
-    public function clientAllStreamsTable(Avatar $targetAvatar): string
+    public function clientAllStreamsTable(Avatar $targetAvatar, string $ignoreRentalUid = null): string
     {
-        $rentalSet = new RentalSet();
-        $rentalSet->loadByAvatarLink($targetAvatar->getId());
-
-        $streamSet = new StreamSet();
-        $streamSet->loadByValues($rentalSet->getUniqueArray("streamLink"));
-
-        $packageSet = new PackageSet();
-        $packageSet->loadByValues($streamSet->getUniqueArray("packageLink"));
+        $rentalSet = $targetAvatar->relatedRental();
+        $streamSet = $rentalSet->relatedStream();
+        $packageSet = $streamSet->relatedPackage();
 
         $tableHead = ["Server","Port","Package","Timeleft","Started","Renewals","Client page","Stream page"];
         $tableBody = [];
         foreach ($rentalSet as $rental) {
+            if ($rental->getRentalUid() == $ignoreRentalUid) {
+                continue;
+            }
             $entry = [];
             $stream = $streamSet->getObjectByID($rental->getStreamLink());
             $server = $this->servers->getObjectByID($stream->getServerLink());
             $package = $packageSet->getObjectByID($stream->getPackageLink());
-            $entry[] = "<a href=\"[[url_base]]stream/onserver/"
+            $entry[] = "<a href=\"[[SITE_URL]]stream/onserver/"
             . $server->getId() . "\">" . $server->getDomain() . "</a>";
             $entry[] = $stream->getPort();
             $entry[] = "<a href=\"package/manage/" . $package->getPackageUid() . "\">" . $package->getName() . "</a>";
-            $entry[] = timeleftHoursAndDays($rental->getExpireUnixtime(), false, "Expired");
+            $entry[] = $this->timeRemainingHumanReadable($rental->getExpireUnixtime(), false, "Expired");
             $entry[] = date('d/m/Y @ G:i:s', $rental->getStartUnixtime());
             $entry[] = $rental->getRenewals();
-            $entry[] = "<a href=\"[[url_base]]client/manage/"
+            $entry[] = "<a href=\"[[SITE_URL]]client/manage/"
             . $rental->getRentalUid() . "\">" . $rental->getRentalUid() . "</a>";
-            $entry[] = "<a href=\"[[url_base]]stream/manage/"
+            $entry[] = "<a href=\"[[SITE_URL]]stream/manage/"
             . $stream->getStreamUid() . "\">" . $stream->getStreamUid() . "</a>";
             $tableBody[] = $entry;
         }
@@ -120,10 +134,10 @@ class Manage extends View
         $this->output->addSwapTagString("page_title", ": " . $this->rental->getRentalUid() . " "
         . "[" . $this->avatar->getAvatarName() . "]");
         $form = new Form();
-        $form->target("client/update/" . $this->page . "");
+        $form->target("client/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
-            $form->group("Timeleft: " . timeleftHoursAndDays($this->rental->getExpireUnixtime()) . "");
+            $form->group("Timeleft: " . $this->timeRemainingHumanReadable($this->rental->getExpireUnixtime()) . "");
             $form->directAdd("<sub>" . date('l jS \of F Y h:i:s A', $this->rental->getExpireUnixtime()) . "</sub>"
             . "<br/><br/>");
             $form->numberInput("adjustment_days", "Adjustment [Days]", 0, 3, "Max 999");
@@ -140,7 +154,7 @@ class Manage extends View
                 "Avatar UID (Not SL UUID)"
             );
         $form->split();
-        $form->col(6);
+        $form->col(12);
             $form->group(" ");
             $form->textarea(
                 "message",
@@ -149,21 +163,12 @@ class Manage extends View
                 $this->rental->getMessage(),
                 "Any rental with a message will not be listed on the Fast removal system! Max length 9999"
             );
-        $form->col(6);
-            $form->group("API flags");
-            $form->select(
-                "apiAllowSuspend",
-                "Allow auto suspend",
-                $this->rental->getApiAllowAutoSuspend(),
-                $this->yesNo
-            );
-
-        $this->pages["Client"] = $form->render("Update", "primary");
+            $this->pages["Client"] = $form->render("Update", "primary");
     }
     protected function clientMessageForm(): void
     {
         $form = new Form();
-        $form->target("client/message/" . $this->page . "");
+        $form->target("client/message/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->textarea(
             "mail",
@@ -183,12 +188,12 @@ class Manage extends View
             "matches" => ["!="],
         ];
         $load = $noticeLevels->loadWithConfig($whereConfig);
-        if ($load["status"] == false) {
+        if ($load->status == false) {
             return;
         }
         $client_opt_out = new RentalnoticeptoutSet();
         $client_opt_out->loadByRentalLink($this->rental->getId());
-        $opt_out_notice_ids = $client_opt_out->getUniqueArray("noticeLink");
+        $opt_out_notice_ids = $client_opt_out->uniqueNoticeLinks();
         $table_head = ["Notice level","Status"];
         $table_body = [];
         foreach ($noticeLevels as $noticeLevel) {
@@ -199,7 +204,7 @@ class Manage extends View
             $table_body[] = $entry;
         }
         $form = new Form();
-        $form->target("Client/NoticeOptout/" . $this->page . "");
+        $form->target("Client/NoticeOptout/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(12);
         $form->directAdd($this->renderTable($table_head, $table_body));
@@ -212,11 +217,11 @@ class Manage extends View
         if ($enabled == true) {
             return '
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-outline-danger active">
+            <label class="btn btn-outline-secondary active">
                 <input type="radio" checked value="0" name="remove-optout-'
-                . $noticeID . '" autocomplete="off"> Disable messages
+                . $noticeID . '" autocomplete="off"> Skipped
             </label>
-            <label class="btn btn-outline-secondary">
+            <label class="btn btn-outline-success">
                 <input type="radio" value="1" name="remove-optout-'
                 . $noticeID . '" autocomplete="off"> Restore
             </label>
@@ -225,9 +230,9 @@ class Manage extends View
         return '
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-danger">
-            <input type="radio" value="1" name="add-optout-' . $noticeID . '" autocomplete="off"> Disable messages
+            <input type="radio" value="1" name="add-optout-' . $noticeID . '" autocomplete="off"> Skip
         </label>
-        <label class="btn btn-outline-secondary" active>
+        <label class="btn btn-outline-info" active>
             <input type="radio" checked value="0" name="add-optout-' . $noticeID . '" autocomplete="off"> Normal
         </label>
         </div>';
@@ -245,19 +250,14 @@ class Manage extends View
         $transactions_set = new TransactionsSet();
         $transactions_set->loadWithConfig($where_config, $order_by);
 
-        $reseller_set = new ResellerSet();
-        $region_set = new RegionSet();
+        $reseller_set = $transactions_set->relatedReseller();
+        $region_set = $transactions_set->relatedRegion();
         $avatar_set = new AvatarSet();
-        $region_set->loadByValues($transactions_set->getAllByField("regionLink"));
-        $reseller_set->loadByValues($transactions_set->getAllByField("resellerLink"));
-        $avatar_set->loadByValues(
+        $avatar_set->loadFromIds(
             array_merge(
                 $transactions_set->getAllByField("avatarLink"),
                 $reseller_set->getAllByField("avatarLink")
-            ),
-            "id",
-            "i",
-            false
+            )
         );
         $table_head = ["Transaction UID","Avatar","Reseller","Region","Amount","Datetime"];
         $table_body = [];
@@ -277,87 +277,5 @@ class Manage extends View
             $table_body[] = $entry;
         }
         $this->pages["Transactions"] = $this->renderTable($table_head, $table_body);
-    }
-    protected function clientApiActions(): void
-    {
-        $stream = new Stream();
-        $package = new Package();
-        if ($stream->loadID($this->rental->getStreamLink()) == false) {
-            return;
-        }
-        $server = $this->servers->getObjectByID($stream->getServerLink());
-        if ($server == null) {
-            return;
-        }
-        if ($server->getApiLink() < 2) {
-            return;
-        }
-        if ($package->loadID($stream->getPackageLink()) == false) {
-            return;
-        }
-        $serverapi_helper = new ServerApiHelper();
-        $serverapi_helper->forceSetRental($this->rental);
-        $serverapi_helper->forceSetServer($server);
-        $serverapi_helper->forceSetPackage($package);
-        $serverapi_helper->forceSetStream($stream, false);
-        $mygrid = new Grid();
-
-        $api_actions = [
-            "Stop" => "danger",
-            "Start" => "success",
-            "AutodjNext" => "info",
-            "AutodjToggle" => "secondary",
-            "CustomizeUsername" => "warning",
-            "ResetPasswords" => "warning",
-            "EnableAccount" => "success",
-            "DisableAccount" => "danger",
-            "ListDjs" => "info",
-            "PurgeDjs" => "danger",
-        ];
-        foreach ($api_actions as $key => $value) {
-            if ($serverapi_helper->callableAction("api" . $key) == true) {
-                $form = new Form();
-                $form->target("client/api/" . $this->page . "/" . $key);
-                $buttontext = str_replace("_", " ", ucfirst($key));
-                $mygrid->addContent($form->render($buttontext, $value, true), 4);
-            } else {
-                $mygrid->addContent($serverapi_helper->getMessage(), 4);
-            }
-        }
-        $mygrid->addContent("<hr/>", 12);
-        if ($serverapi_helper->callableAction("apiSetPasswords") == true) {
-            $form = new Form();
-            $form->target("client/api/" . $this->page . "/SetPasswords");
-            $form->group("API force set passwords");
-            $form->textInput(
-                "set_dj_password",
-                "Set DJ password",
-                6,
-                $stream->getDjPassword(),
-                "DJ/Stream password"
-            );
-            $form->textInput(
-                "set_admin_password",
-                "Set Admin password",
-                6,
-                $stream->getAdminPassword(),
-                "Admin password"
-            );
-            $mygrid->addContent($form->render("Set passwords", "warning", true), 6);
-        }
-        $this->pages["API"] = $mygrid->getOutput();
-        $avname = explode(" ", strtolower($this->avatar->getAvatarName()));
-        if ($serverapi_helper->callableAction("apiCustomizeUsername") == true) {
-            $this->pages["API"] .= "<br/>customize username changes the admin username for the stream following"
-            . " this ruleset<br/><ol>
-            <li>Firstname eg:\"" . $avname[0] . "\"</li>
-            <li>Firstname 2 letters of last name:\"" . $avname[0] . "_" . substr($avname[1], 0, 2) . "\"</li>
-            <li>Firstname Port: \"" . $avname[0] . "_" . $stream->getPort() . "\"</li>
-            <li>Firstname Port Bitrate: \"" . $avname[0] . "_" . $stream->getPort() . "_"
-            . $package->getBitrate() . "\"</li>
-            <li>Firstname Port ServerID: \"" . $avname[0] . "_" . $stream->getPort() . "_" . $server->getId() . "\"</li>
-            <li>Firstname RentalUID: \"" . $avname[0] . "_" . $this->rental->getRentalUid() . "\"</li>
-            </ol>";
-        }
     }
 }

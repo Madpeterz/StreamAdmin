@@ -1,45 +1,16 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-CREATE TABLE `apirequests` (
+CREATE TABLE `auditlog` (
   `id` int(11) NOT NULL,
-  `serverLink` int(11) NOT NULL,
-  `rentalLink` int(11) DEFAULT NULL,
-  `streamLink` int(11) NOT NULL,
-  `eventname` text NOT NULL,
-  `attempts` int(11) NOT NULL DEFAULT 0,
-  `lastAttempt` int(11) NOT NULL DEFAULT 0,
-  `message` text DEFAULT NULL
+  `store` varchar(12) NOT NULL,
+  `sourceid` varchar(8) DEFAULT NULL,
+  `valuename` text NOT NULL,
+  `oldvalue` text DEFAULT NULL,
+  `newvalue` text DEFAULT NULL,
+  `unixtime` int(11) NOT NULL,
+  `avatarLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `apis` (
-  `id` int(11) NOT NULL,
-  `name` text NOT NULL,
-  `apiServerStatus` tinyint(1) NOT NULL DEFAULT 0,
-  `apiSyncAccounts` tinyint(1) NOT NULL DEFAULT 0,
-  `optToggleStatus` tinyint(1) NOT NULL DEFAULT 0,
-  `optPasswordReset` tinyint(1) NOT NULL DEFAULT 0,
-  `optAutodjNext` tinyint(1) NOT NULL DEFAULT 0,
-  `optToggleAutodj` tinyint(1) NOT NULL DEFAULT 0,
-  `eventEnableStart` tinyint(1) NOT NULL DEFAULT 0,
-  `eventStartSyncUsername` tinyint(1) NOT NULL DEFAULT 0,
-  `eventEnableRenew` tinyint(1) NOT NULL DEFAULT 0,
-  `eventDisableExpire` tinyint(1) NOT NULL DEFAULT 0,
-  `eventDisableRevoke` tinyint(1) NOT NULL DEFAULT 0,
-  `eventRevokeResetUsername` tinyint(1) NOT NULL DEFAULT 0,
-  `eventResetPasswordRevoke` tinyint(1) NOT NULL DEFAULT 0,
-  `eventClearDjs` tinyint(1) NOT NULL DEFAULT 0,
-  `eventRecreateRevoke` tinyint(1) NOT NULL DEFAULT 0,
-  `eventCreateStream` tinyint(1) NOT NULL DEFAULT 0,
-  `eventUpdateStream` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `apis` (`id`, `name`, `apiServerStatus`, `apiSyncAccounts`, `optToggleStatus`, `optPasswordReset`, `optAutodjNext`, `optToggleAutodj`, `eventEnableStart`, `eventStartSyncUsername`, `eventEnableRenew`, `eventDisableExpire`, `eventDisableRevoke`, `eventRevokeResetUsername`, `eventResetPasswordRevoke`, `eventClearDjs`, `eventRecreateRevoke`, `eventCreateStream`, `eventUpdateStream`) VALUES
-(1, 'None', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(2, 'Centova3', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-(3, 'MediaCp', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(4, 'WhmSonic', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(5, 'Secondbot', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(6, 'Azurecast', 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0);
 
 CREATE TABLE `avatar` (
   `id` int(11) NOT NULL,
@@ -49,7 +20,8 @@ CREATE TABLE `avatar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `avatar` (`id`, `avatarUUID`, `avatarName`, `avatarUid`) VALUES
-(1, 'system', 'Madpeter Zond', 'system');
+(1, '00000000-0000-0000-0000-000000000000', 'System', 'System'),
+(2, '289c3e36-69b3-40c5-9229-0c6a5d230766', 'Madpeter Zond', 'SysDevOp');
 
 CREATE TABLE `banlist` (
   `id` int(11) NOT NULL,
@@ -77,7 +49,7 @@ CREATE TABLE `botconfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`, `invites`, `inviteGroupUUID`, `httpMode`, `httpURL`, `httpToken`) VALUES
-(1, 1, 'notsetup', 0, 0, 0, NULL, 0, NULL, NULL);
+(1, 1, 'Signed command code', 0, 0, 0, NULL, 0, NULL, NULL);
 
 CREATE TABLE `datatable` (
   `id` int(11) NOT NULL,
@@ -114,9 +86,6 @@ CREATE TABLE `message` (
   `message` varchar(900) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `message` (`id`, `avatarLink`, `message`) VALUES
-(1, 1, 'Web panel setup finished please reset your password');
-
 CREATE TABLE `notecard` (
   `id` int(11) NOT NULL,
   `rentalLink` int(11) NOT NULL,
@@ -134,6 +103,7 @@ CREATE TABLE `notice` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `imMessage` varchar(800) NOT NULL,
+  `sendObjectIM` tinyint(1) NOT NULL DEFAULT 1,
   `useBot` tinyint(1) NOT NULL DEFAULT 0,
   `sendNotecard` tinyint(1) NOT NULL DEFAULT 0,
   `notecardDetail` text NOT NULL,
@@ -141,14 +111,14 @@ CREATE TABLE `notice` (
   `noticeNotecardLink` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `notice` (`id`, `name`, `imMessage`, `useBot`, `sendNotecard`, `notecardDetail`, `hoursRemaining`, `noticeNotecardLink`) VALUES
-(1, '7 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining', 1, 0, '', 168, 1),
-(2, '5 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]]  remaining, When you have time please drop into our store.', 1, 0, '', 120, 1),
-(3, '3 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining, Dont forget to renew your service!', 1, 0, '', 72, 1),
-(4, '1 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 24 hours remaining. Please renew to avoid loss of service.', 1, 0, '', 24, 1),
-(5, '5 hour notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 5 hours remaining. ', 1, 0, '', 5, 1),
-(6, 'Expired', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]]  has now expired please renew asap or risk losing the assigned port.', 1, 0, '', 0, 1),
-(10, 'Active', '', 0, 0, '', 999, 1);
+INSERT INTO `notice` (`id`, `name`, `imMessage`, `sendObjectIM`, `useBot`, `sendNotecard`, `notecardDetail`, `hoursRemaining`, `noticeNotecardLink`) VALUES
+(1, '7 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining', 1, 1, 0, '', 168, 1),
+(2, '5 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]]  remaining, When you have time please drop into our store.', 1, 1, 0, '', 120, 1),
+(3, '3 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has [[RENTAL_TIMELEFT]] remaining, Dont forget to renew your service!', 1, 1, 0, '', 72, 1),
+(4, '1 day notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 24 hours remaining. Please renew to avoid loss of service.', 1, 1, 0, '', 24, 1),
+(5, '5 hour notice', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]] now has less than 5 hours remaining. ', 1, 1, 0, '', 5, 1),
+(6, 'Expired', 'Hello [[AVATAR_FIRSTNAME]] your stream on [[SERVER_DOMAIN]] port [[STREAM_PORT]]  has now expired please renew asap or risk losing the assigned port.', 1, 1, 0, '', 0, 1),
+(10, 'Active', '', 1, 0, 0, '', 999, 1);
 
 CREATE TABLE `noticenotecard` (
   `id` int(11) NOT NULL,
@@ -157,7 +127,7 @@ CREATE TABLE `noticenotecard` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `noticenotecard` (`id`, `name`, `missing`) VALUES
-(1, 'none', 0);
+(1, 'None', 0);
 
 CREATE TABLE `objects` (
   `id` int(11) NOT NULL,
@@ -185,12 +155,9 @@ CREATE TABLE `package` (
   `textureSoldout` varchar(36) NOT NULL,
   `textureInstockSmall` varchar(36) NOT NULL,
   `textureInstockSelected` varchar(36) NOT NULL,
-  `apiTemplate` text DEFAULT NULL,
   `welcomeNotecardLink` int(11) NOT NULL DEFAULT 1,
   `setupNotecardLink` int(11) NOT NULL DEFAULT 1,
-  `enableGroupInvite` tinyint(1) NOT NULL DEFAULT 1,
-  `apiAllowAutoSuspend` tinyint(1) NOT NULL DEFAULT 1,
-  `apiAutoSuspendDelayHours` int(11) NOT NULL DEFAULT 0
+  `enableGroupInvite` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `region` (
@@ -209,11 +176,13 @@ CREATE TABLE `rental` (
   `renewals` tinyint(4) NOT NULL DEFAULT 0,
   `totalAmount` int(11) NOT NULL DEFAULT 0,
   `message` text DEFAULT NULL,
-  `rentalUid` varchar(8) NOT NULL,
-  `apiAllowAutoSuspend` tinyint(1) NOT NULL DEFAULT 1,
-  `apiSuspended` tinyint(1) NOT NULL DEFAULT 0,
-  `apiPendingAutoSuspend` tinyint(1) NOT NULL DEFAULT 0,
-  `apiPendingAutoSuspendAfter` int(11) DEFAULT NULL
+  `rentalUid` varchar(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `rentalnoticeptout` (
+  `id` int(11) NOT NULL,
+  `rentalLink` int(11) NOT NULL,
+  `noticeLink` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `reseller` (
@@ -226,29 +195,7 @@ CREATE TABLE `reseller` (
 CREATE TABLE `server` (
   `id` int(11) NOT NULL,
   `domain` varchar(100) NOT NULL,
-  `controlPanelURL` text NOT NULL,
-  `apiLink` int(11) NOT NULL DEFAULT 1,
-  `apiURL` text DEFAULT NULL,
-  `apiUsername` text DEFAULT NULL,
-  `apiPassword` text DEFAULT NULL,
-  `apiServerStatus` tinyint(1) NOT NULL DEFAULT 0,
-  `apiSyncAccounts` tinyint(1) NOT NULL DEFAULT 0,
-  `optPasswordReset` tinyint(1) NOT NULL DEFAULT 0,
-  `optAutodjNext` tinyint(1) NOT NULL DEFAULT 0,
-  `optToggleAutodj` tinyint(1) NOT NULL DEFAULT 0,
-  `optToggleStatus` tinyint(1) NOT NULL DEFAULT 0,
-  `eventEnableStart` tinyint(1) NOT NULL DEFAULT 0,
-  `eventStartSyncUsername` tinyint(1) NOT NULL DEFAULT 0,
-  `eventEnableRenew` tinyint(1) NOT NULL DEFAULT 0,
-  `eventDisableExpire` tinyint(1) NOT NULL DEFAULT 0,
-  `eventDisableRevoke` tinyint(1) NOT NULL DEFAULT 0,
-  `eventRevokeResetUsername` tinyint(1) NOT NULL DEFAULT 0,
-  `eventResetPasswordRevoke` tinyint(1) NOT NULL DEFAULT 0,
-  `eventClearDjs` tinyint(1) NOT NULL DEFAULT 0,
-  `eventRecreateRevoke` tinyint(1) NOT NULL DEFAULT 0,
-  `lastApiSync` int(11) NOT NULL DEFAULT 0,
-  `eventCreateStream` tinyint(1) NOT NULL DEFAULT 0,
-  `eventUpdateStream` tinyint(1) NOT NULL DEFAULT 0
+  `controlPanelURL` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `servertypes` (
@@ -274,9 +221,6 @@ CREATE TABLE `slconfig` (
   `datatableItemsPerPage` int(3) NOT NULL DEFAULT 10,
   `httpInboundSecret` text NOT NULL,
   `displayTimezoneLink` int(11) NOT NULL DEFAULT 11,
-  `apiDefaultEmail` text NOT NULL,
-  `customLogo` tinyint(1) NOT NULL DEFAULT 0,
-  `customLogoBin` text NOT NULL,
   `hudAllowDiscord` tinyint(1) NOT NULL DEFAULT 0,
   `hudDiscordLink` text DEFAULT 'Not setup yet',
   `hudAllowGroup` tinyint(1) NOT NULL DEFAULT 0,
@@ -284,11 +228,13 @@ CREATE TABLE `slconfig` (
   `hudAllowDetails` tinyint(1) NOT NULL DEFAULT 0,
   `hudAllowRenewal` tinyint(1) NOT NULL DEFAULT 0,
   `eventsAPI` tinyint(1) NOT NULL DEFAULT 0,
-  `paymentKey` text DEFAULT NULL
+  `paymentKey` text DEFAULT NULL,
+  `streamListOption` int(11) NOT NULL DEFAULT 1,
+  `clientsDisplayServer` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `apiDefaultEmail`, `customLogo`, `customLogoBin`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`, `eventsAPI`, `paymentKey`) VALUES
-(1, '1.0.2.4', 0, 0, 'asdasdasd', 0, NULL, NULL, 1, 10, '', 11, 'noone@no.email.com', 0, '', 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0, NULL);
+INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`, `eventsAPI`, `paymentKey`, `streamListOption`, `clientsDisplayServer`) VALUES
+(1, '2.0.0.0', 0, 0, 'install', 1, 'install', 'install', 1, 10, 'install', 11, 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0, 'install', 1, 1);
 
 CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
@@ -303,7 +249,7 @@ CREATE TABLE `staff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `staff` (`id`, `username`, `emailResetCode`, `emailResetExpires`, `avatarLink`, `phash`, `lhash`, `psalt`, `ownerLevel`) VALUES
-(1, 'Installer', NULL, 1585832870, 1, '876138b3b30082989dc3f61f607c5ba0a3adceaace', 'ea8acdc5deff970b901ccd2ee3ff60326bc746fcf3', '1063b99b60639e90d9cfc2ae1abd38e783ee90b891', 1);
+(1, 'Install', NULL, 0, 1, 'Install', 'Install', 'Install', 1);
 
 CREATE TABLE `stream` (
   `id` int(11) NOT NULL,
@@ -312,16 +258,11 @@ CREATE TABLE `stream` (
   `packageLink` int(11) NOT NULL,
   `port` int(5) NOT NULL,
   `needWork` tinyint(1) NOT NULL DEFAULT 0,
-  `originalAdminUsername` text NOT NULL,
   `adminUsername` text NOT NULL,
   `adminPassword` text NOT NULL,
   `djPassword` text NOT NULL,
   `streamUid` varchar(8) NOT NULL,
-  `mountpoint` text NOT NULL,
-  `lastApiSync` int(11) NOT NULL DEFAULT 0,
-  `apiConfigValue1` text DEFAULT NULL,
-  `apiConfigValue2` text DEFAULT NULL,
-  `apiConfigValue3` text DEFAULT NULL
+  `mountpoint` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `template` (
@@ -401,14 +342,9 @@ CREATE TABLE `treevenderpackages` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-ALTER TABLE `apirequests`
+ALTER TABLE `auditlog`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `serverLink` (`serverLink`),
-  ADD KEY `rentalLink` (`rentalLink`),
-  ADD KEY `streamLink` (`streamLink`);
-
-ALTER TABLE `apis`
-  ADD PRIMARY KEY (`id`);
+  ADD KEY `staffLink` (`avatarLink`);
 
 ALTER TABLE `avatar`
   ADD PRIMARY KEY (`id`),
@@ -447,7 +383,9 @@ ALTER TABLE `notecard`
   ADD KEY `rentalLink` (`rentalLink`);
 
 ALTER TABLE `notecardmail`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notecardmail_avatar_inuse` (`avatarLink`),
+  ADD KEY `notecardmial_notecard_inuse` (`noticenotecardLink`);
 
 ALTER TABLE `notice`
   ADD PRIMARY KEY (`id`),
@@ -483,14 +421,18 @@ ALTER TABLE `rental`
   ADD KEY `packageLink` (`packageLink`),
   ADD KEY `noticeLink` (`noticeLink`);
 
+ALTER TABLE `rentalnoticeptout`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rentalLink` (`rentalLink`),
+  ADD KEY `noticeLink` (`noticeLink`);
+
 ALTER TABLE `reseller`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `avatarLink` (`avatarLink`);
 
 ALTER TABLE `server`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `domain` (`domain`),
-  ADD KEY `apiLink` (`apiLink`);
+  ADD UNIQUE KEY `domain` (`domain`);
 
 ALTER TABLE `servertypes`
   ADD PRIMARY KEY (`id`),
@@ -547,14 +489,11 @@ ALTER TABLE `treevenderpackages`
   ADD KEY `packageLink` (`packageLink`);
 
 
-ALTER TABLE `apirequests`
+ALTER TABLE `auditlog`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `apis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 ALTER TABLE `avatar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `banlist`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -575,7 +514,7 @@ ALTER TABLE `eventsq`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `notecard`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -601,6 +540,9 @@ ALTER TABLE `region`
 ALTER TABLE `rental`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `rentalnoticeptout`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `reseller`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -611,7 +553,7 @@ ALTER TABLE `servertypes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `slconfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `staff`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
@@ -638,10 +580,8 @@ ALTER TABLE `treevenderpackages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 
-ALTER TABLE `apirequests`
-  ADD CONSTRAINT `rental_in_use_apirequests` FOREIGN KEY (`rentalLink`) REFERENCES `rental` (`id`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `server_in_use_apirequests` FOREIGN KEY (`serverLink`) REFERENCES `server` (`id`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `stream_in_use_apirequests` FOREIGN KEY (`streamLink`) REFERENCES `stream` (`id`) ON UPDATE NO ACTION;
+ALTER TABLE `auditlog`
+  ADD CONSTRAINT `auditlog_staff_inuse` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `banlist`
   ADD CONSTRAINT `avatar_in_use_banlist` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION;
@@ -658,6 +598,10 @@ ALTER TABLE `message`
 ALTER TABLE `notecard`
   ADD CONSTRAINT `notice_in_use_notecard` FOREIGN KEY (`noticeLink`) REFERENCES `notice` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `rental_in_use_notecard` FOREIGN KEY (`rentalLink`) REFERENCES `rental` (`id`) ON UPDATE NO ACTION;
+
+ALTER TABLE `notecardmail`
+  ADD CONSTRAINT `notecardmail_avatar_inuse` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `notecardmial_notecard_inuse` FOREIGN KEY (`noticenotecardLink`) REFERENCES `noticenotecard` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `notice`
   ADD CONSTRAINT `noticenotcard_in_use_notice` FOREIGN KEY (`noticeNotecardLink`) REFERENCES `noticenotecard` (`id`) ON UPDATE NO ACTION;
@@ -678,11 +622,12 @@ ALTER TABLE `rental`
   ADD CONSTRAINT `package_in_use_rental` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `stream_in_use_rental` FOREIGN KEY (`streamLink`) REFERENCES `stream` (`id`) ON UPDATE NO ACTION;
 
+ALTER TABLE `rentalnoticeptout`
+  ADD CONSTRAINT `table: rental notice optout - Notice in use` FOREIGN KEY (`noticeLink`) REFERENCES `notice` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `table: rental notice optout - Rental in use` FOREIGN KEY (`rentalLink`) REFERENCES `rental` (`id`) ON UPDATE NO ACTION;
+
 ALTER TABLE `reseller`
   ADD CONSTRAINT `avatar_in_use_reseller` FOREIGN KEY (`avatarLink`) REFERENCES `avatar` (`id`) ON UPDATE NO ACTION;
-
-ALTER TABLE `server`
-  ADD CONSTRAINT `api_in_use_server` FOREIGN KEY (`apiLink`) REFERENCES `apis` (`id`) ON UPDATE NO ACTION;
 
 ALTER TABLE `slconfig`
   ADD CONSTRAINT `avatar_in_use_config` FOREIGN KEY (`ownerAvatarLink`) REFERENCES `avatar` (`id`),
@@ -706,25 +651,7 @@ ALTER TABLE `transactions`
 ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
+ALTER TABLE `objects` ADD UNIQUE(`objectUUID`);
 
-UPDATE `slconfig` SET `dbVersion` = '1.0.2.5' WHERE `slconfig`.`id` = 1;
-ALTER TABLE `notice` ADD `sendObjectIM` TINYINT(1) NOT NULL DEFAULT '1' AFTER `imMessage`;
-
-CREATE TABLE `rentalnoticeptout` ( 
-        `id` INT NOT NULL AUTO_INCREMENT , 
-        `rentalLink` INT NOT NULL , 
-        `noticeLink` INT NOT NULL , 
-        `enabled` TINYINT(1) NOT NULL DEFAULT '1' , 
-        PRIMARY KEY (`id`), 
-        INDEX (`rentalLink`), 
-        INDEX (`noticeLink`)
-) ENGINE = InnoDB;
-
-ALTER TABLE `rentalnoticeptout` 
-  ADD CONSTRAINT `table: rental notice optout - Rental in use` FOREIGN KEY (`rentalLink`) REFERENCES `rental`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
-  
-ALTER TABLE `rentalnoticeptout` 
-  ADD CONSTRAINT `table: rental notice optout - Notice in use` FOREIGN KEY (`noticeLink`) REFERENCES `notice`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION;
-
-ALTER TABLE `rentalnoticeptout` DROP `enabled`;
-
+UPDATE `slconfig` SET `dbVersion` = '2.0.1.0' WHERE `slconfig`.`id` = 1;
+ALTER TABLE `botconfig` DROP `httpToken`;

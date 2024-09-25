@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Stream;
 
 class Ready extends Withstatus
 {
-    public function process(): void
+    public function process(bool $usePackageNotServer = false): void
     {
         $this->setSwapTag("page_title", " With status: Ready");
         $this->whereconfig = [
@@ -13,6 +13,6 @@ class Ready extends Withstatus
             "types" => ["s","i"],
             "matches" => ["IS","="],
         ];
-        parent::process();
+        parent::process(false);
     }
 }

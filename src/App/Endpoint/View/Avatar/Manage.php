@@ -3,9 +3,9 @@
 namespace App\Endpoint\View\Avatar;
 
 use App\Endpoint\View\Transactions\DefaultView;
-use App\R7\Model\Avatar;
-use App\Template\Form as Form;
-use App\Template\Grid;
+use App\Models\Avatar;
+use YAPF\Bootstrap\Template\Form as Form;
+use YAPF\Bootstrap\Template\Grid;
 
 class Manage extends View
 {
@@ -15,21 +15,25 @@ class Manage extends View
 
         $this->setSwapTag("page_actions", ""
         . "<button type='button' 
-        data-actiontitle='Remove avatar " . $this->page . "' 
+        data-actiontitle='Remove avatar " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove avatar' 
         data-actionmessage='If this avatar is being used (by banlist/rental/ect) this will fail' 
-        data-targetendpoint='[[url_base]]Avatar/Remove/" . $this->page . "' 
+        data-targetendpoint='[[SITE_URL]]Avatar/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $avatar = new Avatar();
-        if ($avatar->loadByField("avatarUid", $this->page) == false) {
+        if ($avatar->loadByAvatarUid($this->siteConfig->getPage())->status == false) {
+            $this->setSwapTag("page_content", "Avatar not found via page config");
             $this->output->redirect("avatar?bubblemessage=unable to find avatar&bubbletype=warning");
             return;
+        }
+        if ($avatar->getId() == $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) {
+            $this->setSwapTag("page_actions", "");
         }
         $this->output->addSwapTagString("page_title", " : " . $avatar->getAvatarName() . " 
         [" . $avatar->getAvatarUid() . "]");
         $form = new form();
-        $form->target("avatar/update/" . $this->page . "");
+        $form->target("avatar/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->textInput(

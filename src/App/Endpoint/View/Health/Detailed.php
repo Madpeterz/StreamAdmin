@@ -2,17 +2,17 @@
 
 namespace App\Endpoint\View\Health;
 
-use App\R7\Model\Region;
-use App\R7\Set\AvatarSet;
-use App\R7\Set\ObjectsSet;
-use App\R7\Set\ResellerSet;
+use App\Models\Region;
+use App\Models\Sets\ObjectsSet;
+use App\Models\Sets\ResellerSet;
 
 class Detailed extends View
 {
+    protected array $owner_objects_list = [];
     public function process(): void
     {
         $region = new Region();
-        if ($region->loadID($this->page) == false) {
+        if ($region->loadID($this->siteConfig->getPage()) == false) {
             $this->setSwapTag("page_content", "Unknown region please go back and select a option");
             return;
         }
@@ -21,18 +21,15 @@ class Detailed extends View
         . $region->getName());
 
         $this->owner_objects_list = [
-            "apirequests",
             "mailserver",
             "noticeserver",
             "detailsserver",
             "notecardsserver",
-            "clientautosuspendserver",
             "eventsserver",
         ];
         $resellers = new ResellerSet();
         $resellers->loadAll();
-        $avatars = new AvatarSet();
-        $avatars->loadByValues($resellers->getUniqueArray("avatarLink"));
+        $avatars = $resellers->relatedAvatar();
         $venderHealth = new ObjectsSet();
         $whereConfig = [
             "fields" => ["avatarLink","objectMode","regionLink"],
@@ -59,7 +56,7 @@ class Detailed extends View
             }
             $entry[] = $object->getObjectMode();
             $entry[] = "<span class=\"text-" . $statusColor . "\">" . $statusText . "</span>";
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }

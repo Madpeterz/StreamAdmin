@@ -2,27 +2,22 @@
 
 namespace App\Endpoint\View\Objects;
 
-use App\R7\Set\AvatarSet;
-use App\R7\Set\ObjectsSet;
-use App\R7\Set\RegionSet;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Sets\AvatarSet;
+use App\Models\Sets\ObjectsSet;
+use App\Models\Sets\RegionSet;
 
 class DefaultView extends View
 {
     public function process(): void
     {
-        $inputFilter = new InputFilter();
-        $pagenum = $inputFilter->varFilter($this->page, "integer");
+        $pagenum = $this->input->varInput($this->siteConfig->getPage())->checkGrtThanEq(0)->asInt();
         if ($pagenum == null) {
             $pagenum = 0;
         }
         $objects_set = new ObjectsSet();
-        $objects_set->loadLimited(1000, "id", "DESC", [], [], "AND", $pagenum);
-        $region_set = new RegionSet();
-        $region_set->loadByValues($objects_set->getAllByField("regionLink"));
-        $avatar_set = new AvatarSet();
-        $avatar_set->loadByValues($objects_set->getAllByField("avatarLink"));
-
+        $objects_set->loadLimited(limit:1000, orderDirection:"DESC", page:$pagenum);
+        $region_set = $objects_set->relatedRegion();
+        $avatar_set = $objects_set->relatedAvatar();
         $table_head = ["id","Object name","Script + Version","Last seen","Region","Object mode","Owner"];
         $table_body = [];
         if ($objects_set->getCount() == 0) {
@@ -47,8 +42,8 @@ class DefaultView extends View
             $tp_url = str_replace(' ', '%20', $tp_url);
             $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
             . $region->getName() . "</a>";
-            $entry[] = $object->getObjectXYZ();
-            $entry[] = '<a href="[[url_base]]search?search=' . $avatar->getAvatarName() . '">'
+            $entry[] = $object->getObjectMode();
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
             . $avatar->getAvatarName() . '</a>';
             $table_body[] = $entry;
         }

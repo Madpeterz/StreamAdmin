@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Export;
 
-use App\Template\View as BasicView;
+use App\Framework\Menu;
 
-abstract class View extends BasicView
+abstract class View extends Menu
 {
     public function __construct()
     {
@@ -12,7 +12,7 @@ abstract class View extends BasicView
         $this->setSwapTag("html_title", "Export");
         $this->setSwapTag("page_title", "[[page_breadcrumb_icon]] [[page_breadcrumb_text]] / Export");
         $this->setSwapTag("page_actions", "");
-        if ($this->session->getOwnerLevel() == false) {
+        if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->output->redirectWithMessage("home", "Only the system owner can create exports!");
             return;
         }

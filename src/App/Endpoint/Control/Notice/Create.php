@@ -2,71 +2,58 @@
 
 namespace App\Endpoint\Control\Notice;
 
-use App\R7\Model\Notice;
-use App\R7\Model\Noticenotecard;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Notice;
+use App\Models\Noticenotecard;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
-
         $notice = new Notice();
         $static_notecard = new Noticenotecard();
-        $input = new InputFilter();
-        $name = $input->postString("name", 100, 5);
+        $name = $this->input->post("name")->checkStringLength(5, 100)->asString();
         if ($name == null) {
-            $this->failed("Name failed:" . $input->getWhyFailed());
+            $this->failed("Name failed:" . $this->input->getWhyFailed());
             return;
         }
-        $hoursRemaining = $input->postInteger("hoursRemaining", false, true);
+        $hoursRemaining = $this->input->post("hoursRemaining")->checkGrtThanEq(1)->asInt();
         if ($hoursRemaining === null) {
-            $this->failed("Hours remain failed:" . $input->getWhyFailed());
+            $this->failed("Hours remain failed:" . $this->input->getWhyFailed());
             return;
         }
-        $imMessage = $input->postString("imMessage", 800, 5);
+        $imMessage = $this->input->post("imMessage")->checkStringLength(5, 800)->asString();
         if ($imMessage == null) {
-            $this->failed("IM message failed:" . $input->getWhyFailed());
+            $this->failed("IM message failed:" . $this->input->getWhyFailed());
             return;
         }
-        $sendObjectIM = $input->postBool("sendObjectIM");
-        if ($sendObjectIM === null) {
-            $sendObjectIM = false;
-        }
-
-        $useBot = $input->postBool("useBot");
-        if ($useBot === null) {
-            $useBot = false;
-        }
-        $sendNotecard = $input->postBool("sendNotecard");
-        if ($sendNotecard === null) {
-            $sendNotecard = false;
-        }
-        $notecardDetail = $input->postString("notecardDetail");
-        if ($sendObjectIM === null) {
-            $this->failed("Notecard detail failed:" . $input->getWhyFailed());
+        $sendObjectIM = $this->input->post("sendObjectIM")->asBool();
+        $useBot = $this->input->post("useBot")->asBool();
+        $sendNotecard = $this->input->post("sendNotecard")->asBool();
+        $notecardDetail = $this->input->post("notecardDetail")->asString();
+        if ($notecardDetail === null) {
+            $this->failed("Notecard detail failed:" . $this->input->getWhyFailed());
             return;
         }
-        $noticeNotecardLink = $input->postInteger("noticeNotecardLink", false, true);
+        $noticeNotecardLink = $this->input->post("noticeNotecardLink")->checkGrtThanEq(1)->asInt();
         if ($noticeNotecardLink === null) {
-            $this->failed("Static notecard failed:" . $input->getWhyFailed());
+            $this->failed("Static notecard failed:" . $this->input->getWhyFailed());
             return;
         }
         if ($sendNotecard == false) {
-            if (strlen($notecardDetail) < 1) {
+            if (nullSafeStrLen($notecardDetail) < 1) {
                 $notecardDetail = "";
             }
         }
 
         $this->setSwapTag("redirect", null);
 
-        if ($notice->loadByHoursRemaining($hoursRemaining) == true) {
+        if ($notice->loadByHoursRemaining($hoursRemaining)->status == true) {
             $this->failed("There is already a notice assigned to that remaining hours");
             return;
         }
 
-        if ($static_notecard->loadID($noticeNotecardLink) == false) {
+        if ($static_notecard->loadID($noticeNotecardLink)->status == false) {
             $this->failed("Unable to find selected static notecard");
             return;
         }
@@ -85,13 +72,13 @@ class Create extends ViewAjax
         $notice->setNotecardDetail($notecardDetail);
         $notice->setNoticeNotecardLink($static_notecard->getId());
         $create_status = $notice->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->failed(
-                sprintf("Unable to create notice: %1\$s", $create_status["message"])
+                sprintf("Unable to create notice: %1\$s", $create_status->message)
             );
             return;
         }
-        $this->ok("Notice created");
-        $this->setSwapTag("redirect", "notice");
+        $this->redirectWithMessage("Notice created");
+        $this->createAuditLog($notice->getId(), "+++", null, $notice->getName());
     }
 }

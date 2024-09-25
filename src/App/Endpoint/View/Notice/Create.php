@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\R7\Set\NoticenotecardSet;
-use App\Template\Form as Form;
+use App\Models\Sets\NoticenotecardSet;
+use YAPF\Bootstrap\Template\Form as Form;
 
 class Create extends View
 {
@@ -43,6 +43,6 @@ class Create extends View
         $form->group("Static notecard");
         $form->select("noticeNotecardLink", " ", 1, $notice_notecard_set->getLinkedArray("id", "name"));
         $this->setSwapTag("page_content", $form->render("Create", "primary"));
-        include ROOTFOLDER . "/App/Endpoint/View/Shared/swaps_table.php";
+        parent::getSwaps();
     }
 }

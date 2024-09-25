@@ -2,22 +2,21 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\R7\Model\Treevender;
-use App\Template\ViewAjax;
-use YAPF\InputFilter\InputFilter;
+use App\Models\Treevender;
+use App\Template\ControlAjax;
 
-class Create extends ViewAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
         $treevender = new Treevender();
-        $input = new InputFilter();
-        $name = $input->postString("name", 100, 4);
+
+        $name = $this->input->post("name")->checkStringLength(4, 100)->asString();
         if ($name == null) {
-            $this->failed("Name is not vaild: " . $input->getLastError());
+            $this->failed("Name is not vaild: " . $this->input->getLastError());
             return;
         }
-        if ($treevender->loadByField("name", $name) == true) {
+        if ($treevender->loadByName($name)->status == true) {
             $this->failed("There is already a tree vender assigned to that name");
             return;
         }
@@ -27,14 +26,14 @@ class Create extends ViewAjax
         $treevender->setTextureWaiting("00000000-0000-0000-0000-000000000000");
         $treevender->setTextureInuse("00000000-0000-0000-0000-000000000000");
         $create_status = $treevender->createEntry();
-        if ($create_status["status"] == false) {
+        if ($create_status->status == false) {
             $this->setSwapTag(
                 "message",
-                sprintf("Unable to create tree vender: %1\$s", $create_status["message"])
+                sprintf("Unable to create tree vender: %1\$s", $create_status->message)
             );
             return;
         }
-        $this->ok("Tree vender created");
-        $this->setSwapTag("redirect", "tree");
+        $this->redirectWithMessage("Tree vender created");
+        $this->createAuditLog($treevender->getId(), "+++", null, $treevender->getName());
     }
 }
