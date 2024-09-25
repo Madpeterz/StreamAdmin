@@ -37,7 +37,7 @@ class Next extends SecondlifeAjax
     }
     public function makeHTTPClient(): ?Client
     {
-        if ($this->client != null) {
+        if ($this->client === null) {
             $this->makeGuzzle($this->botconfig->getHttpURL());
         }
         return $this->client;
