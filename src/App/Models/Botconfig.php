@@ -22,7 +22,6 @@ class Botconfig extends genClass
         "inviteGroupUUID",
         "httpMode",
         "httpURL",
-        "httpToken",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -34,7 +33,6 @@ class Botconfig extends genClass
         "inviteGroupUUID" => ["type" => "str", "value" => null],
         "httpMode" => ["type" => "bool", "value" => 0],
         "httpURL" => ["type" => "str", "value" => null],
-        "httpToken" => ["type" => "str", "value" => null],
     ];
     // Setters
     /**
@@ -93,13 +91,6 @@ class Botconfig extends genClass
     {
         return $this->updateField("httpURL", $newValue);
     }
-    /**
-    * setHttpToken
-    */
-    public function setHttpToken(?string $newValue): UpdateReply
-    {
-        return $this->updateField("httpToken", $newValue);
-    }
     // Getters
     public function getAvatarLink(): ?int
     {
@@ -132,10 +123,6 @@ class Botconfig extends genClass
     public function getHttpURL(): ?string
     {
         return $this->getField("httpURL");
-    }
-    public function getHttpToken(): ?string
-    {
-        return $this->getField("httpToken");
     }
     // Loaders
     public function loadByAvatarLink(int $avatarLink): SingleLoadReply
@@ -192,13 +179,6 @@ class Botconfig extends genClass
         return $this->loadByField(
             "httpURL",
             $httpURL
-        );
-    }
-    public function loadByHttpToken(string $httpToken): SingleLoadReply
-    {
-        return $this->loadByField(
-            "httpToken",
-            $httpToken
         );
     }
     public function relatedAvatar(?array $limitFields = null): AvatarSet

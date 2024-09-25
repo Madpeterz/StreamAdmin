@@ -129,15 +129,6 @@ class BotconfigSet extends CollectionSet
     {
         return parent::uniqueArray("httpURL");
     }
-    /**
-     * uniqueHttpTokens
-     * returns unique values from the collection matching that field
-     * @return array<string>
-     */
-    public function uniqueHttpTokens(): array
-    {
-        return parent::uniqueArray("httpToken");
-    }
     // Loaders
     /**
      * loadById
@@ -354,30 +345,6 @@ class BotconfigSet extends CollectionSet
     public function loadFromHttpURLs(array $values): SetsLoadReply
     {
         return $this->loadIndexes("httpURL", $values);
-    }
-    /**
-     * loadByHttpToken
-    */
-    public function loadByHttpToken(
-        string $httpToken,
-        int $limit = 0,
-        string $orderBy = "id",
-        string $orderDir = "DESC"
-    ): SetsLoadReply {
-        return $this->loadOnField(
-            "httpToken",
-            $httpToken,
-            $limit,
-            $orderBy,
-            $orderDir
-        );
-    }
-    /**
-     * loadFromHttpTokens
-    */
-    public function loadFromHttpTokens(array $values): SetsLoadReply
-    {
-        return $this->loadIndexes("httpToken", $values);
     }
     // Related loaders
     public function relatedAvatar(?array $limitFields=null): AvatarSet
