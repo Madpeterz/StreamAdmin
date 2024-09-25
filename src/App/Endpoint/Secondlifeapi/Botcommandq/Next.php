@@ -60,15 +60,22 @@ class Next extends SecondlifeAjax
             $this->ok("nowork"); // nothing todo
             return;
         }
+        $selectedCommand = $botcommandQset->getFirst();
+        if ($this->output->getSwapTagBool("status") == true) {
+            if ($selectedCommand->removeEntry()->status == false) {
+                $this->failed("Unable to mark command as processed");
+                return;
+            }
+        }
         if ($this->botconfig->getHttpMode() == true) {
             if ($this->makeHTTPClient() === null) {
                 $this->failed("Unable to setup http endpoint");
                 return;
             }
-            $this->processAsHTTP($botcommandQset->getFirst());
+            $this->processAsHTTP($selectedCommand);
             return;
         }
-        $this->processAsObjectIM($botcommandQset->getFirst());
+        $this->processAsObjectIM($selectedCommand);
     }
 
     /**
@@ -102,7 +109,6 @@ class Next extends SecondlifeAjax
     protected function processAsHTTP(Botcommandq $command): void
     {
         $results = $this->httpCommands($command);
-
         if ($results["status"] == false) {
             $this->failed($results["message"]);
             return;
@@ -110,17 +116,14 @@ class Next extends SecondlifeAjax
         $jsonReply = json_decode($results["message"], true);
         if (array_key_exists("status", $jsonReply) == false) {
             $this->failed("Reply is not formated as expected " . $results["message"]);
+            return;
         }
         if (array_key_exists("reply", $jsonReply) == false) {
             $this->failed("Reply is not formated as expected " . $results["message"]);
+            return;
         }
         if ($jsonReply["status"] == false) {
             $this->failed($results["message"]);
-            return;
-        }
-        $reply = $command->removeEntry();
-        if ($reply->status == false) {
-            $this->failed("Unable to remove command from the Q because:" . $reply->message);
             return;
         }
         $this->ok($jsonReply["reply"]);
@@ -133,11 +136,6 @@ class Next extends SecondlifeAjax
         $formatedCmd = $bothelper->getBotCommand($command->getCommand(), []);
         if ($command->getArgs() != null) {
             $formatedCmd = $bothelper->getBotCommand($command->getCommand(), json_decode($command->getArgs()));
-        }
-        $reply = $command->removeEntry();
-        if ($reply->status == false) {
-            $this->failed("Unable to remove command from the Q because:" . $reply->message);
-            return;
         }
         $messageSet = new MessageSet();
         $count = $messageSet->countInDB([
@@ -153,7 +151,6 @@ class Next extends SecondlifeAjax
             return;
         }
         $this->ok("passed command to mail server");
-        return;
     }
 
     protected array $options = [];
