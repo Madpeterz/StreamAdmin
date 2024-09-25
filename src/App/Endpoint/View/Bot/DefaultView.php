@@ -60,8 +60,8 @@ class DefaultView extends View
         $form->group("HTTP mode");
         $form->select("httpMode", "Use HTTP", $botconfig->getHttpMode(), $this->disableEnable);
         $form->textInput("httpURL", "URL", 0, $botconfig->getHttpURL(), "HTTP url to the bot");
-        $form->directAdd("<br/> <p>For help setting up HTTP mode with your bot please talk to Madpeter<br/> " .
-            "HTTP mode works with a cronjob otherwise it is pointless to enable</p> <br/> 
+        $form->directAdd("<br/> <p>For help setting up HTTP mode with your bot please talk to Madpeter</p> 
+            <br/> 
             Notes: Bot support requires cron to be setup!");
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
