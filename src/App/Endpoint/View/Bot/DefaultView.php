@@ -25,44 +25,45 @@ class DefaultView extends View
         $form->required(true);
         $form->col(6);
         $form->group("Basic");
-            $form->textInput(
-                "avataruid",
-                "Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\"" .
+        $form->textInput(
+            "avataruid",
+            "Avatar UID <a data-toggle=\"modal\" data-target=\"#AvatarPicker\"" .
                 " href=\"#\" target=\"_blank\">Find</a>",
-                8,
-                $avatar->getAvatarUid(),
-                "Avatar uid [Not the same as a SL UUID!]"
-            );
-            $form->textInput(
-                "secret",
-                "Secret SL->Bot",
-                12,
-                $botconfig->getSecret(),
-                "Bot secret [Found in ***.json or env value]"
-            );
+            8,
+            $avatar->getAvatarUid(),
+            "Avatar uid [Not the same as a SL UUID!]"
+        );
+        $form->textInput(
+            "secret",
+            "Secret SL->Bot",
+            12,
+            $botconfig->getSecret(),
+            "Bot secret [Found in ***.json or env value]"
+        );
         $form->col(6);
         $form->group("Actions");
-            $form->select("notecards", "Create notecards", $botconfig->getNotecards(), $this->yesNo);
-            $form->select("ims", "Send ims", $botconfig->getIms(), $this->yesNo);
+        $form->select("notecards", "Create notecards", $botconfig->getNotecards(), $this->yesNo);
+        $form->select("ims", "Send ims", $botconfig->getIms(), $this->yesNo);
         $form->split();
         $form->col(6);
-            $form->group("Auto inviter");
-            $form->select("invites", "Send invites", $botconfig->getInvites(), $this->yesNo);
-            $form->textInput(
-                "inviteGroupUUID",
-                "Group UUID",
-                0,
-                $botconfig->getInviteGroupUUID(),
-                "Group UUID to invite to [with the everyone role]"
-            );
+        $form->group("Auto inviter");
+        $form->select("invites", "Send invites", $botconfig->getInvites(), $this->yesNo);
+        $form->textInput(
+            "inviteGroupUUID",
+            "Group UUID",
+            0,
+            $botconfig->getInviteGroupUUID(),
+            "Group UUID to invite to [with the everyone role]"
+        );
         $form->directAdd("<br/> <p>You can disable group invites per package if needed!</p>");
         $form->col(6);
         $form->group("HTTP mode");
-            $form->select("httpMode", "Use HTTP", $botconfig->getHttpMode(), $this->disableEnable);
-            $form->textInput("httpURL", "URL", 0, $botconfig->getHttpURL(), "HTTP url to the bot");
-            $form->textInput("httpToken", "Token", 0, $botconfig->getHttpToken(), "HTTP scoped token");
+        $form->select("httpMode", "Use HTTP", $botconfig->getHttpMode(), $this->disableEnable);
+        $form->textInput("httpURL", "URL", 0, $botconfig->getHttpURL(), "HTTP url to the bot");
+        $form->textInput("httpToken", "Token", 0, $botconfig->getHttpToken(), "HTTP scoped token");
         $form->directAdd("<br/> <p>For help setting up HTTP mode with your bot please talk to Madpeter<br/> " .
-        "HTTP mode works with a cronjob otherwise it is pointless to enable</p>");
+            "HTTP mode works with a cronjob otherwise it is pointless to enable</p> <br/> 
+            Notes: But support requires cron to be setup!");
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }
