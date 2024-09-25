@@ -113,11 +113,20 @@ class BotHelper
         Avatar $avatar,
         string $message,
     ): CreateReply {
+        // send via Mail server
+        $mail = new Message();
+        $mail->setAvatarLink($avatar->getId());
+        $mail->setMessage($message);
+        $create = $mail->createEntry();
+        if ($create->status == false) {
+            return $create;
+        }
+        // send via bot
         if ($this->getBotConfig() == false) {
-            return new CreateReply("Unable to get bot config");
+            return $create;
         }
         if ($this->botconfig->getIms() == false) {
-            return new CreateReply("Bot send IM not enabled", true);
+            return $create;
         }
         return $this->addCommandToQ("IM", [$avatar->getAvatarUUID(), $message]);
     }

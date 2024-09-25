@@ -165,19 +165,6 @@ class Next extends SecondlifeAjax
                 $this->failed("Unable to put mail into outbox");
                 return;
             }
-            $Send = new Send();
-            global $_POST;
-            $_POST["message"] = $sendmessage;
-            $_POST["max_avatars"] = 1;
-            $_POST["source"] = "Selectedrental";
-            $_POST["source_id"] = $rental->getId();
-            $_POST["avatarids"] = [$avatar->getId()];
-            $Send->process();
-            $reply = $Send->getOutputObject();
-            if ($reply->getSwapTagBool("status") == false) {
-                $this->failed($reply->getSwapTagString("message"));
-                return;
-            }
         }
         $rental->setNoticeLink($notice->getId());
         $save_status = $rental->updateEntry();
