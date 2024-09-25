@@ -37,7 +37,9 @@ class Next extends SecondlifeAjax
     }
     public function makeHTTPClient(): ?Client
     {
-        $this->makeGuzzle($this->botconfig->getHttpURL());
+        if ($this->client != null) {
+            $this->makeGuzzle($this->botconfig->getHttpURL());
+        }
         return $this->client;
     }
     public function process(): void
@@ -59,6 +61,10 @@ class Next extends SecondlifeAjax
             return;
         }
         if ($this->botconfig->getHttpMode() == true) {
+            if ($this->makeHTTPClient() === null) {
+                $this->failed("Unable to setup http endpoint");
+                return;
+            }
             $this->processAsHTTP($botcommandQset->getFirst());
             return;
         }
