@@ -113,17 +113,31 @@ class Next extends SecondlifeAjax
             $this->failed($results["message"]);
             return;
         }
+        $raw = $results["message"];
         $jsonReply = json_decode($results["message"], true);
+        if (array_key_exists("Key", $jsonReply) == false) {
+            $this->failed("Reply is not formated as expected Missing Key in repl: " . $raw);
+            return;
+        }
+        if (array_key_exists("Value", $jsonReply) == false) {
+            $this->failed("Reply is not formated as expected Missing Value in reply: " . $raw);
+            return;
+        }
+        if ($jsonReply["Key"] != true) {
+            $this->failed("Reply is not formated as expected Key is not true: " . $raw);
+            return;
+        }
+        $jsonReply = json_decode($jsonReply["Value"], true);
         if (array_key_exists("status", $jsonReply) == false) {
-            $this->failed("Reply is not formated as expected " . $results["message"]);
+            $this->failed("Reply is not formated as expected missing status code in Value: " . $raw);
             return;
         }
         if (array_key_exists("reply", $jsonReply) == false) {
-            $this->failed("Reply is not formated as expected " . $results["message"]);
+            $this->failed("Reply is not formated as expected missing reply code in Value: " . $raw);
             return;
         }
         if ($jsonReply["status"] == false) {
-            $this->failed($results["message"]);
+            $this->failed($results["reply"]);
             return;
         }
         $this->ok($jsonReply["reply"]);
