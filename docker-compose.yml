@@ -1,12 +1,11 @@
-# Replace {DOMAIN} with your domain example: https://streamadmin.magicmadpeter.xyz/
-# Replace {DBPASSWORD} with a random password used to sign into phpmyadmin
-
-version: '3'
+// Replace {DOMAIN} with the http or http url to the site with a ending /
+// Replace {PASS} with the SQL db password
+// Replace {TAG} with the target version example 2.0.1.0
 services:
-    app:
+    SA7Website:
         container_name: SA7Website
         restart: always
-        image: madpeter/streamadmin:php8
+        image: madpeter/streamadmin:{TAG}
         networks:
         - streamadmin
         ports:
@@ -17,21 +16,42 @@ services:
         - SA7Db
         - SA7Redis
         environment:
-        - SITE_NAME={DOMAIN}
-        - SITE_URL=StreamAdmin
+        - SITE_NAME=Streamadmin
+        - SITE_URL={DOMAIN}
         - SITE_CACHE_ENABLED=true
         - SITE_CACHE_REDIS_HOST=SA7Redis
         - SQL_HOST=SA7Db
         - SQL_DB_NAME=streamadmin
         - SQL_DB_USER=streamadminDBuser
-        - SQL_DB_PASS={DBPASSWORD}
+        - SQL_DB_PASS={PASS}
         - REDIS_HOST=SA7Redis
         - SESSION_DRIVER=redis
         - CACHE_DRIVER=redis
-        volumes:
-          - type: bind
-            source: /srv/logs
-            target: /srv/logs
+
+    SA7Cron:
+        container_name: SA7Cron
+        restart: always
+        image: madpeter/streamadmin:{TAG}
+        entrypoint: /bin/bash
+        command: [".docker/CronEntrypoint.sh"]
+        networks:
+        - streamadmin
+        depends_on:
+        - SA7Db
+        - SA7Redis
+        - SA7Website
+        environment:
+        - SITE_NAME=Streamadmin
+        - SITE_URL={DOMAIN}
+        - SITE_CACHE_ENABLED=true
+        - SITE_CACHE_REDIS_HOST=SA7Redis
+        - SQL_HOST=SA7Db
+        - SQL_DB_NAME=streamadmin
+        - SQL_DB_USER=streamadminDBuser
+        - SQL_DB_PASS={PASS}
+        - REDIS_HOST=SA7Redis
+        - SESSION_DRIVER=redis
+        - CACHE_DRIVER=redis
 
     SA7Db:
         container_name: SA7Db
@@ -43,7 +63,7 @@ services:
         - MYSQL_RANDOM_ROOT_PASSWORD=yes
         - MYSQL_ALLOW_EMPTY_PASSWORD=no
         - MYSQL_USER=streamadminDBuser
-        - MYSQL_PASSWORD={DBPASSWORD}
+        - MYSQL_PASSWORD={PASS}
         - MYSQL_DATABASE=streamadmin
         volumes:
         - streamadmin-db:/var/lib/mysql
