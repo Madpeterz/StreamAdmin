@@ -49,7 +49,7 @@ CREATE TABLE `botconfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `botconfig` (`id`, `avatarLink`, `secret`, `notecards`, `ims`, `invites`, `inviteGroupUUID`, `httpMode`, `httpURL`, `httpToken`) VALUES
-(1, 1, 'Signed command code', 1, 1, 0, NULL, 0, NULL, NULL);
+(1, 1, 'Signed command code', 0, 0, 0, NULL, 0, NULL, NULL);
 
 CREATE TABLE `datatable` (
   `id` int(11) NOT NULL,
@@ -652,3 +652,5 @@ ALTER TABLE `treevenderpackages`
   ADD CONSTRAINT `package_in_use_treevenderpackages` FOREIGN KEY (`packageLink`) REFERENCES `package` (`id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `treevender_in_use_treevenderpackages` FOREIGN KEY (`treevenderLink`) REFERENCES `treevender` (`id`) ON UPDATE NO ACTION;
 ALTER TABLE `objects` ADD UNIQUE(`objectUUID`);
+
+UPDATE `slconfig` SET `dbVersion` = '2.0.1.0' WHERE `slconfig`.`id` = 1;
