@@ -39,9 +39,6 @@ class Next extends SecondlifeAjax
             $server,
             $stream
         );
-        if ($this->sendMessageToAvatar($avatar, $sendmessage)->status == false) {
-            return false;
-        }
         if ($this->botHelper->sendMessage($avatar, $sendmessage)->status == false) {
             return false;
         }
