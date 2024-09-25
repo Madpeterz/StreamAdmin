@@ -5,6 +5,7 @@ namespace App\Endpoint\Secondlifeapi\Detailsserver;
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
 use App\Models\Detail;
+use App\Models\Notecard;
 use App\Models\Sets\AvatarSet;
 use App\Models\Sets\DetailSet;
 use App\Models\Sets\PackageSet;
@@ -41,6 +42,21 @@ class Next extends SecondlifeAjax
         );
         if ($this->botHelper->sendMessage($avatar, $sendmessage)->status == false) {
             return false;
+        }
+        if ($this->botconfig->getNotecards() == true) {
+            $notecard = new Notecard();
+            $notecard->setAsNotice(false);
+            $notecard->setRentalLink($rental->getId());
+            $create = $notecard->createEntry();
+            if ($create->status == false) {
+                $this->failed("Unable to request dynamic notecard");
+                return false;
+            }
+            $addtoQ = $this->botHelper->sendBotNextNotecard($this->siteConfig->getSiteURL(), $this->siteConfig->getSlConfig()->getHttpInboundSecret());
+            if ($addtoQ->status == false) {
+                $this->failed("Unable to request bot to collect next dynamic notecard");
+                return false;
+            }
         }
         return true;
     }
