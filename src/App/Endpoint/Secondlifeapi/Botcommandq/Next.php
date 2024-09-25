@@ -61,11 +61,9 @@ class Next extends SecondlifeAjax
             return;
         }
         $selectedCommand = $botcommandQset->getFirst();
-        if ($this->output->getSwapTagBool("status") == true) {
-            if ($selectedCommand->removeEntry()->status == false) {
-                $this->failed("Unable to mark command as processed");
-                return;
-            }
+        if ($selectedCommand->removeEntry()->status == false) {
+            $this->failed("Unable to mark command as processed");
+            return;
         }
         if ($this->botconfig->getHttpMode() == true) {
             if ($this->makeHTTPClient() === null) {
