@@ -31,7 +31,6 @@ class Update extends ControlAjax
             $httpMode = false;
         }
         $httpURL = $this->input->post("httpURL")->isUrl()->asString();
-        $httpToken = $this->input->post("httpToken")->isNot("")->asString();
 
         $notecards = $this->input->post("notecards")->asBool();
         if ($notecards === null) {
@@ -72,7 +71,6 @@ class Update extends ControlAjax
 
         $botconfig->setHttpMode($httpMode);
         $botconfig->setHttpURL($httpURL);
-        $botconfig->setHttpToken($httpToken);
         $botconfig->setAvatarLink($avatar->getId());
         $botconfig->setSecret($secret);
         $botconfig->setNotecards($notecards);
