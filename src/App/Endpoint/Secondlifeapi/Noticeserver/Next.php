@@ -17,6 +17,7 @@ use App\Models\Sets\RentalSet;
 use App\Models\Server;
 use App\Models\Stream;
 use App\Template\SecondlifeAjax;
+use App\Endpoint\Control\Outbox\Send;
 
 class Next extends SecondlifeAjax
 {
@@ -38,10 +39,10 @@ class Next extends SecondlifeAjax
         $expired_notice = $notice_set->getObjectByField("hoursRemaining", 0);
 
         $where_config = [
-            "fields" => ["expireUnixtime","noticeLink"],
-            "values" => [(time() + $unixtime),$expired_notice->getId()],
-            "types" => ["i","i"],
-            "matches" => ["<=","!="],
+            "fields" => ["expireUnixtime", "noticeLink"],
+            "values" => [(time() + $unixtime), $expired_notice->getId()],
+            "types" => ["i", "i"],
+            "matches" => ["<=", "!="],
         ];
 
         $rental_set->loadWithConfig($where_config);
@@ -137,8 +138,8 @@ class Next extends SecondlifeAjax
         $this->setSwapTag("message", "Processing notice change");
         $rentalNoticeOptout = new Rentalnoticeptout();
         $whereConfig = [
-            "fields" => ["rentalLink","noticeLink"],
-            "values" => [$rental->getId(),$notice->getId()],
+            "fields" => ["rentalLink", "noticeLink"],
+            "values" => [$rental->getId(), $notice->getId()],
         ];
         $rentalNoticeOptout->loadWithConfig($whereConfig);
         $skipNotice = $rentalNoticeOptout->isLoaded();
@@ -162,6 +163,19 @@ class Next extends SecondlifeAjax
             );
             if ($sendMessage_status->status == false) {
                 $this->failed("Unable to put mail into outbox");
+                return;
+            }
+            $Send = new Send();
+            global $_POST;
+            $_POST["message"] = $sendmessage;
+            $_POST["max_avatars"] = 1;
+            $_POST["source"] = "Selectedrental";
+            $_POST["source_id"] = $rental->getId();
+            $_POST["avatarids"] = [$avatar->getId()];
+            $Send->process();
+            $reply = $Send->getOutputObject();
+            if ($reply->getSwapTagBool("status") == false) {
+                $this->failed($reply->getSwapTagString("message"));
                 return;
             }
         }
@@ -196,7 +210,7 @@ class Next extends SecondlifeAjax
         if ($notice->getNoticeNotecardLink() <= 1) {
             return;
         }
-            $notice_notecard = new Noticenotecard();
+        $notice_notecard = new Noticenotecard();
         if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
             $this->failed("Unable to find static notecard!");
             return;

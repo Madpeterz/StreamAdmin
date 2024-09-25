@@ -36,7 +36,7 @@ class Message extends ControlAjax
             return;
         }
 
-        $this->redirectWithMessage("Message added to outbox");
+        $this->ok("Message added to outbox");
         return;
     }
 }
