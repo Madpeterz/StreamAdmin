@@ -36,6 +36,10 @@ class Slconfig extends genClass
         "paymentKey",
         "streamListOption",
         "clientsDisplayServer",
+        "limitStreams",
+        "limitTime",
+        "maxStreamTimeDays",
+        "maxTotalStreams",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -60,6 +64,10 @@ class Slconfig extends genClass
         "paymentKey" => ["type" => "str", "value" => null],
         "streamListOption" => ["type" => "int", "value" => 1],
         "clientsDisplayServer" => ["type" => "bool", "value" => 0],
+        "limitStreams" => ["type" => "bool", "value" => 0],
+        "limitTime" => ["type" => "bool", "value" => 0],
+        "maxStreamTimeDays" => ["type" => "int", "value" => 120],
+        "maxTotalStreams" => ["type" => "int", "value" => 100],
     ];
     // Setters
     /**
@@ -209,6 +217,34 @@ class Slconfig extends genClass
     {
         return $this->updateField("clientsDisplayServer", $newValue);
     }
+    /**
+    * setLimitStreams
+    */
+    public function setLimitStreams(?bool $newValue): UpdateReply
+    {
+        return $this->updateField("limitStreams", $newValue);
+    }
+    /**
+    * setLimitTime
+    */
+    public function setLimitTime(?bool $newValue): UpdateReply
+    {
+        return $this->updateField("limitTime", $newValue);
+    }
+    /**
+    * setMaxStreamTimeDays
+    */
+    public function setMaxStreamTimeDays(?int $newValue): UpdateReply
+    {
+        return $this->updateField("maxStreamTimeDays", $newValue);
+    }
+    /**
+    * setMaxTotalStreams
+    */
+    public function setMaxTotalStreams(?int $newValue): UpdateReply
+    {
+        return $this->updateField("maxTotalStreams", $newValue);
+    }
     // Getters
     public function getDbVersion(): ?string
     {
@@ -293,6 +329,22 @@ class Slconfig extends genClass
     public function getClientsDisplayServer(): ?bool
     {
         return $this->getField("clientsDisplayServer");
+    }
+    public function getLimitStreams(): ?bool
+    {
+        return $this->getField("limitStreams");
+    }
+    public function getLimitTime(): ?bool
+    {
+        return $this->getField("limitTime");
+    }
+    public function getMaxStreamTimeDays(): ?int
+    {
+        return $this->getField("maxStreamTimeDays");
+    }
+    public function getMaxTotalStreams(): ?int
+    {
+        return $this->getField("maxTotalStreams");
     }
     // Loaders
     public function loadByDbVersion(string $dbVersion): SingleLoadReply
@@ -440,6 +492,34 @@ class Slconfig extends genClass
         return $this->loadByField(
             "clientsDisplayServer",
             $clientsDisplayServer
+        );
+    }
+    public function loadByLimitStreams(bool $limitStreams): SingleLoadReply
+    {
+        return $this->loadByField(
+            "limitStreams",
+            $limitStreams
+        );
+    }
+    public function loadByLimitTime(bool $limitTime): SingleLoadReply
+    {
+        return $this->loadByField(
+            "limitTime",
+            $limitTime
+        );
+    }
+    public function loadByMaxStreamTimeDays(int $maxStreamTimeDays): SingleLoadReply
+    {
+        return $this->loadByField(
+            "maxStreamTimeDays",
+            $maxStreamTimeDays
+        );
+    }
+    public function loadByMaxTotalStreams(int $maxTotalStreams): SingleLoadReply
+    {
+        return $this->loadByField(
+            "maxTotalStreams",
+            $maxTotalStreams
         );
     }
     public function relatedAvatar(?array $limitFields = null): AvatarSet

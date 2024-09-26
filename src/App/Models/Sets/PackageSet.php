@@ -201,6 +201,24 @@ class PackageSet extends CollectionSet
     {
         return parent::uniqueArray("enableGroupInvite");
     }
+    /**
+     * uniqueEnforceCustomMaxStreamss
+     * returns unique values from the collection matching that field
+     * @return array<bool>
+     */
+    public function uniqueEnforceCustomMaxStreamss(): array
+    {
+        return parent::uniqueArray("enforceCustomMaxStreams");
+    }
+    /**
+     * uniqueMaxStreamsInPackages
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueMaxStreamsInPackages(): array
+    {
+        return parent::uniqueArray("maxStreamsInPackage");
+    }
     // Loaders
     /**
      * loadById
@@ -609,6 +627,54 @@ class PackageSet extends CollectionSet
     public function loadFromEnableGroupInvites(array $values): SetsLoadReply
     {
         return $this->loadIndexes("enableGroupInvite", $values);
+    }
+    /**
+     * loadByEnforceCustomMaxStreams
+    */
+    public function loadByEnforceCustomMaxStreams(
+        bool $enforceCustomMaxStreams,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "enforceCustomMaxStreams",
+            $enforceCustomMaxStreams,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromEnforceCustomMaxStreamss
+    */
+    public function loadFromEnforceCustomMaxStreamss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("enforceCustomMaxStreams", $values);
+    }
+    /**
+     * loadByMaxStreamsInPackage
+    */
+    public function loadByMaxStreamsInPackage(
+        int $maxStreamsInPackage,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "maxStreamsInPackage",
+            $maxStreamsInPackage,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromMaxStreamsInPackages
+    */
+    public function loadFromMaxStreamsInPackages(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("maxStreamsInPackage", $values);
     }
     // Related loaders
     public function relatedNoticenotecard(?array $limitFields=null): NoticenotecardSet

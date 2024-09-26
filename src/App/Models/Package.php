@@ -36,6 +36,8 @@ class Package extends genClass
         "welcomeNotecardLink",
         "setupNotecardLink",
         "enableGroupInvite",
+        "enforceCustomMaxStreams",
+        "maxStreamsInPackage",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -55,6 +57,8 @@ class Package extends genClass
         "welcomeNotecardLink" => ["type" => "int", "value" => 1],
         "setupNotecardLink" => ["type" => "int", "value" => 1],
         "enableGroupInvite" => ["type" => "bool", "value" => 1],
+        "enforceCustomMaxStreams" => ["type" => "bool", "value" => 0],
+        "maxStreamsInPackage" => ["type" => "int", "value" => 0],
     ];
     // Setters
     /**
@@ -169,6 +173,20 @@ class Package extends genClass
     {
         return $this->updateField("enableGroupInvite", $newValue);
     }
+    /**
+    * setEnforceCustomMaxStreams
+    */
+    public function setEnforceCustomMaxStreams(?bool $newValue): UpdateReply
+    {
+        return $this->updateField("enforceCustomMaxStreams", $newValue);
+    }
+    /**
+    * setMaxStreamsInPackage
+    */
+    public function setMaxStreamsInPackage(?int $newValue): UpdateReply
+    {
+        return $this->updateField("maxStreamsInPackage", $newValue);
+    }
     // Getters
     public function getPackageUid(): ?string
     {
@@ -233,6 +251,14 @@ class Package extends genClass
     public function getEnableGroupInvite(): ?bool
     {
         return $this->getField("enableGroupInvite");
+    }
+    public function getEnforceCustomMaxStreams(): ?bool
+    {
+        return $this->getField("enforceCustomMaxStreams");
+    }
+    public function getMaxStreamsInPackage(): ?int
+    {
+        return $this->getField("maxStreamsInPackage");
     }
     // Loaders
     public function loadByPackageUid(string $packageUid): SingleLoadReply
@@ -345,6 +371,20 @@ class Package extends genClass
         return $this->loadByField(
             "enableGroupInvite",
             $enableGroupInvite
+        );
+    }
+    public function loadByEnforceCustomMaxStreams(bool $enforceCustomMaxStreams): SingleLoadReply
+    {
+        return $this->loadByField(
+            "enforceCustomMaxStreams",
+            $enforceCustomMaxStreams
+        );
+    }
+    public function loadByMaxStreamsInPackage(int $maxStreamsInPackage): SingleLoadReply
+    {
+        return $this->loadByField(
+            "maxStreamsInPackage",
+            $maxStreamsInPackage
         );
     }
     public function relatedNoticenotecard(?array $limitFields = null): NoticenotecardSet

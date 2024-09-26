@@ -246,6 +246,42 @@ class SlconfigSet extends CollectionSet
     {
         return parent::uniqueArray("clientsDisplayServer");
     }
+    /**
+     * uniqueLimitStreamss
+     * returns unique values from the collection matching that field
+     * @return array<bool>
+     */
+    public function uniqueLimitStreamss(): array
+    {
+        return parent::uniqueArray("limitStreams");
+    }
+    /**
+     * uniqueLimitTimes
+     * returns unique values from the collection matching that field
+     * @return array<bool>
+     */
+    public function uniqueLimitTimes(): array
+    {
+        return parent::uniqueArray("limitTime");
+    }
+    /**
+     * uniqueMaxStreamTimeDayss
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueMaxStreamTimeDayss(): array
+    {
+        return parent::uniqueArray("maxStreamTimeDays");
+    }
+    /**
+     * uniqueMaxTotalStreamss
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueMaxTotalStreamss(): array
+    {
+        return parent::uniqueArray("maxTotalStreams");
+    }
     // Loaders
     /**
      * loadById
@@ -774,6 +810,102 @@ class SlconfigSet extends CollectionSet
     public function loadFromClientsDisplayServers(array $values): SetsLoadReply
     {
         return $this->loadIndexes("clientsDisplayServer", $values);
+    }
+    /**
+     * loadByLimitStreams
+    */
+    public function loadByLimitStreams(
+        bool $limitStreams,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "limitStreams",
+            $limitStreams,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromLimitStreamss
+    */
+    public function loadFromLimitStreamss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("limitStreams", $values);
+    }
+    /**
+     * loadByLimitTime
+    */
+    public function loadByLimitTime(
+        bool $limitTime,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "limitTime",
+            $limitTime,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromLimitTimes
+    */
+    public function loadFromLimitTimes(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("limitTime", $values);
+    }
+    /**
+     * loadByMaxStreamTimeDays
+    */
+    public function loadByMaxStreamTimeDays(
+        int $maxStreamTimeDays,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "maxStreamTimeDays",
+            $maxStreamTimeDays,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromMaxStreamTimeDayss
+    */
+    public function loadFromMaxStreamTimeDayss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("maxStreamTimeDays", $values);
+    }
+    /**
+     * loadByMaxTotalStreams
+    */
+    public function loadByMaxTotalStreams(
+        int $maxTotalStreams,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "maxTotalStreams",
+            $maxTotalStreams,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromMaxTotalStreamss
+    */
+    public function loadFromMaxTotalStreamss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("maxTotalStreams", $values);
     }
     // Related loaders
     public function relatedAvatar(?array $limitFields=null): AvatarSet
