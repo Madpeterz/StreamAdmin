@@ -87,7 +87,9 @@ $(document).ready(function () {
     var bubblemessage = getUrlParameter("bubblemessage");
     var bubbletype = getUrlParameter("bubbletype");
     if(bubblemessage != false) {
-        bubblemessage = bubblemessage.replace(/<(?!br\s*\/?)[^>]+>/g, '');
+        bubblemessage = bubblemessage.replace(/%20/g, " ");
+        bubblemessage = bubblemessage.replace("\n", "<br />");
+        
         if(bubbletype == "warning") {
             alert_warning(bubblemessage);
         }
