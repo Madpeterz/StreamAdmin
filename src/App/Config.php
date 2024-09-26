@@ -18,7 +18,7 @@ class Config extends BootstrapConfigBox
     {
         parent::loadURL($process);
         $this->setFlag("SITE_NAME", "Streamadmin");
-        $this->setFlag("SITE_URL", "https://dev.blackatom.win/");
+        $this->setFlag("SITE_URL", "http://localhost/");
     }
     public function run(): void
     {
