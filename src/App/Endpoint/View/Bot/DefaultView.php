@@ -5,6 +5,7 @@ namespace App\Endpoint\View\Bot;
 use App\Models\Avatar;
 use App\Models\Botconfig;
 use YAPF\Bootstrap\Template\Form;
+use YAPF\Bootstrap\Template\Grid;
 
 class DefaultView extends View
 {
@@ -13,6 +14,12 @@ class DefaultView extends View
         if ($this->siteConfig->getSession()->getOwnerLevel() == false) {
             $this->output->redirect("config?bubblemessage=Owner level access needed&bubbletype=warning");
         }
+        $this->setSwapTag(
+            "page_actions",
+            "
+<a href='https://wiki.blackatom.win/' target='_BLANK'>
+<button type='button' class='btn btn-outline-warning'>Bot Wiki</button></a>"
+        );
         $botconfig = new Botconfig();
         $botconfig->loadID(1);
         $avatar = new Avatar();
@@ -63,6 +70,19 @@ class DefaultView extends View
         $form->directAdd("<br/> <p>For help setting up HTTP mode with your bot please talk to Madpeter</p> 
             <br/> 
             Notes: Bot support requires cron to be setup!");
-        $this->setSwapTag("page_content", $form->render("Update", "primary"));
+        if ($botconfig->getHttpMode() == true) {
+            $this->setSwapTag(
+                "page_actions",
+                "
+<a href='https://wiki.blackatom.win/' target='_BLANK'>
+<button type='button' class='btn btn-outline-warning'>Bot Wiki</button></a> &nbsp;&nbsp;
+<a href='[[SITE_URL]]bot/test'>
+<button type='button' class='btn btn-outline-info'>Test HTTP</button></a> &nbsp;&nbsp;
+<a href='https://webui.blackatom.win/' target='_BLANK'>
+<button type='button' class='btn btn-outline-success'>WebUI</button></a>
+                "
+            );
+        }
+        $this->setSwapTag("page_content", $form->render("update", "primary"));
     }
 }
