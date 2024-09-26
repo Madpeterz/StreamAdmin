@@ -72,7 +72,7 @@ services:
         container_name: SA7PHPmyAdmin
         environment:
         - PMA_HOST=SA7Db
-        - UPLOAD_LIMIT: 300M
+        - UPLOAD_LIMIT=300M
         networks:
         - streamadmin
         image: 'phpmyadmin/phpmyadmin:latest'
