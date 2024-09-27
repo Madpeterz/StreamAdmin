@@ -79,7 +79,7 @@ class Renewnow extends SecondlifeAjax
         $this->transactionAvatar = $avatar_helper->getAvatar();
 
         $banlistSet = new BanlistSet();
-        $banlistSet->loadFromAvatarLinks([$this->accountOwnerAvatar->getId(),$this->transactionAvatar->getId()]);
+        $banlistSet->loadFromAvatarLinks([$this->accountOwnerAvatar->getId(), $this->transactionAvatar->getId()]);
         if ($banlistSet->getCount() > 0) {
             $this->failed("Unable to find avatar");
             return false;
@@ -92,7 +92,7 @@ class Renewnow extends SecondlifeAjax
             ($this->accountOwnerAvatar->getId() == $forceMatchAv->getId()) &&
             ($this->transactionAvatar->getId() == $forceMatchAv->getId())
         ) {
-                return true;
+            return true;
         }
         $this->failed("You can not renew other peoples rentals via the hud!");
         return false;
@@ -108,13 +108,46 @@ class Renewnow extends SecondlifeAjax
         return true;
     }
 
+    protected function limitStreamTime(): bool
+    {
+        $slconfig = $this->siteConfig->getSlConfig();
+        if ($slconfig->getLimitTime() == false) {
+            return true;
+        }
+        $days = $this->rental->getExpireUnixtime() - time();
+        if ($days > 0) {
+            $days = $days / $this->siteConfig->unixtimeDay();
+            if ($days < 0) {
+                $days = 1;
+            }
+        }
+        if ($days >= $slconfig->getMaxStreamTimeDays()) {
+            $this->failed("payment not accepted (currently to long remaining on rental)");
+            return false;
+        }
+        $unixtime_to_add = (($this->package->getDays() * $this->siteConfig->unixtimeDay()) * $this->multipler);
+        $new_expires_time = $this->rental->getExpireUnixtime() + $unixtime_to_add;
+        $days = $new_expires_time - time();
+        if ($days > 0) {
+            $days = $days / $this->siteConfig->unixtimeDay();
+            if ($days < 0) {
+                $days = 1;
+            }
+        }
+        if ($days >= $slconfig->getMaxStreamTimeDays()) {
+            $this->failed("payment not accepted (would go over limit for remaining time on rental)");
+            return false;
+        }
+        return true;
+    }
+
     protected function acceptPaymentAmount(): bool
     {
         $accepted_payment_amounts = [
-        ($this->package->getCost()) => 1,
-        ($this->package->getCost() * 2) => 2,
-        ($this->package->getCost() * 3) => 3,
-        ($this->package->getCost() * 4) => 4,
+            ($this->package->getCost()) => 1,
+            ($this->package->getCost() * 2) => 2,
+            ($this->package->getCost() * 3) => 3,
+            ($this->package->getCost() * 4) => 4,
         ];
         if (array_key_exists($this->amountpaid, $accepted_payment_amounts) == false) {
             $this->failed("payment not accepted (Invaild amount)");
@@ -249,6 +282,8 @@ class Renewnow extends SecondlifeAjax
         if ($this->load($forceMatchAv) == false) {
             return;
         } elseif ($this->acceptPaymentAmount() == false) {
+            return;
+        } elseif ($this->limitStreamTime() == false) {
             return;
         } elseif ($this->startTransaction() == false) {
             return;

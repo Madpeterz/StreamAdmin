@@ -29,6 +29,18 @@ class Update extends ControlAjax
         return $reissued;
     }
 
+    protected function updateSystemLimits(): void
+    {
+        $limitStreams = $this->input->post("limitStreams")->asBool(false);
+        $limitTime = $this->input->post("limitTime")->asBool(false);
+        $maxStreamTimeDays = $this->input->post("maxStreamTimeDays")->checkInRange(7, 365)->asInt(7);
+        $maxTotalStreams = $this->input->post("maxTotalStreams")->checkInRange(1, 2000)->asInt(50);
+        $this->siteConfig->getSlConfig()->setLimitStreams($limitStreams);
+        $this->siteConfig->getSlConfig()->setLimitTime($limitTime);
+        $this->siteConfig->getSlConfig()->setMaxStreamTimeDays($maxStreamTimeDays);
+        $this->siteConfig->getSlConfig()->setMaxTotalStreams($maxTotalStreams);
+    }
+
     protected function updateHudSettings(): void
     {
 
@@ -126,6 +138,7 @@ class Update extends ControlAjax
         $this->siteConfig->getSlConfig()->setClientsDisplayServer($ui_tweaks_clientsShowServer);
         $this->siteConfig->getSlConfig()->setStreamListOption($ui_tweaks_groupStreamsBy);
         $this->updateHudSettings();
+        $this->updateSystemLimits();
         $newvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
         $reissuedKeys = $this->forceReissue();
         $update_status = $this->siteConfig->getSlConfig()->updateEntry();

@@ -30,6 +30,8 @@ class Update extends ControlAjax
     protected ?int $welcomeNotecardLink;
     protected ?int $setupNotecardLink;
     protected ?bool $enableGroupInvite;
+    protected ?bool $enforceCustomMaxStreams;
+    protected ?int $maxStreamsInPackage;
 
     protected array $noticeNotecardIds;
 
@@ -72,6 +74,8 @@ class Update extends ControlAjax
         $this->textureInstockSmall = $this->input->post("textureInstockSmall")->isUuid()->asString();
         $this->textureInstockSelected = $this->input->post("textureInstockSelected")->isUuid()->asString();
         $this->enableGroupInvite = $this->input->post("enableGroupInvite")->asBool();
+        $this->enforceCustomMaxStreams = $this->input->post("enforceCustomMaxStreams")->asBool(false);
+        $this->maxStreamsInPackage = $this->input->post("maxStreamsInPackage")->checkInRange(1, 2000)->asInt(50);
         $testing = [
             "name" => $this->name,
             "template" => $this->templateLink,
@@ -156,6 +160,8 @@ class Update extends ControlAjax
         $this->package->setWelcomeNotecardLink($this->welcomeNotecardLink);
         $this->package->setSetupNotecardLink($this->setupNotecardLink);
         $this->package->setEnableGroupInvite($this->enableGroupInvite);
+        $this->package->setEnforceCustomMaxStreams($this->enforceCustomMaxStreams);
+        $this->package->setMaxStreamsInPackage($this->maxStreamsInPackage);
         $this->failed("exit updatePackageSettings");
     }
 

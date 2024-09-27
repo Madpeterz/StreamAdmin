@@ -33,6 +33,41 @@ class Startrental extends SecondlifeAjax
         return true;
     }
 
+    protected function streamLimits(Avatar $avatar, Package $package): bool
+    {
+        $slconfig = $this->siteConfig->getSlConfig();
+        // global hard limit for streams
+        if ($slconfig->getLimitStreams() == false) {
+            return true;
+        }
+        $rentals = new RentalSet();
+        $totalStreams = $rentals->countInDB([
+            "fields" => ["avatarLink"],
+            "values" => [$avatar->getId()],
+        ]);
+        if ($totalStreams->status == false) {
+            return false;
+        }
+        if ($totalStreams->items >= $slconfig->getMaxTotalStreams()) {
+            return false;
+        }
+        // per package limit for streams
+        if ($package->getEnforceCustomMaxStreams() == false) {
+            return true;
+        }
+        $totalStreams = $rentals->countInDB([
+            "fields" => ["avatarLink", "packageLink"],
+            "values" => [$avatar->getId(), $package->getId()],
+        ]);
+        if ($totalStreams->status == false) {
+            return false;
+        }
+        if ($totalStreams->items >= $package->getMaxStreamsInPackage()) {
+            return false;
+        }
+        return true;
+    }
+
     protected function getAvatar(string $avatarUUID, string $avatarName): ?Avatar
     {
         $avatar_helper = new AvatarHelper();
@@ -56,10 +91,10 @@ class Startrental extends SecondlifeAjax
     protected function getUnassignedStreamOnPackage(package $package): ?Stream
     {
         $whereconfig = [
-        "fields" => ["rentalLink","packageLink","needWork"],
-        "values" => [null,$package->getId(),0],
-        "types" => ["i","i","i"],
-        "matches" => ["IS","=","="],
+            "fields" => ["rentalLink", "packageLink", "needWork"],
+            "values" => [null, $package->getId(), 0],
+            "types" => ["i", "i", "i"],
+            "matches" => ["IS", "=", "="],
         ];
         $stream_set = new StreamSet();
         $stream_set->loadWithConfig($whereconfig);
@@ -114,6 +149,9 @@ class Startrental extends SecondlifeAjax
         } elseif ($this->notBanned($avatar) == false) {
             $this->failed("Unable to attach avatar");
             return;
+        } elseif ($this->streamLimits($avatar, $package) == false) {
+            $this->failed("Server setup rejected extra streams");
+            return;
         }
 
         $stream = $this->getUnassignedStreamOnPackage($package);
@@ -130,10 +168,10 @@ class Startrental extends SecondlifeAjax
 
         $amountpaid = $this->input->post("amountpaid")->checkGrtThanEq(1)->asInt();
         $accepted_payment_amounts = [
-        $package->getCost() => 1,
-        ($package->getCost() * 2) => 2,
-        ($package->getCost() * 3) => 3,
-        ($package->getCost() * 4) => 4,
+            $package->getCost() => 1,
+            ($package->getCost() * 2) => 2,
+            ($package->getCost() * 3) => 3,
+            ($package->getCost() * 4) => 4,
         ];
         if (array_key_exists($amountpaid, $accepted_payment_amounts) == false) {
             $this->failed("Payment amount not accepted");
