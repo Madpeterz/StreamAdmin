@@ -11,6 +11,7 @@ class Create extends ControlAjax
 
     protected ?string $domain;
     protected ?string $controlPanelURL;
+    protected ?string $ipaddress;
 
     protected function setup(): void
     {
@@ -26,6 +27,10 @@ class Create extends ControlAjax
         if ($this->controlPanelURL === null) {
             return false;
         }
+        $this->ipaddress = $this->input->post("ipaddress")->asString();
+        if ($this->ipaddress === null) {
+            return false;
+        }
         return true;
     }
 
@@ -35,9 +40,14 @@ class Create extends ControlAjax
             $this->failed("There is already a server assigned to that domain");
             return false;
         }
+        if ($this->server->loadByIpaddress($this->ipaddress)->status == true) {
+            $this->failed("There is already a server assigned to that ip");
+            return false;
+        }
         $this->server = new Server();
         $this->server->setDomain($this->domain);
         $this->server->setControlPanelURL($this->controlPanelURL);
+        $this->server->setIpaddress($this->ipaddress);
         $create_status = $this->server->createEntry();
         if ($create_status->status == false) {
             $this->failed(

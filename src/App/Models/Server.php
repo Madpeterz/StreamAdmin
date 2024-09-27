@@ -16,11 +16,13 @@ class Server extends genClass
         "id",
         "domain",
         "controlPanelURL",
+        "ipaddress",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "domain" => ["type" => "str", "value" => null],
         "controlPanelURL" => ["type" => "str", "value" => null],
+        "ipaddress" => ["type" => "str", "value" => null],
     ];
     // Setters
     /**
@@ -37,6 +39,13 @@ class Server extends genClass
     {
         return $this->updateField("controlPanelURL", $newValue);
     }
+    /**
+    * setIpaddress
+    */
+    public function setIpaddress(?string $newValue): UpdateReply
+    {
+        return $this->updateField("ipaddress", $newValue);
+    }
     // Getters
     public function getDomain(): ?string
     {
@@ -45,6 +54,10 @@ class Server extends genClass
     public function getControlPanelURL(): ?string
     {
         return $this->getField("controlPanelURL");
+    }
+    public function getIpaddress(): ?string
+    {
+        return $this->getField("ipaddress");
     }
     // Loaders
     public function loadByDomain(string $domain): SingleLoadReply
@@ -59,6 +72,13 @@ class Server extends genClass
         return $this->loadByField(
             "controlPanelURL",
             $controlPanelURL
+        );
+    }
+    public function loadByIpaddress(string $ipaddress): SingleLoadReply
+    {
+        return $this->loadByField(
+            "ipaddress",
+            $ipaddress
         );
     }
     public function relatedStream(?array $limitFields = null): StreamSet

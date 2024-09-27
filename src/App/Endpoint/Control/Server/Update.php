@@ -35,6 +35,7 @@ class Update extends Create
         $oldvalues = $this->server->objectToValueArray();
         $this->server->setDomain($this->domain);
         $this->server->setControlPanelURL($this->controlPanelURL);
+        $this->server->setIpaddress($this->ipaddress);
         $update_status = $this->server->updateEntry();
         if ($update_status->status == false) {
             $this->setSwapTag(
@@ -54,27 +55,39 @@ class Update extends Create
 
     protected function extendedDomainCheck(): bool
     {
-        $whereConfig = [
-            "fields" => ["domain"],
-            "values" => [$this->domain],
-            "types" => ["s"],
-            "matches" => ["="],
-        ];
-        $serverSet = new ServerSet();
-        $count_check = $serverSet->countInDB($whereConfig);
         $expected_count = 0;
         if ($this->server->getDomain() == $this->domain) {
             $expected_count = 1;
         }
-        if ($count_check->status == false) {
-            $this->setSwapTag(
-                "message",
-                "Unable to check if there is a server assigned to domain already"
-            );
+        $whereConfig = [
+            "fields" => ["domain"],
+            "values" => [$this->domain],
+        ];
+        $serverSet = new ServerSet();
+        $count = $serverSet->countInDB($whereConfig);
+        if ($count->status == false) {
+            $this->failed("Unable to check for domain usage");
             return false;
         }
-        if ($count_check->items != $expected_count) {
-            $this->failed("There is already a server with that domain");
+        if ($count->items != $expected_count) {
+            $this->failed("There is already a server assigned to that domain");
+            return false;
+        }
+        $expected_count = 0;
+        if ($this->server->getIpaddress() == $this->ipaddress) {
+            $expected_count = 1;
+        }
+        $whereConfig = [
+            "fields" => ["ipaddress"],
+            "values" => [$this->ipaddress],
+        ];
+        $count = $serverSet->countInDB($whereConfig);
+        if ($count->status == false) {
+            $this->failed("Unable to check for ip usage");
+            return false;
+        }
+        if ($count->items != $expected_count) {
+            $this->failed("There is already a server assigned to that ip");
             return false;
         }
         return true;

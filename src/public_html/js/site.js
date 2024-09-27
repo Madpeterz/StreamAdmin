@@ -23,7 +23,15 @@ function attachInputFocusCounters()
     $('.inputwithlimit').each(function (i, obj) {
         var focusedID = $(obj).attr('id');        
         var maxCount = $("#"+focusedID+"").data("lengthmax");
-        var current = $("#"+focusedID+"").val().length;
+        var current = 0;
+        var E = $("#"+focusedID+"").val();
+        if (E != null)
+        {
+            if (E.length != null)
+            {
+                current = E.length;
+            }
+        }
         $("#"+focusedID+"current").html(current);
         $("#"+focusedID+"max").html(maxCount);
     });

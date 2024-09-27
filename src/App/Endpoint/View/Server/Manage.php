@@ -15,10 +15,10 @@ class Manage extends View
         $server->loadId($this->config->getPage());
 
         $this->setSwapTag("page_actions", ""
-        . "<a href=\"[[SITE_URL]]stream/Onserver/" . $server->getId() . "\"><button type='button' 
+            . "<a href=\"[[SITE_URL]]stream/Onserver/" . $server->getId() . "\"><button type='button' 
         class='btn btn-outline-info'>Streams</button></a>");
         $this->addSwapTagString("page_actions", ""
-        . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' 
+            . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' 
         data-actiontitle='Remove server " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove server' 
         data-actionmessage='This will fail if there is anything using this server!' 
@@ -41,6 +41,7 @@ class Manage extends View
             $server->getControlPanelURL(),
             "URL to the control panel"
         );
+        $form->textInput("ipaddress", "IP address", 200, $server->getIpaddress(), "127.0.0.1");
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

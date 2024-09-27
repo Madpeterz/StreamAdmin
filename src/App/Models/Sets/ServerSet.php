@@ -75,6 +75,15 @@ class ServerSet extends CollectionSet
     {
         return parent::uniqueArray("controlPanelURL");
     }
+    /**
+     * uniqueIpaddresss
+     * returns unique values from the collection matching that field
+     * @return array<string>
+     */
+    public function uniqueIpaddresss(): array
+    {
+        return parent::uniqueArray("ipaddress");
+    }
     // Loaders
     /**
      * loadById
@@ -147,6 +156,30 @@ class ServerSet extends CollectionSet
     public function loadFromControlPanelURLs(array $values): SetsLoadReply
     {
         return $this->loadIndexes("controlPanelURL", $values);
+    }
+    /**
+     * loadByIpaddress
+    */
+    public function loadByIpaddress(
+        string $ipaddress,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "ipaddress",
+            $ipaddress,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromIpaddresss
+    */
+    public function loadFromIpaddresss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("ipaddress", $values);
     }
     // Related loaders
     public function relatedStream(?array $limitFields=null): StreamSet

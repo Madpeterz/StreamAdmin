@@ -7,3 +7,5 @@ ADD `maxTotalStreams` INT NOT NULL DEFAULT '100' AFTER `maxStreamTimeDays`;
 ALTER TABLE `package` 
 ADD `enforceCustomMaxStreams` TINYINT(1) NOT NULL DEFAULT '0' AFTER `enableGroupInvite`, 
 ADD `maxStreamsInPackage` INT NOT NULL DEFAULT '1' AFTER `enforceCustomMaxStreams`; 
+ALTER TABLE `server` 
+ADD `ipaddress` TEXT NULL DEFAULT NULL AFTER `controlPanelURL`, ADD UNIQUE (`ipaddress`); 

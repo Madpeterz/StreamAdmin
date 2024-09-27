@@ -23,7 +23,8 @@ abstract class SwapsTable extends Menu
             "STREAM_ADMINPASSWORD" => "AdminPaSSwordHere",
             "STREAM_DJPASSWORD" => "DJpasswordYo",
             "STREAM_MOUNTPOINT" => "/live",
-            "SERVER_DOMAIN" => "livestreamservice.demo OR ip address",
+            "SERVER_DOMAIN" => "livestreamservice.demo",
+            "SERVER_IP" => "192.168.0.1",
             "SERVER_CONTROLPANEL" => "https://livestreamservice.demo:5000",
             "PACKAGE_NAME" => "CheapWeeklyPackage",
             "PACKAGE_LISTENERS" => 10,
@@ -52,7 +53,7 @@ abstract class SwapsTable extends Menu
             "RentUID" => "XXXXXXXX",
         ];
 
-        $table_head = ["Tag","Example","Tag","Example"];
+        $table_head = ["Tag", "Example", "Tag", "Example"];
         $table_body = [];
         $loop = 0;
         $current = [];
