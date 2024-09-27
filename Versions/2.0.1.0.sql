@@ -9,3 +9,4 @@ ADD `enforceCustomMaxStreams` TINYINT(1) NOT NULL DEFAULT '0' AFTER `enableGroup
 ADD `maxStreamsInPackage` INT NOT NULL DEFAULT '1' AFTER `enforceCustomMaxStreams`; 
 ALTER TABLE `server` 
 ADD `ipaddress` TEXT NULL DEFAULT NULL AFTER `controlPanelURL`, ADD UNIQUE (`ipaddress`); 
+ALTER TABLE `avatar` ADD `lastUsed` INT NOT NULL DEFAULT '1729026128' AFTER `avatarUid`; 

@@ -27,12 +27,14 @@ class Avatar extends genClass
         "avatarUUID",
         "avatarName",
         "avatarUid",
+        "lastUsed",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "avatarUUID" => ["type" => "str", "value" => null],
         "avatarName" => ["type" => "str", "value" => null],
         "avatarUid" => ["type" => "str", "value" => null],
+        "lastUsed" => ["type" => "int", "value" => 1729026128],
     ];
     // Setters
     /**
@@ -56,6 +58,13 @@ class Avatar extends genClass
     {
         return $this->updateField("avatarUid", $newValue);
     }
+    /**
+    * setLastUsed
+    */
+    public function setLastUsed(?int $newValue): UpdateReply
+    {
+        return $this->updateField("lastUsed", $newValue);
+    }
     // Getters
     public function getAvatarUUID(): ?string
     {
@@ -68,6 +77,10 @@ class Avatar extends genClass
     public function getAvatarUid(): ?string
     {
         return $this->getField("avatarUid");
+    }
+    public function getLastUsed(): ?int
+    {
+        return $this->getField("lastUsed");
     }
     // Loaders
     public function loadByAvatarUUID(string $avatarUUID): SingleLoadReply
@@ -89,6 +102,13 @@ class Avatar extends genClass
         return $this->loadByField(
             "avatarUid",
             $avatarUid
+        );
+    }
+    public function loadByLastUsed(int $lastUsed): SingleLoadReply
+    {
+        return $this->loadByField(
+            "lastUsed",
+            $lastUsed
         );
     }
     public function relatedAuditlog(?array $limitFields = null): AuditlogSet

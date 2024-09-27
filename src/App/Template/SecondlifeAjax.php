@@ -150,7 +150,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
 
     protected function versionCheck(): void
     {
-        $min_version = "2.0.0.0";
+        $min_version = "2.0.1.0";
         if (version_compare($this->version, $min_version, ">=") == false) {
             $this->load_ok = false;
             $this->failed("Requires version: " . $min_version . " or higher given version " . $this->version);

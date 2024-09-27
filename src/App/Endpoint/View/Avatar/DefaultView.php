@@ -46,15 +46,16 @@ class DefaultView extends View
             $this->setSwapTag("page_title", "Newest 30 avatars");
         }
 
-        $table_head = ["id","UID","Name"];
+        $table_head = ["id", "UID", "Name", "Last seen"];
         $table_body = [];
         foreach ($this->avatarSet as $avatar) {
             $entry = [];
             $entry[] = $avatar->getId();
             $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->getAvatarUid() . '">'
-            . $avatar->getAvatarUid() . '</a>';
+                . $avatar->getAvatarUid() . '</a>';
             $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-            . $avatar->getAvatarName() . '</a>';
+                . $avatar->getAvatarName() . '</a>';
+            $entry[] = $this->timeDisplay(time() - $avatar->getLastUsed());
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));

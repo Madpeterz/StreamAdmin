@@ -21,8 +21,9 @@ class AvatarHelper extends ErrorLogging
         if ($this->avatar->loadByAvatarUUID($avatarUUID)->status == true) {
             if (($avatarName != null) && ($avatarName != $this->avatar->getAvatarName())) {
                 $this->avatar->setAvatarName($avatarName);
-                $this->avatar->updateEntry();
             }
+            $this->avatar->setLastUsed(time());
+            $this->avatar->updateEntry();
             return true;
         }
         if ($avatarName == null) {
@@ -36,6 +37,7 @@ class AvatarHelper extends ErrorLogging
         $this->avatar->setAvatarUid($uid->uid);
         $this->avatar->setAvatarName($avatarName);
         $this->avatar->setAvatarUUID($avatarUUID);
+        $this->avatar->setLastUsed(time());
         $create_status = $this->avatar->createEntry();
         if ($create_status->status == false) {
             $this->addError("unable to create avatar: " . $create_status->message);
