@@ -27,7 +27,7 @@ class Bulkremove extends ControlAjax
         $server_set = $stream_set->relatedServer();
         $removed_counter = 0;
         $skipped_counter = 0;
-        $this->setSwapTag("redirect", "client/bulkremove");
+        $this->setSwapTag("redirect", "client/Bulkremove");
         $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
             $accept = $this->input->post("rental" . $rental->getRentalUid())->asString();

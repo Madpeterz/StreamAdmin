@@ -6,17 +6,17 @@ use App\Models\Sets\DetailSet;
 use App\Models\Sets\RentalSet;
 use YAPF\Bootstrap\Template\Form;
 
-class BulkRemove extends RenderList
+class Bulkremove extends RenderList
 {
     protected DetailSet $detailsRequestsSet;
     protected function loader(): void
     {
         $whereconfig = [
-        "fields" => ["expireUnixtime"],
-        "values" => [time()],
-        "types" => ["i"],
-        "matches" => ["<="],
-         ];
+            "fields" => ["expireUnixtime"],
+            "values" => [time()],
+            "types" => ["i"],
+            "matches" => ["<="],
+        ];
         $this->rentalSet = new RentalSet();
         $this->rentalSet->loadWithConfig($whereconfig);
         $this->avatarSet = $this->rentalSet->relatedAvatar();
@@ -30,7 +30,7 @@ class BulkRemove extends RenderList
         $this->output->addSwapTagString("page_title", "Bulk remove");
         $this->setSwapTag("page_actions", "");
 
-        $table_head = ["id","Action","Avatar","Server","Port","Expired","Message"];
+        $table_head = ["id", "Action", "Avatar", "Server", "Port", "Expired", "Message"];
         $table_body = [];
 
         $this->loader();
@@ -51,7 +51,7 @@ class BulkRemove extends RenderList
             $entry[] = $rental->getId();
             $entry[] = $this->makeButton($rental->getRentalUid());
             $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-            . $avatar->getAvatarName() . '</a>';
+                . $avatar->getAvatarName() . '</a>';
             $entry[] = $server->getDomain();
             $entry[] = $stream->getPort();
             $entry[] = $this->expiredAgo($rental->getExpireUnixtime());
@@ -63,9 +63,9 @@ class BulkRemove extends RenderList
         $this->setSwapTag("page_content", "No clients to remove right now");
         if (count($table_body) > 0) {
             $form = new Form();
-            $form->target("client/bulkremove");
+            $form->target("client/Bulkremove");
             $form->col(12);
-              $form->directAdd($this->renderDatatable($table_head, $table_body));
+            $form->directAdd($this->renderDatatable($table_head, $table_body));
             $this->setSwapTag("page_content", $form->render("Process", "outline-danger"));
             $this->output->addSwapTagString(
                 "page_content",
