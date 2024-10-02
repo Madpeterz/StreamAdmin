@@ -165,7 +165,7 @@ abstract class HomeDisplayData extends HomeLoadData
         } else {
             $issues_badge = '<span class="badge badge-warning"><i class="far fa-caret-square-right"></i></span>';
         }
-        $this->sub_grid_objects->addContent('<h4>System health ' . $issues_badge . '</h4>', 12);
+        $this->sub_grid_objects->addContent('<h4>' . $issues_badge . ' System health</h4>', 12);
         $this->sub_grid_objects->addContent($this->renderTable($table_head, $table_body, "", false), 12);
     }
 
@@ -191,7 +191,7 @@ abstract class HomeDisplayData extends HomeLoadData
             $table_body[] = $entry;
         }
         $this->sub_grid_servers = new Grid();
-        $this->sub_grid_servers->addContent('<h4>servers</h4>', 12);
+        $this->sub_grid_servers->addContent('<h4><i class="fas fa-server"></i> <a class="text-white" href="[[SITE_URL]]Server">Servers</a></h4>', 12);
         $this->sub_grid_servers->addContent($this->renderTable($table_head, $table_body, "", false), 12);
     }
 

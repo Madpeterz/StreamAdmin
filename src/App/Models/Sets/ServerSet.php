@@ -84,6 +84,42 @@ class ServerSet extends CollectionSet
     {
         return parent::uniqueArray("ipaddress");
     }
+    /**
+     * uniqueBandwidths
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueBandwidths(): array
+    {
+        return parent::uniqueArray("bandwidth");
+    }
+    /**
+     * uniqueBandwidthTypes
+     * returns unique values from the collection matching that field
+     * @return array<string>
+     */
+    public function uniqueBandwidthTypes(): array
+    {
+        return parent::uniqueArray("bandwidthType");
+    }
+    /**
+     * uniqueTotalStorages
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueTotalStorages(): array
+    {
+        return parent::uniqueArray("totalStorage");
+    }
+    /**
+     * uniqueTotalStorageTypes
+     * returns unique values from the collection matching that field
+     * @return array<string>
+     */
+    public function uniqueTotalStorageTypes(): array
+    {
+        return parent::uniqueArray("totalStorageType");
+    }
     // Loaders
     /**
      * loadById
@@ -180,6 +216,102 @@ class ServerSet extends CollectionSet
     public function loadFromIpaddresss(array $values): SetsLoadReply
     {
         return $this->loadIndexes("ipaddress", $values);
+    }
+    /**
+     * loadByBandwidth
+    */
+    public function loadByBandwidth(
+        int $bandwidth,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "bandwidth",
+            $bandwidth,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromBandwidths
+    */
+    public function loadFromBandwidths(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("bandwidth", $values);
+    }
+    /**
+     * loadByBandwidthType
+    */
+    public function loadByBandwidthType(
+        string $bandwidthType,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "bandwidthType",
+            $bandwidthType,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromBandwidthTypes
+    */
+    public function loadFromBandwidthTypes(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("bandwidthType", $values);
+    }
+    /**
+     * loadByTotalStorage
+    */
+    public function loadByTotalStorage(
+        int $totalStorage,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "totalStorage",
+            $totalStorage,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromTotalStorages
+    */
+    public function loadFromTotalStorages(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("totalStorage", $values);
+    }
+    /**
+     * loadByTotalStorageType
+    */
+    public function loadByTotalStorageType(
+        string $totalStorageType,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "totalStorageType",
+            $totalStorageType,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromTotalStorageTypes
+    */
+    public function loadFromTotalStorageTypes(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("totalStorageType", $values);
     }
     // Related loaders
     public function relatedStream(?array $limitFields=null): StreamSet

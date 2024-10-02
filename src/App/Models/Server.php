@@ -17,12 +17,20 @@ class Server extends genClass
         "domain",
         "controlPanelURL",
         "ipaddress",
+        "bandwidth",
+        "bandwidthType",
+        "totalStorage",
+        "totalStorageType",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "domain" => ["type" => "str", "value" => null],
         "controlPanelURL" => ["type" => "str", "value" => null],
         "ipaddress" => ["type" => "str", "value" => null],
+        "bandwidth" => ["type" => "int", "value" => 500],
+        "bandwidthType" => ["type" => "str", "value" => "mbps"],
+        "totalStorage" => ["type" => "int", "value" => 50],
+        "totalStorageType" => ["type" => "str", "value" => "gb"],
     ];
     // Setters
     /**
@@ -46,6 +54,34 @@ class Server extends genClass
     {
         return $this->updateField("ipaddress", $newValue);
     }
+    /**
+    * setBandwidth
+    */
+    public function setBandwidth(?int $newValue): UpdateReply
+    {
+        return $this->updateField("bandwidth", $newValue);
+    }
+    /**
+    * setBandwidthType
+    */
+    public function setBandwidthType(?string $newValue): UpdateReply
+    {
+        return $this->updateField("bandwidthType", $newValue);
+    }
+    /**
+    * setTotalStorage
+    */
+    public function setTotalStorage(?int $newValue): UpdateReply
+    {
+        return $this->updateField("totalStorage", $newValue);
+    }
+    /**
+    * setTotalStorageType
+    */
+    public function setTotalStorageType(?string $newValue): UpdateReply
+    {
+        return $this->updateField("totalStorageType", $newValue);
+    }
     // Getters
     public function getDomain(): ?string
     {
@@ -58,6 +94,22 @@ class Server extends genClass
     public function getIpaddress(): ?string
     {
         return $this->getField("ipaddress");
+    }
+    public function getBandwidth(): ?int
+    {
+        return $this->getField("bandwidth");
+    }
+    public function getBandwidthType(): ?string
+    {
+        return $this->getField("bandwidthType");
+    }
+    public function getTotalStorage(): ?int
+    {
+        return $this->getField("totalStorage");
+    }
+    public function getTotalStorageType(): ?string
+    {
+        return $this->getField("totalStorageType");
     }
     // Loaders
     public function loadByDomain(string $domain): SingleLoadReply
@@ -79,6 +131,34 @@ class Server extends genClass
         return $this->loadByField(
             "ipaddress",
             $ipaddress
+        );
+    }
+    public function loadByBandwidth(int $bandwidth): SingleLoadReply
+    {
+        return $this->loadByField(
+            "bandwidth",
+            $bandwidth
+        );
+    }
+    public function loadByBandwidthType(string $bandwidthType): SingleLoadReply
+    {
+        return $this->loadByField(
+            "bandwidthType",
+            $bandwidthType
+        );
+    }
+    public function loadByTotalStorage(int $totalStorage): SingleLoadReply
+    {
+        return $this->loadByField(
+            "totalStorage",
+            $totalStorage
+        );
+    }
+    public function loadByTotalStorageType(string $totalStorageType): SingleLoadReply
+    {
+        return $this->loadByField(
+            "totalStorageType",
+            $totalStorageType
         );
     }
     public function relatedStream(?array $limitFields = null): StreamSet

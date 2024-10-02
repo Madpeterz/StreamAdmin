@@ -69,7 +69,7 @@ class Menu extends View
 
         if ($datatableID !== null) {
             $datatableDriver = new Datatable();
-            $datatableDriver->limitFields(["hideColZero","col","dir"]);
+            $datatableDriver->limitFields(["hideColZero", "col", "dir"]);
             if ($datatableDriver->loadID($datatableID) == true) {
                 $targetCol = $datatableDriver->getCol();
                 $hidecolzero = $datatableDriver->getHideColZero();
@@ -118,7 +118,7 @@ class Menu extends View
             "Dashboard" => [
                 "icon" => "fas fa-home",
                 "target" => "",
-                "active_on" => ["home","",null],
+                "active_on" => ["home", "", null],
             ],
             "Clients" => [
                 "icon" => "fas fa-users",

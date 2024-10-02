@@ -31,8 +31,8 @@ class Manage extends View
         $form = new Form();
         $form->target("server/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
-        $form->group("Basic config");
         $form->col(6);
+        $form->group("Basic config");
         $form->textInput("domain", "Domain", 30, $server->getDomain(), "ip or uncloudflared proxyed domain/subdomain");
         $form->textInput(
             "controlPanelURL",
@@ -42,6 +42,20 @@ class Manage extends View
             "URL to the control panel"
         );
         $form->textInput("ipaddress", "IP address", 200, $server->getIpaddress(), "127.0.0.1");
+        $form->col(6);
+        $form->group("Hardware");
+        $form->numberInput("bandwidth", "Bandwidth", $server->getBandwidth(), 5, "500");
+        $form->select("bandwidthType", "Bandwith type", $server->getBandwidthType(), [
+            "mbps" => "mbps",
+            "gpbs" => "gpbs",
+            "kbps" => "kbps",
+        ]);
+        $form->numberInput("totalStorage", "Storage space", $server->getTotalStorage(), 11, "50");
+        $form->select("totalStorageType", "Storage type", $server->getTotalStorageType(), [
+            "mb" => "mb",
+            "gb" => "gb",
+            "tb" => "tb",
+        ]);
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }
