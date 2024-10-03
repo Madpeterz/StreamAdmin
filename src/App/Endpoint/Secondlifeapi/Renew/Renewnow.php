@@ -5,6 +5,7 @@ namespace App\Endpoint\Secondlifeapi\Renew;
 use App\Helpers\AvatarHelper;
 use App\Helpers\EventsQHelper;
 use App\Helpers\NoticesHelper;
+use App\Helpers\TransactionsHelper;
 use App\Models\Avatar;
 use App\Models\Package;
 use App\Models\Rental;
@@ -172,6 +173,9 @@ class Renewnow extends SecondlifeAjax
             $this->transaction->setViaHud(true);
             $this->transaction->setSLtransactionUUID($sltransactionUUID);
         }
+        if ($this->transactionAvatar->getId() != $this->accountOwnerAvatar->getId()) {
+            $this->transaction->setTargetAvatar($this->accountOwnerAvatar->getId());
+        }
         if ($this->transaction->createEntry()->status == false) {
             $this->setSwapTag("message", "Unable to create transaction");
             return false;
@@ -236,13 +240,25 @@ class Renewnow extends SecondlifeAjax
     protected function processResellerCut(): bool
     {
         $this->setSwapTag("owner_payment", 0);
-        if ($this->owner_override == true) {
-            return true;
-        }
         $avatar_system = new Avatar();
         if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink())->status == false) {
             $this->failed("Unable to find system owner avatar");
             return false;
+        }
+        if ($this->transactionAvatar->getId() == $this->accountOwnerAvatar->getId()) {
+            // can only use account credits for yourself
+            // you can give avatars credits via the market place
+            $this->useCredits(
+                $avatar_system,
+                $this->transactionAvatar,
+                $this->package,
+                $this->stream,
+                $this->amountpaid
+            );
+        }
+
+        if ($this->owner_override == true) {
+            return true;
         }
         $left_over = $this->amountpaid;
         if ($this->reseller->getRate() > 0) {
@@ -304,5 +320,57 @@ class Renewnow extends SecondlifeAjax
         $this->setup();
         $this->loadFromPost();
         $this->startRenewal($forceMatchAv, $sltransactionUUID);
+    }
+
+    protected function useCredits(
+        Avatar $avatar_system,
+        Avatar $avatar,
+        Package $package,
+        Stream $stream,
+        int $amountpaid
+    ): bool {
+        $this->setSwapTag("credit-return", 0);
+        $this->setSwapTag("credit-remaining", 0);
+        if ($this->reseller->getId() != $avatar_system->getId()) {
+            return true; // credits can only be used at system owner venders
+        }
+        if ($avatar->getCredits() <= 0) {
+            return true; // no credits on account
+        }
+        // use credits and refund
+        $refund = $avatar->getCredits(); // refund remaining balance
+        if ($avatar->getCredits() > $amountpaid) {
+            $refund = $amountpaid; // refund just the payment
+        }
+        $newbalance = $avatar->getCredits() - $refund;
+        if ($newbalance < 0) {
+            $this->failed("Attempting to refund more than expected");
+            return false;
+        }
+        // update balance
+        $avatar->setCredits($newbalance);
+        $update = $avatar->updateEntry();
+        if ($update->status == false) {
+            $this->failed("Unable to update avatar balance");
+            return false;
+        }
+
+        $TransactionsHelper = new TransactionsHelper();
+
+        $status = $TransactionsHelper->createTransaction(
+            $avatar,
+            $package,
+            $stream,
+            $this->reseller,
+            $this->region,
+            0 - $refund
+        );
+        if ($status == false) {
+            $this->failed("Unable to create transaction");
+            return false;
+        }
+        $this->setSwapTag("credit-return", $refund);
+        $this->setSwapTag("credit-remaining", $newbalance);
+        return true;
     }
 }

@@ -17,10 +17,10 @@ class Checkstock extends SecondlifeAjax
             return;
         }
         $whereconfig = [
-            "fields" => ["rentalLink","packageLink","needWork"],
-            "matches" => ["IS","=","="],
-            "values" => [null,$package->getId(),0],
-            "types" => ["i","i","i"],
+            "fields" => ["rentalLink", "packageLink", "needWork"],
+            "matches" => ["IS", "=", "="],
+            "values" => [null, $package->getId(), 0],
+            "types" => ["i", "i", "i"],
         ];
         $streamSet = new StreamSet();
         $count_data = $streamSet->countInDB($whereconfig);

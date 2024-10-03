@@ -38,7 +38,7 @@ abstract class RenderList extends View
 
     public function renderTransactionTable(): string
     {
-        $table_head = ["id","Transaction UID","Client","Package","Region","Amount","Datetime","Mode"];
+        $table_head = ["id", "Transaction UID", "Client", "Package", "Region", "Amount", "Datetime", "Mode"];
         $this->loadRequired();
         $table_head = [
             "id",
@@ -74,7 +74,7 @@ abstract class RenderList extends View
             $entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
             $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-            . $avatar->getAvatarName() . '</a>';
+                . $avatar->getAvatarName() . '</a>';
             $entry[] = $packagename;
             $entry[] = $regionname;
             $entry[] = $transaction->getAmount();
@@ -86,6 +86,10 @@ abstract class RenderList extends View
             if ($transaction->getViaHud() == true) {
                 $type = '<span data-toggle="tooltip" data-placement="bottom" title="
                 ' . $transaction->getSLtransactionUUID() . '"><i class="fab fa-quinscape"></i> Hud</span>';
+            }
+            if ($transaction->getViaMarketplace() == true) {
+                $type = '<span data-toggle="tooltip" data-placement="bottom" title="
+                ' . $transaction->getSLtransactionUUID() . '"><i class="fad fa-shipping-fast"></i> Marketplace</span>';
             }
             $entry[] = $type;
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {

@@ -29,6 +29,9 @@ class Transactions extends genClass
         "renew",
         "SLtransactionUUID",
         "ViaHud",
+        "ViaMarketplace",
+        "targetAvatar",
+        "fromCredits",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -43,6 +46,9 @@ class Transactions extends genClass
         "renew" => ["type" => "bool", "value" => 0],
         "SLtransactionUUID" => ["type" => "str", "value" => null],
         "ViaHud" => ["type" => "bool", "value" => 0],
+        "ViaMarketplace" => ["type" => "bool", "value" => 0],
+        "targetAvatar" => ["type" => "int", "value" => null],
+        "fromCredits" => ["type" => "bool", "value" => 0],
     ];
     // Setters
     /**
@@ -122,6 +128,27 @@ class Transactions extends genClass
     {
         return $this->updateField("ViaHud", $newValue);
     }
+    /**
+    * setViaMarketplace
+    */
+    public function setViaMarketplace(?bool $newValue): UpdateReply
+    {
+        return $this->updateField("ViaMarketplace", $newValue);
+    }
+    /**
+    * setTargetAvatar
+    */
+    public function setTargetAvatar(?int $newValue): UpdateReply
+    {
+        return $this->updateField("targetAvatar", $newValue);
+    }
+    /**
+    * setFromCredits
+    */
+    public function setFromCredits(?bool $newValue): UpdateReply
+    {
+        return $this->updateField("fromCredits", $newValue);
+    }
     // Getters
     public function getAvatarLink(): ?int
     {
@@ -166,6 +193,18 @@ class Transactions extends genClass
     public function getViaHud(): ?bool
     {
         return $this->getField("ViaHud");
+    }
+    public function getViaMarketplace(): ?bool
+    {
+        return $this->getField("ViaMarketplace");
+    }
+    public function getTargetAvatar(): ?int
+    {
+        return $this->getField("targetAvatar");
+    }
+    public function getFromCredits(): ?bool
+    {
+        return $this->getField("fromCredits");
     }
     // Loaders
     public function loadByAvatarLink(int $avatarLink): SingleLoadReply
@@ -243,6 +282,27 @@ class Transactions extends genClass
         return $this->loadByField(
             "ViaHud",
             $ViaHud
+        );
+    }
+    public function loadByViaMarketplace(bool $ViaMarketplace): SingleLoadReply
+    {
+        return $this->loadByField(
+            "ViaMarketplace",
+            $ViaMarketplace
+        );
+    }
+    public function loadByTargetAvatar(int $targetAvatar): SingleLoadReply
+    {
+        return $this->loadByField(
+            "targetAvatar",
+            $targetAvatar
+        );
+    }
+    public function loadByFromCredits(bool $fromCredits): SingleLoadReply
+    {
+        return $this->loadByField(
+            "fromCredits",
+            $fromCredits
         );
     }
     public function relatedAvatar(?array $limitFields = null): AvatarSet

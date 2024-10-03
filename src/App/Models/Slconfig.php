@@ -40,6 +40,8 @@ class Slconfig extends genClass
         "limitTime",
         "maxStreamTimeDays",
         "maxTotalStreams",
+        "ansSalt",
+        "enableCoupons",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -68,6 +70,8 @@ class Slconfig extends genClass
         "limitTime" => ["type" => "bool", "value" => 0],
         "maxStreamTimeDays" => ["type" => "int", "value" => 120],
         "maxTotalStreams" => ["type" => "int", "value" => 100],
+        "ansSalt" => ["type" => "str", "value" => "Not used"],
+        "enableCoupons" => ["type" => "bool", "value" => 0],
     ];
     // Setters
     /**
@@ -245,6 +249,20 @@ class Slconfig extends genClass
     {
         return $this->updateField("maxTotalStreams", $newValue);
     }
+    /**
+    * setAnsSalt
+    */
+    public function setAnsSalt(?string $newValue): UpdateReply
+    {
+        return $this->updateField("ansSalt", $newValue);
+    }
+    /**
+    * setEnableCoupons
+    */
+    public function setEnableCoupons(?bool $newValue): UpdateReply
+    {
+        return $this->updateField("enableCoupons", $newValue);
+    }
     // Getters
     public function getDbVersion(): ?string
     {
@@ -345,6 +363,14 @@ class Slconfig extends genClass
     public function getMaxTotalStreams(): ?int
     {
         return $this->getField("maxTotalStreams");
+    }
+    public function getAnsSalt(): ?string
+    {
+        return $this->getField("ansSalt");
+    }
+    public function getEnableCoupons(): ?bool
+    {
+        return $this->getField("enableCoupons");
     }
     // Loaders
     public function loadByDbVersion(string $dbVersion): SingleLoadReply
@@ -520,6 +546,20 @@ class Slconfig extends genClass
         return $this->loadByField(
             "maxTotalStreams",
             $maxTotalStreams
+        );
+    }
+    public function loadByAnsSalt(string $ansSalt): SingleLoadReply
+    {
+        return $this->loadByField(
+            "ansSalt",
+            $ansSalt
+        );
+    }
+    public function loadByEnableCoupons(bool $enableCoupons): SingleLoadReply
+    {
+        return $this->loadByField(
+            "enableCoupons",
+            $enableCoupons
         );
     }
     public function relatedAvatar(?array $limitFields = null): AvatarSet

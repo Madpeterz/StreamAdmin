@@ -14,7 +14,7 @@ class Manage extends View
         $this->output->addSwapTagString("html_title", "~ Manage");
 
         $this->setSwapTag("page_actions", ""
-        . "<button type='button' 
+            . "<button type='button' 
         data-actiontitle='Remove avatar " . $this->siteConfig->getPage() . "' 
         data-actiontext='Remove avatar' 
         data-actionmessage='If this avatar is being used (by banlist/rental/ect) this will fail' 
@@ -50,6 +50,7 @@ class Manage extends View
             $avatar->getAvatarUUID(),
             "SecondLife UUID [found on their SL profile]"
         );
+        $form->numberInput("credits", "Credits", $avatar->getCredits(), 100, "Amount of credit on account");
 
         $grid = new Grid();
         $grid->addContent($form->render("Update", "primary"), 12);

@@ -14,6 +14,7 @@ use App\Models\Notecardmail as ModelNotecardmail;
 use App\Models\Noticenotecard;
 use App\Models\Sets\NoticeSet;
 use App\Models\Package;
+use App\Models\Refunds;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
@@ -248,10 +249,9 @@ class Startrental extends SecondlifeAjax
             $this->failed("Unable to create details request");
             return;
         }
-
+        $avatar_system = new Avatar();
         $this->setSwapTag("owner_payment", 0);
         if ($this->owner_override == false) {
-            $avatar_system = new Avatar();
             if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
                 $this->failed("Unable to load owner avatar");
                 return;
@@ -273,6 +273,10 @@ class Startrental extends SecondlifeAjax
             $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
         }
 
+        if ($this->useCredits($avatar_system, $avatar, $package, $stream, $amountpaid) == false) {
+            return;
+        }
+
         $EventsQHelper = new EventsQHelper();
         $EventsQHelper->addToEventQ("RentalStart", $package, $avatar, $server, $stream, $rental, $amountpaid);
 
@@ -281,5 +285,57 @@ class Startrental extends SecondlifeAjax
             $botHelper->sendBotInvite($avatar);
         }
         $this->ok("Details should be with you shortly");
+    }
+
+    protected function useCredits(
+        Avatar $avatar_system,
+        Avatar $avatar,
+        Package $package,
+        Stream $stream,
+        int $amountpaid
+    ): bool {
+        $this->setSwapTag("credit-return", 0);
+        $this->setSwapTag("credit-remaining", 0);
+        if ($this->reseller->getId() != $avatar_system->getId()) {
+            return true; // credits can only be used at system owner venders
+        }
+        if ($avatar->getCredits() <= 0) {
+            return true; // no credits on account
+        }
+        // use credits and refund
+        $refund = $avatar->getCredits(); // refund remaining balance
+        if ($avatar->getCredits() > $amountpaid) {
+            $refund = $amountpaid; // refund just the payment
+        }
+        $newbalance = $avatar->getCredits() - $refund;
+        if ($newbalance < 0) {
+            $this->failed("Attempting to refund more than expected");
+            return false;
+        }
+        // update balance
+        $avatar->setCredits($newbalance);
+        $update = $avatar->updateEntry();
+        if ($update->status == false) {
+            $this->failed("Unable to update avatar balance");
+            return false;
+        }
+
+        $TransactionsHelper = new TransactionsHelper();
+
+        $status = $TransactionsHelper->createTransaction(
+            $avatar,
+            $package,
+            $stream,
+            $this->reseller,
+            $this->region,
+            0 - $refund
+        );
+        if ($status == false) {
+            $this->failed("Unable to create transaction");
+            return false;
+        }
+        $this->setSwapTag("credit-return", $refund);
+        $this->setSwapTag("credit-remaining", $newbalance);
+        return true;
     }
 }

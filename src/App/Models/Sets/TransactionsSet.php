@@ -156,6 +156,33 @@ class TransactionsSet extends CollectionSet
     {
         return parent::uniqueArray("ViaHud");
     }
+    /**
+     * uniqueViaMarketplaces
+     * returns unique values from the collection matching that field
+     * @return array<bool>
+     */
+    public function uniqueViaMarketplaces(): array
+    {
+        return parent::uniqueArray("ViaMarketplace");
+    }
+    /**
+     * uniqueTargetAvatars
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueTargetAvatars(): array
+    {
+        return parent::uniqueArray("targetAvatar");
+    }
+    /**
+     * uniqueFromCreditss
+     * returns unique values from the collection matching that field
+     * @return array<bool>
+     */
+    public function uniqueFromCreditss(): array
+    {
+        return parent::uniqueArray("fromCredits");
+    }
     // Loaders
     /**
      * loadById
@@ -444,6 +471,78 @@ class TransactionsSet extends CollectionSet
     public function loadFromViaHuds(array $values): SetsLoadReply
     {
         return $this->loadIndexes("ViaHud", $values);
+    }
+    /**
+     * loadByViaMarketplace
+    */
+    public function loadByViaMarketplace(
+        bool $ViaMarketplace,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "ViaMarketplace",
+            $ViaMarketplace,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromViaMarketplaces
+    */
+    public function loadFromViaMarketplaces(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("ViaMarketplace", $values);
+    }
+    /**
+     * loadByTargetAvatar
+    */
+    public function loadByTargetAvatar(
+        int $targetAvatar,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "targetAvatar",
+            $targetAvatar,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromTargetAvatars
+    */
+    public function loadFromTargetAvatars(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("targetAvatar", $values);
+    }
+    /**
+     * loadByFromCredits
+    */
+    public function loadByFromCredits(
+        bool $fromCredits,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "fromCredits",
+            $fromCredits,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromFromCreditss
+    */
+    public function loadFromFromCreditss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("fromCredits", $values);
     }
     // Related loaders
     public function relatedAvatar(?array $limitFields=null): AvatarSet

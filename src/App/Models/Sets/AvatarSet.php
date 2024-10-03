@@ -93,6 +93,15 @@ class AvatarSet extends CollectionSet
     {
         return parent::uniqueArray("lastUsed");
     }
+    /**
+     * uniqueCreditss
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueCreditss(): array
+    {
+        return parent::uniqueArray("credits");
+    }
     // Loaders
     /**
      * loadById
@@ -213,6 +222,30 @@ class AvatarSet extends CollectionSet
     public function loadFromLastUseds(array $values): SetsLoadReply
     {
         return $this->loadIndexes("lastUsed", $values);
+    }
+    /**
+     * loadByCredits
+    */
+    public function loadByCredits(
+        int $credits,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "credits",
+            $credits,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromCreditss
+    */
+    public function loadFromCreditss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("credits", $values);
     }
     // Related loaders
     public function relatedAuditlog(?array $limitFields=null): AuditlogSet

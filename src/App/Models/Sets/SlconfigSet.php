@@ -282,6 +282,24 @@ class SlconfigSet extends CollectionSet
     {
         return parent::uniqueArray("maxTotalStreams");
     }
+    /**
+     * uniqueAnsSalts
+     * returns unique values from the collection matching that field
+     * @return array<string>
+     */
+    public function uniqueAnsSalts(): array
+    {
+        return parent::uniqueArray("ansSalt");
+    }
+    /**
+     * uniqueEnableCouponss
+     * returns unique values from the collection matching that field
+     * @return array<bool>
+     */
+    public function uniqueEnableCouponss(): array
+    {
+        return parent::uniqueArray("enableCoupons");
+    }
     // Loaders
     /**
      * loadById
@@ -906,6 +924,54 @@ class SlconfigSet extends CollectionSet
     public function loadFromMaxTotalStreamss(array $values): SetsLoadReply
     {
         return $this->loadIndexes("maxTotalStreams", $values);
+    }
+    /**
+     * loadByAnsSalt
+    */
+    public function loadByAnsSalt(
+        string $ansSalt,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "ansSalt",
+            $ansSalt,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromAnsSalts
+    */
+    public function loadFromAnsSalts(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("ansSalt", $values);
+    }
+    /**
+     * loadByEnableCoupons
+    */
+    public function loadByEnableCoupons(
+        bool $enableCoupons,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "enableCoupons",
+            $enableCoupons,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromEnableCouponss
+    */
+    public function loadFromEnableCouponss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("enableCoupons", $values);
     }
     // Related loaders
     public function relatedAvatar(?array $limitFields=null): AvatarSet
