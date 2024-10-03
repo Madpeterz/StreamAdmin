@@ -6,7 +6,7 @@ use App\Models\Marketplacecoupons;
 use App\Models\Sets\MarketplacecouponsSet;
 use App\Template\ControlAjax;
 
-class Update extends ControlAjax
+class Create extends ControlAjax
 {
     public function process(): void
     {
