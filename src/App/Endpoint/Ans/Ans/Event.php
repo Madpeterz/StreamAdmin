@@ -64,6 +64,9 @@ class Event extends ControlAjax
             $this->failed("amount paid does not match expected to process");
             return;
         }
+        $marketplace->setClaims($marketplace->getClaims() + 1);
+        $marketplace->setLastClaim(time());
+        $marketplace->updateEntry();
         $avatarHelper = new AvatarHelper();
         if ($avatarHelper->loadOrCreate($payerKey, $payerName) == false) {
             $this->failed("Unable to create/load payer avatar");

@@ -16,12 +16,16 @@ class Marketplacecoupons extends genClass
         "cost",
         "listingid",
         "credit",
+        "claims",
+        "lastClaim",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
         "cost" => ["type" => "int", "value" => 100],
         "listingid" => ["type" => "int", "value" => null],
         "credit" => ["type" => "int", "value" => 100],
+        "claims" => ["type" => "int", "value" => 0],
+        "lastClaim" => ["type" => "int", "value" => 0],
     ];
     // Setters
     /**
@@ -45,6 +49,20 @@ class Marketplacecoupons extends genClass
     {
         return $this->updateField("credit", $newValue);
     }
+    /**
+    * setClaims
+    */
+    public function setClaims(?int $newValue): UpdateReply
+    {
+        return $this->updateField("claims", $newValue);
+    }
+    /**
+    * setLastClaim
+    */
+    public function setLastClaim(?int $newValue): UpdateReply
+    {
+        return $this->updateField("lastClaim", $newValue);
+    }
     // Getters
     public function getCost(): ?int
     {
@@ -57,6 +75,14 @@ class Marketplacecoupons extends genClass
     public function getCredit(): ?int
     {
         return $this->getField("credit");
+    }
+    public function getClaims(): ?int
+    {
+        return $this->getField("claims");
+    }
+    public function getLastClaim(): ?int
+    {
+        return $this->getField("lastClaim");
     }
     // Loaders
     public function loadByCost(int $cost): SingleLoadReply
@@ -78,6 +104,20 @@ class Marketplacecoupons extends genClass
         return $this->loadByField(
             "credit",
             $credit
+        );
+    }
+    public function loadByClaims(int $claims): SingleLoadReply
+    {
+        return $this->loadByField(
+            "claims",
+            $claims
+        );
+    }
+    public function loadByLastClaim(int $lastClaim): SingleLoadReply
+    {
+        return $this->loadByField(
+            "lastClaim",
+            $lastClaim
         );
     }
 }

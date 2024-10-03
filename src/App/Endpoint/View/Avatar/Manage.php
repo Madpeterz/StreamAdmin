@@ -50,7 +50,9 @@ class Manage extends View
             $avatar->getAvatarUUID(),
             "SecondLife UUID [found on their SL profile]"
         );
-        $form->numberInput("credits", "Credits", $avatar->getCredits(), 100, "Amount of credit on account");
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
+            $form->numberInput("credits", "Credits", $avatar->getCredits(), 100, "Amount of credit on account");
+        }
 
         $grid = new Grid();
         $grid->addContent($form->render("Update", "primary"), 12);

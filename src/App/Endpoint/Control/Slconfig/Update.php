@@ -123,7 +123,12 @@ class Update extends ControlAjax
             $this->failed("Timezone selected not supported");
             return;
         }
-
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
+            $enableCoupons = $this->input->post("enableCoupons")->asBool();
+            $ansSalt = $this->input->post("ansSalt")->checkStringLengthMax(50)->asString();
+            $this->siteConfig->getSlConfig()->setAnsSalt($ansSalt);
+            $this->siteConfig->getSlConfig()->setEnableCoupons($enableCoupons);
+        }
         $this->setSwapTag("redirect", "slconfig");
         if ($avatar->getId() != $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) {
             $this->siteConfig->getSlConfig()->setOwnerAvatarLink($avatar->getId());

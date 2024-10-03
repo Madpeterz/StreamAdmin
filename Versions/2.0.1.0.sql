@@ -55,3 +55,4 @@ ALTER TABLE `transactions` ADD `targetAvatar` INT NULL DEFAULT NULL AFTER `ViaMa
 DROP TABLE `coupons`;
 ALTER TABLE `transactions` ADD `fromCredits` TINYINT(1) NOT NULL DEFAULT '0' AFTER `targetAvatar`; 
 ALTER TABLE `transactions` ADD CONSTRAINT `targetavatar_in_use_transactions` FOREIGN KEY (`targetAvatar`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `marketplacecoupons` ADD `claims` INT NOT NULL DEFAULT '0' AFTER `credit`, ADD `lastClaim` INT NOT NULL DEFAULT '0' AFTER `claims`; 

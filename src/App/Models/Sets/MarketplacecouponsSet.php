@@ -84,6 +84,24 @@ class MarketplacecouponsSet extends CollectionSet
     {
         return parent::uniqueArray("credit");
     }
+    /**
+     * uniqueClaimss
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueClaimss(): array
+    {
+        return parent::uniqueArray("claims");
+    }
+    /**
+     * uniqueLastClaims
+     * returns unique values from the collection matching that field
+     * @return array<int>
+     */
+    public function uniqueLastClaims(): array
+    {
+        return parent::uniqueArray("lastClaim");
+    }
     // Loaders
     /**
      * loadById
@@ -180,6 +198,54 @@ class MarketplacecouponsSet extends CollectionSet
     public function loadFromCredits(array $values): SetsLoadReply
     {
         return $this->loadIndexes("credit", $values);
+    }
+    /**
+     * loadByClaims
+    */
+    public function loadByClaims(
+        int $claims,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "claims",
+            $claims,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromClaimss
+    */
+    public function loadFromClaimss(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("claims", $values);
+    }
+    /**
+     * loadByLastClaim
+    */
+    public function loadByLastClaim(
+        int $lastClaim,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "lastClaim",
+            $lastClaim,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromLastClaims
+    */
+    public function loadFromLastClaims(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("lastClaim", $values);
     }
     // Related loaders
 }

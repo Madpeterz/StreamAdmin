@@ -185,6 +185,18 @@ class DefaultView extends View
         $form->group("Events API <a target=\"_BLANK\" href=\"
         https://github.com/Madpeterz/StreamAdmin/wiki/Events-API\">?</a>");
         $form->select("eventsAPI", "", $slConfigObj->getEventsAPI(), $this->disableEnable);
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
+            $form->group("Marketplace");
+            $form->select("enableCoupons", "Enable coupons", $slConfigObj->getEnableCoupons(), $this->yesNo);
+            $form->textInput(
+                "ansSalt",
+                "ANS salt <a target=\"_BLANK\" href=\"
+            https://marketplace.secondlife.com/en-US/merchants/98052/store/automated_notification\">?</a>",
+                50,
+                $slConfigObj->getAnsSalt(),
+                "ANS salt"
+            );
+        }
         $form->col(6);
         $form->directAdd("<br/>");
         $form->group("Global limits");

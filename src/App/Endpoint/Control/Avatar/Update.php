@@ -20,10 +20,13 @@ class Update extends ControlAjax
             $this->failed("Avatar UUID failed:" . $this->input->getWhyFailed());
             return;
         }
-        $credits = $this->input->post("credits")->checkInRange(0, 999999)->asInt();
-        if ($credits == null) {
-            $this->failed("Avatar credits failed:" . $this->input->getWhyFailed());
-            return;
+        $credits = 0;
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
+            $credits = $this->input->post("credits")->checkInRange(0, 999999)->asInt();
+            if ($credits == null) {
+                $this->failed("Avatar credits failed:" . $this->input->getWhyFailed());
+                return;
+            }
         }
         $this->setSwapTag("redirect", "avatar");
         $avatar = new Avatar();
@@ -54,7 +57,10 @@ class Update extends ControlAjax
         $oldvalues = $avatar->objectToValueArray();
         $avatar->setAvatarName($avatarName);
         $avatar->setAvatarUUID($avatarUUID);
-        $avatar->setCredits($credits);
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
+            $avatar->setCredits($credits);
+        }
+
         $update_status = $avatar->updateEntry();
         if ($update_status->status == false) {
             $this->failed(sprintf("Unable to update avatar: %1\$s", $update_status->message));

@@ -8,7 +8,7 @@ class DefaultView extends View
 {
     public function process(): void
     {
-        $check_objects = ["Server","Template","Package","Stream","Slconfig","Textureconfig"];
+        $check_objects = ["Server", "Template", "Package", "Stream", "Slconfig", "Textureconfig"];
         $all_ok = true;
         foreach ($check_objects as $check) {
             $checkObj = "App\\Models\\" . $check;
@@ -16,7 +16,7 @@ class DefaultView extends View
             if ($obj->HasAny() == false) {
                 $all_ok = false;
                 $this->output->redirect($check
-                . "?bubblemessage=Please%20create%20a%20" . $check . "%20first!&bubbletype=warning");
+                    . "?bubblemessage=Please%20create%20a%20" . $check . "%20first!&bubbletype=warning");
                 break;
             }
         }
@@ -59,7 +59,7 @@ class DefaultView extends View
                     "link" => "Datatables",
                 ],
             ];
-            if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
+            if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
                 $config_areas["Bot"] = [
                     "icon" => "fas fa-robot",
                     "link" => "Bot",
@@ -79,6 +79,14 @@ class DefaultView extends View
                 $config_areas["Export"] = [
                     "icon" => "fas fa-file-export",
                     "link" => "Export",
+                ];
+                $config_areas["Export"] = [
+                    "icon" => "fas fa-file-export",
+                    "link" => "Export",
+                ];
+                $config_areas["Coupons"] = [
+                    "icon" => "fad fa-shipping-fast",
+                    "link" => "Coupons",
                 ];
             }
             ksort($config_areas);

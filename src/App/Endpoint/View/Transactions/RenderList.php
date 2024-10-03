@@ -14,6 +14,7 @@ abstract class RenderList extends View
     protected PackageSet $package_set;
     protected RegionSet $region_set;
     protected AvatarSet $avatar_set;
+    protected AvatarSet $transactionFor;
 
     public function __construct()
     {
@@ -22,6 +23,7 @@ abstract class RenderList extends View
         $this->package_set = new PackageSet();
         $this->region_set = new RegionSet();
         $this->avatar_set = new AvatarSet();
+        $this->transactionFor = new AvatarSet();
     }
 
     public function loadRequired(): void
@@ -29,6 +31,15 @@ abstract class RenderList extends View
         $this->avatar_set = $this->transaction_set->relatedAvatar();
         $this->package_set = $this->transaction_set->relatedPackage();
         $this->region_set = $this->transaction_set->relatedRegion();
+        $this->transactionFor = new AvatarSet();
+        $this->transactionFor->loadFromIds($this->transaction_set->uniqueTargetAvatars());
+        $avatarids = $this->avatar_set->uniqueIds();
+        foreach ($this->transactionFor as $avatar) {
+            if (in_array($avatar->getId(), $avatarids) == true) {
+                continue;
+            }
+            $this->avatar_set->addToCollected($avatar);
+        }
     }
 
     public function loadTransactionsFromAvatar(Avatar $avatar): void
@@ -43,7 +54,8 @@ abstract class RenderList extends View
         $table_head = [
             "id",
             "Transaction UID",
-            "Client",
+            "Payer",
+            "Receiver",
             "Package",
             "Region",
             "Amount",
@@ -69,12 +81,19 @@ abstract class RenderList extends View
                     $regionname = $region->getName();
                 }
             }
-            $avatar = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
+            $payer = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
             $entry = [];
             $entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-                . $avatar->getAvatarName() . '</a>';
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $payer->getAvatarName() . '">'
+                . $payer->getAvatarName() . '</a>';
+            if ($transaction->getTargetAvatar() != null) {
+                $target = $this->avatar_set->getObjectByID($transaction->getTargetAvatar());
+                $entry[] = '<a href="[[SITE_URL]]search?search=' . $target->getAvatarName() . '">'
+                    . $target->getAvatarName() . '</a>';
+            } else {
+                $entry[] = " - ";
+            }
             $entry[] = $packagename;
             $entry[] = $regionname;
             $entry[] = $transaction->getAmount();
