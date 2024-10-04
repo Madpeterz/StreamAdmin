@@ -7,6 +7,7 @@ use App\Models\Sets\AvatarSet;
 use App\Models\Sets\PackageSet;
 use App\Models\Sets\RegionSet;
 use App\Models\Sets\TransactionsSet;
+use YAPF\Bootstrap\Template\Grid;
 
 abstract class RenderList extends View
 {
@@ -65,8 +66,14 @@ abstract class RenderList extends View
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
             $table_head[] = "Remove";
         }
-        $table_body = [];
+
+        $creditTransactions = [];
+        $tableBodyMarketplace = [];
         foreach ($this->transaction_set as $transaction) {
+            if ($transaction->getViaMarketplace() == true) {
+                $creditTransactions[] = $transaction->getId();
+                continue;
+            }
             $packagename = "?";
             if ($transaction->getPackageLink() != null) {
                 $package = $this->package_set->getObjectByID($transaction->getPackageLink());
@@ -81,14 +88,18 @@ abstract class RenderList extends View
                     $regionname = $region->getName();
                 }
             }
-            $payer = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
             $entry = [];
             $entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
+            $payer = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
             $entry[] = '<a href="[[SITE_URL]]search?search=' . $payer->getAvatarName() . '">'
                 . $payer->getAvatarName() . '</a>';
+            $proxy = false;
             if ($transaction->getTargetAvatar() != null) {
                 $target = $this->avatar_set->getObjectByID($transaction->getTargetAvatar());
+                if ($target->getId() != $payer->getId()) {
+                    $proxy = true;
+                }
                 $entry[] = '<a href="[[SITE_URL]]search?search=' . $target->getAvatarName() . '">'
                     . $target->getAvatarName() . '</a>';
             } else {
@@ -101,14 +112,13 @@ abstract class RenderList extends View
             $type = "<i class=\"fas fa-user-plus\"></i> New";
             if ($transaction->getRenew() == 1) {
                 $type = "<i class=\"fas fa-redo-alt\"></i> Renew";
+                if ($proxy == true) {
+                    $type = "<i class=\"fas fa-redo-alt\"></i> Proxy";
+                }
             }
             if ($transaction->getViaHud() == true) {
                 $type = '<span data-toggle="tooltip" data-placement="bottom" title="
                 ' . $transaction->getSLtransactionUUID() . '"><i class="fab fa-quinscape"></i> Hud</span>';
-            }
-            if ($transaction->getViaMarketplace() == true) {
-                $type = '<span data-toggle="tooltip" data-placement="bottom" title="
-                ' . $transaction->getSLtransactionUUID() . '"><i class="fad fa-shipping-fast"></i> Marketplace</span>';
             }
             $entry[] = $type;
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
@@ -121,7 +131,65 @@ abstract class RenderList extends View
             }
             $table_body[] = $entry;
         }
-        return $this->renderDatatable($table_head, $table_body);
+
+        $tableBodyMarketplace = [];
+        $tableHeadMarketplace = [
+            "id",
+            "Transaction UID",
+            "Payer",
+            "Receiver",
+            "Notes",
+            "Amount",
+        ];
+        if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
+            $tableHeadMarketplace[] = "Remove";
+        }
+        foreach ($creditTransactions as $transactionid) {
+            $transaction = $this->transaction_set->getObjectByID($transactionid);
+            if ($transaction->getViaMarketplace() == false) {
+                continue;
+            }
+            $entry = [];
+            $entry[] = $transactionid;
+            $entry[] = $transaction->getTransactionUid();
+            $payer = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $payer->getAvatarName() . '">'
+                . $payer->getAvatarName() . '</a>';
+            if ($transaction->getTargetAvatar() != null) {
+                $target = $this->avatar_set->getObjectByID($transaction->getTargetAvatar());
+                $entry[] = '<a href="[[SITE_URL]]search?search=' . $target->getAvatarName() . '">'
+                    . $target->getAvatarName() . '</a>';
+            } else {
+                $entry[] = " - ";
+            }
+            $notes = $transaction->getNotes();
+            if ($notes === null) {
+                $notes = "-";
+            }
+            $entry[] = $notes;
+            $entry[] = $transaction->getAmount();
+            if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
+                $entry[] = "<button type='button' 
+                data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
+                data-actiontext='Remove transaction' 
+                data-actionmessage='This has no change on the rental time!' 
+                data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->getTransactionUid() . "' 
+                class='btn btn-danger confirmDialog'>Remove</button></a>";
+            }
+            $tableBodyMarketplace[] = $entry;
+        }
+
+        $grid = new Grid();
+        $subgrid = new Grid();
+        $subgrid->addContent("<h4>Marketplace transactions</h4>", 12);
+        $subgrid->addContent($this->renderDatatable($tableHeadMarketplace, $tableBodyMarketplace), 12);
+
+        $subgrid2 = new Grid();
+        $subgrid->addContent("<h4>SL transactions</h4>", 12);
+        $subgrid->addContent($this->renderDatatable($tableHeadMarketplace, $tableBodyMarketplace), 12);
+        $grid->addContent($subgrid2->getOutput(), 6);
+        $grid->addContent($subgrid->getOutput(), 6);
+        return $grid->getOutput();
     }
 
     public function process(): void

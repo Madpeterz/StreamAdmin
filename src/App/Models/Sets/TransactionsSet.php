@@ -183,6 +183,15 @@ class TransactionsSet extends CollectionSet
     {
         return parent::uniqueArray("fromCredits");
     }
+    /**
+     * uniqueNotess
+     * returns unique values from the collection matching that field
+     * @return array<string>
+     */
+    public function uniqueNotess(): array
+    {
+        return parent::uniqueArray("notes");
+    }
     // Loaders
     /**
      * loadById
@@ -543,6 +552,30 @@ class TransactionsSet extends CollectionSet
     public function loadFromFromCreditss(array $values): SetsLoadReply
     {
         return $this->loadIndexes("fromCredits", $values);
+    }
+    /**
+     * loadByNotes
+    */
+    public function loadByNotes(
+        string $notes,
+        int $limit = 0,
+        string $orderBy = "id",
+        string $orderDir = "DESC"
+    ): SetsLoadReply {
+        return $this->loadOnField(
+            "notes",
+            $notes,
+            $limit,
+            $orderBy,
+            $orderDir
+        );
+    }
+    /**
+     * loadFromNotess
+    */
+    public function loadFromNotess(array $values): SetsLoadReply
+    {
+        return $this->loadIndexes("notes", $values);
     }
     // Related loaders
     public function relatedAvatar(?array $limitFields=null): AvatarSet

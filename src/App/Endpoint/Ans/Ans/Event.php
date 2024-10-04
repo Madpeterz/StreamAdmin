@@ -79,7 +79,15 @@ class Event extends ControlAjax
         }
         $receiverAv = $avatarHelper->getAvatar();
 
-        if ($this->createTransaction($transactionId, $PaymentGross, $payerAv, $receiverAv) == false) {
+        if (
+            $this->createTransaction(
+                $transactionId,
+                $PaymentGross,
+                $marketplace->getCredit(),
+                $payerAv,
+                $receiverAv
+            ) == false
+        ) {
             return;
         }
         if ($this->topupNotice($receiverAv, $marketplace->getCredit()) == false) {
@@ -100,8 +108,13 @@ class Event extends ControlAjax
         $this->ok("proceed ans");
     }
 
-    protected function createTransaction(string $transactionid, int $amount, Avatar $payerAv, Avatar $receiverAv): bool
-    {
+    protected function createTransaction(
+        string $transactionid,
+        int $amount,
+        int $credits,
+        Avatar $payerAv,
+        Avatar $receiverAv
+    ): bool {
         $transaction = new Transactions();
         $uid_transaction = $transaction->createUID("transactionUid", 8);
         if ($uid_transaction->status == false) {
@@ -115,6 +128,7 @@ class Event extends ControlAjax
         $transaction->setTransactionUid($uid_transaction->uid);
         $transaction->setSLtransactionUUID($transactionid);
         $transaction->setViaMarketplace(true);
+        $transaction->setNotes("Coupon L$" . $amount . " added L$" . $credits);
         if ($receiverAv->getId() != $payerAv->getId()) {
             $transaction->setTargetAvatar($receiverAv->getId());
         }

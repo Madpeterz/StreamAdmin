@@ -32,6 +32,7 @@ class Transactions extends genClass
         "ViaMarketplace",
         "targetAvatar",
         "fromCredits",
+        "notes",
     ];
     protected $dataset = [
         "id" => ["type" => "int", "value" => null],
@@ -49,6 +50,7 @@ class Transactions extends genClass
         "ViaMarketplace" => ["type" => "bool", "value" => 0],
         "targetAvatar" => ["type" => "int", "value" => null],
         "fromCredits" => ["type" => "bool", "value" => 0],
+        "notes" => ["type" => "str", "value" => null],
     ];
     // Setters
     /**
@@ -149,6 +151,13 @@ class Transactions extends genClass
     {
         return $this->updateField("fromCredits", $newValue);
     }
+    /**
+    * setNotes
+    */
+    public function setNotes(?string $newValue): UpdateReply
+    {
+        return $this->updateField("notes", $newValue);
+    }
     // Getters
     public function getAvatarLink(): ?int
     {
@@ -205,6 +214,10 @@ class Transactions extends genClass
     public function getFromCredits(): ?bool
     {
         return $this->getField("fromCredits");
+    }
+    public function getNotes(): ?string
+    {
+        return $this->getField("notes");
     }
     // Loaders
     public function loadByAvatarLink(int $avatarLink): SingleLoadReply
@@ -303,6 +316,13 @@ class Transactions extends genClass
         return $this->loadByField(
             "fromCredits",
             $fromCredits
+        );
+    }
+    public function loadByNotes(string $notes): SingleLoadReply
+    {
+        return $this->loadByField(
+            "notes",
+            $notes
         );
     }
     public function relatedAvatar(?array $limitFields = null): AvatarSet

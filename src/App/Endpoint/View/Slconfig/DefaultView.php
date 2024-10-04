@@ -186,6 +186,7 @@ class DefaultView extends View
         https://github.com/Madpeterz/StreamAdmin/wiki/Events-API\">?</a>");
         $form->select("eventsAPI", "", $slConfigObj->getEventsAPI(), $this->disableEnable);
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
+            $form->directAdd("<br/>");
             $form->group("Marketplace");
             $form->select("enableCoupons", "Enable coupons", $slConfigObj->getEnableCoupons(), $this->yesNo);
             $form->textInput(
