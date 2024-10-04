@@ -185,8 +185,8 @@ abstract class RenderList extends View
         $subgrid->addContent($this->renderDatatable($tableHeadMarketplace, $tableBodyMarketplace), 12);
 
         $subgrid2 = new Grid();
-        $subgrid->addContent("<h4>SL transactions</h4>", 12);
-        $subgrid->addContent($this->renderDatatable($tableHeadMarketplace, $tableBodyMarketplace), 12);
+        $subgrid2->addContent("<h4>SL transactions</h4>", 12);
+        $subgrid2->addContent($this->renderDatatable($table_head, $table_body), 12);
         $grid->addContent($subgrid2->getOutput(), 6);
         $grid->addContent($subgrid->getOutput(), 6);
         return $grid->getOutput();
