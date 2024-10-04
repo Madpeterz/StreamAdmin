@@ -139,6 +139,7 @@ abstract class RenderList extends View
             "Payer",
             "Receiver",
             "Notes",
+            "Datetime",
         ];
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
             $tableHeadMarketplace[] = "Remove";
@@ -166,6 +167,7 @@ abstract class RenderList extends View
                 $notes = "L$ " . $transaction->getAmount();
             }
             $entry[] = $notes;
+            $entry[] = date('d/m/Y @ G:i:s', $transaction->getUnixtime());
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $entry[] = "<button type='button' 
                 data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
