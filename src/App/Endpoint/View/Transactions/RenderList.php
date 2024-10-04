@@ -139,7 +139,6 @@ abstract class RenderList extends View
             "Payer",
             "Receiver",
             "Notes",
-            "Amount",
         ];
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
             $tableHeadMarketplace[] = "Remove";
@@ -164,10 +163,9 @@ abstract class RenderList extends View
             }
             $notes = $transaction->getNotes();
             if ($notes === null) {
-                $notes = "-";
+                $notes = "L$ " . $transaction->getAmount();
             }
             $entry[] = $notes;
-            $entry[] = $transaction->getAmount();
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $entry[] = "<button type='button' 
                 data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
@@ -181,14 +179,14 @@ abstract class RenderList extends View
 
         $grid = new Grid();
         $subgrid = new Grid();
-        $subgrid->addContent("<h4>Marketplace transactions</h4>", 12);
+        $subgrid->addContent("<h4>Marketplace transactions</h4><br/>", 12);
         $subgrid->addContent($this->renderDatatable($tableHeadMarketplace, $tableBodyMarketplace), 12);
 
         $subgrid2 = new Grid();
-        $subgrid2->addContent("<h4>SL transactions</h4>", 12);
+        $subgrid2->addContent("<h4>SL transactions</h4><br/>", 12);
         $subgrid2->addContent($this->renderDatatable($table_head, $table_body), 12);
-        $grid->addContent($subgrid2->getOutput(), 6);
-        $grid->addContent($subgrid->getOutput(), 6);
+        $grid->addContent($subgrid2->getOutput(), 12);
+        $grid->addContent($subgrid->getOutput(), 12);
         return $grid->getOutput();
     }
 
