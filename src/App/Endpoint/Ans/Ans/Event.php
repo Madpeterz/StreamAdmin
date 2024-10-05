@@ -11,6 +11,11 @@ use App\Template\ControlAjax;
 
 class Event extends ControlAjax
 {
+    protected function failed(string $message): void
+    {
+        error_log($message);
+        $this->setMessage($message, false);
+    }
     public function process(): void
     {
         if (array_key_exists("HTTP_X_ANS_VERIFY_HASH", $_SERVER) == false) {
