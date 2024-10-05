@@ -24,7 +24,7 @@ class Event extends ControlAjax
         }
         $checkHash = $_SERVER['HTTP_X_ANS_VERIFY_HASH'];
         if ($checkHash == null) {
-            $this->failed("Missing ANS stuff [stage 1]");
+            $this->failed("Missing ANS stuff [stage 1.5]");
             return;
         }
         if (array_key_exists("QUERY_STRING", $_SERVER) == false) {
@@ -33,7 +33,7 @@ class Event extends ControlAjax
         }
         $vaildateHash = sha1($_SERVER['QUERY_STRING'] . $this->siteConfig->getSlConfig()->getAnsSalt());
         if ($checkHash != $vaildateHash) {
-            $this->failed("Missing ANS stuff [stage 2]");
+            $this->failed("Missing ANS stuff [stage 2.5]");
             return;
         }
         $payerName = $this->input->get("PayerName")->asString();
