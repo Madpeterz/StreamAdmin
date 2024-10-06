@@ -18,6 +18,9 @@ class Event extends ControlAjax
     }
     public function process(): void
     {
+        foreach ($_SERVER as $key => $value) {
+            error_log("srv: " . $key . " => " . $value);
+        }
         if (array_key_exists("HTTP_X_ANS_VERIFY_HASH", $_SERVER) == false) {
             $this->failed("Missing ANS stuff [stage 1]");
             return;
