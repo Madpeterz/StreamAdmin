@@ -55,7 +55,8 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         Avatar $avatar,
         Package $package,
         Stream $stream,
-        int $amountpaid
+        int $amountpaid,
+        bool $renewal = false
     ): bool {
         $this->setSwapTag("credit-return", 0);
         $this->setSwapTag("credit-remaining", 0);
@@ -96,7 +97,8 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             reseller: $this->reseller,
             region: $this->region,
             amountpaid: 0 - $refund,
-            notes: "refund of prepaid credits"
+            notes: "refund of prepaid credits",
+            renewal: $renewal
         );
         if ($status == false) {
             $this->failed("Unable to create transaction for credits: " . $TransactionsHelper->whyfailed);
