@@ -253,7 +253,8 @@ class Renewnow extends SecondlifeAjax
                 avatar: $this->transactionAvatar,
                 package: $this->package,
                 stream: $this->stream,
-                amountpaid: $this->amountpaid
+                amountpaid: $this->amountpaid,
+                renewal: true
             );
         }
 
