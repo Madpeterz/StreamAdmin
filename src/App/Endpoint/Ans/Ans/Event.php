@@ -13,14 +13,10 @@ class Event extends ControlAjax
 {
     protected function failed(string $message): void
     {
-        error_log($message);
         $this->setMessage($message, false);
     }
     public function process(): void
     {
-        foreach ($_SERVER as $key => $value) {
-            error_log("srv: " . $key . " => " . $value);
-        }
         if (array_key_exists("HTTP_X_ANS_VERIFY_HASH", $_SERVER) == false) {
             $this->failed("Missing ANS stuff [stage 1]");
             return;
