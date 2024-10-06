@@ -249,11 +249,11 @@ class Renewnow extends SecondlifeAjax
             // can only use account credits for yourself
             // you can give avatars credits via the market place
             $this->useCredits(
-                $avatar_system,
-                $this->transactionAvatar,
-                $this->package,
-                $this->stream,
-                $this->amountpaid
+                avatar_system: $avatar_system,
+                avatar: $this->transactionAvatar,
+                package: $this->package,
+                stream: $this->stream,
+                amountpaid: $this->amountpaid
             );
         }
 
@@ -320,57 +320,5 @@ class Renewnow extends SecondlifeAjax
         $this->setup();
         $this->loadFromPost();
         $this->startRenewal($forceMatchAv, $sltransactionUUID);
-    }
-
-    protected function useCredits(
-        Avatar $avatar_system,
-        Avatar $avatar,
-        Package $package,
-        Stream $stream,
-        int $amountpaid
-    ): bool {
-        $this->setSwapTag("credit-return", 0);
-        $this->setSwapTag("credit-remaining", 0);
-        if ($this->reseller->getId() != $avatar_system->getId()) {
-            return true; // credits can only be used at system owner venders
-        }
-        if ($avatar->getCredits() <= 0) {
-            return true; // no credits on account
-        }
-        // use credits and refund
-        $refund = $avatar->getCredits(); // refund remaining balance
-        if ($avatar->getCredits() > $amountpaid) {
-            $refund = $amountpaid; // refund just the payment
-        }
-        $newbalance = $avatar->getCredits() - $refund;
-        if ($newbalance < 0) {
-            $this->failed("Attempting to refund more than expected");
-            return false;
-        }
-        // update balance
-        $avatar->setCredits($newbalance);
-        $update = $avatar->updateEntry();
-        if ($update->status == false) {
-            $this->failed("Unable to update avatar balance");
-            return false;
-        }
-
-        $TransactionsHelper = new TransactionsHelper();
-
-        $status = $TransactionsHelper->createTransaction(
-            $avatar,
-            $package,
-            $stream,
-            $this->reseller,
-            $this->region,
-            0 - $refund
-        );
-        if ($status == false) {
-            $this->failed("Unable to create transaction");
-            return false;
-        }
-        $this->setSwapTag("credit-return", $refund);
-        $this->setSwapTag("credit-remaining", $newbalance);
-        return true;
     }
 }
