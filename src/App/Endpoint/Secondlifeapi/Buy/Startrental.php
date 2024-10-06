@@ -296,7 +296,12 @@ class Startrental extends SecondlifeAjax
     ): bool {
         $this->setSwapTag("credit-return", 0);
         $this->setSwapTag("credit-remaining", 0);
-        if ($this->reseller->getId() != $avatar_system->getId()) {
+        $resellerAv = $this->reseller->relatedAvatar()->getFirst();
+        if ($resellerAv == null) {
+            error_log("[credits] Unable to get reseller Av");
+            return true;
+        }
+        if ($resellerAv->getId() != $avatar_system->getId()) {
             error_log("[credits] transaction not as owner");
             return true; // credits can only be used at system owner venders
         }
