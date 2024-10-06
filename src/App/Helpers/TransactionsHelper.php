@@ -20,7 +20,8 @@ class TransactionsHelper
         Region $region,
         int $amountpaid,
         bool $renewal = false,
-        ?int $forcesetunixtime = null
+        ?int $forcesetunixtime = null,
+        ?string $notes = null
     ): bool {
         $this->whyfailed = "";
         $transaction = new Transactions();
@@ -40,6 +41,7 @@ class TransactionsHelper
         if ($forcesetunixtime != null) {
             $transaction->setUnixtime($forcesetunixtime);
         }
+        $transaction->setNotes($notes);
         $transaction->setTransactionUid($uid_transaction->uid);
         $transaction->setRenew($renewal);
         $create_status = $transaction->createEntry();
