@@ -11,6 +11,7 @@ use App\Models\Transactions;
 
 class TransactionsHelper
 {
+    public string $whyfailed = "";
     public function createTransaction(
         Avatar $avatar,
         Package $package,
@@ -21,11 +22,14 @@ class TransactionsHelper
         bool $renewal = false,
         ?int $forcesetunixtime = null
     ): bool {
+        $this->whyfailed = "";
         $transaction = new Transactions();
         $uid_transaction = $transaction->createUID("transactionUid", 8);
         if ($uid_transaction->status == false) {
+            $this->whyfailed = "Unable to create UID for transaction";
             return false;
         }
+        $transaction = new Transactions();
         $transaction->setAvatarLink($avatar->getId());
         $transaction->setPackageLink($package->getId());
         $transaction->setStreamLink($stream->getId());
@@ -39,6 +43,9 @@ class TransactionsHelper
         $transaction->setTransactionUid($uid_transaction->uid);
         $transaction->setRenew($renewal);
         $create_status = $transaction->createEntry();
+        if ($create_status->status == false) {
+            $this->whyfailed = $create_status->message;
+        }
         return $create_status->status;
     }
 }

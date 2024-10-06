@@ -239,7 +239,7 @@ class Startrental extends SecondlifeAjax
             $amountpaid
         );
         if ($status == false) {
-            $this->failed("Unable to create transaction");
+            $this->failed("Unable to create transaction: " . $TransactionsHelper->whyfailed);
             return;
         }
         $details = new Detail();
@@ -331,7 +331,7 @@ class Startrental extends SecondlifeAjax
             0 - $refund
         );
         if ($status == false) {
-            $this->failed("Unable to create transaction");
+            $this->failed("Unable to create transaction for credits: " . $TransactionsHelper->whyfailed);
             return false;
         }
         $this->setSwapTag("credit-return", $refund);
