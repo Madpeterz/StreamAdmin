@@ -251,11 +251,11 @@ class Startrental extends SecondlifeAjax
         }
         $avatar_system = new Avatar();
         $this->setSwapTag("owner_payment", 0);
+        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
+            $this->failed("Unable to load owner avatar");
+            return;
+        }
         if ($this->owner_override == false) {
-            if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
-                $this->failed("Unable to load owner avatar");
-                return;
-            }
             $left_over = $amountpaid;
             if ($this->reseller->getRate() > 0) {
                 $one_p = $amountpaid / 100;
