@@ -109,18 +109,24 @@ abstract class RenderList extends View
             $entry[] = $regionname;
             $entry[] = $transaction->getAmount();
             $entry[] = date('d/m/Y @ G:i:s', $transaction->getUnixtime());
+            $tooltip = "<span>";
+            if ($transaction->getNotes() !== null) {
+                $tooltip = '<span data-toggle="tooltip" data-placement="bottom" title="
+                ' . $transaction->getNotes() . '">';
+            } elseif ($transaction->getSLtransactionUUID() !== null) {
+                $tooltip = '<span data-toggle="tooltip" data-placement="bottom" title="
+                ' . $transaction->getSLtransactionUUID() . '">';
+            }
             $type = "<i class=\"fas fa-user-plus\"></i> New";
             if ($transaction->getRenew() == 1) {
                 $type = "<i class=\"fas fa-redo-alt\"></i> Renew";
                 if ($proxy == true) {
                     $type = "<i class=\"fas fa-redo-alt\"></i> Proxy";
                 }
+            } elseif ($transaction->getViaHud() == true) {
+                $type = '<i class="fab fa - quinscape"></i> Hud';
             }
-            if ($transaction->getViaHud() == true) {
-                $type = '<span data-toggle="tooltip" data-placement="bottom" title="
-                ' . $transaction->getSLtransactionUUID() . '"><i class="fab fa-quinscape"></i> Hud</span>';
-            }
-            $entry[] = $type;
+            $entry[] = $tooltip . $type . "</span>";
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $entry[] = "<button type='button' 
                 data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
