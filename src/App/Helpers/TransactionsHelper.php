@@ -44,7 +44,7 @@ class TransactionsHelper
         $transaction->setRenew($renewal);
         $create_status = $transaction->createEntry();
         if ($create_status->status == false) {
-            $this->whyfailed = $create_status->message;
+            $this->whyfailed = "Unable to save to db";
         }
         return $create_status->status;
     }
