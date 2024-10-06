@@ -7,12 +7,15 @@ use App\Helpers\AvatarHelper;
 use App\Helpers\ObjectHelper;
 use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
+use App\Helpers\TransactionsHelper;
 use App\Models\Avatar;
 use App\Models\Botconfig;
 use App\Models\Message;
 use App\Models\Objects;
+use App\Models\Package;
 use App\Models\Region;
 use App\Models\Reseller;
+use App\Models\Stream;
 use YAPF\Bootstrap\Template\ViewAjax as TemplateViewAjax;
 use YAPF\Framework\Responses\DbObjects\CreateReply;
 use YAPF\InputFilter\InputFilter;
@@ -46,6 +49,63 @@ abstract class SecondlifeAjax extends TemplateViewAjax
 
     protected ?Botconfig $botconfig = null;
     protected ?Avatar $bot = null;
+
+    protected function useCredits(
+        Avatar $avatar_system,
+        Avatar $avatar,
+        Package $package,
+        Stream $stream,
+        int $amountpaid
+    ): bool {
+        $this->setSwapTag("credit-return", 0);
+        $this->setSwapTag("credit-remaining", 0);
+        $resellerAv = $this->reseller->relatedAvatar()->getFirst();
+        if ($resellerAv == null) {
+            return true;
+        }
+        if ($resellerAv->getId() != $avatar_system->getId()) {
+            return true; // credits can only be used at system owner venders
+        }
+        if ($avatar->getCredits() <= 0) {
+            return true; // no credits on account
+        }
+        // use credits and refund
+        $refund = $avatar->getCredits(); // refund remaining balance
+        if ($avatar->getCredits() > $amountpaid) {
+            $refund = $amountpaid; // refund just the payment
+        }
+        $newbalance = $avatar->getCredits() - $refund;
+        if ($newbalance < 0) {
+            $this->failed("Attempting to refund more than expected");
+            return false;
+        }
+        // update balance
+        $avatar->setCredits($newbalance);
+        $update = $avatar->updateEntry();
+        if ($update->status == false) {
+            $this->failed("Unable to update avatar balance");
+            return false;
+        }
+
+        $TransactionsHelper = new TransactionsHelper();
+
+        $status = $TransactionsHelper->createTransaction(
+            avatar: $avatar,
+            package: $package,
+            stream: $stream,
+            reseller: $this->reseller,
+            region: $this->region,
+            amountpaid: 0 - $refund,
+            notes: "refund of prepaid credits"
+        );
+        if ($status == false) {
+            $this->failed("Unable to create transaction for credits: " . $TransactionsHelper->whyfailed);
+            return false;
+        }
+        $this->setSwapTag("credit-return", $refund);
+        $this->setSwapTag("credit-remaining", $newbalance);
+        return true;
+    }
     protected function setupBot(): bool
     {
         if ($this->botconfig == null) {
