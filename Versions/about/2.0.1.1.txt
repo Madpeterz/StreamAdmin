@@ -1,0 +1,42 @@
+<div class="row">
+<div class="col-sm-12">
+<p>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/127">Issue 127 - Add support for Cupons</a><br/>
+you can now setup and sell credit packs via secondlife marketplace, these can be used to renew/buy streams.
+with planned support to enable auto renewals<br/>
+credits can only be used at system owner vendors.<br/>
+planned support to enable auto renewal per stream<br/>
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/121">Issue 121 - Bot web UI</a><br/>
+shortcuts to the bot UI and wiki can now be accessed on the bot page.
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/131">Issue 131 - Limit rental amounts</a><br/>
+you can now set global limits and per package limits
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/138">Issue 138 - Server IP option</a><br/>
+also adds new swap [[SERVER_IP]] and you can set the IP under the server
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/128">Issue 128 - Cleaning avatars</a><br/>
+system now keeps track of when a avatar was last seen (first step to enable auto cleaning)
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/132">Issue 132 - Texture faces</a><br/>
+as part of the baked config on venders you can now set the face textures render on
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/141">Issue 141 - Bulk remove does not load</a><br/>
+fixed
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/136">Issue 136 - Unload config files</a><br/>
+config files now get deleted after setting the config less scripts yay
+<hr/>
+<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/140">Issue 140 - User hud not uploaded</a><br/>
+fixed
+<hr/>
+</p>
+
+</div>
+<div class="col-sm-12">
+<p>
+Have a feature/bug you want fixed/added then <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues">report it on the git!</a>
+</p>
+</div>
+</div>
