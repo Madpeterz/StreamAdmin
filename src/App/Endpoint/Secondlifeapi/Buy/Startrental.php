@@ -297,9 +297,11 @@ class Startrental extends SecondlifeAjax
         $this->setSwapTag("credit-return", 0);
         $this->setSwapTag("credit-remaining", 0);
         if ($this->reseller->getId() != $avatar_system->getId()) {
+            error_log("[credits] transaction not as owner");
             return true; // credits can only be used at system owner venders
         }
         if ($avatar->getCredits() <= 0) {
+            error_log("[credits] no balance remaining");
             return true; // no credits on account
         }
         // use credits and refund
@@ -309,6 +311,7 @@ class Startrental extends SecondlifeAjax
         }
         $newbalance = $avatar->getCredits() - $refund;
         if ($newbalance < 0) {
+            error_log("[credits] attempting to refund more than balance");
             $this->failed("Attempting to refund more than expected");
             return false;
         }
@@ -316,6 +319,7 @@ class Startrental extends SecondlifeAjax
         $avatar->setCredits($newbalance);
         $update = $avatar->updateEntry();
         if ($update->status == false) {
+            error_log("[credits] unable to update balance");
             $this->failed("Unable to update avatar balance");
             return false;
         }
@@ -331,9 +335,11 @@ class Startrental extends SecondlifeAjax
             0 - $refund
         );
         if ($status == false) {
+            error_log("[credits] unable to create transaction");
             $this->failed("Unable to create transaction for credits: " . $TransactionsHelper->whyfailed);
             return false;
         }
+        error_log("[credits] ok " . $refund . "|" . $newbalance);
         $this->setSwapTag("credit-return", $refund);
         $this->setSwapTag("credit-remaining", $newbalance);
         return true;
