@@ -57,3 +57,4 @@ ALTER TABLE `transactions` ADD `fromCredits` TINYINT(1) NOT NULL DEFAULT '0' AFT
 ALTER TABLE `transactions` ADD CONSTRAINT `targetavatar_in_use_transactions` FOREIGN KEY (`targetAvatar`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
 ALTER TABLE `marketplacecoupons` ADD `claims` INT NOT NULL DEFAULT '0' AFTER `credit`, ADD `lastClaim` INT NOT NULL DEFAULT '0' AFTER `claims`; 
 ALTER TABLE `transactions` ADD `notes` TEXT NOT NULL AFTER `fromCredits`; 
+ALTER TABLE `transactions` CHANGE `notes` `notes` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL; 
