@@ -1,0 +1,36 @@
+export default interface Interface_Transactions{
+    id: number,
+    avatarLink: number,
+    packageLink: number,
+    streamLink: number,
+    resellerLink: number,
+    regionLink: number,
+    amount: number,
+    unixtime: number,
+    transactionUid: string,
+    renew: boolean,
+    SLtransactionUUID: string,
+    ViaHud: boolean,
+    ViaMarketplace: boolean,
+    targetAvatar: number,
+    fromCredits: boolean,
+    notes: string
+}
+export const Default_Transactions: Interface_Transactions = {
+    id: 0,
+    avatarLink: 0,
+    packageLink: 0,
+    streamLink: 0,
+    resellerLink: 0,
+    regionLink: 0,
+    amount: 0,
+    unixtime: 0,
+    transactionUid: "",
+    renew: true,
+    SLtransactionUUID: "",
+    ViaHud: true,
+    ViaMarketplace: true,
+    targetAvatar: 0,
+    fromCredits: true,
+    notes: ""
+}
