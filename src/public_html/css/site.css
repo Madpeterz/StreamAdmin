@@ -1,0 +1,33 @@
+.logo {
+    width: 100%;
+}
+.needWork {
+    color: #d0db32;
+}
+.ready {
+    color: #39c227;
+}
+.sold {
+    color: #277cc2;
+}
+.serverstatusdisplay {
+    width: 250px;
+}
+.sold:hover {
+    color: #45a7f7;
+}
+.reports-gain {
+    color: #31b310;
+}
+.reports-loss {
+    color: #fc4103;
+}
+.reports-best {
+    color: #2b66c4;
+}
+html{overflow-y:scroll}
+
+.form-control[readonly] {
+    background-color: rgba(48,48,48,0.5);
+    color: #ff0000;
+}
