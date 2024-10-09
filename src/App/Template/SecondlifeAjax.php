@@ -284,6 +284,12 @@ abstract class SecondlifeAjax extends TemplateViewAjax
 
     protected function continueHashChecks(bool $skip_reseller): void
     {
+        $headers = getallheaders();
+        if ($headers["HTTP_X_SECONDLIFE_SHARD"] != "Production") {
+            $this->load_ok = false;
+            $this->failed("wrong grid connected");
+            return;
+        }
         $avatar_helper = new AvatarHelper();
         $get_av_status = $avatar_helper->loadOrCreate($this->ownerkey, $this->ownername);
         if ($get_av_status == false) {
