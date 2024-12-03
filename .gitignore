@@ -16,3 +16,5 @@ src/cache/
 vendor
 vendor/
 composer.lock
+.phpunit.result.cache
+composer.lock
