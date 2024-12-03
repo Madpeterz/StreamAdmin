@@ -47,7 +47,9 @@ CREATE TABLE `coupons` (
   INDEX (`couponLink`), INDEX (`receiverAvatarLink`), 
   INDEX (`payerAvatarLink`), UNIQUE (`TransactionID`)
   ) ENGINE = InnoDB; 
-ALTER TABLE `coupons` ADD CONSTRAINT `coupons_marketplacecoupon_inuse` FOREIGN KEY (`couponLink`) REFERENCES `marketplacecoupons`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; ALTER TABLE `coupons` ADD CONSTRAINT `coupons_payer_avatar_inuse` FOREIGN KEY (`payerAvatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; ALTER TABLE `coupons` ADD CONSTRAINT `coupons_receiver_avatar_inuse` FOREIGN KEY (`receiverAvatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `coupons` ADD CONSTRAINT `coupons_marketplacecoupon_inuse` FOREIGN KEY (`couponLink`) REFERENCES `marketplacecoupons`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `coupons` ADD CONSTRAINT `coupons_payer_avatar_inuse` FOREIGN KEY (`payerAvatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
+ALTER TABLE `coupons` ADD CONSTRAINT `coupons_receiver_avatar_inuse` FOREIGN KEY (`receiverAvatarLink`) REFERENCES `avatar`(`id`) ON DELETE RESTRICT ON UPDATE NO ACTION; 
 ALTER TABLE `marketplacecoupons` ADD UNIQUE(`listingid`); 
 ALTER TABLE `avatar` ADD `credits` INT NOT NULL DEFAULT '0' AFTER `lastUsed`; 
 ALTER TABLE `transactions` ADD `ViaMarketplace` TINYINT(1) NOT NULL DEFAULT '0' AFTER `ViaHud`; 

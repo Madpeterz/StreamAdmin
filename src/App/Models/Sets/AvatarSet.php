@@ -105,7 +105,7 @@ class AvatarSet extends CollectionSet
     // Loaders
     /**
      * loadById
-    */
+     */
     public function loadById(
         int $id,
         int $limit = 0,
@@ -122,14 +122,14 @@ class AvatarSet extends CollectionSet
     }
     /**
      * loadFromIds
-    */
+     */
     public function loadFromIds(array $values): SetsLoadReply
     {
         return $this->loadIndexes("id", $values);
     }
     /**
      * loadByAvatarUUID
-    */
+     */
     public function loadByAvatarUUID(
         string $avatarUUID,
         int $limit = 0,
@@ -146,14 +146,14 @@ class AvatarSet extends CollectionSet
     }
     /**
      * loadFromAvatarUUIDs
-    */
+     */
     public function loadFromAvatarUUIDs(array $values): SetsLoadReply
     {
         return $this->loadIndexes("avatarUUID", $values);
     }
     /**
      * loadByAvatarName
-    */
+     */
     public function loadByAvatarName(
         string $avatarName,
         int $limit = 0,
@@ -170,14 +170,14 @@ class AvatarSet extends CollectionSet
     }
     /**
      * loadFromAvatarNames
-    */
+     */
     public function loadFromAvatarNames(array $values): SetsLoadReply
     {
         return $this->loadIndexes("avatarName", $values);
     }
     /**
      * loadByAvatarUid
-    */
+     */
     public function loadByAvatarUid(
         string $avatarUid,
         int $limit = 0,
@@ -194,14 +194,14 @@ class AvatarSet extends CollectionSet
     }
     /**
      * loadFromAvatarUids
-    */
+     */
     public function loadFromAvatarUids(array $values): SetsLoadReply
     {
         return $this->loadIndexes("avatarUid", $values);
     }
     /**
      * loadByLastUsed
-    */
+     */
     public function loadByLastUsed(
         int $lastUsed,
         int $limit = 0,
@@ -218,14 +218,14 @@ class AvatarSet extends CollectionSet
     }
     /**
      * loadFromLastUseds
-    */
+     */
     public function loadFromLastUseds(array $values): SetsLoadReply
     {
         return $this->loadIndexes("lastUsed", $values);
     }
     /**
      * loadByCredits
-    */
+     */
     public function loadByCredits(
         int $credits,
         int $limit = 0,
@@ -242,117 +242,117 @@ class AvatarSet extends CollectionSet
     }
     /**
      * loadFromCreditss
-    */
+     */
     public function loadFromCreditss(array $values): SetsLoadReply
     {
         return $this->loadIndexes("credits", $values);
     }
     // Related loaders
-    public function relatedAuditlog(?array $limitFields=null): AuditlogSet
+    public function relatedAuditlog(?array $limitFields = null): AuditlogSet
     {
         $ids = $this->uniqueIds();
         $collection = new AuditlogSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedBanlist(?array $limitFields=null): BanlistSet
+    public function relatedBanlist(?array $limitFields = null): BanlistSet
     {
         $ids = $this->uniqueIds();
         $collection = new BanlistSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedBotconfig(?array $limitFields=null): BotconfigSet
+    public function relatedBotconfig(?array $limitFields = null): BotconfigSet
     {
         $ids = $this->uniqueIds();
         $collection = new BotconfigSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedMessage(?array $limitFields=null): MessageSet
+    public function relatedMessage(?array $limitFields = null): MessageSet
     {
         $ids = $this->uniqueIds();
         $collection = new MessageSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedNotecardmail(?array $limitFields=null): NotecardmailSet
+    public function relatedNotecardmail(?array $limitFields = null): NotecardmailSet
     {
         $ids = $this->uniqueIds();
         $collection = new NotecardmailSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedObjects(?array $limitFields=null): ObjectsSet
+    public function relatedObjects(?array $limitFields = null): ObjectsSet
     {
         $ids = $this->uniqueIds();
         $collection = new ObjectsSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedRental(?array $limitFields=null): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedReseller(?array $limitFields=null): ResellerSet
+    public function relatedReseller(?array $limitFields = null): ResellerSet
     {
         $ids = $this->uniqueIds();
         $collection = new ResellerSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedSlconfig(?array $limitFields=null): SlconfigSet
+    public function relatedSlconfig(?array $limitFields = null): SlconfigSet
     {
         $ids = $this->uniqueIds();
         $collection = new SlconfigSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromOwnerAvatarLinks($ids);
         return $collection;
     }
-    public function relatedStaff(?array $limitFields=null): StaffSet
+    public function relatedStaff(?array $limitFields = null): StaffSet
     {
         $ids = $this->uniqueIds();
         $collection = new StaffSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);
         return $collection;
     }
-    public function relatedTransactions(?array $limitFields=null): TransactionsSet
+    public function relatedTransactions(?array $limitFields = null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromAvatarLinks($ids);

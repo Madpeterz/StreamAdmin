@@ -1,2 +1,2 @@
 cls
-composer dev-test
+composer dev-test-fast

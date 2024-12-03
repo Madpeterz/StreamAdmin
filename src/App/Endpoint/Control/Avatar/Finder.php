@@ -17,11 +17,11 @@ class Finder extends ControlAjax
             return;
         }
         $where_config = [
-            "fields" => ["avatarUUID","avatarName","avatarUid"],
-            "matches" => ["% LIKE %","% LIKE %","% LIKE %"],
-            "values" => [$avatarfindname,$avatarfindname,$avatarfindname],
-            "types" => ["s","s","s"],
-            "joinWith" => ["OR","OR"],
+            "fields" => ["avatarUUID", "avatarName", "avatarUid"],
+            "matches" => ["% LIKE %", "% LIKE %", "% LIKE %"],
+            "values" => [$avatarfindname, $avatarfindname, $avatarfindname],
+            "types" => ["s", "s", "s"],
+            "joinWith" => ["OR", "OR"],
         ];
         $search_avatar_set = new AvatarSet();
         $search_avatar_set->loadWithConfig($where_config);

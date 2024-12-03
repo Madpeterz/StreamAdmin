@@ -3,6 +3,7 @@
 namespace App\Framework;
 
 use App\Config;
+use App\Helpers\StaffPasswordHashReply;
 use App\Models\Sets\AuditlogSet;
 use App\Models\Staff;
 use YAPF\Framework\Core\SQLi\SqlConnectedClass;
@@ -18,7 +19,7 @@ class SessionControl extends SqlConnectedClass
     }
     protected ?Staff $main_class_object = null;
     protected $logged_in = false;
-    protected $session_values = ["lhash","autologout","nextcheck","username","ownerLevel", "avatarLinkId"];
+    protected $session_values = ["lhash", "autologout", "nextcheck", "username", "ownerLevel", "avatarLinkId"];
     protected $lhash = "";
     protected $autologout = 0;
     protected $nextcheck = 0;
@@ -27,6 +28,10 @@ class SessionControl extends SqlConnectedClass
     protected $avatarLinkId = 0;
     public function getOwnerLevel(): bool
     {
+        if ($this->main_class_object != null) {
+            return $this->main_class_object->getOwnerLevel(); // object attached send real value
+        }
+        // object not attached send saved value
         if ($this->ownerLevel == 1) {
             return true;
         }
@@ -34,6 +39,9 @@ class SessionControl extends SqlConnectedClass
     }
     public function getAvatarLinkId(): int
     {
+        if ($this->main_class_object != null) {
+            return $this->main_class_object->getAvatarLink(); // object attached send real value
+        }
         return $this->avatarLinkId;
     }
     protected function populateSessionDataset(): bool
@@ -94,7 +102,7 @@ class SessionControl extends SqlConnectedClass
         ?string $arg4 = "",
         int $length = 42
     ): string {
-        $newhash = hash("sha256", implode("", [$arg1,$arg2,$arg3,$arg4]));
+        $newhash = hash("sha256", implode("", [$arg1, $arg2, $arg3, $arg4]));
         if (nullSafeStrLen($newhash) > $length) {
             $newhash = substr($newhash, 0, $length);
         }
@@ -178,23 +186,29 @@ class SessionControl extends SqlConnectedClass
         return $this->logged_in;
     }
 
+    public function createStaffPasswordHash(string $new_password): StaffPasswordHashReply
+    {
+        $psalt = $this->hashPassword(
+            time(),
+            $this->main_class_object->getId(),
+            $this->main_class_object->getPsalt(),
+            $this->main_class_object->getOwnerLevel()
+        );
+        $phash = $this->hashPassword(
+            $new_password,
+            $this->main_class_object->getId(),
+            $psalt,
+            $this->main_class_object->getOwnerLevel()
+        );
+        return new StaffPasswordHashReply($phash, $psalt);
+    }
+
     public function updatePassword(string $new_password): UpdateReply
     {
         if ($this->main_class_object != null) {
-            $psalt = $this->hashPassword(
-                time(),
-                $this->main_class_object->getId(),
-                $this->main_class_object->getPsalt(),
-                $this->main_class_object->getOwnerLevel()
-            );
-            $phash = $this->hashPassword(
-                $new_password,
-                $this->main_class_object->getId(),
-                $psalt,
-                $this->main_class_object->getOwnerLevel()
-            );
-            $this->main_class_object->setPsalt($psalt);
-            $this->main_class_object->setPhash($phash);
+            $makepassword = $this->createStaffPasswordHash($new_password);
+            $this->main_class_object->setPsalt($makepassword->psalt);
+            $this->main_class_object->setPhash($makepassword->phash);
             return $this->main_class_object->updateEntry();
         }
         return new UpdateReply("updatePassword requires the user object to be loaded!");

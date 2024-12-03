@@ -15,6 +15,7 @@ abstract class ControlAjax extends ViewAjax
     public function __construct(bool $AutoLoadTemplate = false)
     {
         parent::__construct($AutoLoadTemplate);
+        set_time_limit(15);
         global $system;
         $this->siteConfig = $system;
         $this->input = new InputFilter();

@@ -68,6 +68,9 @@ class SwapablesHelper extends FunctionHelper
             "RentUID" => $rental->getRentalUid(),
         ];
         foreach ($swaps as $key => $value) {
+            if ($value == null) {
+                $value  = "";
+            }
             $template = str_replace("[[" . $key . "]]", $value, $template);
         }
         return $template;
