@@ -974,21 +974,21 @@ class SlconfigSet extends CollectionSet
         return $this->loadIndexes("enableCoupons", $values);
     }
     // Related loaders
-    public function relatedAvatar(?array $limitFields=null): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = $this->uniqueOwnerAvatarLinks();
         $collection = new AvatarSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTimezones(?array $limitFields=null): TimezonesSet
+    public function relatedTimezones(?array $limitFields = null): TimezonesSet
     {
         $ids = $this->uniqueDisplayTimezoneLinks();
         $collection = new TimezonesSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

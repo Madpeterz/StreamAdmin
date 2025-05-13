@@ -116,21 +116,21 @@ class RegionSet extends CollectionSet
         return $this->loadIndexes("name", $values);
     }
     // Related loaders
-    public function relatedObjects(?array $limitFields=null): ObjectsSet
+    public function relatedObjects(?array $limitFields = null): ObjectsSet
     {
         $ids = $this->uniqueIds();
         $collection = new ObjectsSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromRegionLinks($ids);
         return $collection;
     }
-    public function relatedTransactions(?array $limitFields=null): TransactionsSet
+    public function relatedTransactions(?array $limitFields = null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromRegionLinks($ids);

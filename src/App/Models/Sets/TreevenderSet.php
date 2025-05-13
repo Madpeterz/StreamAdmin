@@ -215,11 +215,11 @@ class TreevenderSet extends CollectionSet
         return $this->loadIndexes("hideSoldout", $values);
     }
     // Related loaders
-    public function relatedTreevenderpackages(?array $limitFields=null): TreevenderpackagesSet
+    public function relatedTreevenderpackages(?array $limitFields = null): TreevenderpackagesSet
     {
         $ids = $this->uniqueIds();
         $collection = new TreevenderpackagesSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromTreevenderLinks($ids);

@@ -149,31 +149,31 @@ class NoticenotecardSet extends CollectionSet
         return $this->loadIndexes("missing", $values);
     }
     // Related loaders
-    public function relatedNotecardmail(?array $limitFields=null): NotecardmailSet
+    public function relatedNotecardmail(?array $limitFields = null): NotecardmailSet
     {
         $ids = $this->uniqueIds();
         $collection = new NotecardmailSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromNoticenotecardLinks($ids);
         return $collection;
     }
-    public function relatedNotice(?array $limitFields=null): NoticeSet
+    public function relatedNotice(?array $limitFields = null): NoticeSet
     {
         $ids = $this->uniqueIds();
         $collection = new NoticeSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromNoticeNotecardLinks($ids);
         return $collection;
     }
-    public function relatedPackage(?array $limitFields=null): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = $this->uniqueIds();
         $collection = new PackageSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromWelcomeNotecardLinks($ids);

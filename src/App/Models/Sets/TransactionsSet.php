@@ -578,51 +578,51 @@ class TransactionsSet extends CollectionSet
         return $this->loadIndexes("notes", $values);
     }
     // Related loaders
-    public function relatedAvatar(?array $limitFields=null): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedPackage(?array $limitFields=null): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = $this->uniquePackageLinks();
         $collection = new PackageSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRegion(?array $limitFields=null): RegionSet
+    public function relatedRegion(?array $limitFields = null): RegionSet
     {
         $ids = $this->uniqueRegionLinks();
         $collection = new RegionSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedReseller(?array $limitFields=null): ResellerSet
+    public function relatedReseller(?array $limitFields = null): ResellerSet
     {
         $ids = $this->uniqueResellerLinks();
         $collection = new ResellerSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedStream(?array $limitFields=null): StreamSet
+    public function relatedStream(?array $limitFields = null): StreamSet
     {
         $ids = $this->uniqueStreamLinks();
         $collection = new StreamSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

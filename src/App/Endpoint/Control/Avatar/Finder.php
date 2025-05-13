@@ -16,6 +16,7 @@ class Finder extends ControlAjax
             $this->failed("Avatar UID/Name/UUID was not sent!");
             return;
         }
+        $testing = array();
         $where_config = [
             "fields" => ["avatarUUID", "avatarName", "avatarUid"],
             "matches" => ["% LIKE %", "% LIKE %", "% LIKE %"],

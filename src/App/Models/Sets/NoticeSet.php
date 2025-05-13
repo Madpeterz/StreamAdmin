@@ -347,41 +347,41 @@ class NoticeSet extends CollectionSet
         return $this->loadIndexes("noticeNotecardLink", $values);
     }
     // Related loaders
-    public function relatedNotecard(?array $limitFields=null): NotecardSet
+    public function relatedNotecard(?array $limitFields = null): NotecardSet
     {
         $ids = $this->uniqueIds();
         $collection = new NotecardSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }
-    public function relatedNoticenotecard(?array $limitFields=null): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields = null): NoticenotecardSet
     {
         $ids = $this->uniqueNoticeNotecardLinks();
         $collection = new NoticenotecardSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRental(?array $limitFields=null): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromNoticeLinks($ids);
         return $collection;
     }
-    public function relatedRentalnoticeptout(?array $limitFields=null): RentalnoticeptoutSet
+    public function relatedRentalnoticeptout(?array $limitFields = null): RentalnoticeptoutSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalnoticeptoutSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromNoticeLinks($ids);

@@ -149,21 +149,21 @@ class NotecardmailSet extends CollectionSet
         return $this->loadIndexes("noticenotecardLink", $values);
     }
     // Related loaders
-    public function relatedAvatar(?array $limitFields=null): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedNoticenotecard(?array $limitFields=null): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields = null): NoticenotecardSet
     {
         $ids = $this->uniqueNoticenotecardLinks();
         $collection = new NoticenotecardSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

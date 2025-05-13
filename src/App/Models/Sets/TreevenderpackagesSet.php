@@ -149,21 +149,21 @@ class TreevenderpackagesSet extends CollectionSet
         return $this->loadIndexes("packageLink", $values);
     }
     // Related loaders
-    public function relatedPackage(?array $limitFields=null): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = $this->uniquePackageLinks();
         $collection = new PackageSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTreevender(?array $limitFields=null): TreevenderSet
+    public function relatedTreevender(?array $limitFields = null): TreevenderSet
     {
         $ids = $this->uniqueTreevenderLinks();
         $collection = new TreevenderSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

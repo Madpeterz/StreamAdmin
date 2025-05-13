@@ -33,11 +33,9 @@
         ],
         "phpcs": "phpcs --parallel=4",
         "phpcbf": "phpcbf",
-        "phpunit": "phpunit",
-        "phpunitfast": "phpunitfast"
+        "phpunit": "phpunit"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6",
-        "brianium/paratest": "^6.11"
+        "phpunit/phpunit": "^9.6"
     }
 }

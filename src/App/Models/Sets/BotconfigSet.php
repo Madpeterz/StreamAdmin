@@ -347,11 +347,11 @@ class BotconfigSet extends CollectionSet
         return $this->loadIndexes("httpURL", $values);
     }
     // Related loaders
-    public function relatedAvatar(?array $limitFields=null): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

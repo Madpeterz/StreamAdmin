@@ -314,11 +314,11 @@ class ServerSet extends CollectionSet
         return $this->loadIndexes("totalStorageType", $values);
     }
     // Related loaders
-    public function relatedStream(?array $limitFields=null): StreamSet
+    public function relatedStream(?array $limitFields = null): StreamSet
     {
         $ids = $this->uniqueIds();
         $collection = new StreamSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromServerLinks($ids);

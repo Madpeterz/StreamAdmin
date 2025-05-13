@@ -13,7 +13,7 @@ class Clear extends ControlAjax
         $banlist = new Banlist();
         $this->setSwapTag("redirect", "banlist");
         if ($banlist->loadID($this->siteConfig->getPage())->status == false) {
-            $this->failed("unable to find entry");
+            $this->failed("unable to find entry: " . $this->siteConfig->getPage());
             return;
         }
         $avatar = $banlist->relatedAvatar()->getFirst();

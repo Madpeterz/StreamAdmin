@@ -413,41 +413,41 @@ class StreamSet extends CollectionSet
         return $this->loadIndexes("mountpoint", $values);
     }
     // Related loaders
-    public function relatedRental(?array $limitFields=null): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromStreamLinks($ids);
         return $collection;
     }
-    public function relatedPackage(?array $limitFields=null): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = $this->uniquePackageLinks();
         $collection = new PackageSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedServer(?array $limitFields=null): ServerSet
+    public function relatedServer(?array $limitFields = null): ServerSet
     {
         $ids = $this->uniqueServerLinks();
         $collection = new ServerSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTransactions(?array $limitFields=null): TransactionsSet
+    public function relatedTransactions(?array $limitFields = null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromStreamLinks($ids);

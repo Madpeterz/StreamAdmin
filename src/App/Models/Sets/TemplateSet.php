@@ -182,11 +182,11 @@ class TemplateSet extends CollectionSet
         return $this->loadIndexes("notecardDetail", $values);
     }
     // Related loaders
-    public function relatedPackage(?array $limitFields=null): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = $this->uniqueIds();
         $collection = new PackageSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromTemplateLinks($ids);

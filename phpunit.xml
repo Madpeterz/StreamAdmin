@@ -8,7 +8,6 @@
     failOnWarning="true"
     failOnEmptyTestSuite="true"
     beStrictAboutOutputDuringTests="true"
-    cacheDirectory=".build-cache/.phpunit"
 >
   <php>
       <ini name="display_errors" value="On" />

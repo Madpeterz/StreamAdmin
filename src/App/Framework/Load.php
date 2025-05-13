@@ -22,7 +22,6 @@ include APPFOLDER . "Framework/Functions.php";
 //define("ERRORCONSOLEPRINT", "yes");
 
 $system = new Config();
-if(defined("UNITTEST") == false) {
+if (defined("UNITTEST") == false) {
     $system->run();
 }
-

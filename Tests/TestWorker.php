@@ -15,15 +15,26 @@ class TestWorker extends TestCase
     }
     public static function tearDownAfterClass(): void
     {
-        global $system;
+        $system = new Config();
         $classname = get_called_class();
         $bits = explode("\\", $classname);
         $classname = end($bits);
-        $cleanup = [
-            "DROP DATABASE `" . $classname . "`;"
-        ];
-        $system->getSQL()->sqlRollBack();
-        $system->shutdown();
+        $system->getSQL()->dbName = $classname;
+        $result = $system->getSQL()->rawSQL(null,["DROP DATABASE `" . $classname . "`;"]);
+        if($result->message != "ok")
+        {
+            die("failed to clean up " . $classname."\n".$result->message."\n");
+        }
+        $system->getSQL()->sqlSave(true);
+    }
+    protected function tearDown(): void
+    {
+        global $system;
+        $result = $system->getSQL()->sqlSave(false);
+        $classname = get_called_class();
+        $bits = explode("\\", $classname);
+        $classname = end($bits);
+        $this->assertSame(true, $result, "Failed to save SQL after: ".$classname);
     }
     public static function setUpBeforeClass(): void
     {

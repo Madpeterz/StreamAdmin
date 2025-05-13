@@ -36,12 +36,14 @@ class Create extends ControlAjax
         }
         $banlist = new Banlist();
         $banlist->setAvatarLink($avatar->getId());
-        $create_status = $banlist->createEntry();
-        if ($create_status->status == false) {
+        $createStatus = $banlist->createEntry();
+        if ($createStatus->status == false) {
             $this->failed("Unable to create a new entry in the ban list");
             return;
         }
+        $this->setSwapTag("debugmessage", $createStatus->message);
+        $this->setSwapTag("newbanid", $createStatus->newId);
         $this->redirectWithMessage("Entry created");
-        $this->createAuditLog($banlist->getId(), "+++", null, $avatar->getAvatarName());
+        $this->createAuditLog($createStatus->newId, "+++", null, $avatar->getAvatarName());
     }
 }

@@ -314,21 +314,21 @@ class ObjectsSet extends CollectionSet
         return $this->loadIndexes("lastSeen", $values);
     }
     // Related loaders
-    public function relatedAvatar(?array $limitFields=null): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRegion(?array $limitFields=null): RegionSet
+    public function relatedRegion(?array $limitFields = null): RegionSet
     {
         $ids = $this->uniqueRegionLinks();
         $collection = new RegionSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

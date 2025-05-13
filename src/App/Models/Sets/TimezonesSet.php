@@ -149,11 +149,11 @@ class TimezonesSet extends CollectionSet
         return $this->loadIndexes("code", $values);
     }
     // Related loaders
-    public function relatedSlconfig(?array $limitFields=null): SlconfigSet
+    public function relatedSlconfig(?array $limitFields = null): SlconfigSet
     {
         $ids = $this->uniqueIds();
         $collection = new SlconfigSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromDisplayTimezoneLinks($ids);

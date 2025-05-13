@@ -14,7 +14,13 @@ use YAPF\Bootstrap\ConfigBox\BootstrapConfigBox;
 
 class Config extends BootstrapConfigBox
 {
-    protected function loadURL(string $process = null): void
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setAllowChanges(true);
+    }
+
+    protected function loadURL(?string $process = null): void
     {
         parent::loadURL($process);
         $this->setFlag("SITE_NAME", "Streamadmin");

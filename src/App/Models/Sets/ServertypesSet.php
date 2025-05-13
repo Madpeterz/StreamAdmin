@@ -116,11 +116,11 @@ class ServertypesSet extends CollectionSet
         return $this->loadIndexes("name", $values);
     }
     // Related loaders
-    public function relatedPackage(?array $limitFields=null): PackageSet
+    public function relatedPackage(?array $limitFields = null): PackageSet
     {
         $ids = $this->uniqueIds();
         $collection = new PackageSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromServertypeLinks($ids);

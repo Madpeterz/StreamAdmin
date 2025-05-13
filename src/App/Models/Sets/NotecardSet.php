@@ -182,21 +182,21 @@ class NotecardSet extends CollectionSet
         return $this->loadIndexes("noticeLink", $values);
     }
     // Related loaders
-    public function relatedNotice(?array $limitFields=null): NoticeSet
+    public function relatedNotice(?array $limitFields = null): NoticeSet
     {
         $ids = $this->uniqueNoticeLinks();
         $collection = new NoticeSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRental(?array $limitFields=null): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = $this->uniqueRentalLinks();
         $collection = new RentalSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

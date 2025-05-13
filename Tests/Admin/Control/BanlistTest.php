@@ -15,6 +15,7 @@ class BanlistTest extends TestWorker
         $banlistCreate->process();
         $reply = $banlistCreate->getOutputObject();
         $this->assertSame("Entry created", $reply->getSwapTagString("message"), "reply message not as expected");
+        $this->assertSame(1, $reply->getSwapTagInt("newbanid"), "incorrect banlist id entry");
         $this->assertSame(true, $reply->getSwapTagBool("status"), "Status code is not as expected");
     }
     /**

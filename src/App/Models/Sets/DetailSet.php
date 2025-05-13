@@ -116,11 +116,11 @@ class DetailSet extends CollectionSet
         return $this->loadIndexes("rentalLink", $values);
     }
     // Related loaders
-    public function relatedRental(?array $limitFields=null): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = $this->uniqueRentalLinks();
         $collection = new RentalSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);

@@ -677,71 +677,71 @@ class PackageSet extends CollectionSet
         return $this->loadIndexes("maxStreamsInPackage", $values);
     }
     // Related loaders
-    public function relatedNoticenotecard(?array $limitFields=null): NoticenotecardSet
+    public function relatedNoticenotecard(?array $limitFields = null): NoticenotecardSet
     {
         $ids = $this->uniqueWelcomeNotecardLinks();
         $collection = new NoticenotecardSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedServertypes(?array $limitFields=null): ServertypesSet
+    public function relatedServertypes(?array $limitFields = null): ServertypesSet
     {
         $ids = $this->uniqueServertypeLinks();
         $collection = new ServertypesSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTemplate(?array $limitFields=null): TemplateSet
+    public function relatedTemplate(?array $limitFields = null): TemplateSet
     {
         $ids = $this->uniqueTemplateLinks();
         $collection = new TemplateSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedRental(?array $limitFields=null): RentalSet
+    public function relatedRental(?array $limitFields = null): RentalSet
     {
         $ids = $this->uniqueIds();
         $collection = new RentalSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromPackageLinks($ids);
         return $collection;
     }
-    public function relatedStream(?array $limitFields=null): StreamSet
+    public function relatedStream(?array $limitFields = null): StreamSet
     {
         $ids = $this->uniqueIds();
         $collection = new StreamSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromPackageLinks($ids);
         return $collection;
     }
-    public function relatedTransactions(?array $limitFields=null): TransactionsSet
+    public function relatedTransactions(?array $limitFields = null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromPackageLinks($ids);
         return $collection;
     }
-    public function relatedTreevenderpackages(?array $limitFields=null): TreevenderpackagesSet
+    public function relatedTreevenderpackages(?array $limitFields = null): TreevenderpackagesSet
     {
         $ids = $this->uniqueIds();
         $collection = new TreevenderpackagesSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromPackageLinks($ids);

@@ -182,21 +182,21 @@ class ResellerSet extends CollectionSet
         return $this->loadIndexes("rate", $values);
     }
     // Related loaders
-    public function relatedAvatar(?array $limitFields=null): AvatarSet
+    public function relatedAvatar(?array $limitFields = null): AvatarSet
     {
         $ids = $this->uniqueAvatarLinks();
         $collection = new AvatarSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromIds($ids);
         return $collection;
     }
-    public function relatedTransactions(?array $limitFields=null): TransactionsSet
+    public function relatedTransactions(?array $limitFields = null): TransactionsSet
     {
         $ids = $this->uniqueIds();
         $collection = new TransactionsSet();
-        if($limitFields !== null) {
+        if ($limitFields !== null) {
             $collection->limitFields($limitFields);
         }
         $collection->loadFromResellerLinks($ids);

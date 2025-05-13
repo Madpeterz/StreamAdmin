@@ -1,2 +1,0 @@
-cls
-composer dev-test
