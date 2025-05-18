@@ -11,28 +11,23 @@ use App\Template\ControlAjax;
 
 class Event extends ControlAjax
 {
-    protected function failed(string $message): void
-    {
-        $this->setMessage($message, false);
-    }
     public function process(): void
     {
+        if ($this->siteConfig->getSlConfig()->getEnableCoupons() == false) {
+            $this->failed("Failed ANS disabled");
+            return;
+        }
         if (array_key_exists("HTTP_X_ANS_VERIFY_HASH", $_SERVER) == false) {
-            $this->failed("Missing ANS stuff [stage 1]");
+            $this->failed("VERIFY_HASH has not been set on the system");
             return;
         }
         $checkHash = $_SERVER['HTTP_X_ANS_VERIFY_HASH'];
         if ($checkHash == null) {
-            $this->failed("Missing ANS stuff [stage 1.5]");
+            $this->failed("VERIFY_HASH is empty");
             return;
         }
         if (array_key_exists("QUERY_STRING", $_SERVER) == false) {
-            $this->failed("Missing ANS stuff [stage 2]");
-            return;
-        }
-        $vaildateHash = sha1($_SERVER['QUERY_STRING'] . $this->siteConfig->getSlConfig()->getAnsSalt());
-        if ($checkHash != $vaildateHash) {
-            $this->failed("Missing ANS stuff [stage 2.5]");
+            $this->failed("QUERY_STRING has not been set on the system");
             return;
         }
         $payerName = $this->input->get("PayerName")->asString();
@@ -43,20 +38,29 @@ class Event extends ControlAjax
         $itemId = $this->input->get("ItemID")->checkStringLength(3, 10)->asInt();
         $transactionType = $this->input->get("Type")->asString();
         $PaymentGross = $this->input->get("PaymentGross")->asInt();
-        $checks = [$PaymentGross, $payerKey, $payerName, $receiverKey, $receiverName, $transactionId, $itemId];
+        $checks = [
+            "PaymentGross" => $PaymentGross,
+            "payerKey" => $payerKey,
+            "payerName" => $payerName,
+            "receiverKey" => $receiverKey,
+            "receiverName" => $receiverName,
+            "transactionId" => $transactionId,
+            "itemId" => $itemId,
+        ];
+
         if (in_array(null, $checks) == true) {
-            $this->failed("ANS not accepted");
+            foreach ($checks as $key => $value) {
+                if ($value != null) {
+                    continue;
+                }
+                $this->failed("ANS not accepted missing value for: " . $key);
+                break;
+            }
             return;
         }
         if ($transactionType != "Purchase") {
             $this->failed("ANS redelivery so ignored");
             return;
-        }
-        if (count(explode(" ", $payerName)) == 1) {
-            $payerName = $payerName . " Resident";
-        }
-        if (count(explode(" ", $receiverName)) == 1) {
-            $receiverName = $receiverName . " Resident";
         }
         $marketplace = new Marketplacecoupons();
         $marketplace->loadByListingid($itemId);
@@ -67,6 +71,18 @@ class Event extends ControlAjax
         if ($marketplace->getCost() != $PaymentGross) {
             $this->failed("amount paid does not match expected to process");
             return;
+        }
+
+        $vaildateHash = sha1($_SERVER['QUERY_STRING'] . $this->siteConfig->getSlConfig()->getAnsSalt());
+        if ($checkHash != $vaildateHash) {
+            $this->failed("Unable to vaildate");
+            return;
+        }
+        if (count(explode(" ", $payerName)) == 1) {
+            $payerName = $payerName . " Resident";
+        }
+        if (count(explode(" ", $receiverName)) == 1) {
+            $receiverName = $receiverName . " Resident";
         }
         $marketplace->setClaims($marketplace->getClaims() + 1);
         $marketplace->setLastClaim(time());
