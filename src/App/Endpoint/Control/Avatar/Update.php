@@ -23,7 +23,7 @@ class Update extends ControlAjax
         $credits = 0;
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
             $credits = $this->input->post("credits")->checkInRange(0, 999999)->asInt();
-            if ($credits == null) {
+            if ($credits === null) {
                 $this->failed("Avatar credits failed:" . $this->input->getWhyFailed());
                 return;
             }
