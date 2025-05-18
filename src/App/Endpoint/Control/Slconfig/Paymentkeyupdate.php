@@ -10,10 +10,14 @@ class Paymentkeyupdate extends ControlAjax
     public function process(): void
     {
         $key = $this->input->post("assignedkey")->checkStringLength(23, 23)->asString();
+        if ($key == null) {
+            $this->failed("post key failed checks: " . $this->input->getWhyFailed());
+            return;
+        }
         $keyCheck = new Paymentkey();
         $results = $keyCheck->getKeyStatus($key, false);
         if ($results->status == false) {
-            $this->failed("Key failed checks: " . $results->message);
+            $this->failed("Key '" . $key . "' failed checks: " . $results->message);
             return;
         }
         if ($key == $this->siteConfig->getSlConfig()->getPaymentKey()) {
