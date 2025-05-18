@@ -9,7 +9,10 @@ class Paymentkey extends View
 {
     public function getKeyStatus(?string $checkKey, bool $giveTimeleft = true): SingleLoadReply
     {
-        if ($checkKey === null) {
+        $key = $this->input->varInput($checkKey)->checkStringLength(23, 23)->asString();
+        if ($key == null) {
+            return new SingleLoadReply("key failed checks: " . $this->input->getWhyFailed());
+        } elseif ($checkKey === null) {
             return new SingleLoadReply("No Key");
         }
         $keyCore = explode("*", $checkKey);
