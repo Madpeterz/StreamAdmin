@@ -85,6 +85,10 @@ class Config extends BootstrapConfigBox
         }
         return $this->session;
     }
+    public function attachSession(SessionControl $attach): void
+    {
+        $this->session = $attach;
+    }
 
     public function unixtimeMin(): int
     {
