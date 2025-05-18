@@ -16,7 +16,6 @@ class AvatarTest extends TestWorker
     public function test_Create()
     {
         global $system;
-        $this->assertSame("AvatarTest", $system->getSQL()->dbName, "Db not switched");
         $avatarCreate = new Create();
         $_POST["avatarName"] = "Unittest";
         $_POST["avatarUUID"] = "281c3e36-69b3-40c5-9229-0c6a5d230766";

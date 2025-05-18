@@ -3,6 +3,8 @@
 namespace Tests\Admin\Control;
 
 use App\Endpoint\Control\Package\Create;
+use App\Endpoint\Control\Package\Remove;
+use App\Endpoint\Control\Package\Update;
 use App\Models\Package;
 use Tests\TestWorker;
 
@@ -25,9 +27,9 @@ class PackageTest extends TestWorker
         $_POST["servertypeLink"] = 1;
         $_POST["welcomeNotecardLink"] = 1;
         $_POST["setupNotecardLink"] = 1;
-        $clear = new Create();
-        $clear->process();
-        $reply = $clear->getOutputObject();
+        $create = new Create();
+        $create->process();
+        $reply = $create->getOutputObject();
         $this->assertSame("Package created", $reply->getSwapTagString("message"), "Message does not appear to be correct");
         $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
     }
@@ -36,9 +38,34 @@ class PackageTest extends TestWorker
      */
     public function test_Update()
     {
+        global $system;
         $package = new Package();
         $package->loadByName("unittest");
+        $this->assertSame(true,$package->isLoaded(),"Package is not loaded");
         $_POST["enforceCustomMaxStreams"] = true;
         $_POST["maxStreamsInPackage"] = 10;
+        $update = new Update();
+        $system->setPage($package->getPackageUid());
+        $update->process();
+        $reply = $update->getOutputObject();
+        $this->assertSame("Package updated", $reply->getSwapTagString("message"), "Message does not appear to be correct");
+        $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
     }
+    /**
+     * @depends test_Update
+     */
+    public function test_Remove()
+    {
+        global $system;
+        $package = new Package();
+        $package->loadByName("unittest");
+        $this->assertSame(true,$package->isLoaded(),"Package is not loaded");
+        $remove = new Remove();
+        $system->setPage($package->getPackageUid());
+        $remove->process();
+        $reply = $remove->getOutputObject();
+        $this->assertSame("Package removed", $reply->getSwapTagString("message"), "Message does not appear to be correct");
+        $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
+    }
+
 }
