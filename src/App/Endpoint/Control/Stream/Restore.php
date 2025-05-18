@@ -74,7 +74,7 @@ class Restore extends ControlAjax
             return;
         }
         $server = $stream->relatedServer()->getFirst();
-        $this->redirectWithMessage("Stream reassigned");
+        $this->redirectWithMessage("Stream restored");
         $this->createAuditLog(
             $stream->getStreamUid(),
             "restored",
