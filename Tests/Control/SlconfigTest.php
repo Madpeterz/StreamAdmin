@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Control;
+namespace Tests\Control;
 
 use App\Endpoint\Control\Slconfig\Paymentkeyupdate;
 use App\Endpoint\Control\Slconfig\Reissue;
@@ -52,7 +52,7 @@ class SlconfigTest extends TestWorker
         $_POST["ui_tweaks_datatableItemsPerPage"] = 35;
         $_POST["displayTimezoneLink"] = 3;
         $_POST["eventsAPI"] = 1;
-        $_POST["enableCoupons"] = 0;
+        $_POST["enableCoupons"] = 1;
         $_POST["ansSalt"] = "23142124123";
         $_POST["limitStreams"] = 1;
         $_POST["limitTime"] = 0;

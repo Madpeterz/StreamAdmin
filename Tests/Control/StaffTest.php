@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Control;
+namespace Tests\Control;
 
 use App\Endpoint\Control\Staff\Create;
 use App\Endpoint\Control\Staff\Remove;

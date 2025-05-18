@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Control;
+namespace Tests\Control;
 
 use App\Endpoint\Control\Stream\Create AS CreateStream;
 use App\Endpoint\Control\Package\Create AS CreatePackage;

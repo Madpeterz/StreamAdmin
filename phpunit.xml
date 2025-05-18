@@ -27,7 +27,7 @@
   </coverage>
   <testsuites>
     <testsuite name="All">
-      <directory>Tests/Admin</directory>
+      <directory>Tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Control;
+namespace Tests\Control;
 
 use App\Endpoint\Control\Client\Bulkremove;
 use App\Endpoint\Control\Client\Create;

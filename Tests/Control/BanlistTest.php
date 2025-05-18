@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Control;
+namespace Tests\Control;
 
 use App\Endpoint\Control\Banlist\Clear;
 use App\Endpoint\Control\Banlist\Create;

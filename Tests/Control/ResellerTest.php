@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Admin\Control;
+namespace Tests\Control;
 
 use App\Endpoint\Control\Reseller\Remove;
 use App\Endpoint\Control\Reseller\Update;
