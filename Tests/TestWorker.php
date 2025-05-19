@@ -24,7 +24,8 @@ class TestWorker extends TestCase
         string $objectuuid,
         string $objectname,
         string $regionname,
-        string $objecttype): void
+        string $objecttype,
+        int $apicode=1) : void
     {
         $this->resetPost();
         global $system;
@@ -51,7 +52,18 @@ class TestWorker extends TestCase
         }
         $unixtime = time();
         $_POST["unixtime"] = $unixtime;
-        $hash = $unixtime."".$staticpart . "" . $system->getSlConfig()->getHudLinkCode();
+        $linkcode = $system->getSlConfig()->getHudLinkCode();
+        if($apicode == 2)
+        {
+            $required_sl["mode"] = "object";
+            $linkcode = $system->getSlConfig()->getSlLinkCode();
+        }
+        else if($apicode == 2)
+        {
+            $required_sl["mode"] = "bot";
+            $linkcode = $system->getSlConfig()->getHttpInboundSecret();
+        }
+        $hash = $unixtime."".$staticpart . "" . $linkcode;
         $_POST["raw"] = $hash;
         $_POST["hash"] = sha1($hash);
     }
