@@ -13,6 +13,10 @@ class Send extends SecondlifeAjax
     public function process(?Avatar $forceAv = null): void
     {
         $rentalUid = $this->input->post("rentalUid")->asString();
+        if ($rentalUid == null) {
+            $this->failed("No rental requested please check your API docs");
+            return;
+        }
         $rental = new Rental();
         $rental->loadByRentalUid($rentalUid);
         if ($rental->isLoaded() == false) {
