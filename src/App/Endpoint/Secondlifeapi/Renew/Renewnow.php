@@ -57,6 +57,10 @@ class Renewnow extends SecondlifeAjax
 
     protected function load(?Avatar $forceMatchAv = null): bool
     {
+        if ($this->rentalUid == null) {
+            $this->failed("No rental selected for renewal");
+            return false;
+        }
         if ($this->rental->loadByRentalUid($this->rentalUid)->status == false) {
             $this->failed("Unable to find rental");
             return false;
