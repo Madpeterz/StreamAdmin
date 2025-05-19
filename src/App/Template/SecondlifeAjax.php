@@ -276,18 +276,36 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->failed("Unable to vaildate request to API endpoint");
+            $this->failed("Unable to vaildate request to API endpoint:" . $raw);
             return;
         }
         $this->continueHashChecks(false);
     }
 
+    protected array $loadedHeaders = [];
+    protected function getHeaderMatch(string $header): ?string
+    {
+        $header = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', $header))));
+        if ($this->loadedHeaders == false) {
+            $headers = getallheaders();
+            foreach ($headers as $key => $value) {
+                $savekey = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', $key))));
+                $this->loadedHeaders[$savekey] = $value;
+            }
+        }
+        if (array_key_exists($header, $this->loadedHeaders) == true) {
+            return $this->loadedHeaders[$header];
+        }
+        die("Trying to find " . $header . " in " . json_encode($this->loadedHeaders));
+        return null;
+    }
+
     protected function continueHashChecks(bool $skip_reseller): void
     {
-        $headers = getallheaders();
-        if ($headers["HTTP_X_SECONDLIFE_SHARD"] != "Production") {
+        $grid = $this->getHeaderMatch("X-SECONDLIFE-SHARD");
+        if ($grid != "Production") {
             $this->load_ok = false;
-            $this->failed("wrong grid connected");
+            $this->failed("wrong grid connected: " . json_encode(getallheaders()));
             return;
         }
         $avatar_helper = new AvatarHelper();
