@@ -4,6 +4,7 @@ namespace App\Endpoint\Secondlifeapi\Bot;
 
 use App\Helpers\BotHelper;
 use App\Models\Botcommandq;
+use App\Models\Sets\BotcommandqSet;
 use App\Models\Sets\NotecardSet;
 use App\Template\SecondlifeAjax;
 
@@ -47,18 +48,25 @@ class Notecardsync extends SecondlifeAjax
             $this->failed("Unable to check if there are any notecards to send");
             return false;
         }
-
-        if ($count_data->items == 0) {
-            $this->ok("nowork");
+        if ($count_data->items > 0) {
+            $this->failed("pending static notecards");
             return false;
         }
+        $this->ok("nowork");
         return true;
     }
 
     protected function checkHaveBotCommandTask(): bool
     {
+        $botcommandQSet = new BotcommandqSet();
+        if ($botcommandQSet->countInDB()->items == 0) {
+            // nothing todo
+            $this->ok("nowork");
+        }
+
         $BotcommandQ = new Botcommandq();
-        if ($BotcommandQ->loadByCommand("FetchNextNotecard")->status == true) {
+        $BotcommandQ->loadByCommand("FetchNextNotecard");
+        if ($BotcommandQ->isLoaded() == false) {
             $this->ok("nowork");
             return false;
         }
@@ -81,22 +89,24 @@ class Notecardsync extends SecondlifeAjax
 
     public function process(): void
     {
+        $this->failed("checking owner_override");
         if ($this->owner_override == false) {
             $this->failed("This API is owner only");
             return;
         }
+        $this->failed("checking setupHelper");
         if ($this->setupHelper() == false) {
             return;
         }
-
+        $this->failed("checking checkHaveStaticNotecardTask");
         if ($this->checkHaveStaticNotecardTask() == false) {
             return;
         }
-
+        $this->failed("checking checkHaveBotCommandTask");
         if ($this->checkHaveBotCommandTask() == false) {
             return;
         }
-
+        $this->failed("checking nextBotTask");
         $this->nextBotTask();
     }
 }
