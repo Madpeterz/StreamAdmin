@@ -63,7 +63,7 @@ class SlconfigTest extends TestWorker
         $_POST["hudAllowGroup"] = 1;
         $_POST["hudGroupLink"] = "group join link";
         $_POST["hudAllowDetails"] = 1;
-        $_POST["hudAllowRenewal"] = 0;
+        $_POST["hudAllowRenewal"] = 1;
         $update = new Update();
         $update->process();
         $reply = $update->getOutputObject();

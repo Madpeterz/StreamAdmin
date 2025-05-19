@@ -16,6 +16,45 @@ class TestWorker extends TestCase
         global $system;
         $result = $system->getSQL()->rawSQL("Tests/test.reset.sql"); // wipe DB
     }
+    protected function makeSLconnection(
+        string $module,
+        string $area,
+        string $avataruuid,
+        string $avatarname,
+        string $objectuuid,
+        string $objectname,
+        string $regionname,
+        string $objecttype): void
+    {
+        $this->resetPost();
+        global $system;
+        $_SERVER["HTTP_X_SECONDLIFE_SHARD"] = "Production";
+        $system->setModule($module);
+        $system->setArea($area);
+        $required_sl = [
+            "version" => "2.0.1.1",
+            "mode" => "api",
+            "objectuuid" => $objectuuid,
+            "regionname" => $regionname,
+            "ownerkey" => $avataruuid,
+            "ownername" => $avatarname,
+            "pos" => "1,1,1",
+            "objectname" => $objectname,
+            "objecttype" => $objecttype,
+        ];
+        $staticpart = $module;
+        $staticpart .= $area;
+        foreach($required_sl as $key => $value)
+        {
+            $_POST[$key] = $value;
+            $staticpart .= $value;
+        }
+        $unixtime = time();
+        $_POST["unixtime"] = $unixtime;
+        $hash = $unixtime."".$staticpart . "" . $system->getSlConfig()->getHudLinkCode();
+        $_POST["raw"] = $hash;
+        $_POST["hash"] = sha1($hash);
+    }
 }
 
 class SessionControlTesting extends SessionControl
