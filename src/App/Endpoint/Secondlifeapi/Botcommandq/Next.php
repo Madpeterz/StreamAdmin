@@ -6,7 +6,6 @@ use App\Helpers\BotHelper;
 use App\Models\Avatar;
 use App\Models\Botcommandq;
 use App\Models\Botconfig;
-use App\Models\Message;
 use App\Models\Sets\BotcommandqSet;
 use App\Models\Sets\MessageSet;
 use App\Template\SecondlifeAjax;
@@ -147,7 +146,10 @@ class Next extends SecondlifeAjax
         $bothelper->attachBotSetup($this->bot, $this->botconfig);
         $formatedCmd = $bothelper->getBotCommand($command->getCommand(), []);
         if ($command->getArgs() != null) {
-            $formatedCmd = $bothelper->getBotCommand($command->getCommand(), json_decode($command->getArgs()));
+            $args = json_decode($command->getArgs());
+            if (is_array($args) == true) {
+                $formatedCmd = $bothelper->getBotCommand($command->getCommand(), $args);
+            }
         }
         $messageSet = new MessageSet();
         $count = $messageSet->countInDB([
