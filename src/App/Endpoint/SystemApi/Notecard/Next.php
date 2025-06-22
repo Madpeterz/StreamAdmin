@@ -5,7 +5,7 @@ namespace App\Endpoint\SystemApi\Notecard;
 use App\Helpers\SwapablesHelper;
 use App\Models\Avatar;
 use App\Models\Notecard;
-use App\Models\Sets\NotecardSet;
+use App\Models\Set\NotecardSet;
 use App\Models\Notice;
 use App\Models\Package;
 use App\Models\Rental;

@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Outbox;
 
 use App\Models\Notice;
 use App\Models\Package;
-use App\Models\Sets\RentalSet;
+use App\Models\Set\RentalSet;
 use App\Models\Server;
 use YAPF\Bootstrap\Template\Form;
 

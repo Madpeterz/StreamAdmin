@@ -3,7 +3,7 @@
 namespace App\Endpoint\Control\Server;
 
 use App\Models\Server;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\StreamSet;
 use App\Template\ControlAjax;
 
 class Remove extends ControlAjax

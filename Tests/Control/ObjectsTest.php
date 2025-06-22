@@ -9,7 +9,7 @@ use App\Endpoint\Control\Objects\Clear;
 use App\Models\Notice;
 use App\Models\Objects;
 use App\Models\Region;
-use App\Models\Sets\ObjectsSet;
+use App\Models\Set\ObjectsSet;
 use Tests\TestWorker;
 
 class ObjectsTest extends TestWorker

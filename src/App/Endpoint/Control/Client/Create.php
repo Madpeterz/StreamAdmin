@@ -6,10 +6,10 @@ use App\Helpers\RegionHelper;
 use App\Helpers\ResellerHelper;
 use App\Helpers\TransactionsHelper;
 use App\Models\Avatar;
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\NoticeSet;
+use App\Models\Set\AvatarSet;
+use App\Models\Set\NoticeSet;
 use App\Models\Rental;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\StreamSet;
 use App\Template\ControlAjax;
 
 class Create extends ControlAjax

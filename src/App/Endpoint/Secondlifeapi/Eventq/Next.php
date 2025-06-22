@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Secondlifeapi\Eventq;
 
-use App\Models\Sets\EventsqSet;
+use App\Models\Set\EventsqSet;
 use App\Template\SecondlifeAjax;
 
 class Next extends SecondlifeAjax

@@ -3,7 +3,7 @@
 namespace App\Endpoint\Control\Reseller;
 
 use App\Models\Reseller;
-use App\Models\Sets\TransactionsSet;
+use App\Models\Set\TransactionsSet;
 use App\Template\ControlAjax;
 
 class Remove extends ControlAjax

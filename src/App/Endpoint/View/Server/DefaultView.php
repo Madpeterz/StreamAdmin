@@ -3,9 +3,9 @@
 namespace App\Endpoint\View\Server;
 
 use App\Models\Server;
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\ServerSet;
+use App\Models\Set\StreamSet;
 
 class DefaultView extends View
 {

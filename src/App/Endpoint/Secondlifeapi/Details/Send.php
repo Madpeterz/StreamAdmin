@@ -5,7 +5,7 @@ namespace App\Endpoint\Secondlifeapi\Details;
 use App\Models\Avatar;
 use App\Models\Detail;
 use App\Models\Rental;
-use App\Models\Sets\DetailSet;
+use App\Models\Set\DetailSet;
 use App\Template\SecondlifeAjax;
 
 class Send extends SecondlifeAjax

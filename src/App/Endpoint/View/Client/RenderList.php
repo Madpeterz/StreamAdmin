@@ -2,11 +2,11 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\NoticeSet;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\AvatarSet;
+use App\Models\Set\NoticeSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\ServerSet;
+use App\Models\Set\StreamSet;
 
 abstract class RenderList extends View
 {

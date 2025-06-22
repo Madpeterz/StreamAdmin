@@ -3,10 +3,10 @@
 namespace App\Endpoint\Control\Package;
 
 use App\Models\Package;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\StreamSet;
-use App\Models\Sets\TransactionsSet;
-use App\Models\Sets\TreevenderpackagesSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\StreamSet;
+use App\Models\Set\TransactionsSet;
+use App\Models\Set\TreevenderpackagesSet;
 use App\Template\ControlAjax;
 
 class Remove extends ControlAjax

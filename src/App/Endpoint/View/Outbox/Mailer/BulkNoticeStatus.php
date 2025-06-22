@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox\Mailer;
 
-use App\Models\Sets\NoticeSet;
+use App\Models\Set\NoticeSet;
 use YAPF\Bootstrap\Template\Form;
 
 class BulkNoticeStatus

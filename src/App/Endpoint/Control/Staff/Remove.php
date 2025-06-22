@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Staff;
 
-use App\Models\Sets\AuditlogSet;
+use App\Models\Set\AuditlogSet;
 use App\Models\Staff;
 use App\Template\ControlAjax;
 

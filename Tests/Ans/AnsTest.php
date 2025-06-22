@@ -4,8 +4,8 @@ namespace Tests\Ans;
 
 use App\Endpoint\Ans\Ans\Event;
 use App\Models\Avatar;
-use App\Models\Sets\MessageSet;
-use App\Models\Sets\TransactionsSet;
+use App\Models\Set\MessageSet;
+use App\Models\Set\TransactionsSet;
 use Tests\Control\CouponsTest;
 use Tests\Control\SlconfigTest;
 use Tests\TestWorker;

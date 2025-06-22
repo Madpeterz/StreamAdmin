@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\Models\Sets\TransactionsSet;
+use App\Models\Set\TransactionsSet;
 use YAPF\Bootstrap\Template\PagedInfo;
 
 class Breakdownmonth extends View

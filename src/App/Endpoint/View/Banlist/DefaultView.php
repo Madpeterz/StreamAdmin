@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Banlist;
 
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\BanlistSet;
+use App\Models\Set\AvatarSet;
+use App\Models\Set\BanlistSet;
 use YAPF\Bootstrap\Template\Form as Form;
 use YAPF\Bootstrap\Template\Grid;
 

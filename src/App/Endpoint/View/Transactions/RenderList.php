@@ -3,10 +3,10 @@
 namespace App\Endpoint\View\Transactions;
 
 use App\Models\Avatar;
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\RegionSet;
-use App\Models\Sets\TransactionsSet;
+use App\Models\Set\AvatarSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\RegionSet;
+use App\Models\Set\TransactionsSet;
 use YAPF\Bootstrap\Template\Grid;
 
 abstract class RenderList extends View

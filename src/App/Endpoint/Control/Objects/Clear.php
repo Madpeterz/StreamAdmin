@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Objects;
 
-use App\Models\Sets\ObjectsSet;
+use App\Models\Set\ObjectsSet;
 use App\Template\ControlAjax;
 
 class Clear extends ControlAjax

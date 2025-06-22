@@ -3,10 +3,10 @@
 namespace App\Endpoint\View\Stream;
 
 use App\Models\Rental;
-use App\Models\Sets\ApisSet;
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\ServertypesSet;
+use App\Models\Set\ApisSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\ServerSet;
+use App\Models\Set\ServertypesSet;
 use App\Models\Stream;
 use YAPF\Bootstrap\Template\Form;
 

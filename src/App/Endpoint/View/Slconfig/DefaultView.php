@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Slconfig;
 
 use App\Models\Avatar;
 use YAPF\Bootstrap\Template\Form;
-use App\Models\Sets\TimezonesSet;
+use App\Models\Set\TimezonesSet;
 
 class DefaultView extends View
 {

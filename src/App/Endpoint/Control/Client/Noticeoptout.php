@@ -4,8 +4,8 @@ namespace App\Endpoint\Control\Client;
 
 use App\Models\Rental;
 use App\Models\Rentalnoticeptout;
-use App\Models\Sets\NoticeSet;
-use App\Models\Sets\RentalnoticeptoutSet;
+use App\Models\Set\NoticeSet;
+use App\Models\Set\RentalnoticeptoutSet;
 use App\Template\ControlAjax;
 
 class Noticeoptout extends ControlAjax

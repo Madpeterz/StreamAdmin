@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Textureconfig;
 
-use App\Models\Sets\TextureconfigSet;
+use App\Models\Set\TextureconfigSet;
 
 class DefaultView extends View
 {

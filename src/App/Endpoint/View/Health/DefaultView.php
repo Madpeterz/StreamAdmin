@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Health;
 
-use App\Models\Sets\ObjectsSet;
-use App\Models\Sets\RegionSet;
-use App\Models\Sets\ResellerSet;
+use App\Models\Set\ObjectsSet;
+use App\Models\Set\RegionSet;
+use App\Models\Set\ResellerSet;
 
 class DefaultView extends View
 {

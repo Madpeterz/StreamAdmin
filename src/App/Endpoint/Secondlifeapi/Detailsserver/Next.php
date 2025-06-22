@@ -6,13 +6,13 @@ use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
 use App\Models\Detail;
 use App\Models\Notecard;
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\DetailSet;
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\StreamSet;
-use App\Models\Sets\TemplateSet;
+use App\Models\Set\AvatarSet;
+use App\Models\Set\DetailSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\ServerSet;
+use App\Models\Set\StreamSet;
+use App\Models\Set\TemplateSet;
 use App\Template\SecondlifeAjax;
 
 class Next extends SecondlifeAjax

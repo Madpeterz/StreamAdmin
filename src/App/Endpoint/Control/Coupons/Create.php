@@ -3,7 +3,7 @@
 namespace App\Endpoint\Control\Coupons;
 
 use App\Models\Marketplacecoupons;
-use App\Models\Sets\MarketplacecouponsSet;
+use App\Models\Set\MarketplacecouponsSet;
 use App\Template\ControlAjax;
 
 class Create extends ControlAjax

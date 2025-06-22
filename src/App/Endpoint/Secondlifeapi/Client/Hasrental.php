@@ -3,7 +3,7 @@
 namespace App\Endpoint\Secondlifeapi\Client;
 
 use App\Models\Avatar;
-use App\Models\Sets\RentalSet;
+use App\Models\Set\RentalSet;
 use App\Template\SecondlifeAjax;
 
 class Hasrental extends SecondlifeAjax

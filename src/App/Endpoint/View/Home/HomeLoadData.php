@@ -3,13 +3,13 @@
 namespace App\Endpoint\View\Home;
 
 use App\Models\Botconfig;
-use App\Models\Sets\NoticeSet;
-use App\Models\Sets\ObjectsSet;
-use App\Models\Sets\RegionSet;
+use App\Models\Set\NoticeSet;
+use App\Models\Set\ObjectsSet;
+use App\Models\Set\RegionSet;
 use App\Models\Rental;
-use App\Models\Sets\ResellerSet;
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\ResellerSet;
+use App\Models\Set\ServerSet;
+use App\Models\Set\StreamSet;
 use YAPF\Bootstrap\Template\Grid;
 
 abstract class HomeLoadData extends View

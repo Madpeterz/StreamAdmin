@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Package;
 
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\ServertypesSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\ServertypesSet;
 
 class DefaultView extends View
 {

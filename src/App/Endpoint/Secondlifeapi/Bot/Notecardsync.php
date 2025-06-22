@@ -4,8 +4,8 @@ namespace App\Endpoint\Secondlifeapi\Bot;
 
 use App\Helpers\BotHelper;
 use App\Models\Botcommandq;
-use App\Models\Sets\BotcommandqSet;
-use App\Models\Sets\NotecardSet;
+use App\Models\Set\BotcommandqSet;
+use App\Models\Set\NotecardSet;
 use App\Template\SecondlifeAjax;
 
 class Notecardsync extends SecondlifeAjax

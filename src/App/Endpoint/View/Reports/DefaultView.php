@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Reports;
 
 use YAPF\Bootstrap\Template\Form;
 use YAPF\Bootstrap\Template\Grid;
-use App\Models\Sets\TransactionsSet;
+use App\Models\Set\TransactionsSet;
 
 class DefaultView extends View
 {

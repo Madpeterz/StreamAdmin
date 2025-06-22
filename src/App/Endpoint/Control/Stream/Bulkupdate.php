@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Stream;
 
-use App\Models\Sets\StreamSet;
+use App\Models\Set\StreamSet;
 use App\Template\ControlAjax;
 
 class Bulkupdate extends ControlAjax

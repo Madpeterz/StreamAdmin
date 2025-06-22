@@ -2,9 +2,9 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\StreamSet;
 
 abstract class RenderList extends View
 {

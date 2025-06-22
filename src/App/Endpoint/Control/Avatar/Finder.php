@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Avatar;
 
-use App\Models\Sets\AvatarSet;
+use App\Models\Set\AvatarSet;
 use App\Template\ControlAjax;
 
 class Finder extends ControlAjax
@@ -16,7 +16,7 @@ class Finder extends ControlAjax
             $this->failed("Avatar UID/Name/UUID was not sent!");
             return;
         }
-        $testing = array();
+        $testing = [];
         $where_config = [
             "fields" => ["avatarUUID", "avatarName", "avatarUid"],
             "matches" => ["% LIKE %", "% LIKE %", "% LIKE %"],

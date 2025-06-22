@@ -3,10 +3,10 @@
 namespace App\Endpoint\Secondlifeapi\Noticeserver;
 
 use App\Models\Noticenotecard;
-use App\Models\Sets\NotecardmailSet;
-use App\Models\Sets\NoticenotecardSet;
-use App\Models\Sets\NoticeSet;
-use App\Models\Sets\PackageSet;
+use App\Models\Set\NotecardmailSet;
+use App\Models\Set\NoticenotecardSet;
+use App\Models\Set\NoticeSet;
+use App\Models\Set\PackageSet;
 use App\Template\SecondlifeAjax;
 use YAPF\Framework\Responses\DbObjects\RemoveReply;
 use YAPF\Framework\Responses\DbObjects\SetsLoadReply;

@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Sets\NoticeSet;
+use App\Models\Set\NoticeSet;
 
 class NoticesHelper
 {

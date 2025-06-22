@@ -3,8 +3,8 @@
 namespace App\Endpoint\View\Health;
 
 use App\Models\Region;
-use App\Models\Sets\ObjectsSet;
-use App\Models\Sets\ResellerSet;
+use App\Models\Set\ObjectsSet;
+use App\Models\Set\ResellerSet;
 
 class Detailed extends View
 {

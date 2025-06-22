@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\Sets\DetailSet;
-use App\Models\Sets\RentalSet;
+use App\Models\Set\DetailSet;
+use App\Models\Set\RentalSet;
 use YAPF\Bootstrap\Template\Form;
 
 class Bulkremove extends RenderList

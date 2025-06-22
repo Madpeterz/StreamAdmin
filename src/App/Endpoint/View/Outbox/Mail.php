@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Sets\MessageSet;
+use App\Models\Set\MessageSet;
 
 class Mail extends View
 {

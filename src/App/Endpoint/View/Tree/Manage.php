@@ -3,10 +3,10 @@
 namespace App\Endpoint\View\Tree;
 
 use App\Endpoint\Secondlifeapi\Tree\Getpackages;
-use App\Models\Sets\PackageSet;
+use App\Models\Set\PackageSet;
 use YAPF\Bootstrap\Template\Form;
 use App\Models\Treevender;
-use App\Models\Sets\ServertypesSet;
+use App\Models\Set\ServertypesSet;
 
 class Manage extends View
 {

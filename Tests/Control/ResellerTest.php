@@ -5,7 +5,7 @@ namespace Tests\Control;
 use App\Endpoint\Control\Reseller\Remove;
 use App\Endpoint\Control\Reseller\Update;
 use App\Models\Reseller;
-use App\Models\Sets\ResellerSet;
+use App\Models\Set\ResellerSet;
 use Tests\TestWorker;
 
 class ResellerTest extends TestWorker

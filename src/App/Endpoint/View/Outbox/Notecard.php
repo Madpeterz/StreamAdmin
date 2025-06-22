@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Sets\NotecardSet;
+use App\Models\Set\NotecardSet;
 
 class Notecard extends View
 {

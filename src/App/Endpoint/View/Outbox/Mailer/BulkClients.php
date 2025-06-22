@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox\Mailer;
 
-use App\Models\Sets\PackageSet;
+use App\Models\Set\PackageSet;
 use YAPF\Bootstrap\Template\Form;
 
 class BulkClients

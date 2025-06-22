@@ -4,7 +4,7 @@ namespace App\Endpoint\Control\Notice;
 
 use App\Models\Notice;
 use App\Models\Noticenotecard;
-use App\Models\Sets\NoticeSet;
+use App\Models\Set\NoticeSet;
 use App\Template\ControlAjax;
 
 class Update extends ControlAjax

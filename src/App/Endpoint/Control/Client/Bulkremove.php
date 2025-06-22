@@ -3,8 +3,8 @@
 namespace App\Endpoint\Control\Client;
 
 use App\Helpers\EventsQHelper;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\RentalnoticeptoutSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\RentalnoticeptoutSet;
 use App\Template\ControlAjax;
 
 class Bulkremove extends ControlAjax

@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Avatar;
 
-use App\Models\Sets\AvatarSet;
+use App\Models\Set\AvatarSet;
 use YAPF\Bootstrap\Template\Form;
 
 class DefaultView extends View

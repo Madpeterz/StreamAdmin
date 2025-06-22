@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Reports;
 
-use App\Models\Sets\TransactionsSet;
+use App\Models\Set\TransactionsSet;
 
 class Comapreyears extends View
 {

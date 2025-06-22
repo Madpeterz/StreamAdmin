@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox;
 
-use App\Models\Sets\DetailSet;
+use App\Models\Set\DetailSet;
 
 class Details extends View
 {

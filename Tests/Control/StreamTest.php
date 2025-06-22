@@ -11,7 +11,7 @@ use App\Endpoint\Control\Stream\Restore;
 use App\Endpoint\Control\Stream\Update;
 use App\Models\Region;
 use App\Models\Reseller;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\StreamSet;
 use App\Models\Stream;
 use App\Models\Transactions;
 use Tests\TestWorker;

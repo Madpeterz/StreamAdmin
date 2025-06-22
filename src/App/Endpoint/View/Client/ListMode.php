@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\Sets\RentalSet;
+use App\Models\Set\RentalSet;
 
 class ListMode extends RenderList
 {

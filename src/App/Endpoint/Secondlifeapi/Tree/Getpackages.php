@@ -3,9 +3,9 @@
 namespace App\Endpoint\Secondlifeapi\Tree;
 
 use App\Models\Treevender;
-use App\Models\Sets\ServertypesSet;
-use App\Models\Sets\StreamSet;
-use App\Models\Sets\TreevenderpackagesSet;
+use App\Models\Set\ServertypesSet;
+use App\Models\Set\StreamSet;
+use App\Models\Set\TreevenderpackagesSet;
 use App\Template\SecondlifeAjax;
 
 class Getpackages extends SecondlifeAjax

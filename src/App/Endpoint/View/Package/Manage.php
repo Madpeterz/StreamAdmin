@@ -3,10 +3,10 @@
 namespace App\Endpoint\View\Package;
 
 use App\Models\Package;
-use App\Models\Sets\NoticenotecardSet;
-use App\Models\Sets\ServertypesSet;
+use App\Models\Set\NoticenotecardSet;
+use App\Models\Set\ServertypesSet;
 use YAPF\Bootstrap\Template\Form;
-use App\Models\Sets\TemplateSet;
+use App\Models\Set\TemplateSet;
 
 class Manage extends View
 {

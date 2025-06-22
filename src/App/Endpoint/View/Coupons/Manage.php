@@ -3,7 +3,7 @@
 namespace App\Endpoint\View\Coupons;
 
 use App\Models\Marketplacecoupons;
-use App\Models\Sets\MarketplacecouponsSet;
+use App\Models\Set\MarketplacecouponsSet;
 use YAPF\Bootstrap\Template\Form;
 
 class Manage extends View

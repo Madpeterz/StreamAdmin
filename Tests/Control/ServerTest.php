@@ -6,7 +6,7 @@ use App\Endpoint\Control\Server\Create;
 use App\Endpoint\Control\Server\Remove;
 use App\Endpoint\Control\Server\Update;
 use App\Models\Server;
-use App\Models\Sets\ServerSet;
+use App\Models\Set\ServerSet;
 use Tests\TestWorker;
 
 class ServerTest extends TestWorker

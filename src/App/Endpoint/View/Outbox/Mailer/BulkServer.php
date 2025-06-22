@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Outbox\Mailer;
 
-use App\Models\Sets\ServerSet;
+use App\Models\Set\ServerSet;
 use YAPF\Bootstrap\Template\Form;
 
 class BulkServer

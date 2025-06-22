@@ -5,7 +5,7 @@ namespace App\Endpoint\Control\Package;
 use App\Models\Package;
 use App\Models\Servertypes;
 use App\Models\Template;
-use App\Models\Sets\NoticenotecardSet;
+use App\Models\Set\NoticenotecardSet;
 use App\Template\ControlAjax;
 
 class Create extends ControlAjax

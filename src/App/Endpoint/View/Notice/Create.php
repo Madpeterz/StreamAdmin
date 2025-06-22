@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\Models\Sets\NoticenotecardSet;
+use App\Models\Set\NoticenotecardSet;
 use YAPF\Bootstrap\Template\Form as Form;
 
 class Create extends View

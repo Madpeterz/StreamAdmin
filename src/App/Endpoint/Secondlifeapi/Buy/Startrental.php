@@ -12,14 +12,14 @@ use App\Models\Banlist;
 use App\Models\Detail;
 use App\Models\Notecardmail as ModelNotecardmail;
 use App\Models\Noticenotecard;
-use App\Models\Sets\NoticeSet;
+use App\Models\Set\NoticeSet;
 use App\Models\Package;
 use App\Models\Refunds;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\StreamSet;
 use App\Template\SecondlifeAjax;
 
 class Startrental extends SecondlifeAjax

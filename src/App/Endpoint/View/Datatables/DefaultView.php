@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Datatables;
 
-use App\Models\Sets\DatatableSet;
+use App\Models\Set\DatatableSet;
 
 class DefaultView extends View
 {

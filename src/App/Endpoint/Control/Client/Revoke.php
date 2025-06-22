@@ -9,7 +9,7 @@ use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
-use App\Models\Sets\RentalnoticeptoutSet;
+use App\Models\Set\RentalnoticeptoutSet;
 use App\Template\ControlAjax;
 
 class Revoke extends ControlAjax

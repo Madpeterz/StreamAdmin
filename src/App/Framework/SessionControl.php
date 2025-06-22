@@ -4,7 +4,7 @@ namespace App\Framework;
 
 use App\Config;
 use App\Helpers\StaffPasswordHashReply;
-use App\Models\Sets\AuditlogSet;
+use App\Models\Set\AuditlogSet;
 use App\Models\Staff;
 use YAPF\Framework\Core\SQLi\SqlConnectedClass;
 use YAPF\Framework\Responses\DbObjects\UpdateReply;

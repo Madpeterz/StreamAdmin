@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Auditlog;
 
-use App\Models\Sets\AuditlogSet;
+use App\Models\Set\AuditlogSet;
 
 class DefaultView extends View
 {

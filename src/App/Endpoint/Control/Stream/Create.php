@@ -5,7 +5,7 @@ namespace App\Endpoint\Control\Stream;
 use App\Models\Package;
 use App\Models\Server;
 use App\Models\Stream;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\StreamSet;
 use App\Template\ControlAjax;
 
 class Create extends ControlAjax

@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\ServerSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\ServerSet;
 use YAPF\Bootstrap\Template\Form;
 
 class Create extends View

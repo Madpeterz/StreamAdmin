@@ -3,8 +3,8 @@
 namespace App\Endpoint\View\Outbox;
 
 use App\Models\Botconfig;
-use App\Models\Sets\NotecardmailSet;
-use App\Models\Sets\NoticenotecardSet;
+use App\Models\Set\NotecardmailSet;
+use App\Models\Set\NoticenotecardSet;
 
 class Docs extends View
 {

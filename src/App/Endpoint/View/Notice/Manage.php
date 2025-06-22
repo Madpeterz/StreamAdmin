@@ -4,7 +4,7 @@ namespace App\Endpoint\View\Notice;
 
 use App\Models\Notice;
 use App\Models\Noticenotecard;
-use App\Models\Sets\NoticenotecardSet;
+use App\Models\Set\NoticenotecardSet;
 use YAPF\Bootstrap\Template\Form as Form;
 
 class Manage extends View

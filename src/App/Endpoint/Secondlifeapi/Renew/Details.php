@@ -4,7 +4,7 @@ namespace App\Endpoint\Secondlifeapi\Renew;
 
 use App\Models\Avatar;
 use App\Models\Banlist;
-use App\Models\Sets\RentalSet;
+use App\Models\Set\RentalSet;
 use App\Template\SecondlifeAjax;
 
 class Details extends SecondlifeAjax

@@ -3,7 +3,7 @@
 namespace App\Endpoint\Secondlifeapi\Buy;
 
 use App\Models\Package;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\StreamSet;
 use App\Models\Textureconfig;
 use App\Template\SecondlifeAjax;
 

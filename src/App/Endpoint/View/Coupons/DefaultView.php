@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Coupons;
 
-use App\Models\Sets\MarketplacecouponsSet;
+use App\Models\Set\MarketplacecouponsSet;
 
 class DefaultView extends View
 {

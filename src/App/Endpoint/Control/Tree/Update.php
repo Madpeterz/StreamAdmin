@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Tree;
 
-use App\Models\Sets\TreevenderSet;
+use App\Models\Set\TreevenderSet;
 use App\Models\Treevender;
 use App\Template\ControlAjax;
 

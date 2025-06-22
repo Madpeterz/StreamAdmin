@@ -2,10 +2,10 @@
 
 namespace App\Endpoint\View\Search;
 
-use App\Models\Sets\AvatarSet;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\AvatarSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\ServerSet;
+use App\Models\Set\StreamSet;
 use YAPF\Bootstrap\Template\PagedInfo;
 
 class DefaultView extends View

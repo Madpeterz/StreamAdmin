@@ -10,7 +10,7 @@ use App\Models\Package;
 use App\Models\Rental;
 use App\Models\Reseller;
 use App\Models\Server;
-use App\Models\Sets\DetailSet;
+use App\Models\Set\DetailSet;
 use App\Models\Stream;
 use Tests\TestWorker;
 

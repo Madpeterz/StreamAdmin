@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Client;
 
-use App\Models\Sets\NoticeSet;
+use App\Models\Set\NoticeSet;
 
 class Soon extends Withstatus
 {

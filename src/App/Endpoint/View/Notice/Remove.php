@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Notice;
 
-use App\Models\Sets\NoticeSet;
+use App\Models\Set\NoticeSet;
 use YAPF\Bootstrap\Template\Form as Form;
 
 class Remove extends View

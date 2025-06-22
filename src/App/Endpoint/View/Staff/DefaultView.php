@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\View\Staff;
 
-use App\Models\Sets\StaffSet;
+use App\Models\Set\StaffSet;
 
 class DefaultView extends View
 {

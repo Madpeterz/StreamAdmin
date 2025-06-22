@@ -2,8 +2,8 @@
 
 namespace App\Endpoint\View\Stream;
 
-use App\Models\Sets\ServerSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\ServerSet;
+use App\Models\Set\StreamSet;
 use YAPF\Bootstrap\Template\Form;
 
 class Bulkupdate extends View

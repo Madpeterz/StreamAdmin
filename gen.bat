@@ -1,5 +1,5 @@
-cd D:\php\StreamAdmin\src\Gen
-d:
+cd C:\php\StreamAdmin\src\Gen
+C:
 php gen.php
 cd ..
 cd ..

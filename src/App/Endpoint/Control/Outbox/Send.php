@@ -4,8 +4,8 @@ namespace App\Endpoint\Control\Outbox;
 
 use App\Helpers\BotHelper;
 use App\Helpers\SwapablesHelper;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\StreamSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\StreamSet;
 use App\Framework\ViewAjax;
 use App\Template\ControlAjax;
 

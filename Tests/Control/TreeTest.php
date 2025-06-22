@@ -9,8 +9,8 @@ use App\Endpoint\Control\Tree\Create;
 use App\Endpoint\Control\Tree\Remove;
 use App\Endpoint\Control\Tree\Removepackage;
 use App\Endpoint\Control\Tree\Update;
-use App\Models\Sets\PackageSet;
-use App\Models\Sets\TreevenderpackagesSet;
+use App\Models\Set\PackageSet;
+use App\Models\Set\TreevenderpackagesSet;
 use Tests\TestWorker;
 
 class TreeTest extends TestWorker

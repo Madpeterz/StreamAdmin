@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Server;
 
-use App\Models\Sets\ServerSet;
+use App\Models\Set\ServerSet;
 
 class Update extends Create
 {

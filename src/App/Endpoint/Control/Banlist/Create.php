@@ -2,7 +2,7 @@
 
 namespace App\Endpoint\Control\Banlist;
 
-use App\Models\Sets\AvatarSet;
+use App\Models\Set\AvatarSet;
 use App\Models\Banlist;
 use App\Template\ControlAjax;
 

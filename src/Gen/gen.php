@@ -2,11 +2,10 @@
 
 namespace App;
 
-use YAPF\Framework\Generator\DbObjectsFactory;
+use YAPF\Framework\Generator\DbObjects;
 
 include "../../vendor/autoload.php";
-include "gen.config.php";
 include "gen_db.php";
 
 $system = new Config();
-new DbObjectsFactory(rebuildOutputFolders: true);
+new DbObjects(["test"], saveToFolder:"../App/Models/(Set)", namespace:"App/Models(Set)", prefixDbName:false);

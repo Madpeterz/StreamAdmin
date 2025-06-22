@@ -6,7 +6,7 @@ use App\Endpoint\Control\Bot\Update;
 use App\Endpoint\Secondlifeapi\Bot\Notecardsync;
 use App\Endpoint\Secondlifeapi\Botcommandq\Next;
 use App\Models\Botcommandq;
-use App\Models\Sets\MessageSet;
+use App\Models\Set\MessageSet;
 use App\Models\Staff;
 use Tests\TestWorker;
 

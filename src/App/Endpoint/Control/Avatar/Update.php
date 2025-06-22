@@ -3,7 +3,7 @@
 namespace App\Endpoint\Control\Avatar;
 
 use App\Models\Avatar;
-use App\Models\Sets\AvatarSet;
+use App\Models\Set\AvatarSet;
 use App\Template\ControlAjax;
 
 class Update extends ControlAjax

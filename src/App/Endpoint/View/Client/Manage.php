@@ -3,14 +3,14 @@
 namespace App\Endpoint\View\Client;
 
 use App\Models\Avatar;
-use App\Models\Sets\AvatarSet;
+use App\Models\Set\AvatarSet;
 use App\Models\Rental;
-use App\Models\Sets\NoticeSet;
-use App\Models\Sets\RentalnoticeptoutSet;
-use App\Models\Sets\RentalSet;
-use App\Models\Sets\ServerSet;
+use App\Models\Set\NoticeSet;
+use App\Models\Set\RentalnoticeptoutSet;
+use App\Models\Set\RentalSet;
+use App\Models\Set\ServerSet;
 use YAPF\Bootstrap\Template\Form;
-use App\Models\Sets\TransactionsSet;
+use App\Models\Set\TransactionsSet;
 use YAPF\Bootstrap\Template\PagedInfo as TemplatePagedInfo;
 
 class Manage extends View

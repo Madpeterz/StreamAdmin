@@ -12,7 +12,7 @@ use App\Models\Rental;
 use App\Models\Server;
 use App\Models\Stream;
 use App\Models\Transactions;
-use App\Models\Sets\BanlistSet;
+use App\Models\Set\BanlistSet;
 use App\Template\SecondlifeAjax;
 use YAPF\Framework\Responses\DbObjects\CreateUidReply;
 

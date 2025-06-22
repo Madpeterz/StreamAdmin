@@ -7,7 +7,7 @@ use App\Endpoint\Control\Avatar\Finder;
 use App\Endpoint\Control\Avatar\Remove;
 use App\Endpoint\Control\Avatar\Update;
 use App\Models\Avatar;
-use App\Models\Sets\AvatarSet;
+use App\Models\Set\AvatarSet;
 use App\Models\Staff;
 use Tests\TestWorker;
 
