@@ -41,6 +41,17 @@ class Remove extends ControlAjax
             $this->failed("Unable to remove avatar its being used by a rental client");
             return;
         }
+        $transactions = $avatar->relatedTransactions();
+        if ($transactions->getCount() > 0) {
+            $result = $transactions->updateFieldInCollection(
+                "avatarLink",
+                $this->siteConfig->getSlConfig()->getOwnerAvatarLink()
+            );
+            if ($result->status == false) {
+                $this->failed("Unable to reassign transactions from the old avatar to system owner");
+                return;
+            }
+        }
         $auditlogs = $avatar->relatedAuditlog();
         $avatarName = $avatar->getAvatarName();
         $avid = $avatar->getId();
