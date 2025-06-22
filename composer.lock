@@ -564,16 +564,16 @@
         },
         {
             "name": "madpeterz/yapfinputfilter",
-            "version": "4.1.1",
+            "version": "4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/YAPFInputFilter.git",
-                "reference": "23e7f5de9d96880672a1e30c9229256c636948fe"
+                "reference": "f5c72c5a3ce1df7b512efbf5d2010fdd5317d073"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/YAPFInputFilter/zipball/23e7f5de9d96880672a1e30c9229256c636948fe",
-                "reference": "23e7f5de9d96880672a1e30c9229256c636948fe",
+                "url": "https://api.github.com/repos/Madpeterz/YAPFInputFilter/zipball/f5c72c5a3ce1df7b512efbf5d2010fdd5317d073",
+                "reference": "f5c72c5a3ce1df7b512efbf5d2010fdd5317d073",
                 "shasum": ""
             },
             "require": {
@@ -607,20 +607,20 @@
                 "issues": "https://github.com/Madpeterz/YAPFInputFilter/issues",
                 "source": "https://github.com/Madpeterz/YAPFInputFilter"
             },
-            "time": "2022-11-05T08:00:50+00:00"
+            "time": "2025-06-15T02:10:53+00:00"
         },
         {
             "name": "madpeterz/yetonemorephpframework",
-            "version": "8.0.4",
+            "version": "8.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Madpeterz/yetonemorephpframework.git",
-                "reference": "5b929d226825e5e02711004dd4abf1154b1f00f2"
+                "reference": "81408a83582ff9c466902b540014c1a212961b4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/5b929d226825e5e02711004dd4abf1154b1f00f2",
-                "reference": "5b929d226825e5e02711004dd4abf1154b1f00f2",
+                "url": "https://api.github.com/repos/Madpeterz/yetonemorephpframework/zipball/81408a83582ff9c466902b540014c1a212961b4d",
+                "reference": "81408a83582ff9c466902b540014c1a212961b4d",
                 "shasum": ""
             },
             "require": {
@@ -654,7 +654,7 @@
                 "issues": "https://github.com/Madpeterz/yetonemorephpframework/issues",
                 "source": "https://github.com/Madpeterz/yetonemorephpframework"
             },
-            "time": "2025-03-14T23:29:08+00:00"
+            "time": "2025-06-13T23:03:45+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -1270,16 +1270,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.5.1",
+            "version": "v3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6"
+                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
-                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/63afe740e99a13ba87ec199bb07bbdee937a5b62",
+                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62",
                 "shasum": ""
             },
             "require": {
@@ -1292,7 +1292,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.5-dev"
+                    "dev-main": "3.6-dev"
                 }
             },
             "autoload": {
@@ -1317,7 +1317,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.5.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.6.0"
             },
             "funding": [
                 {
@@ -1333,7 +1333,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:20:29+00:00"
+            "time": "2024-09-25T14:21:43+00:00"
         }
     ],
     "packages-dev": [
@@ -1469,16 +1469,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.4.0",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
+                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/447a020a1f875a434d62f2a401f53b82a396e494",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ae59794362fe85e051a58ad36b289443f57be7a9",
+                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9",
                 "shasum": ""
             },
             "require": {
@@ -1521,9 +1521,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.4.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.5.0"
             },
-            "time": "2024-12-30T11:07:19+00:00"
+            "time": "2025-05-31T08:24:38+00:00"
         },
         {
             "name": "phar-io/manifest",

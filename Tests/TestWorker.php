@@ -16,6 +16,30 @@ class TestWorker extends TestCase
         global $system;
         $result = $system->getSQL()->rawSQL("Tests/test.reset.sql"); // wipe DB
     }
+    protected function slAPI(): void
+    {
+        global $system;
+        $required_sl = [
+            "version" => "2.0.1.0",
+            "mode" => "test",
+            "objectuuid" => "123e4567-e89b-12d3-a456-426614174000",
+            "regionname" => "exampleland",
+            "ownerkey" => "00000000-0000-0000-0000-000000000000",
+            "ownername" => "System",
+            "pos" => "123,124,124",
+            "objectname" => "unittest",
+            "objecttype" => "vendor",
+        ];
+        $staticpart = "".$system->getModule()."".$system->getArea()."";
+        foreach($required_sl as $key => $value) {
+            $_POST[$key] = $value;
+            $staticpart .= $value;
+        }
+        $_POST["unixtime"] = time();
+        $raw = $_POST["unixtime"] . "" . $staticpart . "" . $system->getSlConfig()->getSlLinkCode();
+        $hashcheck = sha1($raw);
+        $_POST["hash"] = $hashcheck;
+    }
     protected function makeSLconnection(
         string $module,
         string $area,

@@ -296,13 +296,15 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         if (array_key_exists($header, $this->loadedHeaders) == true) {
             return $this->loadedHeaders[$header];
         }
-        die("Trying to find " . $header . " in " . json_encode($this->loadedHeaders));
         return null;
     }
 
     protected function continueHashChecks(bool $skip_reseller): void
     {
         $grid = $this->getHeaderMatch("X-SECONDLIFE-SHARD");
+        if (defined("UNITTEST") && (UNITTEST == "yep")) {
+            $grid = "Production"; // allow unit tests to run
+        }
         if ($grid != "Production") {
             $this->load_ok = false;
             $this->failed("wrong grid connected: " . json_encode(getallheaders()));

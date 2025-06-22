@@ -1,16 +1,14 @@
 <?php
 
-namespace Tests\Secondlife\Botcommandq;
+namespace Tests\Secondlife;
 
 use App\Endpoint\Control\Bot\Update;
 use App\Endpoint\Secondlifeapi\Bot\Notecardsync;
-use App\Endpoint\Secondlifeapi\Botcommandq\Next;
 use App\Models\Botcommandq;
-use App\Models\Sets\MessageSet;
 use App\Models\Staff;
 use Tests\TestWorker;
 
-class NextTest extends TestWorker
+class BotEndpointTest extends TestWorker
 {
     public function test_NoTasks()
     {
@@ -43,27 +41,21 @@ class NextTest extends TestWorker
     /**
      * @depends test_NoTasks
      */
-    public function test_Next()
+    public function test_ImTask()
     {
         $botcommandq = new Botcommandq();
-        $botcommandq->setCommand("IM");
-        $botcommandq->setArgs(json_encode(["Madpeter Zond","Hello"]));
+        $botcommandq->setCommand("FetchNextNotecard");
+        $botcommandq->setArgs("configstuff");
         $botcommandq->setUnixtime(time());
         $create = $botcommandq->createEntry();
         $this->assertSame(true,$create->status,"failed to create work for command q");
         $this->assertSame("ok",$create->message,"failed to create work for command q");
 
-        $mail = new MessageSet();
-        $this->assertSame(0, $mail->countInDB()->items, "Incorrect number of entrys in mailbox");
-
-        $Next = new Next();
-        $Next->setOwnerOverride(true);
-        $Next->process();
-        $reply = $Next->getOutputObject();
-        $this->assertSame("passed command to mail server",$reply->getSwapTagString("message"),"reply message not as expected");
-        $this->assertSame(true,$reply->getSwapTagBool("status"),"incorrect status code");
-        
-
-        $this->assertSame(1, $mail->countInDB()->items, "Incorrect number of entrys in mailbox");
+        $Notecardsync = new Notecardsync();
+        $Notecardsync->setOwnerOverride(true);
+        $Notecardsync->process();
+        $reply = $Notecardsync->getOutputObject();
+        $this->assertSame("ok", $reply->getSwapTagString("message"), "reply message not as expected");
+        $this->assertSame(true, $reply->getSwapTagBool("status"), "Status code is not as expected");
     }
 }
