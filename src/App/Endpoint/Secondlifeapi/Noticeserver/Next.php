@@ -51,7 +51,6 @@ class Next extends SecondlifeAjax
             $this->setSwapTag("message", "nowork");
             return;
         }
-
         $this->setSwapTag("status", true);
         $this->setSwapTag("message", "nowork");
 
@@ -78,7 +77,6 @@ class Next extends SecondlifeAjax
         $stream = $rental->relatedStream()->getFirst();
         $server = $stream->relatedServer()->getFirst();
         $avatar = $rental->relatedAvatar()->getFirst();
-
         if ($rental->getExpireUnixtime() < time()) {
             $this->processNoticeChange(
                 $expired_notice,

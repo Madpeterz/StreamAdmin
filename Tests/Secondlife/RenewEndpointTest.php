@@ -1,0 +1,172 @@
+<?php
+
+namespace Tests\Secondlife;
+
+use App\Endpoint\Secondlifeapi\Renew\Details;
+use App\Endpoint\Secondlifeapi\Buy\Startrental;
+use App\Endpoint\Secondlifeapi\Renew\Costandtime;
+use App\Endpoint\Secondlifeapi\Renew\Renewnow;
+use App\Models\Package;
+use App\Models\Rental;
+use App\Models\Reseller;
+use App\Models\Server;
+use App\Models\Stream;
+use Tests\TestWorker;
+
+class RenewEndpointTest extends TestWorker
+{
+    public function test_ReadyUp()
+    {
+        $reseller = new Reseller();
+        $reseller->setAllowed(true);
+        $reseller->setAvatarLink(1);
+        $reseller->setRate(100);
+        $create = $reseller->createEntry();
+        $this->assertSame("ok", $create->message, "Failed to create reseller entry");
+        $this->assertSame(true, $create->status, "Failed to create reseller entry");
+        $server = new Server();
+        $server->setBandwidth(1000);
+        $server->setBandwidthType("Mbps");
+        $server->setControlPanelURL("http://example.com/control");
+        $server->setDomain("example.com");
+        $server->setIpaddress("127.0.0.1");
+        $server->setTotalStorage(50);
+        $server->setTotalStorageType("TB");
+        $create = $server->createEntry();
+        $this->assertSame("ok", $create->message, "Failed to create server entry");
+        $this->assertSame(true, $create->status, "Failed to create server entry");
+        $this->assertSame(1, $server->getId(), "Server ID should be 1 after creation");
+        $package = new Package();
+        $package->setName('Test Package');
+        $package->setAutodj(false);
+        $package->setAutodjSize("0");
+        $package->setBitrate(128);
+        $package->setServertypeLink(1);
+        $package->setSetupNotecardLink(1);
+        $package->setCost(123);
+        $package->setDays(7);
+        $package->setMaxStreamsInPackage(1);
+        $package->setListeners(125);
+        $package->setPackageUid("testing");
+        $package->setTextureInstockSmall("small_texture");
+        $package->setTextureInstockSelected("selected_texture");
+        $package->setTextureSoldout("soldout_texture");
+        $package->setTemplateLink(1);
+        $create = $package->createEntry();
+        $this->assertSame(true, $create->status, "Failed to create package entry");
+        $this->assertSame("ok", $create->message, "Failed to create package entry");
+        $this->assertSame(1, $package->getId(), "Package ID should be 1 after creation");
+        $stream = new Stream();
+        $stream->setServerLink(1);
+        $stream->setPackageLink(1);
+        $stream->setAdminPassword("admin123");
+        $stream->setAdminUsername("admin");
+        $stream->setDjPassword("dj123");
+        $stream->setMountpoint("/live");
+        $stream->setNeedWork(false);
+        $stream->setStreamUid("str123");
+        $stream->setPort(8000);
+        $create = $stream->createEntry();
+        $this->assertSame("ok", $create->message, "Failed to create stream entry");
+        $this->assertSame(true, $create->status, "Failed to create stream entry");
+   }
+    /**
+     * @depends test_ReadyUp
+     */
+    public function test_Startrental()
+    {
+        global $system;
+        $system->getSlConfig()->setEventsAPI(true);
+        $result = $system->getSlConfig()->updateEntry();
+        $this->assertSame(true, $result->status, "Failed to update SL config for Events API");
+        
+        $system->setModule("Client");
+        $system->setArea("Startrental");
+        $this->slAPI();
+        $startRental = new Startrental();
+        $status = $startRental->getOutputObject()->addSwapTagString("message");
+        $this->assertSame("ready", $status, "Startrental should have 'ready' status before processing");
+        $_POST["packageuid"] = "testing";
+        $_POST["avatarUUID"] = "123e4567-e89b-12d3-a456-426614174000";
+        $_POST["avatarName"] = "TestAvatar";
+        $_POST["amountpaid"]= 123;
+        $startRental->process();
+        $reply = $startRental->getOutputObject();
+        $this->assertTrue(method_exists($reply, 'getSwapTagString'), 'Output object should have getSwapTagString method');
+        $this->assertSame("Details should be with you shortly", $reply->getSwapTagString("message"), "Expected output should be 'ok'");
+        $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status in reply");
+        $this->assertSame(false, $reply->getSwapTagBool("owner_payment"), "Expected owner_payment to be set to false");
+    }
+    /**
+     * @depends test_Startrental
+     */
+    public function test_CostAndTime()
+    {
+        global $system;
+        $system->setModule("Renew");
+        $system->setArea("Costandtime");
+        $this->slAPI();
+        $rental = new Rental();
+        $rental->loadID(1);
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental entry");
+        $_POST["rentalUid"] = $rental->getRentalUid();
+        $costandtime = new Costandtime();
+        $costandtime->process();
+        $reply = $costandtime->getOutputObject();
+        $this->assertTrue(method_exists($reply, 'getSwapTagString'), 'Output object should have getSwapTagString method');
+        $this->assertSame(123, $reply->getSwapTagInt("cost"), "expected cost should be 123");
+        $this->assertSame("Week", $reply->getSwapTagString("word"), "expected cost should be 123");
+    }
+    /**
+     * @depends test_CostAndTime
+     */
+    public function test_Details()
+    {
+        global $system;
+        $system->setModule("Renew");
+        $system->setArea("Details");
+        $this->slAPI();
+        $rental = new Rental();
+        $rental->loadID(1);
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental entry");
+        $_POST["avatarUUID"] =  "123e4567-e89b-12d3-a456-426614174000";
+        $details = new Details();
+        $reply = $details->getOutputObject();
+        $this->assertTrue(method_exists($reply, 'getSwapTagString'), 'Output object should have getSwapTagString method');
+        $this->assertSame("ready", $reply->getSwapTagString("message"), "Expected output should be 'ready'");
+        $details->process();
+        $reply = $details->getOutputObject();
+        $this->assertStringContainsString("Client account:", $reply->getSwapTagString("message"), "Expected message to contain 'Client account:'");
+        $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status in reply");
+        $this->assertSame(1, $reply->getSwapTagInt("dataset_count"), "Expected dataset_count to be 1");
+        $this->assertStringContainsString($rental->getRentalUid(), json_encode($reply->getSwapTagArray("dataset")), "Expected dataset to contain rental UID");
+    }
+    /**
+     * @depends test_Details
+     */
+    public function test_RenewNow()
+    {
+        global $system;
+        $system->setModule("Renew");
+        $system->setArea("Renewnow");
+        $this->slAPI();
+        $rental = new Rental();
+        $rental->loadID(1);
+        $this->assertSame(true, $rental->isLoaded(), "Failed to load rental entry");
+        $_POST["rentalUid"] = $rental->getRentalUid();
+        $_POST["avatarUUID"] = "123e4567-e89b-12d3-a456-426614174000";
+        $_POST["avatarName"] = "TestAvatar";
+        $_POST["amountpaid"] = 123;
+        $renewNow = new Renewnow();
+        $reply = $renewNow->getOutputObject();
+        $this->assertTrue(method_exists($reply, 'getSwapTagString'), 'Output object should have getSwapTagString method');
+        $this->assertSame("ready", $reply->getSwapTagString("message"), "Expected output should be 'ready'");
+        $renewNow->process();
+        $reply = $renewNow->getOutputObject();
+        $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status in reply");
+        $this->assertStringStartsWith("Payment accepted there is now", $reply->getSwapTagString("message"), "Expected message to start with 'Payment accepted there is now'");
+        $updatedRental = new Rental();
+        $updatedRental->loadID(1);
+        $this->assertGreaterThan($rental->getExpireUnixtime(), $updatedRental->getExpireUnixtime(), "Rental end time should be updated after renewal");
+    }
+}
