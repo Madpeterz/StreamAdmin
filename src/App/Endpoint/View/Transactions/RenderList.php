@@ -48,11 +48,11 @@ abstract class RenderList extends View
         $this->transaction_set->loadByAvatarLink($avatar->getId(), 150);
     }
 
-    public function renderTransactionTable(): string
+    protected array $tableHead = [];
+    protected array $tableBody = [];
+    protected function createNormalTableHead(): void
     {
-        $table_head = ["id", "Transaction UID", "Client", "Package", "Region", "Amount", "Datetime", "Mode"];
-        $this->loadRequired();
-        $table_head = [
+        $this->tableHead = [
             "id",
             "Transaction UID",
             "Payer",
@@ -64,30 +64,42 @@ abstract class RenderList extends View
             "Type",
         ];
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
-            $table_head[] = "Remove";
+            $this->tableHead[] = "Remove";
         }
-
-        $creditTransactions = [];
-        $tableBodyMarketplace = [];
+    }
+    protected function getTranactionPackageName(?int $packageLink = null): string
+    {
+        $packagename = "?";
+        if ($packageLink != null) {
+            $package = $this->package_set->getObjectByID($packageLink);
+            if ($package != null) {
+                $packagename = $package->getName();
+            }
+        }
+        return $packagename;
+    }
+    protected function getTranactionRegionName(?int $regionLink = null): string
+    {
+        $regionname = "?";
+        if ($regionLink != null) {
+            $region = $this->region_set->getObjectByID($regionLink);
+            if ($region != null) {
+                $regionname = $region->getName();
+            }
+        }
+        return $regionname;
+    }
+    protected array $creditTransactions = [];
+    protected function createNormalTableBody(): void
+    {
+        $this->tableBody = [];
         foreach ($this->transaction_set as $transaction) {
             if ($transaction->getViaMarketplace() == true) {
-                $creditTransactions[] = $transaction->getId();
+                $this->creditTransactions[] = $transaction->getId();
                 continue;
             }
-            $packagename = "?";
-            if ($transaction->getPackageLink() != null) {
-                $package = $this->package_set->getObjectByID($transaction->getPackageLink());
-                if ($package != null) {
-                    $packagename = $package->getName();
-                }
-            }
-            $regionname = "?";
-            if ($transaction->getRegionLink() != null) {
-                $region = $this->region_set->getObjectByID($transaction->getRegionLink());
-                if ($region != null) {
-                    $regionname = $region->getName();
-                }
-            }
+            $packagename = $this->getTranactionPackageName($transaction->getPackageLink());
+            $regionname = $this->getTranactionRegionName($transaction->getRegionLink());
             $entry = [];
             $entry[] = $transaction->getId();
             $entry[] = $transaction->getTransactionUid();
@@ -135,11 +147,22 @@ abstract class RenderList extends View
                 data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->getTransactionUid() . "' 
                 class='btn btn-danger confirmDialog'>Remove</button></a>";
             }
-            $table_body[] = $entry;
+            $this->tableBody[] = $entry;
         }
+    }
 
-        $tableBodyMarketplace = [];
-        $tableHeadMarketplace = [
+    protected Grid $normalTransactionsGrid;
+    protected function createNormalTransactions(): void
+    {
+        $this->normalTransactionsGrid = new Grid();
+        $this->createNormalTableHead();
+        $this->createNormalTableBody();
+        $this->normalTransactionsGrid->addContent("<h4>SL transactions</h4><br/>", 12);
+        $this->normalTransactionsGrid->addContent($this->renderDatatable($this->tableHead, $this->tableBody), 12);
+    }
+    protected function createMarketplaceTableHead(): void
+    {
+        $this->tableHead = [
             "id",
             "Transaction UID",
             "Payer",
@@ -148,9 +171,13 @@ abstract class RenderList extends View
             "Datetime",
         ];
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
-            $tableHeadMarketplace[] = "Remove";
+            $this->tableHead[] = "Remove";
         }
-        foreach ($creditTransactions as $transactionid) {
+    }
+    protected function createMarketplaceTableBody(): void
+    {
+        $this->tableBody = [];
+        foreach ($this->creditTransactions as $transactionid) {
             $transaction = $this->transaction_set->getObjectByID($transactionid);
             if ($transaction->getViaMarketplace() == false) {
                 continue;
@@ -182,19 +209,27 @@ abstract class RenderList extends View
                 data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->getTransactionUid() . "' 
                 class='btn btn-danger confirmDialog'>Remove</button></a>";
             }
-            $tableBodyMarketplace[] = $entry;
+            $this->tableBody[] = $entry;
         }
+    }
+    protected Grid $marketplaceTransactionsGrid;
+    protected function createMarketplaceTransactions(): void
+    {
+        $this->marketplaceTransactionsGrid = new Grid();
+        $this->createMarketplaceTableHead();
+        $this->createMarketplaceTableBody();
+        $this->marketplaceTransactionsGrid->addContent("<h4>Marketplace transactions</h4><br/>", 12);
+        $this->marketplaceTransactionsGrid->addContent($this->renderDatatable($this->tableHead, $this->tableBody), 12);
+    }
 
+    public function renderTransactionTable(): string
+    {
+        $this->loadRequired();
+        $this->createNormalTransactions();
+        $this->createMarketplaceTransactions();
         $grid = new Grid();
-        $subgrid = new Grid();
-        $subgrid->addContent("<h4>Marketplace transactions</h4><br/>", 12);
-        $subgrid->addContent($this->renderDatatable($tableHeadMarketplace, $tableBodyMarketplace), 12);
-
-        $subgrid2 = new Grid();
-        $subgrid2->addContent("<h4>SL transactions</h4><br/>", 12);
-        $subgrid2->addContent($this->renderDatatable($table_head, $table_body), 12);
-        $grid->addContent($subgrid2->getOutput(), 12);
-        $grid->addContent($subgrid->getOutput(), 12);
+        $grid->addContent($this->normalTransactionsGrid->getOutput(), 12);
+        $grid->addContent($this->marketplaceTransactionsGrid->getOutput(), 12);
         return $grid->getOutput();
     }
 
