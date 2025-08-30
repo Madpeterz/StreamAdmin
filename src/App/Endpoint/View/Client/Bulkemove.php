@@ -6,7 +6,7 @@ use App\Models\Sets\DetailSet;
 use App\Models\Sets\RentalSet;
 use YAPF\Bootstrap\Template\Form;
 
-class BulkRemove extends RenderList
+class Bulkremove extends RenderList
 {
     protected DetailSet $detailsRequestsSet;
     protected function loader(): void
@@ -63,7 +63,7 @@ class BulkRemove extends RenderList
         $this->setSwapTag("page_content", "No clients to remove right now");
         if (count($table_body) > 0) {
             $form = new Form();
-            $form->target("client/bulkremove");
+            $form->target("client/Bulkremove");
             $form->col(12);
               $form->directAdd($this->renderDatatable($table_head, $table_body));
             $this->setSwapTag("page_content", $form->render("Process", "outline-danger"));
