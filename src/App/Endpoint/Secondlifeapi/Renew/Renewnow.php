@@ -195,7 +195,7 @@ class Renewnow extends SecondlifeAjax
     {
         $reply = $this->rental->updateEntry();
         if ($reply->status == false) {
-            $this->failed("Unable to update rental ~ ".$reply->message);
+            $this->failed("Unable to update rental because: ".$reply->message);
             return false;
         }
         return true;
