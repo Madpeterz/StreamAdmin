@@ -1,4 +1,4 @@
-UPDATE `slconfig` SET `dbVersion` = '2.0.1.1' WHERE `slconfig`.`id` = 1;
+UPDATE `slconfig` SET `dbVersion` = '2.0.1.2' WHERE `slconfig`.`id` = 1;
 ALTER TABLE `slconfig` 
 ADD `limitStreams` TINYINT(1) NOT NULL DEFAULT '0' AFTER `clientsDisplayServer`, 
 ADD `limitTime` TINYINT(1) NOT NULL DEFAULT '0' AFTER `limitStreams`, 
