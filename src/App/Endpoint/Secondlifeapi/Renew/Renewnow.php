@@ -193,8 +193,9 @@ class Renewnow extends SecondlifeAjax
 
     protected function saveRental(): bool
     {
-        if ($this->rental->updateEntry()->status == false) {
-            $this->failed("Unable to update rental");
+        $reply = $this->rental->updateEntry();
+        if ($reply->status == false) {
+            $this->failed("Unable to update rental ~ ".$reply->message);
             return false;
         }
         return true;
