@@ -14,7 +14,7 @@ class TestWorker extends TestCase
     public static function setUpBeforeClass(): void
     {
         global $system;
-        $result = $system->getSQL()->rawSQL("Tests/test.reset.sql"); // wipe DB
+        resetDatabase($system);
     }
     protected function slAPI(): void
     {

@@ -15,12 +15,12 @@ class Status extends View
     {
         $this->output->addSwapTagString("page_title", " Status");
         $services = [
-        "Notecard" => ["norm" => 20,"cron" => 8,"classname" => "App\Models\Sets\NotecardSet"],
-        "Docs" => ["norm" => 20,"cron" => 20,"classname" => "App\Models\Sets\NotecardmailSet"],
-        "Details" => ["norm" => 15,"cron" => 8,"classname" => "App\Models\Sets\DetailSet"],
-        "Mail" => ["norm" => 15,"cron" => 15,"classname" => "App\Models\Sets\MessageSet"],
-        "Events" => ["norm" => 30,"cron" => 30,"classname" => "App\Models\Sets\EventsqSet"],
-        "Bot" => ["norm" => 30,"cron" => 8,"classname" => "App\Models\Sets\BotcommandqSet"],
+        "Notecard" => ["norm" => 20,"cron" => 8,"classname" => "App\Models\Set\NotecardSet"],
+        "Docs" => ["norm" => 20,"cron" => 20,"classname" => "App\Models\Set\NotecardmailSet"],
+        "Details" => ["norm" => 15,"cron" => 8,"classname" => "App\Models\Set\DetailSet"],
+        "Mail" => ["norm" => 15,"cron" => 15,"classname" => "App\Models\Set\MessageSet"],
+        "Events" => ["norm" => 30,"cron" => 30,"classname" => "App\Models\Set\EventsqSet"],
+        "Bot" => ["norm" => 30,"cron" => 8,"classname" => "App\Models\Set\BotcommandqSet"],
         ];
         $table_head = ["Outbox name","Pending","TTC","Cron TTC"];
         $table_body = [];

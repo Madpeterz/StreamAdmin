@@ -10,9 +10,6 @@ class DefaultView extends HomeDisplayData
     public function process(): void
     {
         $this->main_grid = new Grid();
-        if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
-            $this->unsafeWorkspace();
-        }
         $this->loadDatasets();
         $this->displayDatasets();
         $this->output->addSwapTagString("page_content", $this->main_grid->getOutput());
@@ -91,17 +88,4 @@ class DefaultView extends HomeDisplayData
         return;
     }
 
-    protected function unsafeWorkspace(): void
-    {
-        $why_unsafe = "";
-        if (is_dir('../../tests') == true) {
-            $why_unsafe .= " tests folder found ";
-        }
-        if ($why_unsafe != "") {
-            $this->main_grid->addContent('<div class="jumbotron">
-            <h1 class="display-4">please make your install secure</h1>
-            <p class="lead">' . $why_unsafe . '</p>
-          </div>', 12);
-        }
-    }
 }

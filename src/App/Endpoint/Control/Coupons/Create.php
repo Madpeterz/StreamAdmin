@@ -40,7 +40,7 @@ class Create extends ControlAjax
         $MarketplacecouponsSet = new MarketplacecouponsSet();
         $count_check = $MarketplacecouponsSet->countInDB($whereConfig);
         if ($count_check->status == false) {
-            $this->failed("Unable to check if listing id in use");
+            $this->failed("Unable to check if listing id in use: ".$count_check->message);
             return;
         }
         if ($count_check->items != 0) {

@@ -9,6 +9,7 @@ src/public_html/fake
 .ftpconfig
 composer.lock
 cover.bat
+login.bat
 phpcs.xml
 phpunit.bat
 phpunit.xml

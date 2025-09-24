@@ -1,0 +1,1 @@
+call php C:\php\StreamAdmin\tests\loginready.php

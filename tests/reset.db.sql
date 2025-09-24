@@ -2,12 +2,6 @@ SET FOREIGN_KEY_CHECKS = 0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
-
 TRUNCATE TABLE `auditlog`;
 TRUNCATE TABLE `avatar`;
 INSERT INTO `avatar` (`id`, `avatarUUID`, `avatarName`, `avatarUid`, `lastUsed`, `credits`) VALUES
@@ -64,7 +58,7 @@ INSERT INTO `servertypes` (`id`, `name`) VALUES
 
 TRUNCATE TABLE `slconfig`;
 INSERT INTO `slconfig` (`id`, `dbVersion`, `newResellers`, `newResellersRate`, `slLinkCode`, `clientsListMode`, `publicLinkCode`, `hudLinkCode`, `ownerAvatarLink`, `datatableItemsPerPage`, `httpInboundSecret`, `displayTimezoneLink`, `hudAllowDiscord`, `hudDiscordLink`, `hudAllowGroup`, `hudGroupLink`, `hudAllowDetails`, `hudAllowRenewal`, `eventsAPI`, `paymentKey`, `streamListOption`, `clientsDisplayServer`, `limitStreams`, `limitTime`, `maxStreamTimeDays`, `maxTotalStreams`, `ansSalt`, `enableCoupons`) VALUES
-(1, '2.0.1.1', 0, 0, 'install', 1, 'install', 'install', 1, 10, 'install', 11, 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0, 'install', 1, 1, 0, 0, 120, 100, 'Not used', 0);
+(1, '2.0.1.2', 0, 0, 'install', 1, 'install', 'install', 1, 10, 'install', 11, 0, 'Not setup yet', 0, 'Not setup yet', 0, 0, 0, 'install', 1, 1, 0, 0, 120, 100, 'Not used', 0);
 
 TRUNCATE TABLE `staff`;
 INSERT INTO `staff` (`id`, `username`, `emailResetCode`, `emailResetExpires`, `avatarLink`, `phash`, `lhash`, `psalt`, `ownerLevel`) VALUES
@@ -97,7 +91,5 @@ INSERT INTO `timezones` (`id`, `name`, `code`) VALUES
 TRUNCATE TABLE `transactions`;
 TRUNCATE TABLE `treevender`;
 TRUNCATE TABLE `treevenderpackages`;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
 SET FOREIGN_KEY_CHECKS = 1;
