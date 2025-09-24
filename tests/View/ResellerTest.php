@@ -13,8 +13,9 @@ use App\Models\Avatar;
 use App\Models\Reseller;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class ResellerTest extends TestWorker
+class ResellerTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -35,7 +36,7 @@ class ResellerTest extends TestWorker
         $this->assertStringContainsString("Allow",$statuscheck,$missing);
         $this->assertStringContainsString("Rate",$statuscheck,$missing);
         $this->assertStringContainsString($reseller->getRate(),$statuscheck,$missing);
-        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
+        $this->assertStringContainsString("Reseller Test",$statuscheck,$missing);
         $this->assertStringContainsString("Yes",$statuscheck,$missing);
         $this->assertStringContainsString("automagicly accepted",$statuscheck,$missing);
     }

@@ -12,8 +12,9 @@ use App\Endpoint\View\Textureconfig\Remove;
 use App\Models\Textureconfig;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class TextureconfigTest extends TestWorker
+class TextureconfigTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {

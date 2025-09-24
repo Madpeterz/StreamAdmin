@@ -12,8 +12,9 @@ use App\Endpoint\View\Package\Remove;
 use App\Models\Package;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class PackageTest extends TestWorker
+class PackageTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -21,9 +22,9 @@ class PackageTest extends TestWorker
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing package list element";
-        $this->assertStringContainsString("UnitTestPackage",$statuscheck,$missing);
+        $this->assertStringContainsString("unittest",$statuscheck,$missing);
         $this->assertStringContainsString("Name",$statuscheck,$missing);
-        $this->assertStringContainsString("128",$statuscheck,$missing);
+        $this->assertStringContainsString("125",$statuscheck,$missing);
     }
 
     /**

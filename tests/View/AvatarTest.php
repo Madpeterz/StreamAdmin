@@ -12,8 +12,9 @@ use App\Endpoint\View\Avatar\Manage;
 use App\Endpoint\View\Avatar\Remove;
 use App\Models\Avatar as ModelsAvatar;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class AvatarTest extends TestWorker
+class AvatarTest extends TestWorkerWithLogin
 {
     public function test_ReadyUp()
     {
@@ -104,6 +105,7 @@ class AvatarTest extends TestWorker
         $manageProcess = new Update();
         $_POST["avatarName"] = "UnitTest Updated";
         $_POST["avatarUUID"] = "289c3ea6-69b3-40c5-9229-000a5d230766";
+        $_POST["credits"] = "0";
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Avatar updated",$statuscheck->getSwapTagString("message"));

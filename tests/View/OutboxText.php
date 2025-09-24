@@ -13,8 +13,9 @@ use App\Models\Set\BotcommandqSet;
 use App\Models\Set\MessageSet;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class OutboxText extends TestWorker
+class OutboxText extends TestWorkerWithLogin
 {
     public function test_Default()
     {

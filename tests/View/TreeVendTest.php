@@ -16,8 +16,9 @@ use App\Models\Treevender;
 use App\Models\Treevenderpackages;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class TreeVendTest extends TestWorker
+class TreeVendTest extends TestWorkerWithLogin
 {
     public function test_CreateForm()
     {

@@ -16,8 +16,9 @@ use App\Models\Stream;
 use App\Models\Transactions;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class TransactionsTest extends TestWorker
+class TransactionsTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -31,10 +32,10 @@ class TransactionsTest extends TestWorker
         $reseller = $resellerhelper->getReseller();
         $stream = new Stream();
         $status = $stream->loadID(1);
-        $this->assertSame(true,$status,"Unable to find a stream to use");
+        $this->assertSame(true,$status->status,"Unable to find a stream to use");
         $server = new Server();
         $status = $server->loadID($stream->getServerLink());
-        $this->assertSame(true,$status,"Unable to find a server to use");
+        $this->assertSame(true,$status->status,"Unable to find a server to use");
         $package = new Package();
         $status = $package->loadID(1);
         $this->assertSame(true,$status->status,"Unable to find a package to use");
@@ -64,10 +65,10 @@ class TransactionsTest extends TestWorker
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing transactions list element";
-        $this->assertStringContainsString("Client",$statuscheck,$missing);
+        $this->assertStringContainsString("Payer",$statuscheck,$missing);
         $this->assertStringContainsString("Region",$statuscheck,$missing);
         $this->assertStringContainsString("Type",$statuscheck,$missing);
-        $this->assertStringContainsString("transactions/remove/",$statuscheck,$missing);
+        $this->assertStringContainsString("Transactions/Remove",$statuscheck,$missing);
         $this->assertStringContainsString("Select transation period",$statuscheck,$missing);
         $this->assertStringContainsString("2021",$statuscheck,$missing);
     }

@@ -83,6 +83,6 @@ class DefaultView extends View
                 "
             );
         }
-        $this->setSwapTag("page_content", $form->render("update", "primary"));
+        $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

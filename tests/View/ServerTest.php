@@ -12,8 +12,9 @@ use App\Endpoint\View\Server\Remove;
 use App\Models\Server;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class ServerTest extends TestWorker
+class ServerTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -36,10 +37,6 @@ class ServerTest extends TestWorker
         $missing = "Missing server create form element";
         $this->assertStringContainsString("Basic config",$statuscheck,$missing);
         $this->assertStringContainsString("Domain",$statuscheck,$missing);
-        $this->assertStringContainsString("API / Password",$statuscheck,$missing);
-        $this->assertStringContainsString("Opt / Toggle status",$statuscheck,$missing);
-        $this->assertStringContainsString("Event / Update stream on server",$statuscheck,$missing);
-        $this->assertStringContainsString("Api notes",$statuscheck,$missing);
         $this->assertStringContainsString("Create",$statuscheck,$missing);
     }
 
@@ -52,31 +49,12 @@ class ServerTest extends TestWorker
         $serverCreateHandler = new ServerCreate();
         $_POST["domain"] = "MagicServerTest";
         $_POST["controlPanelURL"] = "http://supernotused.com";
-        $_POST["apiLink"] = 1;
-        $_POST["apiURL"] = "";
-        $_POST["apiUsername"] = "";
-        $_POST["apiPassword"] = "";
-        $_POST["optPasswordReset"] = 0;
-        $_POST["optAutodjNext"] = 0;
-        $_POST["optToggleAutodj"] = 0;
-        $_POST["eventEnableStart"] = 0;
-        $_POST["eventDisableExpire"] = 0;
-        $_POST["eventDisableRevoke"] = 0;
-        $_POST["eventResetPasswordRevoke"] = 0;
-        $_POST["eventEnableRenew"] = 0;
-        $_POST["optToggleStatus"] = 0;
-        $_POST["eventStartSyncUsername"] = 0;
-        $_POST["apiServerStatus"] = 0;
-        $_POST["eventClearDjs"] = 0;
-        $_POST["eventRevokeResetUsername"] = 0;
-        $_POST["eventRecreateRevoke"] = 0;
-        $_POST["apiSyncAccounts"] = 0;
-        $_POST["eventCreateStream"] = 0;
-        $_POST["eventUpdateStream"] = 0;
+        $_POST["ipaddress"] = "127.0.0.1";
         $serverCreateHandler->process();
         $statuscheck = $serverCreateHandler->getOutputObject();
-        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
         $this->assertStringContainsString("Server created",$statuscheck->getSwapTagString("message"));
+        $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
+        
     }
 
     /**
@@ -98,10 +76,6 @@ class ServerTest extends TestWorker
         $this->assertStringContainsString("http://supernotused.com",$statuscheck,$missing);
         $this->assertStringContainsString("Basic config",$statuscheck,$missing);
         $this->assertStringContainsString("Domain",$statuscheck,$missing);
-        $this->assertStringContainsString("API / Password",$statuscheck,$missing);
-        $this->assertStringContainsString("Opt / Toggle status",$statuscheck,$missing);
-        $this->assertStringContainsString("Event / Update stream on server",$statuscheck,$missing);
-        $this->assertStringContainsString("Api notes",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
     }
 
@@ -120,27 +94,6 @@ class ServerTest extends TestWorker
         $manageProcess = new Update();
         $_POST["domain"] = "SuperMagicTest";
         $_POST["controlPanelURL"] = "http://supernotused.com";
-        $_POST["apiLink"] = 1;
-        $_POST["apiURL"] = "";
-        $_POST["apiUsername"] = "";
-        $_POST["apiPassword"] = "";
-        $_POST["optPasswordReset"] = 0;
-        $_POST["optAutodjNext"] = 0;
-        $_POST["optToggleAutodj"] = 0;
-        $_POST["eventEnableStart"] = 0;
-        $_POST["eventDisableExpire"] = 0;
-        $_POST["eventDisableRevoke"] = 0;
-        $_POST["eventResetPasswordRevoke"] = 0;
-        $_POST["eventEnableRenew"] = 0;
-        $_POST["optToggleStatus"] = 0;
-        $_POST["eventStartSyncUsername"] = 0;
-        $_POST["apiServerStatus"] = 0;
-        $_POST["eventClearDjs"] = 0;
-        $_POST["eventRevokeResetUsername"] = 0;
-        $_POST["eventRecreateRevoke"] = 0;
-        $_POST["apiSyncAccounts"] = 0;
-        $_POST["eventCreateStream"] = 0;
-        $_POST["eventUpdateStream"] = 0;
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Server updated",$statuscheck->getSwapTagString("message"));

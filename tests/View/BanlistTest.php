@@ -8,12 +8,16 @@ use App\Endpoint\Control\Banlist\Create;
 use App\Endpoint\View\Banlist\DefaultView;
 use App\Models\Avatar;
 use App\Models\Banlist;
+use App\Models\Staff;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class BanlistTest extends TestWorker
+class BanlistTest extends TestWorkerWithLogin
 {
     public function test_BanlistDefault()
     {
+        global $system;
+        $staff = new Staff();
         $default = new DefaultView();
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");

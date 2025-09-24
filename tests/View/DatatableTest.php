@@ -7,8 +7,9 @@ use App\Endpoint\View\Datatables\DefaultView;
 use App\Endpoint\View\Datatables\Manage;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class DatatableTest extends TestWorker
+class DatatableTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {

@@ -15,8 +15,9 @@ use App\Models\Server;
 use App\Models\Stream;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class ReportsTest extends TestWorker
+class ReportsTest extends TestWorkerWithLogin
 {
     public function test_Toolbox()
     {

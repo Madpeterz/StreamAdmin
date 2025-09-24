@@ -5,8 +5,9 @@ namespace Tests\View;
 use App\Endpoint\View\Config\DefaultView;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class ConfigTest extends TestWorker
+class ConfigTest extends TestWorkerWithLogin
 {
     public function test_ConfigMenu()
     {

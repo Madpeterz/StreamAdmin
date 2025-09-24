@@ -7,8 +7,9 @@ use App\Endpoint\View\Bot\DefaultView;
 use App\Models\Avatar;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class BotTest extends TestWorker
+class BotTest extends TestWorkerWithLogin
 {
     public function test_BotDefault()
     {
@@ -25,7 +26,7 @@ class BotTest extends TestWorker
     {
         global $_POST;
         $avatar = new Avatar();
-        $status = $avatar->loadID(1);
+        $status = $avatar->loadID(2);
         $this->assertSame(true,$status->status,"Unable to load avatar");
         $_POST["avataruid"] = $avatar->getAvatarUid();
         $_POST["secret"] = substr(md5(microtime()."bb"),0,8);

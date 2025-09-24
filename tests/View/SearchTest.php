@@ -5,8 +5,9 @@ namespace Tests\View;
 use App\Endpoint\View\Search\DefaultView;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class SearchTest extends TestWorker
+class SearchTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -19,10 +20,10 @@ class SearchTest extends TestWorker
         $this->assertStringContainsString("Clients [1]",$statuscheck,$missing);
         $this->assertStringContainsString("Avatars [1]",$statuscheck,$missing);
         $this->assertStringContainsString("Streams [1]",$statuscheck,$missing);
-        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
+        $this->assertStringContainsString("Madpeter Zond",$statuscheck,$missing);
         $this->assertStringContainsString("Active",$statuscheck,$missing);
-        $this->assertStringContainsString("8002",$statuscheck,$missing);
-        $this->assertStringContainsString("Sold -> MadpeterUnit ZondTest",$statuscheck,$missing);
-        $this->assertStringContainsString("Testing",$statuscheck,$missing);
+        $this->assertStringContainsString("8000",$statuscheck,$missing);
+        $this->assertStringContainsString("Sold -> Madpeter Zond",$statuscheck,$missing);
+        $this->assertStringContainsString("unittest",$statuscheck,$missing);
     }
 }

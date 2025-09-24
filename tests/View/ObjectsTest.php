@@ -7,8 +7,9 @@ use App\Endpoint\View\Objects\Clear;
 use App\Endpoint\View\Objects\DefaultView;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class ObjectsTest extends TestWorker
+class ObjectsTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {

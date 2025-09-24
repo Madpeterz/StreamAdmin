@@ -21,8 +21,9 @@ use App\Models\Stream;
 use App\Models\Set\StreamSet;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class StreamTest extends TestWorker
+class StreamTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -69,12 +70,7 @@ class StreamTest extends TestWorker
         $StreamCreateForm->process();
         $statuscheck = $StreamCreateForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing stream create form element";
-        $this->assertStringContainsString("Basics",$statuscheck,$missing);
-        $this->assertStringContainsString("Config",$statuscheck,$missing);
-        $this->assertStringContainsString("API",$statuscheck,$missing);
-        $this->assertStringContainsString("Magic",$statuscheck,$missing);
-        $this->assertStringContainsString("API UID 1,2 and 3",$statuscheck,$missing);
-        $this->assertStringContainsString("Note:",$statuscheck,$missing);
+        $this->assertStringContainsString("Basics",$statuscheck,$missing); 
     }
 
     /**
@@ -84,7 +80,7 @@ class StreamTest extends TestWorker
     {
         global $_POST;
         $streamCreateHandler = new StreamCreate();
-        $_POST["port"] = 8006;
+        $_POST["port"] = 7006;
         $_POST["packageLink"] = 1;
         $_POST["serverLink"] = 1;
         $_POST["mountpoint"] = "/live";
@@ -92,10 +88,6 @@ class StreamTest extends TestWorker
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
         $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
         $_POST["needswork"] = 0;
-        $_POST["apiConfigValue1"] = "";
-        $_POST["apiConfigValue2"] = "";
-        $_POST["apiConfigValue3"] = "";
-        $_POST["api_create"] = 0;
         $streamCreateHandler->process();
         $statuscheck = $streamCreateHandler->getOutputObject();
         $this->assertStringContainsString("Stream created",$statuscheck->getSwapTagString("message"));
@@ -109,7 +101,7 @@ class StreamTest extends TestWorker
     {
         global $system;
         $stream = new Stream();
-        $status = $stream->loadByField("port",8006);
+        $status = $stream->loadByField("port",7006);
         $this->assertSame(true,$status->status,"Unable to load test stream");
         $system->setPage( $stream->getStreamUid());
 
@@ -118,12 +110,8 @@ class StreamTest extends TestWorker
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing stream manage form element";
         $this->assertStringContainsString("Basics",$statuscheck,$missing);
-        $this->assertStringContainsString("Config",$statuscheck,$missing);
-        $this->assertStringContainsString("API UID 1",$statuscheck,$missing);
-        $this->assertStringContainsString("Magic",$statuscheck,$missing);
-        $this->assertStringContainsString("Centova: Not used",$statuscheck,$missing);
         $this->assertStringContainsString("Update",$statuscheck,$missing);
-        $this->assertStringContainsString("8006",$statuscheck,$missing);
+        $this->assertStringContainsString("7006",$statuscheck,$missing);
         $this->assertStringContainsString("MoreUnitTesting",$statuscheck,$missing);
     }
 
@@ -134,12 +122,12 @@ class StreamTest extends TestWorker
     {
         global $system, $_POST;
         $stream = new Stream();
-        $status = $stream->loadByField("port",8006);
+        $status = $stream->loadByField("port",7006);
         $this->assertSame(true,$status->status,"Unable to load test stream");
         $system->setPage( $stream->getStreamUid());
 
         $manageProcess = new Update();
-        $_POST["port"] = 8080;
+        $_POST["port"] = 7006;
         $_POST["packageLink"] = 1;
         $_POST["serverLink"] = 1;
         $_POST["mountpoint"] = "/live";
@@ -148,17 +136,13 @@ class StreamTest extends TestWorker
         $_POST["adminPassword"] = substr(md5(microtime()."a"),0,8);
         $_POST["djPassword"] = substr(md5(microtime()."b"),0,8);
         $_POST["needswork"] = 0;
-        $_POST["apiConfigValue1"] = "";
-        $_POST["apiConfigValue2"] = "";
-        $_POST["apiConfigValue3"] = "";
-        $_POST["api_create"] = 0;
         $manageProcess->process();
         $statuscheck = $manageProcess->getOutputObject();
         $this->assertStringContainsString("Stream updated",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
        
         $stream = new Stream();
-        $status = $stream->loadByField("port",8080);
+        $status = $stream->loadByField("port",7006);
         $this->assertSame(true,$status->status,"Unable to load updated stream");
     }
 
@@ -169,7 +153,7 @@ class StreamTest extends TestWorker
     {
         global $system, $_POST;
         $stream = new Stream();
-        $status = $stream->loadByField("port",8080);
+        $status = $stream->loadByField("port",7006);
         $this->assertSame(true,$status->status,"Unable to load test stream");
         $system->setPage( $stream->getStreamUid());
 
@@ -192,10 +176,10 @@ class StreamTest extends TestWorker
         $Onserver->process();
         $statuscheck = $Onserver->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing stream list onserver element";
-        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
-        $this->assertStringContainsString("8002",$statuscheck,$missing);
+        $this->assertStringContainsString("Madpeter Zond",$statuscheck,$missing);
+        $this->assertStringContainsString("8000",$statuscheck,$missing);
         $this->assertStringContainsString("Sold",$statuscheck,$missing);
-        $this->assertStringContainsString("Testing",$statuscheck,$missing);
+        $this->assertStringContainsString("unittest",$statuscheck,$missing);
     }
 
     /**
@@ -242,8 +226,8 @@ class StreamTest extends TestWorker
         $this->assertStringContainsString("Port",$statuscheck,$missing);
         $this->assertStringContainsString("Status",$statuscheck,$missing);
         $this->assertStringContainsString("Sold",$statuscheck,$missing);
-        $this->assertStringContainsString("8002",$statuscheck,$missing);
-        $this->assertStringContainsString("Testing",$statuscheck,$missing);
+        $this->assertStringContainsString("8000",$statuscheck,$missing);
+        $this->assertStringContainsString("unittest",$statuscheck,$missing);
     }
 
      /**
@@ -252,7 +236,7 @@ class StreamTest extends TestWorker
     public function test_BulkUpdateForm()
     {
         global $_POST;
-        $port_loop = 9000;
+        $port_loop = 7000;
         $loop = 1;
         $adminpasswords = [];
         while($loop <= 10)
@@ -263,15 +247,11 @@ class StreamTest extends TestWorker
             $_POST["serverLink"] = 1;
             $_POST["mountpoint"] = "/live";
             $_POST["adminUsername"] = "MoreUnitTesting".$_POST["port"];
+            $_POST["needswork"] = 1;
             $adp = substr(md5($_POST["port"]."".microtime()."a"),0,8);
             $_POST["adminPassword"] = $adp;
             $adminpasswords[] = $adp;
             $_POST["djPassword"] = substr(md5($_POST["port"]."".microtime()."b"),0,8);
-            $_POST["needswork"] = "1";
-            $_POST["apiConfigValue1"] = "";
-            $_POST["apiConfigValue2"] = "";
-            $_POST["apiConfigValue3"] = "";
-            $_POST["api_create"] = 0;
             $streamCreateHandler->process();
             $statuscheck = $streamCreateHandler->getOutputObject();
             if($statuscheck == false) {

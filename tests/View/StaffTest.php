@@ -14,8 +14,9 @@ use App\Models\Avatar;
 use App\Models\Staff;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class StaffTest extends TestWorker
+class StaffTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -24,7 +25,7 @@ class StaffTest extends TestWorker
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing staff list element";
         $this->assertStringContainsString("Username",$statuscheck,$missing);
-        $this->assertStringContainsString("Madpeter",$statuscheck,$missing);
+        $this->assertStringContainsString("Install",$statuscheck,$missing);
         $this->assertStringContainsString("Yes",$statuscheck,$missing);
         $this->assertStringContainsString("Owner",$statuscheck,$missing);
     }

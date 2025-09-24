@@ -12,8 +12,9 @@ use App\Endpoint\View\Template\Remove;
 use App\Models\Template;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class TemplateTest extends TestWorker
+class TemplateTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {

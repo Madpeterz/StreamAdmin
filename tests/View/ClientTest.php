@@ -16,14 +16,12 @@ use App\Endpoint\View\Client\DefaultView;
 use App\Endpoint\View\Client\Expired;
 use App\Endpoint\View\Client\ListMode;
 use App\Endpoint\View\Client\Manage;
-use App\Endpoint\View\Client\Revoke;
 use App\Endpoint\View\Client\Soon;
 use App\Models\Avatar;
 use App\Models\Rental;
-use PHPUnit\Framework\TestCase;
-use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class ClientTest extends TestWorker
+class ClientTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -47,10 +45,10 @@ class ClientTest extends TestWorker
         $default->process();
         $statuscheck = $default->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client list by selected notice level element";
-        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
+        $this->assertStringContainsString("Madpeter Zond",$statuscheck,$missing);
         $this->assertStringContainsString("Rental UID",$statuscheck,$missing);
         $this->assertStringContainsString("Port",$statuscheck,$missing);
-        $this->assertStringContainsString("8002",$statuscheck,$missing);
+        $this->assertStringContainsString("8000",$statuscheck,$missing);
     }
 
     /**
@@ -62,10 +60,10 @@ class ClientTest extends TestWorker
         $ListMode->process();
         $statuscheck = $ListMode->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client listmode element";
-        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
+        $this->assertStringContainsString("Madpeter Zond",$statuscheck,$missing);
         $this->assertStringContainsString("Rental UID",$statuscheck,$missing);
         $this->assertStringContainsString("Port",$statuscheck,$missing);
-        $this->assertStringContainsString("8002",$statuscheck,$missing);
+        $this->assertStringContainsString("8000",$statuscheck,$missing);
     }
 
     /**
@@ -77,7 +75,7 @@ class ClientTest extends TestWorker
         $createForm->process();
         $statuscheck = $createForm->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client create form element";
-        $this->assertStringContainsString("Find/Add avatar",$statuscheck,$missing);
+        $this->assertStringContainsString("Find avatar",$statuscheck,$missing);
         $this->assertStringContainsString("Days remaining",$statuscheck,$missing);
         $this->assertStringContainsString("Stream UID (Or port)",$statuscheck,$missing);
         $this->assertStringContainsString("multiple streams with",$statuscheck,$missing);
@@ -91,7 +89,7 @@ class ClientTest extends TestWorker
     {
         global $_POST;
         $streamCreateHandler = new StreamCreate();
-        $_POST["port"] = 8004;
+        $_POST["port"] = 9000;
         $_POST["packageLink"] = 1;
         $_POST["serverLink"] = 1;
         $_POST["mountpoint"] = "/live";
@@ -125,7 +123,7 @@ class ClientTest extends TestWorker
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
         $createForm = new ClientCreate();
-        $_POST["streamuid"] = 8004;
+        $_POST["streamuid"] = 9000;
         $_POST["avataruid"] = "ClientTest Avatar";
         $_POST["daysremaining"] = 24;
         $createForm->process();
@@ -260,7 +258,7 @@ class ClientTest extends TestWorker
         $getNotecard->process();
         $statuscheck = $getNotecard->getOutputObject();
         $this->assertStringContainsString("Control panel:",$statuscheck->getSwapTagString("message"));
-        $this->assertStringContainsString("port: 8004",$statuscheck->getSwapTagString("message"));
+        $this->assertStringContainsString("port: 9000",$statuscheck->getSwapTagString("message"));
         $this->assertStringContainsString("Expires:",$statuscheck->getSwapTagString("message"));
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
     }
@@ -293,8 +291,8 @@ class ClientTest extends TestWorker
         $Active->process();
         $statuscheck = $Active->getOutputObject()->getSwapTagString("page_content");
         $missing = "Missing client list active status element";
-        $this->assertStringContainsString("MadpeterUnit ZondTest",$statuscheck,$missing);
-        $this->assertStringContainsString("8002",$statuscheck,$missing);
+        $this->assertStringContainsString("Madpeter Zond",$statuscheck,$missing);
+        $this->assertStringContainsString("8000",$statuscheck,$missing);
         $this->assertStringContainsString("Timeleft",$statuscheck,$missing);
         $this->assertStringContainsString("Status",$statuscheck,$missing);
         $this->assertStringContainsString("Renewals",$statuscheck,$missing);

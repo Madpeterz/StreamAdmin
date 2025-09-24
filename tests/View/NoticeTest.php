@@ -13,8 +13,9 @@ use App\Models\Notice;
 use App\Models\Set\RentalSet;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class NoticeTest extends TestWorker
+class NoticeTest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
@@ -162,7 +163,7 @@ class NoticeTest extends TestWorker
         $rental = $rentalSet->getFirst();
         $rental->setNoticeLink($notice->getId());
         $reply = $rental->updateEntry();
-        $this->assertSame(true,$reply["status"],"Failed to assign rental to notice");
+        $this->assertSame(true,$reply->status,"Failed to assign rental to notice");
 
 
         $system->setPage( $notice->getId() );

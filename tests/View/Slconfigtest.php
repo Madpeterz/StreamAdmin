@@ -7,8 +7,9 @@ use App\Endpoint\View\Slconfig\DefaultView;
 use App\Models\Avatar;
 use PHPUnit\Framework\TestCase;
 use Tests\TestWorker;
+use Tests\TestWorkerWithLogin;
 
-class Slconfigtest extends TestWorker
+class Slconfigtest extends TestWorkerWithLogin
 {
     public function test_Default()
     {
