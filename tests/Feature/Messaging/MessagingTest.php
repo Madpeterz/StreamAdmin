@@ -52,7 +52,7 @@ class MessagingTest extends TestCase
     {
         $rental = $this->rental(avatar: $this->avatar('Jane'));
         $rental->update(['expire_unixtime' => time() + 50 * 3600 + 1800]);
-        $text = Swaps::forRental("Hi [[AVATAR_FIRSTNAME]] [[AVATAR_LASTNAME]]\r\n,[[NL]]port [[PortNum]] on [[SERVER_DOMAIN]], [[RENTAL_TIMELEFT]] left", $rental);
+        $text = Swaps::forRental("Hi [[AVATAR_FIRSTNAME]] [[AVATAR_LASTNAME]]\r\n,[[NL]]port [[STREAM_PORT]] on [[SERVER_DOMAIN]], [[RENTAL_TIMELEFT]] left", $rental);
 
         $this->assertSame("Hi Jane Resident,\nport {$rental->stream->port} on stream.test, 2 days, 2 hours left", $text);
     }
@@ -190,6 +190,6 @@ class MessagingTest extends TestCase
 
         Http::assertSent(fn ($request) => $request->url() === 'https://bot.test/api/Run'
             && $request['commandName'] === 'Hello'
-            && $request['signing'] === sha1('Hello'.$request['unixtime'].'botsecret1'));
+            && $request['signing'] === hash_hmac('sha256', "Hello\n\n".$request['unixtime'], 'botsecret1'));
     }
 }

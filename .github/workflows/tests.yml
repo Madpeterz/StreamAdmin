@@ -34,6 +34,10 @@ jobs:
           tools: composer:v2
       - name: Install dependencies
         run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Audit dependencies
+        run: |
+          composer audit --no-interaction
+          npm audit --audit-level=high
       - name: Lint (Pint)
         run: vendor/bin/pint --test
       - name: Tests

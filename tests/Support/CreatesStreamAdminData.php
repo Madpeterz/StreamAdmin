@@ -23,9 +23,6 @@ trait CreatesStreamAdminData
             'password' => 'secret-password',
             'avatar_id' => $this->avatar('Staff '.Str::random(6))->id, // staff.avatar_id is unique
             'owner_level' => $owner,
-            'phash' => null,
-            'psalt' => null,
-            'lhash' => null,
             'email_reset_expires' => 0,
         ]);
     }

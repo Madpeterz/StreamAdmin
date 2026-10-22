@@ -26,7 +26,6 @@ phpunit.xml
 .github
 .claude
 .vscode
-contract-tests
 docs
 state
 laravel

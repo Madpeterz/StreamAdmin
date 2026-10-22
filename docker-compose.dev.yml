@@ -70,7 +70,7 @@ services:
         - ./docs/legacy-sql/installer.sql:/docker-entrypoint-initdb.d/01-installer.sql:ro
         - ./docs/legacy-sql/2.0.1.1.sql:/docker-entrypoint-initdb.d/02-upgrade-2.0.1.1.sql:ro
         - ./docs/legacy-sql/reset.db.sql:/docker-entrypoint-initdb.d/03-baseline.sql:ro
-        - ./contract-tests/sql/seeds/catalog.sql:/docker-entrypoint-initdb.d/04-demo-catalog.sql:ro
+        - ./docker/dev/db/04-demo-catalog.sql:/docker-entrypoint-initdb.d/04-demo-catalog.sql:ro
         - ./docker/dev/db/05-local-login.sql:/docker-entrypoint-initdb.d/05-local-login.sql:ro
         - ./docker/dev/db/00-test-database.sql:/docker-entrypoint-initdb.d/00-test-database.sql:ro
         healthcheck:

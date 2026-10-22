@@ -34,11 +34,10 @@ class Search extends Component
 
         if (mb_strlen($term) >= 3) {
             $like = '%'.addcslashes($term, '%_\\').'%';
-            $encoded = '%'.addcslashes(htmlentities($term), '%_\\').'%';
 
             $avatars = Avatar::query()
                 ->where(fn (Builder $query) => $query->where('avatar_uuid', 'like', $like)->orWhere('avatar_uid', 'like', $like)
-                    ->orWhere('avatar_name', 'like', $like)->orWhere('avatar_name', 'like', $encoded))
+                    ->orWhere('avatar_name', 'like', $like))
                 ->orderBy('avatar_name')->limit(self::LIMIT)->get();
 
             $rentalIds = Rental::query()

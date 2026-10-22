@@ -62,13 +62,15 @@ class SchedulerTest extends TestCase
         $this->travelBack();
     }
 
-    public function test_an_owner_name_stored_with_entities_still_signs_and_is_left_alone(): void
+    public function test_details_and_notecard_tasks_run_their_service(): void
     {
-        Avatar::whereKey(SlConfig::find(1)->owner_avatar_id)->update(['avatar_name' => 'Pat O&#039;Brien']);
-
         $this->artisan('streamadmin:task details-server')->expectsOutput('details-server: nowork')->assertSuccessful();
+        $this->assertSame('detailsserver', SlObject::where('object_uuid', '20000000-0000-0000-0000-000000000000')->sole()->object_mode);
 
-        $this->assertSame('Pat O&#039;Brien', Avatar::find(SlConfig::find(1)->owner_avatar_id)->avatar_name);
+        // notecards are off on the bot, so the task fails the way the endpoint did
+        $this->artisan('streamadmin:task dynamic-notecards')->assertFailed();
+        $this->assertSame('Notecards are not enabled on the bot', app(Scheduler::class)->lastRun('dynamic-notecards')['message']);
+        $this->artisan('streamadmin:task nonsense')->assertFailed();
     }
 
     public function test_a_failed_run_is_reported(): void
@@ -78,7 +80,7 @@ class SchedulerTest extends TestCase
 
         $this->artisan('streamadmin:task botcommandq')->assertFailed();
 
-        $this->assertSame('To many pending mail commands to the bot', app(Scheduler::class)->lastRun('botcommandq')['message']);
+        $this->assertSame('Too many pending mail commands to the bot', app(Scheduler::class)->lastRun('botcommandq')['message']);
         $this->assertSame(1, BotCommand::count(), 'a failed run rolls back');
     }
 

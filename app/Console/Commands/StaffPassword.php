@@ -44,9 +44,6 @@ class StaffPassword extends Command
         $staff->forceFill([
             'password' => $password,
             'remember_token' => Str::random(60),
-            'phash' => null,
-            'psalt' => null,
-            'lhash' => null,
         ])->save();
         $audit->log('Staff', (string) $staff->id, 'Password changed', null, $staff->username.' (console)');
         $this->info('Password set for '.$staff->username.'.');

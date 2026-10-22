@@ -26,12 +26,10 @@ trait SearchesAvatars
         if (mb_strlen($search) < 3) {
             return collect();
         }
-        // names are stored with HTML entities (as in 2.0.x), so look for both spellings
         $like = '%'.addcslashes($search, '%_\\').'%';
-        $encoded = '%'.addcslashes(htmlentities($search), '%_\\').'%';
 
         return Avatar::query()
-            ->where(fn ($query) => $query->where('avatar_name', 'like', $like)->orWhere('avatar_name', 'like', $encoded)
+            ->where(fn ($query) => $query->where('avatar_name', 'like', $like)
                 ->orWhere('avatar_uid', 'like', $like)->orWhere('avatar_uuid', 'like', $like))
             ->orderBy('avatar_name')
             ->limit(8)

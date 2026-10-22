@@ -62,9 +62,9 @@ return [
     */
 
     'providers' => [
-        // staff log in with their username; 2.0.x password hashes are upgraded on first login
+        // staff log in with their username
         'staff' => [
-            'driver' => 'legacy-staff',
+            'driver' => 'eloquent',
             'model' => Staff::class,
         ],
     ],

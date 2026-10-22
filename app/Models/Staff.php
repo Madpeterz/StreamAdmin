@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
 
 /**
- * Staff login. `password` is bcrypt; `phash`/`psalt` hold the 2.0.x hash until the first login.
+ * Staff login. `password` is bcrypt.
  */
 class Staff extends Authenticatable
 {
@@ -18,7 +18,7 @@ class Staff extends Authenticatable
 
     protected $guarded = ['id'];
 
-    protected $hidden = ['password', 'remember_token', 'phash', 'psalt', 'lhash'];
+    protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
     {

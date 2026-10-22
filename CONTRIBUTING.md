@@ -40,7 +40,7 @@ docker compose -f docker-compose.dev.yml exec app vendor/bin/pint
 ```
 
 The first start installs the PHP dependencies into a volume and loads a demo database. The in-world API
-has recorded request/response tests as well: see `contract-tests/README.md`.
+(`/api/v3`, `docs/api-v3.md`) is covered by the feature tests in `tests/Feature/Api`.
 ### Pull Requests
 
 Ready to make a change great, 

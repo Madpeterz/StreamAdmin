@@ -29,29 +29,28 @@ The container listens on **8080** (it runs as a non-root user), not 80 as the 2.
 
 ## 3. WAF: let Second Life through
 
-In-world scripts and Linden Marketplace call four paths with no cookies and a `Second Life LSL` user agent.
+In-world scripts and Linden Marketplace call two paths with no cookies and a `Second Life LSL` user agent.
 Bot Fight Mode, managed challenges and rate limits will block them. Add a **Skip** rule (WAF → Custom rules,
 placed first) for:
 
 ```
-(starts_with(http.request.uri.path, "/api.php"))
-or (starts_with(http.request.uri.path, "/hud.php"))
-or (starts_with(http.request.uri.path, "/sys.php"))
+(starts_with(http.request.uri.path, "/api/v3/"))
 or (starts_with(http.request.uri.path, "/ans.php"))
 ```
 
 Skip: all remaining custom rules, rate limiting rules, managed rules and Super Bot Fight Mode. Every request
-on these paths is signed (`docs/lsl-contract.md`), so the application rejects anything forged.
+on /api/v3/ is HMAC-signed (`docs/api-v3.md`), and /ans.php is checked against the Marketplace hash, so the
+application rejects anything forged.
 
-Bot HTTP mode calls the bot from the app (outbound), and the bot calls back on `/sys.php`, so it is covered by
+Bot HTTP mode calls the bot from the app (outbound), and the bot calls back on `/api/v3/bot/`, so it is covered by
 the same rule.
 
 ## 4. Protect the admin UI (recommended)
 
-Put **Cloudflare Access** in front of everything *except* the four paths above, `/build/*` and `/up`:
+Put **Cloudflare Access** in front of everything *except* the two paths above, `/build/*` and `/up`:
 
 - Application: `streamadmin.example.com`, policy: allow your staff emails.
-- Bypass policy for the paths `/api.php*`, `/hud.php*`, `/sys.php*`, `/ans.php*`.
+- Bypass policy for the paths `/api/v3/*` and `/ans.php*`.
 
 Staff still sign in to StreamAdmin itself; Access is a second lock in front.
 
@@ -59,7 +58,7 @@ Staff still sign in to StreamAdmin itself; Access is a second lock in front.
 
 ```
 curl -s https://streamadmin.example.com/up                                   # 200
-curl -s -o /dev/null -w "%{http_code}" -X POST https://streamadmin.example.com/api.php/Nothing/Here   # 501, not a Cloudflare page
+curl -s -o /dev/null -w "%{http_code}" -X POST https://streamadmin.example.com/api/v3/nothing/here   # 401, not a Cloudflare page
 ```
 
-If `api.php` returns a Cloudflare challenge page or 403, the skip rule is missing or ordered after another rule.
+If `/api/v3` returns a Cloudflare challenge page or 403, the skip rule is missing or ordered after another rule.

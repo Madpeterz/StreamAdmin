@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Auth\LegacyStaffUserProvider;
 use App\Models\Staff;
 use App\View\FileViewFinder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -25,8 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Auth::provider('legacy-staff', fn ($app, array $config) => new LegacyStaffUserProvider($app['hash'], $config['model']));
-
         // owner level staff manage system settings, staff accounts and other owner-only areas
         Gate::define('owner', fn (Staff $staff) => $staff->owner_level);
 

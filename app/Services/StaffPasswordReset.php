@@ -64,9 +64,6 @@ class StaffPasswordReset
             $staff->forceFill([
                 'password' => $password,
                 'remember_token' => Str::random(60),
-                'phash' => null,
-                'psalt' => null,
-                'lhash' => null,
                 'email_reset_code' => null,
                 'email_reset_expires' => time() - 1,
             ])->save();

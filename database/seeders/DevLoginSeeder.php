@@ -23,9 +23,6 @@ class DevLoginSeeder extends Seeder
         }
         $admin->forceFill([
             'password' => Hash::make('localtest'),
-            'phash' => null,
-            'psalt' => null,
-            'lhash' => null,
         ])->save();
     }
 }

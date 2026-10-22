@@ -13,7 +13,7 @@ use Carbon\CarbonInterface;
  */
 class Swaps
 {
-    /** Tag => example value, in the order staff see them. The short names are 1.x aliases. */
+    /** Tag => example value, in the order staff see them. */
     public static function examples(): array
     {
         $expires = now()->addWeek()->addMinutes(47);
@@ -43,26 +43,6 @@ class Swaps
             'NL' => "\n",
         ];
     }
-
-    /** 1.x tag names still accepted in old templates => current tag. */
-    public const ALIASES = [
-        'FirstName' => 'AVATAR_FIRSTNAME',
-        'LastName' => 'AVATAR_LASTNAME',
-        'ExpiresAt' => 'RENTAL_EXPIRES_DATETIME',
-        'TimeLeft' => 'RENTAL_TIMELEFT',
-        'PortNum' => 'STREAM_PORT',
-        'AdminUsername' => 'STREAM_ADMINUSERNAME',
-        'AdminPassword' => 'STREAM_ADMINPASSWORD',
-        'DjPassword' => 'STREAM_DJPASSWORD',
-        'MountPoint' => 'STREAM_MOUNTPOINT',
-        'Package' => 'PACKAGE_NAME',
-        'Users' => 'PACKAGE_LISTENERS',
-        'Kbps' => 'PACKAGE_BITRATE',
-        'AutoDJ' => 'PACKAGE_AUTODJ',
-        'Disk' => 'PACKAGE_AUTODJ_SIZE',
-        'PackUID' => 'PACKAGE_UID',
-        'RentUID' => 'RENTAL_UID',
-    ];
 
     /** The message for one rental (its avatar, stream, package and server). */
     public static function forRental(string $template, Rental $rental): string
@@ -108,9 +88,6 @@ class Swaps
     /** @param array<string, mixed> $values */
     private static function apply(string $template, array $values): string
     {
-        foreach (self::ALIASES as $alias => $tag) {
-            $values[$alias] = $values[$tag];
-        }
         $replace = [];
         foreach ($values as $tag => $value) {
             $replace['[['.$tag.']]'] = (string) $value;

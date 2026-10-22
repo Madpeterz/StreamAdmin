@@ -1,10 +1,7 @@
 -- Local test login: admin / localtest (owner level), linked to the "Madpeter Zond" avatar.
--- phash = first 42 chars of sha256(password . staff id . psalt . ownerLevel), see SessionControl::hashPassword.
+-- The password itself is set by DevLoginSeeder when the app container starts.
 UPDATE `staff` SET
     `username` = 'admin',
     `avatarLink` = 2,
-    `ownerLevel` = 1,
-    `psalt` = 'localdevsalt0001',
-    `phash` = LEFT(SHA2(CONCAT('localtest', '1', 'localdevsalt0001', '1'), 256), 42),
-    `lhash` = 'local'
+    `ownerLevel` = 1
 WHERE `id` = 1;

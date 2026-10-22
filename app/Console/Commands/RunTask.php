@@ -18,8 +18,8 @@ class RunTask extends Command
     public function handle(Scheduler $scheduler): int
     {
         $task = (string) $this->argument('task');
-        if (! isset(Scheduler::TASKS[$task]['path'])) {
-            $this->error('Unknown task. Use one of: '.implode(', ', array_keys(array_filter(Scheduler::TASKS, fn (array $spec) => isset($spec['path'])))));
+        if (! isset(Scheduler::TASKS[$task]['run'])) {
+            $this->error('Unknown task. Use one of: '.implode(', ', array_keys(array_filter(Scheduler::TASKS, fn (array $spec) => isset($spec['run'])))));
 
             return self::INVALID;
         }

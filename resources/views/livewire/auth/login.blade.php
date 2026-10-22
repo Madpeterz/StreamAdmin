@@ -39,8 +39,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
-        // a fresh install ships guessable "install" keys; the first login replaces them
-        app(SystemService::class)->replaceInstallKeys();
+        // short or "install" keys cannot sign API calls; the first login replaces them
+        app(SystemService::class)->replaceWeakKeys();
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }

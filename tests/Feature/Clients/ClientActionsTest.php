@@ -11,12 +11,10 @@ use App\Models\QueuedEvent;
 use App\Models\Region;
 use App\Models\Rental;
 use App\Models\SlConfig;
-use App\Models\SlObject;
 use App\Models\Stream;
 use App\Models\Transaction;
 use App\Services\NoticeLevels;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Tests\Support\CreatesStreamAdminData;
 use Tests\TestCase;
@@ -144,20 +142,5 @@ class ClientActionsTest extends TestCase
         $this->get('/search?q='.$rental->stream->port)->assertOk()->assertSee('Needle Person');
         $this->get('/search?q=ab')->assertOk()->assertSee('3 or more letters');
         $this->get('/search?q=zzzzzzzz')->assertOk()->assertSee('Nothing found');
-    }
-
-    public function test_region_and_object_names_read_back_decoded_but_stay_stored_as_posted(): void
-    {
-        $region = Region::create(['name' => 'Nova&#039;s Isle']);
-        $object = SlObject::create([
-            'avatar_id' => 1, 'region_id' => $region->id, 'object_uuid' => (string) Str::uuid(), 'object_name' => 'Caf&eacute; vendor',
-            'object_mode' => 'vendor', 'object_xyz' => '128,128,25', 'last_seen' => time(),
-        ]);
-
-        $this->assertSame("Nova's Isle", $region->refresh()->name);
-        $this->assertSame('Nova&#039;s Isle', \DB::table('regions')->where('id', $region->id)->value('name'));
-        $this->assertSame('Café vendor', $object->refresh()->object_name);
-        $this->assertSame('Caf&eacute; vendor', \DB::table('sl_objects')->where('id', $object->id)->value('object_name'));
-        $this->assertSame($region->id, Region::firstOrCreate(['name' => 'Nova&#039;s Isle'])->id, 'the in-world lookup by posted value still finds it');
     }
 }

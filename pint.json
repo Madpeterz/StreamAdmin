@@ -1,4 +1,3 @@
 {
-    "preset": "laravel",
-    "exclude": ["contract-tests"]
+    "preset": "laravel"
 }

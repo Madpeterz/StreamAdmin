@@ -1,5 +1,9 @@
 # StreamAdmin → Laravel + Livewire Migration Plan
 
+> **Historical.** This is the plan the port was made under. The decision to keep the in-world protocol frozen
+> ("LSL contract is frozen" below) was later reversed: 3.0.0 replaces `api.php`/`hud.php`/`sys.php` with the signed
+> `/api/v3` API (`docs/api-v3.md`, `docs/RELEASE_3.0.0.md`), and the contract suite and `app/LegacyApi` are gone.
+
 Target release: **3.0.0** (hard cutover once the full test suite passes).
 
 ## Decisions

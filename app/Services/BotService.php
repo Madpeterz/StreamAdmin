@@ -13,9 +13,16 @@ use Illuminate\Support\Facades\Http;
 
 /**
  * Queues messages for the mail server object and commands for the SL bot (port of 2.0.x BotHelper).
+ *
+ * Commands are signed with the bot secret: HMAC-SHA256 (hex) over "command, args, unixtime" joined
+ * by newlines. They reach the bot as an IM, "{Command}|||{args}|||{unixtime}@@@{signature}", or as
+ * a form post in HTTP mode.
  */
 class BotService
 {
+    /** the path the bot fetches its next dynamic notecard from */
+    public const NOTECARD_PATH = '/api/v3/bot/notecards/next';
+
     public function config(): ?BotConfig
     {
         return BotConfig::find(1);
@@ -40,8 +47,8 @@ class BotService
     }
 
     /**
-     * Ask the bot to fetch the next dynamic notecard from sys.php (once; a queued request is
-     * enough). It gets a short lived key for sys.php Notecard/Next, never the inbound secret.
+     * Ask the bot to fetch the next dynamic notecard from the API (once; a queued request is
+     * enough). It gets the notecard URL and a short lived key for that path, never the bot secret.
      */
     public function fetchNextNotecard(): void
     {
@@ -49,20 +56,25 @@ class BotService
             return;
         }
         $secret = (string) SlConfig::find(1)?->http_inbound_secret;
-        $this->queue('FetchNextNotecard', [rtrim((string) config('app.url'), '/').'/', SystemApiKey::current($secret, 'Notecard', 'Next')]);
+        $this->queue('FetchNextNotecard', [rtrim((string) config('app.url'), '/').self::NOTECARD_PATH, SystemApiKey::current($secret, self::NOTECARD_PATH)]);
+    }
+
+    public function signature(string $command, string $args, int $unixtime): string
+    {
+        return hash_hmac('sha256', $command."\n".$args."\n".$unixtime, (string) $this->config()?->secret);
     }
 
     /**
-     * A command as the bot reads it from an IM: "{Command}|||{arg}~#~{arg}@@@{signature}", signed
-     * with the bot secret (2.0.x BotHelper::getBotCommand).
+     * A command as the bot reads it from an IM.
      *
      * @param  list<string>  $args
      */
-    public function commandLine(string $command, array $args): string
+    public function commandLine(string $command, array $args, ?int $unixtime = null): string
     {
         $args = implode('~#~', array_map('urldecode', array_map('strval', $args)));
+        $unixtime ??= time();
 
-        return $command.'|||'.$args.'@@@'.sha1($command.$args.$this->config()?->secret);
+        return $command.'|||'.$args.'|||'.$unixtime.'@@@'.$this->signature($command, $args, $unixtime);
     }
 
     /** @param list<string> $args */
@@ -76,18 +88,20 @@ class BotService
     }
 
     /**
-     * Ask a bot running in HTTP mode to answer "Hello" with "world".
+     * Post a command to a bot running in HTTP mode and read its answer.
      *
+     * @param  list<string>  $args
      * @return array{ok: bool, message: string}
      */
-    public function testHttp(): array
+    public function runOverHttp(string $commandName, array $args = []): array
     {
         $config = $this->config();
         if (! $config?->http_mode || ! $config->http_url) {
             return ['ok' => false, 'message' => 'HTTP mode is not enabled.'];
         }
-        $command = ['commandName' => 'Hello', 'unixtime' => time(), 'args' => ''];
-        $command['signing'] = sha1($command['commandName'].$command['args'].$command['unixtime'].$config->secret);
+        $joined = implode('~#~', $args);
+        $unixtime = time();
+        $command = ['commandName' => $commandName, 'unixtime' => $unixtime, 'args' => $joined, 'signing' => $this->signature($commandName, $joined, $unixtime)];
         try {
             $response = Http::asForm()->timeout(7)->baseUrl($config->http_url)->post('api/Run', $command);
         } catch (ConnectionException) {
@@ -107,8 +121,23 @@ class BotService
         if ($inner['status'] == false) {
             return ['ok' => false, 'message' => 'The bot said: '.$inner['reply']];
         }
-        if ($inner['reply'] !== 'world') {
-            return ['ok' => false, 'message' => 'Expected the bot to reply "world" but it replied "'.$inner['reply'].'".'];
+
+        return ['ok' => true, 'message' => (string) $inner['reply']];
+    }
+
+    /**
+     * Ask a bot running in HTTP mode to answer "Hello" with "world".
+     *
+     * @return array{ok: bool, message: string}
+     */
+    public function testHttp(): array
+    {
+        $result = $this->runOverHttp('Hello');
+        if (! $result['ok']) {
+            return $result;
+        }
+        if ($result['message'] !== 'world') {
+            return ['ok' => false, 'message' => 'Expected the bot to reply "world" but it replied "'.$result['message'].'".'];
         }
 
         return ['ok' => true, 'message' => 'Bot HTTP test passed.'];

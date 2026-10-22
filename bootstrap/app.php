@@ -1,21 +1,27 @@
 <?php
 
+use App\Api\ApiException;
+use App\Api\Http\Middleware\IdentifyCaller;
+use App\Api\Http\Middleware\InTransaction;
+use App\Api\Http\Middleware\VerifySignature;
 use App\Http\Middleware\ForceAppUrl;
 use App\Http\Middleware\UseDisplayTimezone;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        // the in-world API (api/v3/...) and ans.php; the routes carry their own prefix
+        api: __DIR__.'/../routes/api.php',
+        apiPrefix: '',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
-        // in-world entry points (api.php, hud.php, sys.php, ans.php): 2.0.x showed times in the
-        // display timezone there too
-        then: fn () => Route::middleware(UseDisplayTimezone::class)->group(base_path('routes/legacy.php')),
     )
     ->withMiddleware(function (Middleware $middleware) {
         // The container is only reachable through cloudflared (no published ports), and the tunnel
@@ -32,7 +38,36 @@ return Application::configure(basePath: dirname(__DIR__))
             AuthenticateSession::class,
             UseDisplayTimezone::class,
         ]);
+
+        // in-world calls show times in the display timezone too (swap tags, "time left")
+        $middleware->api(append: [UseDisplayTimezone::class]);
+
+        $middleware->alias([
+            'api.signed' => VerifySignature::class,
+            'api.transaction' => InTransaction::class,
+            'api.caller' => IdentifyCaller::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // in-world callers are scripts: always JSON, never a redirect or an HTML error page
+        $exceptions->shouldRenderJsonWhen(fn (Request $request) => $request->is('api/*') || $request->is('ans.php') || $request->expectsJson());
+
+        $exceptions->render(function (ApiException $e) {
+            return response()->json(['ok' => false, 'code' => $e->errorCode, 'message' => $e->getMessage()] + ($e->errors === [] ? [] : ['errors' => $e->errors]), $e->status);
+        });
+        $exceptions->render(function (ValidationException $e, Request $request) {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            return response()->json(['ok' => false, 'code' => 'validation', 'message' => $e->validator->errors()->first(), 'errors' => $e->errors()], 422);
+        });
+        $exceptions->render(function (HttpExceptionInterface $e, Request $request) {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+            $code = $e->getStatusCode() === 404 ? 'not_found' : 'invalid_request';
+
+            return response()->json(['ok' => false, 'code' => $code, 'message' => $e->getStatusCode() === 404 ? 'Unknown endpoint' : ($e->getMessage() ?: 'Bad request')], $e->getStatusCode());
+        });
     })->create();

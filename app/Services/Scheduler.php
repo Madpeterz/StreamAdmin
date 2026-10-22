@@ -2,18 +2,21 @@
 
 namespace App\Services;
 
-use App\LegacyApi\Gateway;
+use App\Api\ApiException;
+use App\Models\Region;
 use App\Models\SlConfig;
+use App\Models\SlObject;
 use Carbon\CarbonImmutable;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 /**
  * The scheduled tasks that replace the 2.0.x cron container (routes/console.php).
  *
- * The in-world queue tasks run exactly as 2.0.x CronTab.php ran them: as a signed api.php call from
- * a virtual service object owned by the system owner, so the objects table (and the Health page)
- * sees the service as online and the endpoint behaves the same as for a real in-world server.
+ * The queue tasks do what the owner's in-world server objects do through the API, by calling the
+ * same services directly. Each run is recorded as a virtual service object owned by the system
+ * owner (the 2.0.x CronTab did the same), so the objects table and the Health page see the
+ * service as online.
  */
 class Scheduler
 {
@@ -25,20 +28,20 @@ class Scheduler
 
     /**
      * key => label, pause switch (sl_configs column), cadence shown in the UI, and for the queue
-     * tasks the api.php endpoint plus the 2.0.x virtual object (name, mode, number in its UUID).
+     * tasks the service call to make plus the virtual object (name, mode, number in its UUID).
      */
     public const TASKS = [
         'botcommandq' => [
             'label' => 'Bot command queue', 'column' => 'scheduler_botcommandq', 'every' => 'Every 5 seconds',
-            'path' => 'Botcommandq/Next', 'object' => ['Botcommandq', 'botcommandqserver', 1],
+            'run' => [QueueService::class, 'nextBotCommand'], 'object' => ['Botcommandq', 'botcommandqserver', 1],
         ],
         'details-server' => [
             'label' => 'Stream details', 'column' => 'scheduler_details_server', 'every' => 'Every 10 seconds',
-            'path' => 'Detailsserver/Next', 'object' => ['Detailsserver', 'detailsserver', 2],
+            'run' => [QueueService::class, 'processDetails'], 'object' => ['Detailsserver', 'detailsserver', 2],
         ],
         'dynamic-notecards' => [
             'label' => 'Bot notecards', 'column' => 'scheduler_dynamic_notecards', 'every' => 'Every 10 seconds',
-            'path' => 'Bot/Notecardsync', 'object' => ['Dynamicnotecards', 'notecardsserver', 3],
+            'run' => [NoticeService::class, 'syncBotNotecards'], 'object' => ['Dynamicnotecards', 'notecardsserver', 3],
         ],
         'export' => [
             'label' => 'Spreadsheet export', 'column' => 'scheduler_export', 'every' => 'Daily at 03:00',
@@ -59,31 +62,19 @@ class Scheduler
         if ($config->ownerAvatar === null) {
             return $this->record($task, false, 'Unable to load the system owner avatar');
         }
-        [$module, $area] = explode('/', $spec['path']);
-        [$name, $mode, $number] = $spec['object'];
-        // sent the way an in-world object sends them: the gateway htmlentities() every value
-        // (names are stored that way), and the hash is over the values as the gateway sees them
-        $fields = [
-            'version' => (string) $config->db_version,
-            'mode' => $mode,
-            'objectuuid' => $number.'0000000-0000-0000-0000-000000000000',
-            'regionname' => 'cron',
-            'ownerkey' => $config->ownerAvatar->avatar_uuid,
-            'ownername' => html_entity_decode($config->ownerAvatar->avatar_name, ENT_QUOTES | ENT_HTML401),
-            'pos' => '0,0,0',
-            'objectname' => $name,
-            'objecttype' => $mode,
-        ];
-        $unixtime = time();
-        $signed = implode('', array_map(fn (string $value) => htmlentities($value), $fields));
-        $fields['unixtime'] = $unixtime;
-        // the service objects are the owner's, so they are signed with the owner link code
-        $fields['hash'] = sha1($unixtime.$module.$area.$signed.$config->owner_link_code);
+        [$service, $method] = $spec['run'];
+        try {
+            // a run that fails leaves nothing behind, as a failed API call does
+            $reply = DB::transaction(function () use ($config, $spec, $service, $method) {
+                $this->checkIn($config, ...$spec['object']);
 
-        $request = Request::create('/api.php/'.$spec['path'], 'POST', $fields, server: ['HTTP_X_SECONDLIFE_SHARD' => 'Production']);
-        $reply = json_decode((string) app(Gateway::class)->api($request, $spec['path'])->getContent(), true);
+                return app($service)->{$method}();
+            });
+        } catch (ApiException $e) {
+            return $this->record($task, false, $e->getMessage());
+        }
 
-        return $this->record($task, ($reply['status'] ?? '0') === '1', (string) ($reply['message'] ?? 'No reply'));
+        return $this->record($task, true, $reply['message']);
     }
 
     /** @return array{status: bool, message: string} */
@@ -106,7 +97,7 @@ class Scheduler
         if (! is_array($run)) {
             return null;
         }
-        $maxAge = isset(self::TASKS[$task]['path']) ? self::QUEUE_MAX_AGE : self::EXPORT_MAX_AGE;
+        $maxAge = isset(self::TASKS[$task]['object']) ? self::QUEUE_MAX_AGE : self::EXPORT_MAX_AGE;
         $stale = now()->getTimestamp() - (int) $run['at'] > $maxAge;
 
         return [
@@ -115,5 +106,21 @@ class Scheduler
             'message' => $stale ? 'No run since '.CarbonImmutable::createFromTimestamp($run['at'])->diffForHumans().' - last result: '.$run['message'] : (string) $run['message'],
             'stale' => $stale,
         ];
+    }
+
+    /** Record the virtual service object as seen now. */
+    private function checkIn(SlConfig $config, string $name, string $mode, int $number): void
+    {
+        SlObject::updateOrCreate(
+            ['object_uuid' => $number.'0000000-0000-0000-0000-000000000000'],
+            [
+                'avatar_id' => $config->owner_avatar_id,
+                'region_id' => Region::firstOrCreate(['name' => 'cron'])->id,
+                'object_name' => $name,
+                'object_mode' => $mode,
+                'object_xyz' => '0,0,0',
+                'last_seen' => time(),
+            ],
+        );
     }
 }

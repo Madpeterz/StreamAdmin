@@ -12,7 +12,7 @@ use App\Models\Stream;
 
 /**
  * Events for the in-world events server object (only queued when the events API is enabled).
- * The payload format is part of the in-world contract, see docs/lsl-contract.md.
+ * The payload format is part of the in-world API (owner/events/next, docs/api-v3.md).
  */
 class EventQueue
 {

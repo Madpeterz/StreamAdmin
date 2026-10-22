@@ -112,12 +112,13 @@
         <flux:card class="flex flex-col gap-4">
             <div>
                 <flux:heading size="lg">Access keys</flux:heading>
-                <flux:text class="text-sm">Set these in your in-world objects so they can talk to StreamAdmin.</flux:text>
+                <flux:text class="text-sm">Each kind of in-world object signs its calls with its own key (see docs/api-v3.md).</flux:text>
             </div>
             <dl class="flex flex-col gap-3">
-                <x-ui.secret label="Vendors link code" :secret="$config->sl_link_code" />
-                <x-ui.secret label="Owner objects link code" :secret="$config->owner_link_code" />
-                <x-ui.secret label="Renter HUD link code" :secret="$config->hud_link_code" />
+                <x-ui.secret label="Vendors key" :secret="$config->sl_link_code" />
+                <x-ui.secret label="Owner objects key" :secret="$config->owner_link_code" />
+                <x-ui.secret label="Renter HUD key" :secret="$config->hud_link_code" />
+                <x-ui.secret label="Bot API key" :secret="$config->http_inbound_secret" />
             </dl>
             <div>
                 <flux:modal.trigger name="reissue">
@@ -159,7 +160,7 @@
         <div class="flex flex-col gap-5">
             <div>
                 <flux:heading size="lg">Reissue all keys?</flux:heading>
-                <flux:text class="mt-2">Every vendor, server, HUD and custom script stops working until it is given the new link codes. Only do this if a code has leaked.</flux:text>
+                <flux:text class="mt-2">Every vendor, server, HUD, the bot and any custom script stops working until it is given the new keys. Only do this if a key has leaked.</flux:text>
             </div>
             <div class="flex justify-end gap-2">
                 <flux:modal.close><flux:button variant="ghost">Cancel</flux:button></flux:modal.close>

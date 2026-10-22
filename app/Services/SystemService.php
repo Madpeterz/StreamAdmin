@@ -235,21 +235,24 @@ class SystemService
     }
 
     /**
-     * A fresh install ships every key as "install", which anyone can guess. The first staff login
-     * replaces those with random ones; keys that were already changed are left alone.
+     * A fresh install ships every key as "install", and 2.0.x keys were 8 characters; neither is
+     * strong enough to sign API calls with. The first staff login replaces those with random
+     * ones; keys that are already long enough are left alone.
      */
-    public function replaceInstallKeys(): void
+    public function replaceWeakKeys(): void
     {
         $replaced = [];
         DB::transaction(function () use (&$replaced) {
             foreach (self::KEY_COLUMNS as $column) {
                 // conditional update, so two logins at once cannot replace a key twice
-                if (SlConfig::whereKey(1)->where($column, self::INSTALL_KEY)->update([$column => Str::random(self::KEY_LENGTH)]) > 0) {
+                $weak = fn ($query) => $query->where($column, self::INSTALL_KEY)->orWhereNull($column)
+                    ->orWhereRaw('CHAR_LENGTH(`'.$column.'`) < ?', [self::KEY_LENGTH]);
+                if (SlConfig::whereKey(1)->where($weak)->update([$column => Str::random(self::KEY_LENGTH)]) > 0) {
                     $replaced[] = $column;
                 }
             }
             if ($replaced !== []) {
-                $this->audit->log('Slconfig', '1', 'install keys replaced', null, implode(', ', $replaced));
+                $this->audit->log('Slconfig', '1', 'weak keys replaced', null, implode(', ', $replaced));
             }
         });
     }

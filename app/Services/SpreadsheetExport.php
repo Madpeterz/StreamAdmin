@@ -76,7 +76,7 @@ class SpreadsheetExport
             }
             yield [
                 $stream->id,
-                html_entity_decode($client, ENT_QUOTES | ENT_HTML401),
+                $client,
                 $stream->port,
                 (string) $stream->dj_password,
                 (string) $stream->admin_username,
