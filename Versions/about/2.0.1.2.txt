@@ -1,10 +1,12 @@
 <div class="row">
 <div class="col-sm-12">
-<h5>Changes since 2.0.1.0</h5>
 <p>
-Full update list: <a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/152">issue 152</a>
+<strong>New in 2.0.1.2:</strong> PHP 8.4, marketplace coupons and credits, rental limits, server IP and capacity, plus security and bug fixes.<br/>
+Ran a dev build from after May 2025? Use <strong>Reissue</strong> on the System config page to replace your link codes and inbound secret.
 </p>
-</div>
+<details>
+<summary>Show all changes since 2.0.1.0 (<a target="_blank" href="https://github.com/Madpeterz/StreamAdmin/issues/152">issue 152</a>)</summary>
+<div class="row">
 <div class="col-sm-12">
 <h6>Before you upgrade</h6>
 <ul>
@@ -57,6 +59,9 @@ Full update list: <a target="_blank" href="https://github.com/Madpeterz/StreamAd
 <li>New <code>docker-compose.cloudflared.yml</code> for running behind a Cloudflare Tunnel, with settings and secrets read from a <code>.env</code> file.</li>
 <li>Automated test coverage raised from 32.75% to 61.27%.</li>
 </ul>
+</div>
+</div>
+</details>
 </div>
 <div class="col-sm-12">
 <p>
