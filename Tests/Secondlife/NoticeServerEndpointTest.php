@@ -151,4 +151,20 @@ class NoticeServerEndpointTest extends TestWorker
         $this->assertTrue(method_exists($reply, 'getSwapTagString'), 'Output object should have getSwapTagString method');
         $this->assertStringStartsWith("ok", $reply->getSwapTagString("message"), "Expected output should be 'ok'");
     }
+    /**
+     * @depends test_Updatenotecards
+     */
+    public function test_Notecardmail()
+    {
+        $notecardmail = new Notecardmail();
+        $status = $notecardmail->getOutputObject()->addSwapTagString("message");
+        $this->assertSame("ready", $status, "Notecardmail should have 'ready' status before processing");
+        $notecardmail->process();
+        $reply = $notecardmail->getOutputObject();
+        $this->assertContains(
+            $reply->getSwapTagString("message"),
+            ["nowork", "send", "Missing notecard please recheck", "Invaild notecard please recheck"],
+            "Unexpected reply from Notecardmail"
+        );
+    }
 }
