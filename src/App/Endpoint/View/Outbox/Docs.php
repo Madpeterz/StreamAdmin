@@ -20,13 +20,13 @@ class Docs extends View
         $botConfig = new Botconfig();
         $botConfig->loadID(1);
         foreach ($notecardmail as $staticnotecard) {
-            $avatar = $avatar_set->getObjectByID($staticnotecard->getAvatarLink());
-            $notecard = $noticenotecards->getObjectByID($staticnotecard->getNoticenotecardLink());
+            $avatar = $avatar_set->getObjectByID($staticnotecard->_AvatarLink);
+            $notecard = $noticenotecards->getObjectByID($staticnotecard->_NoticeNotecardLink);
             $entry = [];
-            $entry[] = $staticnotecard->getId();
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-            . $avatar->getAvatarName() . '</a>';
-            $entry[] = $notecard->getName();
+            $entry[] = $staticnotecard->_Id;
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->_AvatarName . '">'
+            . $avatar->_AvatarName . '</a>';
+            $entry[] = $notecard->_Name;
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

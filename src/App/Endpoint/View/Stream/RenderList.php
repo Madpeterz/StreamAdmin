@@ -24,33 +24,33 @@ abstract class RenderList extends View
         $server_set = $this->streamSet->relatedServer();
 
         foreach ($this->streamSet as $stream) {
-            $server = $server_set->getObjectByID($stream->getServerLink());
+            $server = $server_set->getObjectByID($stream->_ServerLink);
             $entry = [];
-            $entry[] = $stream->getId();
-            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->getStreamUid() . '">'
-            . $stream->getStreamUid() . '</a>';
-            $midpoint = $server->getDomain();
+            $entry[] = $stream->_Id;
+            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->_StreamUid . '">'
+            . $stream->_StreamUid . '</a>';
+            $midpoint = $server->_Domain;
             if ($usePackageNotServer == true) {
-                $package = $this->packageSet->getObjectByID($stream->getPackageLink());
-                $midpoint = $package->getName();
+                $package = $this->packageSet->getObjectByID($stream->_PackageLink);
+                $midpoint = $package->_Name;
             }
             $entry[] = $midpoint;
-            $entry[] = $stream->getPort();
+            $entry[] = $stream->_Port;
             $state = "Rented but cant find rental.";
-            if ($stream->getNeedWork() == true) {
+            if ($stream->_NeedWork == true) {
                 $state = "<span class=\"needWork\">Need work</span>";
-            } elseif ($stream->getRentalLink() == null) {
+            } elseif ($stream->_RentalLink == null) {
                 $state = "<span class=\"ready\">Available</span>";
-            } elseif (in_array($stream->getRentalLink(), $this->rental_set_ids) == true) {
-                $rental = $this->rentalSet->getObjectByID($stream->getRentalLink());
-                $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
-                $av_detail = explode(" ", $avatar->getAvatarName());
-                $av_name = $avatar->getAvatarName();
+            } elseif (in_array($stream->_RentalLink, $this->rental_set_ids) == true) {
+                $rental = $this->rentalSet->getObjectByID($stream->_RentalLink);
+                $avatar = $avatar_set->getObjectByID($rental->_AvatarLink);
+                $av_detail = explode(" ", $avatar->_AvatarName);
+                $av_name = $avatar->_AvatarName;
                 if ($av_detail[1] == "Resident") {
                     $av_name = $av_detail[0];
                 }
                 $state = '<a class="sold" href="[[SITE_URL]]client/manage/'
-                . $rental->getRentalUid() . '">Sold -> ' . $av_name . '</a>';
+                . $rental->_RentalUid . '">Sold -> ' . $av_name . '</a>';
             }
             $entry[] = $state;
             $table_body[] = $entry;

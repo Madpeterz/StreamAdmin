@@ -22,29 +22,29 @@ class Costandtime extends SecondlifeAjax
             return;
         }
         if ($forceCheckAv != null) {
-            if ($forceCheckAv->getId() != $rental->getAvatarLink()) {
+            if ($forceCheckAv->_Id != $rental->_AvatarLink) {
                 $this->failed("Unable to renew someone elses rental via your hud, 
                 please use the proxy pay!");
                 return;
             }
         }
         $masterAvatar = new Avatar();
-        if ($masterAvatar->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink())->status == false) {
+        if ($masterAvatar->loadID($this->siteConfig->getSlConfig()->_OwnerAvatarLink)->status == false) {
             $this->failed("Unable to load system owner");
             return;
         }
-        $this->setSwapTag("systemowner", $masterAvatar->getAvatarUUID());
-        $this->setSwapTag("cost", $package->getCost());
+        $this->setSwapTag("systemowner", $masterAvatar->_AvatarUUID);
+        $this->setSwapTag("cost", $package->_Cost);
         $this->setSwapTag("word", "Day");
-        $this->setSwapTag("stacksize", $this->getStackSize($package->getDays(), 1));
-        if (($package->getDays() % 7) == 0) {
+        $this->setSwapTag("stacksize", $this->getStackSize($package->_Days, 1));
+        if (($package->_Days % 7) == 0) {
             $this->setSwapTag("word", "Week");
-            $this->setSwapTag("stacksize", $this->getStackSize($package->getDays(), 7));
-        } elseif ((($package->getDays() % 31) == 0) || (($package->getDays() % 30) == 0)) {
+            $this->setSwapTag("stacksize", $this->getStackSize($package->_Days, 7));
+        } elseif ((($package->_Days % 31) == 0) || (($package->_Days % 30) == 0)) {
             $this->setSwapTag("word", "Month");
-            $this->setSwapTag("stacksize", $this->getStackSize($package->getDays(), 31));
+            $this->setSwapTag("stacksize", $this->getStackSize($package->_Days, 31));
         }
-        $this->ok($this->timeRemainingHumanReadable($rental->getExpireUnixtime()));
+        $this->ok($this->timeRemainingHumanReadable($rental->_ExpireUnixtime));
     }
     protected function getStackSize(int $days, int $stackSize): int
     {

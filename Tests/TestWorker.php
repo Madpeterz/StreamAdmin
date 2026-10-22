@@ -36,7 +36,7 @@ class TestWorker extends TestCase
             $staticpart .= $value;
         }
         $_POST["unixtime"] = time();
-        $raw = $_POST["unixtime"] . "" . $staticpart . "" . $system->getSlConfig()->getSlLinkCode();
+        $raw = $_POST["unixtime"] . "" . $staticpart . "" . $system->getSlConfig()->_SlLinkCode;
         $hashcheck = sha1($raw);
         $_POST["hash"] = $hashcheck;
     }
@@ -76,16 +76,16 @@ class TestWorker extends TestCase
         }
         $unixtime = time();
         $_POST["unixtime"] = $unixtime;
-        $linkcode = $system->getSlConfig()->getHudLinkCode();
+        $linkcode = $system->getSlConfig()->_HudLinkCode;
         if($apicode == 2)
         {
             $required_sl["mode"] = "object";
-            $linkcode = $system->getSlConfig()->getSlLinkCode();
+            $linkcode = $system->getSlConfig()->_SlLinkCode;
         }
         else if($apicode == 2)
         {
             $required_sl["mode"] = "bot";
-            $linkcode = $system->getSlConfig()->getHttpInboundSecret();
+            $linkcode = $system->getSlConfig()->_HttpInboundSecret;
         }
         $hash = $unixtime."".$staticpart . "" . $linkcode;
         $_POST["raw"] = $hash;

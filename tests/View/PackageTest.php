@@ -81,7 +81,7 @@ class PackageTest extends TestWorkerWithLogin
         $package = new Package();
         $status = $package->loadByField("name","AlsoUnitTestPackage");
         $this->assertSame(true,$status->status,"Unable to load test package");
-        $system->setPage( $package->getPackageUid() );
+        $system->setPage( $package->_PackageUid );
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -106,7 +106,7 @@ class PackageTest extends TestWorkerWithLogin
         $package = new Package();
         $status = $package->loadByField("name","AlsoUnitTestPackage");
         $this->assertSame(true,$status->status,"Unable to load test package");
-        $system->setPage( $package->getPackageUid() );
+        $system->setPage( $package->_PackageUid );
 
         $manageProcess = new Update();
         $_POST["name"] = "AlsoUnitTestPackage Updated";
@@ -144,7 +144,7 @@ class PackageTest extends TestWorkerWithLogin
         $package = new Package();
         $status = $package->loadByField("name","AlsoUnitTestPackage Updated");
         $this->assertSame(true,$status->status,"Unable to load test package");
-        $system->setPage( $package->getPackageUid() );
+        $system->setPage( $package->_PackageUid );
 
         $removeProcess = new PackageRemove();
         $_POST["accept"] = "Accept";

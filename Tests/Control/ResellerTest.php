@@ -13,16 +13,16 @@ class ResellerTest extends TestWorker
     public function test_RequiredFirst()
     {
         $reseller = new Reseller();
-        $reseller->setAllowed(false);
-        $reseller->setAvatarLink(1);
-        $reseller->setRate(100);
+        $reseller->_Allowed = false;
+        $reseller->_AvatarLink = 1;
+        $reseller->_Rate = 100;
         $create = $reseller->createEntry();
         $this->assertSame("ok", $create->message, "Failed to create reseller 1");
         $this->assertSame(true, $create->status, "Failed to create reseller 1");
         $reseller = new Reseller();
-        $reseller->setAllowed(false);
-        $reseller->setAvatarLink(2);
-        $reseller->setRate(100);
+        $reseller->_Allowed = false;
+        $reseller->_AvatarLink = 2;
+        $reseller->_Rate = 100;
         $create = $reseller->createEntry();
         $this->assertSame("ok", $create->message, "Failed to create reseller 2");
         $this->assertSame(true, $create->status, "Failed to create reseller 2");
@@ -38,8 +38,8 @@ class ResellerTest extends TestWorker
         $system->setPage(2);
         $resellerPreUpdate = new Reseller();
         $resellerPreUpdate->loadId(2);
-        $this->assertSame(100, $resellerPreUpdate->getRate(), "Reseller rate is not correct pre update");
-        $this->assertSame(false, $resellerPreUpdate->getAllowed(), "Reseller allowed is not correct pre update");
+        $this->assertSame(100, $resellerPreUpdate->_Rate, "Reseller rate is not correct pre update");
+        $this->assertSame(false, $resellerPreUpdate->_Allowed, "Reseller allowed is not correct pre update");
         $update = new Update();
         $update->process();
         $reply = $update->getOutputObject();
@@ -47,8 +47,8 @@ class ResellerTest extends TestWorker
         $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
         $resellerPostUpdate = new Reseller();
         $resellerPostUpdate->loadId(2);
-        $this->assertSame(50, $resellerPostUpdate->getRate(), "Reseller rate is not correct post update");
-        $this->assertSame(true, $resellerPostUpdate->getAllowed(), "Reseller allowed is not correct post update");
+        $this->assertSame(50, $resellerPostUpdate->_Rate, "Reseller rate is not correct post update");
+        $this->assertSame(true, $resellerPostUpdate->_Allowed, "Reseller allowed is not correct post update");
     }
     /**
      * @depends test_Update

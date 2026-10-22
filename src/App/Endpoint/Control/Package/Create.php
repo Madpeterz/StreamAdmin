@@ -81,22 +81,22 @@ class Create extends ControlAjax
             $this->failed("Unable to assign a new UID to the package");
             return;
         }
-        $package->setPackageUid($uid->uid);
-        $package->setName($name);
-        $package->setAutodj($autodj);
-        $package->setAutodjSize($autodjSize);
-        $package->setListeners($listeners);
-        $package->setBitrate($bitrate);
-        $package->setTemplateLink($templateLink);
-        $package->setCost($cost);
-        $package->setDays($days);
-        $package->setTextureSoldout($textureSoldout);
-        $package->setTextureInstockSmall($textureInstockSmall);
-        $package->setTextureInstockSelected($textureInstockSelected);
-        $package->setServertypeLink($servertypeLink);
-        $package->setWelcomeNotecardLink($welcomeNotecardLink);
-        $package->setSetupNotecardLink($setupNotecardLink);
-        $package->setEnableGroupInvite($enableGroupInvite);
+        $package->_PackageUid = $uid->uid;
+        $package->_Name = $name;
+        $package->_Autodj = $autodj;
+        $package->_AutodjSize = $autodjSize;
+        $package->_Listeners = $listeners;
+        $package->_Bitrate = $bitrate;
+        $package->_TemplateLink = $templateLink;
+        $package->_Cost = $cost;
+        $package->_Days = $days;
+        $package->_TextureSoldout = $textureSoldout;
+        $package->_TextureInstockSmall = $textureInstockSmall;
+        $package->_TextureInstockSelected = $textureInstockSelected;
+        $package->_ServertypeLink = $servertypeLink;
+        $package->_WelcomeNotecardLink = $welcomeNotecardLink;
+        $package->_SetupNotecardLink = $setupNotecardLink;
+        $package->_EnableGroupInvite = $enableGroupInvite;
         $create_status = $package->createEntry();
         if ($create_status->status == false) {
             $this->failed(
@@ -105,6 +105,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Package created");
-        $this->createAuditLog($package->getId(), "+++", null, $package->getName());
+        $this->createAuditLog($package->_Id, "+++", null, $package->_Name);
     }
 }

@@ -67,20 +67,20 @@ class Send extends ControlAjax
         $seen_avatars = [];
         $hadError = false;
         foreach ($this->rental_set as $rental) {
-            if (in_array($rental->getAvatarLink(), $this->avatarids) == false) {
+            if (in_array($rental->_AvatarLink, $this->avatarids) == false) {
                 continue;
             }
-            if (in_array($rental->getAvatarLink(), $seen_avatars) == true) {
+            if (in_array($rental->_AvatarLink, $seen_avatars) == true) {
                 continue;
             }
-            $seen_avatars[] = $rental->getAvatarLink();
-            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
-            if (in_array($avatar->getId(), $banned_ids) == true) {
+            $seen_avatars[] = $rental->_AvatarLink;
+            $avatar = $avatar_set->getObjectByID($rental->_AvatarLink);
+            if (in_array($avatar->_Id, $banned_ids) == true) {
                 continue;
             }
-            $stream = $stream_set->getObjectByID($rental->getStreamLink());
-            $package = $package_set->getObjectByID($stream->getPackageLink());
-            $server = $server_set->getObjectByID($stream->getServerLink());
+            $stream = $stream_set->getObjectByID($rental->_StreamLink);
+            $package = $package_set->getObjectByID($stream->_PackageLink);
+            $server = $server_set->getObjectByID($stream->_ServerLink);
             $sendmessage = $swapables_helper->getSwappedText(
                 $message,
                 $avatar,

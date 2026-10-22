@@ -20,12 +20,12 @@ class Next extends SecondlifeAjax
     protected BotHelper $botHelper;
     protected function processDetailRequest(Detail $detail): bool
     {
-        $rental = $this->rentals->getObjectByID($detail->getRentalLink());
-        $avatar = $this->avatars->getObjectByID($rental->getAvatarLink());
-        $stream = $this->streams->getObjectByID($rental->getStreamLink());
-        $server = $this->servers->getObjectByID($stream->getServerLink());
-        $package = $this->packages->getObjectByID($stream->getPackageLink());
-        $template = $this->templates->getObjectByID($package->getTemplateLink());
+        $rental = $this->rentals->getObjectByID($detail->_RentalLink);
+        $avatar = $this->avatars->getObjectByID($rental->_AvatarLink);
+        $stream = $this->streams->getObjectByID($rental->_StreamLink);
+        $server = $this->servers->getObjectByID($stream->_ServerLink);
+        $package = $this->packages->getObjectByID($stream->_PackageLink);
+        $template = $this->templates->getObjectByID($package->_TemplateLink);
         $test = [$detail, $rental, $avatar, $stream, $server, $package, $template];
         if (in_array(null, $test) == true) {
             $this->failed("One or more required objects failed to load");
@@ -33,7 +33,7 @@ class Next extends SecondlifeAjax
         }
         $swapables_helper = new SwapablesHelper();
         $sendmessage = $swapables_helper->getSwappedText(
-            $template->getDetail(),
+            $template->_Detail,
             $avatar,
             $rental,
             $package,
@@ -43,16 +43,16 @@ class Next extends SecondlifeAjax
         if ($this->botHelper->sendMessage($avatar, $sendmessage)->status == false) {
             return false;
         }
-        if ($this->botconfig->getNotecards() == true) {
+        if ($this->botconfig->_Notecards == true) {
             $notecard = new Notecard();
-            $notecard->setAsNotice(false);
-            $notecard->setRentalLink($rental->getId());
+            $notecard->_AsNotice = false;
+            $notecard->_RentalLink = $rental->_Id;
             $create = $notecard->createEntry();
             if ($create->status == false) {
                 $this->failed("Unable to request dynamic notecard");
                 return false;
             }
-            $addtoQ = $this->botHelper->sendBotNextNotecard($this->siteConfig->getSiteURL(), $this->siteConfig->getSlConfig()->getHttpInboundSecret());
+            $addtoQ = $this->botHelper->sendBotNextNotecard($this->siteConfig->getSiteURL(), $this->siteConfig->getSlConfig()->_HttpInboundSecret);
             if ($addtoQ->status == false) {
                 $this->failed("Unable to request bot to collect next dynamic notecard");
                 return false;

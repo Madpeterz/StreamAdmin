@@ -19,7 +19,7 @@ class Checkstock extends SecondlifeAjax
         $whereconfig = [
             "fields" => ["rentalLink", "packageLink", "needWork"],
             "matches" => ["IS", "=", "="],
-            "values" => [null, $package->getId(), 0],
+            "values" => [null, $package->_Id, 0],
             "types" => ["i", "i", "i"],
         ];
         $streamSet = new StreamSet();
@@ -34,9 +34,9 @@ class Checkstock extends SecondlifeAjax
         if ($count_data->items > 0) {
             $this->setSwapTag("package_instock", true);
         }
-        $this->setSwapTag("package_cost", $package->getCost());
-        $this->setSwapTag("texture_package_small", $package->getTextureInstockSmall());
-        $this->setSwapTag("texture_package_big", $package->getTextureInstockSelected());
-        $this->setSwapTag("texture_package_soldout", $package->getTextureSoldout());
+        $this->setSwapTag("package_cost", $package->_Cost);
+        $this->setSwapTag("texture_package_small", $package->_TextureInstockSmall);
+        $this->setSwapTag("texture_package_big", $package->_TextureInstockSelected);
+        $this->setSwapTag("texture_package_soldout", $package->_TextureSoldout);
     }
 }

@@ -50,22 +50,22 @@ class Manage extends View
             return;
         }
         $this->setSwapTag("page_actions", "");
-        if ($stream->getId() > 0) {
+        if ($stream->_Id > 0) {
             $this->output->addSwapTagString(
                 "page_actions",
-                "<button type='button' data-rentaluid=\"" . $this->rental->getRentalUid() . "\" data-toggle=\"modal\" 
+                "<button type='button' data-rentaluid=\"" . $this->rental->_RentalUid . "\" data-toggle=\"modal\" 
                 data-target=\"#NotecardModal\" class='btn btn-sm btn-success'>Notecard</button>"
             );
 
             $this->output->addSwapTagString(
                 "page_actions",
-                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='[[SITE_URL]]Stream/Manage/" . $stream->getStreamUid() . "'>"
+                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='[[SITE_URL]]Stream/Manage/" . $stream->_StreamUid . "'>"
                 . "<button type='button' class='btn btn-outline-light'>View Stream</button></a>"
             );
         }
 
         $hours_remaining = 0;
-        $time_remaining = $this->rental->getExpireUnixtime() - time();
+        $time_remaining = $this->rental->_ExpireUnixtime - time();
         if ($time_remaining < 0) {
             $time_remaining = 0;
         }
@@ -74,7 +74,7 @@ class Manage extends View
             $time_remaining -= $this->siteConfig->unixtimeHour();
         }
         $package = $this->rental->relatedPackage()->getFirst();
-        $est_refund_value_per_hour = ($package->getCost() / $package->getDays()) / 24;
+        $est_refund_value_per_hour = ($package->_Cost / $package->_Days) / 24;
         $est_refund = round($hours_remaining * $est_refund_value_per_hour);
 
 
@@ -87,14 +87,14 @@ class Manage extends View
 
         $paged_info = new TemplatePagedInfo();
         $this->clientManageForm();
-        $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar, $this->rental->getRentalUid());
+        $this->pages["Other rentals"] = $this->clientAllStreamsTable($this->avatar, $this->rental->_RentalUid);
         $this->clientMessageForm();
         $this->clientTransactions();
         $this->clientOptOut();
         $this->setSwapTag("page_content", $paged_info->render($this->pages));
     }
 
-    public function clientAllStreamsTable(Avatar $targetAvatar, string $ignoreRentalUid = null): string
+    public function clientAllStreamsTable(Avatar $targetAvatar, ?string $ignoreRentalUid = null): string
     {
         $rentalSet = $targetAvatar->relatedRental();
         $streamSet = $rentalSet->relatedStream();
@@ -103,24 +103,24 @@ class Manage extends View
         $tableHead = ["Server","Port","Package","Timeleft","Started","Renewals","Client page","Stream page"];
         $tableBody = [];
         foreach ($rentalSet as $rental) {
-            if ($rental->getRentalUid() == $ignoreRentalUid) {
+            if ($rental->_RentalUid == $ignoreRentalUid) {
                 continue;
             }
             $entry = [];
-            $stream = $streamSet->getObjectByID($rental->getStreamLink());
-            $server = $this->servers->getObjectByID($stream->getServerLink());
-            $package = $packageSet->getObjectByID($stream->getPackageLink());
+            $stream = $streamSet->getObjectByID($rental->_StreamLink);
+            $server = $this->servers->getObjectByID($stream->_ServerLink);
+            $package = $packageSet->getObjectByID($stream->_PackageLink);
             $entry[] = "<a href=\"[[SITE_URL]]stream/onserver/"
-            . $server->getId() . "\">" . $server->getDomain() . "</a>";
-            $entry[] = $stream->getPort();
-            $entry[] = "<a href=\"package/manage/" . $package->getPackageUid() . "\">" . $package->getName() . "</a>";
-            $entry[] = $this->timeRemainingHumanReadable($rental->getExpireUnixtime(), false, "Expired");
-            $entry[] = date('d/m/Y @ G:i:s', $rental->getStartUnixtime());
-            $entry[] = $rental->getRenewals();
+            . $server->_Id . "\">" . $server->_Domain . "</a>";
+            $entry[] = $stream->_Port;
+            $entry[] = "<a href=\"package/manage/" . $package->_PackageUid . "\">" . $package->_Name . "</a>";
+            $entry[] = $this->timeRemainingHumanReadable($rental->_ExpireUnixtime, false, "Expired");
+            $entry[] = date('d/m/Y @ G:i:s', $rental->_StartUnixtime);
+            $entry[] = $rental->_Renewals;
             $entry[] = "<a href=\"[[SITE_URL]]client/manage/"
-            . $rental->getRentalUid() . "\">" . $rental->getRentalUid() . "</a>";
+            . $rental->_RentalUid . "\">" . $rental->_RentalUid . "</a>";
             $entry[] = "<a href=\"[[SITE_URL]]stream/manage/"
-            . $stream->getStreamUid() . "\">" . $stream->getStreamUid() . "</a>";
+            . $stream->_StreamUid . "\">" . $stream->_StreamUid . "</a>";
             $tableBody[] = $entry;
         }
 
@@ -130,15 +130,15 @@ class Manage extends View
     protected function clientManageForm(): void
     {
         $this->avatar = new Avatar();
-        $this->avatar->loadID($this->rental->getAvatarLink());
-        $this->output->addSwapTagString("page_title", ": " . $this->rental->getRentalUid() . " "
-        . "[" . $this->avatar->getAvatarName() . "]");
+        $this->avatar->loadID($this->rental->_AvatarLink);
+        $this->output->addSwapTagString("page_title", ": " . $this->rental->_RentalUid . " "
+        . "[" . $this->avatar->_AvatarName . "]");
         $form = new Form();
         $form->target("client/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
-            $form->group("Timeleft: " . $this->timeRemainingHumanReadable($this->rental->getExpireUnixtime()) . "");
-            $form->directAdd("<sub>" . date('l jS \of F Y h:i:s A', $this->rental->getExpireUnixtime()) . "</sub>"
+            $form->group("Timeleft: " . $this->timeRemainingHumanReadable($this->rental->_ExpireUnixtime) . "");
+            $form->directAdd("<sub>" . date('l jS \of F Y h:i:s A', $this->rental->_ExpireUnixtime) . "</sub>"
             . "<br/><br/>");
             $form->numberInput("adjustment_days", "Adjustment [Days]", 0, 3, "Max 999");
             $form->numberInput("adjustment_hours", "Adjustment [Hours]", 0, 2, "Max 23");
@@ -160,7 +160,7 @@ class Manage extends View
                 "message",
                 "Message",
                 9999,
-                $this->rental->getMessage(),
+                $this->rental->_Message,
                 "Any rental with a message will not be listed on the Fast removal system! Max length 9999"
             );
             $this->pages["Client"] = $form->render("Update", "primary");
@@ -192,15 +192,15 @@ class Manage extends View
             return;
         }
         $client_opt_out = new RentalnoticeptoutSet();
-        $client_opt_out->loadByRentalLink($this->rental->getId());
+        $client_opt_out->loadByRentalLink($this->rental->_Id);
         $opt_out_notice_ids = $client_opt_out->uniqueNoticeLinks();
         $table_head = ["Notice level","Status"];
         $table_body = [];
         foreach ($noticeLevels as $noticeLevel) {
             $entry = [];
-            $entry[] = $noticeLevel->getName();
-            $enabled = in_array($noticeLevel->getId(), $opt_out_notice_ids);
-            $entry[] = $this->makeOptoutButton($noticeLevel->getId(), $enabled);
+            $entry[] = $noticeLevel->_Name;
+            $enabled = in_array($noticeLevel->_Id, $opt_out_notice_ids);
+            $entry[] = $this->makeOptoutButton($noticeLevel->_Id, $enabled);
             $table_body[] = $entry;
         }
         $form = new Form();
@@ -242,7 +242,7 @@ class Manage extends View
     {
         $where_config = [
             "fields" => ["streamLink","unixtime"],
-            "values" => [$this->rental->getStreamLink(),$this->rental->getStartUnixtime()],
+            "values" => [$this->rental->_StreamLink,$this->rental->_StartUnixtime],
             "types" => ["i","i"],
             "matches" => ["=",">="],
         ];
@@ -262,18 +262,18 @@ class Manage extends View
         $table_head = ["Transaction UID","Avatar","Reseller","Region","Amount","Datetime"];
         $table_body = [];
         foreach ($transactions_set as $transaction) {
-            $avatar = $avatar_set->getObjectByID($transaction->getAvatarLink());
-            $region = $region_set->getObjectByID($transaction->getRegionLink());
-            $reseller = $reseller_set->getObjectByID($transaction->getResellerLink());
-            $reseller_av = $avatar_set->getObjectByID($reseller->getAvatarLink());
+            $avatar = $avatar_set->getObjectByID($transaction->_AvatarLink);
+            $region = $region_set->getObjectByID($transaction->_RegionLink);
+            $reseller = $reseller_set->getObjectByID($transaction->_ResellerLink);
+            $reseller_av = $avatar_set->getObjectByID($reseller->_AvatarLink);
             $entry = [];
             //$entry[] = $transaction->getId();
-            $entry[] = $transaction->getTransactionUid();
-            $entry[] = $avatar->getAvatarName();
-            $entry[] = $reseller_av->getAvatarName();
-            $entry[] = $region->getName();
-            $entry[] = $transaction->getAmount();
-            $entry[]  = date('l jS \of F Y h:i:s A', $transaction->getUnixtime());
+            $entry[] = $transaction->_TransactionUid;
+            $entry[] = $avatar->_AvatarName;
+            $entry[] = $reseller_av->_AvatarName;
+            $entry[] = $region->_Name;
+            $entry[] = $transaction->_Amount;
+            $entry[]  = date('l jS \of F Y h:i:s A', $transaction->_Unixtime);
             $table_body[] = $entry;
         }
         $this->pages["Transactions"] = $this->renderTable($table_head, $table_body);

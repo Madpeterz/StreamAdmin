@@ -48,11 +48,11 @@ class Resetnow extends ControlAjax
         if ($staff->isLoaded() == false) {
             return;
         }
-        if ($staff->getEmailResetCode() != $token) {
+        if ($staff->_EmailResetCode != $token) {
             $this->failed("Your token is wrong what did you do?");
             return;
         }
-        if ($staff->getEmailResetExpires() <= time()) {
+        if ($staff->_EmailResetExpires <= time()) {
             $this->failed(
                 "Your token has expired, please request a new one"
             );
@@ -69,8 +69,8 @@ class Resetnow extends ControlAjax
             $this->failed($update_status->message);
             return;
         }
-        $staff->setEmailResetCode(null);
-        $staff->setEmailResetExpires(time() - 1);
+        $staff->_EmailResetCode = null;
+        $staff->_EmailResetExpires = time() - 1;
         $update_status = $staff->updateEntry();
         if ($update_status->status == false) {
             $this->failed("Unable to finalize changes to your account");
@@ -78,10 +78,10 @@ class Resetnow extends ControlAjax
         }
         $this->redirectWithMessage("Password updated please login");
         $this->createAuditLog(
-            $staff->getId(),
+            $staff->_Id,
             "new password applyed",
-            "av:" . $this->avatar->getAvatarName(),
-            "User:" . $staff->getUsername()
+            "av:" . $this->avatar->_AvatarName,
+            "User:" . $staff->_Username
         );
     }
 }

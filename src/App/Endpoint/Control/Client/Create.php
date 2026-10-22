@@ -64,7 +64,7 @@ class Create extends ControlAjax
         }
 
         $stream = $stream_set->getFirst();
-        if ($stream->getRentalLink() > 0) {
+        if ($stream->_RentalLink > 0) {
             $this->failed("Stream already has a rental attached");
             return;
         }
@@ -90,20 +90,20 @@ class Create extends ControlAjax
             $this->failed("Unable to create a new Client uid");
             return;
         }
-        $rental->setRentalUid($uid->uid);
-        $rental->setAvatarLink($avatar->getId());
-        $rental->setPackageLink($stream->getPackageLink());
-        $rental->setStreamLink($stream->getId());
-        $rental->setStartUnixtime(time());
-        $rental->setExpireUnixtime($unixtime);
-        $rental->setNoticeLink($use_notice_index);
+        $rental->_RentalUid = $uid->uid;
+        $rental->_AvatarLink = $avatar->_Id;
+        $rental->_PackageLink = $stream->_PackageLink;
+        $rental->_StreamLink = $stream->_Id;
+        $rental->_StartUnixtime = time();
+        $rental->_ExpireUnixtime = $unixtime;
+        $rental->_NoticeLink = $use_notice_index;
         $create_status = $rental->createEntry();
         if ($create_status->status == false) {
             $this->failed(sprintf("Unable to create a new Client: %1\$s", $create_status->message));
             return;
         }
-        $stream->setRentalLink($rental->getId());
-        $stream->setNeedWork(0);
+        $stream->_RentalLink = $rental->_Id;
+        $stream->_NeedWork = 0;
         $update_status = $stream->updateEntry();
         if ($update_status->status == false) {
             $this->failed("Unable to mark stream as linked to rental");
@@ -138,10 +138,10 @@ class Create extends ControlAjax
         $server = $stream->relatedServer()->getFirst();
         $this->redirectWithMessage("Client created");
         $this->createAuditLog(
-            $rental->getRentalUid(),
+            $rental->_RentalUid,
             "+++",
-            $avatar->getAvatarName(),
-            "Port: " . $stream->getPort() . " Server: " . $server->getDomain()
+            $avatar->_AvatarName,
+            "Port: " . $stream->_Port . " Server: " . $server->_Domain
         );
     }
 }

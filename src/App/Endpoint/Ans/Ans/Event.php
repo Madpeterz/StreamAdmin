@@ -13,7 +13,7 @@ class Event extends ControlAjax
 {
     public function process(): void
     {
-        if ($this->siteConfig->getSlConfig()->getEnableCoupons() == false) {
+        if ($this->siteConfig->getSlConfig()->_EnableCoupons == false) {
             $this->failed("Failed ANS disabled");
             return;
         }
@@ -68,12 +68,12 @@ class Event extends ControlAjax
             $this->failed("not a tracked listing");
             return;
         }
-        if ($marketplace->getCost() != $PaymentGross) {
+        if ($marketplace->_Cost != $PaymentGross) {
             $this->failed("amount paid does not match expected to process");
             return;
         }
 
-        $vaildateHash = sha1($_SERVER['QUERY_STRING'] . $this->siteConfig->getSlConfig()->getAnsSalt());
+        $vaildateHash = sha1($_SERVER['QUERY_STRING'] . $this->siteConfig->getSlConfig()->_AnsSalt);
         if ($checkHash != $vaildateHash) {
             $this->failed("Unable to vaildate");
             return;
@@ -84,8 +84,8 @@ class Event extends ControlAjax
         if (count(explode(" ", $receiverName)) == 1) {
             $receiverName = $receiverName . " Resident";
         }
-        $marketplace->setClaims($marketplace->getClaims() + 1);
-        $marketplace->setLastClaim(time());
+        $marketplace->_Claims = $marketplace->_Claims + 1;
+        $marketplace->_LastClaim = time();
         $marketplace->updateEntry();
         $avatarHelper = new AvatarHelper();
         if ($avatarHelper->loadOrCreate($payerKey, $payerName) == false) {
@@ -103,24 +103,24 @@ class Event extends ControlAjax
             $this->createTransaction(
                 $transactionId,
                 $PaymentGross,
-                $marketplace->getCredit(),
+                $marketplace->_Credit,
                 $payerAv,
                 $receiverAv
             ) == false
         ) {
             return;
         }
-        if ($this->topupNotice($receiverAv, $marketplace->getCredit()) == false) {
+        if ($this->topupNotice($receiverAv, $marketplace->_Credit) == false) {
             $this->failed("Unable to send message");
             return;
         }
-        if ($receiverAv->getId() != $payerAv->getId()) {
-            if ($this->thankAvatar($payerAv, $receiverAv, $marketplace->getCredit()) == false) {
+        if ($receiverAv->_Id != $payerAv->_Id) {
+            if ($this->thankAvatar($payerAv, $receiverAv, $marketplace->_Credit) == false) {
                 $this->failed("Unable to send message");
                 return;
             }
         }
-        $receiverAv->setCredits($receiverAv->getCredits() + $marketplace->getCredit());
+        $receiverAv->_Credits = $receiverAv->_Credits + $marketplace->_Credit;
         if ($receiverAv->updateEntry()->status == false) {
             $this->failed("Unable to update credits");
             return;
@@ -142,15 +142,15 @@ class Event extends ControlAjax
             return false;
         }
         $transaction = new Transactions();
-        $transaction->setAvatarLink($payerAv->getId());
-        $transaction->setAmount($amount);
-        $transaction->setUnixtime(time());
-        $transaction->setTransactionUid($uid_transaction->uid);
-        $transaction->setSLtransactionUUID($transactionid);
-        $transaction->setViaMarketplace(true);
-        $transaction->setNotes("Coupon L$" . $amount . " added L$" . $credits);
-        if ($receiverAv->getId() != $payerAv->getId()) {
-            $transaction->setTargetAvatar($receiverAv->getId());
+        $transaction->_AvatarLink = $payerAv->_Id;
+        $transaction->_Amount = $amount;
+        $transaction->_Unixtime = time();
+        $transaction->_TransactionUid = $uid_transaction->uid;
+        $transaction->_SLtransactionUUID = $transactionid;
+        $transaction->_ViaMarketplace = true;
+        $transaction->_Notes = "Coupon L$" . $amount . " added L$" . $credits;
+        if ($receiverAv->_Id != $payerAv->_Id) {
+            $transaction->_TargetAvatar = $receiverAv->_Id;
         }
         if ($transaction->createEntry()->status == false) {
             $this->setSwapTag("message", "Unable to create transaction");
@@ -162,7 +162,7 @@ class Event extends ControlAjax
     protected function topupNotice(Avatar $to, int $credit): bool
     {
         $bot_helper = new BotHelper();
-        $sendmessage = "Hi there " . $to->getAvatarName() . " a credit of L$" . $credit
+        $sendmessage = "Hi there " . $to->_AvatarName . " a credit of L$" . $credit
             . " has been added to your account!";
         $sendMessage_status = $bot_helper->sendMessage(
             $to,
@@ -178,8 +178,8 @@ class Event extends ControlAjax
     protected function thankAvatar(Avatar $from, Avatar $to, int $credit): bool
     {
         $bot_helper = new BotHelper();
-        $sendmessage = "Hi there " . $from->getAvatarName() . " thank you for adding L$" . $credit
-            . " to the account for " . $to->getAvatarName();
+        $sendmessage = "Hi there " . $from->_AvatarName . " thank you for adding L$" . $credit
+            . " to the account for " . $to->_AvatarName;
         $sendMessage_status = $bot_helper->sendMessage(
             $from,
             $sendmessage,

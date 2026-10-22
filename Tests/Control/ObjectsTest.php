@@ -17,7 +17,7 @@ class ObjectsTest extends TestWorker
     public function test_Clear()
     {
         $region = new Region();
-        $region->setName("Unittest");
+        $region->_Name = "Unittest";
         $reply = $region->createEntry();
         $this->assertSame(true, $reply->status, "failed to create region");
         // fill in some test objects
@@ -26,12 +26,12 @@ class ObjectsTest extends TestWorker
             $object = new Objects();
             $uid = $object->createUID("objectUUID", 8);
             $this->assertSame(true, $uid->status, "failed to get uid");
-            $object->setRegionLink($reply->newId);
-            $object->setAvatarLink(1);
-            $object->setObjectUUID("unittest" . $uid->uid);
-            $object->setObjectName("unittest" . $loop);
-            $object->setObjectMode("test");
-            $object->setObjectXYZ("123,456,555");
+            $object->_RegionLink = $reply->newId;
+            $object->_AvatarLink = 1;
+            $object->_ObjectUUID = "unittest" . $uid->uid;
+            $object->_ObjectName = "unittest" . $loop;
+            $object->_ObjectMode = "test";
+            $object->_ObjectXYZ = "123,456,555";
             $create = $object->createEntry();
             $this->assertSame(true, $create->status, "failed to create object");
             if ($create->status == false) {

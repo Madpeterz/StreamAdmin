@@ -79,7 +79,7 @@ class NoticeTest extends TestWorkerWithLogin
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
-        $system->setPage( $notice->getId() );
+        $system->setPage( $notice->_Id );
 
         $manageForm = new Manage();
         $manageForm->process();
@@ -106,7 +106,7 @@ class NoticeTest extends TestWorkerWithLogin
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
-        $system->setPage( $notice->getId() );
+        $system->setPage( $notice->_Id );
 
         $_POST["name"] = "UnitTest Updated";
         $_POST["hoursRemaining"] = "90";
@@ -133,7 +133,7 @@ class NoticeTest extends TestWorkerWithLogin
         $notice = new Notice();
         $status = $notice->loadByField("name","UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load testing notice");
-        $system->setPage( $notice->getId() );
+        $system->setPage( $notice->_Id );
 
         $removeForm = new Remove();
         $removeForm->process();
@@ -161,12 +161,12 @@ class NoticeTest extends TestWorkerWithLogin
         $rentalSet->loadNewest(1);
         $this->assertGreaterThan(0,$rentalSet->getCount(),"No rentals!");
         $rental = $rentalSet->getFirst();
-        $rental->setNoticeLink($notice->getId());
+        $rental->_NoticeLink = $notice->_Id;
         $reply = $rental->updateEntry();
         $this->assertSame(true,$reply->status,"Failed to assign rental to notice");
 
 
-        $system->setPage( $notice->getId() );
+        $system->setPage( $notice->_Id );
         $_POST["accept"] = "Accept";
         $_POST["newNoticeLevel"] = 10;
 

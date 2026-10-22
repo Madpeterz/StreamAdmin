@@ -34,7 +34,7 @@ class Bulk extends View
             if ($source_id != null) {
                 $notice = new Notice();
                 $notice->loadID($source_id);
-                $souce_named = $notice->getName();
+                $souce_named = $notice->_Name;
                 $rental_set = $notice->relatedRental();
                 $ok = true;
             }
@@ -52,7 +52,7 @@ class Bulk extends View
             if ($source_id != null) {
                 $server = new Server();
                 $server->loadID($source_id);
-                $souce_named = $server->getDomain();
+                $souce_named = $server->_Domain;
                 $stream_set = $server->relatedStream();
                 $rental_set = $stream_set->relatedRental();
                 $ok = true;
@@ -71,7 +71,7 @@ class Bulk extends View
             if ($source_id != null) {
                 $package = new Package();
                 $package->loadID($source_id);
-                $souce_named = $package->getName();
+                $souce_named = $package->_Name;
                 $rental_set = $package->relatedRental();
                 $ok = true;
             }
@@ -125,12 +125,12 @@ class Bulk extends View
 
         $banned_ids = $banlist_set->getAllByField("avatarLink");
         foreach ($avatar_set as $avatar) {
-            if (in_array($avatar->getId(), $banned_ids) == false) {
+            if (in_array($avatar->_Id, $banned_ids) == false) {
                 $entry = [];
-                $entry[] = '<div class="checkbox"><input checked type="checkbox" id="avatarmail' . $avatar->getId()
-                . '" name="avatarids[]" value="' . $avatar->getId() . '"></div>';
+                $entry[] = '<div class="checkbox"><input checked type="checkbox" id="avatarmail' . $avatar->_Id
+                . '" name="avatarids[]" value="' . $avatar->_Id . '"></div>';
                 $entry[] = '<div class="checkbox"><label for="avatarmail'
-                . $avatar->getId() . '">' . $avatar->getAvatarName() . '</label></div>';
+                . $avatar->_Id . '">' . $avatar->_AvatarName . '</label></div>';
                 $table_body[] = $entry;
             }
         }

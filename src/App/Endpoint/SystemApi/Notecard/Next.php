@@ -38,14 +38,14 @@ class Next extends SystemApiAjax
     {
         $swap_helper = new SwapablesHelper();
         $this->notecard_title = "Details for "
-        . explode(" ", $this->avatar->getAvatarName())[0] . " port: "
-        . $this->stream->getPort() . " [" . date('Y-m-d H:i:s', time()) . "]";
-        if ($this->template->getNotecarddetail() == null) {
-            $this->failed("Selected template: " . $this->template->getName() . " is empty");
+        . explode(" ", $this->avatar->_AvatarName)[0] . " port: "
+        . $this->stream->_Port . " [" . date('Y-m-d H:i:s', time()) . "]";
+        if ($this->template->_NotecardDetail == null) {
+            $this->failed("Selected template: " . $this->template->_Name . " is empty");
             return false;
         }
         $this->notecard_content = $swap_helper->getSwappedText(
-            $this->template->getNotecarddetail(),
+            $this->template->_NotecardDetail,
             $this->avatar,
             $this->rental,
             $this->package,
@@ -59,14 +59,14 @@ class Next extends SystemApiAjax
     {
         $swap_helper = new SwapablesHelper();
         $this->notecard_title = "Reminder for "
-        . $this->avatar->getAvatarName() . " port: "
-        . $this->stream->getPort() . "";
-        if ($this->notice->getNotecarddetail() == null) {
-            $this->failed("Selected notice: " . $this->notice->getName() . " is empty");
+        . $this->avatar->_AvatarName . " port: "
+        . $this->stream->_Port . "";
+        if ($this->notice->_NotecardDetail == null) {
+            $this->failed("Selected notice: " . $this->notice->_Name . " is empty");
             return false;
         }
         $this->notecard_content = $swap_helper->getSwappedText(
-            $this->notice->getNotecarddetail(),
+            $this->notice->_NotecardDetail,
             $this->avatar,
             $this->rental,
             $this->package,
@@ -79,7 +79,7 @@ class Next extends SystemApiAjax
     protected function loadContent(): bool
     {
 
-        if ($this->notecard->getAsNotice() == false) {
+        if ($this->notecard->_AsNotice == false) {
             return $this->asNotice();
         }
         return $this->asNotecard();
@@ -99,11 +99,11 @@ class Next extends SystemApiAjax
             $this->failed("One or more required objects did not load!");
             return false;
         }
-        if ($this->notecard->getAsNotice() == false) {
+        if ($this->notecard->_AsNotice == false) {
             $this->template = $this->package->relatedTemplate()->getFirst();
             return true;
         }
-        if ($this->notice->loadID($this->notecard->getNoticeLink()) == false) {
+        if ($this->notice->loadID($this->notecard->_NoticeLink) == false) {
             return $this->failedLoad("Notice");
         }
         return true;
@@ -131,7 +131,7 @@ class Next extends SystemApiAjax
             return;
         }
         $this->ok("ok");
-        $this->setSwapTag("AvatarUUID", $this->avatar->getAvatarUUID());
+        $this->setSwapTag("AvatarUUID", $this->avatar->_AvatarUUID);
         $this->setSwapTag("NotecardTitle", $this->notecard_title);
         $this->setSwapTag("NotecardContent", $this->notecard_content);
     }

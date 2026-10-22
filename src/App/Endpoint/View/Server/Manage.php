@@ -15,7 +15,7 @@ class Manage extends View
         $server->loadId($this->config->getPage());
 
         $this->setSwapTag("page_actions", ""
-            . "<a href=\"[[SITE_URL]]stream/Onserver/" . $server->getId() . "\"><button type='button' 
+            . "<a href=\"[[SITE_URL]]stream/Onserver/" . $server->_Id . "\"><button type='button' 
         class='btn btn-outline-info'>Streams</button></a>");
         $this->addSwapTagString("page_actions", ""
             . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type='button' 
@@ -27,31 +27,31 @@ class Manage extends View
 
 
 
-        $this->output->addSwapTagString("page_title", " :" . $server->getDomain());
+        $this->output->addSwapTagString("page_title", " :" . $server->_Domain);
         $form = new Form();
         $form->target("server/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Basic config");
-        $form->textInput("domain", "Domain", 30, $server->getDomain(), "ip or uncloudflared proxyed domain/subdomain");
+        $form->textInput("domain", "Domain", 30, $server->_Domain, "ip or uncloudflared proxyed domain/subdomain");
         $form->textInput(
             "controlPanelURL",
             "Control panel",
             200,
-            $server->getControlPanelURL(),
+            $server->_ControlPanelURL,
             "URL to the control panel"
         );
-        $form->textInput("ipaddress", "IP address", 200, $server->getIpaddress(), "127.0.0.1");
+        $form->textInput("ipaddress", "IP address", 200, $server->_Ipaddress, "127.0.0.1");
         $form->col(6);
         $form->group("Hardware");
-        $form->numberInput("bandwidth", "Bandwidth", $server->getBandwidth(), 5, "500");
-        $form->select("bandwidthType", "Bandwith type", $server->getBandwidthType(), [
+        $form->numberInput("bandwidth", "Bandwidth", $server->_Bandwidth, 5, "500");
+        $form->select("bandwidthType", "Bandwith type", $server->_BandwidthType, [
             "mbps" => "mbps",
             "gpbs" => "gpbs",
             "kbps" => "kbps",
         ]);
-        $form->numberInput("totalStorage", "Storage space", $server->getTotalStorage(), 11, "50");
-        $form->select("totalStorageType", "Storage type", $server->getTotalStorageType(), [
+        $form->numberInput("totalStorage", "Storage space", $server->_TotalStorage, 11, "50");
+        $form->select("totalStorageType", "Storage type", $server->_TotalStorageType, [
             "mb" => "mb",
             "gb" => "gb",
             "tb" => "tb",

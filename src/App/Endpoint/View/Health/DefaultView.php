@@ -33,17 +33,17 @@ class DefaultView extends View
         $goodMinTime = time() - 120;
         $regions_report = [];
         foreach ($venderHealth as $object) {
-            if (array_key_exists($object->getRegionLink(), $regions_report) == false) {
-                $regions_report[$object->getRegionLink()] = [
+            if (array_key_exists($object->_RegionLink, $regions_report) == false) {
+                $regions_report[$object->_RegionLink] = [
                     "up" => 0,
                     "down" => 0,
                 ];
             }
-            if ($object->getLastSeen() >= $goodMinTime) {
-                $regions_report[$object->getRegionLink()]["up"]++;
+            if ($object->_LastSeen >= $goodMinTime) {
+                $regions_report[$object->_RegionLink]["up"]++;
                 continue;
             }
-            $regions_report[$object->getRegionLink()]["down"]++;
+            $regions_report[$object->_RegionLink]["down"]++;
         }
 
         $table_head = ["id","Region","Status","Percentage","Up","Down"];
@@ -75,7 +75,7 @@ class DefaultView extends View
             $entry = [];
             $entry[] = $region_id;
             $entry[] = "<a href=\"[[SITE_URL]]health/detailed/"
-            . $region->getId() . "\">" . $region->getName() . "</a>";
+            . $region->_Id . "\">" . $region->_Name . "</a>";
             $entry[] = "<span class=\"text-" . $statuscolor . "\">" . $statustext . "</span>";
             $entry[] = $pcent . "%";
             $entry[] = $dataset["up"];

@@ -24,11 +24,11 @@ class DefaultView extends View
             $template_parts["page_actions"] = "";
         }
         foreach ($objects_set as $object) {
-            $avatar = $avatar_set->getObjectByID($object->getAvatarLink());
-            $region = $region_set->getObjectByID($object->getRegionLink());
+            $avatar = $avatar_set->getObjectByID($object->_AvatarLink);
+            $region = $region_set->getObjectByID($object->_RegionLink);
             $entry = [];
-            $entry[] = $object->getId();
-            $bits = explode("S:", $object->getObjectName());
+            $entry[] = $object->_Id;
+            $bits = explode("S:", $object->_ObjectName);
             if (count($bits) == 1) {
                 $entry[] = $bits[0];
                 $entry[] = "N/A";
@@ -36,15 +36,15 @@ class DefaultView extends View
                 $entry[] = $bits[0];
                 $entry[] = $bits[1];
             }
-            $entry[] = date('l jS \of F Y h:i:s A', $object->getLastSeen());
-            $tp_url = "http://maps.secondlife.com/secondlife/" . $region->getName() . "/"
-            . implode("/", explode(",", $object->getObjectXYZ())) . "";
+            $entry[] = date('l jS \of F Y h:i:s A', $object->_LastSeen);
+            $tp_url = "http://maps.secondlife.com/secondlife/" . $region->_Name . "/"
+            . implode("/", explode(",", $object->_ObjectXYZ)) . "";
             $tp_url = str_replace(' ', '%20', $tp_url);
             $entry[] = "<a href=\"" . $tp_url . "\" target=\"_blank\"><i class=\"fas fa-map-marked-alt\"></i> "
-            . $region->getName() . "</a>";
-            $entry[] = $object->getObjectMode();
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-            . $avatar->getAvatarName() . '</a>';
+            . $region->_Name . "</a>";
+            $entry[] = $object->_ObjectMode;
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->_AvatarName . '">'
+            . $avatar->_AvatarName . '</a>';
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

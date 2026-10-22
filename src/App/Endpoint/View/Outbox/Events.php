@@ -16,9 +16,9 @@ class Events extends View
         $eventqset->loadAll();
         foreach ($eventqset as $eventq) {
             $table_body[] = [
-                $eventq->getId(),
-                $eventq->getEventName(),
-                date('d/m/Y @ G:i:s', $eventq->getEventUnixtime()),
+                $eventq->_Id,
+                $eventq->_EventName,
+                date('d/m/Y @ G:i:s', $eventq->_EventUnixtime),
             ];
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

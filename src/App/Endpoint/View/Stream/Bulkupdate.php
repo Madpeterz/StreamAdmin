@@ -31,11 +31,11 @@ class Bulkupdate extends View
 
         $group_server_sets = [];
         foreach ($server_set as $server) {
-            $group_server_sets[$server->getId()] = [];
+            $group_server_sets[$server->_Id] = [];
         }
 
         foreach ($stream_set as $stream) {
-            $group_server_sets[$stream->getServerLink()][] = $stream->getId();
+            $group_server_sets[$stream->_ServerLink][] = $stream->_Id;
         }
 
         $form = new Form();
@@ -47,7 +47,7 @@ class Bulkupdate extends View
                 continue;
             }
             $server = $server_set->getObjectByID($server_id);
-            $form->directAdd("<h4>Server: " . $server->getDomain() . "</h4>");
+            $form->directAdd("<h4>Server: " . $server->_Domain . "</h4>");
             $table_head = ["Action","Port","Encoder/Stream password","Admin Password"];
             $table_body = [];
 
@@ -56,20 +56,20 @@ class Bulkupdate extends View
                 $action = '
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
     <label class="btn btn-outline-success">
-    <input type="radio" value="update" name="stream' . $stream->getStreamUid() . '" autocomplete="off"> Update
+    <input type="radio" value="update" name="stream' . $stream->_StreamUid . '" autocomplete="off"> Update
     </label>
     <label class="btn btn-outline-secondary active">
-    <input type="radio" value="skip" name="stream' . $stream->getStreamUid() . '" autocomplete="off" checked> Skip
+    <input type="radio" value="skip" name="stream' . $stream->_StreamUid . '" autocomplete="off" checked> Skip
     </label>
     </div>';
                 $entry = [];
                 //$entry[] = $stream->getId();
                 $entry[] = $action;
-                $entry[] = $stream->getPort();
-                $adminPassword = '<input type="text" class="form-control" name="stream' . $stream->getStreamUid()
-                . 'adminpw" value="' . $stream->getAdminPassword() . '" placeholder="Max 20 length">';
+                $entry[] = $stream->_Port;
+                $adminPassword = '<input type="text" class="form-control" name="stream' . $stream->_StreamUid
+                . 'adminpw" value="' . $stream->_AdminPassword . '" placeholder="Max 20 length">';
                 $djPassword = '<input type="text" class="form-control" name="stream'
-                . $stream->getStreamUid() . 'djpw" value="' . $stream->getDjPassword()
+                . $stream->_StreamUid . 'djpw" value="' . $stream->_DjPassword
                 . '" placeholder="Max 20 length">';
                 $entry[] = $djPassword;
                 $entry[] = $adminPassword;

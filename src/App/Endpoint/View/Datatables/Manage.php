@@ -17,19 +17,19 @@ class Manage extends View
             $this->output->redirect("datatables?bubblemessage=Unable to find datatable&bubbletype=warning");
             return;
         }
-        $this->output->addSwapTagString("page_title", " : " . $datatable->getName() . " 
-        [" . $datatable->getId() . "]");
+        $this->output->addSwapTagString("page_title", " : " . $datatable->_Name . " 
+        [" . $datatable->_Id . "]");
         $form = new form();
         $form->target("datatables/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
-        $elements = explode(",", $datatable->getCols());
+        $elements = explode(",", $datatable->_Cols);
         $bits = [];
         foreach ($elements as $enl) {
             $sub = explode("=", $enl);
             $bits[$sub[0]] = $sub[1];
         }
-        $form->select("col", "Sort by col", $datatable->getCol(), $bits);
-        $form->select("dir", "Direction", $datatable->getDir(), ["desc" => "Descending","asc" => "Ascending"]);
+        $form->select("col", "Sort by col", $datatable->_Col, $bits);
+        $form->select("dir", "Direction", $datatable->_Dir, ["desc" => "Descending","asc" => "Ascending"]);
         $this->setSwapTag("page_content", $form->render("Update", "success"));
     }
 }

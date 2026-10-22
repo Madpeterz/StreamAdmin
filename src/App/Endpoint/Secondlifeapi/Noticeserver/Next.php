@@ -40,7 +40,7 @@ class Next extends SecondlifeAjax
 
         $where_config = [
             "fields" => ["expireUnixtime", "noticeLink"],
-            "values" => [(time() + $unixtime), $expired_notice->getId()],
+            "values" => [(time() + $unixtime), $expired_notice->_Id],
             "types" => ["i", "i"],
             "matches" => ["<=", "!="],
         ];
@@ -77,7 +77,7 @@ class Next extends SecondlifeAjax
         $stream = $rental->relatedStream()->getFirst();
         $server = $stream->relatedServer()->getFirst();
         $avatar = $rental->relatedAvatar()->getFirst();
-        if ($rental->getExpireUnixtime() < time()) {
+        if ($rental->_ExpireUnixtime < time()) {
             $this->processNoticeChange(
                 $expired_notice,
                 $rental,
@@ -89,14 +89,14 @@ class Next extends SecondlifeAjax
             return true;
         }
 
-        $hours_remain = ceil(($rental->getExpireUnixtime() - time()) / $this->siteConfig->unixtimeHour());
+        $hours_remain = ceil(($rental->_ExpireUnixtime - time()) / $this->siteConfig->unixtimeHour());
         if ($hours_remain < 0) {
             $this->failed("Math error - negitive hours remaining but not expired");
             return false;
         }
 
-        $current_notice_level = $notice_set->getObjectByID($rental->getNoticeLink());
-        $current_hold_hours = $current_notice_level->getHoursRemaining();
+        $current_notice_level = $notice_set->getObjectByID($rental->_NoticeLink);
+        $current_hold_hours = $current_notice_level->_HoursRemaining;
         $use_notice_index = $sorted_linked[$current_hold_hours];
         foreach ($sorted_linked as $hours => $index) {
             if (($hours > 0) && ($hours < 999)) {
@@ -109,7 +109,7 @@ class Next extends SecondlifeAjax
             }
         }
 
-        if ($use_notice_index == $current_notice_level->getId()) {
+        if ($use_notice_index == $current_notice_level->_Id) {
             return false;
         }
 
@@ -137,7 +137,7 @@ class Next extends SecondlifeAjax
         $rentalNoticeOptout = new Rentalnoticeptout();
         $whereConfig = [
             "fields" => ["rentalLink", "noticeLink"],
-            "values" => [$rental->getId(), $notice->getId()],
+            "values" => [$rental->_Id, $notice->_Id],
         ];
         $rentalNoticeOptout->loadWithConfig($whereConfig);
         $skipNotice = $rentalNoticeOptout->isLoaded();
@@ -146,7 +146,7 @@ class Next extends SecondlifeAjax
             $bot_helper = new BotHelper();
             $swapables_helper = new SwapablesHelper();
             $sendmessage = $swapables_helper->getSwappedText(
-                $notice->getImMessage(),
+                $notice->_ImMessage,
                 $avatar,
                 $rental,
                 $package,
@@ -162,14 +162,14 @@ class Next extends SecondlifeAjax
                 return;
             }
         }
-        $rental->setNoticeLink($notice->getId());
+        $rental->_NoticeLink = $notice->_Id;
         $save_status = $rental->updateEntry();
         if ($save_status->status == false) {
             $this->failed("Unable to update rental notice level");
             return;
         }
 
-        if ($notice->getHoursRemaining() == 0) {
+        if ($notice->_HoursRemaining == 0) {
             $EventsQHelper = new EventsQHelper();
             $EventsQHelper->addToEventQ("RentalExpire", $package, $avatar, $server, $stream, $rental);
         }
@@ -177,12 +177,12 @@ class Next extends SecondlifeAjax
         if ($skipNotice == true) {
             return;
         }
-        if ($notice->getSendNotecard() == true) {
+        if ($notice->_SendNotecard == true) {
             if ($bot_helper->getNotecards() == true) {
                 $notecard = new Notecard();
-                $notecard->setRentalLink($rental->getId());
-                $notecard->setAsNotice(1);
-                $notecard->setNoticeLink($notice->getId());
+                $notecard->_RentalLink = $rental->_Id;
+                $notecard->_AsNotice = 1;
+                $notecard->_NoticeLink = $notice->_Id;
                 $create_status = $notecard->createEntry();
                 if ($create_status->status == false) {
                     $this->failed("Unable to create new notecard");
@@ -190,17 +190,17 @@ class Next extends SecondlifeAjax
                 }
             }
         }
-        if ($notice->getNoticeNotecardLink() <= 1) {
+        if ($notice->_NoticeNotecardLink <= 1) {
             return;
         }
         $notice_notecard = new Noticenotecard();
-        if ($notice_notecard->loadID($notice->getNoticeNotecardLink()) == false) {
+        if ($notice_notecard->loadID($notice->_NoticeNotecardLink) == false) {
             $this->failed("Unable to find static notecard!");
             return;
         }
-        if ($notice_notecard->getMissing() == false) {
-            $this->setSwapTag("send_static_notecard", $notice_notecard->getName());
-            $this->setSwapTag("send_static_notecard_to", $avatar->getAvatarUUID());
+        if ($notice_notecard->_Missing == false) {
+            $this->setSwapTag("send_static_notecard", $notice_notecard->_Name);
+            $this->setSwapTag("send_static_notecard_to", $avatar->_AvatarUUID);
         }
     }
 }

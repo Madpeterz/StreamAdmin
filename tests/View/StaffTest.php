@@ -63,7 +63,7 @@ class StaffTest extends TestWorkerWithLogin
         $this->assertSame(true,$status->status,"Unable to find avatar to assign to staff");
 
         $createProcess = new StaffCreate();
-        $_POST["avataruid"] = $avatar->getAvatarUid();
+        $_POST["avataruid"] = $avatar->_AvatarUid;
         $_POST["username"] = "Unittest";
         $createProcess->process();
         $statuscheck = $createProcess->getOutputObject();
@@ -73,7 +73,7 @@ class StaffTest extends TestWorkerWithLogin
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
         $this->assertSame(true,$status->status,"Unable to load created staff member");
-        $this->assertSame(false,$staff->getOwnerLevel(),"Incorrect owner level applyed");
+        $this->assertSame(false,$staff->_OwnerLevel,"Incorrect owner level applyed");
 
     }
 
@@ -86,7 +86,7 @@ class StaffTest extends TestWorkerWithLogin
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
         $this->assertSame(true,$status->status,"Unable to load test staff member");
-        $system->setPage( $staff->getId());
+        $system->setPage( $staff->_Id);
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -106,7 +106,7 @@ class StaffTest extends TestWorkerWithLogin
         $staff = new Staff();
         $status = $staff->loadByField("username","Unittest");
         $this->assertSame(true,$status->status,"Unable to load test staff member");
-        $system->setPage( $staff->getId());
+        $system->setPage( $staff->_Id);
 
         $manageProcess = new Update();
         $_POST["username"] = "UpdatedUsername";
@@ -125,7 +125,7 @@ class StaffTest extends TestWorkerWithLogin
         $staff = new Staff();
         $status = $staff->loadByField("username","UpdatedUsername");
         $this->assertSame(true,$status->status,"Unable to load test staff member");
-        $system->setPage( $staff->getId());
+        $system->setPage( $staff->_Id);
 
         $removeProcess = new StaffRemove();
         $_POST["accept"] = "Accept";

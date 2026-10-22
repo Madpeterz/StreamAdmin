@@ -34,7 +34,7 @@ class ReportsTest extends TestWorkerWithLogin
         $status = $stream->loadID(1);
         $this->assertSame(true,$status->status,"Unable to find a stream to use");
         $server = new Server();
-        $status = $server->loadID($stream->getServerLink());
+        $status = $server->loadID($stream->_ServerLink);
         $this->assertSame(true,$status->status,"Unable to find a server to use");
         $package = new Package();
         $status = $package->loadID(1);

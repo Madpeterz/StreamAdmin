@@ -13,7 +13,7 @@ class Bynoticelevel extends RenderList
         $this->rentalSet = $notice->relatedRental();
         $this->avatarSet = $this->rentalSet->relatedAvatar();
         $this->streamSet = $this->rentalSet->relatedStream();
-        $this->output->addSwapTagString("page_title", " By notice level: " . $notice->getName());
+        $this->output->addSwapTagString("page_title", " By notice level: " . $notice->_Name);
         parent::process();
     }
 }

@@ -35,36 +35,36 @@ class Manage extends View
         $autodjflag = [true => "{AutoDJ}",false => "{StreamOnly}"];
         $improved_packageLinker = [];
         foreach ($package_set as $package) {
-            $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
+            $servertype = $servertypes_set->getObjectByID($package->_ServertypeLink);
             $saddon = "";
-            if ($package->getDays() > 1) {
+            if ($package->_Days > 1) {
                 $saddon = "'s";
             }
             $saddon2 = "";
-            if ($package->getListeners() > 1) {
+            if ($package->_Listeners > 1) {
                 $saddon2 = "'s";
             }
-            $info = $package->getName();
+            $info = $package->_Name;
             $info .= " @ ";
-            $info .= $package->getDays();
+            $info .= $package->_Days;
             $info .= "day";
             $info .= $saddon;
             $info .= " - ";
-            $info .= $autodjflag[$package->getAutodj()];
+            $info .= $autodjflag[$package->_Autodj];
             $info .= " - ";
-            $info .= $servertype->getName();
+            $info .= $servertype->_Name;
             $info .= " - ";
-            $info .= $package->getBitrate();
+            $info .= $package->_Bitrate;
             $info .= "kbs";
             $info .= " - ";
-            $info .= $package->getListeners();
+            $info .= $package->_Listeners;
             $info .= "listener";
             $info .= $saddon2;
-            $improved_packageLinker[$package->getId()] = $info;
+            $improved_packageLinker[$package->_Id] = $info;
         }
 
         $testOutput = new Getpackages();
-        $testOutput->ProcessWithTreevenderID($treevender->getId());
+        $testOutput->ProcessWithTreevenderID($treevender->_Id);
         $testing = $testOutput->captureOutput();
         if (nullSafeStrLen($testing) > 9000) {
             $this->output->addSwapTagString(
@@ -74,17 +74,17 @@ class Manage extends View
             );
         }
 
-        $this->output->addSwapTagString("page_title", ":" . $treevender->getName());
+        $this->output->addSwapTagString("page_title", ":" . $treevender->_Name);
         $form = new Form();
         $form->target("tree/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Basic");
-        $form->textInput("name", "Name", 30, $treevender->getName(), "Name");
+        $form->textInput("name", "Name", 30, $treevender->_Name, "Name");
         $form->select(
             "hideSoldout",
             "Hide soldout packages in SL",
-            $treevender->getHideSoldout(),
+            $treevender->_HideSoldout,
             $this->disableEnable
         );
         $form->col(6);
@@ -93,14 +93,14 @@ class Manage extends View
             "textureWaiting",
             "Waiting",
             36,
-            $treevender->getTextureWaiting(),
+            $treevender->_TextureWaiting,
             "UUID when waiting for a user"
         );
         $form->textureInput(
             "textureInuse",
             "In use",
             36,
-            $treevender->getTextureInuse(),
+            $treevender->_TextureInuse,
             "UUID when activly being used"
         );
 
@@ -113,11 +113,11 @@ class Manage extends View
 
         foreach ($treevender_packages_set as $treevender_package) {
             $entry = [];
-            $used_package_ids[] = $treevender_package->getPackageLink();
-            $entry[] = $treevender_package->getId();
-            $entry[] = $improved_packageLinker[$treevender_package->getPackageLink()];
+            $used_package_ids[] = $treevender_package->_PackageLink;
+            $entry[] = $treevender_package->_Id;
+            $entry[] = $improved_packageLinker[$treevender_package->_PackageLink];
 
-            $entry[] = "<a href='[[SITE_URL]]tree/removepackage/" . $treevender_package->getId() . "'>"
+            $entry[] = "<a href='[[SITE_URL]]tree/removepackage/" . $treevender_package->_Id . "'>"
             . "<button type='button' class='btn btn-outline-danger btn-sm'>Remove</button></a>";
             $table_body[] = $entry;
         }

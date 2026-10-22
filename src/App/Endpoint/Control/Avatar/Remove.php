@@ -45,7 +45,7 @@ class Remove extends ControlAjax
         if ($transactions->getCount() > 0) {
             $result = $transactions->updateFieldInCollection(
                 "avatarLink",
-                $this->siteConfig->getSlConfig()->getOwnerAvatarLink()
+                $this->siteConfig->getSlConfig()->_OwnerAvatarLink
             );
             if ($result->status == false) {
                 $this->failed("Unable to reassign transactions from the old avatar to system owner");
@@ -53,8 +53,8 @@ class Remove extends ControlAjax
             }
         }
         $auditlogs = $avatar->relatedAuditlog();
-        $avatarName = $avatar->getAvatarName();
-        $avid = $avatar->getId();
+        $avatarName = $avatar->_AvatarName;
+        $avid = $avatar->_Id;
         if ($auditlogs->getCount() > 0) {
             $update = $auditlogs->updateFieldInCollection("avatarLink", 1);
             if ($update->status == false) {

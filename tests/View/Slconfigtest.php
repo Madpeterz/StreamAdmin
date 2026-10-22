@@ -39,13 +39,13 @@ class Slconfigtest extends TestWorkerWithLogin
         global $_POST, $slconfig;
         $updateHandler = new Update();
         $avatar = new Avatar();
-        $status = $avatar->loadID($slconfig->getSlConfigObject()->getOwnerAvatarLink());
+        $status = $avatar->loadID($slconfig->getSlConfigObject()->_OwnerAvatarLink);
         $this->assertSame(true,$status->status,"Unable to load system owner avatar");
         
         $_POST["newResellersRate"] = 5;
         $_POST["newResellers"] = 1;
         $_POST["event_storage"] = 0;
-        $_POST["owneravuid"] = $avatar->getAvatarUid();
+        $_POST["owneravuid"] = $avatar->_AvatarUid;
         $_POST["ui_tweaks_clients_fulllist"] = 0;
         $_POST["ui_tweaks_datatableItemsPerPage"] = 25;
         $_POST["apiDefaultEmail"] = "unittest@gmail.com";

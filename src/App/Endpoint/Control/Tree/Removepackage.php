@@ -24,8 +24,8 @@ class Removepackage extends ControlAjax
         }
         $tree = $treevender_packages->relatedTreevender()->getFirst();
         $package = $treevender_packages->relatedPackage()->getFirst();
-        $redirect_to = $treevender_packages->getTreevenderLink();
-        $linkid = $treevender_packages->getId();
+        $redirect_to = $treevender_packages->_TreevenderLink;
+        $linkid = $treevender_packages->_Id;
         $remove_status = $treevender_packages->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -34,6 +34,6 @@ class Removepackage extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Tree vender linked package removed", "tree/manage/" . $redirect_to);
-        $this->createAuditLog($linkid, "unlink package", "Tree:" . $tree->getName(), "package: " . $package->getName());
+        $this->createAuditLog($linkid, "unlink package", "Tree:" . $tree->_Name, "package: " . $package->_Name);
     }
 }

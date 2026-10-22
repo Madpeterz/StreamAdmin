@@ -25,7 +25,7 @@ class Remove extends ControlAjax
             $this->failed("Unable to find Reseller");
             return;
         }
-        if ($reseller->getId() == 1) {
+        if ($reseller->_Id == 1) {
             $this->failed("Unable to remove the first reseller");
             return;
         }
@@ -36,7 +36,7 @@ class Remove extends ControlAjax
                 return;
             }
         }
-        $resellerid = $reseller->getId();
+        $resellerid = $reseller->_Id;
         $avatar = $reseller->relatedAvatar()->getFirst();
         $remove_status = $reseller->removeEntry();
         if ($remove_status->status == false) {
@@ -46,18 +46,18 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Reseller removed");
-        $this->createAuditLog($resellerid, "---", $avatar->getAvatarName());
+        $this->createAuditLog($resellerid, "---", $avatar->_AvatarName);
     }
 
     protected function transferTransactions(): bool
     {
         $reseller = new Reseller();
-        if ($reseller->loadByAvatarLink($this->siteConfig->getSlConfig()->getOwnerAvatarLink()) == false) {
+        if ($reseller->loadByAvatarLink($this->siteConfig->getSlConfig()->_OwnerAvatarLink) == false) {
             return false;
         }
         if ($reseller->isLoaded() == false) {
             return false;
         }
-        return $this->transactionsSet->updateFieldInCollection("resellerLink", $reseller->getId())->status;
+        return $this->transactionsSet->updateFieldInCollection("resellerLink", $reseller->_Id)->status;
     }
 }

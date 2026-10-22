@@ -81,7 +81,7 @@ class TreeEndpointTest extends TestWorker
 
         foreach($packages as $package)
         {
-            $_POST["package"] = $package->getId();
+            $_POST["package"] = $package->_Id;
             $addPackage = new Addpackage();
             $addPackage->process();
             $reply = $addPackage->getOutputObject();

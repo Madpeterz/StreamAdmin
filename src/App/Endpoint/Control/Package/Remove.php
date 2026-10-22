@@ -45,7 +45,7 @@ class Remove extends ControlAjax
             return;
         }
 
-        $load_status = $rental_set->loadByPackageLink($package->getId());
+        $load_status = $rental_set->loadByPackageLink($package->_Id);
         if ($load_status->status == false) {
             $this->failed("Unable to check if package is being used by any clients");
             return;
@@ -59,7 +59,7 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $load_status = $treevender_packages_set->loadByPackageLink($package->getId());
+        $load_status = $treevender_packages_set->loadByPackageLink($package->_Id);
         if ($load_status->status == false) {
             $this->failed("Unable to check if package is being used by any treevenders");
             return;
@@ -73,8 +73,8 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $packageid = $package->getId();
-        $packagename = $package->getName();
+        $packageid = $package->_Id;
+        $packagename = $package->_Name;
         $remove_status = $package->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -92,7 +92,7 @@ class Remove extends ControlAjax
     protected function unlinkTransactions(Package $package): bool
     {
         $transaction_set = new TransactionsSet();
-        $load_status = $transaction_set->loadByPackageLink($package->getId());
+        $load_status = $transaction_set->loadByPackageLink($package->_Id);
         if ($load_status->status == false) {
             $this->failed("Unable to check if package is being used by any transactions");
             return false;

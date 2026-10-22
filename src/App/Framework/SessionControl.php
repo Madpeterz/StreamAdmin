@@ -29,7 +29,7 @@ class SessionControl extends SqlConnectedClass
     public function getOwnerLevel(): bool
     {
         if ($this->main_class_object != null) {
-            return $this->main_class_object->getOwnerLevel(); // object attached send real value
+            return $this->main_class_object->_OwnerLevel; // object attached send real value
         }
         // object not attached send saved value
         if ($this->ownerLevel == 1) {
@@ -40,18 +40,18 @@ class SessionControl extends SqlConnectedClass
     public function getAvatarLinkId(): int
     {
         if ($this->main_class_object != null) {
-            return $this->main_class_object->getAvatarLink(); // object attached send real value
+            return $this->main_class_object->_AvatarLink; // object attached send real value
         }
         return $this->avatarLinkId;
     }
     protected function populateSessionDataset(): bool
     {
-        $this->lhash = $this->main_class_object->getLhash();
+        $this->lhash = $this->main_class_object->_Lhash;
         $this->autologout = time() + 600;
         $this->nextcheck = time() + 45;
-        $this->username = $this->main_class_object->getUsername();
-        $this->ownerLevel = $this->main_class_object->getOwnerLevel();
-        $this->avatarLinkId = $this->main_class_object->getAvatarLink();
+        $this->username = $this->main_class_object->_Username;
+        $this->ownerLevel = $this->main_class_object->_OwnerLevel;
+        $this->avatarLinkId = $this->main_class_object->_AvatarLink;
         $this->updateSession();
         return true;
     }
@@ -80,8 +80,8 @@ class SessionControl extends SqlConnectedClass
         if ($this->main_class_object->isLoaded() == false) {
             return false;
         }
-        $new_lhash = $this->hashPassword(time(), rand(1000, 4000), microtime(), $this->main_class_object->getLhash());
-        $this->main_class_object->setlhash($new_lhash);
+        $new_lhash = $this->hashPassword(time(), rand(1000, 4000), microtime(), $this->main_class_object->_Lhash);
+        $this->main_class_object->_Lhash = $new_lhash;
         $this->nextcheck = time() + 120;
         $save_status = $this->main_class_object->updateEntry();
         if ($save_status->status == true) {
@@ -115,7 +115,7 @@ class SessionControl extends SqlConnectedClass
         if ($this->main_class_object->isLoaded() == false) {
             return false;
         }
-        if ($this->lhash == $this->main_class_object->getLhash()) {
+        if ($this->lhash == $this->main_class_object->_Lhash) {
             return $this->createlhash(true);
         }
         $this->why_logged_out = "session lhash does not match db";
@@ -190,15 +190,15 @@ class SessionControl extends SqlConnectedClass
     {
         $psalt = $this->hashPassword(
             time(),
-            $this->main_class_object->getId(),
-            $this->main_class_object->getPsalt(),
-            $this->main_class_object->getOwnerLevel()
+            $this->main_class_object->_Id,
+            $this->main_class_object->_Psalt,
+            $this->main_class_object->_OwnerLevel
         );
         $phash = $this->hashPassword(
             $new_password,
-            $this->main_class_object->getId(),
+            $this->main_class_object->_Id,
             $psalt,
-            $this->main_class_object->getOwnerLevel()
+            $this->main_class_object->_OwnerLevel
         );
         return new StaffPasswordHashReply($phash, $psalt);
     }
@@ -207,8 +207,8 @@ class SessionControl extends SqlConnectedClass
     {
         if ($this->main_class_object != null) {
             $makepassword = $this->createStaffPasswordHash($new_password);
-            $this->main_class_object->setPsalt($makepassword->psalt);
-            $this->main_class_object->setPhash($makepassword->phash);
+            $this->main_class_object->_Psalt = $makepassword->psalt;
+            $this->main_class_object->_Phash = $makepassword->phash;
             return $this->main_class_object->updateEntry();
         }
         return new UpdateReply("updatePassword requires the user object to be loaded!");
@@ -223,7 +223,7 @@ class SessionControl extends SqlConnectedClass
         if ($check_hash->status == false) {
             return false;
         }
-        if ($check_hash->phash != $this->main_class_object->getPhash()) {
+        if ($check_hash->phash != $this->main_class_object->_Phash) {
             return false;
         }
         return true;
@@ -232,20 +232,20 @@ class SessionControl extends SqlConnectedClass
     public function hashUserPassword(string $input_password, bool $create_new_psalt = false): HashReply
     {
         if ($this->main_class_object != null) {
-            $p_salt = $this->main_class_object->getPsalt();
+            $p_salt = $this->main_class_object->_Psalt;
             if ($create_new_psalt == true) {
                 $p_salt = $this->hashPassword(
                     time(),
-                    $this->main_class_object->getId(),
-                    $this->main_class_object->getPsalt(),
-                    $this->main_class_object->getOwnerLevel()
+                    $this->main_class_object->_Id,
+                    $this->main_class_object->_Psalt,
+                    $this->main_class_object->_OwnerLevel
                 );
             }
             $phash = $this->hashPassword(
                 $input_password,
-                $this->main_class_object->getId(),
+                $this->main_class_object->_Id,
                 $p_salt,
-                $this->main_class_object->getOwnerLevel()
+                $this->main_class_object->_OwnerLevel
             );
             return new HashReply("hashed", true, $create_new_psalt, $p_salt, $phash);
         }

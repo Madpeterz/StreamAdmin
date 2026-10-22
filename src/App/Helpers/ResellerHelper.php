@@ -22,9 +22,9 @@ class ResellerHelper
         }
         if ($this->reseller->loadByAvatarLink($avatarLinkid)->status == false) {
             $this->reseller = new Reseller();
-            $this->reseller->setAvatarLink($avatarLinkid);
-            $this->reseller->setAllowed($auto_accept);
-            $this->reseller->setRate($auto_accept_rate);
+            $this->reseller->_AvatarLink = $avatarLinkid;
+            $this->reseller->_Allowed = $auto_accept;
+            $this->reseller->_Rate = $auto_accept_rate;
             return $this->reseller->createEntry()->status;
         }
         return true;

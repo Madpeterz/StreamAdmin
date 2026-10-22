@@ -24,54 +24,54 @@ class Manage extends View
             $this->output->redirect("package?bubblemessage=unable to find package&bubbletype=warning");
             return;
         }
-        $this->output->addSwapTagString("page_title", ":" . $textureconfig->getName());
+        $this->output->addSwapTagString("page_title", ":" . $textureconfig->_Name);
         $form = new Form();
         $form->target("textureconfig/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
-            $form->textInput("name", "Name", 30, $textureconfig->getName(), "Name");
+            $form->textInput("name", "Name", 30, $textureconfig->_Name, "Name");
             $form->textureInput(
                 "gettingDetails",
                 "Fetching details",
                 36,
-                $textureconfig->getGettingDetails(),
+                $textureconfig->_GettingDetails,
                 "UUID of texture"
             );
             $form->textureInput(
                 "requestDetails",
                 "Request details",
                 36,
-                $textureconfig->getRequestDetails(),
+                $textureconfig->_RequestDetails,
                 "UUID of texture"
             );
         $form->split();
         $form->col(6);
-            $form->textureInput("offline", "Offline", 36, $textureconfig->getOffline(), "UUID of texture");
+            $form->textureInput("offline", "Offline", 36, $textureconfig->_Offline, "UUID of texture");
             $form->textureInput(
                 "waitOwner",
                 "Waiting for owner",
                 36,
-                $textureconfig->getWaitOwner(),
+                $textureconfig->_WaitOwner,
                 "UUID of texture"
             );
-            $form->textureInput("inUse", "InUse", 36, $textureconfig->getInUse(), "UUID of texture");
+            $form->textureInput("inUse", "InUse", 36, $textureconfig->_InUse, "UUID of texture");
         $form->col(6);
             $form->textureInput(
                 "makePayment",
                 "Request payment",
                 36,
-                $textureconfig->getMakePayment(),
+                $textureconfig->_MakePayment,
                 "UUID of texture"
             );
             $form->textureInput(
                 "stockLevels",
                 "Stock levels",
                 36,
-                $textureconfig->getStockLevels(),
+                $textureconfig->_StockLevels,
                 "UUID of texture"
             );
-            $form->textureInput("renewHere", "Renew here", 36, $textureconfig->getRenewHere(), "UUID of texture");
-            $form->textureInput("proxyRenew", "Proxy Renew", 36, $textureconfig->getProxyRenew(), "UUID of texture");
+            $form->textureInput("renewHere", "Renew here", 36, $textureconfig->_RenewHere, "UUID of texture");
+            $form->textureInput("proxyRenew", "Proxy Renew", 36, $textureconfig->_ProxyRenew, "UUID of texture");
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

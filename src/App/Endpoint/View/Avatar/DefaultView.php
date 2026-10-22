@@ -50,13 +50,13 @@ class DefaultView extends View
         $table_body = [];
         foreach ($this->avatarSet as $avatar) {
             $entry = [];
-            $entry[] = $avatar->getId();
-            $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->getAvatarUid() . '">'
-                . $avatar->getAvatarUid() . '</a>';
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-                . $avatar->getAvatarName() . '</a>';
-            $entry[] = $this->timeDisplay(time() - $avatar->getLastUsed());
-            $entry[] = $avatar->getCredits();
+            $entry[] = $avatar->_Id;
+            $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->_AvatarUid . '">'
+                . $avatar->_AvatarUid . '</a>';
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->_AvatarName . '">'
+                . $avatar->_AvatarName . '</a>';
+            $entry[] = $this->timeDisplay(time() - $avatar->_LastUsed);
+            $entry[] = $avatar->_Credits;
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));

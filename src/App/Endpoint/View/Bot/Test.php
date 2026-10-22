@@ -72,10 +72,10 @@ class Test extends Menu
     {
         $botconfig = new Botconfig();
         $botconfig->loadID(1);
-        if ($botconfig->getHttpMode() == false) {
+        if ($botconfig->_HttpMode == false) {
             return new BasicReply(message: "HTTP not enabled");
         }
-        $this->makeHTTPClient($botconfig->getHttpURL());
+        $this->makeHTTPClient($botconfig->_HttpURL);
         $commandArgs = [
             "commandName" => $command,
             "unixtime" => time(),
@@ -83,7 +83,7 @@ class Test extends Menu
             "args" => implode("~#~", $args),
         ];
         $raw = $commandArgs["commandName"] . $commandArgs["args"] .
-            $commandArgs["unixtime"] . $botconfig->getSecret();
+            $commandArgs["unixtime"] . $botconfig->_Secret;
         $commandArgs["signing"] = sha1($raw);
         return $this->restPost("api/Run", $commandArgs);
     }

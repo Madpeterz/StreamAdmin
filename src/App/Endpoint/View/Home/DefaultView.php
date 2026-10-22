@@ -13,7 +13,7 @@ class DefaultView extends HomeDisplayData
         $this->loadDatasets();
         $this->displayDatasets();
         $this->output->addSwapTagString("page_content", $this->main_grid->getOutput());
-        if ($this->siteConfig->getSlConfig()->getPaymentKey() == null) {
+        if ($this->siteConfig->getSlConfig()->_PaymentKey == null) {
             $this->setSwapTag(
                 "page_actions",
                 "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
@@ -25,8 +25,8 @@ class DefaultView extends HomeDisplayData
             "<a href='[[SITE_URL]]Slconfig/PaymentKey'>
             <button type='button' class='btn btn-danger'>Invaild key</button></a>"
         );
-        if ($this->siteConfig->getSlConfig()->getPaymentKey() != null) {
-            $webPart = explode("*", $this->siteConfig->getSlConfig()->getPaymentKey());
+        if ($this->siteConfig->getSlConfig()->_PaymentKey != null) {
+            $webPart = explode("*", $this->siteConfig->getSlConfig()->_PaymentKey);
             if (count($webPart) != 2) {
                 return;
             }

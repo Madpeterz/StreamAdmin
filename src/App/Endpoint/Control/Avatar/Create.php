@@ -32,6 +32,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Avatar created");
-        $this->createAuditLog($avatar_helper->getAvatar()->getId(), "+++", null, $avatarName);
+        $this->createAuditLog($avatar_helper->getAvatar()->_Id, "+++", null, $avatarName);
     }
 }

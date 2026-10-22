@@ -18,7 +18,7 @@ class Update extends ControlAjax
         $avatar = new Avatar();
         $avatar_from = new Avatar();
         $avatar->loadByAvatarUid($transfer_avataruid);
-        $avatar_from->loadID($rental->getAvatarLink());
+        $avatar_from->loadID($rental->_AvatarLink);
         if ($avatar->isLoaded() == false) {
             $this->issues .= "Unable to find avatar to transfer to";
             return;
@@ -27,15 +27,15 @@ class Update extends ControlAjax
             $this->issues .= "Unable to find avatar to transfer from";
             return;
         }
-        $rental->setAvatarLink($avatar->getId());
+        $rental->_AvatarLink = $avatar->_Id;
         $this->actions_taken .= "\n Ownership transfered";
         $this->message .= sprintf(
             "\n %1\$s - Transfer to: %2\$s [%3\$s] from %4\$s [%5\$s]",
             date("F j, Y, g:i a", time()),
-            $avatar->getAvatarName(),
-            $avatar->getAvatarUid(),
-            $avatar_from->getAvatarName(),
-            $avatar_from->getAvatarUid()
+            $avatar->_AvatarName,
+            $avatar->_AvatarUid,
+            $avatar_from->_AvatarName,
+            $avatar_from->_AvatarUid
         );
     }
     protected function adjustTimeleft(
@@ -57,10 +57,10 @@ class Update extends ControlAjax
         }
         $adjustment_unixtime = $this->siteConfig->unixtimeHour() * $total_adjust_hours;
         $adjustment_text = "Added";
-        $new_unixtime = $rental->getExpireUnixtime() + $adjustment_unixtime;
+        $new_unixtime = $rental->_ExpireUnixtime + $adjustment_unixtime;
         if ($adjustment_dir == false) {
             $adjustment_text = "Removed";
-            $new_unixtime = $rental->getExpireUnixtime() - $adjustment_unixtime;
+            $new_unixtime = $rental->_ExpireUnixtime - $adjustment_unixtime;
         }
 
         $add_days = 0;
@@ -94,12 +94,12 @@ class Update extends ControlAjax
         $this->setSwapTag("hoursRemain", $hours_remain);
 
         $foundNoticeid = $noticeHelper->getNoticeLevel($hours_remain);
-        if ($rental->getNoticeLink() != $foundNoticeid) {
-            $rental->setNoticeLink($foundNoticeid);
+        if ($rental->_NoticeLink != $foundNoticeid) {
+            $rental->_NoticeLink = $foundNoticeid;
             $this->setSwapTag("noticeLevelChanged", true);
             $this->actions_taken .= "\n Adjusted notice level";
         }
-        $rental->setExpireUnixtime($new_unixtime);
+        $rental->_ExpireUnixtime = $new_unixtime;
         $this->actions_taken .= "\n Adjusted timeleft";
     }
 
@@ -152,8 +152,8 @@ class Update extends ControlAjax
             }
         }
 
-        if ($this->message != $rental->getMessage()) {
-            $rental->setMessage($this->message);
+        if ($this->message != $rental->_Message) {
+            $rental->_Message = $this->message;
             $this->actions_taken .= "\n Message Updated";
         }
 
@@ -176,7 +176,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage($this->actions_taken, "Client/Manage/" . $this->siteConfig->getPage());
         $this->createMultiAudit(
-            $rental->getRentalUid(),
+            $rental->_RentalUid,
             $rental->getFields(),
             $oldvalues,
             $rental->objectToValueArray()

@@ -61,7 +61,7 @@ abstract class HomeLoadData extends View
         }
         $goodMinTime = time() - 120;
         foreach ($venderHealth as $object) {
-            if ($object->getLastSeen() >= $goodMinTime) {
+            if ($object->_LastSeen >= $goodMinTime) {
                 $this->venderHealthGood++;
                 continue;
             }
@@ -80,18 +80,18 @@ abstract class HomeLoadData extends View
         $this->stream_set = new StreamSet();
         $this->stream_set->loadAll();
         foreach ($this->stream_set as $stream) {
-            if ($stream->getRentalLink() !== null) {
+            if ($stream->_RentalLink !== null) {
                 $this->stream_total_sold++;
-                $this->server_loads[$stream->getServerLink()]["sold"]++;
+                $this->server_loads[$stream->_ServerLink]["sold"]++;
                 continue;
             }
-            if ($stream->getNeedWork() == false) {
+            if ($stream->_NeedWork == false) {
                 $this->stream_total_ready++;
-                $this->server_loads[$stream->getServerLink()]["ready"]++;
+                $this->server_loads[$stream->_ServerLink]["ready"]++;
                 continue;
             }
             $this->stream_total_needWork++;
-            $this->server_loads[$stream->getServerLink()]["needWork"]++;
+            $this->server_loads[$stream->_ServerLink]["needWork"]++;
         }
     }
 
@@ -116,10 +116,10 @@ abstract class HomeLoadData extends View
 
         $botconfig = new Botconfig();
         $botconfig->loadID(1);
-        $bits = [$botconfig->getIms(),$botconfig->getInvites(),$botconfig->getNotecards()];
+        $bits = [$botconfig->_Ims,$botconfig->_Invites,$botconfig->_Notecards];
         if (in_array(true, $bits) == true) {
             $this->owner_objects_list[] = "botcommandqserver";
-            if ($botconfig->getNotecards() == true) {
+            if ($botconfig->_Notecards == true) {
                 $this->owner_objects_list[] = "notecardsserver";
             }
         }
@@ -128,7 +128,7 @@ abstract class HomeLoadData extends View
             $this->loadServers();
         }
 
-        if ($this->siteConfig->getSlConfig()->getEventsAPI() == true) {
+        if ($this->siteConfig->getSlConfig()->_EventsAPI == true) {
             $this->owner_objects_list[] = "eventsserver";
         }
     }
@@ -141,7 +141,7 @@ abstract class HomeLoadData extends View
         $where_config = [
         "fields" => ["avatarLink","lastSeen","objectMode"],
         "matches" => ["=",">=","IN"],
-        "values" => [$this->siteConfig->getSlConfig()->getOwnerAvatarLink(),$one_hour_ago,$this->owner_objects_list],
+        "values" => [$this->siteConfig->getSlConfig()->_OwnerAvatarLink,$one_hour_ago,$this->owner_objects_list],
         "types" => ["i","i","s"],
         ];
         $order_config = [
@@ -165,11 +165,11 @@ abstract class HomeLoadData extends View
                     continue;
                 }
                 $notice = $notice_set->getObjectByID($entry["noticeLink"]);
-                if ($notice->getHoursRemaining() <= 0) {
+                if ($notice->_HoursRemaining <= 0) {
                     $this->client_expired += $entry["items"];
                     continue;
                 }
-                if ($notice->getHoursRemaining() < 24) {
+                if ($notice->_HoursRemaining < 24) {
                     $this->client_expires_soon += $entry["items"];
                     continue;
                 }

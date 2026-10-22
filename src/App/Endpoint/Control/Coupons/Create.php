@@ -48,9 +48,9 @@ class Create extends ControlAjax
             return;
         }
         $coupon = new Marketplacecoupons();
-        $coupon->setListingid($listingid);
-        $coupon->setCost($cost);
-        $coupon->setCredit($credit);
+        $coupon->_Listingid = $listingid;
+        $coupon->_Cost = $cost;
+        $coupon->_Credit = $credit;
         $createStatus = $coupon->createEntry();
         if ($createStatus->status == false) {
             $this->failed(sprintf("Unable to create coupon: %1\$s", $createStatus->message));

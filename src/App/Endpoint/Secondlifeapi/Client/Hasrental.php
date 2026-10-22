@@ -24,7 +24,7 @@ class Hasrental extends SecondlifeAjax
         $rentalSet = new RentalSet();
         $whereConfig = [
             "fields" => ["avatarLink"],
-            "values" => [$avatar->getId()],
+            "values" => [$avatar->_Id],
         ];
         $count = $rentalSet->countInDB($whereConfig);
         if (($count->status == false) || ($count->items == 0)) {

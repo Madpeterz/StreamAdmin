@@ -45,7 +45,7 @@ class PackageTest extends TestWorker
         $_POST["enforceCustomMaxStreams"] = true;
         $_POST["maxStreamsInPackage"] = 10;
         $update = new Update();
-        $system->setPage($package->getPackageUid());
+        $system->setPage($package->_PackageUid);
         $update->process();
         $reply = $update->getOutputObject();
         $this->assertSame("Package updated", $reply->getSwapTagString("message"), "Message does not appear to be correct");
@@ -61,7 +61,7 @@ class PackageTest extends TestWorker
         $package->loadByName("unittest");
         $this->assertSame(true,$package->isLoaded(),"Package is not loaded");
         $remove = new Remove();
-        $system->setPage($package->getPackageUid());
+        $system->setPage($package->_PackageUid);
         $remove->process();
         $reply = $remove->getOutputObject();
         $this->assertSame("Package removed", $reply->getSwapTagString("message"), "Message does not appear to be correct");

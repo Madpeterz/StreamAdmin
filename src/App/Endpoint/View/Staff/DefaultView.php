@@ -17,14 +17,14 @@ class DefaultView extends View
         $table_body = [];
         foreach ($staff_set as $staff) {
             $entry = [];
-            $entry[] = $staff->getId();
-            $username = $staff->getUsername();
+            $entry[] = $staff->_Id;
+            $username = $staff->_Username;
             if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
                 $username = '<a href="[[SITE_URL]]staff/manage/'
-                . $staff->getId() . '">' . $staff->getUsername() . '</a>';
+                . $staff->_Id . '">' . $staff->_Username . '</a>';
             }
             $entry[] = $username;
-            $entry[] = $this->yesNo[$staff->getOwnerLevel()];
+            $entry[] = $this->yesNo[$staff->_OwnerLevel];
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

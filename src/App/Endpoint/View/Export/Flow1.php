@@ -57,42 +57,42 @@ class Flow1 extends ExcelSheet
         foreach ($streams as $stream) {
             $entry = [];
 
-            $server = $servers->getObjectByID($stream->getServerLink());
+            $server = $servers->getObjectByID($stream->_ServerLink);
             $clientName = "Available";
             $comments = "None";
             $packageName = "????";
             $expiresAt = "";
-            if ($stream->getNeedWork() == true) {
+            if ($stream->_NeedWork == true) {
                 $clientName = "- Needs work -";
             }
-            $rental = $clients->getObjectByField("streamLink", $stream->getId());
+            $rental = $clients->getObjectByField("streamLink", $stream->_Id);
             if ($rental != null) {
-                if (nullSafeStrLen($rental->getMessage()) > 0) {
-                    $comments = $rental->getMessage();
+                if (nullSafeStrLen($rental->_Message) > 0) {
+                    $comments = $rental->_Message;
                 }
                 $clientName = "-Taken-";
-                $avatar = $avatars->getObjectByID($rental->getAvatarLink());
+                $avatar = $avatars->getObjectByID($rental->_AvatarLink);
                 if ($avatar != null) {
-                    $clientName = $avatar->getAvatarName();
+                    $clientName = $avatar->_AvatarName;
                 }
                 $expiresAt = "Expired";
-                if ($rental->getExpireUnixtime() > time()) {
-                    $expiresAt = date('d/m/Y @ G:i:s', $rental->getExpireUnixtime());
+                if ($rental->_ExpireUnixtime > time()) {
+                    $expiresAt = date('d/m/Y @ G:i:s', $rental->_ExpireUnixtime);
                 }
             }
-            $package = $packages->getObjectByID($stream->getPackageLink());
+            $package = $packages->getObjectByID($stream->_PackageLink);
             if ($package != null) {
-                $packageName = $package->getName();
+                $packageName = $package->_Name;
             }
 
 
-            $entry[] = $stream->getId();
+            $entry[] = $stream->_Id;
             $entry[] = $clientName;
-            $entry[] = $stream->getPort();
-            $entry[] = $stream->getDjPassword();
-            $entry[] = $stream->getAdminUsername();
-            $entry[] = $stream->getAdminPassword();
-            $entry[] = $server->getDomain() . ":" . $stream->getPort();
+            $entry[] = $stream->_Port;
+            $entry[] = $stream->_DjPassword;
+            $entry[] = $stream->_AdminUsername;
+            $entry[] = $stream->_AdminPassword;
+            $entry[] = $server->_Domain . ":" . $stream->_Port;
             $entry[] = $packageName;
             $entry[] = $comments;
             $entry[] = $expiresAt;

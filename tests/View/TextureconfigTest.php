@@ -76,7 +76,7 @@ class TextureconfigTest extends TestWorkerWithLogin
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByField("name","UnitTestTexturePack");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
-        $system->setPage( $textureconfig->getId());
+        $system->setPage( $textureconfig->_Id);
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -99,7 +99,7 @@ class TextureconfigTest extends TestWorkerWithLogin
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByField("name","UnitTestTexturePack");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
-        $system->setPage( $textureconfig->getId());
+        $system->setPage( $textureconfig->_Id);
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitTestTexturePack Updated";
@@ -131,7 +131,7 @@ class TextureconfigTest extends TestWorkerWithLogin
         $textureconfig = new Textureconfig();
         $status = $textureconfig->loadByField("name","UnitTestTexturePack Updated");
         $this->assertSame(true,$status->status,"Unable to load test texture pack");
-        $system->setPage( $textureconfig->getId());
+        $system->setPage( $textureconfig->_Id);
 
         $removeProcess = new TextureconfigRemove();
         $_POST["accept"] = "Accept";

@@ -83,7 +83,7 @@ class TreeTest extends TestWorker
 
         foreach($packages as $package)
         {
-            $_POST["package"] = $package->getId();
+            $_POST["package"] = $package->_Id;
             $addPackage = new Addpackage();
             $addPackage->process();
             $reply = $addPackage->getOutputObject();
@@ -107,7 +107,7 @@ class TreeTest extends TestWorker
         $treeVenderPackages = new TreevenderpackagesSet();
         $treeVenderPackages->loadByTreevenderLink(1);
         $this->assertSame(5, $treeVenderPackages->getCount(), "Incorrect number of packages linked");
-        $system->setPage($treeVenderPackages->getFirst()->getId());
+        $system->setPage($treeVenderPackages->getFirst()->_Id);
 
         $_POST["accept"] = "Accept";
 

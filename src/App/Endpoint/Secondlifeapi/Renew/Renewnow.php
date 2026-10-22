@@ -84,7 +84,7 @@ class Renewnow extends SecondlifeAjax
         $this->transactionAvatar = $avatar_helper->getAvatar();
 
         $banlistSet = new BanlistSet();
-        $banlistSet->loadFromAvatarLinks([$this->accountOwnerAvatar->getId(), $this->transactionAvatar->getId()]);
+        $banlistSet->loadFromAvatarLinks([$this->accountOwnerAvatar->_Id, $this->transactionAvatar->_Id]);
         if ($banlistSet->getCount() > 0) {
             $this->failed("Unable to find avatar");
             return false;
@@ -94,8 +94,8 @@ class Renewnow extends SecondlifeAjax
             return true;
         }
         if (
-            ($this->accountOwnerAvatar->getId() == $forceMatchAv->getId()) &&
-            ($this->transactionAvatar->getId() == $forceMatchAv->getId())
+            ($this->accountOwnerAvatar->_Id == $forceMatchAv->_Id) &&
+            ($this->transactionAvatar->_Id == $forceMatchAv->_Id)
         ) {
             return true;
         }
@@ -116,22 +116,22 @@ class Renewnow extends SecondlifeAjax
     protected function limitStreamTime(): bool
     {
         $slconfig = $this->siteConfig->getSlConfig();
-        if ($slconfig->getLimitTime() == false) {
+        if ($slconfig->_LimitTime == false) {
             return true;
         }
-        $days = $this->rental->getExpireUnixtime() - time();
+        $days = $this->rental->_ExpireUnixtime - time();
         if ($days > 0) {
             $days = $days / $this->siteConfig->unixtimeDay();
             if ($days < 0) {
                 $days = 1;
             }
         }
-        if ($days >= $slconfig->getMaxStreamTimeDays()) {
+        if ($days >= $slconfig->_MaxStreamTimeDays) {
             $this->failed("payment not accepted (currently to long remaining on rental)");
             return false;
         }
-        $unixtime_to_add = (($this->package->getDays() * $this->siteConfig->unixtimeDay()) * $this->multipler);
-        $new_expires_time = $this->rental->getExpireUnixtime() + $unixtime_to_add;
+        $unixtime_to_add = (($this->package->_Days * $this->siteConfig->unixtimeDay()) * $this->multipler);
+        $new_expires_time = $this->rental->_ExpireUnixtime + $unixtime_to_add;
         $days = $new_expires_time - time();
         if ($days > 0) {
             $days = $days / $this->siteConfig->unixtimeDay();
@@ -139,7 +139,7 @@ class Renewnow extends SecondlifeAjax
                 $days = 1;
             }
         }
-        if ($days >= $slconfig->getMaxStreamTimeDays()) {
+        if ($days >= $slconfig->_MaxStreamTimeDays) {
             $this->failed("payment not accepted (would go over limit for remaining time on rental)");
             return false;
         }
@@ -149,10 +149,10 @@ class Renewnow extends SecondlifeAjax
     protected function acceptPaymentAmount(): bool
     {
         $accepted_payment_amounts = [
-            ($this->package->getCost()) => 1,
-            ($this->package->getCost() * 2) => 2,
-            ($this->package->getCost() * 3) => 3,
-            ($this->package->getCost() * 4) => 4,
+            ($this->package->_Cost) => 1,
+            ($this->package->_Cost * 2) => 2,
+            ($this->package->_Cost * 3) => 3,
+            ($this->package->_Cost * 4) => 4,
         ];
         if (array_key_exists($this->amountpaid, $accepted_payment_amounts) == false) {
             $this->failed("payment not accepted (Invaild amount)");
@@ -164,21 +164,21 @@ class Renewnow extends SecondlifeAjax
 
     protected function finalizeTransaction(?string $sltransactionUUID = null): bool
     {
-        $this->transaction->setAvatarLink($this->transactionAvatar->getId());
-        $this->transaction->setPackageLink($this->package->getId());
-        $this->transaction->setStreamLink($this->stream->getId());
-        $this->transaction->setResellerLink($this->reseller->getId());
-        $this->transaction->setRegionLink($this->region->getId());
-        $this->transaction->setAmount($this->amountpaid);
-        $this->transaction->setUnixtime(time());
-        $this->transaction->setTransactionUid($this->uid_transaction->uid);
-        $this->transaction->setRenew(true);
+        $this->transaction->_AvatarLink = $this->transactionAvatar->_Id;
+        $this->transaction->_PackageLink = $this->package->_Id;
+        $this->transaction->_StreamLink = $this->stream->_Id;
+        $this->transaction->_ResellerLink = $this->reseller->_Id;
+        $this->transaction->_RegionLink = $this->region->_Id;
+        $this->transaction->_Amount = $this->amountpaid;
+        $this->transaction->_Unixtime = time();
+        $this->transaction->_TransactionUid = $this->uid_transaction->uid;
+        $this->transaction->_Renew = true;
         if ($sltransactionUUID != null) {
-            $this->transaction->setViaHud(true);
-            $this->transaction->setSLtransactionUUID($sltransactionUUID);
+            $this->transaction->_ViaHud = true;
+            $this->transaction->_SLtransactionUUID = $sltransactionUUID;
         }
-        if ($this->transactionAvatar->getId() != $this->accountOwnerAvatar->getId()) {
-            $this->transaction->setTargetAvatar($this->accountOwnerAvatar->getId());
+        if ($this->transactionAvatar->_Id != $this->accountOwnerAvatar->_Id) {
+            $this->transaction->_TargetAvatar = $this->accountOwnerAvatar->_Id;
         }
         if ($this->transaction->createEntry()->status == false) {
             $this->setSwapTag("message", "Unable to create transaction");
@@ -189,14 +189,14 @@ class Renewnow extends SecondlifeAjax
 
     protected function setUpdatedRentalDetails(): void
     {
-        $unixtime_to_add = (($this->package->getDays() * $this->siteConfig->unixtimeDay()) * $this->multipler);
-        $new_expires_time = $this->rental->getExpireUnixtime() + $unixtime_to_add;
-        $this->rental->setExpireUnixtime($new_expires_time);
-        $this->rental->setRenewals(($this->rental->getRenewals() + $this->multipler));
-        $this->rental->setTotalAmount(($this->rental->getTotalAmount() + $this->amountpaid));
+        $unixtime_to_add = (($this->package->_Days * $this->siteConfig->unixtimeDay()) * $this->multipler);
+        $new_expires_time = $this->rental->_ExpireUnixtime + $unixtime_to_add;
+        $this->rental->_ExpireUnixtime = $new_expires_time;
+        $this->rental->_Renewals = $this->rental->_Renewals + $this->multipler;
+        $this->rental->_TotalAmount = $this->rental->_TotalAmount + $this->amountpaid;
         $unixtime_remain = $new_expires_time - time();
-        $old_notice_level = $this->rental->getNoticeLink();
-        $this->rental->setNoticeLink(6);
+        $old_notice_level = $this->rental->_NoticeLink;
+        $this->rental->_NoticeLink = 6;
         if ($unixtime_remain > 0) {
             $this->processNoticeChange($unixtime_remain);
         }
@@ -204,7 +204,7 @@ class Renewnow extends SecondlifeAjax
         $EventsQHelper = new EventsQHelper();
 
         $tagEvent = "RentalRenewAny";
-        if (($old_notice_level == 6) && ($this->rental->getNoticeLink() != 6) && ($unixtime_remain > 0)) {
+        if (($old_notice_level == 6) && ($this->rental->_NoticeLink != 6) && ($unixtime_remain > 0)) {
             $tagEvent = "RentalRenew";
         }
         $EventsQHelper->addToEventQ(
@@ -225,8 +225,8 @@ class Renewnow extends SecondlifeAjax
         $noticeHelper = new NoticesHelper();
         $use_notice_index = $noticeHelper->getNoticeLevel($hours_remain);
         if ($use_notice_index != 0) {
-            if ($this->rental->getNoticeLink() != $use_notice_index) {
-                $this->rental->setNoticeLink($use_notice_index);
+            if ($this->rental->_NoticeLink != $use_notice_index) {
+                $this->rental->_NoticeLink = $use_notice_index;
             }
         }
         return;
@@ -245,11 +245,11 @@ class Renewnow extends SecondlifeAjax
     {
         $this->setSwapTag("owner_payment", 0);
         $avatar_system = new Avatar();
-        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->getOwnerAvatarLink())->status == false) {
+        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->_OwnerAvatarLink)->status == false) {
             $this->failed("Unable to find system owner avatar");
             return false;
         }
-        if ($this->transactionAvatar->getId() == $this->accountOwnerAvatar->getId()) {
+        if ($this->transactionAvatar->_Id == $this->accountOwnerAvatar->_Id) {
             // can only use account credits for yourself
             // you can give avatars credits via the market place
             $this->useCredits(
@@ -266,9 +266,9 @@ class Renewnow extends SecondlifeAjax
             return true;
         }
         $left_over = $this->amountpaid;
-        if ($this->reseller->getRate() > 0) {
+        if ($this->reseller->_Rate > 0) {
             $one_p = $this->amountpaid / 100;
-            $reseller_cut = floor($one_p * $this->reseller->getRate());
+            $reseller_cut = floor($one_p * $this->reseller->_Rate);
             $left_over = $this->amountpaid - $reseller_cut;
             if ($reseller_cut < 1) {
                 if ($left_over >= 2) {
@@ -279,21 +279,21 @@ class Renewnow extends SecondlifeAjax
         }
         $this->setSwapTag("owner_payment", 1);
         $this->setSwapTag("owner_payment_amount", $left_over);
-        $this->setSwapTag("owner_payment_uuid", $avatar_system->getAvatarUUID());
+        $this->setSwapTag("owner_payment_uuid", $avatar_system->_AvatarUUID);
         return true;
     }
 
     protected function userMessage(): void
     {
-        if ($this->rental->getExpireUnixtime() < time()) {
+        if ($this->rental->_ExpireUnixtime < time()) {
             $this->ok("Payment on account but account is still in arrears");
             return;
         }
         $this->ok(
             sprintf(
                 "Payment accepted there is now: %1\$s remaining you will next need to renew %2\$s",
-                $this->timeRemainingHumanReadable($this->rental->getExpireUnixtime()),
-                date('l jS \of F Y h:i:s A', $this->rental->getExpireUnixtime())
+                $this->timeRemainingHumanReadable($this->rental->_ExpireUnixtime),
+                date('l jS \of F Y h:i:s A', $this->rental->_ExpireUnixtime)
             )
         );
     }

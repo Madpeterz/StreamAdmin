@@ -28,8 +28,8 @@ class Remove extends ControlAjax
             $this->failed("Unable to purge packages linked to tree vender");
             return;
         }
-        $treename = $treevender->getName();
-        $treeid = $treevender->getId();
+        $treename = $treevender->_Name;
+        $treeid = $treevender->_Id;
         $remove_status = $treevender->removeEntry();
         if ($remove_status->status == false) {
             $this->setSwapTag(

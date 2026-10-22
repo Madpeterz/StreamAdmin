@@ -22,8 +22,8 @@ class Next extends SecondlifeAjax
         }
         $eventq = $eventqset->getFirst();
         $this->setSwapTag("hasmessage", true);
-        $this->setSwapTag("eventName", $eventq->getEventName());
-        $this->setSwapTag("eventMessage", $eventq->getEventMessage());
+        $this->setSwapTag("eventName", $eventq->_EventName);
+        $this->setSwapTag("eventMessage", $eventq->_EventMessage);
         if ($eventq->removeEntry()->status == false) {
             $this->setSwapTag("hasmessage", false);
             $this->failed("Unable to remove event from the q");

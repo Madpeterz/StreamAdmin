@@ -20,7 +20,7 @@ class AnsTest extends TestWorker
         $SlconfigTest = new SlconfigTest();
         $SlconfigTest->test_Update();
 
-        $_SERVER["HTTP_X_ANS_VERIFY_HASH"] = sha1("yep".$system->getSlConfig()->getAnsSalt());
+        $_SERVER["HTTP_X_ANS_VERIFY_HASH"] = sha1("yep".$system->getSlConfig()->_AnsSalt);
         $_SERVER["QUERY_STRING"] = "yep";
         $_GET["PayerName"] = "James Pond";
         $_GET["PayerKey"] = "289c3e36-69b3-40c5-9229-0c6a5d230767";
@@ -33,7 +33,7 @@ class AnsTest extends TestWorker
 
         $avatar = new Avatar();
         $avatar->loadId(2);
-        $this->assertSame(0, $avatar->getCredits(), "Expected credit level is wrong");
+        $this->assertSame(0, $avatar->_Credits, "Expected credit level is wrong");
 
         $messages = new MessageSet();
         $this->assertSame(0,$messages->countInDB()->items,"Incorrect number of messages in outbox");
@@ -51,7 +51,7 @@ class AnsTest extends TestWorker
 
         $avatar = new Avatar();
         $avatar->loadId(2);
-        $this->assertSame(100, $avatar->getCredits(), "Expected credit level is wrong");
+        $this->assertSame(100, $avatar->_Credits, "Expected credit level is wrong");
 
         $this->assertSame(1,$transactions->countInDB()->items,"Incorrect number of transactions");
 

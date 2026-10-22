@@ -40,16 +40,16 @@ class DefaultView extends View
         $avatarSet = $auditlog->relatedAvatar();
 
         foreach ($auditlog as $log) {
-            $avatar = $avatarSet->getObjectByID($log->getAvatarLink());
+            $avatar = $avatarSet->getObjectByID($log->_AvatarLink);
             $entry = [];
-            $entry[] = $this->emptyifnull($log->getId());
-            $entry[] = $log->getStore();
-            $entry[] = $log->getSourceid();
-            $entry[] = $this->convertCreateRemove($log->getValuename());
-            $entry[] = date('l jS \of F Y h:i:s A', $log->getUnixtime());
-            $entry[] = $this->emptyifnull($log->getOldvalue());
-            $entry[] = $this->emptyifnull($log->getNewvalue());
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = $this->emptyifnull($log->_Id);
+            $entry[] = $log->_Store;
+            $entry[] = $log->_Sourceid;
+            $entry[] = $this->convertCreateRemove($log->_Valuename);
+            $entry[] = date('l jS \of F Y h:i:s A', $log->_Unixtime);
+            $entry[] = $this->emptyifnull($log->_Oldvalue);
+            $entry[] = $this->emptyifnull($log->_Newvalue);
+            $entry[] = $avatar->_AvatarName;
             $table_body[] = $entry;
         }
         $this->setSwapTag(

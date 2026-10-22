@@ -110,13 +110,13 @@ class DefaultView extends View
 
         $transactions_set->loadWithConfig($whereconfig);
         foreach ($transactions_set as $transaction) {
-            if ($transaction->getRenew() == 1) {
+            if ($transaction->_Renew == 1) {
                 $renewed_rentals++;
-                $amount_renew += $transaction->getAmount();
+                $amount_renew += $transaction->_Amount;
                 continue;
             }
             $new_rentals++;
-            $amount_new += $transaction->getAmount();
+            $amount_new += $transaction->_Amount;
         }
         $mygrid = new Grid();
         $table = $this->renderTable(

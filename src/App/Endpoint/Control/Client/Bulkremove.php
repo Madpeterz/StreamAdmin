@@ -30,7 +30,7 @@ class Bulkremove extends ControlAjax
         $this->setSwapTag("redirect", "client/Bulkremove");
         $EventsQHelper = new EventsQHelper();
         foreach ($rental_set as $rental) {
-            $accept = $this->input->post("rental" . $rental->getRentalUid())->asString();
+            $accept = $this->input->post("rental" . $rental->_RentalUid)->asString();
             if ($accept != "purge") {
                 $skipped_counter++;
                 continue;
@@ -38,7 +38,7 @@ class Bulkremove extends ControlAjax
             $client_rental_notice_opt_outs = new RentalnoticeptoutSet();
             // import opt outs from global load for this Client only
             foreach ($rental_notice_opt_outs as $notice_opt_out) {
-                if ($notice_opt_out->getRentalLink() == $rental->getId()) {
+                if ($notice_opt_out->_RentalLink == $rental->_Id) {
                     $client_rental_notice_opt_outs->addToCollected($notice_opt_out);
                 }
             }
@@ -56,24 +56,24 @@ class Bulkremove extends ControlAjax
 
 
 
-            $stream = $stream_set->getObjectByID($rental->getStreamLink());
+            $stream = $stream_set->getObjectByID($rental->_StreamLink);
             if ($stream == null) {
-                $this->failed(sprintf("Unable to find stream attached to rental %1\$s", $rental->getRentalUid()));
+                $this->failed(sprintf("Unable to find stream attached to rental %1\$s", $rental->_RentalUid));
                 return;
             }
-            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
+            $avatar = $avatar_set->getObjectByID($rental->_AvatarLink);
             if ($avatar == null) {
-                $this->failed(sprintf("Unable to find avatar attached to rental %1\$s", $rental->getRentalUid()));
+                $this->failed(sprintf("Unable to find avatar attached to rental %1\$s", $rental->_RentalUid));
                 return;
             }
-            $package = $package_set->getObjectByID($rental->getPackageLink());
+            $package = $package_set->getObjectByID($rental->_PackageLink);
             if ($package == null) {
-                $this->failed(sprintf("Unable to find package attached to rental %1\$s", $rental->getRentalUid()));
+                $this->failed(sprintf("Unable to find package attached to rental %1\$s", $rental->_RentalUid));
                 return;
             }
-            $server = $server_set->getObjectByID($stream->getServerLink());
+            $server = $server_set->getObjectByID($stream->_ServerLink);
             if ($server == null) {
-                $this->failed(sprintf("Unable to find server attached to stream %1\$s", $stream->getStreamUid()));
+                $this->failed(sprintf("Unable to find server attached to stream %1\$s", $stream->_StreamUid));
                 return;
             }
 
@@ -87,11 +87,11 @@ class Bulkremove extends ControlAjax
             );
 
 
-            $stream->setRentalLink(null);
-            $stream->setNeedWork(1);
+            $stream->_RentalLink = null;
+            $stream->_NeedWork = 1;
             $update_status = $stream->updateEntry();
             if ($update_status->status == false) {
-                $this->failed(sprintf("Error releasing stream from rental %1\$s", $rental->getRentalUid()));
+                $this->failed(sprintf("Error releasing stream from rental %1\$s", $rental->_RentalUid));
                 return;
             }
             $all_ok = true;

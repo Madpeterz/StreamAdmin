@@ -12,8 +12,8 @@ class BotTest extends TestWorker
     {
         global $system;
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
         $botUpdate = new Update();
         $_POST["avataruid"] = "SysDevOp";

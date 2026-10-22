@@ -21,9 +21,9 @@ class SelectNoticeLevel extends View
             foreach ($group_count->dataset as $countentry) {
                 $notice = $notice_set->getObjectByID($countentry["noticeLink"]);
                 $entry = [];
-                $entry[] = $notice->getId();
-                $entry[] = '<a href="[[SITE_URL]]client/bynoticelevel/' . $notice->getId() . '">'
-                 . $notice->getName() . '</a>';
+                $entry[] = $notice->_Id;
+                $entry[] = '<a href="[[SITE_URL]]client/bynoticelevel/' . $notice->_Id . '">'
+                 . $notice->_Name . '</a>';
                 $entry[] = $countentry["items"];
                 $table_body[] = $entry;
             }

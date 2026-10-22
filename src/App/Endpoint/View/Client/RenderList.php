@@ -20,42 +20,42 @@ abstract class RenderList extends View
         $this->noticeSet = $this->rentalSet->relatedNotice();
         $table_head = ["id","Rental UID","Avatar","Port","Notecard","Timeleft","Status","Renewals"];
         $table_body = [];
-        if ($this->siteConfig->getSlConfig()->getClientsDisplayServer() == true) {
+        if ($this->siteConfig->getSlConfig()->_ClientsDisplayServer == true) {
             $this->serverSet = $this->streamSet->relatedServer();
             $table_head[] = "Server";
         }
 
 
         foreach ($this->rentalSet as $rental) {
-            $avatar = $this->avatarSet->getObjectByID($rental->getAvatarLink());
-            $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
+            $avatar = $this->avatarSet->getObjectByID($rental->_AvatarLink);
+            $stream = $this->streamSet->getObjectByID($rental->_StreamLink);
             $entry = [];
-            $entry[] = $rental->getId();
-            $entry[] = '<a href="[[SITE_URL]]client/manage/' . $rental->getRentalUid() . '">'
-            . $rental->getRentalUid() . '</a>';
-            $av_detail = explode(" ", $avatar->getAvatarName());
+            $entry[] = $rental->_Id;
+            $entry[] = '<a href="[[SITE_URL]]client/manage/' . $rental->_RentalUid . '">'
+            . $rental->_RentalUid . '</a>';
+            $av_detail = explode(" ", $avatar->_AvatarName);
 
-            $name = $avatar->getAvatarName();
+            $name = $avatar->_AvatarName;
             if ($av_detail[1] == "Resident") {
                 $name = $av_detail[0];
             }
             $entry[] = $name;
-            $entry[] = $stream->getPort();
+            $entry[] = $stream->_Port;
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
-            . $rental->getRentalUid() . "\">View</button>";
+            . $rental->_RentalUid . "\">View</button>";
 
-            $timeleft = "-" . $this->expiredAgo($rental->getExpireUnixtime());
-            if ($rental->getExpireUnixtime() > time()) {
-                $timeleft = $this->timeRemainingHumanReadable($rental->getExpireUnixtime());
+            $timeleft = "-" . $this->expiredAgo($rental->_ExpireUnixtime);
+            if ($rental->_ExpireUnixtime > time()) {
+                $timeleft = $this->timeRemainingHumanReadable($rental->_ExpireUnixtime);
             }
             $entry[] = $timeleft;
-            $noticeLevel = $this->noticeSet->getObjectByID($rental->getNoticeLink());
-            $entry[] = $noticeLevel->getName();
-            $entry[] = $rental->getRenewals();
-            if ($this->siteConfig->getSlConfig()->getClientsDisplayServer() == true) {
-                $server = $this->serverSet->getObjectByID($stream->getServerLink());
-                $entry[] = $server->getDomain();
+            $noticeLevel = $this->noticeSet->getObjectByID($rental->_NoticeLink);
+            $entry[] = $noticeLevel->_Name;
+            $entry[] = $rental->_Renewals;
+            if ($this->siteConfig->getSlConfig()->_ClientsDisplayServer == true) {
+                $server = $this->serverSet->getObjectByID($stream->_ServerLink);
+                $entry[] = $server->_Domain;
             }
             $table_body[] = $entry;
         }

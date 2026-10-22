@@ -48,16 +48,16 @@ class Update extends ControlAjax
             return;
         }
         $oldvalues = $textureconfig->objectToValueArray();
-        $textureconfig->setName($name);
-        $textureconfig->setOffline($offline);
-        $textureconfig->setWaitOwner($waitOwner);
-        $textureconfig->setStockLevels($stockLevels);
-        $textureconfig->setMakePayment($makePayment);
-        $textureconfig->setInUse($inUse);
-        $textureconfig->setRenewHere($renewHere);
-        $textureconfig->setGettingDetails($gettingDetails);
-        $textureconfig->setRequestDetails($requestDetails);
-        $textureconfig->setProxyRenew($proxyRenew);
+        $textureconfig->_Name = $name;
+        $textureconfig->_Offline = $offline;
+        $textureconfig->_WaitOwner = $waitOwner;
+        $textureconfig->_StockLevels = $stockLevels;
+        $textureconfig->_MakePayment = $makePayment;
+        $textureconfig->_InUse = $inUse;
+        $textureconfig->_RenewHere = $renewHere;
+        $textureconfig->_GettingDetails = $gettingDetails;
+        $textureconfig->_RequestDetails = $requestDetails;
+        $textureconfig->_ProxyRenew = $proxyRenew;
         $update_status = $textureconfig->updateEntry();
         if ($update_status->status == false) {
             $this->failed(
@@ -67,7 +67,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Texture pack updated");
         $this->createMultiAudit(
-            $textureconfig->getId(),
+            $textureconfig->_Id,
             $textureconfig->getFields(),
             $oldvalues,
             $textureconfig->objectToValueArray()

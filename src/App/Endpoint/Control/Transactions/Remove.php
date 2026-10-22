@@ -27,8 +27,8 @@ class Remove extends ControlAjax
             return;
         }
         $avatar = $transaction->relatedAvatar()->getFirst();
-        $transactionid = $transaction->getTransactionUid();
-        $amount = $transaction->getAmount();
+        $transactionid = $transaction->_TransactionUid;
+        $amount = $transaction->_Amount;
 
         $remove_status = $transaction->removeEntry();
         if ($remove_status->status == false) {
@@ -38,6 +38,6 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Transaction removed");
-        $this->createAuditLog($transactionid, "---", "L$" . $amount, $avatar->getAvatarName());
+        $this->createAuditLog($transactionid, "---", "L$" . $amount, $avatar->_AvatarName);
     }
 }

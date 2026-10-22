@@ -19,13 +19,13 @@ if($load->status == false)
 {
     die("[Login] Could not load staff id 1");
 }
-$staff->setUsername("testing");
+$staff->_Username = "testing";
 $system->getSession()->attachStaffMember($staff);
 $reply = $system->getSession()->createStaffPasswordHash("testing");
-$staff->setPhash($reply->phash);
-$staff->setPsalt($reply->psalt);
-$staff->setOwnerLevel(true);
-$staff->setAvatarLink(2);
+$staff->_Phash = $reply->phash;
+$staff->_Psalt = $reply->psalt;
+$staff->_OwnerLevel = true;
+$staff->_AvatarLink = 2;
 $reply = $staff->updateEntry();
 if($reply->status == false)
 {

@@ -25,9 +25,9 @@ class Notecardsync extends SecondlifeAjax
             return false;
         }
         $checks = $this->input->varInput(
-            $this->siteConfig->getSlConfig()->getHttpInboundSecret()
+            $this->siteConfig->getSlConfig()->_HttpInboundSecret
         )->checkStringLength(5, 30)->asString();
-        if ($checks != $this->siteConfig->getSlConfig()->getHttpInboundSecret()) {
+        if ($checks != $this->siteConfig->getSlConfig()->_HttpInboundSecret) {
             $this->failed("HTTP inbound secret has issues");
             return false;
         }
@@ -78,7 +78,7 @@ class Notecardsync extends SecondlifeAjax
         $this->setSwapTag("haserrormessage", false);
         $reply = $this->botHelper->sendBotNextNotecard(
             $this->siteConfig->getSiteURL(),
-            $this->siteConfig->getSlConfig()->getHttpInboundSecret()
+            $this->siteConfig->getSlConfig()->_HttpInboundSecret
         );
         if ($reply->status == false) {
             $this->failed("Unable to add fetch next notecard to bot Q");

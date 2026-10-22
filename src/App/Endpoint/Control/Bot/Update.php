@@ -69,14 +69,14 @@ class Update extends ControlAjax
             $httpMode = false;
         }
 
-        $botconfig->setHttpMode($httpMode);
-        $botconfig->setHttpURL($httpURL);
-        $botconfig->setAvatarLink($avatar->getId());
-        $botconfig->setSecret($secret);
-        $botconfig->setNotecards($notecards);
-        $botconfig->setIms($ims);
-        $botconfig->setInvites($invites);
-        $botconfig->setInviteGroupUUID($invite_uuid);
+        $botconfig->_HttpMode = $httpMode;
+        $botconfig->_HttpURL = $httpURL;
+        $botconfig->_AvatarLink = $avatar->_Id;
+        $botconfig->_Secret = $secret;
+        $botconfig->_Notecards = $notecards;
+        $botconfig->_Ims = $ims;
+        $botconfig->_Invites = $invites;
+        $botconfig->_InviteGroupUUID = $invite_uuid;
 
         $save_changes = $botconfig->updateEntry();
         if ($save_changes->status == false) {
@@ -88,7 +88,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Changes saved", "Bot");
         $this->createMultiAudit(
-            $botconfig->getId(),
+            $botconfig->_Id,
             $botconfig->getFields(),
             $oldvalues,
             $botconfig->objectToValueArray()

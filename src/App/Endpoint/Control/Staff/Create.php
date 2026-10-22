@@ -36,12 +36,12 @@ class Create extends ControlAjax
             return;
         }
         $staff = new Staff();
-        $staff->setUsername($username);
-        $staff->setAvatarLink($avatar->getId());
-        $staff->setPhash(sha1("phash install" . microtime() . "" . $username));
-        $staff->setLhash(sha1("lhash install" . microtime() . "" . $username));
-        $staff->setPsalt(sha1("psalt install" . microtime() . "" . $username));
-        $staff->setOwnerLevel(false);
+        $staff->_Username = $username;
+        $staff->_AvatarLink = $avatar->_Id;
+        $staff->_Phash = sha1("phash install" . microtime() . "" . $username);
+        $staff->_Lhash = sha1("lhash install" . microtime() . "" . $username);
+        $staff->_Psalt = sha1("psalt install" . microtime() . "" . $username);
+        $staff->_OwnerLevel = false;
         $create_status = $staff->createEntry();
         if ($create_status->status == false) {
             $this->failed(
@@ -50,6 +50,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Staff member created");
-        $this->createAuditLog($staff->getId(), "+++", null, $avatar->getAvatarName());
+        $this->createAuditLog($staff->_Id, "+++", null, $avatar->_AvatarName);
     }
 }

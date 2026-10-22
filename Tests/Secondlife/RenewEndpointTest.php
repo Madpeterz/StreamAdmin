@@ -18,54 +18,54 @@ class RenewEndpointTest extends TestWorker
     public function test_ReadyUp()
     {
         $reseller = new Reseller();
-        $reseller->setAllowed(true);
-        $reseller->setAvatarLink(1);
-        $reseller->setRate(100);
+        $reseller->_Allowed = true;
+        $reseller->_AvatarLink = 1;
+        $reseller->_Rate = 100;
         $create = $reseller->createEntry();
         $this->assertSame("ok", $create->message, "Failed to create reseller entry");
         $this->assertSame(true, $create->status, "Failed to create reseller entry");
         $server = new Server();
-        $server->setBandwidth(1000);
-        $server->setBandwidthType("Mbps");
-        $server->setControlPanelURL("http://example.com/control");
-        $server->setDomain("example.com");
-        $server->setIpaddress("127.0.0.1");
-        $server->setTotalStorage(50);
-        $server->setTotalStorageType("TB");
+        $server->_Bandwidth = 1000;
+        $server->_BandwidthType = "Mbps";
+        $server->_ControlPanelURL = "http://example.com/control";
+        $server->_Domain = "example.com";
+        $server->_Ipaddress = "127.0.0.1";
+        $server->_TotalStorage = 50;
+        $server->_TotalStorageType = "TB";
         $create = $server->createEntry();
         $this->assertSame("ok", $create->message, "Failed to create server entry");
         $this->assertSame(true, $create->status, "Failed to create server entry");
-        $this->assertSame(1, $server->getId(), "Server ID should be 1 after creation");
+        $this->assertSame(1, $server->_Id, "Server ID should be 1 after creation");
         $package = new Package();
-        $package->setName('Test Package');
-        $package->setAutodj(false);
-        $package->setAutodjSize("0");
-        $package->setBitrate(128);
-        $package->setServertypeLink(1);
-        $package->setSetupNotecardLink(1);
-        $package->setCost(123);
-        $package->setDays(7);
-        $package->setMaxStreamsInPackage(1);
-        $package->setListeners(125);
-        $package->setPackageUid("testing");
-        $package->setTextureInstockSmall("small_texture");
-        $package->setTextureInstockSelected("selected_texture");
-        $package->setTextureSoldout("soldout_texture");
-        $package->setTemplateLink(1);
+        $package->_Name = 'Test Package';
+        $package->_Autodj = false;
+        $package->_AutodjSize = "0";
+        $package->_Bitrate = 128;
+        $package->_ServertypeLink = 1;
+        $package->_SetupNotecardLink = 1;
+        $package->_Cost = 123;
+        $package->_Days = 7;
+        $package->_MaxStreamsInPackage = 1;
+        $package->_Listeners = 125;
+        $package->_PackageUid = "testing";
+        $package->_TextureInstockSmall = "small_texture";
+        $package->_TextureInstockSelected = "selected_texture";
+        $package->_TextureSoldout = "soldout_texture";
+        $package->_TemplateLink = 1;
         $create = $package->createEntry();
         $this->assertSame(true, $create->status, "Failed to create package entry");
         $this->assertSame("ok", $create->message, "Failed to create package entry");
-        $this->assertSame(1, $package->getId(), "Package ID should be 1 after creation");
+        $this->assertSame(1, $package->_Id, "Package ID should be 1 after creation");
         $stream = new Stream();
-        $stream->setServerLink(1);
-        $stream->setPackageLink(1);
-        $stream->setAdminPassword("admin123");
-        $stream->setAdminUsername("admin");
-        $stream->setDjPassword("dj123");
-        $stream->setMountpoint("/live");
-        $stream->setNeedWork(false);
-        $stream->setStreamUid("str123");
-        $stream->setPort(8000);
+        $stream->_ServerLink = 1;
+        $stream->_PackageLink = 1;
+        $stream->_AdminPassword = "admin123";
+        $stream->_AdminUsername = "admin";
+        $stream->_DjPassword = "dj123";
+        $stream->_Mountpoint = "/live";
+        $stream->_NeedWork = false;
+        $stream->_StreamUid = "str123";
+        $stream->_Port = 8000;
         $create = $stream->createEntry();
         $this->assertSame("ok", $create->message, "Failed to create stream entry");
         $this->assertSame(true, $create->status, "Failed to create stream entry");
@@ -76,7 +76,7 @@ class RenewEndpointTest extends TestWorker
     public function test_Startrental()
     {
         global $system;
-        $system->getSlConfig()->setEventsAPI(true);
+        $system->getSlConfig()->_EventsAPI = true;
         $result = $system->getSlConfig()->updateEntry();
         $this->assertSame(true, $result->status, "Failed to update SL config for Events API");
         
@@ -109,7 +109,7 @@ class RenewEndpointTest extends TestWorker
         $rental = new Rental();
         $rental->loadID(1);
         $this->assertSame(true, $rental->isLoaded(), "Failed to load rental entry");
-        $_POST["rentalUid"] = $rental->getRentalUid();
+        $_POST["rentalUid"] = $rental->_RentalUid;
         $costandtime = new Costandtime();
         $costandtime->process();
         $reply = $costandtime->getOutputObject();
@@ -139,7 +139,7 @@ class RenewEndpointTest extends TestWorker
         $this->assertStringContainsString("Client account:", $reply->getSwapTagString("message"), "Expected message to contain 'Client account:'");
         $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status in reply");
         $this->assertSame(1, $reply->getSwapTagInt("dataset_count"), "Expected dataset_count to be 1");
-        $this->assertStringContainsString($rental->getRentalUid(), json_encode($reply->getSwapTagArray("dataset")), "Expected dataset to contain rental UID");
+        $this->assertStringContainsString($rental->_RentalUid, json_encode($reply->getSwapTagArray("dataset")), "Expected dataset to contain rental UID");
     }
     /**
      * @depends test_Details
@@ -153,7 +153,7 @@ class RenewEndpointTest extends TestWorker
         $rental = new Rental();
         $rental->loadID(1);
         $this->assertSame(true, $rental->isLoaded(), "Failed to load rental entry");
-        $_POST["rentalUid"] = $rental->getRentalUid();
+        $_POST["rentalUid"] = $rental->_RentalUid;
         $_POST["avatarUUID"] = "123e4567-e89b-12d3-a456-426614174000";
         $_POST["avatarName"] = "TestAvatar";
         $_POST["amountpaid"] = 123;
@@ -167,6 +167,6 @@ class RenewEndpointTest extends TestWorker
         $this->assertStringStartsWith("Payment accepted there is now", $reply->getSwapTagString("message"), "Expected message to start with 'Payment accepted there is now'");
         $updatedRental = new Rental();
         $updatedRental->loadID(1);
-        $this->assertGreaterThan($rental->getExpireUnixtime(), $updatedRental->getExpireUnixtime(), "Rental end time should be updated after renewal");
+        $this->assertGreaterThan($rental->_ExpireUnixtime, $updatedRental->_ExpireUnixtime, "Rental end time should be updated after renewal");
     }
 }

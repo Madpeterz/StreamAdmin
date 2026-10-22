@@ -18,7 +18,7 @@ class Detailed extends View
         }
         $this->setSwapTag("html_title", "Health / Detailed");
         $this->setSwapTag("page_title", "<i class=\"fas fa-heartbeat\"></i> Health / Detailed / Region: "
-        . $region->getName());
+        . $region->_Name);
 
         $this->owner_objects_list = [
             "mailserver",
@@ -34,7 +34,7 @@ class Detailed extends View
         $whereConfig = [
             "fields" => ["avatarLink","objectMode","regionLink"],
             "matches" => ["IN","NOT IN","="],
-            "values" => [$avatars->getAllIds(),$this->owner_objects_list,$region->getId()],
+            "values" => [$avatars->getAllIds(),$this->owner_objects_list,$region->_Id],
             "types" => ["i","s","i"],
         ];
         $venderHealth->loadWithConfig($whereConfig);
@@ -43,21 +43,21 @@ class Detailed extends View
         $table_body = [];
         $goodMinTime = time() - 120;
         foreach ($venderHealth as $object) {
-            $avatar = $avatars->getObjectByID($object->getAvatarLink());
+            $avatar = $avatars->getObjectByID($object->_AvatarLink);
             $entry = [];
-            $entry[] = $object->getId();
-            $entry[] = $object->getObjectName();
-            $entry[] = date('l jS \of F Y h:i:s A', $object->getLastSeen());
+            $entry[] = $object->_Id;
+            $entry[] = $object->_ObjectName;
+            $entry[] = date('l jS \of F Y h:i:s A', $object->_LastSeen);
             $statusText = "Good";
             $statusColor = "success";
-            if ($object->getLastSeen() < $goodMinTime) {
+            if ($object->_LastSeen < $goodMinTime) {
                 $statusColor = "warning";
                 $statusText = "MIA";
             }
-            $entry[] = $object->getObjectMode();
+            $entry[] = $object->_ObjectMode;
             $entry[] = "<span class=\"text-" . $statusColor . "\">" . $statusText . "</span>";
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-            . $avatar->getAvatarName() . '</a>';
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->_AvatarName . '">'
+            . $avatar->_AvatarName . '</a>';
             $table_body[] = $entry;
         }
 

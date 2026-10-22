@@ -23,20 +23,20 @@ class Bulkupdate extends ControlAjax
         $streams_skipped_passwordChecks = 0;
         foreach ($stream_set->getAllIds() as $stream_id) {
             $stream = $stream_set->getObjectByID($stream_id);
-            $accept = $this->input->post("stream" . $stream->getStreamUid() . "")->asString();
+            $accept = $this->input->post("stream" . $stream->_StreamUid . "")->asString();
             if ($accept != "update") {
                 continue;
             }
-            $newadminpw = $this->input->post('stream' . $stream->getStreamUid() . 'adminpw')->asString();
-            $newdjpw = $this->input->post('stream' . $stream->getStreamUid() . 'djpw')->asString();
+            $newadminpw = $this->input->post('stream' . $stream->_StreamUid . 'adminpw')->asString();
+            $newdjpw = $this->input->post('stream' . $stream->_StreamUid . 'djpw')->asString();
             $allowAdminPassword = true;
-            if ($stream->getAdminPassword() == $newadminpw) {
+            if ($stream->_AdminPassword == $newadminpw) {
                 $allowAdminPassword = false;
             }
             if (($newadminpw == "none") || ($newadminpw == "N/A")) {
                 $allowAdminPassword = true;
             }
-            if ($stream->getDjPassword() == $newdjpw) {
+            if ($stream->_DjPassword == $newdjpw) {
                 $streams_skipped_passwordChecks++;
                 continue;
             }
@@ -45,9 +45,9 @@ class Bulkupdate extends ControlAjax
                 continue;
             }
             $oldvalues = $stream->objectToValueArray();
-            $stream->setAdminPassword($newadminpw);
-            $stream->setDjPassword($newdjpw);
-            $stream->setNeedWork(0);
+            $stream->_AdminPassword = $newadminpw;
+            $stream->_DjPassword = $newdjpw;
+            $stream->_NeedWork = 0;
             $update_status = $stream->updateEntry();
             if ($update_status->status == false) {
                 $this->failed(sprintf(
@@ -57,7 +57,7 @@ class Bulkupdate extends ControlAjax
                 return;
             }
             $this->createMultiAudit(
-                $stream->getStreamUid(),
+                $stream->_StreamUid,
                 $stream->getFields(),
                 $oldvalues,
                 $stream->objectToValueArray()

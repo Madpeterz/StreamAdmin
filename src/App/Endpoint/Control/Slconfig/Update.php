@@ -11,15 +11,15 @@ class Update extends ControlAjax
     protected function forceReissue(): bool
     {
         $reissued = false;
-        if ($this->siteConfig->getSlConfig()->getSlLinkCode() == null) {
+        if ($this->siteConfig->getSlConfig()->_SlLinkCode == null) {
             $reissued = true;
-        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getSlLinkCode()) > 10) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->_SlLinkCode) > 10) {
             $reissued = true;
-        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getPublicLinkCode()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->_PublicLinkCode) > 12) {
             $reissued = true;
-        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getHudLinkCode()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->_HudLinkCode) > 12) {
             $reissued = true;
-        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 12) {
+        } elseif (nullSafeStrLen($this->siteConfig->getSlConfig()->_HttpInboundSecret) > 12) {
             $reissued = true;
         }
         if ($reissued == true) {
@@ -35,24 +35,24 @@ class Update extends ControlAjax
         $limitTime = $this->input->post("limitTime")->asBool(false);
         $maxStreamTimeDays = $this->input->post("maxStreamTimeDays")->checkInRange(7, 365)->asInt(7);
         $maxTotalStreams = $this->input->post("maxTotalStreams")->checkInRange(1, 2000)->asInt(50);
-        $this->siteConfig->getSlConfig()->setLimitStreams($limitStreams);
-        $this->siteConfig->getSlConfig()->setLimitTime($limitTime);
-        $this->siteConfig->getSlConfig()->setMaxStreamTimeDays($maxStreamTimeDays);
-        $this->siteConfig->getSlConfig()->setMaxTotalStreams($maxTotalStreams);
+        $this->siteConfig->getSlConfig()->_LimitStreams = $limitStreams;
+        $this->siteConfig->getSlConfig()->_LimitTime = $limitTime;
+        $this->siteConfig->getSlConfig()->_MaxStreamTimeDays = $maxStreamTimeDays;
+        $this->siteConfig->getSlConfig()->_MaxTotalStreams = $maxTotalStreams;
     }
 
     protected function updateHudSettings(): void
     {
 
         $hudAllowDiscord = $this->input->post("hudAllowDiscord")->asBool();
-        $hudDiscordLink = $this->input->post("hudDiscordLink")->asString();
+        $hudDiscordLink = $this->input->post("hudDiscordLink")->asString("");
         if ($hudAllowDiscord == false) {
-            $hudDiscordLink = null;
+            $hudDiscordLink = "";
         }
         $hudAllowGroup = $this->input->post("hudAllowGroup")->asBool();
-        $hudGroupLink = $this->input->post("hudGroupLink")->asString();
+        $hudGroupLink = $this->input->post("hudGroupLink")->asString("");
         if ($hudAllowGroup == false) {
-            $hudGroupLink = null;
+            $hudGroupLink = "";
         }
         if (nullSafeStrLen($hudGroupLink) == 0) {
             $hudAllowGroup = false;
@@ -65,12 +65,12 @@ class Update extends ControlAjax
         if ($hudAllowRenewal == false) {
             $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
         }
-        $this->siteConfig->getSlConfig()->setHudAllowDiscord($hudAllowDiscord);
-        $this->siteConfig->getSlConfig()->setHudDiscordLink($hudDiscordLink);
-        $this->siteConfig->getSlConfig()->setHudAllowGroup($hudAllowGroup);
-        $this->siteConfig->getSlConfig()->setHudGroupLink($hudGroupLink);
-        $this->siteConfig->getSlConfig()->setHudAllowDetails($hudAllowDetails);
-        $this->siteConfig->getSlConfig()->setHudAllowRenewal($hudAllowRenewal);
+        $this->siteConfig->getSlConfig()->_HudAllowDiscord = $hudAllowDiscord;
+        $this->siteConfig->getSlConfig()->_HudDiscordLink = $hudDiscordLink;
+        $this->siteConfig->getSlConfig()->_HudAllowGroup = $hudAllowGroup;
+        $this->siteConfig->getSlConfig()->_HudGroupLink = $hudGroupLink;
+        $this->siteConfig->getSlConfig()->_HudAllowDetails = $hudAllowDetails;
+        $this->siteConfig->getSlConfig()->_HudAllowRenewal = $hudAllowRenewal;
     }
 
     public function process(): void
@@ -126,22 +126,22 @@ class Update extends ControlAjax
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
             $enableCoupons = $this->input->post("enableCoupons")->asBool();
             $ansSalt = $this->input->post("ansSalt")->checkStringLengthMax(50)->asString();
-            $this->siteConfig->getSlConfig()->setAnsSalt($ansSalt);
-            $this->siteConfig->getSlConfig()->setEnableCoupons($enableCoupons);
+            $this->siteConfig->getSlConfig()->_AnsSalt = $ansSalt;
+            $this->siteConfig->getSlConfig()->_EnableCoupons = $enableCoupons;
         }
         $this->setSwapTag("redirect", "slconfig");
-        if ($avatar->getId() != $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) {
-            $this->siteConfig->getSlConfig()->setOwnerAvatarLink($avatar->getId());
+        if ($avatar->_Id != $this->siteConfig->getSlConfig()->_OwnerAvatarLink) {
+            $this->siteConfig->getSlConfig()->_OwnerAvatarLink = $avatar->_Id;
         }
         $oldvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
-        $this->siteConfig->getSlConfig()->setNewResellers($newResellers);
-        $this->siteConfig->getSlConfig()->setNewResellersRate($newResellersRate);
-        $this->siteConfig->getSlConfig()->setClientsListMode($ui_tweaks_clients_fulllist);
-        $this->siteConfig->getSlConfig()->setDatatableItemsPerPage($ui_tweaks_datatableItemsPerPage);
-        $this->siteConfig->getSlConfig()->setDisplayTimezoneLink($displayTimezoneLink);
-        $this->siteConfig->getSlConfig()->setEventsAPI($eventsAPI);
-        $this->siteConfig->getSlConfig()->setClientsDisplayServer($ui_tweaks_clientsShowServer);
-        $this->siteConfig->getSlConfig()->setStreamListOption($ui_tweaks_groupStreamsBy);
+        $this->siteConfig->getSlConfig()->_NewResellers = $newResellers;
+        $this->siteConfig->getSlConfig()->_NewResellersRate = $newResellersRate;
+        $this->siteConfig->getSlConfig()->_ClientsListMode = $ui_tweaks_clients_fulllist;
+        $this->siteConfig->getSlConfig()->_DatatableItemsPerPage = $ui_tweaks_datatableItemsPerPage;
+        $this->siteConfig->getSlConfig()->_DisplayTimezoneLink = $displayTimezoneLink;
+        $this->siteConfig->getSlConfig()->_EventsAPI = $eventsAPI;
+        $this->siteConfig->getSlConfig()->_ClientsDisplayServer = $ui_tweaks_clientsShowServer;
+        $this->siteConfig->getSlConfig()->_StreamListOption = $ui_tweaks_groupStreamsBy;
         $this->updateHudSettings();
         $this->updateSystemLimits();
         $newvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
@@ -159,7 +159,7 @@ class Update extends ControlAjax
             $this->output->addSwapTagString("message", " [Forced key reissue]");
         }
         $this->createMultiAudit(
-            $this->siteConfig->getSlConfig()->getId(),
+            $this->siteConfig->getSlConfig()->_Id,
             $this->siteConfig->getSlConfig()->getFields(),
             $oldvalues,
             $newvalues

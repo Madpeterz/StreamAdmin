@@ -15,8 +15,8 @@ class Reset extends ControlAjax
     {
         $reset_url = $this->siteConfig->getSiteURL() . "login/resetwithtoken/" . $resetCode;
         $message = new Message();
-        $message->setAvatarLink($avatar->getId());
-        $message->setMessage(sprintf("Web panel reset link: %1\$s expires in 1 hour", $reset_url));
+        $message->_AvatarLink = $avatar->_Id;
+        $message->_Message = sprintf("Web panel reset link: %1\$s expires in 1 hour", $reset_url);
         $add_status = $message->createEntry();
         return $add_status->status;
     }
@@ -37,7 +37,7 @@ class Reset extends ControlAjax
         }
         $slusername = implode(" ", $username_bits);
         if ($avatar->loadByAvatarName($slusername)->status == true) {
-            $status = $staff->loadByAvatarLink($avatar->getId());
+            $status = $staff->loadByAvatarLink($avatar->_Id);
         }
         if ($status->status == false) {
             return;
@@ -50,8 +50,8 @@ class Reset extends ControlAjax
         if ($uid->status == false) {
             return;
         }
-        $staff->setEmailResetCode($uid->uid);
-        $staff->setEmailResetExpires((time() + $this->siteConfig->unixtimeHour()));
+        $staff->_EmailResetCode = $uid->uid;
+        $staff->_EmailResetExpires = time() + $this->siteConfig->unixtimeHour();
         $update_status = $staff->updateEntry();
         if ($update_status->status == true) {
             $status = $this->sendMessageReset($avatar, $uid->uid);
@@ -61,10 +61,10 @@ class Reset extends ControlAjax
         }
         $this->redirectWithMessage("If the account was found the reset code is on the way.", "here");
         $this->createAuditLog(
-            $staff->getId(),
+            $staff->_Id,
             "reset code requested",
-            "av:" . $avatar->getAvatarName(),
-            "User:" . $staff->getUsername()
+            "av:" . $avatar->_AvatarName,
+            "User:" . $staff->_Username
         );
     }
 }

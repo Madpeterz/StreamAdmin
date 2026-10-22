@@ -28,8 +28,8 @@ class Update extends ControlAjax
             return;
         }
         $oldvalues = $datatable->objectToValueArray();
-        $datatable->setCol($col);
-        $datatable->setDir($dir);
+        $datatable->_Col = $col;
+        $datatable->_Dir = $dir;
         $update_status = $datatable->updateEntry();
         if ($update_status->status == false) {
             $this->failed(sprintf("Unable to update datatable config: %1\$s", $update_status->message));
@@ -37,7 +37,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Datatable config updated");
         $this->createMultiAudit(
-            $datatable->getId(),
+            $datatable->_Id,
             $datatable->getFields(),
             $oldvalues,
             $datatable->objectToValueArray()

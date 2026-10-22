@@ -29,12 +29,12 @@ class NoticesHelper
         $picked_notice = 10;
         $last_id = 10;
         foreach ($this->notices as $notice) {
-            if ($hoursRemaining < $notice->getHoursRemaining()) {
-                $last_id = $notice->getId();
+            if ($hoursRemaining < $notice->_HoursRemaining) {
+                $last_id = $notice->_Id;
                 continue;
             }
-            if ($hoursRemaining == $notice->getHoursRemaining()) {
-                $picked_notice = $notice->getId();
+            if ($hoursRemaining == $notice->_HoursRemaining) {
+                $picked_notice = $notice->_Id;
                 break;
             }
             $picked_notice = $last_id;

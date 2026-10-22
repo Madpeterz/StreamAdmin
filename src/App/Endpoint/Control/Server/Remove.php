@@ -33,8 +33,8 @@ class Remove extends ControlAjax
             );
             return;
         }
-        $serverid = $server->getId();
-        $servername = $server->getDomain();
+        $serverid = $server->_Id;
+        $servername = $server->_Domain;
         $remove_status = $server->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(

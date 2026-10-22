@@ -46,28 +46,28 @@ class DefaultView extends View
         $avatar_set = $rental_set->relatedAvatar();
         $rental_set_ids = $rental_set->getAllIds();
         foreach ($search_stream_set as $stream) {
-            $server = $server_set->getObjectByID($stream->getServerLink());
+            $server = $server_set->getObjectByID($stream->_ServerLink);
             $entry = [];
-            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->getStreamUid() . '">'
-            . $stream->getStreamUid() . '</a>';
-            $entry[] = $server->getDomain();
-            $entry[] = $stream->getPort();
-            if ($stream->getNeedWork() == true) {
+            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->_StreamUid . '">'
+            . $stream->_StreamUid . '</a>';
+            $entry[] = $server->_Domain;
+            $entry[] = $stream->_Port;
+            if ($stream->_NeedWork == true) {
                 $entry[] = "<span class=\"needWork\">Need work</span>";
-            } elseif ($stream->getRentalLink() == null) {
+            } elseif ($stream->_RentalLink == null) {
                 $entry[] = "<span class=\"ready\">Ready</span>";
-            } elseif (in_array($stream->getRentalLink(), $rental_set_ids) == false) {
+            } elseif (in_array($stream->_RentalLink, $rental_set_ids) == false) {
                 $entry[] = "Rented but cant find rental.";
             } else {
-                $rental = $rental_set->getObjectByID($stream->getRentalLink());
-                $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
-                $av_detail = explode(" ", $avatar->getAvatarName());
-                $av_name = $avatar->getAvatarName();
+                $rental = $rental_set->getObjectByID($stream->_RentalLink);
+                $avatar = $avatar_set->getObjectByID($rental->_AvatarLink);
+                $av_detail = explode(" ", $avatar->_AvatarName);
+                $av_name = $avatar->_AvatarName;
                 if ($av_detail[1] == "Resident") {
                     $av_name = $av_detail[0];
                 }
                 $entry[] = '<a class="sold" href="[[SITE_URL]]client/manage/'
-                . $rental->getRentalUid() . '">Sold -> ' . $av_name . '</a>';
+                . $rental->_RentalUid . '">Sold -> ' . $av_name . '</a>';
             }
             $table_body[] = $entry;
         }
@@ -80,9 +80,9 @@ class DefaultView extends View
         $table_body = [];
         foreach ($avatar_set as $avatar) {
             $entry = [];
-            $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->getAvatarUid() . '">'
-            . $avatar->getAvatarUid() . '</a>';
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = '<a href="[[SITE_URL]]avatar/manage/' . $avatar->_AvatarUid . '">'
+            . $avatar->_AvatarUid . '</a>';
+            $entry[] = $avatar->_AvatarName;
             $table_body[] = $entry;
         }
         $this->pages["Avatars [" . $avatar_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);
@@ -93,28 +93,28 @@ class DefaultView extends View
         $table_head = ["Rental UID","Avatar","Port","Notecard","Timeleft/Expired","Renewals"];
         $table_body = [];
         foreach ($search_rental_set as $rental) {
-            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
-            $stream = $stream_set->getObjectByID($rental->getStreamLink());
+            $avatar = $avatar_set->getObjectByID($rental->_AvatarLink);
+            $stream = $stream_set->getObjectByID($rental->_StreamLink);
             $entry = [];
             $entry[] = '<a href="[[SITE_URL]]client/manage/'
-            . $rental->getRentalUid() . '">' . $rental->getRentalUid() . '</a>';
-            $av_detail = explode(" ", $avatar->getAvatarName());
-            $avname = $avatar->getAvatarName();
+            . $rental->_RentalUid . '">' . $rental->_RentalUid . '</a>';
+            $av_detail = explode(" ", $avatar->_AvatarName);
+            $avname = $avatar->_AvatarName;
             if ($av_detail[1] == "Resident") {
                 $avname = $av_detail[0];
             }
             $entry[] = $avname;
-            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->getStreamUid() . '">'
-            . $stream->getPort() . '</a>';
+            $entry[] = '<a href="[[SITE_URL]]stream/manage/' . $stream->_StreamUid . '">'
+            . $stream->_Port . '</a>';
             $entry[] = "<button type=\"button\" class=\"btn btn-sm btn-outline-light\" "
             . "data-toggle=\"modal\" data-target=\"#NotecardModal\" data-rentaluid=\""
-            . $rental->getRentalUid() . "\">View</button>";
-            $timeleft = "Expired - " . $this->expiredAgo($rental->getExpireUnixtime());
-            if ($rental->getExpireUnixtime() > time()) {
-                $timeleft  = "Active - " . $this->timeRemainingHumanReadable($rental->getExpireUnixtime());
+            . $rental->_RentalUid . "\">View</button>";
+            $timeleft = "Expired - " . $this->expiredAgo($rental->_ExpireUnixtime);
+            if ($rental->_ExpireUnixtime > time()) {
+                $timeleft  = "Active - " . $this->timeRemainingHumanReadable($rental->_ExpireUnixtime);
             }
             $entry[] = $timeleft;
-            $entry[] = $rental->getRenewals();
+            $entry[] = $rental->_Renewals;
             $table_body[] = $entry;
         }
         $this->pages["Clients [" . $search_rental_set->getCount() . "]"] = $this->renderTable($table_head, $table_body);

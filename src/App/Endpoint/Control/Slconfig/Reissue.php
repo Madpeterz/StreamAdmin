@@ -20,10 +20,10 @@ class Reissue extends ControlAjax
 
     public function reissueKeys(): void
     {
-        $this->siteConfig->getSlConfig()->setSlLinkCode($this->lazyPW(8));
-        $this->siteConfig->getSlConfig()->setHttpInboundSecret($this->lazyPW(8));
-        $this->siteConfig->getSlConfig()->setPublicLinkCode($this->lazyPW(8));
-        $this->siteConfig->getSlConfig()->setHudLinkCode($this->lazyPW(8));
+        $this->siteConfig->getSlConfig()->_SlLinkCode = $this->lazyPW(8);
+        $this->siteConfig->getSlConfig()->_HttpInboundSecret = $this->lazyPW(8);
+        $this->siteConfig->getSlConfig()->_PublicLinkCode = $this->lazyPW(8);
+        $this->siteConfig->getSlConfig()->_HudLinkCode = $this->lazyPW(8);
     }
     public function process(): void
     {
@@ -40,6 +40,6 @@ class Reissue extends ControlAjax
             return;
         }
         $this->redirectWithMessage("keys reissued!");
-        $this->createAuditLog($this->siteConfig->getSlConfig()->getId(), "keys reissued");
+        $this->createAuditLog($this->siteConfig->getSlConfig()->_Id, "keys reissued");
     }
 }

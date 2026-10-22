@@ -24,8 +24,8 @@ class Update extends ControlAjax
             return;
         }
         $oldvalues = $reseller->objectToValueArray();
-        $reseller->setRate($rate);
-        $reseller->setAllowed($allowed);
+        $reseller->_Rate = $rate;
+        $reseller->_Allowed = $allowed;
         $update_status = $reseller->updateEntry();
         if ($update_status->status == false) {
             $this->failed(
@@ -35,7 +35,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Reseller updated");
         $this->createMultiAudit(
-            $reseller->getId(),
+            $reseller->_Id,
             $reseller->getFields(),
             $oldvalues,
             $reseller->objectToValueArray()

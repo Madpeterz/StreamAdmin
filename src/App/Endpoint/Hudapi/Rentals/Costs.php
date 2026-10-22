@@ -9,11 +9,11 @@ class Costs extends SecondlifeHudAjax
 {
     public function process(): void
     {
-        if ($this->siteConfig->getSlConfig()->getHudAllowDetails() == false) {
+        if ($this->siteConfig->getSlConfig()->_HudAllowDetails == false) {
             $this->failed("Hud details are currently disabled");
             return;
         }
-        if ($this->siteConfig->getSlConfig()->getHudAllowRenewal() == false) {
+        if ($this->siteConfig->getSlConfig()->_HudAllowRenewal == false) {
             $this->failed("Hud renewals are currently disabled");
             return;
         }

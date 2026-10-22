@@ -27,10 +27,10 @@ class Restore extends ControlAjax
         $newest_new_avatar_id = 0;
         $newest_new_unixtime = 0;
         foreach ($transaction_set as $transaction) {
-            if ($transaction->getRenew() == 0) {
-                if ($transaction->getUnixtime() >= $newest_new_unixtime) {
+            if ($transaction->_Renew == 0) {
+                if ($transaction->_Unixtime >= $newest_new_unixtime) {
                     $newest_new_unixtime = $newest_new_unixtime;
-                    $newest_new_avatar_id = $transaction->getAvatarLink();
+                    $newest_new_avatar_id = $transaction->_AvatarLink;
                 }
             }
         }
@@ -48,26 +48,26 @@ class Restore extends ControlAjax
         $use_notice_index = $noticesHelper->getNoticeLevel(0);
 
         $rental = new Rental();
-        $rental->setAvatarLink($avatar->getId());
-        $rental->setExpireUnixtime(time());
-        $rental->setMessage("Restored rental!");
+        $rental->_AvatarLink = $avatar->_Id;
+        $rental->_ExpireUnixtime = time();
+        $rental->_Message = "Restored rental!";
         $uid_rental = $rental->createUID("rentalUid", 8);
         if ($uid_rental->status == false) {
             $this->failed("Unable to assign uid: " . $uid_rental->message);
             return;
         }
-        $rental->setRentalUid($uid_rental->uid);
-        $rental->setStreamLink($stream->getId());
-        $rental->setPackageLink($stream->getPackageLink());
-        $rental->setNoticeLink($use_notice_index);
-        $rental->setStartUnixtime(time());
+        $rental->_RentalUid = $uid_rental->uid;
+        $rental->_StreamLink = $stream->_Id;
+        $rental->_PackageLink = $stream->_PackageLink;
+        $rental->_NoticeLink = $use_notice_index;
+        $rental->_StartUnixtime = time();
         $create = $rental->createEntry();
         if ($create->status == false) {
             $this->failed("Failed to create rental: " . $create->message);
             return;
         }
-        $stream->setNeedWork(0);
-        $stream->setRentalLink($rental->getId());
+        $stream->_NeedWork = 0;
+        $stream->_RentalLink = $rental->_Id;
         $update = $stream->updateEntry();
         if ($update->status == false) {
             $this->failed("Failed to update stream: " . $update->message);
@@ -76,10 +76,10 @@ class Restore extends ControlAjax
         $server = $stream->relatedServer()->getFirst();
         $this->redirectWithMessage("Stream restored");
         $this->createAuditLog(
-            $stream->getStreamUid(),
+            $stream->_StreamUid,
             "restored",
-            $avatar->getAvatarName(),
-            "Port: " . $stream->getPort() . " Server: " . $server->getDomain()
+            $avatar->_AvatarName,
+            "Port: " . $stream->_Port . " Server: " . $server->_Domain
         );
     }
 }

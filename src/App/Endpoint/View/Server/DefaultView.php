@@ -30,7 +30,7 @@ class DefaultView extends View
 
         $serverDetails = [];
         foreach ($server_set as $server) {
-            $serverDetails[$server->getId()] = [
+            $serverDetails[$server->_Id] = [
                 "bandwith_assigned" => 0,
                 "bandwith_inuse" => 0,
                 "storage_assigned" => 0,
@@ -39,26 +39,26 @@ class DefaultView extends View
         }
 
         foreach ($stream_set as $stream) {
-            $package = $package_set->getObjectByID($stream->getPackageLink());
-            $bandwidth_cost = $package->getBitrate() * $package->getListeners();
-            $storage_cost = $package->getAutodjSize();
-            $serverid = $stream->getServerLink();
+            $package = $package_set->getObjectByID($stream->_PackageLink);
+            $bandwidth_cost = $package->_Bitrate * $package->_Listeners;
+            $storage_cost = $package->_AutodjSize;
+            $serverid = $stream->_ServerLink;
             $serverDetails[$serverid]["bandwith_assigned"] += $bandwidth_cost;
             $serverDetails[$serverid]["storage_assigned"] += $storage_cost;
-            if ($stream->getRentalLink() != null) {
+            if ($stream->_RentalLink != null) {
                 $serverDetails[$serverid]["bandwith_inuse"] += $bandwidth_cost;
                 $serverDetails[$serverid]["storage_inuse"] += $storage_cost;
             }
         }
         foreach ($server_set as $server) {
-            $serverip = $server->getIpaddress();
+            $serverip = $server->_Ipaddress;
             if ($serverip == null) {
                 $serverip = "Not set";
             }
-            $serverid = $server->getId();
+            $serverid = $server->_Id;
             $entry = [];
             $entry[] = $serverid;
-            $entry[] = '<a href="[[SITE_URL]]server/manage/' . $serverid . '">' . $server->getDomain() . '</a>';
+            $entry[] = '<a href="[[SITE_URL]]server/manage/' . $serverid . '">' . $server->_Domain . '</a>';
             $entry[] = $serverip;
             $serverbandwithkb = $this->convertBandwithTokbps($server);
             $inuse_bandwidth_percent = round(
@@ -88,21 +88,21 @@ class DefaultView extends View
 
     protected function convertStorageToMb(Server $server): int
     {
-        if ($server->getTotalStorageType() == "mb") {
-            return $server->getTotalStorage();
-        } elseif ($server->getTotalStorageType() == "gb") {
-            return ($server->getTotalStorage() * 1000);
+        if ($server->_TotalStorageType == "mb") {
+            return $server->_TotalStorage;
+        } elseif ($server->_TotalStorageType == "gb") {
+            return ($server->_TotalStorage * 1000);
         }
-        return (($server->getTotalStorage() * 1000) * 1000);
+        return (($server->_TotalStorage * 1000) * 1000);
     }
 
     protected function convertBandwithTokbps(Server $server): int
     {
-        if ($server->getBandwidthType() == "kbps") {
-            return $server->getBandwidth();
-        } elseif ($server->getBandwidthType() == "mbps") {
-            return ($server->getBandwidth() * 1000);
+        if ($server->_BandwidthType == "kbps") {
+            return $server->_Bandwidth;
+        } elseif ($server->_BandwidthType == "mbps") {
+            return ($server->_Bandwidth * 1000);
         }
-        return (($server->getBandwidth() * 1000) * 1000);
+        return (($server->_Bandwidth * 1000) * 1000);
     }
 }

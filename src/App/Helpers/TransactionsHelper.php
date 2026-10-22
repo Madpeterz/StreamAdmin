@@ -31,19 +31,19 @@ class TransactionsHelper
             return false;
         }
         $transaction = new Transactions();
-        $transaction->setAvatarLink($avatar->getId());
-        $transaction->setPackageLink($package->getId());
-        $transaction->setStreamLink($stream->getId());
-        $transaction->setResellerLink($reseller->getId());
-        $transaction->setRegionLink($region->getId());
-        $transaction->setAmount($amountpaid);
-        $transaction->setUnixtime(time());
+        $transaction->_AvatarLink = $avatar->_Id;
+        $transaction->_PackageLink = $package->_Id;
+        $transaction->_StreamLink = $stream->_Id;
+        $transaction->_ResellerLink = $reseller->_Id;
+        $transaction->_RegionLink = $region->_Id;
+        $transaction->_Amount = $amountpaid;
+        $transaction->_Unixtime = time();
         if ($forcesetunixtime != null) {
-            $transaction->setUnixtime($forcesetunixtime);
+            $transaction->_Unixtime = $forcesetunixtime;
         }
-        $transaction->setNotes($notes);
-        $transaction->setTransactionUid($uid_transaction->uid);
-        $transaction->setRenew($renewal);
+        $transaction->_Notes = $notes;
+        $transaction->_TransactionUid = $uid_transaction->uid;
+        $transaction->_Renew = $renewal;
         $create_status = $transaction->createEntry();
         if ($create_status->status == false) {
             $this->whyfailed = "Unable to save to db";

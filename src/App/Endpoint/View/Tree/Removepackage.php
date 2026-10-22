@@ -17,18 +17,18 @@ class Removepackage extends View
             return;
         }
         $treevender = new Treevender();
-        if ($treevender->loadID($treevender_packages->getTreevenderLink())->status == false) {
+        if ($treevender->loadID($treevender_packages->_TreevenderLink)->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find treevender "
             . "thats linked to this package link&bubbletype=warning");
             return;
         }
         $package = new Package();
-        if ($package->loadID($treevender_packages->getPackageLink())->status == false) {
+        if ($package->loadID($treevender_packages->_PackageLink)->status == false) {
             $this->output->redirect("tree?bubblemessage=Unable to find package&bubbletype=warning");
             return;
         }
         $this->output->addSwapTagString("html_title", " ~ Remove");
-        $this->output->addSwapTagString("page_title", "Remove package:" . $package->getName());
+        $this->output->addSwapTagString("page_title", "Remove package:" . $package->_Name);
         $this->setSwapTag("page_actions", "");
 
         $form = new Form();

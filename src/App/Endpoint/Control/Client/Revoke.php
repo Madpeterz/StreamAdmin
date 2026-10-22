@@ -32,12 +32,12 @@ class Revoke extends ControlAjax
         if ($this->load() == false) {
             return;
         }
-        $rentalid = $this->rental->getId();
+        $rentalid = $this->rental->_Id;
         if ($this->revoke() == false) {
             return;
         }
         $this->redirectWithMessage("Client rental revoked");
-        $this->createAuditLog($rentalid, "---", $this->avatar->getAvatarName());
+        $this->createAuditLog($rentalid, "---", $this->avatar->_AvatarName);
     }
 
     protected function load(): bool
@@ -59,7 +59,7 @@ class Revoke extends ControlAjax
             return false;
         }
         $detail = new Detail();
-        $detail->loadByRentalLink($this->rental->getId());
+        $detail->loadByRentalLink($this->rental->_Id);
         if ($detail->isLoaded() == true) {
             $this->failed("There is a pending details request for this rental!");
             return false;
@@ -78,15 +78,15 @@ class Revoke extends ControlAjax
             $this->stream,
             $this->rental
         );
-        $this->stream->setRentalLink(null);
-        $this->stream->setNeedWork(1);
+        $this->stream->_RentalLink = null;
+        $this->stream->_NeedWork = 1;
         $update_status = $this->stream->updateEntry();
         if ($update_status->status == false) {
             $this->failed("Unable to mark stream as needs work");
             return false;
         }
         $rental_notice_opt_outs = new RentalnoticeptoutSet();
-        $load = $rental_notice_opt_outs->loadByRentalLink($this->rental->getId());
+        $load = $rental_notice_opt_outs->loadByRentalLink($this->rental->_Id);
         if ($load->status == false) {
             $this->failed("Unable to load rental notice opt-outs");
             return false;

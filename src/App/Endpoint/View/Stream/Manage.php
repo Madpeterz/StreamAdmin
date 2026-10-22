@@ -32,7 +32,7 @@ class Manage extends View
             return;
         }
 
-        if ($stream->getNeedWork() == true) {
+        if ($stream->_NeedWork == true) {
             $remove_action .= ""
             . " &nbsp;&nbsp;&nbsp;<button type='button' 
             data-actiontitle='Restore stream " . $this->siteConfig->getPage() . "' 
@@ -45,11 +45,11 @@ class Manage extends View
         $this->setSwapTag("page_actions", $remove_action);
 
         $rental = new Rental();
-        $rental->loadByStreamLink($stream->getId());
-        if ($rental->getId() > 0) {
+        $rental->loadByStreamLink($stream->_Id);
+        if ($rental->_Id > 0) {
             $this->setSwapTag(
                 "page_actions",
-                "<a href='[[SITE_URL]]Client/Manage/" . $rental->getRentalUid() . "'>"
+                "<a href='[[SITE_URL]]Client/Manage/" . $rental->_RentalUid . "'>"
                 . "<button type='button' class='btn btn-info'>View Client</button></a>"
             );
         }
@@ -68,32 +68,32 @@ class Manage extends View
         $autodjflag = [true => "{AutoDJ}",false => "{StreamOnly}"];
         $improved_packageLinker = [];
         foreach ($package_set as $package) {
-            $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
+            $servertype = $servertypes_set->getObjectByID($package->_ServertypeLink);
             $saddon = "";
-            if ($package->getDays() > 1) {
+            if ($package->_Days > 1) {
                 $saddon = "'s";
             }
             $saddon2 = "";
-            if ($package->getListeners() > 1) {
+            if ($package->_Listeners > 1) {
                 $saddon2 = "'s";
             }
-            $info = $package->getName();
+            $info = $package->_Name;
             $info .= " @ ";
-            $info .= $package->getDays();
+            $info .= $package->_Days;
             $info .= "day";
             $info .= $saddon;
             $info .= " - ";
-            $info .= $autodjflag[$package->getAutodj()];
+            $info .= $autodjflag[$package->_Autodj];
             $info .= " - ";
-            $info .= $servertype->getName();
+            $info .= $servertype->_Name;
             $info .= " - ";
-            $info .= $package->getBitrate();
+            $info .= $package->_Bitrate;
             $info .= "kbs";
             $info .= " - ";
-            $info .= $package->getListeners();
+            $info .= $package->_Listeners;
             $info .= "listener";
             $info .= $saddon2;
-            $improved_packageLinker[$package->getId()] = $info;
+            $improved_packageLinker[$package->_Id] = $info;
         }
 
         $form = new Form();
@@ -101,19 +101,19 @@ class Manage extends View
         $form->required(true);
         $form->col(6);
         $form->group("Basics");
-        $form->numberInput("port", "port", $stream->getPort(), 5, "Max 99999");
-        $form->select("packageLink", "Package", $stream->getPackageLink(), $improved_packageLinker);
-        $form->select("serverLink", "Server", $stream->getServerLink(), $improved_serverLinker);
-        $form->textInput("mountpoint", "Mountpoint", 999, $stream->getMountpoint(), "Stream mount point");
+        $form->numberInput("port", "port", $stream->_Port, 5, "Max 99999");
+        $form->select("packageLink", "Package", $stream->_PackageLink, $improved_packageLinker);
+        $form->select("serverLink", "Server", $stream->_ServerLink, $improved_serverLinker);
+        $form->textInput("mountpoint", "Mountpoint", 999, $stream->_Mountpoint, "Stream mount point");
         $form->col(6);
         $form->group("Config");
-        $form->textInput("adminUsername", "Admin Usr", 50, $stream->getAdminUsername(), "Admin username");
-        $form->textInput("adminPassword", "Admin PW", 20, $stream->getAdminPassword(), "Admin password");
+        $form->textInput("adminUsername", "Admin Usr", 50, $stream->_AdminUsername, "Admin username");
+        $form->textInput("adminPassword", "Admin PW", 20, $stream->_AdminPassword, "Admin password");
         $form->textInput(
             "djPassword",
             "Encoder/Stream password",
             20,
-            $stream->getDjPassword(),
+            $stream->_DjPassword,
             "Encoder/Stream password"
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));

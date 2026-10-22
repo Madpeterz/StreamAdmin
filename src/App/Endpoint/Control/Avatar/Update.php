@@ -43,7 +43,7 @@ class Update extends ControlAjax
         $avatarSet = new AvatarSet();
         $count_check = $avatarSet->countInDB($whereConfig);
         $expected_count = 0;
-        if ($avatar->getAvatarUUID() == $avatarUUID) {
+        if ($avatar->_AvatarUUID == $avatarUUID) {
             $expected_count = 1;
         }
         if ($count_check->status == false) {
@@ -55,10 +55,10 @@ class Update extends ControlAjax
             return;
         }
         $oldvalues = $avatar->objectToValueArray();
-        $avatar->setAvatarName($avatarName);
-        $avatar->setAvatarUUID($avatarUUID);
+        $avatar->_AvatarName = $avatarName;
+        $avatar->_AvatarUUID = $avatarUUID;
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
-            $avatar->setCredits($credits);
+            $avatar->_Credits = $credits;
         }
 
         $update_status = $avatar->updateEntry();
@@ -68,7 +68,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Avatar updated");
         $this->createMultiAudit(
-            $avatar->getId(),
+            $avatar->_Id,
             $avatar->getFields(),
             $oldvalues,
             $avatar->objectToValueArray()

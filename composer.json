@@ -10,12 +10,12 @@
     },
     "config": {
         "platform": {
-            "php": "8.2.4"
+            "php": "8.4.3"
         }
     },
     "require": {
-        "php": ">=8.2.4",
-        "madpeterz/yapfbootstrap": "^5.0",
+        "php": ">=8.4",
+        "madpeterz/yapfbootstrap": "^6.3",
         "phpoffice/phpspreadsheet": "^1.18"
     },
     "authors": [

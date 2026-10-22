@@ -71,10 +71,10 @@ class Menu extends View
             $datatableDriver = new Datatable();
             $datatableDriver->limitFields(["hideColZero", "col", "dir"]);
             if ($datatableDriver->loadID($datatableID) == true) {
-                $targetCol = $datatableDriver->getCol();
-                $hidecolzero = $datatableDriver->getHideColZero();
-                $orderDir = $datatableDriver->getDir();
-                $useDtId = $datatableDriver->getId();
+                $targetCol = $datatableDriver->_Col;
+                $hidecolzero = $datatableDriver->_HideColZero;
+                $orderDir = $datatableDriver->_Dir;
+                $useDtId = $datatableDriver->_Id;
             }
         }
 
@@ -82,7 +82,7 @@ class Menu extends View
         $('.customdatatable" . $useDtId . "').DataTable({
             'order': [[ " . $targetCol . ", '" . $orderDir . "' ]],
             responsive: true,
-                  pageLength: " . $this->siteConfig->getSlConfig()->getDatatableItemsPerPage() . ",
+                  pageLength: " . $this->siteConfig->getSlConfig()->_DatatableItemsPerPage . ",
                   lengthMenu: [[25, 10, 25, 50, -1], [\"Custom\", 10, 25, 50, \"All\"]],
             language: {
               searchPlaceholder: 'Search...',

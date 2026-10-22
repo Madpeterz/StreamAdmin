@@ -63,14 +63,14 @@ class DefaultView extends View
         $table_body = [];
 
         foreach ($banlist_set as $banlist) {
-            $avatar = $avatar_set->getObjectByID($banlist->getAvatarLink());
+            $avatar = $avatar_set->getObjectByID($banlist->_AvatarLink);
 
             $entry = [];
-            $entry[] = $banlist->getId();
+            $entry[] = $banlist->_Id;
             $form = new form();
-            $form->target("banlist/clear/" . $banlist->getId());
+            $form->target("banlist/clear/" . $banlist->_Id);
             $form->required(true);
-            $entry[] = $avatar->getAvatarName();
+            $entry[] = $avatar->_AvatarName;
             $entry[] = $form->render("Remove", "danger");
             $table_body[] = $entry;
         }

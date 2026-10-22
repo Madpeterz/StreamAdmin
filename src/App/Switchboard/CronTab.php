@@ -33,14 +33,15 @@ class CronTab extends ConfigEnabled
 
 
         $ownerAv = new Avatar();
-        $ownerAv->loadId($this->siteConfig->getSlConfig()->getOwnerAvatarLink());
+        $ownerAv->loadId($this->siteConfig->getSlConfig()->_OwnerAvatarLink);
         if ($ownerAv->isLoaded() == false) {
             return false;
         }
-        $_POST["version"] = $this->siteConfig->getSlConfig()->getDbVersion();
+        $_SERVER["HTTP_X_SECONDLIFE_SHARD"] = "Production"; // cron runs on the CLI, so fake the grid header
+        $_POST["version"] = $this->siteConfig->getSlConfig()->_DbVersion;
         $_POST["objectuuid"] = "" . $objecttaskid . "0000000-0000-0000-0000-000000000000";
-        $_POST["ownername"] = $ownerAv->getAvatarName();
-        $_POST["ownerkey"] = $ownerAv->getAvatarUUID();
+        $_POST["ownername"] = $ownerAv->_AvatarName;
+        $_POST["ownerkey"] = $ownerAv->_AvatarUUID;
         $_POST["pos"] = "0,0,0";
         $_POST["regionname"] = "cron";
         $_POST["objecttype"] = $objectmode;
@@ -58,7 +59,7 @@ class CronTab extends ConfigEnabled
             $_POST["pos"],
             $_POST["objectname"],
             $_POST["objecttype"],
-            $this->siteConfig->getSlConfig()->getSlLinkCode(),
+            $this->siteConfig->getSlConfig()->_SlLinkCode,
         ];
         $this->debugraw = implode("", $required_sl);
         $_POST["hash"] = sha1($this->debugraw);
@@ -90,12 +91,12 @@ class CronTab extends ConfigEnabled
         $use_class = $this->findMasterClass();
         if ($use_class === null) {
             $this->addError("Unsupported request");
+            http_response_code(501);
             print json_encode([
                 "status" => "0",
                 "message" => "[" . $this->loadingModule . " | "
                     . $this->loadingArea . " | " . $this->config->getPage() . "] Unsupported",
             ]);
-            http_response_code(501);
             return;
         }
         /**

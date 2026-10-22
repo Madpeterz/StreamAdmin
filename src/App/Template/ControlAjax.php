@@ -44,16 +44,16 @@ abstract class ControlAjax extends ViewAjax
         ?string $moduleName = null
     ): CreateReply {
         $auditLog = new Auditlog();
-        $auditLog->setStore($this->siteConfig->getModule());
+        $auditLog->_Store = $this->siteConfig->getModule();
         if ($moduleName != null) {
-            $auditLog->setStore($moduleName);
+            $auditLog->_Store = $moduleName;
         }
-        $auditLog->setSourceid($sourceid);
-        $auditLog->setValuename($valuename);
-        $auditLog->setOldvalue($oldvalue);
-        $auditLog->setNewvalue($newvalue);
-        $auditLog->setUnixtime(time());
-        $auditLog->setAvatarLink($this->siteConfig->getSession()->getAvatarLinkId());
+        $auditLog->_Sourceid = $sourceid;
+        $auditLog->_Valuename = $valuename;
+        $auditLog->_Oldvalue = $oldvalue;
+        $auditLog->_Newvalue = $newvalue;
+        $auditLog->_Unixtime = time();
+        $auditLog->_AvatarLink = $this->siteConfig->getSession()->getAvatarLinkId();
         return $auditLog->createEntry();
     }
     public function createMultiAudit(?string $sourceid, array $fields, array $oldvalues, array $newvalues): void

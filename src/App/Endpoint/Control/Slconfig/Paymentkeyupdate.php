@@ -20,17 +20,17 @@ class Paymentkeyupdate extends ControlAjax
             $this->failed("Key '" . $key . "' failed checks: " . $results->message);
             return;
         }
-        if ($key == $this->siteConfig->getSlConfig()->getPaymentKey()) {
+        if ($key == $this->siteConfig->getSlConfig()->_PaymentKey) {
             $this->failed("Key not changed");
             return;
         }
-        $this->siteConfig->getSlConfig()->setPaymentKey($key);
+        $this->siteConfig->getSlConfig()->_PaymentKey = $key;
         $results = $this->siteConfig->getSlConfig()->updateEntry();
         if ($results->status == false) {
             $this->failed("Unable to update key in DB please check and try again");
             return;
         }
         $this->redirectWithMessage("Key updated", "Slconfig/Paymentkey");
-        $this->createAuditLog($this->siteConfig->getSlConfig()->getId(), "payment key changed");
+        $this->createAuditLog($this->siteConfig->getSlConfig()->_Id, "payment key changed");
     }
 }

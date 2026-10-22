@@ -71,24 +71,24 @@ class Breakdownyear extends View
         foreach ($transactions_set as $transaction) {
             $month_id = 1;
             foreach ($lookups as $max_unixtime => $month_num) {
-                if ($transaction->getUnixtime() < $max_unixtime) {
+                if ($transaction->_Unixtime < $max_unixtime) {
                     $month_id = $month_num;
                     break;
                 }
             }
-            $month_datasets[$month_id]["sum"] += $transaction->getAmount();
+            $month_datasets[$month_id]["sum"] += $transaction->_Amount;
             $month_datasets[$month_id]["counted"] += 1;
-            if ($transaction->getRenew() == 1) {
+            if ($transaction->_Renew == 1) {
                 $month_datasets[$month_id]["renew"] += 1;
-                $month_datasets[$month_id]["amount_renew"] += $transaction->getAmount();
+                $month_datasets[$month_id]["amount_renew"] += $transaction->_Amount;
                 $renewed_rentals++;
-                $amount_renew += $transaction->getAmount();
+                $amount_renew += $transaction->_Amount;
                 continue;
             }
             $month_datasets[$month_id]["new"] += 1;
-            $month_datasets[$month_id]["amount_new"] += $transaction->getAmount();
+            $month_datasets[$month_id]["amount_new"] += $transaction->_Amount;
             $new_rentals++;
-            $amount_new += $transaction->getAmount();
+            $amount_new += $transaction->_Amount;
         }
 
 

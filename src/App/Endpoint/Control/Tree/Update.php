@@ -46,7 +46,7 @@ class Update extends ControlAjax
         $trevenderSet = new TreevenderSet();
         $count_check = $trevenderSet->countInDB($whereConfig);
         $expected_count = 0;
-        if ($treevender->getName() == $name) {
+        if ($treevender->_Name == $name) {
             $expected_count = 1;
         }
         if ($count_check->status == false) {
@@ -57,10 +57,10 @@ class Update extends ControlAjax
             $this->failed("There is already a tree vender with that name already");
             return;
         }
-        $treevender->setName($name);
-        $treevender->setHideSoldout($hideSoldout);
-        $treevender->setTextureWaiting($textureWaiting);
-        $treevender->setTextureInuse($textureInuse);
+        $treevender->_Name = $name;
+        $treevender->_HideSoldout = $hideSoldout;
+        $treevender->_TextureWaiting = $textureWaiting;
+        $treevender->_TextureInuse = $textureInuse;
         $update_status = $treevender->updateEntry();
         if ($update_status->status == false) {
             $this->failed(
@@ -70,7 +70,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Treevender updated");
         $this->createMultiAudit(
-            $treevender->getId(),
+            $treevender->_Id,
             $treevender->getFields(),
             $oldvalues,
             $treevender->objectToValueArray()

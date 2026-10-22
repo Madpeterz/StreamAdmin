@@ -19,13 +19,13 @@ class DefaultView extends View
         $table_body = [];
 
         foreach ($reseller_set as $reseller) {
-            $avatar = $avatar_set->getObjectByID($reseller->getAvatarLink());
+            $avatar = $avatar_set->getObjectByID($reseller->_AvatarLink);
             $entry = [];
-            $entry[] = $reseller->getId();
-            $entry[] = '<a href="[[SITE_URL]]reseller/manage/' . $reseller->getId() . '">'
-            . $avatar->getAvatarName() . '</a>';
-            $entry[] = [false => "No",true => "Yes"][$reseller->getAllowed()];
-            $entry[] = $reseller->getRate();
+            $entry[] = $reseller->_Id;
+            $entry[] = '<a href="[[SITE_URL]]reseller/manage/' . $reseller->_Id . '">'
+            . $avatar->_AvatarName . '</a>';
+            $entry[] = [false => "No",true => "Yes"][$reseller->_Allowed];
+            $entry[] = $reseller->_Rate;
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

@@ -26,19 +26,19 @@ class Manage extends View
             $this->output->redirect("template?bubblemessage=unable to find template&bubbletype=warning");
             return;
         }
-        $this->output->addSwapTagString("page_title", ":" . $template->getName());
+        $this->output->addSwapTagString("page_title", ":" . $template->_Name);
         $form = new Form();
         $form->target("template/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(3);
-            $form->textInput("name", "Name", 30, $template->getName(), "Name");
+            $form->textInput("name", "Name", 30, $template->_Name, "Name");
         $form->split();
         $form->col(6);
             $form->textarea(
                 "detail",
                 "Template [Object+Bot IM]",
                 800,
-                $template->getDetail(),
+                $template->_Detail,
                 "Use swap tags as the placeholders! max length 800",
                 17
             );
@@ -47,7 +47,7 @@ class Manage extends View
                 "notecardDetail",
                 "Notecard template",
                 5000,
-                $template->getNotecardDetail(),
+                $template->_NotecardDetail,
                 "Use swap tags as the placeholder",
                 17
             );

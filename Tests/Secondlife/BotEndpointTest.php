@@ -14,8 +14,8 @@ class BotEndpointTest extends TestWorker
     {
         global $system;
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
         $botUpdate = new Update();
         $_POST["avataruid"] = "SysDevOp";
@@ -44,9 +44,9 @@ class BotEndpointTest extends TestWorker
     public function test_ImTask()
     {
         $botcommandq = new Botcommandq();
-        $botcommandq->setCommand("FetchNextNotecard");
-        $botcommandq->setArgs("configstuff");
-        $botcommandq->setUnixtime(time());
+        $botcommandq->_Command = "FetchNextNotecard";
+        $botcommandq->_Args = "configstuff";
+        $botcommandq->_Unixtime = time();
         $create = $botcommandq->createEntry();
         $this->assertSame(true,$create->status,"failed to create work for command q");
         $this->assertSame("ok",$create->message,"failed to create work for command q");

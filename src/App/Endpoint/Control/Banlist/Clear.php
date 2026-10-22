@@ -17,13 +17,13 @@ class Clear extends ControlAjax
             return;
         }
         $avatar = $banlist->relatedAvatar()->getFirst();
-        $banid = $banlist->getId();
+        $banid = $banlist->_Id;
         $remove_status = $banlist->removeEntry();
         if ($remove_status->status == false) {
             $this->failed("Unable to remove entry");
             return;
         }
         $this->redirectWithMessage("Entry removed");
-        $this->createAuditLog($banid, "---", $avatar->getAvatarName());
+        $this->createAuditLog($banid, "---", $avatar->_AvatarName);
     }
 }

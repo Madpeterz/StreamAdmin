@@ -15,14 +15,14 @@ class Bot extends View
         $botcommandsQ->loadAll();
         foreach ($botcommandsQ as $botcommand) {
             $entry = [];
-            $entry[] = $botcommand->getId();
-            $entry[] = $botcommand->getCommand();
+            $entry[] = $botcommand->_Id;
+            $entry[] = $botcommand->_Command;
             $commandsCount = 0;
-            if ($botcommand->getArgs() != null) {
-                $commandsCount = count(json_decode($botcommand->getArgs()));
+            if ($botcommand->_Args != null) {
+                $commandsCount = count(json_decode($botcommand->_Args));
             }
             $entry[] = $commandsCount;
-            $entry[] = date('d/m/Y @ G:i:s', $botcommand->getUnixtime());
+            $entry[] = date('d/m/Y @ G:i:s', $botcommand->_Unixtime);
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

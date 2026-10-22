@@ -81,7 +81,7 @@ class AvatarTest extends TestWorkerWithLogin
         $avatar = new ModelsAvatar();
         $status = $avatar->loadByField("avatarName","UnitTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $system->setPage($avatar->_AvatarUid);
         $manageForm  = new Manage();
         $manageForm->process();
         $statuscheck = $manageForm->getOutputObject()->getSwapTagString("page_content");
@@ -101,7 +101,7 @@ class AvatarTest extends TestWorkerWithLogin
         $avatar = new ModelsAvatar();
         $status = $avatar->loadByField("avatarName","UnitTest Avatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $system->setPage($avatar->_AvatarUid);
         $manageProcess = new Update();
         $_POST["avatarName"] = "UnitTest Updated";
         $_POST["avatarUUID"] = "289c3ea6-69b3-40c5-9229-000a5d230766";
@@ -154,7 +154,7 @@ class AvatarTest extends TestWorkerWithLogin
         $avatar = new ModelsAvatar();
         $status = $avatar->loadByField("avatarName","UnitTest Updated");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage($avatar->getAvatarUid());
+        $system->setPage($avatar->_AvatarUid);
         $removeProcess = new AvatarRemove();
         $_POST["accept"] = "Accept";
         $removeProcess->process();

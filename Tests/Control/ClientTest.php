@@ -29,54 +29,54 @@ class ClientTest extends TestWorker
     {
         global $system;
         $reseller = new Reseller();
-        $reseller->setAvatarLink(1);
-        $reseller->setRate(100);
+        $reseller->_AvatarLink = 1;
+        $reseller->_Rate = 100;
         $reply = $reseller->createEntry();
         $this->assertSame(true, $reply->status, "Failed to create reseller entry");
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
         $server = new Server();
-        $server->setDomain("https://testing.com");
-        $server->setControlPanelURL("https://testing.com/cp");
-        $server->setIpaddress("127.0.0.1");
-        $server->setBandwidth(1000);
-        $server->setBandwidthType("GB");
-        $server->setTotalStorage(1000);
-        $server->setTotalStorageType("TB");
+        $server->_Domain = "https://testing.com";
+        $server->_ControlPanelURL = "https://testing.com/cp";
+        $server->_Ipaddress = "127.0.0.1";
+        $server->_Bandwidth = 1000;
+        $server->_BandwidthType = "GB";
+        $server->_TotalStorage = 1000;
+        $server->_TotalStorageType = "TB";
         $replyServer = $server->createEntry();
         $this->assertSame(true, $replyServer->status, "Failed to create server");
         $package = new Package();
-        $package->setPackageUid("asdvghas");
-        $package->setName("testing");
-        $package->setAutodj(false);
-        $package->setListeners(10);
-        $package->setTemplateLink(1);
-        $package->setServertypeLink(1);
-        $package->setCost(123);
-        $package->setDays(7);
-        $package->setTextureInstockSelected("51d5f381-43cd-84f0-c226-f9f89c12af7e");
-        $package->setTextureInstockSmall("51d5f381-43cd-84f0-c226-f9f89c12af7e");
-        $package->setTextureSoldout("51d5f381-43cd-84f0-c226-f9f89c12af7e");
-        $package->setWelcomeNotecardLink(1);
-        $package->setSetupNotecardLink(1);
-        $package->setEnableGroupInvite(false);
-        $package->setEnforceCustomMaxStreams(false);
-        $package->setMaxStreamsInPackage(1);
+        $package->_PackageUid = "asdvghas";
+        $package->_Name = "testing";
+        $package->_Autodj = false;
+        $package->_Listeners = 10;
+        $package->_TemplateLink = 1;
+        $package->_ServertypeLink = 1;
+        $package->_Cost = 123;
+        $package->_Days = 7;
+        $package->_TextureInstockSelected = "51d5f381-43cd-84f0-c226-f9f89c12af7e";
+        $package->_TextureInstockSmall = "51d5f381-43cd-84f0-c226-f9f89c12af7e";
+        $package->_TextureSoldout = "51d5f381-43cd-84f0-c226-f9f89c12af7e";
+        $package->_WelcomeNotecardLink = 1;
+        $package->_SetupNotecardLink = 1;
+        $package->_EnableGroupInvite = false;
+        $package->_EnforceCustomMaxStreams = false;
+        $package->_MaxStreamsInPackage = 1;
         $replyPackage = $package->createEntry();
         $this->assertSame(true, $replyPackage->status, "Failed to create package");
         $stream = new Stream();
-        $stream->setPackageLink($replyPackage->newId);
-        $stream->setServerLink($replyServer->newId);
-        $stream->setRentalLink(null);
-        $stream->setPort(5500);
-        $stream->setNeedWork(true);
-        $stream->setAdminUsername("testing");
-        $stream->setAdminPassword("testing");
-        $stream->setDjPassword("testing");
-        $stream->setStreamUid("testings");
-        $stream->setMountpoint("/live");
+        $stream->_PackageLink = $replyPackage->newId;
+        $stream->_ServerLink = $replyServer->newId;
+        $stream->_RentalLink = null;
+        $stream->_Port = 5500;
+        $stream->_NeedWork = true;
+        $stream->_AdminUsername = "testing";
+        $stream->_AdminPassword = "testing";
+        $stream->_DjPassword = "testing";
+        $stream->_StreamUid = "testings";
+        $stream->_Mountpoint = "/live";
         $replyStream = $stream->createEntry();
         $this->assertSame(true, $replyStream->status, "Failed to create stream");
     }
@@ -104,10 +104,10 @@ class ClientTest extends TestWorker
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         $clientGetNotecard = new Getnotecard();
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $clientGetNotecard->process();
         $reply = $clientGetNotecard->getOutputObject();
-        $this->assertSame($rental->getRentalUid(), $reply->getSwapTagString("rentaluid"), "expected reply to be for selected rental");
+        $this->assertSame($rental->_RentalUid, $reply->getSwapTagString("rentaluid"), "expected reply to be for selected rental");
         $this->assertSame(true, $reply->getSwapTagBool("status"), "Status code is not as expected");
         $this->assertStringContainsString("Listeners:", $reply->getSwapTagString("message"), "Message does not appear to be notecard");
     }
@@ -122,7 +122,7 @@ class ClientTest extends TestWorker
         $rental->loadId(1);
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $_POST["mail"] = "this is a test";
 
         $clientMessage = new Message();
@@ -144,7 +144,7 @@ class ClientTest extends TestWorker
         $rental->loadId(1);
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $clientresend = new Resend();
         $clientresend->process();
         $reply = $clientresend->getOutputObject();
@@ -168,7 +168,7 @@ class ClientTest extends TestWorker
         $_POST["add-optout-3"] = 1;
         $_POST["add-optout-5"] = 1;
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $clientOptout = new Noticeoptout();
         $clientOptout->process();
         $reply = $clientOptout->getOutputObject();
@@ -186,7 +186,7 @@ class ClientTest extends TestWorker
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         $_POST["remove-optout-1"] = 1;
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $clientOptout = new Noticeoptout();
         $clientOptout->process();
         $reply = $clientOptout->getOutputObject();
@@ -205,7 +205,7 @@ class ClientTest extends TestWorker
         $_POST["remove-optout-3"] = 1;
         $_POST["add-optout-2"] = 1;
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $clientOptout = new Noticeoptout();
         $clientOptout->process();
         $reply = $clientOptout->getOutputObject();
@@ -222,8 +222,8 @@ class ClientTest extends TestWorker
         $rental->loadId(1);
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         global $system;
-        $startunixtime = $rental->getExpireUnixtime();
-        $system->setPage($rental->getRentalUid());
+        $startunixtime = $rental->_ExpireUnixtime;
+        $system->setPage($rental->_RentalUid);
         $_POST["adjustment_days"] = 12;
         $_POST["adjustment_hours"] = 13;
         $_POST["adjustment_dir"] = true;
@@ -234,10 +234,10 @@ class ClientTest extends TestWorker
         $rental = new Rental();
         $rental->loadId(1);
         $moretime = false;
-        if ($rental->getExpireUnixtime() > $startunixtime) {
+        if ($rental->_ExpireUnixtime > $startunixtime) {
             $moretime = true;
         }
-        $this->assertTrue($moretime, "Expected rental time remaining to be higher old " . $startunixtime . " -> " . $rental->getExpireUnixtime());
+        $this->assertTrue($moretime, "Expected rental time remaining to be higher old " . $startunixtime . " -> " . $rental->_ExpireUnixtime);
     }
     /**
      * @depends test_Requires
@@ -249,8 +249,8 @@ class ClientTest extends TestWorker
         $rental->loadId(1);
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         global $system;
-        $startunixtime = $rental->getExpireUnixtime();
-        $system->setPage($rental->getRentalUid());
+        $startunixtime = $rental->_ExpireUnixtime;
+        $system->setPage($rental->_RentalUid);
         $_POST["adjustment_days"] = 5;
         $_POST["adjustment_hours"] = 1;
         $_POST["adjustment_dir"] = false;
@@ -261,10 +261,10 @@ class ClientTest extends TestWorker
         $rental = new Rental();
         $rental->loadId(1);
         $moretime = false;
-        if ($rental->getExpireUnixtime() < $startunixtime) {
+        if ($rental->_ExpireUnixtime < $startunixtime) {
             $moretime = true;
         }
-        $this->assertTrue($moretime, "Expected rental time remaining to be lower old " . $startunixtime . " -> " . $rental->getExpireUnixtime());
+        $this->assertTrue($moretime, "Expected rental time remaining to be lower old " . $startunixtime . " -> " . $rental->_ExpireUnixtime);
     }
     /**
      * @depends test_UpdateRemoveTimeLeft
@@ -276,7 +276,7 @@ class ClientTest extends TestWorker
         $rental->loadId(1);
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $_POST["message"] = "Hello world";
         $clientUpdate = new Update();
         $clientUpdate->process();
@@ -284,7 +284,7 @@ class ClientTest extends TestWorker
         $this->assertStringContainsString("Message Updated", $reply->getSwapTagString("message"), "Message does not appear to be correct");
         $rental = new Rental();
         $rental->loadId(1);
-        $this->assertSame("Hello world", $rental->getMessage(), "Message not updated as expected");
+        $this->assertSame("Hello world", $rental->_Message, "Message not updated as expected");
     }
     /**
      * @depends test_UpdateMessage
@@ -294,10 +294,10 @@ class ClientTest extends TestWorker
         $this->resetPost();
         $rental = new Rental();
         $rental->loadId(1);
-        $this->assertSame($rental->getAvatarLink(), 1, "rental owner is not as expected");
+        $this->assertSame($rental->_AvatarLink, 1, "rental owner is not as expected");
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $_POST["transfer_avataruid"] = "SysDevOp";
         $clientUpdate = new Update();
         $clientUpdate->process();
@@ -305,7 +305,7 @@ class ClientTest extends TestWorker
         $this->assertStringContainsString("Message Updated", $reply->getSwapTagString("message"), "Message does not appear to be correct");
         $rental = new Rental();
         $rental->loadId(1);
-        $this->assertSame($rental->getAvatarLink(), 2, "New rental owner is not as expected");
+        $this->assertSame($rental->_AvatarLink, 2, "New rental owner is not as expected");
     }
     /**
      * @depends test_UpdateTransfer
@@ -321,7 +321,7 @@ class ClientTest extends TestWorker
         $rental->loadId(1);
         $this->assertSame(true, $rental->isLoaded(), "unable to load rental");
         global $system;
-        $system->setPage($rental->getRentalUid());
+        $system->setPage($rental->_RentalUid);
         $_POST["accept"] = "Accept";
         $clientRovoke = new Revoke();
         $clientRovoke->process();
@@ -337,36 +337,36 @@ class ClientTest extends TestWorker
         $reseller = new Reseller();
         $reseller->loadByAvatarLink(1);
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
         $server = new Server();
-        $server->setDomain("https://testing2.com");
-        $server->setControlPanelURL("https://testing2.com/cp");
-        $server->setIpaddress("127.0.0.2");
-        $server->setBandwidth(1000);
-        $server->setBandwidthType("GB");
-        $server->setTotalStorage(1000);
-        $server->setTotalStorageType("TB");
+        $server->_Domain = "https://testing2.com";
+        $server->_ControlPanelURL = "https://testing2.com/cp";
+        $server->_Ipaddress = "127.0.0.2";
+        $server->_Bandwidth = 1000;
+        $server->_BandwidthType = "GB";
+        $server->_TotalStorage = 1000;
+        $server->_TotalStorageType = "TB";
         $replyServer = $server->createEntry();
         $this->assertSame(true, $replyServer->status, "Failed to create server");
         $package = new Package();
-        $package->setPackageUid("bulktest");
-        $package->setName("testing2");
-        $package->setAutodj(false);
-        $package->setListeners(10);
-        $package->setTemplateLink(1);
-        $package->setServertypeLink(1);
-        $package->setCost(123);
-        $package->setDays(7);
-        $package->setTextureInstockSelected("51d5f381-43cd-84f0-c226-f9f89c12af7e");
-        $package->setTextureInstockSmall("51d5f381-43cd-84f0-c226-f9f89c12af7e");
-        $package->setTextureSoldout("51d5f381-43cd-84f0-c226-f9f89c12af7e");
-        $package->setWelcomeNotecardLink(1);
-        $package->setSetupNotecardLink(1);
-        $package->setEnableGroupInvite(false);
-        $package->setEnforceCustomMaxStreams(false);
-        $package->setMaxStreamsInPackage(1);
+        $package->_PackageUid = "bulktest";
+        $package->_Name = "testing2";
+        $package->_Autodj = false;
+        $package->_Listeners = 10;
+        $package->_TemplateLink = 1;
+        $package->_ServertypeLink = 1;
+        $package->_Cost = 123;
+        $package->_Days = 7;
+        $package->_TextureInstockSelected = "51d5f381-43cd-84f0-c226-f9f89c12af7e";
+        $package->_TextureInstockSmall = "51d5f381-43cd-84f0-c226-f9f89c12af7e";
+        $package->_TextureSoldout = "51d5f381-43cd-84f0-c226-f9f89c12af7e";
+        $package->_WelcomeNotecardLink = 1;
+        $package->_SetupNotecardLink = 1;
+        $package->_EnableGroupInvite = false;
+        $package->_EnforceCustomMaxStreams = false;
+        $package->_MaxStreamsInPackage = 1;
         $replyPackage = $package->createEntry();
         $this->assertSame(true, $replyPackage->status, "Failed to create package");
 
@@ -381,16 +381,16 @@ class ClientTest extends TestWorker
             if ($streamuid->status == false) {
                 break;
             }
-            $stream->setPackageLink($replyPackage->newId);
-            $stream->setServerLink($replyServer->newId);
-            $stream->setRentalLink(null);
-            $stream->setPort($startport + 2 + $counter);
-            $stream->setNeedWork(true);
-            $stream->setAdminUsername("testing");
-            $stream->setAdminPassword("testing");
-            $stream->setDjPassword("testing");
-            $stream->setStreamUid($streamuid->uid);
-            $stream->setMountpoint("/live");
+            $stream->_PackageLink = $replyPackage->newId;
+            $stream->_ServerLink = $replyServer->newId;
+            $stream->_RentalLink = null;
+            $stream->_Port = $startport + 2 + $counter;
+            $stream->_NeedWork = true;
+            $stream->_AdminUsername = "testing";
+            $stream->_AdminPassword = "testing";
+            $stream->_DjPassword = "testing";
+            $stream->_StreamUid = $streamuid->uid;
+            $stream->_Mountpoint = "/live";
             $replyStream = $stream->createEntry();
             $this->assertSame(true, $replyStream->status, "Failed to create needed stream: " . $replyStream->message);
             if ($replyStream->status == false) {
@@ -413,16 +413,16 @@ class ClientTest extends TestWorker
             if ($uid->status == false) {
                 break;
             }
-            $rental->setAvatarLink($avatar->getId());
-            $rental->setStreamLink($streamid);
-            $rental->setPackageLink($package->getId());
-            $rental->setNoticeLink(6);
-            $rental->setStartUnixtime(time() - 10);
-            $rental->setExpireUnixtime(time() - 1);
-            $rental->setRenewals(0);
-            $rental->setTotalAmount($package->getCost());
-            $rental->setMessage("Demo");
-            $rental->setRentalUid($uid->uid);
+            $rental->_AvatarLink = $avatar->_Id;
+            $rental->_StreamLink = $streamid;
+            $rental->_PackageLink = $package->_Id;
+            $rental->_NoticeLink = 6;
+            $rental->_StartUnixtime = time() - 10;
+            $rental->_ExpireUnixtime = time() - 1;
+            $rental->_Renewals = 0;
+            $rental->_TotalAmount = $package->_Cost;
+            $rental->_Message = "Demo";
+            $rental->_RentalUid = $uid->uid;
             $create = $rental->createEntry();
             $this->assertSame(true, $create->status, "Failed to create rental");
             if ($create->status == false) {

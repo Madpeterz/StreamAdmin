@@ -60,15 +60,15 @@ class Create extends ControlAjax
             );
             return;
         }
-        $stream->setStreamUid($uid->uid);
-        $stream->setPackageLink($packageLink);
-        $stream->setServerLink($serverLink);
-        $stream->setPort($port);
-        $stream->setNeedWork($needswork);
-        $stream->setAdminUsername($adminUsername);
-        $stream->setAdminPassword($adminPassword);
-        $stream->setDjPassword($djPassword);
-        $stream->setMountpoint($mountpoint);
+        $stream->_StreamUid = $uid->uid;
+        $stream->_PackageLink = $packageLink;
+        $stream->_ServerLink = $serverLink;
+        $stream->_Port = $port;
+        $stream->_NeedWork = $needswork;
+        $stream->_AdminUsername = $adminUsername;
+        $stream->_AdminPassword = $adminPassword;
+        $stream->_DjPassword = $djPassword;
+        $stream->_Mountpoint = $mountpoint;
         $create_status = $stream->createEntry();
         if ($create_status->status == false) {
             $this->failed(
@@ -80,6 +80,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Stream created on port: " . $port);
-        $this->createAuditLog($stream->getStreamUid(), "+++", $stream->getPort(), $server->getDomain());
+        $this->createAuditLog($stream->_StreamUid, "+++", $stream->_Port, $server->_Domain);
     }
 }

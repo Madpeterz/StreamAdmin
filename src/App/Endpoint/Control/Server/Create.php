@@ -45,9 +45,9 @@ class Create extends ControlAjax
             return false;
         }
         $this->server = new Server();
-        $this->server->setDomain($this->domain);
-        $this->server->setControlPanelURL($this->controlPanelURL);
-        $this->server->setIpaddress($this->ipaddress);
+        $this->server->_Domain = $this->domain;
+        $this->server->_ControlPanelURL = $this->controlPanelURL;
+        $this->server->_Ipaddress = $this->ipaddress;
         $create_status = $this->server->createEntry();
         if ($create_status->status == false) {
             $this->failed(
@@ -68,6 +68,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Server created");
-        $this->createAuditLog($this->server->getId(), "+++", null, $this->server->getDomain());
+        $this->createAuditLog($this->server->_Id, "+++", null, $this->server->_Domain);
     }
 }

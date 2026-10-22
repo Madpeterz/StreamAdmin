@@ -120,14 +120,14 @@ class Comapreyears extends View
         foreach ($transactions_set_a as $transaction) {
             $month_id = 1;
             foreach ($lookups_yeara as $max_unixtime => $month_num) {
-                if ($transaction->getUnixtime() < $max_unixtime) {
+                if ($transaction->_Unixtime < $max_unixtime) {
                     $month_id = $month_num;
                     break;
                 }
             }
-            $yeara_month_datasets[$month_id]["sum"] += $transaction->getAmount();
+            $yeara_month_datasets[$month_id]["sum"] += $transaction->_Amount;
             $yeara_month_datasets[$month_id]["counted"] += 1;
-            $year_a_total += $transaction->getAmount();
+            $year_a_total += $transaction->_Amount;
             $year_a_count += 1;
         }
         $yeara_month_datasets[13] = ["title" => "Total","sum" => $year_a_total,"counted" => $year_a_count];
@@ -135,14 +135,14 @@ class Comapreyears extends View
         foreach ($transactions_set_b as $transaction) {
             $month_id = 1;
             foreach ($lookups_yearb as $max_unixtime => $month_num) {
-                if ($transaction->getUnixtime() < $max_unixtime) {
+                if ($transaction->_Unixtime < $max_unixtime) {
                     $month_id = $month_num;
                     break;
                 }
             }
-            $yearb_month_datasets[$month_id]["sum"] += $transaction->getAmount();
+            $yearb_month_datasets[$month_id]["sum"] += $transaction->_Amount;
             $yearb_month_datasets[$month_id]["counted"] += 1;
-            $year_b_total += $transaction->getAmount();
+            $year_b_total += $transaction->_Amount;
             $year_b_count += 1;
         }
         $yearb_month_datasets[13] = ["title" => "Total","sum" => $year_b_total,"counted" => $year_b_count];

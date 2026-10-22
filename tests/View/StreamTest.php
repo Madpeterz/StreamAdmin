@@ -47,7 +47,7 @@ class StreamTest extends TestWorkerWithLogin
         $status = $package->loadID(1);
         $this->assertSame(true,$status->status,"Unable to load test package");
 
-        $system->setPage( $package->getPackageUid());
+        $system->setPage( $package->_PackageUid);
         $view = new Inpackage();
         $view->process();
         $statuscheck = $view->getOutputObject()->getSwapTagString("page_content");
@@ -103,7 +103,7 @@ class StreamTest extends TestWorkerWithLogin
         $stream = new Stream();
         $status = $stream->loadByField("port",7006);
         $this->assertSame(true,$status->status,"Unable to load test stream");
-        $system->setPage( $stream->getStreamUid());
+        $system->setPage( $stream->_StreamUid);
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -124,7 +124,7 @@ class StreamTest extends TestWorkerWithLogin
         $stream = new Stream();
         $status = $stream->loadByField("port",7006);
         $this->assertSame(true,$status->status,"Unable to load test stream");
-        $system->setPage( $stream->getStreamUid());
+        $system->setPage( $stream->_StreamUid);
 
         $manageProcess = new Update();
         $_POST["port"] = 7006;
@@ -155,7 +155,7 @@ class StreamTest extends TestWorkerWithLogin
         $stream = new Stream();
         $status = $stream->loadByField("port",7006);
         $this->assertSame(true,$status->status,"Unable to load test stream");
-        $system->setPage( $stream->getStreamUid());
+        $system->setPage( $stream->_StreamUid);
 
         $removeProcess = new StreamRemove();
         $_POST["accept"] = "Accept";
@@ -295,10 +295,10 @@ class StreamTest extends TestWorkerWithLogin
                 $updated_counter++;
             }
             $twitch = !$twitch;
-            $_POST["stream" . $stream->getStreamUid()] = $mode;
+            $_POST["stream" . $stream->_StreamUid] = $mode;
             if($mode == "update") {
-                $_POST["stream" . $stream->getStreamUid() . "adminpw"] = substr(md5($stream->getDjPassword()),0,8);
-                $_POST["stream" . $stream->getStreamUid() . "djpw"] = substr(md5($stream->getDjPassword()),0,8);
+                $_POST["stream" . $stream->_StreamUid . "adminpw"] = substr(md5($stream->_DjPassword),0,8);
+                $_POST["stream" . $stream->_StreamUid . "djpw"] = substr(md5($stream->_DjPassword),0,8);
             }
         }
         $updated_counter = $stream_set->getCount() - $updated_counter;

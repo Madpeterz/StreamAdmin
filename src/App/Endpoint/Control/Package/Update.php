@@ -145,23 +145,23 @@ class Update extends ControlAjax
 
     protected function updatePackageSettings(): void
     {
-        $this->package->setName($this->name);
-        $this->package->setAutodj($this->autodj);
-        $this->package->setAutodjSize($this->autodjSize);
-        $this->package->setListeners($this->listeners);
-        $this->package->setBitrate($this->bitrate);
-        $this->package->setTemplateLink($this->templateLink);
-        $this->package->setCost($this->cost);
-        $this->package->setDays($this->days);
-        $this->package->setTextureSoldout($this->textureSoldout);
-        $this->package->setTextureInstockSmall($this->textureInstockSmall);
-        $this->package->setTextureInstockSelected($this->textureInstockSelected);
-        $this->package->setServertypeLink($this->servertypeLink);
-        $this->package->setWelcomeNotecardLink($this->welcomeNotecardLink);
-        $this->package->setSetupNotecardLink($this->setupNotecardLink);
-        $this->package->setEnableGroupInvite($this->enableGroupInvite);
-        $this->package->setEnforceCustomMaxStreams($this->enforceCustomMaxStreams);
-        $this->package->setMaxStreamsInPackage($this->maxStreamsInPackage);
+        $this->package->_Name = $this->name;
+        $this->package->_Autodj = $this->autodj;
+        $this->package->_AutodjSize = $this->autodjSize;
+        $this->package->_Listeners = $this->listeners;
+        $this->package->_Bitrate = $this->bitrate;
+        $this->package->_TemplateLink = $this->templateLink;
+        $this->package->_Cost = $this->cost;
+        $this->package->_Days = $this->days;
+        $this->package->_TextureSoldout = $this->textureSoldout;
+        $this->package->_TextureInstockSmall = $this->textureInstockSmall;
+        $this->package->_TextureInstockSelected = $this->textureInstockSelected;
+        $this->package->_ServertypeLink = $this->servertypeLink;
+        $this->package->_WelcomeNotecardLink = $this->welcomeNotecardLink;
+        $this->package->_SetupNotecardLink = $this->setupNotecardLink;
+        $this->package->_EnableGroupInvite = $this->enableGroupInvite;
+        $this->package->_EnforceCustomMaxStreams = $this->enforceCustomMaxStreams;
+        $this->package->_MaxStreamsInPackage = $this->maxStreamsInPackage;
         $this->failed("exit updatePackageSettings");
     }
 
@@ -180,7 +180,7 @@ class Update extends ControlAjax
             return false;
         }
         $this->createMultiAudit(
-            $this->package->getPackageUid(),
+            $this->package->_PackageUid,
             $this->package->getFields(),
             $oldvalues,
             $this->package->objectToValueArray()

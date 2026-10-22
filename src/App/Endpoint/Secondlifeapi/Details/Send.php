@@ -24,7 +24,7 @@ class Send extends SecondlifeAjax
             return;
         }
         if ($forceAv != null) {
-            if ($rental->getAvatarLink() != $forceAv->getId()) {
+            if ($rental->_AvatarLink != $forceAv->_Id) {
                 $this->failed("You can not request someone else's rental details via the hud!");
                 return;
             }
@@ -32,7 +32,7 @@ class Send extends SecondlifeAjax
 
         $whereConfig = [
             "fields" => ["rentalLink"],
-            "values" => [$rental->getId()],
+            "values" => [$rental->_Id],
         ];
         $detail = new DetailSet();
         $load = $detail->countInDB($whereConfig);
@@ -45,7 +45,7 @@ class Send extends SecondlifeAjax
             return;
         }
         $detail = new Detail();
-        $detail->setRentalLink($rental->getId());
+        $detail->_RentalLink = $rental->_Id;
         $create_status = $detail->createEntry();
         if ($create_status->status == false) {
             $this->failed("Unable to create details request");

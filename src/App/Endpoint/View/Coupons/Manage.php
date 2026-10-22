@@ -35,9 +35,9 @@ class Manage extends View
         $form = new Form();
         $form->target("Coupons/Update/" . $this->siteConfig->getPage());
         $form->required(true);
-        $form->numberInput("cost", "Cost L$", $coupon->getCost(), 6, "Cost on marketplace");
-        $form->numberInput("listingid", "Listing id", $coupon->getListingid(), 11, "Marketplace listing id");
-        $form->numberInput("credit", "Credit [To be added]", $coupon->getCredit(), 6, "How much credit to give");
+        $form->numberInput("cost", "Cost L$", $coupon->_Cost, 6, "Cost on marketplace");
+        $form->numberInput("listingid", "Listing id", $coupon->_Listingid, 11, "Marketplace listing id");
+        $form->numberInput("credit", "Credit [To be added]", $coupon->_Credit, 6, "How much credit to give");
         $this->setSwapTag("page_content", $form->render("Update", "primary"));
     }
 }

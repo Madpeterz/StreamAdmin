@@ -30,9 +30,9 @@ class Update extends ControlAjax
             return;
         }
         $oldvalues = $template->objectToValueArray();
-        $template->setName($name);
-        $template->setDetail($detail);
-        $template->setNotecardDetail($notecardDetail);
+        $template->_Name = $name;
+        $template->_Detail = $detail;
+        $template->_NotecardDetail = $notecardDetail;
         $update_status = $template->updateEntry();
         if ($update_status->status == false) {
             $this->failed(
@@ -45,7 +45,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Template updated");
         $this->createMultiAudit(
-            $template->getId(),
+            $template->_Id,
             $template->getFields(),
             $oldvalues,
             $template->objectToValueArray()

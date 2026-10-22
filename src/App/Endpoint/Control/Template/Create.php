@@ -25,9 +25,9 @@ class Create extends ControlAjax
             return;
         }
         $template = new Template();
-        $template->setName($name);
-        $template->setDetail($detail);
-        $template->setNotecardDetail($notecardDetail);
+        $template->_Name = $name;
+        $template->_Detail = $detail;
+        $template->_NotecardDetail = $notecardDetail;
         $create_status = $template->createEntry();
         if ($create_status->status == false) {
             $this->failed(
@@ -39,6 +39,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Template created");
-        $this->createAuditLog($template->getId(), "+++", null, $template->getName());
+        $this->createAuditLog($template->_Id, "+++", null, $template->_Name);
     }
 }

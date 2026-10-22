@@ -70,7 +70,7 @@ class AvatarTest extends TestWorker
         $load = $avatar->loadByAvatarUUID("281c3e36-69b3-40c5-9229-0c6a5d230766");
         $this->assertSame(true, $load->status, "Unable to find testing avatar");
         global $system;
-        $system->setPage($avatar->getAvatarUid());
+        $system->setPage($avatar->_AvatarUid);
         $avatarUpdate = new Update();
         $_POST["avatarName"] = "UnittestUpdate Zond";
         $_POST["avatarUUID"] = "281c3e36-69b3-40c5-9229-0c6a5d230766";
@@ -81,7 +81,7 @@ class AvatarTest extends TestWorker
         $this->assertSame(true, $reply->getSwapTagBool("status"), "Status code is not as expected");
         $avatar = new Avatar();
         $load = $avatar->loadByAvatarUUID("281c3e36-69b3-40c5-9229-0c6a5d230766");
-        $this->assertSame("UnittestUpdate Zond", $avatar->getAvatarName(), "Avatar name did not update");
+        $this->assertSame("UnittestUpdate Zond", $avatar->_AvatarName, "Avatar name did not update");
     }
     /**
      * @depends test_UpdateName
@@ -91,12 +91,12 @@ class AvatarTest extends TestWorker
         $avatar = new Avatar();
         $load = $avatar->loadByAvatarUUID("281c3e36-69b3-40c5-9229-0c6a5d230766");
         $this->assertSame(true, $load->status, "Unable to find testing avatar");
-        $this->assertSame(0, $avatar->getCredits(), "Credit level not as expected");
+        $this->assertSame(0, $avatar->_Credits, "Credit level not as expected");
         global $system;
-        $system->setPage($avatar->getAvatarUid());
+        $system->setPage($avatar->_AvatarUid);
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
         $avatarUpdate = new Update();
         $_POST["avatarName"] = "UnittestUpdate Zond";
@@ -108,7 +108,7 @@ class AvatarTest extends TestWorker
         $this->assertSame(true, $reply->getSwapTagBool("status"), "Status code is not as expected");
         $avatar = new Avatar();
         $load = $avatar->loadByAvatarUUID("281c3e36-69b3-40c5-9229-0c6a5d230766");
-        $this->assertSame(100, $avatar->getCredits(), "Avatar credits not updated as expected");
+        $this->assertSame(100, $avatar->_Credits, "Avatar credits not updated as expected");
     }
     /**
      * @depends test_UpdateCredits
@@ -118,9 +118,9 @@ class AvatarTest extends TestWorker
         $avatar = new Avatar();
         $load = $avatar->loadByAvatarUUID("281c3e36-69b3-40c5-9229-0c6a5d230766");
         $this->assertSame(true, $load->status, "Unable to find testing avatar");
-        $this->assertSame(100, $avatar->getCredits(), "Credit level not as expected");
+        $this->assertSame(100, $avatar->_Credits, "Credit level not as expected");
         global $system;
-        $system->setPage($avatar->getAvatarUid());
+        $system->setPage($avatar->_AvatarUid);
         $avatarUpdate = new Update();
         $_POST["avatarName"] = "UnittestUpdate Zond";
         $_POST["avatarUUID"] = "281c3e36-69b3-40c5-9229-0c6a5d230765";
@@ -131,8 +131,8 @@ class AvatarTest extends TestWorker
         $this->assertSame(true, $reply->getSwapTagBool("status"), "Status code is not as expected");
         $avatar = new Avatar();
         $load = $avatar->loadByAvatarUUID("281c3e36-69b3-40c5-9229-0c6a5d230765");
-        $this->assertSame(100, $avatar->getCredits(), "Avatar credits check not as expected");
-        $this->assertSame("UnittestUpdate Zond", $avatar->getAvatarName(), "Avatar name check not as expected");
+        $this->assertSame(100, $avatar->_Credits, "Avatar credits check not as expected");
+        $this->assertSame("UnittestUpdate Zond", $avatar->_AvatarName, "Avatar name check not as expected");
     }
 
     /**
@@ -145,9 +145,9 @@ class AvatarTest extends TestWorker
         $avatar = new Avatar();
         $load = $avatar->loadByAvatarUUID("281c3e36-69b3-40c5-9229-0c6a5d230765");
         $this->assertSame(true, $load->status, "Unable to find testing avatar");
-        $this->assertSame(100, $avatar->getCredits(), "Credit level not as expected");
+        $this->assertSame(100, $avatar->_Credits, "Credit level not as expected");
         global $system;
-        $system->setPage($avatar->getAvatarUid());
+        $system->setPage($avatar->_AvatarUid);
         $_POST["accept"] = "Accept";
         $avatarRemove = new Remove();
         $avatarRemove->process();

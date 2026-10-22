@@ -29,11 +29,11 @@ class EventsQHelper
         ?int $amountpaid = null,
         ?Avatar $transactionAv = null
     ): void {
-        if ($this->config->getSlConfig()->getEventsAPI() == false) {
+        if ($this->config->getSlConfig()->_EventsAPI == false) {
             return;
         }
         $eventq = new Eventsq();
-        $eventq->setEventMessage($this->makeJsonString(
+        $eventq->_EventMessage = $this->makeJsonString(
             $package,
             $avatar,
             $server,
@@ -41,9 +41,9 @@ class EventsQHelper
             $rental,
             $amountpaid,
             $transactionAv
-        ));
-        $eventq->setEventName($name);
-        $eventq->setEventUnixtime(time());
+        );
+        $eventq->_EventName = $name;
+        $eventq->_EventUnixtime = time();
         $eventq->createEntry();
     }
     protected function makeJsonString(
@@ -57,29 +57,29 @@ class EventsQHelper
     ): string {
         $reply = [];
         if ($package != null) {
-            $reply["package"] = $package->getName();
+            $reply["package"] = $package->_Name;
         }
         if ($avatar != null) {
-            $reply["uuid"] = $avatar->getAvatarUUID();
-            $reply["name"] = $avatar->getAvatarName();
+            $reply["uuid"] = $avatar->_AvatarUUID;
+            $reply["name"] = $avatar->_AvatarName;
         }
         if ($server != null) {
-            $reply["server"] = $server->getDomain();
+            $reply["server"] = $server->_Domain;
         }
         if ($stream != null) {
-            $reply["port"] = $stream->getPort();
+            $reply["port"] = $stream->_Port;
         }
         if ($rental != null) {
-            $reply["uid"] = $rental->getRentalUid();
+            $reply["uid"] = $rental->_RentalUid;
         }
         if ($amountpaid != null) {
             $reply["amount"] = $amountpaid;
         }
         if (($transactionAv != null) && ($avatar != null)) {
-            if ($transactionAv->getId() != $avatar->getId()) {
+            if ($transactionAv->_Id != $avatar->_Id) {
                 $reply["viaProxy"] = true;
-                $reply["uuidProxy"] = $transactionAv->getAvatarUUID();
-                $reply["nameProxy"] = $transactionAv->getAvatarName();
+                $reply["uuidProxy"] = $transactionAv->_AvatarUUID;
+                $reply["nameProxy"] = $transactionAv->_AvatarName;
             }
         }
         $reply["unixtime"] = time();

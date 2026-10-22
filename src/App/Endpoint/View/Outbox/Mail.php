@@ -15,15 +15,15 @@ class Mail extends View
         $message_set->loadAll();
         $avatar_set = $message_set->relatedAvatar();
         foreach ($message_set as $message) {
-            $avatar = $avatar_set->getObjectByID($message->getAvatarLink());
-            $message_content = $message->getMessage();
+            $avatar = $avatar_set->getObjectByID($message->_AvatarLink);
+            $message_content = $message->_Message;
             if (nullSafeStrLen($message_content) > 24) {
                 $message_content = substr($message_content, 0, 24) . " ...";
             }
             $entry = [];
-            $entry[] = $message->getId();
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">
-            ' . $avatar->getAvatarName() . '</a>';
+            $entry[] = $message->_Id;
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->_AvatarName . '">
+            ' . $avatar->_AvatarName . '</a>';
             $entry[] = $message_content;
             $table_body[] = $entry;
         }

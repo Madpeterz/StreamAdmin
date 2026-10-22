@@ -42,7 +42,7 @@ class Paymentkey extends View
         $this->setSwapTag("page_actions", "");
         $this->setSwapTag("html_title", " Payment key");
         $this->setSwapTag("page_title", " Payment key ~ Status: "
-        . $this->getKeyStatus($this->siteConfig->getSlConfig()->getPaymentKey())->message);
+        . $this->getKeyStatus($this->siteConfig->getSlConfig()->_PaymentKey)->message);
 
         $form = new Form();
         $form->target("Slconfig/Paymentkeyupdate");
@@ -52,7 +52,7 @@ class Paymentkey extends View
             "assignedkey",
             "key",
             23,
-            $this->siteConfig->getSlConfig()->getPaymentKey(),
+            $this->siteConfig->getSlConfig()->_PaymentKey,
             "Keys are not free :P"
         );
         $form->col(2);
@@ -68,8 +68,8 @@ class Paymentkey extends View
         Thank you for supporting StreamAdmin");
         $this->setSwapTag("page_content", $form->render("Register key", "success"));
 
-        if ($this->siteConfig->getSlConfig()->getPaymentKey() != null) {
-            $bits = explode(":", $this->siteConfig->getSlConfig()->getPaymentKey());
+        if ($this->siteConfig->getSlConfig()->_PaymentKey != null) {
+            $bits = explode(":", $this->siteConfig->getSlConfig()->_PaymentKey);
             if (count($bits) == 3) {
                 $this->output->addSwapTagString("page_content", '<hr/>
             <p>SL code: <textarea class="form-control col-2" cols="3" rows="1" readonly>

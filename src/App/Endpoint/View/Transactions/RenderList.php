@@ -36,7 +36,7 @@ abstract class RenderList extends View
         $this->transactionFor->loadFromIds($this->transaction_set->uniqueTargetAvatars());
         $avatarids = $this->avatar_set->uniqueIds();
         foreach ($this->transactionFor as $avatar) {
-            if (in_array($avatar->getId(), $avatarids) == true) {
+            if (in_array($avatar->_Id, $avatarids) == true) {
                 continue;
             }
             $this->avatar_set->addToCollected($avatar);
@@ -45,7 +45,7 @@ abstract class RenderList extends View
 
     public function loadTransactionsFromAvatar(Avatar $avatar): void
     {
-        $this->transaction_set->loadByAvatarLink($avatar->getId(), 150);
+        $this->transaction_set->loadByAvatarLink($avatar->_Id, 150);
     }
 
     protected array $tableHead = [];
@@ -73,7 +73,7 @@ abstract class RenderList extends View
         if ($packageLink != null) {
             $package = $this->package_set->getObjectByID($packageLink);
             if ($package != null) {
-                $packagename = $package->getName();
+                $packagename = $package->_Name;
             }
         }
         return $packagename;
@@ -84,7 +84,7 @@ abstract class RenderList extends View
         if ($regionLink != null) {
             $region = $this->region_set->getObjectByID($regionLink);
             if ($region != null) {
-                $regionname = $region->getName();
+                $regionname = $region->_Name;
             }
         }
         return $regionname;
@@ -94,57 +94,57 @@ abstract class RenderList extends View
     {
         $this->tableBody = [];
         foreach ($this->transaction_set as $transaction) {
-            if ($transaction->getViaMarketplace() == true) {
-                $this->creditTransactions[] = $transaction->getId();
+            if ($transaction->_ViaMarketplace == true) {
+                $this->creditTransactions[] = $transaction->_Id;
                 continue;
             }
-            $packagename = $this->getTranactionPackageName($transaction->getPackageLink());
-            $regionname = $this->getTranactionRegionName($transaction->getRegionLink());
+            $packagename = $this->getTranactionPackageName($transaction->_PackageLink);
+            $regionname = $this->getTranactionRegionName($transaction->_RegionLink);
             $entry = [];
-            $entry[] = $transaction->getId();
-            $entry[] = $transaction->getTransactionUid();
-            $payer = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $payer->getAvatarName() . '">'
-                . $payer->getAvatarName() . '</a>';
+            $entry[] = $transaction->_Id;
+            $entry[] = $transaction->_TransactionUid;
+            $payer = $this->avatar_set->getObjectByID($transaction->_AvatarLink);
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $payer->_AvatarName . '">'
+                . $payer->_AvatarName . '</a>';
             $proxy = false;
-            if ($transaction->getTargetAvatar() != null) {
-                $target = $this->avatar_set->getObjectByID($transaction->getTargetAvatar());
-                if ($target->getId() != $payer->getId()) {
+            if ($transaction->_TargetAvatar != null) {
+                $target = $this->avatar_set->getObjectByID($transaction->_TargetAvatar);
+                if ($target->_Id != $payer->_Id) {
                     $proxy = true;
                 }
-                $entry[] = '<a href="[[SITE_URL]]search?search=' . $target->getAvatarName() . '">'
-                    . $target->getAvatarName() . '</a>';
+                $entry[] = '<a href="[[SITE_URL]]search?search=' . $target->_AvatarName . '">'
+                    . $target->_AvatarName . '</a>';
             } else {
                 $entry[] = " - ";
             }
             $entry[] = $packagename;
             $entry[] = $regionname;
-            $entry[] = $transaction->getAmount();
-            $entry[] = date('d/m/Y @ G:i:s', $transaction->getUnixtime());
+            $entry[] = $transaction->_Amount;
+            $entry[] = date('d/m/Y @ G:i:s', $transaction->_Unixtime);
             $tooltip = "<span>";
-            if ($transaction->getNotes() !== null) {
+            if ($transaction->_Notes !== null) {
                 $tooltip = '<span data-toggle="tooltip" data-placement="bottom" title="
-                ' . $transaction->getNotes() . '">';
-            } elseif ($transaction->getSLtransactionUUID() !== null) {
+                ' . $transaction->_Notes . '">';
+            } elseif ($transaction->_SLtransactionUUID !== null) {
                 $tooltip = '<span data-toggle="tooltip" data-placement="bottom" title="
-                ' . $transaction->getSLtransactionUUID() . '">';
+                ' . $transaction->_SLtransactionUUID . '">';
             }
             $type = "<i class=\"fas fa-user-plus\"></i> New";
-            if ($transaction->getRenew() == 1) {
+            if ($transaction->_Renew == 1) {
                 $type = "<i class=\"fas fa-redo-alt\"></i> Renew";
                 if ($proxy == true) {
                     $type = "<i class=\"fas fa-redo-alt\"></i> Proxy";
                 }
-            } elseif ($transaction->getViaHud() == true) {
+            } elseif ($transaction->_ViaHud == true) {
                 $type = '<i class="fab fa - quinscape"></i> Hud';
             }
             $entry[] = $tooltip . $type . "</span>";
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $entry[] = "<button type='button' 
-                data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
+                data-actiontitle='Remove transaction " . $transaction->_TransactionUid . "' 
                 data-actiontext='Remove transaction' 
                 data-actionmessage='This has no change on the rental time!' 
-                data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->getTransactionUid() . "' 
+                data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->_TransactionUid . "' 
                 class='btn btn-danger confirmDialog'>Remove</button></a>";
             }
             $this->tableBody[] = $entry;
@@ -179,34 +179,34 @@ abstract class RenderList extends View
         $this->tableBody = [];
         foreach ($this->creditTransactions as $transactionid) {
             $transaction = $this->transaction_set->getObjectByID($transactionid);
-            if ($transaction->getViaMarketplace() == false) {
+            if ($transaction->_ViaMarketplace == false) {
                 continue;
             }
             $entry = [];
             $entry[] = $transactionid;
-            $entry[] = $transaction->getTransactionUid();
-            $payer = $this->avatar_set->getObjectByID($transaction->getAvatarLink());
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $payer->getAvatarName() . '">'
-                . $payer->getAvatarName() . '</a>';
-            if ($transaction->getTargetAvatar() != null) {
-                $target = $this->avatar_set->getObjectByID($transaction->getTargetAvatar());
-                $entry[] = '<a href="[[SITE_URL]]search?search=' . $target->getAvatarName() . '">'
-                    . $target->getAvatarName() . '</a>';
+            $entry[] = $transaction->_TransactionUid;
+            $payer = $this->avatar_set->getObjectByID($transaction->_AvatarLink);
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $payer->_AvatarName . '">'
+                . $payer->_AvatarName . '</a>';
+            if ($transaction->_TargetAvatar != null) {
+                $target = $this->avatar_set->getObjectByID($transaction->_TargetAvatar);
+                $entry[] = '<a href="[[SITE_URL]]search?search=' . $target->_AvatarName . '">'
+                    . $target->_AvatarName . '</a>';
             } else {
                 $entry[] = " - ";
             }
-            $notes = $transaction->getNotes();
+            $notes = $transaction->_Notes;
             if ($notes === null) {
-                $notes = "L$ " . $transaction->getAmount();
+                $notes = "L$ " . $transaction->_Amount;
             }
             $entry[] = $notes;
-            $entry[] = date('d/m/Y @ G:i:s', $transaction->getUnixtime());
+            $entry[] = date('d/m/Y @ G:i:s', $transaction->_Unixtime);
             if ($this->siteConfig->getSession()->getOwnerLevel() == 1) {
                 $entry[] = "<button type='button' 
-                data-actiontitle='Remove transaction " . $transaction->getTransactionUid() . "' 
+                data-actiontitle='Remove transaction " . $transaction->_TransactionUid . "' 
                 data-actiontext='Remove transaction' 
                 data-actionmessage='This has no change on the rental time!' 
-                data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->getTransactionUid() . "' 
+                data-targetendpoint='[[SITE_URL]]Transactions/Remove/" . $transaction->_TransactionUid . "' 
                 class='btn btn-danger confirmDialog'>Remove</button></a>";
             }
             $this->tableBody[] = $entry;

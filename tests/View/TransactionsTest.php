@@ -34,7 +34,7 @@ class TransactionsTest extends TestWorkerWithLogin
         $status = $stream->loadID(1);
         $this->assertSame(true,$status->status,"Unable to find a stream to use");
         $server = new Server();
-        $status = $server->loadID($stream->getServerLink());
+        $status = $server->loadID($stream->_ServerLink);
         $this->assertSame(true,$status->status,"Unable to find a server to use");
         $package = new Package();
         $status = $package->loadID(1);
@@ -82,7 +82,7 @@ class TransactionsTest extends TestWorkerWithLogin
         $transaction = new Transactions();
         $status = $transaction->loadByField("amount",995);
         $this->assertSame(true,$status->status,"Unable to find a transaction to use");
-        $system->setPage( $transaction->getTransactionUid());
+        $system->setPage( $transaction->_TransactionUid);
 
         $removeProcess = new TransactionsRemove();
         $_POST["accept"] = "Accept";

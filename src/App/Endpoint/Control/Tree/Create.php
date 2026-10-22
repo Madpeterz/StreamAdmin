@@ -22,9 +22,9 @@ class Create extends ControlAjax
         }
 
         $treevender = new Treevender();
-        $treevender->setName($name);
-        $treevender->setTextureWaiting("00000000-0000-0000-0000-000000000000");
-        $treevender->setTextureInuse("00000000-0000-0000-0000-000000000000");
+        $treevender->_Name = $name;
+        $treevender->_TextureWaiting = "00000000-0000-0000-0000-000000000000";
+        $treevender->_TextureInuse = "00000000-0000-0000-0000-000000000000";
         $create_status = $treevender->createEntry();
         if ($create_status->status == false) {
             $this->setSwapTag(
@@ -34,6 +34,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Tree vender created");
-        $this->createAuditLog($treevender->getId(), "+++", null, $treevender->getName());
+        $this->createAuditLog($treevender->_Id, "+++", null, $treevender->_Name);
     }
 }

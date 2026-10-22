@@ -23,7 +23,7 @@ class Next extends SecondlifeAjax
         }
         $message = $message_set->getFirst();
         $avatar = new Avatar();
-        $avatar->loadID($message->getAvatarLink());
+        $avatar->loadID($message->_AvatarLink);
         if ($avatar->isLoaded() == false) {
             $this->failed("Unable to find avatar attached to message");
             return;
@@ -34,7 +34,7 @@ class Next extends SecondlifeAjax
             return;
         }
         $this->setSwapTag("hasmessage", true);
-        $this->setSwapTag("avatarUUID", $avatar->getAvatarUUID());
-        $this->ok($message->getMessage());
+        $this->setSwapTag("avatarUUID", $avatar->_AvatarUUID);
+        $this->ok($message->_Message);
     }
 }

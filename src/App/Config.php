@@ -17,7 +17,6 @@ class Config extends BootstrapConfigBox
     public function __construct()
     {
         parent::__construct();
-        $this->setAllowChanges(true);
     }
 
     protected function loadURL(?string $process = null): void
@@ -29,14 +28,14 @@ class Config extends BootstrapConfigBox
     public function run(): void
     {
         $timeszone = new Timezones();
-        $timeszone->loadID($this->getSlConfig()->getDisplayTimezoneLink());
-        date_default_timezone_set($timeszone->getCode());
+        $timeszone->loadID($this->getSlConfig()->_DisplayTimezoneLink);
+        date_default_timezone_set($timeszone->_Code);
         $this->getSession()?->loadFromSession();
     }
 
     protected ?Slconfig $slConfig = null;
 
-    public function &getSlConfig(): Slconfig
+    public function getSlConfig(): Slconfig
     {
         if ($this->slConfig == null) {
             $this->slConfig = new Slconfig();
@@ -77,7 +76,7 @@ class Config extends BootstrapConfigBox
 
     protected ?SessionControl $session = null;
 
-    public function &getSession(): ?SessionControl
+    public function getSession(): ?SessionControl
     {
         if (($this->session == null) && ($this->enableRestart == true)) {
             $this->addError("No SessionControl - creating new");

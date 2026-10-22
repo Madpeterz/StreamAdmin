@@ -68,31 +68,31 @@ class TransactionsTest extends TestWorker
         $stream->loadId(1);
         $this->assertSame(true, $stream->isLoaded(), "Failed to load stream");            
         global $system;
-        $system->setPage($stream->getStreamUid());
+        $system->setPage($stream->_StreamUid);
 
         $region = new Region();
-        $region->setName("unittest");
+        $region->_Name = "unittest";
         $createRegionReply = $region->createEntry();
         $this->assertSame(true, $createRegionReply->status, "Failed to create region");
 
         $reseller = new Reseller();
-        $reseller->setAvatarLink(1);
-        $reseller->setRate(100);
+        $reseller->_AvatarLink = 1;
+        $reseller->_Rate = 100;
         $createResellerReply = $reseller->createEntry();
         $this->assertSame(true, $createResellerReply->status, "Failed to create reseller entry");
 
         $transaction = new Transactions();
-        $transaction->setAmount(100);
-        $transaction->setAvatarLink(1);
-        $transaction->setFromCredits(false);
-        $transaction->setPackageLink(1);
-        $transaction->setRegionLink($createRegionReply->newId);
-        $transaction->setRenew(false);
-        $transaction->setResellerLink($createResellerReply->newId);
-        $transaction->setSLtransactionUUID("not used");
-        $transaction->setTransactionUid("yepper");
-        $transaction->setUnixtime(time()-120);
-        $transaction->setStreamLink($stream->getId());
+        $transaction->_Amount = 100;
+        $transaction->_AvatarLink = 1;
+        $transaction->_FromCredits = false;
+        $transaction->_PackageLink = 1;
+        $transaction->_RegionLink = $createRegionReply->newId;
+        $transaction->_Renew = false;
+        $transaction->_ResellerLink = $createResellerReply->newId;
+        $transaction->_SLtransactionUUID = "not used";
+        $transaction->_TransactionUid = "yepper";
+        $transaction->_Unixtime = time()-120;
+        $transaction->_StreamLink = $stream->_Id;
         $createTransaction = $transaction->createEntry();
         $this->assertSame("ok", $createTransaction->message, "Failed to create transaction entry");
         $this->assertSame(true, $createTransaction->status, "Failed to create transaction entry");

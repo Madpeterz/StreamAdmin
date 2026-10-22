@@ -27,7 +27,7 @@ class RegionHelper
             return true;
         }
         $this->region = new Region();
-        $this->region->setName($regionname);
+        $this->region->_Name = $regionname;
         $save_status = $this->region->createEntry();
         if ($save_status->status == false) {
             $this->lastError = $save_status->message;

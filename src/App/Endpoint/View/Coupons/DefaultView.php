@@ -14,17 +14,17 @@ class DefaultView extends View
         $coupons->loadAll();
         foreach ($coupons as $entry) {
             $dat = [];
-            $dat[] = $entry->getId();
+            $dat[] = $entry->_Id;
             if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
-                $dat[] = '<a href="[[SITE_URL]]Coupons/Manage/' . $entry->getId() . '">' .
-                    $entry->getListingid() . '</a>';
+                $dat[] = '<a href="[[SITE_URL]]Coupons/Manage/' . $entry->_Id . '">' .
+                    $entry->_Listingid . '</a>';
             } else {
-                $dat[] = $entry->getListingid();
+                $dat[] = $entry->_Listingid;
             }
-            $dat[] = $entry->getCost();
-            $dat[] = $entry->getCredit();
-            $dat[] = $entry->getClaims();
-            $dat[] = date('d/m/Y @ G:i:s', $entry->getLastClaim());
+            $dat[] = $entry->_Cost;
+            $dat[] = $entry->_Credit;
+            $dat[] = $entry->_Claims;
+            $dat[] = date('d/m/Y @ G:i:s', $entry->_LastClaim);
             $tableBody[] = $dat;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($tableHead, $tableBody));

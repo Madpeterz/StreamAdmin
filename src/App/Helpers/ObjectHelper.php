@@ -30,22 +30,22 @@ class ObjectHelper
         }
         if ($this->object->loadByObjectUUID($objectUUID)->status == false) {
             $this->object = new Objects();
-            $this->object->setAvatarLink($avatar_id);
-            $this->object->setRegionLink($region_id);
-            $this->object->setObjectUUID($objectUUID);
-            $this->object->setObjectName($objectName);
-            $this->object->setObjectMode($objectMode);
-            $this->object->setObjectXYZ($pos);
-            $this->object->setLastSeen(time());
+            $this->object->_AvatarLink = $avatar_id;
+            $this->object->_RegionLink = $region_id;
+            $this->object->_ObjectUUID = $objectUUID;
+            $this->object->_ObjectName = $objectName;
+            $this->object->_ObjectMode = $objectMode;
+            $this->object->_ObjectXYZ = $pos;
+            $this->object->_LastSeen = time();
             $save_status = $this->object->createEntry();
             $this->whyfailed = $save_status->message;
             return $save_status->status;
         }
-        if ($objectName != $this->object->getObjectName()) {
-            $this->object->setObjectName($objectName);
+        if ($objectName != $this->object->_ObjectName) {
+            $this->object->_ObjectName = $objectName;
         }
-        if ($this->object->getRegionLink() != $region_id) {
-            $this->object->setRegionLink($region_id);
+        if ($this->object->_RegionLink != $region_id) {
+            $this->object->_RegionLink = $region_id;
         }
         if ($this->updateLastSeen() == false) {
             return false;
@@ -55,8 +55,8 @@ class ObjectHelper
     }
     public function updateLastSeen(): bool
     {
-        if ($this->object->getLastSeen() != time()) {
-            $this->object->setLastSeen(time());
+        if ($this->object->_LastSeen != time()) {
+            $this->object->_LastSeen = time();
             $save_status = $this->object->updateEntry();
             $this->whyfailed = $save_status->message;
             return $save_status->status;

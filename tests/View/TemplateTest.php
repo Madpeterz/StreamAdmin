@@ -71,7 +71,7 @@ class TemplateTest extends TestWorkerWithLogin
         $template = new Template();
         $status = $template->loadByField("name","UnitTest");
         $this->assertSame(true,$status->status,"Unable to load test template");
-        $system->setPage( $template->getId());
+        $system->setPage( $template->_Id);
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -97,7 +97,7 @@ class TemplateTest extends TestWorkerWithLogin
         $template = new Template();
         $status = $template->loadByField("name","UnitTest");
         $this->assertSame(true,$status->status,"Unable to load test template");
-        $system->setPage( $template->getId());
+        $system->setPage( $template->_Id);
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitTestUpdated";
@@ -122,7 +122,7 @@ class TemplateTest extends TestWorkerWithLogin
         $template = new Template();
         $status = $template->loadByField("name","UnitTestUpdated");
         $this->assertSame(true,$status->status,"Unable to load test template");
-        $system->setPage( $template->getId());
+        $system->setPage( $template->_Id);
 
         $removeProcess = new TemplateRemove();
         $_POST["accept"] = "Accept";

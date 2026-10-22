@@ -21,15 +21,15 @@ class DefaultView extends View
             $streams_in_package[$package_id] = ["sold" => 0,"work" => 0,"ready" => 0];
         }
         foreach ($stream_set as $stream) {
-            if ($stream->getRentalLink() != null) {
-                $streams_in_package[$stream->getPackageLink()]["sold"]++;
+            if ($stream->_RentalLink != null) {
+                $streams_in_package[$stream->_PackageLink]["sold"]++;
                 continue;
             }
-            if ($stream->getNeedWork() == false) {
-                $streams_in_package[$stream->getPackageLink()]["ready"]++;
+            if ($stream->_NeedWork == false) {
+                $streams_in_package[$stream->_PackageLink]["ready"]++;
                 continue;
             }
-            $streams_in_package[$stream->getPackageLink()]["work"]++;
+            $streams_in_package[$stream->_PackageLink]["work"]++;
         }
 
         $table_head = ["id","Name","Sold","Need work","Ready"];
@@ -37,12 +37,12 @@ class DefaultView extends View
 
         foreach ($package_set as $package) {
             $entry = [];
-            $entry[] = $package->getId();
-            $entry[] = '<a href="[[SITE_URL]]stream/inpackage/' . $package->getPackageUid() . '">'
-            . $package->getName() . '</a>';
-            $entry[] = $streams_in_package[$package->getId()]["sold"];
-            $entry[] = $streams_in_package[$package->getId()]["work"];
-            $entry[] = $streams_in_package[$package->getId()]["ready"];
+            $entry[] = $package->_Id;
+            $entry[] = '<a href="[[SITE_URL]]stream/inpackage/' . $package->_PackageUid . '">'
+            . $package->_Name . '</a>';
+            $entry[] = $streams_in_package[$package->_Id]["sold"];
+            $entry[] = $streams_in_package[$package->_Id]["work"];
+            $entry[] = $streams_in_package[$package->_Id]["ready"];
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body, 5));
@@ -59,27 +59,27 @@ class DefaultView extends View
             $streams_in_server[$serverid] = ["sold" => 0,"work" => 0,"ready" => 0];
         }
         foreach ($stream_set as $stream) {
-            if ($stream->getRentalLink() != null) {
-                $streams_in_server[$stream->getServerLink()]["sold"]++;
+            if ($stream->_RentalLink != null) {
+                $streams_in_server[$stream->_ServerLink]["sold"]++;
                 continue;
             }
-            if ($stream->getNeedWork() == false) {
-                $streams_in_server[$stream->getServerLink()]["ready"]++;
+            if ($stream->_NeedWork == false) {
+                $streams_in_server[$stream->_ServerLink]["ready"]++;
                 continue;
             }
-            $streams_in_server[$stream->getServerLink()]["work"]++;
+            $streams_in_server[$stream->_ServerLink]["work"]++;
         }
 
         $table_head = ["id","Name","Sold","Need work","Ready"];
         $table_body = [];
         foreach ($server_set as $server) {
             $entry = [];
-            $entry[] = $server->getId();
-            $entry[] = '<a href="[[SITE_URL]]stream/Onserver/' . $server->getId() . '">'
-            . $server->getDomain() . '</a>';
-            $entry[] = $streams_in_server[$server->getId()]["sold"];
-            $entry[] = $streams_in_server[$server->getId()]["work"];
-            $entry[] = $streams_in_server[$server->getId()]["ready"];
+            $entry[] = $server->_Id;
+            $entry[] = '<a href="[[SITE_URL]]stream/Onserver/' . $server->_Id . '">'
+            . $server->_Domain . '</a>';
+            $entry[] = $streams_in_server[$server->_Id]["sold"];
+            $entry[] = $streams_in_server[$server->_Id]["work"];
+            $entry[] = $streams_in_server[$server->_Id]["ready"];
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body, 5));
@@ -87,7 +87,7 @@ class DefaultView extends View
     public function process(): void
     {
 
-        if ($this->siteConfig->getSlConfig()->getStreamListOption() == 1) { // list by server
+        if ($this->siteConfig->getSlConfig()->_StreamListOption == 1) { // list by server
             $this->listServers();
             return;
         }

@@ -16,13 +16,13 @@ class Details extends View
         $rental_set = $detail_set->relatedRental();
         $avatar_set = $rental_set->relatedAvatar();
         foreach ($detail_set as $detail) {
-            $rental = $rental_set->getObjectByID($detail->getRentalLink());
-            $avatar = $avatar_set->getObjectByID($rental->getAvatarLink());
+            $rental = $rental_set->getObjectByID($detail->_RentalLink);
+            $avatar = $avatar_set->getObjectByID($rental->_AvatarLink);
             $entry = [];
-            $entry[] = $detail->getId();
-            $entry[] = $rental->getRentalUid();
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-            . $avatar->getAvatarName() . '</a>';
+            $entry[] = $detail->_Id;
+            $entry[] = $rental->_RentalUid;
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->_AvatarName . '">'
+            . $avatar->_AvatarName . '</a>';
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

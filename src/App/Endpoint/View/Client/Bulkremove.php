@@ -36,27 +36,27 @@ class Bulkremove extends RenderList
         $this->loader();
 
         foreach ($this->rentalSet as $rental) {
-            $avatar = $this->avatarSet->getObjectByID($rental->getAvatarLink());
-            $stream = $this->streamSet->getObjectByID($rental->getStreamLink());
-            $server = $this->serverSet->getObjectByID($stream->getServerLink());
-            $detail = $this->detailsRequestsSet->getObjectByField("rentalLink", $rental->getId());
+            $avatar = $this->avatarSet->getObjectByID($rental->_AvatarLink);
+            $stream = $this->streamSet->getObjectByID($rental->_StreamLink);
+            $server = $this->serverSet->getObjectByID($stream->_ServerLink);
+            $detail = $this->detailsRequestsSet->getObjectByField("rentalLink", $rental->_Id);
             if ($detail != null) {
                 continue;
             }
-            if ($rental->getNoticeLink() != 6) {
+            if ($rental->_NoticeLink != 6) {
                 continue;
             }
 
             $entry = [];
-            $entry[] = $rental->getId();
-            $entry[] = $this->makeButton($rental->getRentalUid());
-            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->getAvatarName() . '">'
-                . $avatar->getAvatarName() . '</a>';
-            $entry[] = $server->getDomain();
-            $entry[] = $stream->getPort();
-            $entry[] = $this->expiredAgo($rental->getExpireUnixtime());
-            $entry[] = '<textarea readonly class="form-control" id="message' . $rental->getId() . '" 
-            name="message" placeholder="" cols="35" rows="2">' . $rental->getMessage() . '</textarea>';
+            $entry[] = $rental->_Id;
+            $entry[] = $this->makeButton($rental->_RentalUid);
+            $entry[] = '<a href="[[SITE_URL]]search?search=' . $avatar->_AvatarName . '">'
+                . $avatar->_AvatarName . '</a>';
+            $entry[] = $server->_Domain;
+            $entry[] = $stream->_Port;
+            $entry[] = $this->expiredAgo($rental->_ExpireUnixtime);
+            $entry[] = '<textarea readonly class="form-control" id="message' . $rental->_Id . '" 
+            name="message" placeholder="" cols="35" rows="2">' . $rental->_Message . '</textarea>';
             $table_body[] = $entry;
         }
 

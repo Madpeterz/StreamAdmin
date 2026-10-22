@@ -16,12 +16,12 @@ class Details extends SecondlifeAjax
     public function getRentalDetailsForAvatar(Avatar $avatar): void
     {
         $banlist = new Banlist();
-        if ($banlist->loadByAvatarLink($avatar->getId())->status == true) {
+        if ($banlist->loadByAvatarLink($avatar->_Id)->status == true) {
             $this->failed("Unable to find avatar");
             return;
         }
         $rental_set = new RentalSet();
-        $rental_set->loadByAvatarLink($avatar->getId());
+        $rental_set->loadByAvatarLink($avatar->_Id);
         if ($rental_set->getCount() < 1) {
             $this->ok("Unable to find any active rentals");
             return;
@@ -34,13 +34,13 @@ class Details extends SecondlifeAjax
         }
         $reply_dataset = [];
         foreach ($rental_set as $rental) {
-            $stream = $stream_set->getObjectByID($rental->getStreamLink());
+            $stream = $stream_set->getObjectByID($rental->_StreamLink);
             if ($stream == null) {
                 continue;
             }
-            $reply_dataset[] = "" . $rental->getRentalUid() . "|||"
-            . $stream->getPort() . "|||"
-            . $this->timeRemainingHumanReadable($rental->getExpireUnixtime());
+            $reply_dataset[] = "" . $rental->_RentalUid . "|||"
+            . $stream->_Port . "|||"
+            . $this->timeRemainingHumanReadable($rental->_ExpireUnixtime);
         }
         if (count($reply_dataset) < 1) {
             $this->failed("Unable to find any streams linked to rentals, Please note if "
@@ -49,7 +49,7 @@ class Details extends SecondlifeAjax
         }
         $this->setSwapTag("dataset_count", count($reply_dataset));
         $this->setSwapTag("dataset", $reply_dataset);
-        $this->ok(sprintf("Client account: %1\$s", $avatar->getAvatarName()));
+        $this->ok(sprintf("Client account: %1\$s", $avatar->_AvatarName));
     }
     public function process(): void
     {

@@ -35,7 +35,7 @@ class NoticeTest extends TestWorker
         $notice->loadByHoursRemaining(856);
         $this->assertSame(true, $notice->isLoaded(), "Failed to load notice");
         global $system;
-        $system->setPage($notice->getId());
+        $system->setPage($notice->_Id);
         $_POST["name"] = "unittest";
         $_POST["hoursRemaining"] = 774;
         $_POST["imMessage"] = "this is a unit test woot";
@@ -59,7 +59,7 @@ class NoticeTest extends TestWorker
         $notice->loadByHoursRemaining(774);
         $this->assertSame(true, $notice->isLoaded(), "Failed to load notice");
         global $system;
-        $system->setPage($notice->getId());
+        $system->setPage($notice->_Id);
         $start = new Remove();
         $_POST["accept"] = "Accept";
         $_POST["newNoticeLevel"] = 5;

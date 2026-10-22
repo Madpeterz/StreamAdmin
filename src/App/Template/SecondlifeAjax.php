@@ -64,24 +64,24 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         if ($resellerAv == null) {
             return true;
         }
-        if ($resellerAv->getId() != $avatar_system->getId()) {
+        if ($resellerAv->_Id != $avatar_system->_Id) {
             return true; // credits can only be used at system owner venders
         }
-        if ($avatar->getCredits() <= 0) {
+        if ($avatar->_Credits <= 0) {
             return true; // no credits on account
         }
         // use credits and refund
-        $refund = $avatar->getCredits(); // refund remaining balance
-        if ($avatar->getCredits() > $amountpaid) {
+        $refund = $avatar->_Credits; // refund remaining balance
+        if ($avatar->_Credits > $amountpaid) {
             $refund = $amountpaid; // refund just the payment
         }
-        $newbalance = $avatar->getCredits() - $refund;
+        $newbalance = $avatar->_Credits - $refund;
         if ($newbalance < 0) {
             $this->failed("Attempting to refund more than expected");
             return false;
         }
         // update balance
-        $avatar->setCredits($newbalance);
+        $avatar->_Credits = $newbalance;
         $update = $avatar->updateEntry();
         if ($update->status == false) {
             $this->failed("Unable to update avatar balance");
@@ -120,7 +120,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         }
         if ($this->bot == null) {
             $this->bot = new Avatar();
-            $this->bot->loadID($this->botconfig->getAvatarLink());
+            $this->bot->loadID($this->botconfig->_AvatarLink);
         }
         if ($this->bot->isLoaded() == false) {
             $this->bot = null;
@@ -132,8 +132,8 @@ abstract class SecondlifeAjax extends TemplateViewAjax
     protected function sendMessageToAvatar(Avatar $av, string $sendmessage): CreateReply
     {
         $message = new Message();
-        $message->setAvatarLink($av->getId());
-        $message->setMessage($sendmessage);
+        $message->_AvatarLink = $av->_Id;
+        $message->_Message = $sendmessage;
         return $message->createEntry();
     }
 
@@ -272,11 +272,11 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         if ($this->load_ok == false) {
             return;
         }
-        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->siteConfig->getSlConfig()->getSlLinkCode();
+        $raw = $this->unixtime . "" . $this->staticpart . "" . $this->siteConfig->getSlConfig()->_SlLinkCode;
         $hashcheck = sha1($raw);
         if ($hashcheck != $this->hash) {
             $this->load_ok = false;
-            $this->failed("Unable to vaildate request to API endpoint:" . $raw);
+            $this->failed("Unable to vaildate request to API endpoint");
             return;
         }
         $this->continueHashChecks(false);
@@ -329,9 +329,9 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         if ($this->trackObject == true) {
             $reseller_helper = new ResellerHelper();
             $get_reseller_status = $reseller_helper->loadOrCreate(
-                $this->Object_OwnerAvatar->getId(),
-                $this->siteConfig->getSlConfig()->getNewResellers(),
-                $this->siteConfig->getSlConfig()->getNewResellersRate()
+                $this->Object_OwnerAvatar->_Id,
+                $this->siteConfig->getSlConfig()->_NewResellers,
+                $this->siteConfig->getSlConfig()->_NewResellersRate
             );
             if ($get_reseller_status == false) {
                 $this->load_ok = false;
@@ -340,10 +340,10 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             }
             if ($skip_reseller == false) {
                 $this->reseller = $reseller_helper->getReseller();
-                if ($this->siteConfig->getSlConfig()->getOwnerAvatarLink() == $this->Object_OwnerAvatar->getId()) {
+                if ($this->siteConfig->getSlConfig()->_OwnerAvatarLink == $this->Object_OwnerAvatar->_Id) {
                     $this->owner_override = true;
                 }
-                if (($this->reseller->getAllowed() == false) && ($this->owner_override == false)) {
+                if (($this->reseller->_Allowed == false) && ($this->owner_override == false)) {
                     $this->load_ok = false;
                     $this->failed("Unable to access this api - please contact owner");
                     return;
@@ -351,8 +351,8 @@ abstract class SecondlifeAjax extends TemplateViewAjax
             }
             $object_helper = new ObjectHelper();
             $get_object_status = $object_helper->loadOrCreate(
-                $this->Object_OwnerAvatar->getId(),
-                $this->region->getId(),
+                $this->Object_OwnerAvatar->_Id,
+                $this->region->_Id,
                 $this->objectuuid,
                 $this->objectname,
                 $this->objecttype,

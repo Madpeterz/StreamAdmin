@@ -15,9 +15,9 @@ class DefaultView extends View
         $table_body = [];
         foreach ($DatatablesSet as $Datatable) {
             $entry = [];
-            $entry[] = $Datatable->getId();
-            $entry[] = '<a href="[[SITE_URL]]datatables/manage/' . $Datatable->getId() . '">'
-            . $Datatable->getName() . '</a>';
+            $entry[] = $Datatable->_Id;
+            $entry[] = '<a href="[[SITE_URL]]datatables/manage/' . $Datatable->_Id . '">'
+            . $Datatable->_Name . '</a>';
             $table_body[] = $entry;
         }
         $this->output->addSwapTagString("page_content", $this->renderDatatable($table_head, $table_body));

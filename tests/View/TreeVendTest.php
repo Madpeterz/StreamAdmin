@@ -68,7 +68,7 @@ class TreeVendTest extends TestWorkerWithLogin
         $tree = new Treevender();
         $status = $tree->loadByField("name","UnitTestTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
-        $system->setPage( $tree->getId());
+        $system->setPage( $tree->_Id);
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -94,7 +94,7 @@ class TreeVendTest extends TestWorkerWithLogin
         $tree = new Treevender();
         $status = $tree->loadByField("name","UnitTestTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
-        $system->setPage( $tree->getId());
+        $system->setPage( $tree->_Id);
 
         $manageProcess = new Update();
         $_POST["name"] = "UnitUpdatedTreeVend";
@@ -119,7 +119,7 @@ class TreeVendTest extends TestWorkerWithLogin
         $tree = new Treevender();
         $status = $tree->loadByField("name","UnitUpdatedTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
-        $system->setPage( $tree->getId());
+        $system->setPage( $tree->_Id);
 
         $addPackage = new Addpackage();
         $_POST["package"] = 1;
@@ -137,7 +137,7 @@ class TreeVendTest extends TestWorkerWithLogin
         $treevender_packages = new Treevenderpackages();
         $status = $treevender_packages->loadByField("packageLink",1);
         $this->assertSame(true,$status->status,"Unable to load test treevender package");
-        $system->setPage( $treevender_packages->getId() );
+        $system->setPage( $treevender_packages->_Id );
 
         $removePackage = new Removepackage();
         $removePackage->process();
@@ -157,7 +157,7 @@ class TreeVendTest extends TestWorkerWithLogin
         $treevender_packages = new Treevenderpackages();
         $status = $treevender_packages->loadByField("packageLink",1);
         $this->assertSame(true,$status->status,"Unable to load test treevender package");
-        $system->setPage( $treevender_packages->getId() );
+        $system->setPage( $treevender_packages->_Id );
 
         $removeProcess = new TreeRemovepackage();
         $_POST["accept"] = "Accept";
@@ -176,7 +176,7 @@ class TreeVendTest extends TestWorkerWithLogin
         $tree = new Treevender();
         $status = $tree->loadByField("name","UnitUpdatedTreeVend");
         $this->assertSame(true,$status->status,"Unable to load test tree");
-        $system->setPage( $tree->getId());
+        $system->setPage( $tree->_Id);
 
         $removeProcess = new TreeRemove();
         $_POST["accept"] = "Accept";

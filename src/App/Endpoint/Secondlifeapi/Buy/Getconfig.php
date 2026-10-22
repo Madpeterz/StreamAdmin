@@ -30,7 +30,7 @@ class Getconfig extends SecondlifeAjax
         $whereconfig = [
             "fields" => ["rentalLink","packageLink","needWork"],
             "matches" => ["IS","=","="],
-            "values" => [null,$package->getId(),0],
+            "values" => [null,$package->_Id,0],
             "types" => ["i","i","i"],
         ];
         $streamSet = new StreamSet();
@@ -45,18 +45,18 @@ class Getconfig extends SecondlifeAjax
         if ($count_data->items > 0) {
             $this->setSwapTag("package_instock", true);
         }
-        $this->setSwapTag("Texture-Offline", $textureconfig->getOffline());
-        $this->setSwapTag("Texture-WaitOwner", $textureconfig->getWaitOwner());
-        $this->setSwapTag("Texture-GettingDetails", $textureconfig->getGettingDetails());
-        $this->setSwapTag("Texture-MakePayment", $textureconfig->getMakePayment());
-        $this->setSwapTag("package_cost", $package->getCost());
-        $this->setSwapTag("Texture-PackageSmall", $package->getTextureInstockSmall());
-        $this->setSwapTag("Texture-PackageBig", $package->getTextureInstockSelected());
-        $this->setSwapTag("Texture-PackageSoldout", $package->getTextureSoldout());
+        $this->setSwapTag("Texture-Offline", $textureconfig->_Offline);
+        $this->setSwapTag("Texture-WaitOwner", $textureconfig->_WaitOwner);
+        $this->setSwapTag("Texture-GettingDetails", $textureconfig->_GettingDetails);
+        $this->setSwapTag("Texture-MakePayment", $textureconfig->_MakePayment);
+        $this->setSwapTag("package_cost", $package->_Cost);
+        $this->setSwapTag("Texture-PackageSmall", $package->_TextureInstockSmall);
+        $this->setSwapTag("Texture-PackageBig", $package->_TextureInstockSelected);
+        $this->setSwapTag("Texture-PackageSoldout", $package->_TextureSoldout);
         $this->setSwapTag("reseller_rate", 100);
         $this->setSwapTag("reseller_mode", "System owner mode");
         if ($this->owner_override == false) {
-            $this->setSwapTag("reseller_rate", $this->reseller->getRate());
+            $this->setSwapTag("reseller_rate", $this->reseller->_Rate);
             $this->setSwapTag("reseller_mode", "Reseller mode");
         }
     }

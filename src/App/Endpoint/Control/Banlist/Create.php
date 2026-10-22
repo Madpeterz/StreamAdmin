@@ -30,12 +30,12 @@ class Create extends ControlAjax
         }
         $avatar = $avatar_set->getFirst();
         $banlist = new Banlist();
-        if ($banlist->loadByAvatarLink($avatar->getId())->status == true) {
+        if ($banlist->loadByAvatarLink($avatar->_Id)->status == true) {
             $this->failed("The target avatar is already banned");
             return;
         }
         $banlist = new Banlist();
-        $banlist->setAvatarLink($avatar->getId());
+        $banlist->_AvatarLink = $avatar->_Id;
         $createStatus = $banlist->createEntry();
         if ($createStatus->status == false) {
             $this->failed("Unable to create a new entry in the ban list");
@@ -44,6 +44,6 @@ class Create extends ControlAjax
         $this->setSwapTag("debugmessage", $createStatus->message);
         $this->setSwapTag("newbanid", $createStatus->newId);
         $this->redirectWithMessage("Entry created");
-        $this->createAuditLog($createStatus->newId, "+++", null, $avatar->getAvatarName());
+        $this->createAuditLog($createStatus->newId, "+++", null, $avatar->_AvatarName);
     }
 }

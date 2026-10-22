@@ -27,7 +27,7 @@ class Manage extends View
             $this->output->redirect("staff?bubblemessage=unable to find staff member&bubbletype=warning");
             return;
         }
-        if ($this->siteConfig->getSlConfig()->getOwnerAvatarLink() == $staff->getAvatarLink()) {
+        if ($this->siteConfig->getSlConfig()->_OwnerAvatarLink == $staff->_AvatarLink) {
             $this->setSwapTag("page_actions", "");
         }
 
@@ -39,7 +39,7 @@ class Manage extends View
             "username",
             "Username",
             40,
-            $staff->getUsername(),
+            $staff->_Username,
             "Used to login [does not have to be the same as their SL name]"
         );
         $this->setSwapTag("page_content", $form->render("Update", "primary"));

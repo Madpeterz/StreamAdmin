@@ -29,7 +29,7 @@ class Updatenotecards extends SecondlifeAjax
         $missing_ids = [];
         foreach ($noticenotecardset->getAllIds() as $notice_notecard_id) {
             $noticeNotecard = $noticenotecardset->getObjectByID($notice_notecard_id);
-            if (in_array($noticeNotecard->getName(), $active_notecards) == false) {
+            if (in_array($noticeNotecard->_Name, $active_notecards) == false) {
                 $missing_ids[] = $notice_notecard_id;
             }
         }
@@ -66,8 +66,8 @@ class Updatenotecards extends SecondlifeAjax
             if ($new_notecard != "none") {
                 if (in_array($new_notecard, $known_notecard_names) == false) {
                     $noticeNotecard = new Noticenotecard();
-                    $noticeNotecard->setName($new_notecard);
-                    $noticeNotecard->setMissing(false);
+                    $noticeNotecard->_Name = $new_notecard;
+                    $noticeNotecard->_Missing = false;
                     $createStatus = $noticeNotecard->createEntry();
                     if ($createStatus->status == false) {
                         $this->setSwapTag("message", "Unable to create new notecard: " . $createStatus->message);
@@ -94,7 +94,7 @@ class Updatenotecards extends SecondlifeAjax
         $found_ids = [];
         foreach ($noticenotecardset->getAllIds() as $notice_notecard_id) {
             $noticeNotecard = $noticenotecardset->getObjectByID($notice_notecard_id);
-            if (in_array($noticeNotecard->getName(), $active_notecards) == true) {
+            if (in_array($noticeNotecard->_Name, $active_notecards) == true) {
                 $found_ids[] = $notice_notecard_id;
             }
         }

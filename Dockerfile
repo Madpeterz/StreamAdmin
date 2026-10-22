@@ -1,4 +1,4 @@
-FROM madpeter/phpapachepreload:php82
+FROM madpeter/phpapachepreload:php84
 
 MAINTAINER Madpeter
 

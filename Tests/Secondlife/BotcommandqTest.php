@@ -16,8 +16,8 @@ class BotcommandqTest extends TestWorker
     {
         global $system;
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
         $botUpdate = new Update();
         $_POST["avataruid"] = "SysDevOp";
@@ -46,9 +46,9 @@ class BotcommandqTest extends TestWorker
     public function test_Next()
     {
         $botcommandq = new Botcommandq();
-        $botcommandq->setCommand("IM");
-        $botcommandq->setArgs(json_encode(["Madpeter Zond","Hello"]));
-        $botcommandq->setUnixtime(time());
+        $botcommandq->_Command = "IM";
+        $botcommandq->_Args = json_encode(["Madpeter Zond","Hello"]);
+        $botcommandq->_Unixtime = time();
         $create = $botcommandq->createEntry();
         $this->assertSame(true,$create->status,"failed to create work for command q");
         $this->assertSame("ok",$create->message,"failed to create work for command q");

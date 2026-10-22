@@ -19,10 +19,10 @@ class AvatarHelper extends ErrorLogging
             return false;
         }
         if ($this->avatar->loadByAvatarUUID($avatarUUID)->status == true) {
-            if (($avatarName != null) && ($avatarName != $this->avatar->getAvatarName())) {
-                $this->avatar->setAvatarName($avatarName);
+            if (($avatarName != null) && ($avatarName != $this->avatar->_AvatarName)) {
+                $this->avatar->_AvatarName = $avatarName;
             }
-            $this->avatar->setLastUsed(time());
+            $this->avatar->_LastUsed = time();
             $this->avatar->updateEntry();
             return true;
         }
@@ -34,10 +34,10 @@ class AvatarHelper extends ErrorLogging
         if ($uid->status == false) {
             return false;
         }
-        $this->avatar->setAvatarUid($uid->uid);
-        $this->avatar->setAvatarName($avatarName);
-        $this->avatar->setAvatarUUID($avatarUUID);
-        $this->avatar->setLastUsed(time());
+        $this->avatar->_AvatarUid = $uid->uid;
+        $this->avatar->_AvatarName = $avatarName;
+        $this->avatar->_AvatarUUID = $avatarUUID;
+        $this->avatar->_LastUsed = time();
         $create_status = $this->avatar->createEntry();
         if ($create_status->status == false) {
             $this->addError("unable to create avatar: " . $create_status->message);

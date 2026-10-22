@@ -16,9 +16,9 @@ class DefaultView extends View
 
         foreach ($template_set as $tempalte) {
             $entry = [];
-            $entry[] = $tempalte->getId();
-            $entry[] = '<a href="[[SITE_URL]]template/manage/' . $tempalte->getId() . '">'
-            . $tempalte->getName() . '</a>';
+            $entry[] = $tempalte->_Id;
+            $entry[] = '<a href="[[SITE_URL]]template/manage/' . $tempalte->_Id . '">'
+            . $tempalte->_Name . '</a>';
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

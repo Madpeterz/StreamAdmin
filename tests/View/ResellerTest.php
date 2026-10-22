@@ -24,7 +24,7 @@ class ResellerTest extends TestWorkerWithLogin
         $this->assertSame(true,$status,"Unable to create test avatar");
         $avatar = $avatarhelper->getAvatar();
         $resellerhelper = new ResellerHelper();
-        $status = $resellerhelper->loadOrCreate($avatar->getId(),true,44);
+        $status = $resellerhelper->loadOrCreate($avatar->_Id,true,44);
         $this->assertSame(true,$status,"Unable to create test reseller");
         $reseller = $resellerhelper->getReseller();
 
@@ -35,7 +35,7 @@ class ResellerTest extends TestWorkerWithLogin
         $this->assertStringContainsString("Name",$statuscheck,$missing);
         $this->assertStringContainsString("Allow",$statuscheck,$missing);
         $this->assertStringContainsString("Rate",$statuscheck,$missing);
-        $this->assertStringContainsString($reseller->getRate(),$statuscheck,$missing);
+        $this->assertStringContainsString($reseller->_Rate,$statuscheck,$missing);
         $this->assertStringContainsString("Reseller Test",$statuscheck,$missing);
         $this->assertStringContainsString("Yes",$statuscheck,$missing);
         $this->assertStringContainsString("automagicly accepted",$statuscheck,$missing);
@@ -50,11 +50,11 @@ class ResellerTest extends TestWorkerWithLogin
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage( $avatar->getAvatarUid());
+        $system->setPage( $avatar->_AvatarUid);
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByField("avatarLink",$avatar->_Id);
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage( $reseller->getId());
+        $system->setPage( $reseller->_Id);
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -62,7 +62,7 @@ class ResellerTest extends TestWorkerWithLogin
         $missing = "Missing reseller manage form element";
         $this->assertStringContainsString("Allow",$statuscheck,$missing);
         $this->assertStringContainsString("Rate (as %)",$statuscheck,$missing);
-        $this->assertStringContainsString($reseller->getRate(),$statuscheck,$missing);
+        $this->assertStringContainsString($reseller->_Rate,$statuscheck,$missing);
     }
 
     /**
@@ -74,11 +74,11 @@ class ResellerTest extends TestWorkerWithLogin
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage( $avatar->getAvatarUid());
+        $system->setPage( $avatar->_AvatarUid);
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByField("avatarLink",$avatar->_Id);
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage( $reseller->getId());
+        $system->setPage( $reseller->_Id);
 
         $manageProcess = new Update();
         $_POST["rate"] = 15;
@@ -89,10 +89,10 @@ class ResellerTest extends TestWorkerWithLogin
         $this->assertSame(true,$statuscheck->getSwapTagBool("status"),"Status check failed");
 
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByField("avatarLink",$avatar->_Id);
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $this->assertSame(false,$reseller->getAllowed(),"Allowed status did not update");
-        $this->assertSame(15,$reseller->getRate(),"Rate did not update");
+        $this->assertSame(false,$reseller->_Allowed,"Allowed status did not update");
+        $this->assertSame(15,$reseller->_Rate,"Rate did not update");
     }
 
     /**
@@ -104,11 +104,11 @@ class ResellerTest extends TestWorkerWithLogin
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage( $avatar->getAvatarUid() );
+        $system->setPage( $avatar->_AvatarUid );
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByField("avatarLink",$avatar->_Id);
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage( $reseller->getId() );
+        $system->setPage( $reseller->_Id );
 
         $removeForm = new Remove();
         $removeForm->process();
@@ -129,11 +129,11 @@ class ResellerTest extends TestWorkerWithLogin
         $avatar = new Avatar();
         $status = $avatar->loadByField("avatarName","Reseller Test");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
-        $system->setPage( $avatar->getAvatarUid() );
+        $system->setPage( $avatar->_AvatarUid );
         $reseller = new Reseller();
-        $status = $reseller->loadByField("avatarLink",$avatar->getId());
+        $status = $reseller->loadByField("avatarLink",$avatar->_Id);
         $this->assertSame(true,$status->status,"Unable to load test reseller");
-        $system->setPage( $reseller->getId());
+        $system->setPage( $reseller->_Id);
 
         $removeProcess = new ResellerRemove();
         $_POST["accept"] = "Accept";

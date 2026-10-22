@@ -37,7 +37,7 @@ class Next extends SecondlifeAjax
     public function makeHTTPClient(): ?Client
     {
         if ($this->client === null) {
-            $this->makeGuzzle($this->botconfig->getHttpURL());
+            $this->makeGuzzle($this->botconfig->_HttpURL);
         }
         return $this->client;
     }
@@ -64,7 +64,7 @@ class Next extends SecondlifeAjax
             $this->failed("Unable to mark command as processed");
             return;
         }
-        if ($this->botconfig->getHttpMode() == true) {
+        if ($this->botconfig->_HttpMode == true) {
             if ($this->makeHTTPClient() === null) {
                 $this->failed("Unable to setup http endpoint");
                 return;
@@ -88,17 +88,17 @@ class Next extends SecondlifeAjax
     protected function httpCommands(Botcommandq $command): array
     {
         $args = [];
-        if ($command->getArgs() !== null) {
-            $args = json_decode($command->getArgs());
+        if ($command->_Args !== null) {
+            $args = json_decode($command->_Args);
         }
         $commandArgs = [
-            "commandName" => $command->getCommand(),
+            "commandName" => $command->_Command,
             "unixtime" => time(),
             "signing" => "",
             "args" => implode("~#~", $args),
         ];
         $raw = $commandArgs["commandName"] . $commandArgs["args"] .
-            $commandArgs["unixtime"] . $this->botconfig->getSecret();
+            $commandArgs["unixtime"] . $this->botconfig->_Secret;
         $commandArgs["signing"] = sha1($raw);
         return $this->restPost("api/Run", $commandArgs);
     }
@@ -144,11 +144,11 @@ class Next extends SecondlifeAjax
     {
         $bothelper = new BotHelper();
         $bothelper->attachBotSetup($this->bot, $this->botconfig);
-        $formatedCmd = $bothelper->getBotCommand($command->getCommand(), []);
-        if ($command->getArgs() != null) {
-            $args = json_decode($command->getArgs());
+        $formatedCmd = $bothelper->getBotCommand($command->_Command, []);
+        if ($command->_Args != null) {
+            $args = json_decode($command->_Args);
             if (is_array($args) == true) {
-                $formatedCmd = $bothelper->getBotCommand($command->getCommand(), $args);
+                $formatedCmd = $bothelper->getBotCommand($command->_Command, $args);
             }
         }
         $messageSet = new MessageSet();

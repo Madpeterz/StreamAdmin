@@ -16,10 +16,10 @@ class DefaultView extends View
 
         foreach ($textureconfig_set as $textureconfig) {
             $entry = [];
-            $entry[] = $textureconfig->getId();
-            $entry[] = $textureconfig->getId();
-            $entry[] = '<a href="[[SITE_URL]]textureconfig/manage/' . $textureconfig->getId() . '">'
-             . $textureconfig->getName() . '</a>';
+            $entry[] = $textureconfig->_Id;
+            $entry[] = $textureconfig->_Id;
+            $entry[] = '<a href="[[SITE_URL]]textureconfig/manage/' . $textureconfig->_Id . '">'
+             . $textureconfig->_Name . '</a>';
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

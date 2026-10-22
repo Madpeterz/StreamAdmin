@@ -23,14 +23,14 @@ class Remove extends ControlAjax
             $this->failed("Unable to find staff member");
             return;
         }
-        if ($staff->getOwnerLevel() == true) {
+        if ($staff->_OwnerLevel == true) {
             $this->failed(
                 "Unable to remove staff with owner level access via the web interface"
             );
             return;
         }
         $avatar = $staff->relatedAvatar()->getFirst();
-        $staffid = $staff->getId();
+        $staffid = $staff->_Id;
         $remove_status = $staff->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(
@@ -39,6 +39,6 @@ class Remove extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Staff member removed");
-        $this->createAuditLog($staffid, "---", $avatar->getAvatarName());
+        $this->createAuditLog($staffid, "---", $avatar->_AvatarName);
     }
 }

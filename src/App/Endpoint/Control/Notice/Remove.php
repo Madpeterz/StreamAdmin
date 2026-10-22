@@ -37,7 +37,7 @@ class Remove extends ControlAjax
             $this->failed("Unable to load transfer notice");
             return false;
         }
-        if ($this->transferNotice->getId() == $this->notice->getId()) {
+        if ($this->transferNotice->_Id == $this->notice->_Id) {
             $this->failed("Not sure how you did it but the transfer 
             notice and current notice can not be the same!");
             return false;
@@ -55,8 +55,8 @@ class Remove extends ControlAjax
             $this->failed("Unable to load selected notice");
             return;
         }
-        $noticeid = $this->notice->getId();
-        $noticename = $this->notice->getName();
+        $noticeid = $this->notice->_Id;
+        $noticename = $this->notice->_Name;
         if ($this->transferChecks() == false) {
             return;
         }
@@ -77,7 +77,7 @@ class Remove extends ControlAjax
         $reply = true;
         $transfered_count = 0;
         if ($RentalSet->getCount() > 0) {
-            $check = $RentalSet->updateFieldInCollection("noticeLink", $this->transferNotice->getId());
+            $check = $RentalSet->updateFieldInCollection("noticeLink", $this->transferNotice->_Id);
             $reply = $check->status;
             $transfered_count = $check->changes;
         }

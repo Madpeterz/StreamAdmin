@@ -27,8 +27,8 @@ class Message extends ControlAjax
         $_POST["message"] = $message;
         $_POST["max_avatars"] = 1;
         $_POST["source"] = "Selectedrental";
-        $_POST["source_id"] = $rental->getId();
-        $_POST["avatarids"] = [$rental->getAvatarLink()];
+        $_POST["source_id"] = $rental->_Id;
+        $_POST["avatarids"] = [$rental->_AvatarLink];
         $Send->process();
         $reply = $Send->getOutputObject();
         if ($reply->getSwapTagBool("status") == false) {

@@ -43,16 +43,16 @@ class Create extends ControlAjax
                 return;
             }
         }
-        $textureconfig->setName($name);
-        $textureconfig->setOffline($offline);
-        $textureconfig->setWaitOwner($waitOwner);
-        $textureconfig->setStockLevels($stockLevels);
-        $textureconfig->setMakePayment($makePayment);
-        $textureconfig->setInUse($inUse);
-        $textureconfig->setRenewHere($renewHere);
-        $textureconfig->setGettingDetails($gettingDetails);
-        $textureconfig->setRequestDetails($requestDetails);
-        $textureconfig->setProxyRenew($proxyRenew);
+        $textureconfig->_Name = $name;
+        $textureconfig->_Offline = $offline;
+        $textureconfig->_WaitOwner = $waitOwner;
+        $textureconfig->_StockLevels = $stockLevels;
+        $textureconfig->_MakePayment = $makePayment;
+        $textureconfig->_InUse = $inUse;
+        $textureconfig->_RenewHere = $renewHere;
+        $textureconfig->_GettingDetails = $gettingDetails;
+        $textureconfig->_RequestDetails = $requestDetails;
+        $textureconfig->_ProxyRenew = $proxyRenew;
         $create_status = $textureconfig->createEntry();
         if ($create_status->status == false) {
             $this->failed(
@@ -61,6 +61,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Texture pack created");
-        $this->createAuditLog($textureconfig->getId(), "+++", null, $textureconfig->getName());
+        $this->createAuditLog($textureconfig->_Id, "+++", null, $textureconfig->_Name);
     }
 }

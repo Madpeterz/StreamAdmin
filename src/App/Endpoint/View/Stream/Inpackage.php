@@ -14,10 +14,10 @@ class Inpackage extends Withstatus
             $this->output->redirect("stream?messagebubble=Unable to find package&bubbletype=warning");
             return;
         }
-        $this->output->addSwapTagString("page_title", $package->getName());
+        $this->output->addSwapTagString("page_title", $package->_Name);
         $this->whereconfig = [
             "fields" => ["packageLink"],
-            "values" => [$package->getId()],
+            "values" => [$package->_Id],
             "types" => ["i"],
             "matches" => ["="],
         ];

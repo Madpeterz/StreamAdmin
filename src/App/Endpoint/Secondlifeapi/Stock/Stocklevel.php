@@ -40,22 +40,22 @@ class Stocklevel extends SecondlifeAjax
         $emptyPackageSet = [];
         foreach($packages as $package)
         {
-            $emptyPackageSet[$package->getId()] = [
-                "name" => $package->getName(),
+            $emptyPackageSet[$package->_Id] = [
+                "name" => $package->_Name,
                 "stock" => 0
             ];
         }
         $reply = [];
         foreach($servers as $server)
         {
-            $reply[$server->getId()] = [
-                "domain" => $server->getDomain(),
+            $reply[$server->_Id] = [
+                "domain" => $server->_Domain,
                 "packages" => $emptyPackageSet,
             ];
         }
         foreach($streams as $stream)
         {
-            $reply[$stream->getServerLink()]["packages"][$stream->getPackageLink()]["stock"] += 1;
+            $reply[$stream->_ServerLink]["packages"][$stream->_PackageLink]["stock"] += 1;
         }
         $this->setSwapTag("results",$reply);
         $this->ok("see results");

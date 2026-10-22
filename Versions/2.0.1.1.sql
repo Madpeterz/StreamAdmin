@@ -60,3 +60,5 @@ ALTER TABLE `transactions` ADD CONSTRAINT `targetavatar_in_use_transactions` FOR
 ALTER TABLE `marketplacecoupons` ADD `claims` INT NOT NULL DEFAULT '0' AFTER `credit`, ADD `lastClaim` INT NOT NULL DEFAULT '0' AFTER `claims`; 
 ALTER TABLE `transactions` ADD `notes` TEXT NOT NULL AFTER `fromCredits`; 
 ALTER TABLE `transactions` CHANGE `notes` `notes` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL; 
+UPDATE `slconfig` SET `hudDiscordLink` = '' WHERE `hudDiscordLink` IS NULL; 
+UPDATE `slconfig` SET `hudGroupLink` = '' WHERE `hudGroupLink` IS NULL; 

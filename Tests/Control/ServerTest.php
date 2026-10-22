@@ -35,7 +35,7 @@ class ServerTest extends TestWorker
         $system->setPage(1);
         $serverPreUpdate = new Server();
         $serverPreUpdate->loadId(1);
-        $this->assertSame("1.1.1.1", $serverPreUpdate->getIpaddress(), "server ip is not correct pre update");
+        $this->assertSame("1.1.1.1", $serverPreUpdate->_Ipaddress, "server ip is not correct pre update");
         $update = new Update();
         $update->process();
         $reply = $update->getOutputObject();
@@ -43,7 +43,7 @@ class ServerTest extends TestWorker
         $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
         $serverPostUpdate = new Server();
         $serverPostUpdate->loadId(1);
-        $this->assertSame("2.1.2.1", $serverPostUpdate->getIpaddress(), "server ip is not correct post update");
+        $this->assertSame("2.1.2.1", $serverPostUpdate->_Ipaddress, "server ip is not correct post update");
     }
     /**
      * @depends test_Update
@@ -55,7 +55,7 @@ class ServerTest extends TestWorker
         $this->assertSame(1,$servers->countInDB(null)->items,"Incorrect number of servers in DB pre remove");
         $serverPostUpdate = new Server();
         $serverPostUpdate->loadId(1);
-        $this->assertSame(1,$serverPostUpdate->getId(),"Unable to find server 1");
+        $this->assertSame(1,$serverPostUpdate->_Id,"Unable to find server 1");
         $_POST["accept"] = "Accept";
         $system->setPage(1);
         $remove = new Remove();

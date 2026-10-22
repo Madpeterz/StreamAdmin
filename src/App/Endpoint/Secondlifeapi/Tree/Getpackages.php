@@ -24,11 +24,11 @@ class Getpackages extends SecondlifeAjax
             $this->failed("Unable to load selected tree vender");
             return;
         }
-        $this->setSwapTag("textureInuse", $treevender->getTextureInuse());
-        $this->setSwapTag("textureWaiting", $treevender->getTextureWaiting());
+        $this->setSwapTag("textureInuse", $treevender->_TextureInuse);
+        $this->setSwapTag("textureWaiting", $treevender->_TextureWaiting);
 
         $treevender_packages_set = new TreevenderpackagesSet();
-        $load_status = $treevender_packages_set->loadByTreevenderLink($treevender->getId());
+        $load_status = $treevender_packages_set->loadByTreevenderLink($treevender->_Id);
         if ($load_status->status == false) {
             $this->failed("Unable to load tree vender packages");
             return;
@@ -65,13 +65,13 @@ class Getpackages extends SecondlifeAjax
         $package_hashs = [];
         foreach ($treevender_packages_set->getAllIds() as $treevender_package_id) {
             $treevender_package = $treevender_packages_set->getObjectByID($treevender_package_id);
-            $package = $package_set->getObjectByID($treevender_package->getPackageLink());
-            $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
+            $package = $package_set->getObjectByID($treevender_package->_PackageLink);
+            $servertype = $servertypes_set->getObjectByID($package->_ServertypeLink);
             $skip = false;
-            if (($treevender->getHideSoldout() == true) && ($disableSoldoutChecks == false)) {
+            if (($treevender->_HideSoldout == true) && ($disableSoldoutChecks == false)) {
                 $whereConfig = [
                     "fields" => ["packageLink","needWork","rentalLink"],
-                    "values" => [$package->getId(),0,null],
+                    "values" => [$package->_Id,0,null],
                     "matches" => ["=","=","IS"],
                 ];
                 $stockLevel = $streamsSet->countInDB($whereConfig);
@@ -85,25 +85,25 @@ class Getpackages extends SecondlifeAjax
             $hash = sha1(implode(
                 " ",
                 [
-                $replaceServerTypes[$servertype->getName()],
-                $package->getAutodj(),
-                $package->getAutodjSize(),
-                $package->getListeners(),
-                $package->getBitrate(),
-                $package->getDays(),
-                $package->getCost(),
+                $replaceServerTypes[$servertype->_Name],
+                $package->_Autodj,
+                $package->_AutodjSize,
+                $package->_Listeners,
+                $package->_Bitrate,
+                $package->_Days,
+                $package->_Cost,
                 ]
             ));
             if (in_array($hash, $package_hashs) == false) {
                 $package_hashs[] = $hash;
-                $reply["package_servertype"][] = $replaceServerTypes[$servertype->getName()];
-                $reply["packageUid"][] = $package->getPackageUid();
-                $reply["package_autodj"][] = [true => "Yes",false => "No"][$package->getAutodj()];
-                $reply["package_autodjsize"][] = $this->valueOrZero($package->getAutodjSize());
-                $reply["package_listeners"][] = $package->getListeners();
-                $reply["package_bitrate"][] = $package->getBitrate();
-                $reply["package_days"][] = $this->smeup($package->getDays());
-                $reply["package_cost"][] = $package->getCost();
+                $reply["package_servertype"][] = $replaceServerTypes[$servertype->_Name];
+                $reply["packageUid"][] = $package->_PackageUid;
+                $reply["package_autodj"][] = [true => "Yes",false => "No"][$package->_Autodj];
+                $reply["package_autodjsize"][] = $this->valueOrZero($package->_AutodjSize);
+                $reply["package_listeners"][] = $package->_Listeners;
+                $reply["package_bitrate"][] = $package->_Bitrate;
+                $reply["package_days"][] = $this->smeup($package->_Days);
+                $reply["package_cost"][] = $package->_Cost;
             }
         }
         foreach ($reply as $key => $value) {

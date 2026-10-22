@@ -44,7 +44,7 @@ class BanlistTest extends TestWorkerWithLogin
         $status = $avatar->loadByField("avatarName","Banlist TestAvatar");
         $this->assertSame(true,$status->status,"Unable to load test avatar");
 
-        $_POST["uid"] = $avatar->getAvatarUid();
+        $_POST["uid"] = $avatar->_AvatarUid;
         $createProcess = new Create();
         $createProcess->process();
         $statuscheck = $createProcess->getOutputObject();
@@ -91,10 +91,10 @@ class BanlistTest extends TestWorkerWithLogin
         $status = $avatar->loadByField("avatarName","Banlist TestAvatar");
         $this->assertSame(true,$status->status,"Unable to find test avatar");
         $banlist = new Banlist();
-        $status = $banlist->loadByField("avatarLink",$avatar->getId());
+        $status = $banlist->loadByField("avatarLink",$avatar->_Id);
         $this->assertSame(true,$status->status,"Unable to find banlist entry");
 
-        $system->setPage($banlist->getId());
+        $system->setPage($banlist->_Id);
         $removeProcess = new Clear();
         $removeProcess->process();
         $statuscheck = $removeProcess->getOutputObject();

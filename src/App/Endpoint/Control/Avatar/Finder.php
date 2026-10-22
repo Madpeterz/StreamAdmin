@@ -34,16 +34,16 @@ class Finder extends ControlAjax
         foreach ($search_avatar_set as $avatar) {
             $percent_uuid = 0;
             $percent_name = 0;
-            similar_text($avatarfindname, $avatar->getAvatarUUID(), $percent_uuid);
-            similar_text($avatarfindname, $avatar->getAvatarName(), $percent_name);
+            similar_text($avatarfindname, $avatar->_AvatarUUID, $percent_uuid);
+            similar_text($avatarfindname, $avatar->_AvatarName, $percent_name);
             $match_score = $percent_name;
             if ($percent_uuid > $percent_name) {
                 $match_score = $percent_uuid;
             }
             $scored_results[] = [
                 "score" => round($match_score),
-                "matchuid" => $avatar->getAvatarUid(),
-                "matchname" => $avatar->getAvatarName(),
+                "matchuid" => $avatar->_AvatarUid,
+                "matchname" => $avatar->_AvatarName,
             ];
         }
         usort($scored_results, function ($a, $b) {

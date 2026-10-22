@@ -30,32 +30,32 @@ class Create extends View
         $autodjflag = [true => "{AutoDJ}",false => "{StreamOnly}"];
         $improved_packageLinker = [];
         foreach ($package_set as $package) {
-            $servertype = $servertypes_set->getObjectByID($package->getServertypeLink());
+            $servertype = $servertypes_set->getObjectByID($package->_ServertypeLink);
             $saddon = "";
-            if ($package->getDays() > 1) {
+            if ($package->_Days > 1) {
                 $saddon = "'s";
             }
             $saddon2 = "";
-            if ($package->getListeners() > 1) {
+            if ($package->_Listeners > 1) {
                 $saddon2 = "'s";
             }
-            $info = $package->getName();
+            $info = $package->_Name;
             $info .= " @ ";
-            $info .= $package->getDays();
+            $info .= $package->_Days;
             $info .= "day";
             $info .= $saddon;
             $info .= " - ";
-            $info .= $autodjflag[$package->getAutodj()];
+            $info .= $autodjflag[$package->_Autodj];
             $info .= " - ";
-            $info .= $servertype->getName();
+            $info .= $servertype->_Name;
             $info .= " - ";
-            $info .= $package->getBitrate();
+            $info .= $package->_Bitrate;
             $info .= "kbs";
             $info .= " - ";
-            $info .= $package->getListeners();
+            $info .= $package->_Listeners;
             $info .= "listener";
             $info .= $saddon2;
-            $improved_packageLinker[$package->getId()] = $info;
+            $improved_packageLinker[$package->_Id] = $info;
         }
         $form = new Form();
         $form->target("stream/create");

@@ -34,34 +34,34 @@ class Manage extends View
             $this->output->redirect("notice?bubblemessage=unable to find notice&bubbletype=warning");
             return;
         }
-        if ($notice->getHoursRemaining() >= 999) {
+        if ($notice->_HoursRemaining >= 999) {
             $this->output->redirect("notice?bubblemessage=This notice is protected&bubbletype=warning");
             return;
         }
         $current_notecard_notice = new Noticenotecard();
-        $current_notecard_notice->loadID($notice->getNoticeNotecardLink());
-        $this->output->addSwapTagString("page_title", " : " . $notice->getName());
+        $current_notecard_notice->loadID($notice->_NoticeNotecardLink);
+        $this->output->addSwapTagString("page_title", " : " . $notice->_Name);
         $form = new form();
         $form->target("notice/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
         $form->col(6);
         $form->group("Basic");
-        $form->textInput("name", "Name", 30, $notice->getName(), "Name");
+        $form->textInput("name", "Name", 30, $notice->_Name, "Name");
         $form->textarea(
             "imMessage",
             "Message",
             800,
-            $notice->getImMessage(),
+            $notice->_ImMessage,
             "use the swaps as placeholders [max length 800]"
         );
         $form->col(6);
         $form->group("Config");
-        $form->select("sendObjectIM", "Send the Object IM", $notice->getSendObjectIM(), $this->yesNo);
-        $form->select("useBot", "Use bot to send IM", $notice->getUseBot(), $this->yesNo);
+        $form->select("sendObjectIM", "Send the Object IM", $notice->_SendObjectIM, $this->yesNo);
+        $form->select("useBot", "Use bot to send IM", $notice->_UseBot, $this->yesNo);
         $form->numberInput(
             "hoursRemaining",
             "Hours remain [Trigger at]",
-            $notice->getHoursRemaining(),
+            $notice->_HoursRemaining,
             3,
             "Max value 998"
         );
@@ -72,23 +72,23 @@ class Manage extends View
         $form->select(
             "sendNotecard",
             "Enable",
-            $notice->getSendNotecard(),
+            $notice->_SendNotecard,
             $this->yesNo
         );
         $form->textarea(
             "notecardDetail",
             "Notecard content",
             2000,
-            $notice->getNotecardDetail(),
+            $notice->_NotecardDetail,
             "use the swaps as placeholders"
         );
         $form->col(6);
         $form->group("Static notecard");
-        $use_notecard_link = $notice->getNoticeNotecardLink();
+        $use_notecard_link = $notice->_NoticeNotecardLink;
         if (in_array($use_notecard_link, $notice_notecard_set->getAllIds()) == false) {
             $use_notecard_link = 1;
             $form->directAdd("<div class=\"alert alert-danger\" role=\"alert\">"
-            . "Current notecard \"" . $current_notecard_notice->getName() . "\" is missing</div>");
+            . "Current notecard \"" . $current_notecard_notice->_Name . "\" is missing</div>");
         }
         $form->select(
             "noticeNotecardLink",

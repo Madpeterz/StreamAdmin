@@ -61,7 +61,7 @@ class Update extends ControlAjax
             $this->failed("Unable to find selected static notecard");
             return;
         }
-        if ($static_notecard->getMissing() == true) {
+        if ($static_notecard->_Missing == true) {
             $this->failed("Selected static notecard is marked as missing please change!");
             return;
         }
@@ -81,7 +81,7 @@ class Update extends ControlAjax
         $noticeSet = new NoticeSet();
         $count_check = $noticeSet->countInDB($whereConfig);
         $expected_count = 0;
-        if ($notice->getHoursRemaining() == $hoursRemaining) {
+        if ($notice->_HoursRemaining == $hoursRemaining) {
             $expected_count = 1;
         }
         if ($count_check->status == false) {
@@ -96,15 +96,15 @@ class Update extends ControlAjax
             $notecardDetail = " ";
         }
         $oldvalues = $notice->objectToValueArray();
-        $notice->setName($name);
-        $notice->setSendObjectIM($sendObjectIM);
-        $notice->setImMessage($imMessage);
-        $notice->setUseBot($useBot);
-        $notice->setSendNotecard($sendNotecard);
-        $notice->setNotecardDetail($notecardDetail);
-        $notice->setNoticeNotecardLink($static_notecard->getId());
+        $notice->_Name = $name;
+        $notice->_SendObjectIM = $sendObjectIM;
+        $notice->_ImMessage = $imMessage;
+        $notice->_UseBot = $useBot;
+        $notice->_SendNotecard = $sendNotecard;
+        $notice->_NotecardDetail = $notecardDetail;
+        $notice->_NoticeNotecardLink = $static_notecard->_Id;
         if (in_array($this->siteConfig->getPage(), [6,10]) == false) {
-            $notice->setHoursRemaining($hoursRemaining);
+            $notice->_HoursRemaining = $hoursRemaining;
         }
         $update_status = $notice->updateEntry();
         if ($update_status->status == false) {
@@ -115,7 +115,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Notice updated");
         $this->createMultiAudit(
-            $notice->getId(),
+            $notice->_Id,
             $notice->getFields(),
             $oldvalues,
             $notice->objectToValueArray()

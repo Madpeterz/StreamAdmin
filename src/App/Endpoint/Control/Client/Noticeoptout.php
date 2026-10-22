@@ -40,17 +40,17 @@ class Noticeoptout extends ControlAjax
         $enabledCounter = 0;
         $opt_out_notice_ids = $client_opt_out->uniqueNoticeLinks();
         foreach ($noticeLevels as $noticeLevel) {
-            if (in_array($noticeLevel->getId(), $opt_out_notice_ids) == true) {
-                $check = $this->input->post("remove-optout-" . $noticeLevel->getId())->asBool();
+            if (in_array($noticeLevel->_Id, $opt_out_notice_ids) == true) {
+                $check = $this->input->post("remove-optout-" . $noticeLevel->_Id)->asBool();
                 if ($check !== true) {
                     continue;
                 }
-                $opt_out = $client_opt_out->getObjectByField("noticeLink", $noticeLevel->getId());
+                $opt_out = $client_opt_out->getObjectByField("noticeLink", $noticeLevel->_Id);
                 if ($opt_out == null) {
                     $this->failed(
                         sprintf(
                             "Unable to find loaded opt-out for notice level: %1\$s",
-                            $noticeLevel->getName()
+                            $noticeLevel->_Name
                         )
                     );
                     return;
@@ -58,13 +58,13 @@ class Noticeoptout extends ControlAjax
                 $optOutSet->addToCollected($opt_out);
                 continue;
             }
-            $check = $this->input->post("add-optout-" . $noticeLevel->getId())->asBool();
+            $check = $this->input->post("add-optout-" . $noticeLevel->_Id)->asBool();
             if ($check !== true) {
                 continue;
             }
             $newOptOut = new Rentalnoticeptout();
-            $newOptOut->setRentalLink($rental->getId());
-            $newOptOut->setNoticeLink($noticeLevel->getId());
+            $newOptOut->_RentalLink = $rental->_Id;
+            $newOptOut->_NoticeLink = $noticeLevel->_Id;
             $addStatus = $newOptOut->createEntry();
             if ($addStatus->status == false) {
                 $this->failed(
@@ -102,6 +102,6 @@ class Noticeoptout extends ControlAjax
             $enabledCounter,
             $removedCounter
         ), true);
-        $this->createAuditLog($rental->getRentalUid(), "updated notice opt-outs");
+        $this->createAuditLog($rental->_RentalUid, "updated notice opt-outs");
     }
 }

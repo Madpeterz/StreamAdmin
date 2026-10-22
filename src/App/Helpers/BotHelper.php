@@ -22,21 +22,21 @@ class BotHelper
         if ($this->botAvatar == null) {
             return 1;
         }
-        return $this->botAvatar->getId();
+        return $this->botAvatar->_Id;
     }
     public function getBotUUID(): ?string
     {
         if ($this->getBotAvatar() == null) {
             return null;
         }
-        return $this->botAvatar->getAvatarUUID();
+        return $this->botAvatar->_AvatarUUID;
     }
     public function getNotecards(): bool
     {
         if ($this->getBotConfig() == false) {
             return false;
         }
-        return $this->botconfig->getNotecards();
+        return $this->botconfig->_Notecards;
     }
     protected function getBotAvatar(): ?Avatar
     {
@@ -45,7 +45,7 @@ class BotHelper
         }
         if ($this->botAvatar == null) {
             $this->botAvatar = new Avatar();
-            if ($this->botAvatar->loadID($this->botconfig->getAvatarLink())->status == false) {
+            if ($this->botAvatar->loadID($this->botconfig->_AvatarLink)->status == false) {
                 $this->botAvatar = null;
             }
         }
@@ -62,11 +62,11 @@ class BotHelper
     protected function addCommandToQ(string $command, array $args = []): CreateReply
     {
         $botcommandQ = new Botcommandq();
-        $botcommandQ->setCommand($command);
+        $botcommandQ->_Command = $command;
         if (count($args) > 0) {
-            $botcommandQ->setArgs(json_encode($args));
+            $botcommandQ->_Args = json_encode($args);
         }
-        $botcommandQ->setUnixtime(time());
+        $botcommandQ->_Unixtime = time();
         return $botcommandQ->createEntry();
     }
     public function sendBotInvite(Avatar $avatar): CreateReply
@@ -74,12 +74,12 @@ class BotHelper
         if ($this->getBotConfig() == false) {
             return new CreateReply("Unable to get bot config");
         }
-        if ($this->botconfig->getInvites() == false) {
+        if ($this->botconfig->_Invites == false) {
             return new CreateReply("Invites are disabled for the bot");
         }
         return $this->addCommandToQ(
             "GroupInvite",
-            [$this->botconfig->getInviteGroupUUID(), $avatar->getAvatarUUID(), "everyone"]
+            [$this->botconfig->_InviteGroupUUID, $avatar->_AvatarUUID, "everyone"]
         );
     }
 
@@ -104,7 +104,7 @@ class BotHelper
         if ($this->getBotConfig() == false) {
             return false;
         }
-        $raw = "" . $command . "" . implode("~#~", $cleanArgs) . "" . $this->botconfig->getSecret();
+        $raw = "" . $command . "" . implode("~#~", $cleanArgs) . "" . $this->botconfig->_Secret;
         $cooked = sha1($raw);
         return $command . "|||" . implode("~#~", $cleanArgs) . "@@@" . $cooked;
     }
@@ -115,8 +115,8 @@ class BotHelper
     ): CreateReply {
         // send via Mail server
         $mail = new Message();
-        $mail->setAvatarLink($avatar->getId());
-        $mail->setMessage($message);
+        $mail->_AvatarLink = $avatar->_Id;
+        $mail->_Message = $message;
         $create = $mail->createEntry();
         if ($create->status == false) {
             return $create;
@@ -125,9 +125,9 @@ class BotHelper
         if ($this->getBotConfig() == false) {
             return $create;
         }
-        if ($this->botconfig->getIms() == false) {
+        if ($this->botconfig->_Ims == false) {
             return $create;
         }
-        return $this->addCommandToQ("IM", [$avatar->getAvatarUUID(), $message]);
+        return $this->addCommandToQ("IM", [$avatar->_AvatarUUID, $message]);
     }
 }

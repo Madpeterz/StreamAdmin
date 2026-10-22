@@ -49,8 +49,8 @@ class Update extends ControlAjax
         $streamSet = new StreamSet();
         $count_check = $streamSet->countInDB($whereConfig);
         $expected_count = 0;
-        if ($stream->getPort() == $port) {
-            if ($stream->getServerLink() == $serverLink) {
+        if ($stream->_Port == $port) {
+            if ($stream->_ServerLink == $serverLink) {
                 $expected_count = 1;
             }
         }
@@ -66,14 +66,14 @@ class Update extends ControlAjax
             return;
         }
         $oldvalues = $stream->objectToValueArray();
-        $stream->setPackageLink($packageLink);
-        $stream->setServerLink($serverLink);
-        $stream->setPort($port);
-        $stream->setNeedWork(false);
-        $stream->setAdminUsername($adminUsername);
-        $stream->setAdminPassword($adminPassword);
-        $stream->setDjPassword($djPassword);
-        $stream->setMountpoint($mountpoint);
+        $stream->_PackageLink = $packageLink;
+        $stream->_ServerLink = $serverLink;
+        $stream->_Port = $port;
+        $stream->_NeedWork = false;
+        $stream->_AdminUsername = $adminUsername;
+        $stream->_AdminPassword = $adminPassword;
+        $stream->_DjPassword = $djPassword;
+        $stream->_Mountpoint = $mountpoint;
         $update_status = $stream->updateEntry();
         if ($update_status->status == false) {
             $this->failed(
@@ -89,7 +89,7 @@ class Update extends ControlAjax
         }
         $this->redirectWithMessage("Stream updated");
         $this->createMultiAudit(
-            $stream->getStreamUid(),
+            $stream->_StreamUid,
             $stream->getFields(),
             $oldvalues,
             $stream->objectToValueArray()
@@ -99,17 +99,17 @@ class Update extends ControlAjax
     protected function transferRentalPackage(Stream $stream, Package $package): bool
     {
         $rental = new Rental();
-        if ($stream->getRentalLink() == null) {
+        if ($stream->_RentalLink == null) {
             return true;
         }
-        if ($rental->loadByStreamLink($stream->getId())->status == false) {
+        if ($rental->loadByStreamLink($stream->_Id)->status == false) {
             $this->failed("Unable to load rental to transfer");
             return false;
         }
-        if ($package->getId() == $rental->getPackageLink()) {
+        if ($package->_Id == $rental->_PackageLink) {
             return true;
         }
-        $rental->setPackageLink($package->getId());
+        $rental->_PackageLink = $package->_Id;
         $status = $rental->updateEntry();
         if ($status->status == false) {
             $this->failed("Issue updating rental package:" . $status->message);

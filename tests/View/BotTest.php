@@ -28,12 +28,12 @@ class BotTest extends TestWorkerWithLogin
         $avatar = new Avatar();
         $status = $avatar->loadID(2);
         $this->assertSame(true,$status->status,"Unable to load avatar");
-        $_POST["avataruid"] = $avatar->getAvatarUid();
+        $_POST["avataruid"] = $avatar->_AvatarUid;
         $_POST["secret"] = substr(md5(microtime()."bb"),0,8);
         $_POST["notecards"] = 1;
         $_POST["ims"] = 1;
         $_POST["invites"] = 1;
-        $_POST["inviteGroupUUID"] = $avatar->getAvatarUUID();
+        $_POST["inviteGroupUUID"] = $avatar->_AvatarUUID;
         $Update = new Update();
         $Update->process();
         $statuscheck = $Update->getOutputObject();

@@ -38,36 +38,36 @@ class TestWorkerWithLogin extends TestWorker
         $loadorcreate = $avatar->loadByAvatarUUID("289c3e36-69b3-40c5-9229-0c6a5d230766");
         $avatarid = -1;
         if($loadorcreate->status == true) {
-            $avatarid = $avatar->getId();
+            $avatarid = $avatar->_Id;
         }
         else
         {
             $avatar = new Avatar();
-            $avatar->setAvatarUUID("289c3e36-69b3-40c5-9229-0c6a5d230766");
-            $avatar->setAvatarName("Default Avatar");
-            $avatar->setAvatarUid("testing");
-            $avatar->setCredits(0);
+            $avatar->_AvatarUUID = "289c3e36-69b3-40c5-9229-0c6a5d230766";
+            $avatar->_AvatarName = "Default Avatar";
+            $avatar->_AvatarUid = "testing";
+            $avatar->_Credits = 0;
             $create = $avatar->createEntry();
             if($create->status == false)
             {
                 die("Could not create default avatar for testing");
             }
-            $avatarid = $avatar->getId();
+            $avatarid = $avatar->_Id;
         }
         global $system;
-        $system->getSlConfig()->setClientsListMode(false);
+        $system->getSlConfig()->_ClientsListMode = false;
         $system->getSlConfig()->updateEntry();
         $rental = new Rental();
-        $rental->setAvatarLink($avatarid);
-        $rental->setStreamLink(1);
-        $rental->setStartUnixtime(time());
-        $rental->setExpireUnixtime(time() + (60*60*60*24*6));
-        $rental->setNoticeLink(1);
-        $rental->setPackageLink(1);
-        $rental->setRenewals(0);
-        $rental->setMessage("Unit test rental");
-        $rental->setTotalAmount(405);
-        $rental->setRentalUid("unittest");
+        $rental->_AvatarLink = $avatarid;
+        $rental->_StreamLink = 1;
+        $rental->_StartUnixtime = time();
+        $rental->_ExpireUnixtime = time() + (60*60*60*24*6);
+        $rental->_NoticeLink = 1;
+        $rental->_PackageLink = 1;
+        $rental->_Renewals = 0;
+        $rental->_Message = "Unit test rental";
+        $rental->_TotalAmount = 405;
+        $rental->_RentalUid = "unittest";
         $create = $rental->createEntry();
         if($create->status == false)
         {
@@ -79,14 +79,14 @@ class TestWorkerWithLogin extends TestWorker
         {
             die("Could not load default stream for testing");
         }
-        $stream->setRentalLink($rental->getId());
+        $stream->_RentalLink = $rental->_Id;
         $update = $stream->updateEntry();
         if($update->status == false)
         {
             die("Could not update default stream for testing");
         }
         $resellerhelper = new ResellerHelper();
-        $status = $resellerhelper->loadOrCreate($avatar->getId(),true,44);
+        $status = $resellerhelper->loadOrCreate($avatar->_Id,true,44);
         if($status === false) {
            die("Could not create default reseller for testing");
         }

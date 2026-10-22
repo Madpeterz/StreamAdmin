@@ -39,24 +39,24 @@ abstract class HomeDisplayData extends HomeLoadData
     {
         if (
             file_exists("../../Versions/" .
-                $this->siteConfig->getSlConfig()->getDbVersion() . ".sql") == true
+                $this->siteConfig->getSlConfig()->_DbVersion . ".sql") == true
         ) {
             $this->main_grid->addContent("<div class=\"alert alert-warning\" role=\"alert\">DB update required "
-                . "<br/> please run \"Versions/" . $this->siteConfig->getSlConfig()->getDbVersion() . ".sql\"</div>", 12);
+                . "<br/> please run \"Versions/" . $this->siteConfig->getSlConfig()->_DbVersion . ".sql\"</div>", 12);
         }
 
         $infofile = "../../Versions/about/" .
-            $this->siteConfig->getSlConfig()->getDbVersion() . ".txt";
+            $this->siteConfig->getSlConfig()->_DbVersion . ".txt";
         if (file_exists($infofile) == true) {
             $this->main_grid->closeRow();
-            $this->main_grid->addContent("<br/>Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "", 12);
+            $this->main_grid->addContent("<br/>Version: " . $this->siteConfig->getSlConfig()->_DbVersion . "", 12);
             $this->main_grid->addContent(
                 file_get_contents($infofile),
                 12
             );
             return;
         }
-        $this->main_grid->addContent("Version: " . $this->siteConfig->getSlConfig()->getDbVersion() . "<br/>
+        $this->main_grid->addContent("Version: " . $this->siteConfig->getSlConfig()->_DbVersion . "<br/>
         Unable to read version info file: " . $infofile . "
         ", 12);
     }
@@ -91,12 +91,12 @@ abstract class HomeDisplayData extends HomeLoadData
         $table_body[] = $entry;
 
         foreach ($this->objects_set as $object) {
-            $region = $this->region_set->getObjectByID($object->getRegionLink());
+            $region = $this->region_set->getObjectByID($object->_RegionLink);
             $entry = [];
             $color = "text-light";
-            $dif = time() - $object->getLastSeen();
+            $dif = time() - $object->_LastSeen;
             $hide_output = false;
-            if (in_array($object->getObjectMode(), $seen_objects) == true) {
+            if (in_array($object->_ObjectMode, $seen_objects) == true) {
                 if ($dif > (30 * 60)) {
                     $hide_output = true;
                 } else {
@@ -104,10 +104,10 @@ abstract class HomeDisplayData extends HomeLoadData
                     $issues++;
                 }
             } else {
-                $seen_objects[] = $object->getObjectMode();
+                $seen_objects[] = $object->_ObjectMode;
             }
             if ($hide_output == false) {
-                $name = $object->getObjectMode();
+                $name = $object->_ObjectMode;
                 $name = strtolower($name);
                 $name = str_replace("server", " ", $name);
                 $name = ucfirst($name);
@@ -122,15 +122,15 @@ abstract class HomeDisplayData extends HomeLoadData
                     $issues++;
                     $color = "text-warning";
                 }
-                $regionName = "id " . $object->getRegionLink() . "";
+                $regionName = "id " . $object->_RegionLink . "";
                 if ($region != null) {
-                    $regionName = $region->getName();
+                    $regionName = $region->_Name;
                 }
 
                 $entry[] = '<span class="' . $color . '">'
-                    . $this->expiredAgo($object->getLastSeen(), true, "Just now") . '</span>';
+                    . $this->expiredAgo($object->_LastSeen, true, "Just now") . '</span>';
                 $tp_url = "http://maps.secondlife.com/secondlife/" . $regionName . "/"
-                    . implode("/", explode(",", $object->getObjectXYZ())) . "";
+                    . implode("/", explode(",", $object->_ObjectXYZ)) . "";
                 $tp_url = str_replace(' ', '%20', $tp_url);
                 $regionLinkURL = "<a href=\"" . $tp_url . "\" target=\"_blank\">" .
                     "<i class=\"fas fa-map-marked-alt\"></i> " . $regionName . "</a>";
@@ -175,14 +175,14 @@ abstract class HomeDisplayData extends HomeLoadData
         $table_body = [];
         foreach ($this->server_set as $server) {
             $entry = [];
-            $servername = '<a href="[[SITE_URL]]stream/onserver/' . $server->getId() . '"><h5>'
-                . $server->getDomain() . '</h5></a>';
+            $servername = '<a href="[[SITE_URL]]stream/onserver/' . $server->_Id . '"><h5>'
+                . $server->_Domain . '</h5></a>';
             $servername .= '<h6><span class="badge badge-success">Ready <span class="badge badge-light">'
-                . $this->server_loads[$server->getId()]["ready"] . '</span></span> ';
+                . $this->server_loads[$server->_Id]["ready"] . '</span></span> ';
             $servername .= '<span class="badge badge-warning">NeedWork <span class="badge badge-light">'
-                . $this->server_loads[$server->getId()]["needWork"] . '</span></span> ';
+                . $this->server_loads[$server->_Id]["needWork"] . '</span></span> ';
             $servername .= '<span class="badge badge-info">Sold <span class="badge badge-light">'
-                . $this->server_loads[$server->getId()]["sold"] . '</span></span></h6>';
+                . $this->server_loads[$server->_Id]["sold"] . '</span></span></h6>';
             $entry[] = $servername;
             $serverstatus = '<div class="serverstatusdisplay">';
             $serverstatus .= '<sub> </sub>';

@@ -9,7 +9,7 @@ class Details extends SecondlifeHudAjax
 {
     public function process(): void
     {
-        if ($this->siteConfig->getSlConfig()->getHudAllowDetails() == false) {
+        if ($this->siteConfig->getSlConfig()->_HudAllowDetails == false) {
             $this->failed("Hud details are currently disabled");
             return;
         }

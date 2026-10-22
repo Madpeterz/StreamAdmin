@@ -66,7 +66,7 @@ class ServerTest extends TestWorkerWithLogin
         $server = new Server();
         $status = $server->loadByField("domain","MagicServerTest");
         $this->assertSame(true,$status->status,"Unable to load test server");
-        $system->setPage( $server->getId());
+        $system->setPage( $server->_Id);
 
         $manageForm  = new Manage();
         $manageForm->process();
@@ -88,7 +88,7 @@ class ServerTest extends TestWorkerWithLogin
         $server = new Server();
         $status = $server->loadByField("domain","MagicServerTest");
         $this->assertSame(true,$status->status,"Unable to load test server");
-        $system->setPage( $server->getId() );
+        $system->setPage( $server->_Id );
 
 
         $manageProcess = new Update();
@@ -109,7 +109,7 @@ class ServerTest extends TestWorkerWithLogin
         $server = new Server();
         $status = $server->loadByField("domain","SuperMagicTest");
         $this->assertSame(true,$status->status,"Unable to load test server");
-        $system->setPage( $server->getId());
+        $system->setPage( $server->_Id);
 
         $removeProcess = new ServerRemove();
         $_POST["accept"] = "Accept";

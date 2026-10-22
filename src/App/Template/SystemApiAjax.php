@@ -41,25 +41,25 @@ abstract class SystemApiAjax extends ViewAjax
         if ($this->load_ok == false) {
             return;
         }
-        if (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) < 5) {
+        if (nullSafeStrLen($this->siteConfig->getSlConfig()->_HttpInboundSecret) < 5) {
             $this->load_ok = false;
             $this->failed("httpcode length must be 5 or longer");
             return;
         }
-        if (nullSafeStrLen($this->siteConfig->getSlConfig()->getHttpInboundSecret()) > 30) {
+        if (nullSafeStrLen($this->siteConfig->getSlConfig()->_HttpInboundSecret) > 30) {
             $this->failed("httpcode length must be 30 or less");
             $this->load_ok = false;
             return;
         }
 
-        $bits = [$this->unixtime,$this->method,$this->action,$this->siteConfig->getSlConfig()->getHttpInboundSecret()];
+        $bits = [$this->unixtime,$this->method,$this->action,$this->siteConfig->getSlConfig()->_HttpInboundSecret];
         $raw = implode("", $bits);
         $hashcheck = sha1($raw);
         if ($this->token == $hashcheck) {
             return;
         }
         $this->load_ok = false;
-        $this->failed("Invaild token: " . $raw);
+        $this->failed("Invaild token");
     }
     protected function timeWindow(): void
     {

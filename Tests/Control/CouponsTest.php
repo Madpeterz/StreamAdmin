@@ -15,8 +15,8 @@ class CouponsTest extends TestWorker
     {
         global $system;
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
         $Create = new Create();
         $_POST["cost"] = 100;
@@ -37,10 +37,10 @@ class CouponsTest extends TestWorker
         $coupon->loadByListingid(54321);
         $this->assertSame(true, $coupon->isLoaded(), "Unable to find coupon");
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
-        $system->setPage($coupon->getId());
+        $system->setPage($coupon->_Id);
         $_POST["cost"] = 1000;
         $_POST["listingid"] = 12345;
         $_POST["credit"] = 1000;
@@ -60,10 +60,10 @@ class CouponsTest extends TestWorker
         $coupon->loadByListingid(12345);
         $this->assertSame(true, $coupon->isLoaded(), "Unable to find coupon");
         $staff = new Staff();
-        $staff->setOwnerLevel(true);
-        $staff->setAvatarLink(1);
+        $staff->_OwnerLevel = true;
+        $staff->_AvatarLink = 1;
         $system->getSession()->attachStaffMember($staff);
-        $system->setPage($coupon->getId());
+        $system->setPage($coupon->_Id);
         $_POST["accept"] = "yes";
         $remove = new Remove();
         $remove->process();

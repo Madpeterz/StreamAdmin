@@ -32,7 +32,7 @@ class Addpackage extends ControlAjax
         $treevender_package = new Treevenderpackages();
         $where_fields = [
         "fields" => ["packageLink","treevenderLink"],
-        "values" => [$package->getId(),$treevender->getId()],
+        "values" => [$package->_Id,$treevender->_Id],
         "types" => ["i","i"],
         "matches" => ["=","="],
         ];
@@ -42,19 +42,19 @@ class Addpackage extends ControlAjax
             return;
         }
         $treevender_package = new Treevenderpackages();
-        $treevender_package->setPackageLink($package->getId());
-        $treevender_package->setTreevenderLink($treevender->getId());
+        $treevender_package->_PackageLink = $package->_Id;
+        $treevender_package->_TreevenderLink = $treevender->_Id;
         $create_status = $treevender_package->createEntry();
         if ($create_status->status == false) {
             $this->failed("Unable to attach package to tree vender");
             return;
         }
-        $this->redirectWithMessage("Package added to tree vender", "tree/manage/" . $treevender->getId());
+        $this->redirectWithMessage("Package added to tree vender", "tree/manage/" . $treevender->_Id);
         $this->createAuditLog(
-            $treevender_package->getId(),
+            $treevender_package->_Id,
             "link package",
-            "Tree:" . $treevender->getName(),
-            "package: " . $package->getName()
+            "Tree:" . $treevender->_Name,
+            "package: " . $package->_Name
         );
     }
 }

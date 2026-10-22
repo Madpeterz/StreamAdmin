@@ -14,20 +14,20 @@ class LoginTest extends TestWorker
     {
         global $system;
         $staff = new Staff();
-        $staff->setAvatarLink(2);
-        $staff->setLhash("notused");
-        $staff->setOwnerLevel(true);
-        $staff->setEmailResetExpires(0);
-        $staff->setUsername("unittesting");
-        $staff->setPhash("notused");
-        $staff->setPsalt("notused");
+        $staff->_AvatarLink = 2;
+        $staff->_Lhash = "notused";
+        $staff->_OwnerLevel = true;
+        $staff->_EmailResetExpires = 0;
+        $staff->_Username = "unittesting";
+        $staff->_Phash = "notused";
+        $staff->_Psalt = "notused";
         $reply = $staff->createEntry();
         $this->assertSame(true, $reply->status, "failed to create staff object: " . $reply->message);
         $sessionHelper = $system->getSession();
         $sessionHelper->attachStaffMember($staff);
         $passwordchange = $sessionHelper->createStaffPasswordHash("iAmUnitMan");
-        $staff->setPhash($passwordchange->phash);
-        $staff->setPsalt($passwordchange->psalt);
+        $staff->_Phash = $passwordchange->phash;
+        $staff->_Psalt = $passwordchange->psalt;
         $update = $staff->updateEntry();
         $this->assertSame(true, $update->status, "failed to update staff entry");
     }
@@ -52,7 +52,7 @@ class LoginTest extends TestWorker
         $_POST["slusername"] = "Madpeter Zond";
         $staff = new Staff();
         $staff->loadByAvatarLink(2);
-        $this->assertSame(0, $staff->getEmailResetExpires(), "Reset code expires value not as expected");
+        $this->assertSame(0, $staff->_EmailResetExpires, "Reset code expires value not as expected");
         $reset = new Reset();
         $reset->process();
         $reply = $reset->getOutputObject();
@@ -60,7 +60,7 @@ class LoginTest extends TestWorker
         $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
         $staff = new Staff();
         $staff->loadByAvatarLink(2);
-        $this->assertGreaterThan(time(), $staff->getEmailResetExpires(), "Reset code expires value should be higher than right now");
+        $this->assertGreaterThan(time(), $staff->_EmailResetExpires, "Reset code expires value should be higher than right now");
     }
     /**
      * @depends test_Reset
@@ -69,10 +69,10 @@ class LoginTest extends TestWorker
     {
         $staff = new Staff();
         $staff->loadByAvatarLink(2);
-        $this->assertGreaterThan(time(), $staff->getEmailResetExpires(), "Reset code expires value should be higher than right now");
+        $this->assertGreaterThan(time(), $staff->_EmailResetExpires, "Reset code expires value should be higher than right now");
         $reset = new Resetnow();
         $_POST["slusername"] = "Madpeter Zond";
-        $_POST["token"] = $staff->getEmailResetCode();
+        $_POST["token"] = $staff->_EmailResetCode;
         $_POST["newpassword1"] = "letmeinplease";
         $_POST["newpassword2"] = "letmeinplease";
         $reset->process();
@@ -81,6 +81,6 @@ class LoginTest extends TestWorker
         $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
         $staff = new Staff();
         $staff->loadByAvatarLink(2);
-        $this->assertSame(null, $staff->getEmailResetCode(), "Reset code should now be null");
+        $this->assertSame(null, $staff->_EmailResetCode, "Reset code should now be null");
     }
 }

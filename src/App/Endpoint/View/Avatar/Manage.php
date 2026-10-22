@@ -27,11 +27,11 @@ class Manage extends View
             $this->output->redirect("avatar?bubblemessage=unable to find avatar&bubbletype=warning");
             return;
         }
-        if ($avatar->getId() == $this->siteConfig->getSlConfig()->getOwnerAvatarLink()) {
+        if ($avatar->_Id == $this->siteConfig->getSlConfig()->_OwnerAvatarLink) {
             $this->setSwapTag("page_actions", "");
         }
-        $this->output->addSwapTagString("page_title", " : " . $avatar->getAvatarName() . " 
-        [" . $avatar->getAvatarUid() . "]");
+        $this->output->addSwapTagString("page_title", " : " . $avatar->_AvatarName . " 
+        [" . $avatar->_AvatarUid . "]");
         $form = new form();
         $form->target("avatar/update/" . $this->siteConfig->getPage() . "");
         $form->required(true);
@@ -40,18 +40,18 @@ class Manage extends View
             "avatarName",
             "Name",
             125,
-            $avatar->getAvatarName(),
+            $avatar->_AvatarName,
             "Madpeter Zond [You can leave out Resident]"
         );
         $form->textInput(
             "avatarUUID",
             "SL UUID",
             3,
-            $avatar->getAvatarUUID(),
+            $avatar->_AvatarUUID,
             "SecondLife UUID [found on their SL profile]"
         );
         if ($this->siteConfig->getSession()->getOwnerLevel() == true) {
-            $form->numberInput("credits", "Credits", $avatar->getCredits(), 100, "Amount of credit on account");
+            $form->numberInput("credits", "Credits", $avatar->_Credits, 100, "Amount of credit on account");
         }
 
         $grid = new Grid();

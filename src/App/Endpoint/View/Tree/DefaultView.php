@@ -15,9 +15,9 @@ class DefaultView extends View
 
         foreach ($treevender_set as $treevender) {
             $entry = [];
-            $entry[] = $treevender->getId();
-            $entry[] = "[" . $treevender->getId() . '] -> <a href="[[SITE_URL]]tree/manage/'
-            . $treevender->getId() . '">' . $treevender->getName() . '</a>';
+            $entry[] = $treevender->_Id;
+            $entry[] = "[" . $treevender->_Id . '] -> <a href="[[SITE_URL]]tree/manage/'
+            . $treevender->_Id . '">' . $treevender->_Name . '</a>';
             $table_body[] = $entry;
         }
         $this->setSwapTag("page_content", $this->renderDatatable($table_head, $table_body));

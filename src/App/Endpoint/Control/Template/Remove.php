@@ -22,8 +22,8 @@ class Remove extends ControlAjax
             $this->failed("Unable to find template");
             return;
         }
-        $templateid = $template->getId();
-        $tempaltename = $template->getName();
+        $templateid = $template->_Id;
+        $tempaltename = $template->_Name;
         $remove_status = $template->removeEntry();
         if ($remove_status->status == false) {
             $this->failed(

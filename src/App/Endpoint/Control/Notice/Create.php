@@ -57,20 +57,20 @@ class Create extends ControlAjax
             $this->failed("Unable to find selected static notecard");
             return;
         }
-        if ($static_notecard->getMissing() == true) {
+        if ($static_notecard->_Missing == true) {
             $this->failed("Selected static notecard is marked as missing please change!");
             return;
         }
 
         $notice = new Notice();
-        $notice->setSendObjectIM($sendObjectIM);
-        $notice->setName($name);
-        $notice->setImMessage($imMessage);
-        $notice->setUseBot($useBot);
-        $notice->setHoursRemaining($hoursRemaining);
-        $notice->setSendNotecard($sendNotecard);
-        $notice->setNotecardDetail($notecardDetail);
-        $notice->setNoticeNotecardLink($static_notecard->getId());
+        $notice->_SendObjectIM = $sendObjectIM;
+        $notice->_Name = $name;
+        $notice->_ImMessage = $imMessage;
+        $notice->_UseBot = $useBot;
+        $notice->_HoursRemaining = $hoursRemaining;
+        $notice->_SendNotecard = $sendNotecard;
+        $notice->_NotecardDetail = $notecardDetail;
+        $notice->_NoticeNotecardLink = $static_notecard->_Id;
         $create_status = $notice->createEntry();
         if ($create_status->status == false) {
             $this->failed(
@@ -79,6 +79,6 @@ class Create extends ControlAjax
             return;
         }
         $this->redirectWithMessage("Notice created");
-        $this->createAuditLog($notice->getId(), "+++", null, $notice->getName());
+        $this->createAuditLog($notice->_Id, "+++", null, $notice->_Name);
     }
 }

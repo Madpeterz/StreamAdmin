@@ -46,7 +46,7 @@ class Update extends ControlAjax
         $MarketplacecouponsSet = new MarketplacecouponsSet();
         $count_check = $MarketplacecouponsSet->countInDB($whereConfig);
         $expected_count = 0;
-        if ($coupon->getListingid() == $listingid) {
+        if ($coupon->_Listingid == $listingid) {
             $expected_count = 1;
         }
         if ($count_check->status == false) {
@@ -57,9 +57,9 @@ class Update extends ControlAjax
             $this->failed("Selected listing id is already in use");
             return;
         }
-        $coupon->setListingid($listingid);
-        $coupon->setCost($cost);
-        $coupon->setCredit($credit);
+        $coupon->_Listingid = $listingid;
+        $coupon->_Cost = $cost;
+        $coupon->_Credit = $credit;
         $update_status = $coupon->updateEntry();
         if ($update_status->status == false) {
             $this->failed(sprintf("Unable to update coupon: %1\$s", $update_status->message));

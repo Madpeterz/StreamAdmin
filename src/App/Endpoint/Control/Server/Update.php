@@ -33,9 +33,9 @@ class Update extends Create
     protected function updateServer(): bool
     {
         $oldvalues = $this->server->objectToValueArray();
-        $this->server->setDomain($this->domain);
-        $this->server->setControlPanelURL($this->controlPanelURL);
-        $this->server->setIpaddress($this->ipaddress);
+        $this->server->_Domain = $this->domain;
+        $this->server->_ControlPanelURL = $this->controlPanelURL;
+        $this->server->_Ipaddress = $this->ipaddress;
         $update_status = $this->server->updateEntry();
         if ($update_status->status == false) {
             $this->setSwapTag(
@@ -45,7 +45,7 @@ class Update extends Create
             return false;
         }
         $this->createMultiAudit(
-            $this->server->getId(),
+            $this->server->_Id,
             $this->server->getFields(),
             $oldvalues,
             $this->server->objectToValueArray()
@@ -56,7 +56,7 @@ class Update extends Create
     protected function extendedDomainCheck(): bool
     {
         $expected_count = 0;
-        if ($this->server->getDomain() == $this->domain) {
+        if ($this->server->_Domain == $this->domain) {
             $expected_count = 1;
         }
         $whereConfig = [
@@ -74,7 +74,7 @@ class Update extends Create
             return false;
         }
         $expected_count = 0;
-        if ($this->server->getIpaddress() == $this->ipaddress) {
+        if ($this->server->_Ipaddress == $this->ipaddress) {
             $expected_count = 1;
         }
         $whereConfig = [
