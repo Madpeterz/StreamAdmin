@@ -23,3 +23,4 @@ composer.lock
 .phpunit.result.cache
 *.cache
 .phpunit.result.cache
+.env

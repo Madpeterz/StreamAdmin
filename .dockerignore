@@ -17,3 +17,5 @@ test.bat
 .gitignore
 .github/**/*
 .github
+.env
+.env.*
