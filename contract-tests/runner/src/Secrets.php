@@ -12,6 +12,8 @@ final class Secrets
 {
     public const SL_LINK_CODE = "ctSlCode01";
     public const HUD_LINK_CODE = "ctHudCode01";
+    /** Requests from the system owner's avatar (3.0): set by Database::rebuild after the migrations ran. */
+    public const OWNER_LINK_CODE = "ctOwnerCode01";
     public const HTTP_INBOUND_SECRET = "contractsecret";
     public const ANS_SALT = "contract-ans-salt";
     /** botconfig.secret from sql/reset.sql, signs bot commands. */

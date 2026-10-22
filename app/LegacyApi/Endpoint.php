@@ -4,6 +4,7 @@ namespace App\LegacyApi;
 
 use App\Models\SlConfig;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -69,9 +70,26 @@ abstract class Endpoint
         return $this->slConfig ??= SlConfig::findOrFail(1);
     }
 
+    /** seconds either side of now that a request's unixtime is accepted */
+    protected const TIME_WINDOW = 120;
+
     /** ±120 seconds, as every 2.0.x entry point checked. */
     protected function inTimeWindow(int $unixtime): bool
     {
-        return abs($unixtime - time()) <= 120;
+        return abs($unixtime - time()) <= self::TIME_WINDOW;
+    }
+
+    /**
+     * Replay guard: a signature (request hash or token) is good once. It is remembered until its
+     * unixtime can no longer pass the time window. Only call it with a signature that already
+     * checked out, so the cache holds nothing a stranger could fill it with. The signature is
+     * the key, not the body: the payload fields are not signed, so a captured signature could
+     * otherwise be reused with a different payload.
+     */
+    protected function alreadySeen(string $signature, int $unixtime): bool
+    {
+        $seconds = max(1, $unixtime + self::TIME_WINDOW + 1 - time());
+
+        return ! Cache::add('legacy-api:seen:'.sha1($signature), true, $seconds);
     }
 }

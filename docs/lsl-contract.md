@@ -49,6 +49,16 @@ hash = sha1( unixtime . Module . Area . version . mode . objectuuid . regionname
 
 `linkCode` is `slLinkCode` for api.php and `hudLinkCode` for hud.php.
 
+**3.0 change (owner link code):** an api.php request whose `ownerkey` is the system owner's avatar UUID
+(case-insensitive) is signed with `ownerLinkCode` instead of `slLinkCode`, so a reseller that only holds
+the vendor link code cannot act as the owner (owner-only endpoints, no owner payment). An empty or
+shorter than 8 character `ownerLinkCode` never matches. hud.php is unchanged: the wearer is the "owner"
+there and the HUD code is used even if that is the system owner.
+
+**3.0 change (replay):** a request hash is accepted once. After it checks out it is remembered until its
+`unixtime` leaves the ±120 s window; a second request with the same hash (whatever its other fields) gets
+`Request already used`. Retries must use a new `unixtime`. The same applies to sys.php tokens.
+
 Checks, in order. The first failure sets the message; the later checks still run but do not overwrite it,
 except the version check, which always runs last:
 
@@ -162,7 +172,7 @@ Manage views (client, health, package, reseller, staff, template, tree).
 
 ## Security observations (not part of the contract, decide before 3.0.0)
 
-- SL request hashes are sha1 over a shared secret with a ±120 s window and no nonce: replay is possible
-  inside the window.
+- SL request hashes are sha1 over a shared secret, not an HMAC. Replay inside the window is stopped (see
+  above), the Marketplace ANS hash has no timestamp and relies on the unique transaction id.
 - The site URL put into bot commands comes from the `SITE_URL` env var. Without it, the fallback in
   `src/App/Config.php` is the developer's URL (`https://dev.blackatom.win/`).

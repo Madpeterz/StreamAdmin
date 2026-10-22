@@ -80,7 +80,10 @@ final class RequestBuilder
         foreach (self::SL_FIELDS as $name) {
             $raw .= $fields[$name];
         }
-        $raw .= Secrets::forKind($tamper["sign_with"] ?? $kind);
+        // 3.0: api.php requests naming the system owner are signed with the owner link code
+        $signKind = $tamper["sign_with"] ?? $kind;
+        $asOwner = $kind === "sl" && $signKind === "sl" && strcasecmp($fields["ownerkey"], self::IDENTITIES["owner"]["ownerkey"]) === 0;
+        $raw .= $asOwner ? Secrets::OWNER_LINK_CODE : Secrets::forKind($signKind);
 
         $post = [];
         foreach (self::SL_FIELDS as $name) {

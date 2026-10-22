@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ForceAppUrl;
 use App\Http\Middleware\UseDisplayTimezone;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -23,7 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // addresses instead of "*" (comma separated).
         $middleware->trustProxies(at: env('TRUSTED_PROXIES', '*'));
 
-        $middleware->web(append: [
+        $middleware->web(prepend: [
+            // created URLs come from APP_URL, never from the request's Host / X-Forwarded-Host
+            ForceAppUrl::class,
+        ], append: [
             // a changed password (or removed account) signs that staff member out everywhere
             AuthenticateSession::class,
             UseDisplayTimezone::class,

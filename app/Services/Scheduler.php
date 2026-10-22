@@ -77,7 +77,8 @@ class Scheduler
         $unixtime = time();
         $signed = implode('', array_map(fn (string $value) => htmlentities($value), $fields));
         $fields['unixtime'] = $unixtime;
-        $fields['hash'] = sha1($unixtime.$module.$area.$signed.$config->sl_link_code);
+        // the service objects are the owner's, so they are signed with the owner link code
+        $fields['hash'] = sha1($unixtime.$module.$area.$signed.$config->owner_link_code);
 
         $request = Request::create('/api.php/'.$spec['path'], 'POST', $fields, server: ['HTTP_X_SECONDLIFE_SHARD' => 'Production']);
         $reply = json_decode((string) app(Gateway::class)->api($request, $spec['path'])->getContent(), true);

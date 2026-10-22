@@ -69,7 +69,7 @@ class Event extends Endpoint
 
             return;
         }
-        if ($checkHash !== sha1((string) $this->request->server('QUERY_STRING').$config->ans_salt)) {
+        if (! hash_equals(sha1((string) $this->request->server('QUERY_STRING').$config->ans_salt), $checkHash)) {
             $this->failed('Unable to vaildate');
 
             return;

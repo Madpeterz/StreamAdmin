@@ -169,13 +169,15 @@ class SystemTest extends TestCase
 
     public function test_reissuing_keys(): void
     {
-        $before = SlConfig::find(1)->only(['sl_link_code', 'hud_link_code', 'http_inbound_secret']);
+        $keys = ['sl_link_code', 'owner_link_code', 'hud_link_code', 'public_link_code', 'http_inbound_secret'];
+        $before = SlConfig::find(1)->only($keys);
         Livewire::test(SystemSettings::class)->call('reissue');
-        $after = SlConfig::find(1)->only(['sl_link_code', 'hud_link_code', 'http_inbound_secret']);
+        $after = SlConfig::find(1)->only($keys);
 
+        $this->assertCount(5, array_unique($after));
         foreach ($after as $key => $value) {
             $this->assertNotSame($before[$key], $value);
-            $this->assertSame(8, strlen($value));
+            $this->assertSame(16, strlen($value));
         }
     }
 

@@ -118,12 +118,35 @@ abstract class SlEndpoint extends Endpoint
         }
     }
 
+    /**
+     * A request that names the system owner as its owner must be signed with the owner link code,
+     * not the vendor one every reseller holds. The HUD is signed by its wearer with the HUD code.
+     */
+    private function claimsOwner(): bool
+    {
+        if (! $this->trackObject) {
+            return false;
+        }
+        $ownerUuid = $this->slConfig()->ownerAvatar?->avatar_uuid;
+
+        return $ownerUuid !== null && strcasecmp($ownerUuid, $this->fields['ownerkey']) === 0;
+    }
+
     private function hashCheck(): void
     {
-        $raw = $this->unixtime.$this->module.$this->area.implode('', array_intersect_key($this->fields, self::REQUIRED)).$this->linkCode();
-        if (sha1($raw) !== $this->hash) {
+        $owner = $this->claimsOwner();
+        $code = $owner ? (string) $this->slConfig()->owner_link_code : $this->linkCode();
+        $raw = $this->unixtime.$this->module.$this->area.implode('', array_intersect_key($this->fields, self::REQUIRED)).$code;
+        // an empty owner code (never set) must not let anyone in as the owner
+        if (($owner && strlen($code) < 8) || ! hash_equals(sha1($raw), $this->hash)) {
             $this->loadOk = false;
             $this->failed($this->hashFailedMessage());
+
+            return;
+        }
+        if ($this->alreadySeen($this->hash, $this->unixtime)) {
+            $this->loadOk = false;
+            $this->failed('Request already used');
 
             return;
         }

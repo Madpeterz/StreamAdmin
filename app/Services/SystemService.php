@@ -216,18 +216,51 @@ class SystemService
         });
     }
 
+    /** Length of every link code and the inbound secret this app generates. */
+    public const KEY_LENGTH = 16;
+
+    /** The link codes and the inbound secret (sl_configs columns). */
+    private const KEY_COLUMNS = ['sl_link_code', 'owner_link_code', 'hud_link_code', 'public_link_code', 'http_inbound_secret'];
+
+    /** The value the 2.0.x installer put in every key. */
+    private const INSTALL_KEY = 'install';
+
     /** New link codes and inbound secret: every vendor, HUD and script must be given the new ones. */
     public function reissueKeys(): void
     {
         DB::transaction(function () {
-            SlConfig::findOrFail(1)->update([
-                'sl_link_code' => Str::random(8),
-                'http_inbound_secret' => Str::random(8),
-                'public_link_code' => Str::random(8),
-                'hud_link_code' => Str::random(8),
-            ]);
+            SlConfig::findOrFail(1)->update($this->newKeys(self::KEY_COLUMNS));
             $this->audit->log('Slconfig', '1', 'keys reissued');
         });
+    }
+
+    /**
+     * A fresh install ships every key as "install", which anyone can guess. The first staff login
+     * replaces those with random ones; keys that were already changed are left alone.
+     */
+    public function replaceInstallKeys(): void
+    {
+        $replaced = [];
+        DB::transaction(function () use (&$replaced) {
+            foreach (self::KEY_COLUMNS as $column) {
+                // conditional update, so two logins at once cannot replace a key twice
+                if (SlConfig::whereKey(1)->where($column, self::INSTALL_KEY)->update([$column => Str::random(self::KEY_LENGTH)]) > 0) {
+                    $replaced[] = $column;
+                }
+            }
+            if ($replaced !== []) {
+                $this->audit->log('Slconfig', '1', 'install keys replaced', null, implode(', ', $replaced));
+            }
+        });
+    }
+
+    /**
+     * @param  list<string>  $columns
+     * @return array<string, string>
+     */
+    private function newKeys(array $columns): array
+    {
+        return array_combine($columns, array_map(fn () => Str::random(self::KEY_LENGTH), $columns));
     }
 
     public function savePaymentKey(string $key): void

@@ -115,7 +115,8 @@
                 <flux:text class="text-sm">Set these in your in-world objects so they can talk to StreamAdmin.</flux:text>
             </div>
             <dl class="flex flex-col gap-3">
-                <x-ui.secret label="Vendors and servers link code" :secret="$config->sl_link_code" />
+                <x-ui.secret label="Vendors link code" :secret="$config->sl_link_code" />
+                <x-ui.secret label="Owner objects link code" :secret="$config->owner_link_code" />
                 <x-ui.secret label="Renter HUD link code" :secret="$config->hud_link_code" />
             </dl>
             <div>

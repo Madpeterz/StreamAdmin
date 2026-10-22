@@ -6,17 +6,21 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * The site is served through a Cloudflare tunnel that ends https, so forwarded headers must be honoured.
+ * The site is served through a Cloudflare tunnel that ends https. Created URLs come from APP_URL, so
+ * a forwarded host sent by a client cannot change them (it would redirect password reset links).
  */
 class ProxyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_forwarded_https_makes_urls_secure(): void
+    public function test_urls_use_app_url_and_ignore_a_forwarded_host(): void
     {
-        $this->get('/login', ['X-Forwarded-Proto' => 'https', 'X-Forwarded-Host' => 'sa.example.com'])
+        config(['app.url' => 'https://sa.example.com']);
+
+        $this->get('/login', ['X-Forwarded-Proto' => 'https', 'X-Forwarded-Host' => 'evil.example.net'])
             ->assertOk()
             ->assertSee('https://sa.example.com/', false)
+            ->assertDontSee('evil.example.net', false)
             ->assertDontSee('http://sa.example.com', false);
     }
 

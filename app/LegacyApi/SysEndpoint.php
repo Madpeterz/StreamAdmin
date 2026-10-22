@@ -66,6 +66,11 @@ abstract class SysEndpoint extends Endpoint
         }
         foreach ([$secret, ...SystemApiKey::accepted($secret, $this->method, $this->action)] as $code) {
             if (hash_equals(sha1($this->unixtime.$this->method.$this->action.$code), $this->token)) {
+                if ($this->alreadySeen($this->token, $this->unixtime)) {
+                    $this->loadOk = false;
+                    $this->failed('Request already used');
+                }
+
                 return;
             }
         }

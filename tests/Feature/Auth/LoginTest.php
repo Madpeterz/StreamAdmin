@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\AuditLog;
+use App\Models\SlConfig;
 use App\Models\Staff;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -44,6 +46,28 @@ class LoginTest extends TestCase
         $staff->refresh();
         $this->assertTrue(Hash::check('old-password', $staff->password));
         $this->assertNull($staff->phash);
+    }
+
+    public function test_the_first_login_replaces_install_keys_and_keeps_changed_ones(): void
+    {
+        $this->legacyStaff('old-password', owner: true);
+        SlConfig::whereKey(1)->update(['hud_link_code' => 'my-own-hud-code', 'sl_link_code' => 'install', 'http_inbound_secret' => 'install']);
+
+        Volt::test('auth.login')->set('username', 'legacy')->set('password', 'old-password')->call('login')->assertHasNoErrors();
+
+        $config = SlConfig::find(1);
+        $this->assertSame('my-own-hud-code', $config->hud_link_code);
+        foreach (['sl_link_code', 'http_inbound_secret', 'public_link_code'] as $key) {
+            $this->assertNotSame('install', $config->$key);
+            $this->assertSame(16, strlen($config->$key));
+        }
+        $this->assertTrue(AuditLog::where('store', 'Slconfig')->where('value_name', 'install keys replaced')->exists());
+
+        // later logins leave the new keys alone
+        $keys = $config->only(['sl_link_code', 'http_inbound_secret']);
+        auth()->logout();
+        Volt::test('auth.login')->set('username', 'legacy')->set('password', 'old-password')->call('login')->assertHasNoErrors();
+        $this->assertSame($keys, SlConfig::find(1)->only(['sl_link_code', 'http_inbound_secret']));
     }
 
     public function test_several_staff_can_upgrade_their_legacy_password(): void

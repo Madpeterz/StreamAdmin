@@ -51,6 +51,8 @@ final class Database
             if ($code !== 0) {
                 throw new RuntimeException("RESET_HOOK failed (" . $code . "): " . implode("\n", $output));
             }
+            // the migrations give the owner link code a random value; the runner needs to know it
+            $this->exec("UPDATE `sl_configs` SET `owner_link_code` = '" . Secrets::OWNER_LINK_CODE . "' WHERE `id` = 1;");
         }
     }
 
