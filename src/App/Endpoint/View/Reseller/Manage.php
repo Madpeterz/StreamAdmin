@@ -18,7 +18,7 @@ class Manage extends View
 
         $avatar = new Avatar();
         $reseller = new Reseller();
-        if ($reseller->loadID($this->siteConfig->getPage()) == false) {
+        if ($reseller->loadID($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("reseller?bubblemessage=unable to find reseller&bubbletype=warning");
         }
         $avatar->loadID($reseller->_AvatarLink);

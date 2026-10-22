@@ -1,0 +1,526 @@
+{
+    "scenario": "51-hud",
+    "description": "HUD config, rental list, costs, details resend and renewals",
+    "seeds": [
+        "catalog",
+        "hud"
+    ],
+    "steps": [
+        {
+            "id": "hudconfig",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Config/Hudconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Get config [ok]",
+                    "module": "Config",
+                    "area": "Hudconfig",
+                    "AllowDiscord": "1",
+                    "AllowGroup": "1",
+                    "AllowDetails": "1",
+                    "AllowRenewal": "1",
+                    "GroupLink": "secondlife:///app/group/9c000000-0000-4000-8000-000000000009/about",
+                    "DiscordLink": "https://discord.contract.test/invite"
+                }
+            }
+        },
+        {
+            "id": "hudconfig_api_path_rejected",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Config/Hudconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 501,
+                "content_type": "text/html",
+                "body": {
+                    "status": false,
+                    "message": "[Config | Hudconfig | ] Unsupported"
+                }
+            }
+        },
+        {
+            "id": "rentals_details",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Details",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Client account: Contract Client",
+                    "dataset_count": 2,
+                    "dataset": [
+                        "rentSoon|||8005|||{{dur:2880~60}}",
+                        "rentActv|||8002|||{{dur:10080~60}}"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "rentals_details_stranger",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Details",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "5a5a5a5a-0000-4000-8000-000000000099",
+                    "ownername": "Stranger Resident",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Unable to find any active rentals"
+                }
+            }
+        },
+        {
+            "id": "rentals_details_banned",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Details",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "ba11ed00-0000-4000-8000-000000000005",
+                    "ownername": "Banned Resident",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to find avatar"
+                }
+            }
+        },
+        {
+            "id": "costs_own",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Costs",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "rentActv"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "{{dur:10080~60}}",
+                    "systemowner": "00000000-0000-0000-0000-000000000000",
+                    "cost": 500,
+                    "word": "Week",
+                    "stacksize": 1
+                }
+            }
+        },
+        {
+            "id": "costs_other",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Costs",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "rentExpd"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to renew someone elses rental via your hud, please use the proxy pay!"
+                }
+            }
+        },
+        {
+            "id": "costs_unknown",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Costs",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "nope0000"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to find rental"
+                }
+            }
+        },
+        {
+            "id": "resend_own",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Details/Resend",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "rentActv"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Details request accepted, it should be with you shortly!"
+                }
+            }
+        },
+        {
+            "id": "resend_own_again",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Details/Resend",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "rentActv"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "You already have a pending details request - please wait for it or contact support."
+                }
+            }
+        },
+        {
+            "id": "resend_other",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Details/Resend",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "rentExpd"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "You can not request someone else's rental details via the hud!"
+                }
+            }
+        },
+        {
+            "id": "renew_missing_transaction",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Renew",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "c11e0000-0000-4000-8000-000000000001",
+                    "avatarName": "Contract Client",
+                    "rentalUid": "rentActv",
+                    "amountpaid": "500"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Invaild SL transaction ID",
+                    "module": "Rentals",
+                    "area": "Renew"
+                }
+            }
+        },
+        {
+            "id": "renew_wrong_amount",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Renew",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "c11e0000-0000-4000-8000-000000000001",
+                    "avatarName": "Contract Client",
+                    "rentalUid": "rentActv",
+                    "amountpaid": "1",
+                    "transactionUUID": "7a000000-0000-4000-8000-000000000001"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "payment not accepted (Invaild amount)"
+                }
+            }
+        },
+        {
+            "id": "renew_other_rental",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Renew",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "c11e0000-0000-4000-8000-000000000001",
+                    "avatarName": "Contract Client",
+                    "rentalUid": "rentExpd",
+                    "amountpaid": "900",
+                    "transactionUUID": "7a000000-0000-4000-8000-000000000002"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "You can not renew other peoples rentals via the hud!"
+                }
+            }
+        },
+        {
+            "id": "renew_own",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Renew",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "c11e0000-0000-4000-8000-000000000001",
+                    "avatarName": "Contract Client",
+                    "rentalUid": "rentActv",
+                    "amountpaid": "500",
+                    "transactionUUID": "7a000000-0000-4000-8000-000000000003"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Payment accepted there is now: {{dur:20160~60}} remaining you will next need to renew {{datetime}}",
+                    "owner_payment": 0,
+                    "credit-return": 0,
+                    "credit-remaining": 0
+                }
+            }
+        },
+        {
+            "id": "rentals_details_after",
+            "request": {
+                "method": "POST",
+                "path": "/hud.php/Rentals/Details",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "c11e0000-0000-4000-8000-000000000001",
+                    "ownername": "Contract Client",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Client account: Contract Client",
+                    "dataset_count": 2,
+                    "dataset": [
+                        "rentSoon|||8005|||{{dur:2880~60}}",
+                        "rentActv|||8002|||{{dur:20160~60}}"
+                    ]
+                }
+            }
+        }
+    ]
+}

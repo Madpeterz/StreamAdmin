@@ -22,7 +22,7 @@ class Manage extends View
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $template = new Template();
-        if ($template->loadID($this->siteConfig->getPage()) == false) {
+        if ($template->loadID($this->siteConfig->getPage())->status == false) {
             $this->output->redirect("template?bubblemessage=unable to find template&bubbletype=warning");
             return;
         }

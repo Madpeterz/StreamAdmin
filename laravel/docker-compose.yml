@@ -1,0 +1,130 @@
+# StreamAdmin 3.0 production stack, reached through a Cloudflare Tunnel (docs/cloudflare.md).
+#
+#   cp .env.example .env   (fill in APP_KEY, APP_URL, DB_PASSWORD, VALKEY_PASSWORD, STREAMADMIN_TAG)
+#   docker compose up -d
+#
+# No ports are published. cloudflared (running on the external tunnel network, "playerdb" unless you set
+# TUNNEL_NETWORK) forwards the public hostname to  http://SA7App:8080
+# Settings come from .env next to this file, or from the stack environment if you deploy with Portainer.
+name: streamadmin
+
+services:
+    SA7App:
+        container_name: SA7App
+        image: madpeter/streamadmin:${STREAMADMIN_TAG:?set STREAMADMIN_TAG to the target version}
+        restart: always
+        # remove this line to run your own build:  docker compose build
+        build: .
+        networks:
+        - streamadmin
+        - tunnel
+        depends_on:
+            SA7Db:
+                condition: service_healthy
+            SA7Valkey:
+                condition: service_healthy
+        environment:
+        - APP_NAME=${APP_NAME:-StreamAdmin}
+        - APP_KEY=${APP_KEY:?set APP_KEY (php artisan key:generate --show)}
+        - APP_URL=${APP_URL:?set APP_URL to the public tunnel url}
+        - APP_LOCALE=${APP_LOCALE:-en}
+        - LOG_CHANNEL=${LOG_CHANNEL:-stderr}
+        - LOG_LEVEL=${LOG_LEVEL:-warning}
+        - DB_CONNECTION=mariadb
+        - DB_HOST=SA7Db
+        - DB_PORT=3306
+        - DB_DATABASE=streamadmin
+        - DB_USERNAME=streamadminDBuser
+        - DB_PASSWORD=${DB_PASSWORD:?set DB_PASSWORD}
+        - SESSION_DRIVER=redis
+        - SESSION_LIFETIME=${SESSION_LIFETIME:-120}
+        - SESSION_SECURE_COOKIE=true
+        - CACHE_STORE=redis
+        - CACHE_PREFIX=streamadmin
+        - QUEUE_CONNECTION=redis
+        - REDIS_CLIENT=phpredis
+        - VALKEY_HOST=SA7Valkey
+        - VALKEY_PORT=6379
+        - VALKEY_PASSWORD=${VALKEY_PASSWORD:?set VALKEY_PASSWORD}
+        # in-world queues and the nightly spreadsheet; only one app container may have this on
+        - SCHEDULER_ENABLED=${SCHEDULER_ENABLED:-true}
+        - EXPORT_MAX_BACKUPS=${EXPORT_MAX_BACKUPS:-14}
+        - TRUSTED_PROXIES=${TRUSTED_PROXIES:-*}
+        volumes:
+        # nightly spreadsheet backups (Health page and System settings download them)
+        - exports:/var/www/html/storage/app/private/exports
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/up"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+            start_period: 60s
+
+    SA7Db:
+        container_name: SA7Db
+        # pinned: a 2.0.x database volume made by "mariadb:latest" opens fine with 11.4
+        image: mariadb:11.4
+        restart: always
+        networks:
+        - streamadmin
+        environment:
+        - MARIADB_RANDOM_ROOT_PASSWORD=yes
+        - MARIADB_USER=streamadminDBuser
+        - MARIADB_PASSWORD=${DB_PASSWORD:?set DB_PASSWORD}
+        - MARIADB_DATABASE=streamadmin
+        volumes:
+        - streamadmin-db:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+            interval: 10s
+            timeout: 5s
+            retries: 30
+            start_period: 30s
+
+    SA7Valkey:
+        container_name: SA7Valkey
+        image: valkey/valkey:8-alpine
+        restart: always
+        networks:
+        - streamadmin
+        # AOF on a volume so sessions survive a restart
+        command: ["valkey-server", "--requirepass", "${VALKEY_PASSWORD:?set VALKEY_PASSWORD}", "--appendonly", "yes"]
+        environment:
+        - REDISCLI_AUTH=${VALKEY_PASSWORD}
+        volumes:
+        - streamadmin-valkey:/data
+        healthcheck:
+            test: ["CMD", "valkey-cli", "ping"]
+            interval: 10s
+            timeout: 3s
+            retries: 10
+
+    # docker compose --profile tools up -d   (then http://127.0.0.1:8881)
+    SA7PHPmyAdmin:
+        container_name: SA7PHPmyAdmin
+        profiles: [tools]
+        image: phpmyadmin/phpmyadmin:latest
+        restart: unless-stopped
+        networks:
+        - streamadmin
+        environment:
+        - PMA_HOST=SA7Db
+        - UPLOAD_LIMIT=300M
+        ports:
+        - 127.0.0.1:${PMA_PORT:-8881}:80
+        depends_on:
+        - SA7Db
+
+networks:
+    streamadmin:
+    tunnel:
+        name: ${TUNNEL_NETWORK:-playerdb}
+        external: true
+
+volumes:
+    # Upgrading from 2.0.x: set DB_VOLUME to the name of the old database volume (docker volume ls,
+    # usually <folder>_streamadmin-db) so 3.0 opens the existing data. Fresh installs leave it unset.
+    streamadmin-db:
+        name: ${DB_VOLUME:-streamadmin_streamadmin-db}
+    streamadmin-valkey:
+    exports:

@@ -19,7 +19,7 @@ class Update extends ControlAjax
         }
         $allowed = $this->input->post("allowed")->asBool();
         $this->setSwapTag("redirect", "reseller");
-        if ($reseller->loadID($this->siteConfig->getPage()) == false) {
+        if ($reseller->loadID($this->siteConfig->getPage())->status == false) {
             $this->failed("Unable to load reseller");
             return;
         }

@@ -1,0 +1,99 @@
+{
+    "scenario": "11-buy-reseller",
+    "description": "Purchase on a reseller vendor (owner payment split)",
+    "seeds": [
+        "catalog"
+    ],
+    "steps": [
+        {
+            "id": "startrental_via_reseller",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "289c3e36-69b3-40c5-9229-0c6a5d230766",
+                    "ownername": "Madpeter Zond",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "b0b00000-0000-4000-8000-0000000000b0",
+                    "avatarName": "Buyer Resident",
+                    "packageuid": "pkgShout",
+                    "amountpaid": "500"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Details should be with you shortly",
+                    "module": "Buy",
+                    "area": "Startrental",
+                    "owner_payment": 1,
+                    "owner_payment_amount": 375,
+                    "owner_payment_uuid": "00000000-0000-0000-0000-000000000000",
+                    "credit-return": 0,
+                    "credit-remaining": 0
+                }
+            }
+        },
+        {
+            "id": "stocklevel_after",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Stock/Stocklevel",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "see results",
+                    "module": "Stock",
+                    "area": "Stocklevel",
+                    "results": {
+                        "1": {
+                            "domain": "stream.contract.test",
+                            "packages": {
+                                "1": {
+                                    "name": "Contract Shoutcast",
+                                    "stock": 0
+                                },
+                                "2": {
+                                    "name": "Contract Icecast",
+                                    "stock": 0
+                                },
+                                "3": {
+                                    "name": "Contract Sold Out",
+                                    "stock": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

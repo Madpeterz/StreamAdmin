@@ -20,7 +20,7 @@ class Getpackages extends SecondlifeAjax
     public function processWithTreevenderID(int $tree_vender_id, bool $disableSoldoutChecks = true): void
     {
         $treevender = new Treevender();
-        if ($treevender->loadID($tree_vender_id) == false) {
+        if ($treevender->loadID($tree_vender_id)->status == false) {
             $this->failed("Unable to load selected tree vender");
             return;
         }

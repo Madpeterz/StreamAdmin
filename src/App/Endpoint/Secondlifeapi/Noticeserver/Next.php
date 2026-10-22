@@ -194,7 +194,7 @@ class Next extends SecondlifeAjax
             return;
         }
         $notice_notecard = new Noticenotecard();
-        if ($notice_notecard->loadID($notice->_NoticeNotecardLink) == false) {
+        if ($notice_notecard->loadID($notice->_NoticeNotecardLink)->status == false) {
             $this->failed("Unable to find static notecard!");
             return;
         }

@@ -1,0 +1,233 @@
+{
+    "scenario": "43-notecards",
+    "description": "Static notecard inventory sync",
+    "seeds": [
+        "catalog",
+        "queues"
+    ],
+    "steps": [
+        {
+            "id": "sync_add_new",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Noticeserver/Updatenotecards",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "notecards": "Contract welcome,Contract setup,Brand new card"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Noticeserver",
+                    "area": "Updatenotecards"
+                }
+            }
+        },
+        {
+            "id": "sync_drop_two",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Noticeserver/Updatenotecards",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "notecards": "Contract welcome,none"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Noticeserver",
+                    "area": "Updatenotecards"
+                }
+            }
+        },
+        {
+            "id": "sync_found_again",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Noticeserver/Updatenotecards",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "notecards": "Contract welcome,Contract setup,Contract missing card"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok - purged: 1 notecards",
+                    "module": "Noticeserver",
+                    "area": "Updatenotecards"
+                }
+            }
+        },
+        {
+            "id": "sync_empty_inventory",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Noticeserver/Updatenotecards",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "notecards": ""
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Noticeserver",
+                    "area": "Updatenotecards"
+                }
+            }
+        },
+        {
+            "id": "sync_missing_field",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Noticeserver/Updatenotecards",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok - purged: 1 notecards",
+                    "module": "Noticeserver",
+                    "area": "Updatenotecards"
+                }
+            }
+        },
+        {
+            "id": "sync_reseller",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Noticeserver/Updatenotecards",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "289c3e36-69b3-40c5-9229-0c6a5d230766",
+                    "ownername": "Madpeter Zond",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "notecards": "Contract welcome"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "SystemAPI access only - please contact support",
+                    "module": "Noticeserver",
+                    "area": "Updatenotecards"
+                }
+            }
+        },
+        {
+            "id": "notecardmail_after_sync",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Noticeserver/Notecardmail",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Missing notecard please recheck",
+                    "module": "Noticeserver",
+                    "area": "Notecardmail",
+                    "recheck": "1"
+                }
+            }
+        }
+    ]
+}

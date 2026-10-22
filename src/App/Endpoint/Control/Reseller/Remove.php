@@ -52,7 +52,7 @@ class Remove extends ControlAjax
     protected function transferTransactions(): bool
     {
         $reseller = new Reseller();
-        if ($reseller->loadByAvatarLink($this->siteConfig->getSlConfig()->_OwnerAvatarLink) == false) {
+        if ($reseller->loadByAvatarLink($this->siteConfig->getSlConfig()->_OwnerAvatarLink)->status == false) {
             return false;
         }
         if ($reseller->isLoaded() == false) {

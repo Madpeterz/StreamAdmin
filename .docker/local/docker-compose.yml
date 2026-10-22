@@ -1,0 +1,51 @@
+# Local test stack for the current (2.0.1.x) app, built from the working tree.
+#
+#   docker compose -f .docker/local/docker-compose.yml up -d
+#   open http://localhost:8085/   login: admin / localtest
+#   docker compose -f .docker/local/docker-compose.yml down -v   (-v wipes the database)
+#
+# Needs vendor/ in the source tree (composer install). Ports are bound to 127.0.0.1 only.
+name: streamadmin-local
+
+services:
+    db:
+        image: mariadb:11.4
+        environment:
+        - MARIADB_ROOT_PASSWORD=local
+        - MARIADB_DATABASE=streamadmin
+        - MARIADB_USER=streamadmin
+        - MARIADB_PASSWORD=local
+        volumes:
+        - local-db:/var/lib/mysql
+        # first start only: schema, baseline data, demo catalog, local admin login
+        - ../../Versions/installer.sql:/docker-entrypoint-initdb.d/01-installer.sql:ro
+        - ../../Versions/2.0.1.1.sql:/docker-entrypoint-initdb.d/02-upgrade-2.0.1.1.sql:ro
+        - ../../Tests/reset.db.sql:/docker-entrypoint-initdb.d/03-baseline.sql:ro
+        - ../../contract-tests/sql/seeds/catalog.sql:/docker-entrypoint-initdb.d/04-demo-catalog.sql:ro
+        - ./local-login.sql:/docker-entrypoint-initdb.d/05-local-login.sql:ro
+        healthcheck:
+            test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+            interval: 2s
+            timeout: 5s
+            retries: 60
+
+    app:
+        image: madpeter/phpapachepreload:php84
+        ports:
+        - 127.0.0.1:${LOCAL_PORT:-8085}:80
+        volumes:
+        - ../../:/srv/website
+        - ../vhost.conf:/etc/apache2/sites-available/000-default.conf:ro
+        environment:
+        - SITE_NAME=Streamadmin (local)
+        - SITE_URL=http://localhost:${LOCAL_PORT:-8085}/
+        - SQL_HOST=db
+        - SQL_DB_NAME=streamadmin
+        - SQL_DB_USER=streamadmin
+        - SQL_DB_PASS=local
+        depends_on:
+            db:
+                condition: service_healthy
+
+volumes:
+    local-db:

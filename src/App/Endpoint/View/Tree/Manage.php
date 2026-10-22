@@ -23,7 +23,7 @@ class Manage extends View
         class='btn btn-danger confirmDialog'>Remove</button></a>");
 
         $treevender = new Treevender();
-        if ($treevender->loadID(intval($this->siteConfig->getPage())) == false) {
+        if ($treevender->loadID(intval($this->siteConfig->getPage()))->status == false) {
             $this->output->redirect("tree?bubblemessage=unable to find tree vender&bubbletype=warning");
             return;
         }

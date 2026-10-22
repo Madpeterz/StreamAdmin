@@ -83,15 +83,17 @@ class BotHelper
         );
     }
 
-    public function sendBotNextNotecard(string $serverurl, string $httpInboundCode): CreateReply
+    public function sendBotNextNotecard(string $serverurl, string $httpInboundSecret): CreateReply
     {
         $BotcommandQ = new Botcommandq();
         if ($BotcommandQ->loadByCommand("FetchNextNotecard")->status == true) {
             return new CreateReply("already in Q", true, 0);
         }
+        // the command travels through the message queue and IMs, so send a short lived
+        // key scoped to sys.php Notecard/Next instead of the inbound secret
         return $this->addCommandToQ(
             "FetchNextNotecard",
-            [$serverurl, $httpInboundCode]
+            [$serverurl, SystemApiKey::current($httpInboundSecret, "Notecard", "Next")]
         );
     }
 

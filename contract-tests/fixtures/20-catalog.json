@@ -1,0 +1,619 @@
+{
+    "scenario": "20-catalog",
+    "description": "Stock levels, texture packs, tree vendors, client rental check",
+    "seeds": [
+        "catalog"
+    ],
+    "steps": [
+        {
+            "id": "stocklevel",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Stock/Stocklevel",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "see results",
+                    "module": "Stock",
+                    "area": "Stocklevel",
+                    "results": {
+                        "1": {
+                            "domain": "stream.contract.test",
+                            "packages": {
+                                "1": {
+                                    "name": "Contract Shoutcast",
+                                    "stock": 1
+                                },
+                                "2": {
+                                    "name": "Contract Icecast",
+                                    "stock": 0
+                                },
+                                "3": {
+                                    "name": "Contract Sold Out",
+                                    "stock": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "id": "stocklevel_reseller",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Stock/Stocklevel",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "289c3e36-69b3-40c5-9229-0c6a5d230766",
+                    "ownername": "Madpeter Zond",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "see results",
+                    "module": "Stock",
+                    "area": "Stocklevel",
+                    "results": {
+                        "1": {
+                            "domain": "stream.contract.test",
+                            "packages": {
+                                "1": {
+                                    "name": "Contract Shoutcast",
+                                    "stock": 1
+                                },
+                                "2": {
+                                    "name": "Contract Icecast",
+                                    "stock": 0
+                                },
+                                "3": {
+                                    "name": "Contract Sold Out",
+                                    "stock": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "id": "texturepack_owner",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Texturepack/Getpack",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "texturepack": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Texturepack",
+                    "area": "Getpack",
+                    "Texture-Offline": "718fdaf8-df99-5c7f-48fb-feb94db12675",
+                    "Texture-WaitOwner": "51d5f381-43cd-84f0-c226-f9f89c12af7e",
+                    "Texture-GettingDetails": "bc14cd11-edca-4bd2-3a21-46d870966edd",
+                    "Texture-MakePayment": "19e57cf0-254f-32d7-fc9f-0d698aca4dc2",
+                    "Texture-RenewHere": "0e99005c-526e-468c-7c0c-2569096f6162",
+                    "Texture-InUse": "10b68027-7e7f-fbbc-0c9f-6afabbfc636c",
+                    "Texture-RequestDetails": "c724a9ea-ee79-6d80-3249-ff016de063b0",
+                    "Texture-StockLevels": "257c594e-41d8-53d8-5280-5329a259a5d8",
+                    "Texture-ProxyRenew": "cc1c1124-b5d0-595b-12b6-016c61b82456",
+                    "reseller_rate": 100,
+                    "reseller_mode": "Owner mode"
+                }
+            }
+        },
+        {
+            "id": "texturepack_reseller",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Texturepack/Getpack",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "289c3e36-69b3-40c5-9229-0c6a5d230766",
+                    "ownername": "Madpeter Zond",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "texturepack": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Texturepack",
+                    "area": "Getpack",
+                    "Texture-Offline": "718fdaf8-df99-5c7f-48fb-feb94db12675",
+                    "Texture-WaitOwner": "51d5f381-43cd-84f0-c226-f9f89c12af7e",
+                    "Texture-GettingDetails": "bc14cd11-edca-4bd2-3a21-46d870966edd",
+                    "Texture-MakePayment": "19e57cf0-254f-32d7-fc9f-0d698aca4dc2",
+                    "Texture-RenewHere": "0e99005c-526e-468c-7c0c-2569096f6162",
+                    "Texture-InUse": "10b68027-7e7f-fbbc-0c9f-6afabbfc636c",
+                    "Texture-RequestDetails": "c724a9ea-ee79-6d80-3249-ff016de063b0",
+                    "Texture-StockLevels": "257c594e-41d8-53d8-5280-5329a259a5d8",
+                    "Texture-ProxyRenew": "cc1c1124-b5d0-595b-12b6-016c61b82456",
+                    "reseller_rate": 25,
+                    "reseller_mode": "Reseller mode"
+                }
+            }
+        },
+        {
+            "id": "texturepack_unknown",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Texturepack/Getpack",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "texturepack": "99"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to load texture pack",
+                    "module": "Texturepack",
+                    "area": "Getpack"
+                }
+            }
+        },
+        {
+            "id": "texturepack_missing",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Texturepack/Getpack",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Invaild texturepack id (or non sent)",
+                    "module": "Texturepack",
+                    "area": "Getpack"
+                }
+            }
+        },
+        {
+            "id": "tree_packages",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Tree/Getpackages",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "tree_vender_id": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Tree",
+                    "area": "Getpackages",
+                    "textureInuse": "e0000000-0000-4000-8000-00000000000e",
+                    "textureWaiting": "d0000000-0000-4000-8000-00000000000d",
+                    "packageUid": [
+                        "pkgEmpty",
+                        "pkgIce01",
+                        "pkgShout"
+                    ],
+                    "package_autodj": [
+                        "No",
+                        "Yes",
+                        "No"
+                    ],
+                    "package_autodjsize": [
+                        "0",
+                        "5",
+                        "0"
+                    ],
+                    "package_listeners": [
+                        25,
+                        100,
+                        50
+                    ],
+                    "package_bitrate": [
+                        64,
+                        192,
+                        128
+                    ],
+                    "package_days": [
+                        "7 day's",
+                        "30 day's",
+                        "7 day's"
+                    ],
+                    "package_cost": [
+                        250,
+                        900,
+                        500
+                    ],
+                    "package_servertype": [
+                        "C",
+                        "A",
+                        "B"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "tree_empty",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Tree/Getpackages",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "tree_vender_id": "2"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "No packages assigned to tree vender",
+                    "module": "Tree",
+                    "area": "Getpackages",
+                    "textureInuse": "e0000000-0000-4000-8000-00000000001e",
+                    "textureWaiting": "d0000000-0000-4000-8000-00000000001d"
+                }
+            }
+        },
+        {
+            "id": "tree_unknown",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Tree/Getpackages",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "tree_vender_id": "99"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to load selected tree vender",
+                    "module": "Tree",
+                    "area": "Getpackages"
+                }
+            }
+        },
+        {
+            "id": "tree_missing",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Tree/Getpackages",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Invaild tree vender id given or none sent!",
+                    "module": "Tree",
+                    "area": "Getpackages"
+                }
+            }
+        },
+        {
+            "id": "hasrental_some",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Client/Hasrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "checkinguuid": "c11e0000-0000-4000-8000-000000000001"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "some",
+                    "module": "Client",
+                    "area": "Hasrental"
+                }
+            }
+        },
+        {
+            "id": "hasrental_expired_only",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Client/Hasrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "checkinguuid": "c11e0000-0000-4000-8000-000000000002"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "some",
+                    "module": "Client",
+                    "area": "Hasrental"
+                }
+            }
+        },
+        {
+            "id": "hasrental_no_streams",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Client/Hasrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "checkinguuid": "289c3e36-69b3-40c5-9229-0c6a5d230766"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "No streams",
+                    "module": "Client",
+                    "area": "Hasrental"
+                }
+            }
+        },
+        {
+            "id": "hasrental_unknown",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Client/Hasrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "checkinguuid": "00000000-1111-4000-8000-000000000000"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Unknown user",
+                    "module": "Client",
+                    "area": "Hasrental"
+                }
+            }
+        },
+        {
+            "id": "hasrental_missing",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Client/Hasrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "No UUID",
+                    "module": "Client",
+                    "area": "Hasrental"
+                }
+            }
+        },
+        {
+            "id": "ping_reseller",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Object/Ping",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "289c3e36-69b3-40c5-9229-0c6a5d230766",
+                    "ownername": "Madpeter Zond",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "pong",
+                    "module": "Object",
+                    "area": "Ping"
+                }
+            }
+        }
+    ]
+}

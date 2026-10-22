@@ -12,7 +12,7 @@ class Detailed extends View
     public function process(): void
     {
         $region = new Region();
-        if ($region->loadID($this->siteConfig->getPage()) == false) {
+        if ($region->loadID($this->siteConfig->getPage())->status == false) {
             $this->setSwapTag("page_content", "Unknown region please go back and select a option");
             return;
         }

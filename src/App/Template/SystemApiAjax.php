@@ -3,6 +3,7 @@
 namespace App\Template;
 
 use App\Config;
+use App\Helpers\SystemApiKey;
 use YAPF\Bootstrap\Template\ViewAjax;
 use YAPF\InputFilter\InputFilter;
 
@@ -52,11 +53,13 @@ abstract class SystemApiAjax extends ViewAjax
             return;
         }
 
-        $bits = [$this->unixtime,$this->method,$this->action,$this->siteConfig->getSlConfig()->_HttpInboundSecret];
-        $raw = implode("", $bits);
-        $hashcheck = sha1($raw);
-        if ($this->token == $hashcheck) {
-            return;
+        $secret = $this->siteConfig->getSlConfig()->_HttpInboundSecret;
+        $codes = array_merge([$secret], SystemApiKey::accepted($secret, $this->method, $this->action));
+        foreach ($codes as $code) {
+            $hashcheck = sha1(implode("", [$this->unixtime, $this->method, $this->action, $code]));
+            if (hash_equals($hashcheck, $this->token) == true) {
+                return;
+            }
         }
         $this->load_ok = false;
         $this->failed("Invaild token");

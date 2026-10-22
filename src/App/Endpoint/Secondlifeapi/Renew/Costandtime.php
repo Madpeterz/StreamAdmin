@@ -23,8 +23,7 @@ class Costandtime extends SecondlifeAjax
         }
         if ($forceCheckAv != null) {
             if ($forceCheckAv->_Id != $rental->_AvatarLink) {
-                $this->failed("Unable to renew someone elses rental via your hud, 
-                please use the proxy pay!");
+                $this->failed("Unable to renew someone elses rental via your hud, please use the proxy pay!");
                 return;
             }
         }

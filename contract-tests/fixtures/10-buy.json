@@ -1,0 +1,927 @@
+{
+    "scenario": "10-buy",
+    "description": "Vendor config, stock check and purchase (owner vendor)",
+    "seeds": [
+        "catalog"
+    ],
+    "steps": [
+        {
+            "id": "getconfig_owner",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Getconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgShout",
+                    "texturepack": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Buy",
+                    "area": "Getconfig",
+                    "package_instock": "1",
+                    "Texture-Offline": "718fdaf8-df99-5c7f-48fb-feb94db12675",
+                    "Texture-WaitOwner": "51d5f381-43cd-84f0-c226-f9f89c12af7e",
+                    "Texture-GettingDetails": "bc14cd11-edca-4bd2-3a21-46d870966edd",
+                    "Texture-MakePayment": "19e57cf0-254f-32d7-fc9f-0d698aca4dc2",
+                    "package_cost": 500,
+                    "Texture-PackageSmall": "b0000000-0000-4000-8000-00000000000b",
+                    "Texture-PackageBig": "c0000000-0000-4000-8000-00000000000c",
+                    "Texture-PackageSoldout": "a0000000-0000-4000-8000-00000000000a",
+                    "reseller_rate": 100,
+                    "reseller_mode": "System owner mode"
+                }
+            }
+        },
+        {
+            "id": "getconfig_reseller",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Getconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "289c3e36-69b3-40c5-9229-0c6a5d230766",
+                    "ownername": "Madpeter Zond",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgShout",
+                    "texturepack": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Buy",
+                    "area": "Getconfig",
+                    "package_instock": "1",
+                    "Texture-Offline": "718fdaf8-df99-5c7f-48fb-feb94db12675",
+                    "Texture-WaitOwner": "51d5f381-43cd-84f0-c226-f9f89c12af7e",
+                    "Texture-GettingDetails": "bc14cd11-edca-4bd2-3a21-46d870966edd",
+                    "Texture-MakePayment": "19e57cf0-254f-32d7-fc9f-0d698aca4dc2",
+                    "package_cost": 500,
+                    "Texture-PackageSmall": "b0000000-0000-4000-8000-00000000000b",
+                    "Texture-PackageBig": "c0000000-0000-4000-8000-00000000000c",
+                    "Texture-PackageSoldout": "a0000000-0000-4000-8000-00000000000a",
+                    "reseller_rate": 25,
+                    "reseller_mode": "Reseller mode"
+                }
+            }
+        },
+        {
+            "id": "getconfig_soldout",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Getconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgEmpty",
+                    "texturepack": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Buy",
+                    "area": "Getconfig",
+                    "package_instock": "0",
+                    "Texture-Offline": "718fdaf8-df99-5c7f-48fb-feb94db12675",
+                    "Texture-WaitOwner": "51d5f381-43cd-84f0-c226-f9f89c12af7e",
+                    "Texture-GettingDetails": "bc14cd11-edca-4bd2-3a21-46d870966edd",
+                    "Texture-MakePayment": "19e57cf0-254f-32d7-fc9f-0d698aca4dc2",
+                    "package_cost": 250,
+                    "Texture-PackageSmall": "b0000000-0000-4000-8000-00000000002b",
+                    "Texture-PackageBig": "c0000000-0000-4000-8000-00000000002c",
+                    "Texture-PackageSoldout": "a0000000-0000-4000-8000-00000000002a",
+                    "reseller_rate": 100,
+                    "reseller_mode": "System owner mode"
+                }
+            }
+        },
+        {
+            "id": "getconfig_unknown_package",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Getconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "nope0000",
+                    "texturepack": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to load package",
+                    "module": "Buy",
+                    "area": "Getconfig"
+                }
+            }
+        },
+        {
+            "id": "getconfig_unknown_texturepack",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Getconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgShout",
+                    "texturepack": "99"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to load texturepack",
+                    "module": "Buy",
+                    "area": "Getconfig"
+                }
+            }
+        },
+        {
+            "id": "getconfig_stranger",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Getconfig",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "5a5a5a5a-0000-4000-8000-000000000099",
+                    "ownername": "Stranger Resident",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgShout",
+                    "texturepack": "1"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to access this api - please contact owner"
+                }
+            }
+        },
+        {
+            "id": "checkstock_instock",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Checkstock",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgShout"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Buy",
+                    "area": "Checkstock",
+                    "package_instock": "1",
+                    "package_cost": 500,
+                    "texture_package_small": "b0000000-0000-4000-8000-00000000000b",
+                    "texture_package_big": "c0000000-0000-4000-8000-00000000000c",
+                    "texture_package_soldout": "a0000000-0000-4000-8000-00000000000a"
+                }
+            }
+        },
+        {
+            "id": "checkstock_soldout",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Checkstock",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgEmpty"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Buy",
+                    "area": "Checkstock",
+                    "package_instock": "0",
+                    "package_cost": 250,
+                    "texture_package_small": "b0000000-0000-4000-8000-00000000002b",
+                    "texture_package_big": "c0000000-0000-4000-8000-00000000002c",
+                    "texture_package_soldout": "a0000000-0000-4000-8000-00000000002a"
+                }
+            }
+        },
+        {
+            "id": "checkstock_needwork_only",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Checkstock",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgIce01"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Buy",
+                    "area": "Checkstock",
+                    "package_instock": "0",
+                    "package_cost": 900,
+                    "texture_package_small": "b0000000-0000-4000-8000-00000000001b",
+                    "texture_package_big": "c0000000-0000-4000-8000-00000000001c",
+                    "texture_package_soldout": "a0000000-0000-4000-8000-00000000001a"
+                }
+            }
+        },
+        {
+            "id": "checkstock_unknown_package",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Checkstock",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "nope0000"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to find package",
+                    "module": "Buy",
+                    "area": "Checkstock"
+                }
+            }
+        },
+        {
+            "id": "startrental_wrong_amount",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "b0b00000-0000-4000-8000-0000000000b0",
+                    "avatarName": "Buyer Resident",
+                    "packageuid": "pkgShout",
+                    "amountpaid": "499"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Payment amount not accepted",
+                    "module": "Buy",
+                    "area": "Startrental"
+                }
+            }
+        },
+        {
+            "id": "startrental_unknown_package",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "b0b00000-0000-4000-8000-0000000000b0",
+                    "avatarName": "Buyer Resident",
+                    "packageuid": "nope0000",
+                    "amountpaid": "500"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to find package",
+                    "module": "Buy",
+                    "area": "Startrental"
+                }
+            }
+        },
+        {
+            "id": "startrental_banned_avatar",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "ba11ed00-0000-4000-8000-000000000005",
+                    "avatarName": "Banned Resident",
+                    "packageuid": "pkgShout",
+                    "amountpaid": "500"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to attach avatar",
+                    "module": "Buy",
+                    "area": "Startrental"
+                }
+            }
+        },
+        {
+            "id": "startrental_soldout",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "b0b00000-0000-4000-8000-0000000000b0",
+                    "avatarName": "Buyer Resident",
+                    "packageuid": "pkgEmpty",
+                    "amountpaid": "250"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to find a unsold stream in that package",
+                    "module": "Buy",
+                    "area": "Startrental"
+                }
+            }
+        },
+        {
+            "id": "startrental_invalid_avatar_uuid",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "nope",
+                    "avatarName": "Buyer Resident",
+                    "packageuid": "pkgShout",
+                    "amountpaid": "500"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to attach avatar",
+                    "module": "Buy",
+                    "area": "Startrental"
+                }
+            }
+        },
+        {
+            "id": "startrental_two_periods",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "b0b00000-0000-4000-8000-0000000000b0",
+                    "avatarName": "Buyer Resident",
+                    "packageuid": "pkgShout",
+                    "amountpaid": "1000"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Details should be with you shortly",
+                    "module": "Buy",
+                    "area": "Startrental",
+                    "owner_payment": 0,
+                    "credit-return": 0,
+                    "credit-remaining": 0
+                }
+            }
+        },
+        {
+            "id": "startrental_now_soldout",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Startrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "b0b00000-0000-4000-8000-0000000000b0",
+                    "avatarName": "Buyer Resident",
+                    "packageuid": "pkgShout",
+                    "amountpaid": "500"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to find a unsold stream in that package",
+                    "module": "Buy",
+                    "area": "Startrental"
+                }
+            }
+        },
+        {
+            "id": "checkstock_after_sale",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Buy/Checkstock",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "packageuid": "pkgShout"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "ok",
+                    "module": "Buy",
+                    "area": "Checkstock",
+                    "package_instock": "0",
+                    "package_cost": 500,
+                    "texture_package_small": "b0000000-0000-4000-8000-00000000000b",
+                    "texture_package_big": "c0000000-0000-4000-8000-00000000000c",
+                    "texture_package_soldout": "a0000000-0000-4000-8000-00000000000a"
+                }
+            }
+        },
+        {
+            "id": "hasrental_buyer",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Client/Hasrental",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "checkinguuid": "b0b00000-0000-4000-8000-0000000000b0"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "some",
+                    "module": "Client",
+                    "area": "Hasrental"
+                }
+            }
+        },
+        {
+            "id": "renew_details_buyer",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Renew/Details",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "avatarUUID": "b0b00000-0000-4000-8000-0000000000b0"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "Client account: Buyer Resident",
+                    "module": "Renew",
+                    "area": "Details",
+                    "dataset_count": 1,
+                    "dataset": [
+                        "{{buyer_rental}}|||8001|||{{dur:20100~60}}"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "costandtime_buyer",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Renew/Costandtime",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "c1bce9b7"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "{{dur:20100~60}}",
+                    "module": "Renew",
+                    "area": "Costandtime",
+                    "systemowner": "00000000-0000-0000-0000-000000000000",
+                    "cost": 500,
+                    "word": "Week",
+                    "stacksize": 1
+                }
+            }
+        },
+        {
+            "id": "details_send_stranger_object",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Details/Send",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "b0b00000-0000-4000-8000-0000000000b0",
+                    "ownername": "Buyer Resident",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "c1bce9b7"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to access this api - please contact owner"
+                }
+            }
+        },
+        {
+            "id": "details_send_owner",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Details/Send",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "c1bce9b7"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "You already have a pending details request - please wait for it or contact support.",
+                    "module": "Details",
+                    "area": "Send"
+                }
+            }
+        },
+        {
+            "id": "details_send_again",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Details/Send",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "c1bce9b7"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "1",
+                    "message": "You already have a pending details request - please wait for it or contact support.",
+                    "module": "Details",
+                    "area": "Send"
+                }
+            }
+        },
+        {
+            "id": "details_send_unknown",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Details/Send",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor",
+                    "rentalUid": "nope0000"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "Unable to find rental",
+                    "module": "Details",
+                    "area": "Send"
+                }
+            }
+        },
+        {
+            "id": "details_send_missing",
+            "request": {
+                "method": "POST",
+                "path": "/api.php/Details/Send",
+                "headers": {
+                    "X-SecondLife-Shard": "Production"
+                },
+                "post": {
+                    "version": "2.0.1.2",
+                    "mode": "api",
+                    "objectuuid": "0b1ec700-0000-4000-8000-000000000001",
+                    "regionname": "Contract Region",
+                    "ownerkey": "00000000-0000-0000-0000-000000000000",
+                    "ownername": "System",
+                    "pos": "128,128,25",
+                    "objectname": "Contract object",
+                    "objecttype": "vendor"
+                }
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": "0",
+                    "message": "No rental requested please check your API docs",
+                    "module": "Details",
+                    "area": "Send"
+                }
+            }
+        }
+    ]
+}

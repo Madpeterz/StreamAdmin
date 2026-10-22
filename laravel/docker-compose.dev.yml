@@ -1,0 +1,98 @@
+# StreamAdmin 3.0 development stack (Docker only).
+#
+#   cp .env.dev.example .env                       (first time)
+#   docker compose -f docker-compose.dev.yml up -d
+#   open http://localhost:8086/   login: admin / localtest
+#
+# The app container runs migrations and restores the test login on every start
+# (docker/dev/entrypoint.d/05-dev-setup.sh).
+#
+# The database starts from the 2.0.1.x schema and demo data, so `migrate` also exercises the
+# 2.0.1.x -> 3.0.0 upgrade. `down -v` wipes it for a fresh run.
+name: streamadmin-dev
+
+services:
+    app:
+        image: serversideup/php:8.4-fpm-nginx
+        # the Windows/macOS bind mount is owned by root, so dev runs as root to let Laravel write storage/
+        user: root
+        ports:
+        - 127.0.0.1:${DEV_PORT:-8086}:8080
+        - "[::1]:${DEV_PORT:-8086}:8080"
+        volumes:
+        - .:/var/www/html
+        # vendor in a volume: PHP's DirectoryIterator gets short listings from Docker Desktop bind mounts
+        - vendor:/var/www/html/vendor
+        - ./docker/dev/entrypoint.d/05-dev-setup.sh:/etc/entrypoint.d/05-dev-setup.sh:ro
+        # scheduler service (same files the production image copies into /etc/s6-overlay)
+        - ./docker/s6/s6-rc.d/laravel-scheduler:/etc/s6-overlay/s6-rc.d/laravel-scheduler:ro
+        - ./docker/s6/user-bundles.d/user/contents.d/laravel-scheduler:/etc/s6-overlay/user-bundles.d/user/contents.d/laravel-scheduler:ro
+        environment:
+        # off in dev so the queues are only worked when you ask: SCHEDULER_ENABLED=true docker compose ... up -d
+        - SCHEDULER_ENABLED=${SCHEDULER_ENABLED:-false}
+        # opcache on, but re-checking file times every request so edits still show up immediately;
+        # without it every request recompiles the framework through the slow bind mount
+        - PHP_OPCACHE_ENABLE=1
+        - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
+        - PHP_OPCACHE_REVALIDATE_FREQ=2
+        # compiled Blade views (hundreds of Flux components) stay inside the container, off the bind mount
+        - VIEW_COMPILED_PATH=/tmp/views
+        - SSL_MODE=off
+        depends_on:
+            db:
+                condition: service_healthy
+            valkey:
+                condition: service_started
+
+    vite:
+        image: node:22-alpine
+        working_dir: /app
+        command: sh -c "npm install --no-audit --no-fund && npm run dev"
+        environment:
+        - VITE_POLL=1
+        ports:
+        - 127.0.0.1:5173:5173
+        - "[::1]:5173:5173"
+        volumes:
+        - .:/app
+        - node-modules:/app/node_modules
+
+    db:
+        image: mariadb:11.4
+        environment:
+        - MARIADB_ROOT_PASSWORD=dev
+        - MARIADB_DATABASE=streamadmin
+        - MARIADB_USER=streamadmin
+        - MARIADB_PASSWORD=dev
+        volumes:
+        - dev-db:/var/lib/mysql
+        # first start only: 2.0.1.x schema, baseline data, demo catalog, admin login
+        - ../Versions/installer.sql:/docker-entrypoint-initdb.d/01-installer.sql:ro
+        - ../Versions/2.0.1.1.sql:/docker-entrypoint-initdb.d/02-upgrade-2.0.1.1.sql:ro
+        - ../Tests/reset.db.sql:/docker-entrypoint-initdb.d/03-baseline.sql:ro
+        - ../contract-tests/sql/seeds/catalog.sql:/docker-entrypoint-initdb.d/04-demo-catalog.sql:ro
+        - ../.docker/local/local-login.sql:/docker-entrypoint-initdb.d/05-local-login.sql:ro
+        - ./docker/dev/db/00-test-database.sql:/docker-entrypoint-initdb.d/00-test-database.sql:ro
+        healthcheck:
+            test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+            interval: 2s
+            timeout: 5s
+            retries: 60
+
+    valkey:
+        image: valkey/valkey:8-alpine
+        command: ["valkey-server", "--requirepass", "dev", "--appendonly", "yes"]
+        volumes:
+        - dev-valkey:/data
+
+    mailpit:
+        image: axllent/mailpit:latest
+        ports:
+        - 127.0.0.1:8025:8025
+        - "[::1]:8025:8025"
+
+volumes:
+    vendor:
+    dev-db:
+    dev-valkey:
+    node-modules:

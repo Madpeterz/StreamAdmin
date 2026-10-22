@@ -1,0 +1,12 @@
+#!/command/with-contenv sh
+# Laravel scheduler next to nginx + php-fpm in the app container (replaces the 2.0.x cron container).
+# SCHEDULER_ENABLED=false starts the web server only.
+if [ "${SCHEDULER_ENABLED:-true}" != "true" ]; then
+    echo "laravel-scheduler: SCHEDULER_ENABLED is not true, scheduler not started"
+    # stay down instead of being restarted
+    s6-svc -O .
+    exit 0
+fi
+cd /var/www/html || exit 1
+# --quiet: sub-minute tasks would otherwise log a line every few seconds; results are on the Health page
+exec php artisan schedule:work --quiet

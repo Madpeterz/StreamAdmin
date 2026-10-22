@@ -29,7 +29,8 @@ class Stocklevel extends SecondlifeAjax
         $streams->limitFields(["id","packageLink","serverLink"]);
         $whereConfig = [
             "fields" => ["rentalLink","needWork"],
-            "values" => [null,0]
+            "values" => [null,0],
+            "matches" => ["IS","="],
         ];
         $load = $streams->loadWithConfig($whereConfig);
         if($load->status == false)

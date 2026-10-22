@@ -18,12 +18,12 @@ class Getconfig extends SecondlifeAjax
             return;
         }
         $textureconfig = new Textureconfig();
-        if ($textureconfig->loadID($texturepack) == false) {
+        if ($textureconfig->loadID($texturepack)->status == false) {
             $this->setSwapTag("message", "Unable to load texturepack");
             return;
         }
         $package = new Package();
-        if ($package->loadByPackageUid($packageuid) == false) {
+        if ($package->loadByPackageUid($packageuid)->status == false) {
             $this->setSwapTag("message", "Unable to load package");
             return;
         }

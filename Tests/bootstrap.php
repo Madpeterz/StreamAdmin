@@ -42,7 +42,7 @@ function installDatabase(\App\Config $system): void
 function resetDatabase(\App\Config $system): void
 {
     // wipe and make a new test database
-    $repply = $system->getSQL()->rawSQL("tests/reset.db.sql");
+    $repply = $system->getSQL()->rawSQL("Tests/reset.db.sql");
     if($repply->status == false) {
         die("[DB Reset] Could not reset the test database because: " . $repply->message);
     }

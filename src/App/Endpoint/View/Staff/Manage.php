@@ -23,7 +23,7 @@ class Manage extends View
         data-targetendpoint='[[SITE_URL]]Staff/Remove/" . $this->siteConfig->getPage() . "' 
         class='btn btn-danger confirmDialog'>Remove</button></a>");
         $staff = new Staff();
-        if ($staff->loadByField("id", $this->siteConfig->getPage()) == false) {
+        if ($staff->loadByField("id", $this->siteConfig->getPage())->status == false) {
             $this->output->redirect("staff?bubblemessage=unable to find staff member&bubbletype=warning");
             return;
         }

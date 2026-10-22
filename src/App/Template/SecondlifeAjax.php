@@ -307,7 +307,7 @@ abstract class SecondlifeAjax extends TemplateViewAjax
         }
         if ($grid != "Production") {
             $this->load_ok = false;
-            $this->failed("wrong grid connected: " . json_encode(getallheaders()));
+            $this->failed("wrong grid connected: " . ($grid ?? "none"));
             return;
         }
         $avatar_helper = new AvatarHelper();

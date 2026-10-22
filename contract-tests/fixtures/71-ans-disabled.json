@@ -1,0 +1,47 @@
+{
+    "scenario": "71-ans-disabled",
+    "description": "Marketplace coupon callbacks with coupons disabled",
+    "seeds": [
+        "catalog"
+    ],
+    "steps": [
+        {
+            "id": "purchase_disabled",
+            "request": {
+                "method": "GET",
+                "path": "/ans.php?TransactionID=4f5e6d7c&Type=Purchase&PayerName=Contract+Client&PayerKey=c11e0000-0000-4000-8000-000000000001&ReceiverName=Contract+Client&ReceiverKey=c11e0000-0000-4000-8000-000000000001&ItemID=24680&PaymentGross=100",
+                "headers": [],
+                "post": []
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": false,
+                    "message": "Failed ANS disabled",
+                    "module": "Ans",
+                    "area": "Event"
+                }
+            }
+        },
+        {
+            "id": "no_query",
+            "request": {
+                "method": "GET",
+                "path": "/ans.php",
+                "headers": [],
+                "post": []
+            },
+            "response": {
+                "http_status": 200,
+                "content_type": "text/html",
+                "body": {
+                    "status": false,
+                    "message": "Failed ANS disabled",
+                    "module": "Ans",
+                    "area": "Event"
+                }
+            }
+        }
+    ]
+}

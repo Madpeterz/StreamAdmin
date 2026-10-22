@@ -57,7 +57,7 @@ class Updatenotecards extends SecondlifeAjax
             "matches" => ["!="],
         ];
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadWithConfig($where_config) == false) {
+        if ($noticenotecardset->loadWithConfig($where_config)->status == false) {
             $this->setSwapTag("message", "Unable to load notice notecard set [p1]");
             return false;
         }
@@ -87,7 +87,7 @@ class Updatenotecards extends SecondlifeAjax
             "matches" => ["!=","="],
         ];
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadWithConfig($where_config) == false) {
+        if ($noticenotecardset->loadWithConfig($where_config)->status == false) {
             $this->setSwapTag("message", "Unable to load notice notecard set [p1]");
             return false;
         }
@@ -102,7 +102,7 @@ class Updatenotecards extends SecondlifeAjax
             return true;
         }
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadFromIds($found_ids) == false) {
+        if ($noticenotecardset->loadFromIds($found_ids)->status == false) {
             $this->setSwapTag("message", "Unable to load notice notecard set [p2]");
             return false;
         }
@@ -133,7 +133,7 @@ class Updatenotecards extends SecondlifeAjax
         ];
 
         $noticenotecardset = new NoticenotecardSet();
-        if ($noticenotecardset->loadWithConfig($where_config) == false) {
+        if ($noticenotecardset->loadWithConfig($where_config)->status == false) {
             return new RemoveReply("Unable to load notice notecard set because: "
             . $noticenotecardset->getLastError());
         }
@@ -191,7 +191,10 @@ class Updatenotecards extends SecondlifeAjax
     }
     public function process(): void
     {
-        $notecards = $this->input->post("notecards")->asString();
+        if ($this->hasAccessOwner() == false) {
+            return;
+        }
+        $notecards = $this->input->post("notecards")->asString() ?? "";
         $notecardsList = explode(",", $notecards);
         if ($this->markFound($notecardsList) == false) {
             return;

@@ -69,8 +69,11 @@ class Startrental extends SecondlifeAjax
         return true;
     }
 
-    protected function getAvatar(string $avatarUUID, string $avatarName): ?Avatar
+    protected function getAvatar(?string $avatarUUID, ?string $avatarName): ?Avatar
     {
+        if (($avatarUUID === null) || ($avatarName === null)) {
+            return null;
+        }
         $avatar_helper = new AvatarHelper();
         $get_av_status = $avatar_helper->loadOrCreate($avatarUUID, $avatarName);
         if ($get_av_status == true) {
@@ -79,8 +82,11 @@ class Startrental extends SecondlifeAjax
         return null;
     }
 
-    protected function getPackage(string $packageuid): ?Package
+    protected function getPackage(?string $packageuid): ?Package
     {
+        if ($packageuid === null) {
+            return null;
+        }
         $package = new Package();
         $package->loadByPackageUid($packageuid);
         if ($package->isLoaded() == true) {
@@ -162,7 +168,7 @@ class Startrental extends SecondlifeAjax
         }
 
         $server = new Server();
-        if ($server->loadID($stream->_ServerLink) == false) {
+        if ($server->loadID($stream->_ServerLink)->status == false) {
             $this->failed("Unable to find the server attached to the stream");
             return;
         }
@@ -251,7 +257,7 @@ class Startrental extends SecondlifeAjax
         }
         $avatar_system = new Avatar();
         $this->setSwapTag("owner_payment", 0);
-        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->_OwnerAvatarLink) == false) {
+        if ($avatar_system->loadID($this->siteConfig->getSlConfig()->_OwnerAvatarLink)->status == false) {
             $this->failed("Unable to load owner avatar");
             return;
         }

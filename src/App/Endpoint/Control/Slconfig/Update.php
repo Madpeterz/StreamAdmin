@@ -118,7 +118,7 @@ class Update extends ControlAjax
             return;
         }
         $eventsAPI = $this->input->post("eventsAPI")->asBool();
-        if ($avatar->loadByAvatarUid($owneravuid) == false) {
+        if ($avatar->loadByAvatarUid($owneravuid)->status == false) {
             $this->failed("Unable to load avatar from uid");
             return;
         }
