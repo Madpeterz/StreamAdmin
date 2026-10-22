@@ -69,5 +69,25 @@ class SlconfigTest extends TestWorker
         $reply = $update->getOutputObject();
         $this->assertSame("System config updated", $reply->getSwapTagString("message"), "Message does not appear to be correct");
         $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
+        global $system;
+        $this->assertSame(true, $system->getSlConfig()->_HudAllowRenewal, "Renewal should stay enabled");
+
+        $_POST["limitTime"] = 1;
+        $update = new Update();
+        $update->process();
+        $reply = $update->getOutputObject();
+        $this->assertSame(true, $reply->getSwapTagBool("status"), "incorrect status code");
+        $this->assertSame(false, $system->getSlConfig()->_HudAllowRenewal, "Renewal should be disabled by time limit");
+
+        $_POST["limitTime"] = 0;
+        $_POST["hudAllowDetails"] = 0;
+        $update = new Update();
+        $update->process();
+        $this->assertSame(false, $system->getSlConfig()->_HudAllowRenewal, "Renewal should be disabled without details");
+
+        $_POST["hudAllowDetails"] = 1;
+        $update = new Update();
+        $update->process();
+        $this->assertSame(true, $system->getSlConfig()->_HudAllowRenewal, "Renewal should be restored");
     }
 }

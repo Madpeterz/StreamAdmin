@@ -176,7 +176,7 @@ class DefaultView extends View
         );
         $form->select(
             "hudAllowRenewal",
-            "Allow renewals (Requires Allow details)",
+            "Allow renewals (Requires Allow details, disabled by rental time limit)",
             $slConfigObj->_HudAllowRenewal,
             $this->yesNo
         );

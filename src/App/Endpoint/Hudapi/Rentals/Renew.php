@@ -18,6 +18,10 @@ class Renew extends SecondlifeHudAjax
             $this->failed("Hud renewals are currently disabled");
             return;
         }
+        if ($this->siteConfig->getSlConfig()->_LimitTime == true) {
+            $this->failed("Hud renewals are disabled while the rental time limit is enforced");
+            return;
+        }
         $SLtransactionUUID = $this->input->post("transactionUUID")->isUuid()->asString();
         if ($SLtransactionUUID == null) {
             $this->failed("Invaild SL transaction ID");

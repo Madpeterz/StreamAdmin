@@ -16,6 +16,9 @@ class Hudconfig extends SecondlifeHudAjax
         if ($this->siteConfig->getSlConfig()->_HudAllowDetails == false) {
             $this->setSwapTag("AllowRenewal", false);
         }
+        if ($this->siteConfig->getSlConfig()->_LimitTime == true) {
+            $this->setSwapTag("AllowRenewal", false);
+        }
         $this->setSwapTag("GroupLink", $this->siteConfig->getSlConfig()->_HudGroupLink);
         $this->setSwapTag("DiscordLink", $this->siteConfig->getSlConfig()->_HudDiscordLink);
     }

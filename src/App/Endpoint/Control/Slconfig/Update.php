@@ -62,8 +62,11 @@ class Update extends ControlAjax
         }
         $hudAllowDetails = $this->input->post("hudAllowDetails")->asBool();
         $hudAllowRenewal = $this->input->post("hudAllowRenewal")->asBool();
-        if ($hudAllowRenewal == false) {
-            $hudAllowRenewal = $hudAllowDetails; // Unable to have renewal without details
+        if ($hudAllowDetails == false) {
+            $hudAllowRenewal = false; // Unable to have renewal without details
+        }
+        if ($this->siteConfig->getSlConfig()->_LimitTime == true) {
+            $hudAllowRenewal = false; // Hud renewals bypass the rental time limit
         }
         $this->siteConfig->getSlConfig()->_HudAllowDiscord = $hudAllowDiscord;
         $this->siteConfig->getSlConfig()->_HudDiscordLink = $hudDiscordLink;
@@ -142,8 +145,8 @@ class Update extends ControlAjax
         $this->siteConfig->getSlConfig()->_EventsAPI = $eventsAPI;
         $this->siteConfig->getSlConfig()->_ClientsDisplayServer = $ui_tweaks_clientsShowServer;
         $this->siteConfig->getSlConfig()->_StreamListOption = $ui_tweaks_groupStreamsBy;
-        $this->updateHudSettings();
         $this->updateSystemLimits();
+        $this->updateHudSettings();
         $newvalues = $this->siteConfig->getSlConfig()->objectToValueArray();
         $reissuedKeys = $this->forceReissue();
         $update_status = $this->siteConfig->getSlConfig()->updateEntry();
