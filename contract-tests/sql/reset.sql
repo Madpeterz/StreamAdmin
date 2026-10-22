@@ -1,4 +1,4 @@
--- Baseline data for contract tests. Derived from Tests/reset.db.sql with distinct link codes per API.
+-- Baseline data for contract tests. Derived from docs/legacy-sql/reset.db.sql with distinct link codes per API.
 -- Link codes are mirrored in runner/src/Secrets.php.
 SET FOREIGN_KEY_CHECKS = 0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";

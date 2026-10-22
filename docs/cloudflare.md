@@ -1,6 +1,6 @@
 # Running StreamAdmin 3.0 behind a Cloudflare Tunnel
 
-The production stack (`laravel/docker-compose.yml`) publishes no ports. `cloudflared` reaches the app over a
+The production stack (`docker-compose.yml`) publishes no ports. `cloudflared` reaches the app over a
 shared Docker network and Cloudflare terminates https.
 
 ## 1. Tunnel route

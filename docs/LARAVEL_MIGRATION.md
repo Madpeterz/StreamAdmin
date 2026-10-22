@@ -55,7 +55,7 @@ Removed because 3.0.0 only runs as the published image:
 - The non-tunnel `docker-compose.yml` (published port `8082`) → replaced by a single cloudflared compose file.
 - Redis service and `REDIS_*` / `SITE_CACHE_REDIS_HOST` naming → Valkey.
 
-Development also runs in Docker: `docker-compose.dev.yml` with a bind-mounted source tree, a Vite dev server container, MariaDB, Valkey and Mailpit. Tests run inside the app container (`docker compose exec app php artisan test`).
+Development also runs in Docker: `docker-compose.dev.yml` with a bind-mounted source tree, a Vite dev server container, MariaDBand Valkey. Tests run inside the app container (`docker compose exec app php artisan test`).
 
 ## Schema rename policy
 
@@ -69,10 +69,10 @@ Applied in Phase 2 through migrations that run on both fresh and existing instal
 - Existing FK constraints (36) are recreated after renames.
 - A full mapping table (old → new) lives in `docs/schema-rename-map.md`, created in Phase 2 and used by the Excel export and golden-master tests.
 
-## Progress (laravel/ on branch `laravel`)
+## Progress (branch `laravel`)
 
 - Phase 0: done (contract suite, legacy fixes).
-- Phase 1: dev stack done (`laravel/docker-compose.dev.yml`: serversideup php 8.4 + nginx, MariaDB, Valkey, Vite, Mailpit). Production image, compose stack, TrustProxies and the Cloudflare/release docs are done (Phase 9 below).
+- Phase 1: dev stack done (`docker-compose.dev.yml`: serversideup php 8.4 + nginx, MariaDB, Valkey, Vite). Production image, compose stack, TrustProxies and the Cloudflare/release docs are done (Phase 9 below).
 - Phase 2: done. Baseline + rename migrations (`database/legacy/schema-map.php`), 29 Eloquent models + `Staff`, `UnixTimestamp` cast.
 - Phase 3: started. `RentalService`, `StreamService`, `CatalogService`, `SalesService`, `MessagingService`, `BotService`, `SystemService`, `ObjectHealth`, `NoticeLevels`, `EventQueue`, `AuditLogger`, `Support\Swaps` (swap tags), `Support\PaymentKey`.
 - Phase 4: done. `app/LegacyApi`: `Gateway` (api.php, hud.php, sys.php, ans.php; `routes/legacy.php`, plus `public/{api,hud,sys,ans}.php` shims so nginx hands bare `/ans.php` to Laravel), `SlEndpoint` / `HudEndpoint` / `SysEndpoint` (the 2.0.x request checks), `Input` (YAPF InputFilter semantics, including htmlentities on values and in request hashes), `Output` (swap tags, "1"/"0" booleans for api/hud), one class per endpoint under `Endpoints/`. Every request runs in a transaction that is rolled back when it ends with status false. The contract suite passes against both stacks: 227/227 steps (`docker compose -f contract-tests/docker-compose.yml run --rm runner-laravel verify`).
@@ -100,7 +100,7 @@ Applied in Phase 2 through migrations that run on both fresh and existing instal
 
 ### Phase 1: Skeleton
 
-- New Laravel app on branch `laravel` (built in `laravel/`, moved to the repo root at cutover).
+- New Laravel app on branch `laravel` (built in `laravel/`, moved to the repo root at cutover: done).
 - Install Livewire, Flux (free), Tailwind v4 via Vite, `rappasoft/laravel-livewire-tables`, `phpoffice/phpspreadsheet`, icon set (Heroicons via Flux).
 - Map the existing Docker env vars (`SQL_HOST`, `SQL_DB_NAME`, `SQL_DB_USER`, `SQL_DB_PASS`, `SITE_NAME`, `SITE_URL`) in `config/*.php` so existing `.env` files keep working. New `VALKEY_HOST` / `VALKEY_PORT` / `VALKEY_PASSWORD` feed Laravel's `redis` connection config; session, cache, queue and lock stores all point at it.
 - Proxy setup for cloudflared: `TrustProxies` trusts the tunnel network, client IP taken from `CF-Connecting-IP`, `URL::forceScheme('https')`, secure + `SameSite=Lax` session cookies.
@@ -190,7 +190,7 @@ Delete `src/public_html/3rdparty/`, `js/site.js`, `css/site.css` at cutover.
 
 ### Optimisation pass (done, ahead of Phase 9)
 
-- **`laravel/Dockerfile`** (production image, pulled forward from Phase 9; the compose file is still to do). Multi-stage on `serversideup/php:8.4-fpm-nginx`:
+- **`Dockerfile`** (production image, pulled forward from Phase 9; the compose file is still to do). Multi-stage on `serversideup/php:8.4-fpm-nginx`:
   - PHP stage: `composer install --no-dev`, `dump-autoload --optimize --classmap-authoritative`.
   - Node stage: `vite build`, then `docker/precompress.mjs` writes `.br` and `.gz` next to every built asset.
   - nginx stage: builds `ngx_brotli` as a dynamic module against the exact nginx version in the base image; `docker/nginx/brotli.conf` turns on `brotli` (level 5, text types), `brotli_static` and `gzip_static`.
@@ -211,9 +211,9 @@ Delete `src/public_html/3rdparty/`, `js/site.js`, `css/site.css` at cutover.
 
 ### Phase 9: Docker stack + cutover
 
-**Status:** stack done and tested; cutover cleanup (last bullet) still to do.
+**Status:** done. The cutover cleanup removed YAPF, `src/`, the old `Tests/`, `Versions/` (archived in `docs/legacy-sql/`), `.docker/`, `phpcs.xml`, the `.bat` helpers and the old compose files, and moved the app from `laravel/` to the repo root. The legacy code is in git history (commit `adab6d1d` is the last that has it). The contract suite now has only the Laravel target.
 
-- Done: `laravel/Dockerfile` (see the optimisation pass), `laravel/docker-compose.yml` (`SA7App`, `SA7Db`, `SA7Valkey`, optional `SA7PHPmyAdmin` under `--profile tools`; no published ports; external tunnel network `TUNNEL_NETWORK`, default `playerdb`; `DB_VOLUME` to reuse a 2.0.x database volume), `.env.example`, `trustProxies` (`TRUSTED_PROXIES`, default `*`; `ProxyTest`), `docs/cloudflare.md`, `docs/RELEASE_3.0.0.md`.
+- Done: `Dockerfile` (see the optimisation pass), `docker-compose.yml` (`SA7App`, `SA7Db`, `SA7Valkey`, optional `SA7PHPmyAdmin` under `--profile tools`; no published ports; external tunnel network `TUNNEL_NETWORK`, default `playerdb`; `DB_VOLUME` to reuse a 2.0.x database volume), `.env.example`, `trustProxies` (`TRUSTED_PROXIES`, default `*`; `ProxyTest`), `docs/cloudflare.md`, `docs/RELEASE_3.0.0.md`.
 - Verified by `docker compose up` from the built image on a fresh database and an external network: all three services healthy, migrations and caches run on start, scheduler process running, `/login` and `/up` answered over the tunnel network with Brotli, no host ports.
 - Differences from the plan below: the app listens on **8080** (non-root image), not 80, and the scheduler runs under s6 (not supervisord).
 

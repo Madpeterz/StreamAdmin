@@ -1,11 +1,11 @@
 # Contract test stack for the in-world APIs (api.php, hud.php, sys.php, ans.php).
 #
-#   docker compose -f contract-tests/docker-compose.yml up -d legacy
+#   docker compose -f docker-compose.dev.yml up -d          (once: provides the vendor volume)
+#   docker compose -f contract-tests/docker-compose.yml up -d app
 #   docker compose -f contract-tests/docker-compose.yml run --rm runner verify
-#   docker compose -f contract-tests/docker-compose.yml run --rm runner record
 #
-# The runner only talks HTTP to TARGET_URL and resets the database between scenarios,
-# so the same fixtures can later be verified against the Laravel stack.
+# The runner only talks HTTP to TARGET_URL and rebuilds the database before every scenario, from the
+# frozen 2.0.1.x schema, then runs the Laravel migrations (RESET_HOOK) exactly like a real upgrade.
 name: streamadmin-contract
 
 services:
@@ -22,30 +22,13 @@ services:
             timeout: 5s
             retries: 30
 
-    legacy:
-        image: madpeter/phpapachepreload:php84
-        volumes:
-        - ../:/srv/website
-        - ../.docker/vhost.conf:/etc/apache2/sites-available/000-default.conf:ro
-        environment:
-        - SQL_HOST=db
-        - SQL_DB_NAME=streamadmin
-        - SQL_DB_USER=root
-        - SQL_DB_PASS=contract
-        - SITE_URL=https://streamadmin.contract.test/
-        depends_on:
-            db:
-                condition: service_healthy
-
-    # The Laravel port, same database. vendor/ comes from the dev stack's volume
-    # (docker compose -f laravel/docker-compose.dev.yml up once first).
-    laravel:
+    # The application under test, on the contract database. vendor/ comes from the dev stack's volume.
+    app:
         image: serversideup/php:8.4-fpm-nginx
-        profiles: ["laravel"]
         user: root
         volumes:
-        - ../laravel:/var/www/html
-        - laravel-vendor:/var/www/html/vendor
+        - ..:/var/www/html
+        - app-vendor:/var/www/html/vendor
         environment:
         - APP_ENV=production
         - APP_DEBUG=false
@@ -68,52 +51,28 @@ services:
                 condition: service_healthy
 
     runner:
-        image: madpeter/phpapachepreload:php84
+        build: runner
         profiles: ["runner"]
         volumes:
-        - ../:/srv/website
-        # lets RESET_HOOK run the Laravel migrations (see README)
-        - laravel-vendor:/srv/website/laravel/vendor
+        - ..:/srv/website
+        - app-vendor:/srv/website/vendor
         working_dir: /srv/website/contract-tests
         entrypoint: ["php", "runner/run.php"]
         environment:
-        - TARGET_URL=${TARGET_URL:-http://legacy}
+        - TARGET_URL=http://app:8080
         - DB_HOST=db
         - DB_NAME=streamadmin
         - DB_USER=root
         - DB_PASS=contract
-        # Public URL(s) the target puts in bot commands (normalized to {{site_url}})
-        - SITE_URLS=${SITE_URLS:-https://streamadmin.contract.test/}
-        # Optional command run after every database reset (e.g. Laravel migrations on the new stack)
-        - RESET_HOOK=${RESET_HOOK:-}
-        depends_on:
-            db:
-                condition: service_healthy
-
-    # Runner for the Laravel target: runs the 2.0.1.x -> 3.0 migrations after every database reset.
-    #   docker compose -f contract-tests/docker-compose.yml --profile laravel up -d laravel
-    #   docker compose -f contract-tests/docker-compose.yml run --rm runner-laravel verify
-    runner-laravel:
-        build: runner/laravel
-        profiles: ["runner"]
-        volumes:
-        - ../:/srv/website
-        - laravel-vendor:/srv/website/laravel/vendor
-        working_dir: /srv/website/contract-tests
-        entrypoint: ["php", "runner/run.php"]
-        environment:
-        - TARGET_URL=http://laravel:8080
-        - DB_HOST=db
-        - DB_NAME=streamadmin
-        - DB_USER=root
-        - DB_PASS=contract
+        # public URL(s) the target puts in bot commands (normalized to {{site_url}})
         - SITE_URLS=https://streamadmin.contract.test/
-        - RESET_HOOK=cd /srv/website/laravel && DB_HOST=db DB_DATABASE=streamadmin DB_USERNAME=root DB_PASSWORD=contract CACHE_STORE=array APP_ENV=production php artisan migrate --force --no-interaction -q
+        # run after every database rebuild: upgrades the 2.0.1.x schema to 3.0
+        - RESET_HOOK=cd /srv/website && DB_HOST=db DB_DATABASE=streamadmin DB_USERNAME=root DB_PASSWORD=contract CACHE_STORE=array APP_ENV=production php artisan migrate --force --no-interaction -q
         depends_on:
             db:
                 condition: service_healthy
 
 volumes:
-    laravel-vendor:
+    app-vendor:
         external: true
         name: streamadmin-dev_vendor

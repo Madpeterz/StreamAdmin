@@ -37,7 +37,7 @@ rule for `api.php`, `hud.php`, `sys.php`, `ans.php`).
 
 1. Back up (above). Stop the old stack: `docker compose -f docker-compose.cloudflared.yml down` (not `-v`).
 2. Find the old database volume: `docker volume ls | grep streamadmin-db`.
-3. Copy `laravel/docker-compose.yml` and `.env.example` (as `.env`) to the server. Fill in the required values and
+3. Copy `docker-compose.yml` and `.env.example` (as `.env`) to the server. Fill in the required values and
    set `DB_VOLUME=<old volume name>`. `DB_PASSWORD` must be the old `SQL_DB_PASS`. Generate the key with
    `docker run --rm madpeter/streamadmin:3.0.0 php artisan key:generate --show`.
 4. Point the cloudflared route at `http://SA7App:8080`.

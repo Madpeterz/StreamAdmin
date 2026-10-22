@@ -1,2 +1,0 @@
-cls
-composer update

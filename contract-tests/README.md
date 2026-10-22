@@ -1,15 +1,18 @@
 # Contract tests (in-world APIs)
 
 Black-box recorded tests for `api.php`, `hud.php`, `sys.php` and `ans.php`. Each scenario rebuilds the
-database, sends real signed HTTP requests and compares the responses with recorded fixtures. The same
-fixtures are used to verify the Laravel port, which must match the 2.0.1.x responses (see
-`docs/lsl-contract.md`).
+database from the frozen 2.0.1.x schema, runs the Laravel migrations, sends real signed HTTP requests and
+compares the responses with fixtures recorded from the 2.0.1.x application. The Laravel app must keep
+matching them (see `docs/lsl-contract.md`).
 
 ## Running
 
 ```sh
-# start MariaDB + the legacy app (current source tree, bind mounted)
-docker compose -f contract-tests/docker-compose.yml up -d legacy
+# once: the dev stack provides the vendor volume
+docker compose -f docker-compose.dev.yml up -d
+
+# MariaDB + the app on the contract database
+docker compose -f contract-tests/docker-compose.yml up -d app
 
 # compare against fixtures (exit code 1 on any failure)
 docker compose -f contract-tests/docker-compose.yml run --rm runner verify
@@ -17,34 +20,23 @@ docker compose -f contract-tests/docker-compose.yml run --rm runner verify
 # one scenario (substring match on the file name)
 docker compose -f contract-tests/docker-compose.yml run --rm runner verify 30-renew
 
-# re-record fixtures from the legacy app (review the diff before committing)
-docker compose -f contract-tests/docker-compose.yml run --rm runner record
-
 docker compose -f contract-tests/docker-compose.yml down
 ```
 
-The legacy container needs `vendor/` in the source tree (`composer install`, e.g. via the `composer:2` image).
-
-### Against the Laravel stack
-
-```sh
-# once: the Laravel dev stack provides the vendor volume
-docker compose -f laravel/docker-compose.dev.yml up -d
-
-docker compose -f contract-tests/docker-compose.yml --profile laravel up -d laravel
-docker compose -f contract-tests/docker-compose.yml run --rm runner-laravel verify
-```
-
-`runner-laravel` is preconfigured for the `laravel` service: it targets `http://laravel:8080` and runs
-`php artisan migrate` after every database rebuild, so each scenario also exercises the 2.0.1.x → 3.0
-upgrade. The runner only needs HTTP access to the target and root access to its database:
+The runner targets `http://app:8080` and runs `php artisan migrate` after every database rebuild, so each
+scenario also exercises the 2.0.1.x → 3.0 upgrade. It only needs HTTP access to the target and root access
+to its database:
 
 | Env | Purpose |
 |---|---|
-| `TARGET_URL` | Base URL of the app under test (default `http://legacy`) |
+| `TARGET_URL` | Base URL of the app under test |
 | `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS` | Database the target uses; it is dropped and rebuilt for every scenario |
-| `RESET_HOOK` | Shell command run after each rebuild, e.g. `php artisan migrate --force` so the legacy 2.0.1.x schema is upgraded exactly like a real install |
+| `RESET_HOOK` | Shell command run after each rebuild (`php artisan migrate --force`) so the 2.0.1.x schema is upgraded exactly like a real install |
 | `SITE_URLS` | Comma separated public URL(s) the target emits in bot commands (normalized to `{{site_url}}`) |
+
+`record` re-writes the fixtures from whatever app is running. The recorded fixtures came from the 2.0.1.x
+application (commit `adab6d1d` is the last that still contains `src/`), so only re-record to
+add a scenario, and review the diff before committing.
 
 ## Layout
 
@@ -54,8 +46,8 @@ runner/src/RequestBuilder   signs requests like in-world scripts
 runner/src/Normalizer       makes responses comparable (times, captured ids, dates, bot signatures)
 runner/src/Comparator       strict, type-aware diff ("1" != 1 != true)
 runner/src/Database         drop + install legacy schema + reset + seeds (+ RESET_HOOK)
-sql/schema/                 copy of Versions/installer.sql + 2.0.1.1.sql (frozen 2.0.1.x schema)
-sql/reset.sql               baseline data (from Tests/reset.db.sql) with a distinct link code per API
+sql/schema/                 copy of docs/legacy-sql/installer.sql + 2.0.1.1.sql (frozen 2.0.1.x schema)
+sql/reset.sql               baseline data (from docs/legacy-sql/reset.db.sql) with a distinct link code per API
 sql/seeds/*.sql             scenario data, legacy table names
 scenarios/*.php             ordered request steps
 fixtures/*.json             recorded responses (commit these)

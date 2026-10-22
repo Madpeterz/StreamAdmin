@@ -30,10 +30,17 @@ Both issue lists are sorted by total number of comments. While not perfect, numb
 
 #### Local development
 
-Streamadmin for local dev we suggest for windows
+Everything runs in Docker; nothing needs to be installed on your machine besides Docker.
 
-Xammp, php 8.2, MYSQL, VScode with "PHP Intelephense" and "PHP Sniffer"
+```sh
+cp .env.dev.example .env
+docker compose -f docker-compose.dev.yml up -d      # http://localhost:8086  (admin / localtest)
+docker compose -f docker-compose.dev.yml exec app php artisan test
+docker compose -f docker-compose.dev.yml exec app vendor/bin/pint
+```
 
+The first start installs the PHP dependencies into a volume and loads a demo database. The in-world API
+has recorded request/response tests as well: see `contract-tests/README.md`.
 ### Pull Requests
 
 Ready to make a change great, 
