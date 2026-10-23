@@ -19,6 +19,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Build Version
+    |--------------------------------------------------------------------------
+    |
+    | The git tag and build date of the image, set from the APP_VERSION and
+    | APP_BUILD_DATE build arguments. Shown at the bottom of every page.
+    |
+    */
+
+    'version' => env('APP_VERSION', 'dev'),
+
+    'build_date' => env('APP_BUILD_DATE'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

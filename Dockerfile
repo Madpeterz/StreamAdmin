@@ -68,6 +68,13 @@ RUN rm -rf docker tests Dockerfile docker-compose.dev.yml .env.dev.example \
     && mkdir -p storage/app/private/exports storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache
 
+# Shown at the bottom of every page. docker build --build-arg APP_VERSION=$(git describe --tags --always)
+# --build-arg APP_BUILD_DATE="$(date -u +'%Y-%m-%d %H:%M UTC')"
+ARG APP_VERSION=dev
+ARG APP_BUILD_DATE=
+ENV APP_VERSION=${APP_VERSION} \
+    APP_BUILD_DATE=${APP_BUILD_DATE}
+
 ENV AUTORUN_ENABLED=true \
     AUTORUN_LARAVEL_STORAGE_LINK=false \
     SSL_MODE=off \

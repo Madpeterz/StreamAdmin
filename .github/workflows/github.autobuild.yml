@@ -29,9 +29,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build date
+        id: buildDate
+        run: echo "date=$(date -u +'%Y-%m-%d %H:%M UTC')" >> "$GITHUB_OUTPUT"
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
+          build-args: |
+            APP_VERSION=${{ steps.tagName.outputs.tag }}
+            APP_BUILD_DATE=${{ steps.buildDate.outputs.date }}
           tags: madpeter/streamadmin:${{ steps.tagName.outputs.tag }}

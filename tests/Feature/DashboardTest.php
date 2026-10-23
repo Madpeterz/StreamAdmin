@@ -24,6 +24,14 @@ class DashboardTest extends TestCase
             ->assertSee('Happy Client');
     }
 
+    public function test_pages_show_the_build_version_and_date(): void
+    {
+        config(['app.version' => '3.1.4', 'app.build_date' => '2026-10-23 14:05 UTC']);
+
+        $this->get('/login')->assertOk()->assertSee('3.1.4')->assertSee('built 2026-10-23 14:05 UTC');
+        $this->actingAs($this->staff())->get('/dashboard')->assertSee('3.1.4')->assertSee('built 2026-10-23 14:05 UTC');
+    }
+
     public function test_owner_only_sections_are_hidden_from_staff(): void
     {
         $this->actingAs($this->staff(owner: false));
