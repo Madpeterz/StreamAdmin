@@ -3,7 +3,7 @@
 #   cp .env.example .env   (fill in APP_KEY, APP_URL, DB_PASSWORD, VALKEY_PASSWORD, STREAMADMIN_TAG)
 #   docker compose up -d
 #
-# No ports are published. cloudflared (running on the external tunnel network, "playerdb" unless you set
+# No ports are published. cloudflared (running on the external tunnel network, "cloudf" unless you set
 # TUNNEL_NETWORK) forwards the public hostname to  http://SA7App:8080
 # Settings come from .env next to this file, or from the stack environment if you deploy with Portainer.
 name: streamadmin
@@ -118,7 +118,7 @@ services:
 networks:
     streamadmin:
     tunnel:
-        name: ${TUNNEL_NETWORK:-playerdb}
+        name: ${TUNNEL_NETWORK:-cloudf}
         external: true
 
 volumes:

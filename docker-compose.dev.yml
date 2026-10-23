@@ -56,6 +56,8 @@ services:
         volumes:
         - .:/app
         - node-modules:/app/node_modules
+        # app.css imports vendor/livewire/flux/dist/flux.css; vendor lives in a volume (see app), not on the bind mount
+        - vendor:/app/vendor:ro
 
     db:
         image: mariadb:11.4

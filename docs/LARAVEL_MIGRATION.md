@@ -231,7 +231,7 @@ Delete `src/public_html/3rdparty/`, `js/site.js`, `css/site.css` at cutover.
   | `SA7Valkey` | `valkey/valkey` (pinned major), password via `VALKEY_PASSWORD`, AOF volume `streamadmin-valkey` so sessions survive restarts |
   | `SA7PHPmyAdmin` | Optional (`profiles: [tools]`), bound to `127.0.0.1` only |
 
-- External tunnel network name configurable: `TUNNEL_NETWORK` (default `playerdb`), declared `external: true`.
+- External tunnel network name configurable: `TUNNEL_NETWORK` (default `cloudf`), declared `external: true`.
 - `.env.example` (replaces `.env.cloudflared.example`): `STREAMADMIN_TAG`, `SITE_URL` (public tunnel hostname, required), `SQL_DB_PASS` (required), `VALKEY_PASSWORD` (required), `APP_KEY` (required), `SCHEDULER_ENABLED` (default `true`), `TUNNEL_NETWORK`, `SITE_NAME`, `PMA_PORT`.
 - Docs: `docs/cloudflare.md` covering tunnel ingress, the WAF skip rule for the SL/ANS paths, and recommending Cloudflare Access on the admin UI only.
 - Release notes: **back up the database before upgrading**; `SA7Website` + `SA7Cron` merged into `SA7App` (update the cloudflared ingress target); Redis → Valkey (sessions reset once, staff log in again); cloudflared now required; first staff login rehashes passwords.

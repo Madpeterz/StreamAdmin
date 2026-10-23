@@ -1,0 +1,26 @@
+# Cloudflare Tunnel connector for the StreamAdmin stack (docs/cloudflare.md).
+#
+#   1. Zero Trust dashboard -> Networks -> Tunnels -> create a tunnel, copy its token
+#   2. cp .env.cloudflared.example .env.cloudflared  and set TUNNEL_TOKEN in it
+#   3. docker compose -f docker-compose.cloudflared.yml --env-file .env.cloudflared up -d
+#      (start this first, it creates the network)
+#   4. docker compose up -d                                       (the StreamAdmin stack joins the same network)
+#
+# This stack owns the tunnel network ("cloudf" unless you set TUNNEL_NETWORK); docker-compose.yml attaches
+# to it as an external network. Public hostname service in the dashboard:  http://SA7App:8080
+name: cloudflared
+
+services:
+    cloudflared:
+        container_name: cloudflared
+        image: cloudflare/cloudflared:latest
+        restart: always
+        command: tunnel --no-autoupdate run
+        environment:
+        - TUNNEL_TOKEN=${TUNNEL_TOKEN:?set TUNNEL_TOKEN to the tunnel token from the Zero Trust dashboard}
+        networks:
+        - tunnel
+
+networks:
+    tunnel:
+        name: ${TUNNEL_NETWORK:-cloudf}

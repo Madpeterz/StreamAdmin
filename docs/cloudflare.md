@@ -5,8 +5,16 @@ shared Docker network and Cloudflare terminates https.
 
 ## 1. Tunnel route
 
-cloudflared runs in its own stack, attached to the external network named in `TUNNEL_NETWORK` (default
-`playerdb`; create it once with `docker network create playerdb` if it does not exist).
+cloudflared runs in its own stack (`docker-compose.cloudflared.yml`) on the network named in `TUNNEL_NETWORK`
+(default `cloudf`). Copy `.env.cloudflared.example` to `.env.cloudflared` and put the tunnel token from the Zero Trust dashboard in it as `TUNNEL_TOKEN`, then start
+the tunnel stack first, since it creates the network, and the app stack second:
+
+```
+docker compose -f docker-compose.cloudflared.yml --env-file .env.cloudflared up -d
+docker compose up -d
+```
+
+If you already run cloudflared elsewhere, skip the first command and set `TUNNEL_NETWORK` to its network.
 
 Public hostname in the Zero Trust dashboard (or `config.yml`):
 
