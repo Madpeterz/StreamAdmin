@@ -8,7 +8,7 @@
             <div class="flex w-full max-w-sm flex-col gap-2">
                 <div class="flex flex-col items-center gap-3 font-medium">
                     <span class="flex items-center justify-center rounded-2xl bg-zinc-900 px-4 py-3 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
-                        <img src="{{ asset('logo.png') }}" alt="" class="h-12 w-auto" />
+                        <img src="{{ asset('logo.png') }}?v={{ config('app.version') }}" alt="" class="h-12 w-auto" />
                     </span>
                     <span class="sr-only">{{ config('app.name', 'StreamAdmin') }}</span>
                 </div>
