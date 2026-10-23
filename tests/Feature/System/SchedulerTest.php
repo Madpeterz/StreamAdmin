@@ -8,6 +8,7 @@ use App\Models\BotCommand;
 use App\Models\Message;
 use App\Models\SlConfig;
 use App\Models\SlObject;
+use App\Services\ObjectHealth;
 use App\Services\Scheduler;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
@@ -23,7 +24,7 @@ class SchedulerTest extends TestCase
     use CreatesStreamAdminData;
     use RefreshDatabase;
 
-    public function test_a_queue_task_runs_as_the_owners_service_object(): void
+    public function test_a_queue_task_runs_and_counts_as_its_service_being_online(): void
     {
         BotCommand::create(['command' => 'IM', 'args' => json_encode(['a', 'b']), 'unixtime' => time()]);
 
@@ -31,10 +32,10 @@ class SchedulerTest extends TestCase
 
         $bot = Avatar::find(1);
         $this->assertSame(1, Message::where('avatar_id', $bot->id)->count());
-        $object = SlObject::where('object_uuid', '10000000-0000-0000-0000-000000000000')->sole();
-        $this->assertSame('botcommandqserver', $object->object_mode);
-        $this->assertSame(SlConfig::find(1)->owner_avatar_id, $object->avatar_id);
+        $this->assertSame(0, SlObject::count(), 'no virtual objects are created');
         $this->assertTrue(app(Scheduler::class)->lastRun('botcommandq')['status']);
+        $this->assertNotNull(app(Scheduler::class)->lastPassed('botcommandqserver'));
+        $this->assertNull(app(Scheduler::class)->lastPassed('detailsserver'));
     }
 
     public function test_a_task_that_stopped_running_shows_as_failed(): void
@@ -65,7 +66,7 @@ class SchedulerTest extends TestCase
     public function test_details_and_notecard_tasks_run_their_service(): void
     {
         $this->artisan('streamadmin:task details-server')->expectsOutput('details-server: nowork')->assertSuccessful();
-        $this->assertSame('detailsserver', SlObject::where('object_uuid', '20000000-0000-0000-0000-000000000000')->sole()->object_mode);
+        $this->assertNotNull(app(Scheduler::class)->lastPassed('detailsserver'));
 
         // notecards are off on the bot, so the task fails the way the endpoint did
         $this->artisan('streamadmin:task dynamic-notecards')->assertFailed();
@@ -82,6 +83,18 @@ class SchedulerTest extends TestCase
 
         $this->assertSame('Too many pending mail commands to the bot', app(Scheduler::class)->lastRun('botcommandq')['message']);
         $this->assertSame(1, BotCommand::count(), 'a failed run rolls back');
+    }
+
+    public function test_the_health_page_counts_a_running_task_as_its_server_and_a_paused_one_as_not(): void
+    {
+        $this->artisan('streamadmin:task details-server')->assertSuccessful();
+        $health = fn () => app(ObjectHealth::class)->serverObjects()->firstWhere('mode', 'detailsserver');
+
+        $this->assertSame('Scheduled task', $health()['region']);
+        $this->assertTrue(ObjectHealth::isOnline($health()['last_seen']));
+
+        SlConfig::whereKey(1)->update(['scheduler_details_server' => false]);
+        $this->assertNull($health()['last_seen']);
     }
 
     public function test_the_master_switch_and_pause_switches_gate_the_schedule(): void

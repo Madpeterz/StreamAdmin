@@ -24,12 +24,13 @@ class ObjectHealth
 
     /**
      * The owner's service objects that should be running with the current settings, and when each
-     * was last seen.
+     * was last seen: in-world, or as the scheduled task that stands in for it.
      *
      * @return Collection<int, array{mode: string, name: string, last_seen: ?CarbonImmutable, region: ?string}>
      */
     public function serverObjects(): Collection
     {
+        $scheduler = app(Scheduler::class);
         $config = SlConfig::find(1);
         $modes = ['mailserver', 'noticeserver', 'detailsserver'];
         $bot = BotConfig::find(1);
@@ -50,12 +51,18 @@ class ObjectHealth
             ->unique('object_mode')
             ->keyBy('object_mode');
 
-        return collect($modes)->map(fn (string $mode) => [
-            'mode' => $mode,
-            'name' => self::serverName($mode),
-            'last_seen' => $seen[$mode]->last_seen ?? null,
-            'region' => $seen[$mode]->region->name ?? null,
-        ]);
+        return collect($modes)->map(function (string $mode) use ($seen, $scheduler) {
+            $object = $seen[$mode] ?? null;
+            $ran = $scheduler->lastPassed($mode);
+            $byScheduler = $ran !== null && ($object === null || $ran > $object->last_seen);
+
+            return [
+                'mode' => $mode,
+                'name' => self::serverName($mode),
+                'last_seen' => $byScheduler ? $ran : $object?->last_seen,
+                'region' => $byScheduler ? 'Scheduled task' : $object?->region?->name,
+            ];
+        });
     }
 
     public static function serverName(string $mode): string
