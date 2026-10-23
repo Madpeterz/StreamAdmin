@@ -4,24 +4,20 @@
 #   docker compose up -d
 #
 # No ports are published. cloudflared (running on the external tunnel network, "cloudf" unless you set
-# TUNNEL_NETWORK) forwards the public hostname to  http://SA7App:8080
+# TUNNEL_NETWORK) forwards the public hostname to  http://SA7V3App:8080
 # Settings come from .env next to this file, or from the stack environment if you deploy with Portainer.
-name: streamadmin
-
 services:
-    SA7App:
-        container_name: SA7App
+    SA7V3App:
+        container_name: SA7V3App
         image: madpeter/streamadmin:${STREAMADMIN_TAG:?set STREAMADMIN_TAG to the target version}
         restart: always
-        # remove this line to run your own build:  docker compose build
-        build: .
         networks:
         - streamadmin
-        - tunnel
+        - playerdb
         depends_on:
-            SA7Db:
+            SA7V3Db:
                 condition: service_healthy
-            SA7Valkey:
+            SA7V3Valkey:
                 condition: service_healthy
         environment:
         - APP_NAME=${APP_NAME:-StreamAdmin}
@@ -31,7 +27,7 @@ services:
         - LOG_CHANNEL=${LOG_CHANNEL:-stderr}
         - LOG_LEVEL=${LOG_LEVEL:-warning}
         - DB_CONNECTION=mariadb
-        - DB_HOST=SA7Db
+        - DB_HOST=SA7V3Db
         - DB_PORT=3306
         - DB_DATABASE=streamadmin
         - DB_USERNAME=streamadminDBuser
@@ -43,7 +39,7 @@ services:
         - CACHE_PREFIX=streamadmin
         - QUEUE_CONNECTION=redis
         - REDIS_CLIENT=phpredis
-        - VALKEY_HOST=SA7Valkey
+        - VALKEY_HOST=SA7V3Valkey
         - VALKEY_PORT=6379
         - VALKEY_PASSWORD=${VALKEY_PASSWORD:?set VALKEY_PASSWORD}
         # in-world queues and the nightly spreadsheet; only one app container may have this on
@@ -60,8 +56,8 @@ services:
             retries: 3
             start_period: 60s
 
-    SA7Db:
-        container_name: SA7Db
+    SA7V3Db:
+        container_name: SA7V3Db
         # pinned: a 2.0.x database volume made by "mariadb:latest" opens fine with 11.4
         image: mariadb:11.4
         restart: always
@@ -81,8 +77,8 @@ services:
             retries: 30
             start_period: 30s
 
-    SA7Valkey:
-        container_name: SA7Valkey
+    SA7V3Valkey:
+        container_name: SA7V3Valkey
         image: valkey/valkey:8-alpine
         restart: always
         networks:
@@ -100,24 +96,24 @@ services:
             retries: 10
 
     # docker compose --profile tools up -d   (then http://127.0.0.1:8881)
-    SA7PHPmyAdmin:
-        container_name: SA7PHPmyAdmin
+    SA7V3PHPmyAdmin:
+        container_name: SA7V3PHPmyAdmin
         profiles: [tools]
         image: phpmyadmin/phpmyadmin:latest
         restart: unless-stopped
         networks:
         - streamadmin
         environment:
-        - PMA_HOST=SA7Db
+        - PMA_HOST=SA7V3Db
         - UPLOAD_LIMIT=300M
         ports:
-        - 127.0.0.1:${PMA_PORT:-8881}:80
+        - ${PMA_PORT:-8881}:80
         depends_on:
-        - SA7Db
+        - SA7V3Db
 
 networks:
     streamadmin:
-    tunnel:
+    playerdb:
         name: ${TUNNEL_NETWORK:-cloudf}
         external: true
 
