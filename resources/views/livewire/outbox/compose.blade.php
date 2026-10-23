@@ -9,7 +9,9 @@
         <flux:text class="mt-1">Goes out through the mail server object, and as a bot IM when bot IMs are on. Banned avatars are left out.</flux:text>
     </div>
 
-    <form wire:submit="send" wire:confirm="Send this message to {{ count($selected) }} {{ str('avatar')->plural(count($selected)) }}?" class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    @php($count = $source === 'avatar' ? ($avatar ? 1 : 0) : count($selected))
+
+    <form wire:submit="send" wire:confirm="Send this message to {{ $source === 'avatar' && $avatar ? $avatar->avatar_name : $count.' '.str('avatar')->plural($count) }}?" class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div class="flex flex-col gap-6">
             <flux:card class="flex flex-col gap-5">
                 <flux:heading size="lg">Who to</flux:heading>
@@ -28,8 +30,14 @@
                         <flux:radio value="notice" label="Notice level" />
                         <flux:radio value="package" label="Package" />
                         <flux:radio value="server" label="Server" />
+                        <flux:radio value="avatar" label="One avatar" />
                     </flux:radio.group>
-                    @if ($source !== 'clients')
+                    @if ($source === 'avatar')
+                        <div class="max-w-lg">
+                            <x-ui.avatar-picker label="Avatar" :selected="$avatar" :matches="$matches" :error="$errors->first('avatarUid')" />
+                        </div>
+                        <flux:text class="text-sm">Any avatar can be messaged, with or without a rental. If they have rentals the oldest fills the swap tags; otherwise only the avatar name tags are filled. Banned avatars are not sent messages.</flux:text>
+                    @elseif ($source !== 'clients')
                         <div class="max-w-sm">
                             <flux:select wire:model.live="sourceId" :placeholder="'Choose a '.['notice' => 'notice level', 'package' => 'package', 'server' => 'server'][$source].'…'">
                                 @foreach ($options as $id => $label)
@@ -40,7 +48,9 @@
                     @endif
                 @endif
 
-                @if ($recipients->isNotEmpty() && $source !== 'rental')
+                @if ($source === 'avatar')
+                    {{-- the avatar is chosen above --}}
+                @elseif ($recipients->isNotEmpty() && $source !== 'rental')
                     <div class="flex flex-col gap-3">
                         <flux:text class="text-sm">{{ count($selected) }} of {{ $recipients->count() }} {{ str('avatar')->plural($recipients->count()) }} selected. If an avatar has several matching rentals, the oldest one fills the swap tags.</flux:text>
                         <flux:checkbox.group wire:model.live="selected" class="max-h-72 overflow-y-auto rounded-lg border border-zinc-200 p-3 dark:border-zinc-700">
@@ -57,7 +67,9 @@
                         <flux:callout icon="information-circle" color="zinc" text="No clients to send to for this choice." />
                     @endif
                 @endif
-                <flux:error name="selected" />
+                @if ($source !== 'avatar')
+                    <flux:error name="selected" />
+                @endif
             </flux:card>
 
             <flux:card class="flex flex-col gap-3">
@@ -72,7 +84,7 @@
             <div class="flex justify-end gap-2">
                 <flux:button :href="route('outbox.index')" variant="ghost" wire:navigate>Cancel</flux:button>
                 <flux:button type="submit" variant="primary" icon="paper-airplane">
-                    Send to {{ count($selected) }} {{ str('avatar')->plural(count($selected)) }}
+                    Send to {{ $source === 'avatar' && $avatar ? $avatar->avatar_name : $count.' '.str('avatar')->plural($count) }}
                 </flux:button>
             </div>
         </div>

@@ -70,6 +70,9 @@ class Index extends StyledTable
                 ->sortable()
                 ->format(fn ($value) => 'L$ '.number_format((int) $value))
                 ->collapseOnMobile(),
+            Column::make('')
+                ->label(fn (Avatar $row) => $row->ban ? '' : view('livewire.avatars.partials.message', ['avatar' => $row]))
+                ->html(),
         ];
     }
 

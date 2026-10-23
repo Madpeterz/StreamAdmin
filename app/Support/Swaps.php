@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Avatar;
 use App\Models\Rental;
 use Carbon\CarbonInterface;
 
@@ -74,6 +75,21 @@ class Swaps
             'PACKAGE_BITRATE' => $package?->bitrate,
             'PACKAGE_AUTODJ' => $package?->autodj ? 'Enabled' : 'Disabled',
             'PACKAGE_AUTODJ_SIZE' => $package?->autodj_size,
+            'TIMEZONE' => date_default_timezone_get(),
+            'NL' => "\n",
+        ]);
+    }
+
+    /** The message for an avatar with no rental: the avatar and timezone tags are filled, rental tags are left empty. */
+    public static function forAvatar(string $template, Avatar $avatar): string
+    {
+        $name = explode(' ', $avatar->avatar_name, 2);
+
+        return self::apply($template, [
+            ...array_fill_keys(array_keys(self::examples()), ''),
+            'AVATAR_FIRSTNAME' => $name[0],
+            'AVATAR_LASTNAME' => $name[1] ?? 'Resident',
+            'AVATAR_FULLNAME' => $avatar->avatar_name,
             'TIMEZONE' => date_default_timezone_get(),
             'NL' => "\n",
         ]);

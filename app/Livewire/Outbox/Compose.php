@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Outbox;
 
+use App\Livewire\Concerns\SearchesAvatars;
+use App\Models\Avatar;
 use App\Models\Notice;
 use App\Models\Package;
 use App\Models\Rental;
@@ -16,14 +18,20 @@ use Livewire\Component;
 use RuntimeException;
 
 /**
- * Bulk message: pick who (all clients, a notice level, package, server, or one client), write the
+ * Bulk message: pick who (all clients, a notice level, package, server, one client or one chosen avatar), write the
  * message with swap tags, untick anyone to skip, send (port of the 2.0.x Outbox bulk send).
  */
 #[Title('Send a message')]
 class Compose extends Component
 {
+    use SearchesAvatars;
+
     #[Url]
     public string $source = 'clients';
+
+    /** the avatar for the 'avatar' source (any avatar, with a rental or not) */
+    #[Url(as: 'uid')]
+    public string $avatarUid = '';
 
     #[Url(as: 'id')]
     public ?int $sourceId = null;
@@ -57,7 +65,7 @@ class Compose extends Component
     /** @return Collection<int, Rental> */
     private function recipients(MessagingService $messaging): Collection
     {
-        if ($this->source !== 'clients' && $this->sourceId === null) {
+        if ($this->source === 'avatar' || ($this->source !== 'clients' && $this->sourceId === null)) {
             return collect();
         }
         try {
@@ -67,8 +75,36 @@ class Compose extends Component
         }
     }
 
+    private function chosenAvatar(): ?Avatar
+    {
+        return $this->avatarUid === '' ? null : Avatar::where('avatar_uid', $this->avatarUid)->first();
+    }
+
+    private function sendToAvatar(MessagingService $messaging): void
+    {
+        $this->validate([
+            'message' => ['required', 'string', 'min:10', 'max:800'],
+            'avatarUid' => ['required', 'string', 'exists:avatars,avatar_uid'],
+        ], ['avatarUid.required' => 'Choose an avatar to send to.', 'avatarUid.exists' => 'That avatar was not found.']);
+        $avatar = $this->chosenAvatar();
+        try {
+            $messaging->sendToAvatar($this->message, $avatar);
+        } catch (RuntimeException $e) {
+            $this->addError('message', $e->getMessage());
+
+            return;
+        }
+        Flux::toast(variant: 'success', text: "Message queued for {$avatar->avatar_name}.");
+        $this->redirectRoute('outbox.index', navigate: true);
+    }
+
     public function send(MessagingService $messaging): void
     {
+        if ($this->source === 'avatar') {
+            $this->sendToAvatar($messaging);
+
+            return;
+        }
         $this->validate([
             'message' => ['required', 'string', 'min:10', 'max:800'],
             'selected' => ['required', 'array', 'min:1'],
@@ -89,6 +125,7 @@ class Compose extends Component
     {
         $recipients = $this->recipients($messaging);
         $first = $recipients->firstWhere(fn (Rental $rental) => in_array((string) $rental->avatar_id, $this->selected, true));
+        $avatar = $this->source === 'avatar' ? $this->chosenAvatar() : null;
 
         return view('livewire.outbox.compose', [
             'recipients' => $recipients,
@@ -99,8 +136,14 @@ class Compose extends Component
                 default => collect(),
             },
             'single' => $this->source === 'rental' ? Rental::with('avatar')->find($this->sourceId) : null,
-            'preview' => $first ? Swaps::forRental($this->message, $first) : Swaps::example($this->message),
-            'previewFor' => $first?->avatar?->avatar_name,
+            'avatar' => $avatar,
+            'matches' => $this->source === 'avatar' ? $this->avatarMatches() : collect(),
+            'preview' => match (true) {
+                $avatar !== null => $messaging->textForAvatar($this->message, $avatar),
+                $first !== null => Swaps::forRental($this->message, $first),
+                default => Swaps::example($this->message),
+            },
+            'previewFor' => $avatar?->avatar_name ?? $first?->avatar?->avatar_name,
         ]);
     }
 }

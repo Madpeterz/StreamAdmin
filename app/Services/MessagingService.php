@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Avatar;
 use App\Models\Notice;
 use App\Models\Package;
 use App\Models\Rental;
@@ -126,6 +127,30 @@ class MessagingService
         };
 
         return $query->get()->unique('avatar_id')->values();
+    }
+
+    /** $message for one avatar: their oldest rental fills the swap tags, or only the name tags without one. */
+    public function textForAvatar(string $message, Avatar $avatar): string
+    {
+        $rental = $avatar->rentals()->orderBy('id')->first();
+
+        return $rental ? Swaps::forRental($message, $rental) : Swaps::forAvatar($message, $avatar);
+    }
+
+    /** Send $message (with swap tags) to one chosen avatar, rental or not. */
+    public function sendToAvatar(string $message, Avatar $avatar): void
+    {
+        if ($avatar->ban()->exists()) {
+            throw new RuntimeException($avatar->avatar_name.' is banned; banned avatars are not sent messages.');
+        }
+        $text = $this->textForAvatar($message, $avatar);
+        if (mb_strlen($text) > self::MAX_MESSAGE) {
+            throw new RuntimeException('With the swap tags filled in, the message is '.mb_strlen($text).' characters; the most that can be sent is '.self::MAX_MESSAGE.'.');
+        }
+        DB::transaction(function () use ($avatar, $text) {
+            $this->bot->sendMessage($avatar, $text);
+            $this->audit->log('Outbox', null, 'send mail', 'total avatars', '1');
+        });
     }
 
     /**

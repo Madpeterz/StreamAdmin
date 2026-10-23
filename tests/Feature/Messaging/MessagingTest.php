@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Messaging;
 
+use App\Livewire\Avatars;
 use App\Livewire\Bot;
 use App\Livewire\Notices;
 use App\Livewire\Outbox;
@@ -147,6 +148,50 @@ class MessagingTest extends TestCase
 
         $this->assertSame('Just for you Only One', Message::first()->message);
         $this->assertSame(0, BotCommand::count(), 'bot IMs are off');
+    }
+
+    public function test_message_one_chosen_avatar_with_or_without_a_rental(): void
+    {
+        BotConfig::whereKey(1)->update(['ims' => true]);
+        $rental = $this->rental(avatar: $this->avatar('Has Rental'));
+        $none = $this->avatar('No Rental');
+
+        Livewire::test(Outbox\Compose::class, ['source' => 'avatar'])
+            ->set('avatarSearch', 'No Rent')
+            ->call('pickAvatar', $none->avatar_uid)
+            ->assertSet('avatarUid', $none->avatar_uid)
+            ->set('message', 'Hi [[AVATAR_FIRSTNAME]] on [[SERVER_DOMAIN]]')
+            ->call('send')->assertHasNoErrors()->assertRedirect(route('outbox.index'));
+        $this->assertSame('Hi No on ', Message::where('avatar_id', $none->id)->firstOrFail()->message);
+        $this->assertSame([$none->avatar_uuid, 'Hi No on '], json_decode(BotCommand::firstOrFail()->args, true));
+
+        Livewire::test(Outbox\Compose::class, ['source' => 'avatar', 'avatarUid' => $rental->avatar->avatar_uid])
+            ->set('message', 'Port [[STREAM_PORT]] for you')
+            ->call('send')->assertHasNoErrors();
+        $this->assertSame('Port '.$rental->stream->port.' for you', Message::where('avatar_id', $rental->avatar_id)->firstOrFail()->message);
+    }
+
+    public function test_message_chosen_avatar_needs_an_avatar_and_refuses_banned(): void
+    {
+        $banned = $this->avatar('Banned One');
+        Ban::create(['avatar_id' => $banned->id]);
+
+        Livewire::test(Outbox\Compose::class, ['source' => 'avatar'])
+            ->set('message', 'Hello there friend')->call('send')->assertHasErrors(['avatarUid' => 'required']);
+        Livewire::test(Outbox\Compose::class, ['source' => 'avatar', 'avatarUid' => $banned->avatar_uid])
+            ->set('message', 'Hello there friend')->call('send')->assertHasErrors(['message']);
+        $this->assertSame(0, Message::count());
+    }
+
+    public function test_avatar_pages_link_to_the_message_form(): void
+    {
+        $avatar = $this->avatar('Link Me');
+        $link = route('outbox.compose', ['source' => 'avatar', 'uid' => $avatar->avatar_uid]);
+
+        // the query string's & is HTML escaped in the href, so look for the uid parameter
+        $this->get(route('avatars.show', $avatar))->assertSee('uid='.$avatar->avatar_uid, false);
+        Livewire::test(Avatars\Index::class)->assertSee('uid='.$avatar->avatar_uid, false);
+        $this->get($link)->assertOk()->assertSee('Link Me');
     }
 
     public function test_bot_settings_save(): void

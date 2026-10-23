@@ -24,9 +24,9 @@
                 </div>
             </div>
             <div class="flex flex-wrap gap-2">
-                @if ($rentals->isNotEmpty())
-                    <flux:button icon="chat-bubble-left-ellipsis" :href="route('outbox.compose', ['source' => 'rental', 'id' => $rentals->first()->id])" wire:navigate>Message</flux:button>
-                @endif
+                @unless ($avatar->ban)
+                    <flux:button icon="chat-bubble-left-ellipsis" :href="route('outbox.compose', ['source' => 'avatar', 'uid' => $avatar->avatar_uid])" wire:navigate>Message</flux:button>
+                @endunless
                 @can('owner')
                     @if ($avatar->ban)
                         <flux:button icon="check-circle" wire:click="unban">Lift ban</flux:button>
