@@ -26,6 +26,8 @@ COPY package.json package-lock.json ./
 RUN npm install --no-audit --no-fund
 COPY vite.config.js ./
 COPY resources ./resources
+# class names that only live in PHP (table row styling in app/Livewire) must reach Tailwind too
+COPY app ./app
 COPY --from=php-build /var/www/html/vendor ./vendor
 RUN npm run build
 # pre-compressed copies so nginx serves them without compressing on every request
